@@ -166,10 +166,10 @@
 
 % Table Caption Formatting
 \DeclareCaptionLabelFormat{table_num_bold_left}{\textbf{#1~#2}}
-\DeclareCaptionLabelSeparator{parbreak}{\par}
+\DeclareCaptionLabelSeparator{mediumspace}{\par\vspace{0.5\baselineskip}}
 \captionsetup[table]{
     labelformat=table_num_bold_left,
-    labelsep=parbreak,
+    labelsep=mediumspace,
     textfont=it,
     justification=raggedright,
     singlelinecheck=false,
