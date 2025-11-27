@@ -1,0 +1,130 @@
+\subsection{Marco Teórico}
+
+El diseño, desarrollo y evaluación de la plataforma web 3D se fundamenta en un marco teórico multidisciplinario que integra conocimientos de la ingeniería, el diseño, la psicología cognitiva y la computación gráfica.
+
+\paragraph{Hipótesis de Usabilidad (Carga Cognitiva).} ``La visualización 3D interactiva reduce la carga cognitiva intrínseca comparada con imágenes 2D estáticas para la comprensión de estructura interna''.
+
+\textit{Métrica de validación}: Comparación de tiempo de comprensión y tasa de error en pruebas con usuarios (A/B test: 3D vs 2D).
+
+El uso de metodología MVP justifica la exclusión intencional de características como multi-idioma, persistencia de estado, o analytics avanzados, priorizando la validación de viabilidad técnica.
+
+\subsubsection{Teoría de la Carga Cognitiva (Sweller, 1988; Sweller et al., 2019)}
+
+La Teoría de la Carga Cognitiva, desarrollada por Sweller (1988) y refinada durante más de 30 años, postula que la memoria de trabajo tiene capacidad limitada ($\sim$4 elementos simultáneos según Cowan, 2001) y que el diseño instruccional debe minimizar la carga impuesta sobre esta capacidad.
+
+Sweller, van Merriënboer y Paas (2019) en su revisión de 20 años publicada en \textit{Educational Psychology Review} identifican \textbf{tres tipos de carga cognitiva}:
+
+\paragraph{1. Carga Intrínseca (Intrinsic Load).} Complejidad inherente del material de aprendizaje, determinada por la interactividad de elementos. En este proyecto, la complejidad intrínseca es alta: un dron contiene docenas de componentes con relaciones espaciales jerárquicas (rotor $\rightarrow$ motor $\rightarrow$ ESC $\rightarrow$ batería). Esta carga es \textit{irreducible} porque representa la naturaleza del dominio técnico.
+
+\paragraph{2. Carga Extrínseca (Extraneous Load).} Carga \textit{innecesaria} impuesta por diseño instruccional deficiente que no contribuye al aprendizaje. Las imágenes 2D estáticas generan alta carga extrínseca al requerir \textit{rotación mental} (usuario debe imaginar vistas no mostradas). Hegarty \& Waller (2004) demostraron que la rotación mental consume recursos visuoespaciales finitos de la memoria de trabajo.
+
+\textit{Reducción en este proyecto}: La interfaz 3D orbital \textit{externaliza} la rotación mental al sistema (el usuario manipula directamente el objeto), convirtiendo carga extrínseca en interacción productiva.
+
+\paragraph{3. Carga Relevante o Germana (Germane Load).} Esfuerzo cognitivo dedicado a la construcción de esquemas mentales permanentes (aprendizaje profundo). Sweller et al. (2019) enfatizan que el diseño instruccional debe maximizar carga germana liberando recursos de memoria de trabajo.
+
+\textit{Maximización en este proyecto}: La interacción directa con hotspots técnicos (click $\rightarrow$ información contextual) dirige recursos cognitivos hacia la integración de información estructural (ubicación + función + relaciones), facilitando construcción de modelo mental cohesivo.
+
+Ecuación de Balanceo:
+$$Carga_{total} = Carga_{\text{intrínseca}} + Carga_{\text{extrínseca}} + Carga_{\text{germana}} \leq Capacidad_{WM}$$
+
+El diseño 3D interactivo minimiza $Carga_{\text{extrínseca}}$ (eliminando rotación mental) y maximiza $Carga_{\text{germana}}$ (construcción de esquemas espaciales).
+
+\subsubsection{Ciencia Cognitiva y Aprendizaje Multimedia}
+
+\paragraph{Teoría Cognitiva del Aprendizaje Multimedia (Mayer, 2005, 2021).} Mayer (2021) en la 3ra edición de ``The Cambridge Handbook of Multimedia Learning'' actualiza la CTML con evidencia de meta-análisis de más de 200 estudios experimentales. El Principio de Contigüidad Espacial establece que el aprendizaje mejora cuando texto e imágenes están físicamente próximos, reduciendo búsqueda visual (split-attention effect).
+
+\textit{Aplicación}: Las etiquetas técnicas se muestran directamente sobre las partes 3D (hotspots con tooltips posicionados a $<$50px del componente), eliminando búsqueda visual.
+
+\paragraph{Teoría de Codificación Dual (Paivio, 1986).} Paivio postula que el cerebro procesa información visual (sistema imagístico) y verbal (sistema logospecificado) por canales separados pero interconectados. El prototipo aprovecha esto presentando geometría 3D (canal visual) simultáneamente con datos técnicos (canal verbal), aumentando capacidad efectiva de procesamiento.
+
+\subsubsection{Teoría de Interacción Humano-Computador (HCI) en Entornos 3D}
+
+\paragraph{Affordance (Gibson, 1979; Norman, 2013).} Gibson (1979) en ``The Ecological Approach to Visual Perception'' introdujo affordances como propiedades percibidas del entorno que sugieren acciones posibles. Norman (2013) adapta esto al diseño de interfaces: objetos deben ``invitar'' visualmente a su uso correcto.
+
+\textit{En entornos 3D}:
+\begin{itemize}
+    \item Controles de rotación circulares (orbit gizmo) sugieren movimiento circular.
+    \item Partes clickables iluminadas con outline shader (rim lighting) indican interactividad.
+    \item Cursor cambia de forma (pointer $\rightarrow$ hand) al hover sobre hotspots.
+\end{itemize}
+
+\paragraph{Navegación Espacial (Bowman et al., 2004; Darken \& Sibert, 1996).} Bowman et al. (2004) en ``3D User Interfaces: Theory and Practice'' definen interacción 3D como ``interacción humano-computador en la cual las tareas del usuario son ejecutadas directamente en un contexto espacial tridimensional''.
+
+Para este proyecto, controles orbitales (arcball rotation) siguen principios de Darken \& Sibert (1996) para prevenir desorientación:
+\begin{itemize}
+    \item Rotación Constrained: Restringida a ejes Y (yaw) y X (pitch), eliminando roll no intuitivo.
+    \item Punto de Enfoque Fijo: El centro del objeto permanece anclado (world origin), evitando deriva orbital.
+    \item Suavizado de Movimiento: Interpolación ease-out (función cuadrática) reduce mareo cibernético.
+\end{itemize}
+
+\paragraph{Cognición Distribuida (Hutchins, 1995).} Hutchins en ``Cognition in the Wild'' postula que la cognición no reside únicamente en la mente, sino distribuida entre agente (usuario), artifacts (interfaz 3D), y entorno:
+\begin{itemize}
+    \item Cámara orbital: Extensión cognitiva, externaliza rotación mental (Hegarty, 2004).
+    \item Hotspots: Memoria externa, reducen necesidad de memorizar nombres técnicos.
+\end{itemize}
+
+\paragraph{Heurísticas de Usabilidad (Nielsen, 1994).} Nielsen formalizó 10 heurísticas. Las más relevantes para este proyecto:
+\begin{enumerate}
+    \item Visibilidad del Estado: Feedback inmediato (cursor cambia, highlight en hover).
+    \item Correspondencia Sistema-Mundo Real: Terminología técnica coincide con nomenclatura de ingeniería.
+    \item Control y Libertad: Botón ``Reset Camera'' revierte rotación no deseada.
+    \item Reconocimiento vs Memoria: Hotspots siempre visibles (no requiere memorización de ubicaciones).
+\end{enumerate}
+
+\paragraph{Rotación Mental y Visualización Espacial (Hegarty \& Waller, 2004; Bartlett \& Dorribo Camba, 2023).} Hegarty demostró que individuos con alta habilidad espacial usan estrategias holísticas (rotan objeto completo), mientras individuos con baja habilidad usan estrategias piecemeal (rotan partes). Los controles orbitales democratizan esta capacidad al externalizar la rotación.
+
+Investigación reciente de Bartlett \& Dorribo Camba (2023) en \textit{Spatial Cognition \& Computation} confirma que la visualización espacial con modelos 3D interactivos facilita la interpretación gráfica de estructuras complejas, reduciendo la dependencia de habilidades espaciales innatas. Este hallazgo valida el uso de interfaces 3D manipulables para audiencias técnicas heterogéneas.
+
+\subsubsection{Teoría de Percepción Visual (Gestalt)}
+
+\paragraph{Principios de Gestalt (Wertheimer, 1923; Köhler, 1929).}
+\begin{itemize}
+    \item Proximidad: Hotspots cercanos se agrupan visualmente.
+    \item Similitud: Hotspots del mismo color indican misma categoría (azul=estructura, naranja=energía, gris=mecánica).
+    \item Figura-Fondo: El hardware (figura) contrasta con fondo (gradiente neutral, no competitivo).
+\end{itemize}
+
+\paragraph{Teoría del Color (Ware, 2012; Miller, 1956).} Usar colores distinguibles para categorías (máximo 7±2 según Miller). Evitar rojo-verde para accesibilidad (deuteranopia afecta $\sim$8\% hombres).
+
+\subsubsection{Fundamentos Matemáticos de Optimización Gráfica}
+
+\paragraph{Presupuesto Poligonal.}
+$$P_{total} = \sum_{i=1}^{n} P_i \leq 50,000 \text{ triángulos}$$
+donde $P_i$ es el conteo de polígonos del modelo $i$ (Akenine-Möller et al., 2018, Cap. 18).
+
+\paragraph{Densidad de Texel Consistente.}
+$$\rho = \frac{R_{texture}}{A_{UV}} = 10.24 \frac{px}{cm}$$
+
+\paragraph{Reducción de Draw Calls (GPU Instancing).}
+$$D_{optimizado} = \frac{D_{original}}{N_{instances}}$$
+
+\paragraph{Frame Time Budget.}
+$$T_{frame} = T_{CPU} + T_{GPU} < 33.33ms$$
+
+\subsubsection{Modelo Matemático de Renderizado Físicamente Basado (PBR)}
+
+\paragraph{BRDF de Cook-Torrance (1982).}
+$$f_{spec} = \frac{D \cdot F \cdot G}{4(\mathbf{n} \cdot \mathbf{l})(\mathbf{n} \cdot \mathbf{v})}$$
+donde:
+\begin{itemize}
+    \item $D$: Normal Distribution Function (GGX).
+    \item $F$: Término de Fresnel (Schlick's approximation).
+    \item $G$: Geometric Shadowing/Masking term.
+\end{itemize}
+
+\paragraph{Aproximación de Fresnel (Schlick, 1994).}
+$$F = F_0 + (1 - F_0)(1 - \cos\theta)^5$$
+
+\paragraph{GGX Distribution (Walter et al., 2007).}
+$$D_{GGX} = \frac{\alpha^2}{\pi((\mathbf{n} \cdot \mathbf{h})^2(\alpha^2 - 1) + 1)^2}$$
+donde $\alpha = roughness^2$.
+
+\paragraph{Modelo Disney (Burley, 2012).} Modelo artista-friendly con parámetros intuitivos:
+\begin{itemize}
+    \item Metallic (0-1): Interpola entre dieléctrico y conductor.
+    \item Roughness (0-1): Controla directamente $\alpha$ en GGX.
+\end{itemize}
+
+Garantiza conservación de energía: $E_{reflected} + E_{absorbed} = E_{incident}$.
+
+\newpage

@@ -1,0 +1,302 @@
+\documentclass[12pt,letterpaper]{article} % 12pt font, letter paper
+
+% --- PACKAGES ---
+\usepackage[utf8]{inputenc} % Input encoding
+\usepackage[spanish]{babel} % Language support
+\usepackage{times} % Use Times font (approximates Times New Roman)
+\usepackage[margin=2.54cm]{geometry} % Margins 2.54 cm (1 inch)
+\usepackage{setspace} % For line spacing
+\usepackage{graphicx} % If you need images later
+\usepackage{booktabs} % For professional tables
+\usepackage{caption}  % For customizing captions
+\usepackage{amsmath} % For math symbols if needed
+\usepackage{amsfonts} % For math fonts if needed
+\usepackage{amssymb} % For math symbols if needed
+\usepackage[hyphens]{url} % Allows breaks after hyphens in URLs
+% \usepackage{xurl} % ALTERNATIVE for even better URL breaking (choose one)
+\usepackage[hidelinks]{hyperref} % For clickable URLs (optional)
+\usepackage{ragged2e} % For RaggedRight justification (simulates flush left)
+\usepackage{indentfirst} % Indent the first paragraph after a section heading
+\usepackage{titlesec} % For customizing section titles
+\usepackage{tocloft}
+\usepackage{titletoc} % Added based on user template usage
+\usepackage{enumitem} % For customizing lists (APA 7 indentation)
+
+% --- APA 7 List Configuration (Hanging Indent + Circular Bullets) ---
+% Note: Document uses \setstretch{2} globally, so lists inherit double spacing
+% We set itemsep, parsep, topsep to 0pt to avoid EXTRA spacing beyond the global setting
+
+% Itemize (Bulleted Lists)
+\setlist[itemize]{
+    leftmargin=1.9cm,      % Total left margin (1.27cm + 0.63cm space)
+    itemindent=0pt,        % No additional indent for the bullet
+    labelsep=0.63cm,       % Space between bullet and text
+    label=\textbullet,     % Force circular bullets (not squares)
+    itemsep=0pt,           % No extra spacing between items (uses global double spacing)
+    parsep=0pt,            % No extra spacing between paragraphs within items
+    topsep=0pt             % No extra spacing before/after list (uses global double spacing)
+}
+
+% Enumerate (Numbered Lists)
+\setlist[enumerate]{
+    leftmargin=1.9cm,      % Total left margin (1.27cm + 0.63cm space)
+    itemindent=0pt,        % No additional indent for the number
+    labelsep=0.63cm,       % Space between number and text
+    itemsep=0pt,           % No extra spacing between items (uses global double spacing)
+    parsep=0pt,            % No extra spacing between paragraphs within items
+    topsep=0pt             % No extra spacing before/after list (uses global double spacing)
+}
+
+% --- Preamble Addition: Rename Table Label for Spanish ---
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+\addto\captionsspanish{\renewcommand{\contentsname}{Tabla de Contenido}}
+\addto\captionsspanish{\renewcommand{\listtablename}{Lista de Tablas}}
+
+% --- APA 7 UNAD FORMATTING ---
+
+\setstretch{2}
+
+% Paragraph Indentation (0.5 inches = 1.27 cm)
+\setlength{\parindent}{1.27cm}
+
+% Disable Section Numbering (Fixes ToC Overlap)
+\setcounter{secnumdepth}{0}
+
+% Page Numbering (Top Right)
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{} % Clear header/footer
+\renewcommand{\headrulewidth}{0pt} % No header rule
+\fancyhead[R]{\thepage} % Page number top right
+\fancypagestyle{plain}{% Redefine plain style used by titlepage etc.
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancyhead[R]{\thepage}%
+}
+
+% --- Preamble: Customization for Table of Contents (No Section Numbers in ToC) ---
+
+% Remove numbering for sections in ToC
+\renewcommand{\cftsecpresnum}{\relax} % No prefix for section number
+\renewcommand{\cftsecnumwidth}{0pt}   % No space reserved for section number
+
+% Remove numbering for subsections in ToC
+\renewcommand{\cftsubsecpresnum}{\relax}
+\renewcommand{\cftsubsecnumwidth}{0pt}
+
+% Remove numbering for subsubsections in ToC
+\renewcommand{\cftsubsubsecpresnum}{\relax}
+\renewcommand{\cftsubsubsecnumwidth}{0pt}
+
+% Ensure only the title and page number appear, with leaders (dots)
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftdotsep}}
+
+% Justification (Flush Left - Ragged Right)
+\RaggedRight % Apply ragged right justification globally
+
+% --- Customization for ToC and LoT Titles (Combined for Centering and Size) ---
+
+% --- Para la Tabla de Contenido ---
+\setlength{\cftbeforetoctitleskip}{0\baselineskip}
+\setlength{\cftaftertoctitleskip}{0\baselineskip}
+
+\renewcommand{\cfttoctitlefont}{\hfill\normalfont\bfseries\normalsize}
+\renewcommand{\cftaftertoctitle}{\null\hfill}
+
+% --- Para la Lista de Tablas ---
+\setlength{\cftbeforelottitleskip}{0\baselineskip}
+\setlength{\cftafterlottitleskip}{0\baselineskip}
+
+\renewcommand{\cftlottitlefont}{\hfill\normalfont\bfseries\normalsize}
+\renewcommand{\cftafterlottitle}{\null\hfill}
+
+% --- Customization for ToC Entry Fonts (No Bold for Section Titles in ToC) ---
+\renewcommand{\cftsecfont}{\normalfont}
+\renewcommand{\cftsecpagefont}{\normalfont}
+\renewcommand{\cftsubsecfont}{\normalfont}
+\renewcommand{\cftsubsecpagefont}{\normalfont}
+\renewcommand{\cftsubsubsecfont}{\normalfont}
+\renewcommand{\cftsubsubsecpagefont}{\normalfont}
+
+% --- Indentation for ToC entries ---
+\setlength{\cftsecindent}{0em}
+\setlength{\cftsubsecindent}{1.5em}
+\setlength{\cftsubsubsecindent}{3em}
+
+\newlength{\mytocskip}
+\setlength{\mytocskip}{0\baselineskip}
+\setlength{\cftbeforesecskip}{\mytocskip}
+\setlength{\cftbeforesubsecskip}{\mytocskip}
+\setlength{\cftbeforesubsubsecskip}{\mytocskip}
+
+% Change the font for the table number in LoT to bold
+\renewcommand{\cfttabpresnum}{\tablename~}
+\renewcommand{\cfttabfont}{\bfseries}
+
+% Configuration for List of Tables (LoT) entries
+\titlecontents{table}
+  [0em]
+  {{\bfseries\tablename~\thecontentslabel\quad}\itshape}
+  {}
+  {}
+  {\quad\cftdotfill{\cftdotsep}\normalfont\thecontentspage}
+  [\vspace{0\baselineskip}]
+
+% Section Title Formatting
+\titleformat{\section}{\normalfont\bfseries\centering}{}{0em}{}
+\titlespacing*{\section}{0pt}{0\baselineskip}{0\baselineskip}
+
+\titleformat{\subsection}{\normalfont\bfseries}{}{0em}{}
+\titlespacing*{\subsection}{0pt}{0\baselineskip}{0\baselineskip}
+
+\titleformat{\subsubsection}{\normalfont\bfseries\itshape}{}{0em}{}
+\titlespacing*{\subsubsection}{0pt}{0\baselineskip}{0\baselineskip}
+
+% Level 4 Heading: Indented, Bold, Title Case, Period, Runin
+\titleformat{\paragraph}[runin]{\normalfont\bfseries}{}{1.27cm}{}[.]
+\titlespacing*{\paragraph}{0pt}{0\baselineskip}{0\baselineskip}
+
+% Level 5 Heading: Indented, Bold Italic, Title Case, Period, Runin
+\titleformat{\subparagraph}[runin]{\normalfont\bfseries\itshape}{}{1.27cm}{}[.]
+\titlespacing*{\subparagraph}{0pt}{0\baselineskip}{0\baselineskip}
+
+% Table Caption Formatting
+\DeclareCaptionLabelFormat{table_num_bold_left}{\textbf{#1~#2}}
+\captionsetup[table]{
+    labelformat=table_num_bold_left,
+    labelsep=newline,
+    textfont=it,
+    justification=raggedright,
+    singlelinecheck=false,
+    skip=6pt,
+    position=top
+}
+
+% --- DOCUMENT START ---
+\begin{document}
+
+% --- TITLE PAGE ---
+\begin{titlepage}
+    \thispagestyle{plain} % Force page number on title page
+    \centering
+    {\normalfont\bfseries Diseño y Desarrollo de un Prototipo Web 3D Interactivo para la Visualización Técnica y Análisis Estructural de Hardware de Alto Rendimiento mediante Pipelines de Optimización Gráfica y WebAssembly\par}
+
+    \vspace{2\baselineskip}
+    \vspace{2\baselineskip}
+
+    {\normalfont Estudiante\par}
+    {\normalfont Alexander Woodcock Salomón\par}
+
+    \vspace{2\baselineskip}
+    \vspace{2\baselineskip}
+
+    {\normalfont Asesor\par}
+    {\normalfont Deivid Enrique Triviño Lozada\par}
+
+    \vfill
+
+    {\normalfont Universidad Nacional Abierta y a Distancia - UNAD\par
+     Escuela de Ciencias Básicas, Tecnología e Ingeniería\par
+     Ingeniería Multimedia\par}
+
+    \vspace{1\baselineskip}
+    {2025\par}
+\end{titlepage}
+
+% --- MAIN CONTENT ---
+\pagestyle{fancy}
+
+% --- RESUMEN ---
+\section*{Resumen}
+\addcontentsline{toc}{section}{Resumen}
+\setlength{\parindent}{0pt} % No indent for Resumen
+El diseño de hardware de alto rendimiento (drones, sistemas robóticos) enfrenta un desafío crítico en la comunicación técnica: los medios digitales tradicionales (imágenes 2D, PDFs estáticos) imponen alta carga cognitiva para comprender estructuras tridimensionales complejas. Este proyecto aborda esta brecha mediante el diseño, desarrollo y evaluación de un prototipo web 3D interactivo basado en Unity WebGL que optimiza la visualización técnica de hardware mediante pipelines de optimización gráfica avanzados y WebAssembly. El marco teórico integra teoría de carga cognitiva (Mayer, Paivio), interacción humano-computador en 3D (Bowman, Norman), y renderizado físicamente basado (Cook-Torrance, Burley). La metodología sigue Design Science Research con desarrollo iterativo en Sprints de 4 semanas, implementando técnicas de retopología, baking de normales, y Asset Bundles para cumplir con KPIs cuantitativos (< 50,000 polígonos, > 30 FPS en móvil mid-range, < 5s tiempo de carga). La validación incluye profiling de rendimiento (Unity Profiler) y pruebas de usabilidad (SUS, N=8-12 ingenieros/técnicos). El producto final es un MVP científico que valida la viabilidad técnica de WebGL para visualización de ingeniería, estableciendo un pipeline replicable documentado según estándares académicos.
+
+\hspace{1.27cm}\textit{\textbf{Palabras clave:}} WebGL, Unity, WebAssembly, Renderizado Físicamente Basado (PBR), Visualización 3D Interactiva, Optimización de Assets 3D, Carga Cognitiva, Interacción Humano-Computador, Technical Art, Hardware de Alto Rendimiento.
+
+\newpage
+
+% --- ABSTRACT ---
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+\setlength{\parindent}{0pt} % No indent for Abstract
+High-performance hardware design (drones, robotic systems) faces a critical challenge in technical communication: traditional digital media (2D images, static PDFs) impose high cognitive load for understanding complex three-dimensional structures. This project addresses this gap through the design, development, and evaluation of an interactive 3D web prototype based on Unity WebGL that optimizes technical hardware visualization through advanced graphics optimization pipelines and WebAssembly. The theoretical framework integrates cognitive load theory (Mayer, Paivio), 3D human-computer interaction (Bowman, Norman), and physically-based rendering (Cook-Torrance, Burley). The methodology follows Design Science Research with iterative development in 4-week Sprints, implementing retopology, normal baking, and Asset Bundles to meet quantitative KPIs (< 50,000 polygons, > 30 FPS on mid-range mobile, < 5s load time). Validation includes performance profiling (Unity Profiler) and usability testing (SUS, N=8-12 engineers/technicians). The final product is a scientific MVP that validates the technical feasibility of WebGL for engineering visualization, establishing a replicable, academically documented pipeline.
+
+\hspace{1.27cm}\textit{\textbf{Keywords:}} WebGL, Unity, WebAssembly, Physically-Based Rendering (PBR), Interactive 3D Visualization, 3D Asset Optimization, Cognitive Load, Human-Computer Interaction, Technical Art, High-Performance Hardware.
+
+\newpage
+
+% Restore indentation for the rest of the document
+\setlength{\parindent}{1.27cm}
+
+% --- TABLE OF CONTENTS ---
+\newpage
+\tableofcontents
+\newpage
+
+% --- LIST OF TABLES ---
+\newpage
+\renewcommand{\listtablename}{Lista de Tablas}
+\listoftables
+\newpage
+
+% --- INFORMACIÓN GENERAL ---
+\newpage
+\section*{Información General de la Propuesta de Trabajo de Grado Proyecto Aplicado}
+\addcontentsline{toc}{section}{Información General de la Propuesta de Trabajo de Grado Proyecto Aplicado}
+
+\subsection*{Integrantes de la Propuesta de Investigación}
+\addcontentsline{toc}{subsection}{Integrantes de la Propuesta de Investigación}
+
+\textit{Nombre del estudiante:} Alexander Woodcock Salomón
+
+\textit{Identificación C.C.:} 1018474351
+
+\textit{Programa Académico:} Ingeniería Multimedia
+
+\textit{No. de Créditos Aprobados:} 152
+
+\textit{\% de créditos aprobados:} 92.11
+
+\textit{Correo electrónico:} awoodcocks@unadvirtual.edu.co
+
+\textit{Teléfono / Celular:} 3054396581
+
+\textit{Dirección residencia:} Finca Armenia casa 2
+
+\textit{Municipio / Departamento:} Pasto / Nariño
+
+\textit{CENTRO:} ZCSUR
+
+\textit{ZONA:} PASTO
+
+\subsection*{Datos Específicos del Proyecto}
+\addcontentsline{toc}{subsection}{Datos Específicos del Proyecto}
+
+\textit{Duración del proyecto (meses):} Seis (6)
+
+\textit{Línea de Investigación:} Ingeniería Multimedia, Visualización Técnica 3D Web
+
+\textit{Escuela:} Escuela de Ciencias Básicas, Tecnología e Ingeniería (ECBTI)
+
+\textit{Descriptores palabras clave:} WebGL, Unity, WebAssembly, PBR, Visualización 3D, Optimización, Carga Cognitiva, HCI, Technical Art.
+
+\newpage
+
+% --- SECTIONS ---
+\input{sections/planteamiento_problema}
+\input{sections/justificacion}
+\input{sections/objetivos}
+\section{Marco de Referencia}
+\input{sections/estado_del_arte}
+\input{sections/marco_teorico}
+\input{sections/marco_conceptual}
+\input{sections/metodologia}
+\input{sections/cronograma}
+\input{sections/recursos}
+\input{sections/resultados}
+\input{sections/bibliografia}
+
+\end{document}

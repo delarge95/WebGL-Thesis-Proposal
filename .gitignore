@@ -1,0 +1,17 @@
+# LaTeX auxiliar files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.lot
+*.lof
+
+# PDF output (optional - remove if you want to track PDFs)
+# *.pdf
+
+# OS files
+.DS_Store
+Thumbs.db

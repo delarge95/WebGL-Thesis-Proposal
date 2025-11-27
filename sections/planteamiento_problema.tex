@@ -1,0 +1,16 @@
+\section{Planteamiento del Problema}
+
+Los modelos CAD de ingeniería para hardware de alto rendimiento (drones, sistemas robóticos, componentes electrónicos) suelen superar los 2GB de datos y millones de polígonos, cifras incompatibles con el contexto de ejecución de un navegador web móvil, limitado frecuentemente a $\sim$2GB de memoria compartida y sin acceso directo a la API gráfica nativa. La infraestructura web actual depende mayoritariamente de medios pasivos (imágenes 2D estáticas, PDFs), los cuales generan una alta carga cognitiva intrínseca al obligar al usuario a reconstruir mentalmente la espacialidad tridimensional del objeto.
+
+Desde la Teoría de la Carga Cognitiva (Sweller, 1988), la visualización estática impone una carga innecesaria en la memoria de trabajo del usuario, quien debe realizar rotaciones mentales complejas. Hegarty (2004) demostró que las tareas de rotación mental consumen recursos cognitivos visuoespaciales, dificultando la comprensión de estructuras complejas.
+
+El problema técnico radica en la ``Brecha de Fidelidad vs. Rendimiento'':
+\begin{itemize}
+    \item Tamaño de archivo. Modelos CAD originales (STEP, IGES) con millones de superficies NURBS son incompatibles con limitaciones de bandwidth web (target: $<$ 50MB build inicial).
+    \item Rendimiento en tiempo real. Mantener $>$ 30 FPS (33.33ms frame time) en dispositivos móviles mid-range (e.g., Snapdragon 7 series) requiere optimización extrema.
+    \item Latencia de interacción. Soluciones de \textit{Pixel Streaming} introducen latencia de red inaceptable ($>$ 100ms) para interacción precisa en hotspots técnicos.
+\end{itemize}
+
+Existe, por tanto, la necesidad de un pipeline de Technical Art que permita desplegar estos modelos con alta fidelidad visual y bajo costo computacional, validando la viabilidad de WebGL/WebAssembly para aplicaciones de ingeniería.
+
+\newpage

@@ -1,0 +1,67 @@
+\section{Metodología}
+
+Se utilizará una metodología de Investigación Aplicada con un enfoque de Design Science Research (DSR) (Hevner et al., 2004), estructurada en desarrollo Ágil (Scrum Adaptado) con Sprints de 4 semanas.
+
+\subsection{Framework de Design Science Research}
+
+El proyecto sigue el framework DSR de 6 etapas (Hevner et al., 2004):
+\begin{enumerate}
+    \item Problem Identification: Brecha de información técnica en medios 2D.
+    \item Objectives: Prototipo que valida viabilidad de WebGL para visualización de hardware.
+    \item Design \& Development: Implementación en Unity siguiendo principios de HCI.
+    \item Demonstration: Despliegue online accesible.
+    \item Evaluation: Pruebas de usabilidad (SUS), profiling de rendimiento.
+    \item Communication: Documentación de pipeline de optimización.
+\end{enumerate}
+
+\subsection{Desarrollo en Sprints}
+
+\subsubsection{Sprint 1: Análisis y Fundamentación Técnica (Semana 1-4)}
+\begin{itemize}
+    \item Selección del modelo CAD de referencia (Dron de Alta Gama).
+    \item Benchmarking: Pruebas de rendimiento en dispositivos objetivo (Snapdragon 7 series).
+    \item Definición de KPIs: Polígonos ($<$50,000), Draw Calls ($<$50), VRAM ($<$150MB).
+\end{itemize}
+
+\subsubsection{Sprint 2: Pipeline de Arte Técnico (Semana 5-8)}
+\begin{itemize}
+    \item Retopología: Conversión de mallas CAD (NURBS) a polígonos optimizados en Blender.
+    \item UV Mapping: Organización de islas UV para maximizar densidad de texel.
+    \item Baking: Transferencia de detalles de alta frecuencia a mapas de normales.
+\end{itemize}
+
+\subsubsection{Sprint 3: Ingeniería e Implementación (Semana 9-16)}
+\begin{itemize}
+    \item Configuración de Unity URP con soporte WebGL 2.0.
+    \item Programación de scripts C\# (compilados a WASM) para sistema de ``Despiece'' (Exploded View).
+    \item Implementación de UI responsiva.
+\end{itemize}
+
+\subsubsection{Sprint 4: Validación y Despliegue (Semana 17-24)}
+\begin{itemize}
+    \item Profiling: Uso de Unity Memory Profiler para detectar fugas de memoria.
+    \item Pruebas de Usuario: Evaluación mediante cuestionarios SUS (System Usability Scale).
+    \item Despliegue: Publicación en servidor con compresión Gzip/Brotli.
+\end{itemize}
+
+\subsection{Tamaño de Muestra para Pruebas de Usabilidad}
+
+Nielsen (2000) demostró que 5 usuarios detectan $\sim$85\% de problemas de usabilidad. Para este proyecto:
+\begin{itemize}
+    \item Muestra: 8-12 usuarios (target: ingenieros/técnicos).
+    \item Justificación: Supera el mínimo de Nielsen, permitiendo detección de issues menos frecuentes.
+    \item Protocolo: Think-Aloud + SUS Questionnaire.
+\end{itemize}
+
+\subsection{KPIs Técnicos (Cuantitativos)}
+
+\begin{enumerate}
+    \item Polygon Budget: $\sum P_i < 50,000$ triángulos.
+    \item Texel Density: $\rho = 10.24 \pm 2$ px/cm (±20\% tolerancia).
+    \item Draw Calls: $D < 50$ (GPU Instancing + Static Batching).
+    \item Frame Time: $T_{frame} < 33.33$ms (30 FPS) en Snapdragon 7 Gen 1.
+    \item Memory: Heap Usage $<$ 150MB (medido via Unity Profiler).
+    \item Load Time: TTI (Time to Interactive) $<$ 5s en 4G (10 Mbps).
+\end{enumerate}
+
+\newpage
