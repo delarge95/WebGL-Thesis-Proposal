@@ -166,9 +166,10 @@
 
 % Table Caption Formatting
 \DeclareCaptionLabelFormat{table_num_bold_left}{\textbf{#1~#2}}
+\DeclareCaptionLabelSeparator{double_space}{\par\vspace{\baselineskip}}
 \captionsetup[table]{
     labelformat=table_num_bold_left,
-    labelsep=newline,
+    labelsep=double_space,
     textfont=it,
     justification=raggedright,
     singlelinecheck=false,
