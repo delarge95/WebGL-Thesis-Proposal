@@ -6,53 +6,53 @@ El estado del arte analiza las tecnologías actuales de visualización 3D en la 
 
 La visualización 3D en la web ha evolucionado significativamente desde la introducción de WebGL en 2011 (Khronos Group). Yu et al. (2023) identifican WebGL como la tecnología dominante para renderizado 3D en navegadores, con creciente competencia de WebGPU. A continuación se presentan las principales tecnologías evaluadas:
 
-\paragraph{Three.js.} Three.js es una biblioteca de renderizado 3D ligera construida sobre WebGL. Según el repositorio oficial de Cabello (2024), cuenta con más de 110,000 estrellas en GitHub, indicando amplia adopción en la comunidad de desarrolladores web.
+\paragraph{Three.js} Three.js es una biblioteca de renderizado 3D ligera construida sobre WebGL. Según el repositorio oficial de Cabello (2024), cuenta con más de 110,000 estrellas en GitHub, indicando amplia adopción en la comunidad de desarrolladores web.
 
-\subparagraph{Ventajas.} Curva de aprendizaje accesible, tamaño de bundle reducido ($\sim$600KB minified+gzip), documentación exhaustiva, ecosistema extenso de plugins.
+\subparagraph{Ventajas} Curva de aprendizaje accesible, tamaño de bundle reducido ($\sim$600KB minified+gzip), documentación exhaustiva, ecosistema extenso de plugins.
 
-\subparagraph{Desventajas.} Requiere implementación manual de pipeline de assets (cargadores GLTF/OBJ personalizados), gestión de memoria explícita, ausencia de editor visual para artistas no-programadores.
+\subparagraph{Desventajas} Requiere implementación manual de pipeline de assets (cargadores GLTF/OBJ personalizados), gestión de memoria explícita, ausencia de editor visual para artistas no-programadores.
 
-\paragraph{Babylon.js.} Babylon.js es un motor WebGL/WebGPU completo diseñado con enfoque enterprise, ofreciendo abstracciones de alto nivel para física, GUI y animación.
+\paragraph{Babylon.js} Babylon.js es un motor WebGL/WebGPU completo diseñado con enfoque enterprise, ofreciendo abstracciones de alto nivel para física, GUI y animación.
 
-\subparagraph{Ventajas.} Soporte nativo de TypeScript, editor visual integrado (Babylon.js Playground), sistema de física robusto (Cannon.js/Ammo.js), migración temprana a WebGPU implementada (soporte desde v5.0). Denes et al. (2024) en la IEEE Conference on Games demostraron que WebGPU como backend en motores de juego muestra tiempos de cuadro consistentemente mejores que WebGL, validando la estrategia de migración temprana de Baby lon.js.
+\subparagraph{Ventajas} Soporte nativo de TypeScript, editor visual integrado (Babylon.js Playground), sistema de física robusto (Cannon.js/Ammo.js), migración temprana a WebGPU implementada (soporte desde v5.0). Denes et al. (2024) en la IEEE Conference on Games demostraron que WebGPU como backend en motores de juego muestra tiempos de cuadro consistentemente mejores que WebGL, validando la estrategia de migración temprana de Baby lon.js.
 
-\subparagraph{Desventajas.} Tamaño de bundle mayor ($\sim$2MB minified), percepción de menor rendimiento en escenas ligeras comparado con Three.js, aunque recientes optimizaciones en v6.0 (2023) han reducido esta brecha.
+\subparagraph{Desventajas} Tamaño de bundle mayor ($\sim$2MB minified), percepción de menor rendimiento en escenas ligeras comparado con Three.js, aunque recientes optimizaciones en v6.0 (2023) han reducido esta brecha.
 
-\paragraph{Unity WebGL.} Unity Technologies ofrece compilación a WebGL desde Unity 5.0 (2015), con mejoras significativas en Unity 2020+ mediante IL2CPP y WebAssembly.
+\paragraph{Unity WebGL} Unity Technologies ofrece compilación a WebGL desde Unity 5.0 (2015), con mejoras significativas en Unity 2020+ mediante IL2CPP y WebAssembly.
 
-\subparagraph{Ventajas.} Ecosistema completo (Asset Store con $>$500K assets, Profiler integrado, Shader Graph visual), compilación IL2CPP a WebAssembly para lógica compleja (elimina pauses de GC de JavaScript), Asset Bundles para gestión granular de memoria, herramientas visuales (Timeline, Cinemachine) para artistas no-programadores.
+\subparagraph{Ventajas} Ecosistema completo (Asset Store con $>$500K assets, Profiler integrado, Shader Graph visual), compilación IL2CPP a WebAssembly para lógica compleja (elimina pauses de GC de JavaScript), Asset Bundles para gestión granular de memoria, herramientas visuales (Timeline, Cinemachine) para artistas no-programadores.
 
-\subparagraph{Desventajas.} Tamaño de build inicial grande (5-15MB según configuración de compresión Brotli/Gzip), tiempo de carga mayor en primera ejecución (~5-7s en 4G), licencia comercial para proyectos de ingresos $>$ \$100K/año.
+\subparagraph{Desventajas} Tamaño de build inicial grande (5-15MB según configuración de compresión Brotli/Gzip), tiempo de carga mayor en primera ejecución (~5-7s en 4G), licencia comercial para proyectos de ingresos $>$ \$100K/año.
 
-\paragraph{Unreal Engine Pixel Streaming.} Epic Games introdujo Pixel Streaming en Unreal Engine 4.21 (2018) para transmitir contenido de alta fidelidad desde servidores GPU a clientes web ligeros.
+\paragraph{Unreal Engine Pixel Streaming} Epic Games introdujo Pixel Streaming en Unreal Engine 4.21 (2018) para transmitir contenido de alta fidelidad desde servidores GPU a clientes web ligeros.
 
-\subparagraph{Ventajas.} Calidad gráfica máxima (Ray Tracing en tiempo real, Lumen Global Illumination), hardware client mínimo (solo decodificación de video H.264), permite escenas extremadamente complejas ($>$10M polígonos) inviables en WebGL nativo.
+\subparagraph{Ventajas} Calidad gráfica máxima (Ray Tracing en tiempo real, Lumen Global Illumination), hardware client mínimo (solo decodificación de video H.264), permite escenas extremadamente complejas ($>$10M polígonos) inviables en WebGL nativo.
 
-\subparagraph{Desventajas.} Latencia de red crítica ($<$60ms recomendado para interactividad fluida, $>$100ms degrada UX significativamente), costo de infraestructura cloud escalable (\$0.50-\$2.00/hora por sesión GPU según AWS/Azure pricing), requiere servidor dedicado por usuario concurrente, escalamiento horizontal costoso para audiencias masivas.
+\subparagraph{Desventajas} Latencia de red crítica ($<$60ms recomendado para interactividad fluida, $>$100ms degrada UX significativamente), costo de infraestructura cloud escalable (\$0.50-\$2.00/hora por sesión GPU según AWS/Azure pricing), requiere servidor dedicado por usuario concurrente, escalamiento horizontal costoso para audiencias masivas.
 
-\paragraph{Spline.} Spline es un editor 3D web-first lanzado en 2021, enfocado en diseño iterativo y colaboración en tiempo real.
+\paragraph{Spline} Spline es un editor 3D web-first lanzado en 2021, enfocado en diseño iterativo y colaboración en tiempo real.
 
-\subparagraph{Ventajas.} Colaboración multiplayer en tiempo real (similar a Figma para 3D), UI amigable para diseñadores sin experiencia en programación, export directo a frameworks web (React, Vue, Svelte, Vanilla HTML).
+\subparagraph{Ventajas} Colaboración multiplayer en tiempo real (similar a Figma para 3D), UI amigable para diseñadores sin experiencia en programación, export directo a frameworks web (React, Vue, Svelte, Vanilla HTML).
 
-\subparagraph{Desventajas.} Limitaciones en escenas complejas ($<$100K polígonos para rendimiento óptimo), orientado a motion graphics y diseño de producto más que ingeniería técnica, falta de soporte para lógica custom en C\#/JavaScript.
+\subparagraph{Desventajas} Limitaciones en escenas complejas ($<$100K polígonos para rendimiento óptimo), orientado a motion graphics y diseño de producto más que ingeniería técnica, falta de soporte para lógica custom en C\#/JavaScript.
 
-\paragraph{Marmoset Viewer.} Marmoset Viewer (parte del ecosistema Marmoset Toolbag) es un visor WebGL optimizado para presentación de assets 3D con PBR de alta calidad.
+\paragraph{Marmoset Viewer} Marmoset Viewer (parte del ecosistema Marmoset Toolbag) es un visor WebGL optimizado para presentación de assets 3D con PBR de alta calidad.
 
-\subparagraph{Ventajas.} Renderizado PBR de calidad excepcional (basado en Marmoset Toolbag 4 renderer), ideal para portfolios de arte 3D (integración directa con ArtStation), soporte de turntables automáticos y anotaciones de texto.
+\subparagraph{Ventajas} Renderizado PBR de calidad excepcional (basado en Marmoset Toolbag 4 renderer), ideal para portfolios de arte 3D (integración directa con ArtStation), soporte de turntables automáticos y anotaciones de texto.
 
-\subparagraph{Desventajas.} Orientado exclusivamente a visualización estática (turntables 360°), interactividad limitada a rotación orbital pasiva, no permite scripting de lógica custom, no diseñado para aplicaciones de ingeniería con despiece funcional.
+\subparagraph{Desventajas} Orientado exclusivamente a visualización estática (turntables 360°), interactividad limitada a rotación orbital pasiva, no permite scripting de lógica custom, no diseñado para aplicaciones de ingeniería con despiece funcional.
 
-\paragraph{Sketchfab.} Sketchfab (adquirido por Epic Games en 2021) es una plataforma de hosting con visor WebGL embebible, conteniendo más de 5 millones de modelos 3D.
+\paragraph{Sketchfab} Sketchfab (adquirido por Epic Games en 2021) es una plataforma de hosting con visor WebGL embebible, conteniendo más de 5 millones de modelos 3D.
 
-\subparagraph{Ventajas.} Gran biblioteca de modelos comunitarios, viewer embebible via iframe, soporte VR/AR listo (WebXR API), funcionalidad de anotaciones de información técnica.
+\subparagraph{Ventajas} Gran biblioteca de modelos comunitarios, viewer embebible via iframe, soporte VR/AR listo (WebXR API), funcionalidad de anotaciones de información técnica.
 
-\subparagraph{Desventajas.} Control limitado sobre lógica de interacción (API JavaScript básica), dependencia de plataforma externa (vendor lock-in), rest ricciones de branding en plan gratuito (logo Sketchfab obligatorio), límites de tamaño de archivo en planes free/basic.
+\subparagraph{Desventajas} Control limitado sobre lógica de interacción (API JavaScript básica), dependencia de plataforma externa (vendor lock-in), rest ricciones de branding en plan gratuito (logo Sketchfab obligatorio), límites de tamaño de archivo en planes free/basic.
 
-\paragraph{PlayCanvas.} PlayCanvas es una plataforma de desarrollo de juegos web con motor WebGL integrado y editor colaborativo en la nube desde 2011.
+\paragraph{PlayCanvas} PlayCanvas es una plataforma de desarrollo de juegos web con motor WebGL integrado y editor colaborativo en la nube desde 2011.
 
-\subparagraph{Ventajas.} Editor en navegador con colaboración en tiempo real (similar a Google Docs pero para desarrollo de juegos), asset pipeline completo con optimización automática (compresión de texturas, bundling), deployment con un click a CDN global, tamaño de runtime pequeño (~500KB gzip).
+\subparagraph{Ventajas} Editor en navegador con colaboración en tiempo real (similar a Google Docs pero para desarrollo de juegos), asset pipeline completo con optimización automática (compresión de texturas, bundling), deployment con un click a CDN global, tamaño de runtime pequeño (~500KB gzip).
 
-\subparagraph{Desventajas.} Menor ecosistema de assets comparado con Unity/Unreal, curva de aprendizaje para desarrolladores acostumbrados a motores desktop-first, dependencia de plataforma cloud (aunque existe versión self-hosted open-source), documentación menos exhaustiva que Three.js para casos de uso técnicos avanzados.
+\subparagraph{Desventajas} Menor ecosistema de assets comparado con Unity/Unreal, curva de aprendizaje para desarrolladores acostumbrados a motores desktop-first, dependencia de plataforma cloud (aunque existe versión self-hosted open-source), documentación menos exhaustiva que Three.js para casos de uso técnicos avanzados.
 
 \begin{table}[h!]
 \centering
@@ -76,22 +76,22 @@ PlayCanvas & 500KB & $<$2s & Built-in & JS & Total & Gratis/Pro \\ \hline
 
 \subsubsection{Gap Analysis y Justificación de Unity WebGL.}
 
-\paragraph{Descartados.} La evaluación técnica identificó limitaciones críticas en tres categorías de soluciones:
+\paragraph{Descartados} La evaluación técnica identificó limitaciones críticas en tres categorías de soluciones:
 
-\subparagraph{Pixel Streaming.} Latencia de red inaceptable ($>$100ms típica en redes 4G latinoamericanas) para interacción precisa en hotspots técnicos y animación de despiece paramétrico, que requiere respuesta $<$16ms para fluidez perceptual.
+\subparagraph{Pixel Streaming} Latencia de red inaceptable ($>$100ms típica en redes 4G latinoamericanas) para interacción precisa en hotspots técnicos y animación de despiece paramétrico, que requiere respuesta $<$16ms para fluidez perceptual.
 
-\subparagraph{Spline/Marmoset/Sketchfab.} Limitaciones de lógica custom (no permiten scripting de despiece paramétrico en C\# con control fino de interpolación).
+\subparagraph{Spline/Marmoset/Sketchfab} Limitaciones de lógica custom (no permiten scripting de despiece paramétrico en C\# con control fino de interpolación).
 
-\subparagraph{Three.js/Babylon.js/PlayCanvas.} Tiempo de desarrollo excesivo para implementar pipeline de optimización completo (Occlusion Culling automático, sistema LOD de 3 niveles, Asset Bundles con carga asíncrona) desde cero, estimado en $>$200 horas adicionales de ingeniería.
+\subparagraph{Three.js/Babylon.js/PlayCanvas} Tiempo de desarrollo excesivo para implementar pipeline de optimización completo (Occlusion Culling automático, sistema LOD de 3 niveles, Asset Bundles con carga asíncrona) desde cero, estimado en $>$200 horas adicionales de ingeniería.
 
-\paragraph{Seleccionado Unity WebGL.} Unity WebGL fue seleccionado por el equilibrio óptimo entre cuatro factores críticos:
+\paragraph{Seleccionado Unity WebGL} Unity WebGL fue seleccionado por el equilibrio óptimo entre cuatro factores críticos:
 
-\subparagraph{Balance Fidelidad-Tamaño.} Progressive Loading mitiga carga inicial (shell de 3MB + Asset Bundles bajo demanda).
+\subparagraph{Balance Fidelidad-Tamaño} Progressive Loading mitiga carga inicial (shell de 3MB + Asset Bundles bajo demanda).
 
-\subparagraph{Herramientas Visuales.} Shader Graph, Timeline, Cinemachine esenciales para colaboración con artistas técnicos no-programadores.
+\subparagraph{Herramientas Visuales} Shader Graph, Timeline, Cinemachine esenciales para colaboración con artistas técnicos no-programadores.
 
-\subparagraph{Rendimiento Predecible.} C\# $\rightarrow$ IL2CPP $\rightarrow$ WASM garantiza ejecución determinista sin pauses de GC de JavaScript (crítico para mantener frame budget de 33.33ms).
+\subparagraph{Rendimiento Predecible} C\# $\rightarrow$ IL2CPP $\rightarrow$ WASM garantiza ejecución determinista sin pauses de GC de JavaScript (crítico para mantener frame budget de 33.33ms).
 
-\subparagraph{Ecosistema Maduro.} 15+ años de desarrollo, Asset Store con soluciones probadas para problemas comunes (oclusión, batching, compresión de texturas).
+\subparagraph{Ecosistema Maduro} 15+ años de desarrollo, Asset Store con soluciones probadas para problemas comunes (oclusión, batching, compresión de texturas).
 
 \newpage

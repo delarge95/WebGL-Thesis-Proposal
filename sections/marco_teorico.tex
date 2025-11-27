@@ -14,40 +14,17 @@ La Teoría de la Carga Cognitiva, desarrollada por Sweller (1988) y refinada dur
 
 Sweller, van Merriënboer y Paas (2019) en su revisión de 20 años publicada en \textit{Educational Psychology Review} identifican \textbf{tres tipos de carga cognitiva}:
 
-\paragraph{1. Carga Intrínseca (Intrinsic Load).} Complejidad inherente del material de aprendizaje, determinada por la interactividad de elementos. En este proyecto, la complejidad intrínseca es alta: un dron contiene docenas de componentes con relaciones espaciales jerárquicas (rotor $\rightarrow$ motor $\rightarrow$ ESC $\rightarrow$ batería). Esta carga es \textit{irreducible} porque representa la naturaleza del dominio técnico.
+\paragraph{Carga Intrínseca (Intrinsic Load)} Complejidad inherente del material de aprendizaje, determinada por la interactividad de elementos. En este proyecto, la complejidad intrínseca es alta: un dron contiene docenas de componentes con relaciones espaciales jerárquicas (rotor $\rightarrow$ motor $\rightarrow$ ESC $\rightarrow$ batería). Esta carga es \textit{irreducible} porque representa la naturaleza del dominio técnico.
 
-\paragraph{2. Carga Extrínseca (Extraneous Load).} Carga \textit{innecesaria} impuesta por diseño instruccional deficiente que no contribuye al aprendizaje. Las imágenes 2D estáticas generan alta carga extrínseca al requerir \textit{rotación mental} (usuario debe imaginar vistas no mostradas). Hegarty \& Waller (2004) demostraron que la rotación mental consume recursos visuoespaciales finitos de la memoria de trabajo.
+\paragraph{Carga Extrínseca (Extraneous Load)} Carga \textit{innecesaria} impuesta por diseño instruccional deficiente que no contribuye al aprendizaje. Las imágenes 2D estáticas generan alta carga extrínseca al requerir \textit{rotación mental} (usuario debe imaginar vistas no mostradas). Hegarty \& Waller (2004) demostraron que la rotación mental consume recursos visuoes paciales finitos de la memoria de trabajo.
 
-\textit{Reducción en este proyecto}: La interfaz 3D orbital \textit{externaliza} la rotación mental al sistema (el usuario manipula directamente el objeto), convirtiendo carga extrínseca en interacción productiva.
+\subparagraph{Reducción en este Proyecto} La interfaz 3D orbital \textit{externaliza} la rotación mental al sistema (el usuario manipula directamente el objeto), convirtiendo carga extrínseca en interacción productiva.
 
-\paragraph{3. Carga Relevante o Germana (Germane Load).} Esfuerzo cognitivo dedicado a la construcción de esquemas mentales permanentes (aprendizaje profundo). Sweller et al. (2019) enfatizan que el diseño instruccional debe maximizar carga germana liberando recursos de memoria de trabajo.
+\paragraph{Carga Relevante o Germana (Germane Load)} Esfuerzo cognitivo dedicado a la construcción de esquemas mentales permanentes (aprendizaje profundo). Sweller et al. (2019) enfatizan que el diseño instruccional debe maximizar carga germana liberando recursos de memoria de trabajo.
 
-\textit{Maximización en este proyecto}: La interacción directa con hotspots técnicos (click $\rightarrow$ información contextual) dirige recursos cognitivos hacia la integración de información estructural (ubicación + función + relaciones), facilitando construcción de modelo mental cohesivo.
+\subparagraph{Maximización en este Proyecto} La interacción directa con hotspots técnicos (click $\rightarrow$ información contextual) dirige recursos cognitivos hacia la integración de información estructural (ubicación + función + relaciones), facilitando construcción de modelo mental cohesivo.
 
 Ecuación de Balanceo:
-$$Carga_{total} = Carga_{\text{intrínseca}} + Carga_{\text{extrínseca}} + Carga_{\text{germana}} \leq Capacidad_{WM}$$
-
-El diseño 3D interactivo minimiza $Carga_{\text{extrínseca}}$ (eliminando rotación mental) y maximiza $Carga_{\text{germana}}$ (construcción de esquemas espaciales).
-
-\subsubsection{Ciencia Cognitiva y Aprendizaje Multimedia}
-
-\paragraph{Teoría Cognitiva del Aprendizaje Multimedia (Mayer, 2005, 2021).} Mayer (2021) en la 3ra edición de ``The Cambridge Handbook of Multimedia Learning'' actualiza la CTML con evidencia de meta-análisis de más de 200 estudios experimentales. El Principio de Contigüidad Espacial establece que el aprendizaje mejora cuando texto e imágenes están físicamente próximos, reduciendo búsqueda visual (split-attention effect).
-
-\textit{Aplicación}: Las etiquetas técnicas se muestran directamente sobre las partes 3D (hotspots con tooltips posicionados a $<$50px del componente), eliminando búsqueda visual.
-
-\paragraph{Teoría de Codificación Dual (Paivio, 1986).} Paivio postula que el cerebro procesa información visual (sistema imagístico) y verbal (sistema logospecificado) por canales separados pero interconectados. El prototipo aprovecha esto presentando geometría 3D (canal visual) simultáneamente con datos técnicos (canal verbal), aumentando capacidad efectiva de procesamiento.
-
-\subsubsection{Teoría de Interacción Humano-Computador (HCI) en Entornos 3D}
-
-\paragraph{Affordance (Gibson, 1979; Norman, 2013).} Gibson (1979) en ``The Ecological Approach to Visual Perception'' introdujo affordances como propiedades percibidas del entorno que sugieren acciones posibles. Norman (2013) adapta esto al diseño de interfaces: objetos deben ``invitar'' visualmente a su uso correcto.
-
-\textit{En entornos 3D}:
-\begin{itemize}
-    \item Controles de rotación circulares (orbit gizmo) sugieren movimiento circular.
-    \item Partes clickables iluminadas con outline shader (rim lighting) indican interactividad.
-    \item Cursor cambia de forma (pointer $\rightarrow$ hand) al hover sobre hotspots.
-\end{itemize}
-
 \paragraph{Navegación Espacial (Bowman et al., 2004; Darken \& Sibert, 1996).} Bowman et al. (2004) en ``3D User Interfaces: Theory and Practice'' definen interacción 3D como ``interacción humano-computador en la cual las tareas del usuario son ejecutadas directamente en un contexto espacial tridimensional''.
 
 Para este proyecto, controles orbitales (arcball rotation) siguen principios de Darken \& Sibert (1996) para prevenir desorientación:
