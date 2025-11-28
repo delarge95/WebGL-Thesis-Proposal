@@ -1,0 +1,164 @@
+\section*{Análisis Bibliográfico Detallado}
+
+Este documento presenta un análisis detallado de las fuentes bibliográficas utilizadas en la propuesta de tesis, justificando su selección, relevancia y aplicación en el documento.
+
+\subsection*{Akenine-Möller, T., Haines, E., \& Hoffman, N. (2018)}
+\textbf{Cita:} Akenine-Möller, T., Haines, E., \& Hoffman, N. (2018). \textit{Real-Time Rendering} (4th ed.). CRC Press. \\
+\textbf{Año:} 2018 \\
+\textbf{Enlace:} N/A (Libro impreso/eBook) \\
+\textbf{Resumen:} La "biblia" del renderizado en tiempo real. Cubre exhaustivamente los fundamentos matemáticos y algorítmicos del pipeline gráfico, incluyendo rasterización, sombreado, y técnicas avanzadas de iluminación global. \\
+\textbf{Relevancia:} Fundamental para fundamentar las decisiones técnicas sobre el pipeline de renderizado WebGL y las técnicas de optimización gráfica (LOD, culling). \\
+\textbf{Uso en el documento:} Citado en el Marco Teórico como referencia base para los conceptos de renderizado y optimización gráfica.
+
+\subsection*{Bartlett, K. A., \& Dorribo Camba, J. (2023)}
+\textbf{Cita:} Bartlett, K. A., \& Dorribo Camba, J. (2023). The Role of a Graphical Interpretation Factor in the Assessment of Spatial Visualization: A Critical Analysis. \textit{Spatial Cognition \& Computation}. \\
+\textbf{Año:} 2023 \\
+\textbf{Enlace:} \url{https://doi.org/10.1080/13875868.2021.1987375} \\
+\textbf{Resumen:} Investigación reciente que analiza cómo la interpretación gráfica influye en la evaluación de habilidades espaciales, sugiriendo que las ayudas visuales interactivas pueden mitigar las diferencias individuales. \\
+\textbf{Relevancia:} Proporciona evidencia empírica actual (2023) que respalda la hipótesis de que la visualización 3D interactiva facilita la comprensión espacial, clave para la justificación del proyecto. \\
+\textbf{Uso en el documento:} Citado en el Marco Teórico para validar la utilidad de modelos 3D interactivos en la reducción de la carga cognitiva asociada a la visualización espacial.
+
+\subsection*{Bowman, D. A., et al. (2004)}
+\textbf{Cita:} Bowman, D. A., Kruijff, E., LaViola Jr, J. J., \& Poupyrev, I. (2004). \textit{3D User Interfaces: Theory and Practice}. Addison-Wesley. \\
+\textbf{Año:} 2004 \\
+\textbf{Enlace:} N/A (Libro) \\
+\textbf{Resumen:} Texto seminal sobre diseño de interfaces de usuario 3D, cubriendo técnicas de selección, manipulación y navegación en entornos virtuales. \\
+\textbf{Relevancia:} Base teórica para el diseño de la interacción en el prototipo (rotación orbital, zoom, selección de componentes). \\
+\textbf{Uso en el documento:} Referenciado en el Marco Teórico y Metodología para justificar las metáforas de interacción seleccionadas.
+
+\subsection*{Burley, B. (2012)}
+\textbf{Cita:} Burley, B. (2012). Physically-Based Shading at Disney. \textit{ACM SIGGRAPH 2012 Course Notes}. \\
+\textbf{Año:} 2012 \\
+\textbf{Enlace:} \url{https://media.disneyanimation.com/uploads/production/publication_asset/48/asset/s2012_pbs_disney_brdf_notes_v3.pdf} \\
+\textbf{Resumen:} Introduce el modelo de sombreado "Disney BRDF", que estandarizó el PBR (Physically Based Rendering) en la industria, simplificando los parámetros de materiales a valores intuitivos (metalness, roughness). \\
+\textbf{Relevancia:} El proyecto utiliza Unity URP que implementa un modelo PBR derivado de este trabajo. Es crucial para lograr la fidelidad visual requerida en la visualización de hardware. \\
+\textbf{Uso en el documento:} Citado en el Marco Teórico al explicar el modelo de iluminación y materiales utilizado.
+
+\subsection*{Cook, R. L., \& Torrance, K. E. (1982)}
+\textbf{Cita:} Cook, R. L., \& Torrance, K. E. (1982). A reflectance model for computer graphics. \textit{ACM Transactions on Graphics}. \\
+\textbf{Año:} 1982 \\
+\textbf{Enlace:} \url{https://doi.org/10.1145/357290.357293} \\
+\textbf{Resumen:} El paper fundacional del renderizado basado en física (microfacet theory), estableciendo cómo la luz interactúa con superficies rugosas y metálicas. \\
+\textbf{Relevancia:} Fundamento teórico primario del realismo visual en gráficos por computadora. \\
+\textbf{Uso en el documento:} Citado en el Marco Teórico como el origen de los modelos de iluminación modernos utilizados en WebGL.
+
+\subsection*{Cowan, N. (2001)}
+\textbf{Cita:} Cowan, N. (2001). The magical number 4 in short-term memory: A reconsideration of mental storage capacity. \\
+\textbf{Año:} 2001 \\
+\textbf{Enlace:} N/A \\
+\textbf{Resumen:} Actualiza la teoría de Miller, sugiriendo que la capacidad de la memoria de trabajo es más limitada (aprox. 4 items) de lo que se pensaba. \\
+\textbf{Relevancia:} Refuerza la necesidad de minimizar la carga cognitiva extrínseca en la interfaz, ya que la memoria de trabajo del usuario es un recurso escaso. \\
+\textbf{Uso en el documento:} Citado en el Marco Teórico en la sección de Carga Cognitiva.
+
+\subsection*{Darken, R. P., \& Sibert, J. L. (1996)}
+\textbf{Cita:} Darken, R. P., \& Sibert, J. L. (1996). Wayfinding Strategies and Behaviours in Large Virtual Worlds. \textit{CHI '96}. \\
+\textbf{Año:} 1996 \\
+\textbf{Enlace:} \url{https://doi.org/10.1145/238386.238459} \\
+\textbf{Resumen:} Estudio clásico sobre navegación (wayfinding) en entornos virtuales, identificando estrategias y problemas comunes de desorientación. \\
+\textbf{Relevancia:} Informa el diseño de la navegación del prototipo para evitar que el usuario se pierda al inspeccionar el modelo 3D. \\
+\textbf{Uso en el documento:} Referenciado en el Marco Teórico sobre navegación y orientación espacial.
+
+\subsection*{Fransson, E., et al. (2024)}
+\textbf{Cita:} Fransson, E., Hermansson, J., \& Hu, Y. (2024). A Comparison of Performance on WebGPU and WebGL in the Godot Game Engine. \textit{IEEE CoG 2024}. \\
+\textbf{Año:} 2024 \\
+\textbf{Enlace:} \url{https://doi.org/10.1109/CoG60054.2024.10645582} \\
+\textbf{Resumen:} Comparativa técnica reciente entre WebGL y WebGPU, demostrando las ventajas de rendimiento de WebGPU en motores de juego modernos. \\
+\textbf{Relevancia:} Justifica la elección tecnológica y sitúa el proyecto en la frontera del conocimiento actual, reconociendo a WebGL como el estándar actual pero mirando hacia WebGPU. \\
+\textbf{Uso en el documento:} Citado en el Estado del Arte para discutir el futuro del renderizado web y las limitaciones actuales.
+
+\subsection*{Hegarty, M. (2004)}
+\textbf{Cita:} Hegarty, M. (2004). Mechanical reasoning by mental simulation. \textit{Trends in Cognitive Sciences}. \\
+\textbf{Año:} 2004 \\
+\textbf{Enlace:} N/A \\
+\textbf{Resumen:} Explora cómo las personas razonan sobre sistemas mecánicos mediante simulación mental y cómo las visualizaciones externas pueden apoyar este proceso. \\
+\textbf{Relevancia:} Directamente aplicable a la visualización de hardware (drones, motores), justificando por qué una visualización interactiva es superior a diagramas estáticos. \\
+\textbf{Uso en el documento:} Citado en el Marco Teórico y Planteamiento del Problema.
+
+\subsection*{Hevner, A. R., et al. (2004)}
+\textbf{Cita:} Hevner, A. R., March, S. T., Park, J., \& Ram, S. (2004). Design Science in Information Systems Research. \textit{MIS Quarterly}. \\
+\textbf{Año:} 2004 \\
+\textbf{Enlace:} N/A \\
+\textbf{Resumen:} Establece el marco metodológico del "Design Science Research" (DSR), enfocado en la creación y evaluación de artefactos IT para resolver problemas prácticos. \\
+\textbf{Relevancia:} Define la metodología de investigación del proyecto (creación de un artefacto - el prototipo - para generar conocimiento). \\
+\textbf{Uso en el documento:} Citado en la sección de Metodología como el marco metodológico principal.
+
+\subsection*{Khronos Group (2011)}
+\textbf{Cita:} Khronos Group. (2011). \textit{WebGL Specification 1.0}. \\
+\textbf{Año:} 2011 \\
+\textbf{Enlace:} \url{https://www.khronos.org/registry/webgl/specs/latest/1.0/} \\
+\textbf{Resumen:} Especificación técnica oficial de WebGL. \\
+\textbf{Relevancia:} Fuente primaria para la definición técnica de la tecnología base del proyecto. \\
+\textbf{Uso en el documento:} Citado en el Estado del Arte y Marco Conceptual.
+
+\subsection*{Mayer, R. E. (2005, 2021)}
+\textbf{Cita:} Mayer, R. E. (2005/2021). \textit{The Cambridge Handbook of Multimedia Learning}. \\
+\textbf{Año:} 2005, 2021 \\
+\textbf{Enlace:} \url{https://doi.org/10.1017/9781108894333} \\
+\textbf{Resumen:} Compendio de la Teoría Cognitiva del Aprendizaje Multimedia (CTML), principios de diseño multimedia (coherencia, señalización, contigüidad espacial). \\
+\textbf{Relevancia:} Proporciona los principios de diseño instruccional que guían el desarrollo de la interfaz y la presentación de la información técnica. \\
+\textbf{Uso en el documento:} Citado extensamente en el Marco Teórico y utilizado para justificar decisiones de diseño en la Metodología.
+
+\subsection*{Cabello, R. [mrdoob] (2024)}
+\textbf{Cita:} Cabello, R. [mrdoob]. (2024). \textit{three.js - JavaScript 3D Library}. \\
+\textbf{Año:} 2024 \\
+\textbf{Enlace:} \url{https://github.com/mrdoob/three.js} \\
+\textbf{Resumen:} Repositorio oficial de Three.js, la biblioteca WebGL más popular. \\
+\textbf{Relevancia:} Evidencia la popularidad y madurez de las tecnologías WebGL. \\
+\textbf{Uso en el documento:} Citado en el Estado del Arte para el benchmarking de tecnologías.
+
+\subsection*{Nielsen, J. (1994, 2000)}
+\textbf{Cita:} Nielsen, J. (1994). \textit{Usability Engineering}; Nielsen, J. (2000). Why You Only Need to Test with 5 Users. \\
+\textbf{Año:} 1994, 2000 \\
+\textbf{Enlace:} \url{https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/} \\
+\textbf{Resumen:} Fundamentos de la ingeniería de usabilidad y justificación del tamaño de muestra para pruebas cualitativas de usabilidad. \\
+\textbf{Relevancia:} Justifica el tamaño de la muestra (N=8-12) propuesto en la metodología y los métodos de evaluación (heurísticas). \\
+\textbf{Uso en el documento:} Citado en la Metodología (Diseño de la Validación).
+
+\subsection*{Norman, D. A. (2013)}
+\textbf{Cita:} Norman, D. A. (2013). \textit{The Design of Everyday Things}. \\
+\textbf{Año:} 2013 \\
+\textbf{Enlace:} N/A \\
+\textbf{Resumen:} Principios fundamentales de diseño centrado en el usuario (affordances, signifiers, feedback). \\
+\textbf{Relevancia:} Guía el diseño de la interfaz de usuario para asegurar que sea intuitiva y usable. \\
+\textbf{Uso en el documento:} Citado en el Marco Teórico (Interacción Humano-Computador).
+
+\subsection*{Paivio, A. (1986)}
+\textbf{Cita:} Paivio, A. (1986). \textit{Mental Representations: A Dual Coding Approach}. \\
+\textbf{Año:} 1986 \\
+\textbf{Enlace:} N/A \\
+\textbf{Resumen:} Teoría de Codificación Dual: el cerebro procesa información verbal y visual por canales separados. \\
+\textbf{Relevancia:} Justifica el uso combinado de modelos 3D (visual) y etiquetas/texto (verbal) para mejorar la comprensión y retención. \\
+\textbf{Uso en el documento:} Citado en el Marco Teórico como fundamento cognitivo.
+
+\subsection*{Ries, E. (2011)}
+\textbf{Cita:} Ries, E. (2011). \textit{The Lean Startup}. \\
+\textbf{Año:} 2011 \\
+\textbf{Enlace:} N/A \\
+\textbf{Resumen:} Metodología de desarrollo iterativo basada en el ciclo "Construir-Medir-Aprender" y el concepto de MVP (Producto Mínimo Viable). \\
+\textbf{Relevancia:} Informa la estrategia de desarrollo ágil del prototipo propuesta en el cronograma. \\
+\textbf{Uso en el documento:} Citado en la Metodología.
+
+\subsection*{Sweller, J. (1988, 2019)}
+\textbf{Cita:} Sweller, J. (1988). Cognitive load during problem solving; Sweller, J., et al. (2019). Cognitive architecture and instructional design. \\
+\textbf{Año:} 1988, 2019 \\
+\textbf{Enlace:} \url{https://doi.org/10.1007/s10648-019-09465-5} \\
+\textbf{Resumen:} Teoría de la Carga Cognitiva: tipos de carga (intrínseca, extrínseca, germana) y cómo el diseño instruccional puede optimizarlas. \\
+\textbf{Relevancia:} Eje central del Marco Teórico; el objetivo del proyecto es reducir la carga extrínseca mediante visualización 3D. \\
+\textbf{Uso en el documento:} Citado extensamente en el Marco Teórico.
+
+\subsection*{Unity Technologies (2021, 2024)}
+\textbf{Cita:} Documentación oficial y cursos de Unity. \\
+\textbf{Año:} 2021, 2024 \\
+\textbf{Enlace:} \url{https://docs.unity3d.com/} \\
+\textbf{Resumen:} Documentación técnica sobre WebGL, gestión de memoria y renderizado en Unity. \\
+\textbf{Relevancia:} Fuente primaria para los detalles técnicos de implementación y optimización en Unity WebGL. \\
+\textbf{Uso en el documento:} Citado en Estado del Arte y Marco Conceptual.
+
+\subsection*{Yu, G., et al. (2023)}
+\textbf{Cita:} Yu, G., et al. (2023). A survey of real-time rendering on Web3D application. \\
+\textbf{Año:} 2023 \\
+\textbf{Enlace:} \url{https://doi.org/10.1016/j.vrih.2022.04.002} \\
+\textbf{Resumen:} Estado del arte reciente sobre renderizado Web3D, cubriendo tecnologías, desafíos y tendencias. \\
+\textbf{Relevancia:} Proporciona el contexto actual del campo y valida la relevancia de WebGL y WebGPU. \\
+\textbf{Uso en el documento:} Citado en el Estado del Arte para contextualizar la investigación.
+
