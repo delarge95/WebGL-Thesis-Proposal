@@ -1,8 +1,8 @@
 \section{Planteamiento del Problema}
 
-Los modelos CAD de ingeniería para hardware de alto rendimiento (drones, sistemas robóticos, componentes electrónicos) suelen superar los 2GB de datos y millones de polígonos, cifras incompatibles con el contexto de ejecución de un navegador web móvil, limitado frecuentemente a $\sim$2GB de memoria compartida y sin acceso directo a la API gráfica nativa. La infraestructura web actual depende mayoritariamente de medios pasivos (imágenes 2D estáticas, PDFs), los cuales generan una alta carga cognitiva intrínseca al obligar al usuario a reconstruir mentalmente la espacialidad tridimensional del objeto.
+En la industria de hardware de alto rendimiento, la documentación técnica sigue anclada en paradigmas estáticos (PDFs, planos 2D) que disocian la información visual de su contexto espacial. Esta desconexión genera una \textbf{fricción cognitiva crítica}: ingenieros y técnicos deben realizar procesos mentales de reconstrucción tridimensional que son propensos a errores y consumen recursos de memoria de trabajo (Sweller, 1988).
 
-Desde la Teoría de la Carga Cognitiva (Sweller, 1988), la visualización estática impone una carga innecesaria en la memoria de trabajo del usuario, quien debe realizar rotaciones mentales complejas. Hegarty (2004) demostró que las tareas de rotación mental consumen recursos cognitivos visuoespaciales, dificultando la comprensión de estructuras complejas.
+Sin embargo, la migración a entornos 3D interactivos enfrenta una barrera técnica monumental: la \textbf{incompatibilidad de formatos}. Los modelos CAD de ingeniería (NURBS, $>$2GB) son matemáticamente y computacionalmente inviables para el ecosistema web móvil, restringido por anchos de banda limitados y presupuestos de memoria estrictos ($<$150MB Heap). Actualmente, no existe un \textit{pipeline} estandarizado de ``Technical Art'' que permita cerrar esta brecha de fidelidad vs. rendimiento sin sacrificar la precisión técnica funcional necesaria para la ingeniería.
 
 El problema técnico radica en la ``Brecha de Fidelidad vs. Rendimiento'':
 \begin{itemize}
@@ -11,6 +11,6 @@ El problema técnico radica en la ``Brecha de Fidelidad vs. Rendimiento'':
     \item Latencia de interacción. Soluciones de \textit{Pixel Streaming} introducen latencia de red inaceptable ($>$ 100ms) para interacción precisa en hotspots técnicos.
 \end{itemize}
 
-Existe, por tanto, la necesidad de un pipeline de Technical Art que permita desplegar estos modelos con alta fidelidad visual y bajo costo computacional, validando la viabilidad de WebGL/WebAssembly para aplicaciones de ingeniería.
+Existe, por tanto, la necesidad de un \textit{pipeline} de \textit{Technical Art} que permita desplegar estos modelos con alta fidelidad perceptual y bajo costo computacional, validando la viabilidad de WebGL/WebAssembly para aplicaciones de ingeniería.
 
 \newpage

@@ -10,11 +10,11 @@ La visualización 3D en la web ha evolucionado significativamente desde la intro
 
 \subparagraph{Ventajas} Curva de aprendizaje accesible, tamaño de bundle reducido ($\sim$600KB minified+gzip), documentación exhaustiva, ecosistema extenso de plugins.
 
-\subparagraph{Desventajas} Requiere implementación manual de pipeline de assets (cargadores GLTF/OBJ personalizados), gestión de memoria explícita, ausencia de editor visual para artistas no-programadores.
+\subparagraph{Desventajas} Requiere implementación manual de \textit{pipeline} de assets (cargadores GLTF/OBJ personalizados), gestión de memoria explícita, ausencia de editor visual para artistas no-programadores.
 
 \paragraph{Babylon.js} Babylon.js es un motor WebGL/WebGPU completo diseñado con enfoque enterprise, ofreciendo abstracciones de alto nivel para física, GUI y animación.
 
-\subparagraph{Ventajas} Soporte nativo de TypeScript, editor visual integrado (Babylon.js Playground), sistema de física robusto (Cannon.js/Ammo.js), migración temprana a WebGPU implementada (soporte desde v5.0). Denes et al. (2024) en la IEEE Conference on Games demostraron que WebGPU como backend en motores de juego muestra tiempos de cuadro consistentemente mejores que WebGL, validando la estrategia de migración temprana de Baby lon.js.
+\subparagraph{Ventajas} Soporte nativo de TypeScript, editor visual integrado (Babylon.js Playground), sistema de física robusto (Cannon.js/Ammo.js), migración temprana a WebGPU implementada (soporte desde v5.0). Fransson et al. (2024) en la IEEE Conference on Games demostraron que WebGPU como backend en motores de juego muestra tiempos de cuadro consistentemente mejores que WebGL, validando la estrategia de migración temprana de Babylon.js.
 
 \subparagraph{Desventajas} Tamaño de bundle mayor ($\sim$2MB minified), percepción de menor rendimiento en escenas ligeras comparado con Three.js, aunque recientes optimizaciones en v6.0 (2023) han reducido esta brecha.
 
@@ -50,7 +50,7 @@ La visualización 3D en la web ha evolucionado significativamente desde la intro
 
 \paragraph{PlayCanvas} PlayCanvas es una plataforma de desarrollo de juegos web con motor WebGL integrado y editor colaborativo en la nube desde 2011.
 
-\subparagraph{Ventajas} Editor en navegador con colaboración en tiempo real (similar a Google Docs pero para desarrollo de juegos), asset pipeline completo con optimización automática (compresión de texturas, bundling), deployment con un click a CDN global, tamaño de runtime pequeño (~500KB gzip).
+\subparagraph{Ventajas} Editor en navegador con colaboración en tiempo real (similar a Google Docs pero para desarrollo de juegos), asset \textit{pipeline} completo con optimización automática (compresión de texturas, bundling), deployment con un click a CDN global, tamaño de runtime pequeño (~500KB gzip).
 
 \subparagraph{Desventajas} Menor ecosistema de assets comparado con Unity/Unreal, curva de aprendizaje para desarrolladores acostumbrados a motores desktop-first, dependencia de plataforma cloud (aunque existe versión self-hosted open-source), documentación menos exhaustiva que Three.js para casos de uso técnicos avanzados.
 
@@ -82,7 +82,7 @@ PlayCanvas & 500KB & $<$2s & Built-in & JS & Total & Gratis/Pro \\ \hline
 
 \subparagraph{Spline/Marmoset/Sketchfab} Limitaciones de lógica custom (no permiten scripting de despiece paramétrico en C\# con control fino de interpolación).
 
-\subparagraph{Three.js/Babylon.js/PlayCanvas} Tiempo de desarrollo excesivo para implementar pipeline de optimización completo (Occlusion Culling automático, sistema LOD de 3 niveles, Asset Bundles con carga asíncrona) desde cero, estimado en $>$200 horas adicionales de ingeniería.
+\subparagraph{Three.js/Babylon.js/PlayCanvas} Tiempo de desarrollo excesivo para implementar \textit{pipeline} de optimización completo (Occlusion Culling automático, sistema LOD de 3 niveles, Asset Bundles con carga asíncrona) desde cero, estimado en $>$200 horas adicionales de ingeniería.
 
 \paragraph{Seleccionado Unity WebGL} Unity WebGL fue seleccionado por el equilibrio óptimo entre cuatro factores críticos:
 

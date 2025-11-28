@@ -1,6 +1,6 @@
 \section{Justificación}
 
-La elección de Unity WebGL sobre librerías nativas de JavaScript (Three.js, Babylon.js) o soluciones de streaming remoto (Unreal Pixel Streaming) no es arbitraria, sino que responde a requisitos cuantitativos de \textit{Computación de Alto Rendimiento (HPC)} en la web y necesidades del pipeline de arte técnico:
+La elección de Unity WebGL sobre librerías nativas de JavaScript (Three.js, Babylon.js) o soluciones de streaming remoto (Unreal Pixel Streaming) no es arbitraria, sino que responde a requisitos cuantitativos de \textit{Computación de Alto Rendimiento (HPC)} en la web y necesidades del \textit{pipeline} de arte técnico:
 
 \subsection{Criterios Técnicos de Selección}
 
@@ -8,7 +8,7 @@ La elección de Unity WebGL sobre librerías nativas de JavaScript (Three.js, Ba
 
 Unity utiliza el backend IL2CPP para transpilar código C\# a C++ y posteriormente a WebAssembly (WASM). Esto permite que la lógica de interacción y los cálculos físicos se ejecuten a velocidad casi nativa, evitando la sobrecarga del \textit{Garbage Collector} de JavaScript que causa micro-congelamientos (frame drops) en aplicaciones complejas. Según documentación oficial de Unity (2024), IL2CPP elimina pauses de GC que en JavaScript pueden exceder 16ms, causando caída por debajo de 60 FPS.
 
-\subsubsection{Pipeline de Assets Robusto}
+\subsubsection{\textit{Pipeline} de Assets Robusto}
 
 A diferencia de Three.js que requiere construcción manual de cargadores y gestores de memoria, Unity ofrece un sistema integrado de \textit{Asset Bundles} y compresión de texturas (ASTC/ETC2) esencial para garantizar que el prototipo se mantenga dentro del presupuesto de memoria de 50MB iniciales, permitiendo carga progresiva (Progressive Loading) de assets de alta resolución en segundo plano.
 
@@ -23,12 +23,16 @@ El flujo de trabajo requiere colaboración entre programadores y artistas técni
 \subsubsection{Escalabilidad Industrial}
 
 El uso de un motor comercial estandariza el flujo de trabajo, permitiendo que el prototipo (MVP) sea mantenible y escalable, alineándose con las prácticas de la Industria 4.0. El proyecto puede evolucionar a aplicación de producción sin cambiar stack tecnológico.
+    
+\subsubsection{Ventana de Oportunidad Tecnológica}
+
+La convergencia actual de tecnologías web de bajo nivel (WebAssembly) y pipelines de renderizado modernos (PBR en WebGL 2.0) abre una ventana de oportunidad única para democratizar la visualización técnica. Este proyecto se justifica no solo por la optimización de recursos, sino por su capacidad de \textbf{validar empíricamente} que la web es un entorno viable para aplicaciones de ingeniería de precisión, desafiando la noción de que el CAD/CAM debe permanecer confinado a estaciones de trabajo de escritorio.
 
 \subsection{Aporte a la Ingeniería Multimedia}
 
 Este proyecto aporta al campo de la Ingeniería Multimedia al:
 \begin{itemize}
-    \item documentar un pipeline técnico replicable para la optimización de activos CAD a WebGL
+    \item documentar un \textit{pipeline} técnico replicable para la optimización de activos CAD a WebGL
     \item validar el rol del ingeniero multimedia como puente entre la complejidad técnica y la experiencia de usuario final
     \item generar conocimiento sobre métricas cuantitativas (KPIs) para rendimiento en Web 3D
     \item aplicar teoría cognitiva (Mayer, Paivio) a casos de uso reales de ingeniería

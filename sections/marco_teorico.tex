@@ -2,7 +2,7 @@
 
 El diseño, desarrollo y evaluación de la plataforma web 3D se fundamenta en un marco teórico multidisciplinario que integra conocimientos de la ingeniería, el diseño, la psicología cognitiva y la computación gráfica.
 
-\paragraph{Hipótesis de Usabilidad (Carga Cognitiva).} ``La visualización 3D interactiva reduce la carga cognitiva intrínseca comparada con imágenes 2D estáticas para la comprensión de estructura interna''.
+\paragraph{Hipótesis de Usabilidad (Carga Cognitiva).} ``La visualización 3D interactiva gestiona la carga cognitiva intrínseca mediante segmentación y reduce drásticamente la carga extrínseca comparada con imágenes 2D estáticas''.
 
 \textit{Métrica de validación}: Comparación de tiempo de comprensión y tasa de error en pruebas con usuarios (A/B test: 3D vs 2D).
 
@@ -31,6 +31,7 @@ Para este proyecto, controles orbitales (arcball rotation) siguen principios de 
 \begin{itemize}
     \item Rotación Constrained: Restringida a ejes Y (yaw) y X (pitch), eliminando roll no intuitivo.
     \item Punto de Enfoque Fijo: El centro del objeto permanece anclado (world origin), evitando deriva orbital.
+    \item Punto de Pivote Dinámico: Recentrado automático de la cámara al hacer doble click en un componente (hotspot), facilitando la inspección local detallada sin perder el contexto global.
     \item Suavizado de Movimiento: Interpolación ease-out (función cuadrática) reduce mareo cibernético.
 \end{itemize}
 
@@ -66,16 +67,16 @@ Investigación reciente de Bartlett \& Dorribo Camba (2023) en \textit{Spatial C
 \subsubsection{Fundamentos Matemáticos de Optimización Gráfica}
 
 \paragraph{Presupuesto Poligonal.}
-$$P_{total} = \sum_{i=1}^{n} P_i \leq 50,000 \text{ triángulos}$$
+$$P_{total} = \sum_{i=1}^{n} P_i \leq 100,000 \text{ triángulos}$$
 donde $P_i$ es el conteo de polígonos del modelo $i$ (Akenine-Möller et al., 2018, Cap. 18).
 
 \paragraph{Densidad de Texel Consistente.}
 $$\rho = \frac{R_{texture}}{A_{UV}} = 10.24 \frac{px}{cm}$$
 
-\paragraph{Reducción de Draw Calls (GPU Instancing).}
+\paragraph{Reducción de \textit{Draw Calls} (GPU Instancing).}
 $$D_{optimizado} = \frac{D_{original}}{N_{instances}}$$
 
-\paragraph{Frame Time Budget.}
+\paragraph{\textit{Frame Time} Budget.}
 $$T_{frame} = T_{CPU} + T_{GPU} < 33.33ms$$
 
 \subsubsection{Modelo Matemático de Renderizado Físicamente Basado (PBR)}
@@ -103,5 +104,13 @@ donde $\alpha = roughness^2$.
 \end{itemize}
 
 Garantiza conservación de energía: $E_{reflected} + E_{absorbed} = E_{incident}$.
+
+\paragraph{Iluminación Basada en Imágenes (IBL).}
+Para lograr realismo fotográfico en tiempo real sin el costo computacional del Ray Tracing, se utiliza IBL (Karis, 2013). Esta técnica aproxima la integral de iluminación ambiental convolucionando un mapa de entorno HDR (High Dynamic Range) en dos componentes pre-calculados:
+\begin{itemize}
+    \item \textit{Irradiance Map}: Para la componente difusa (baja frecuencia).
+    \item \textit{Pre-filtered Environment Map}: Para la componente especular (variable según roughness).
+\end{itemize}
+Esto permite reflejos complejos y luz ambiental coherente con un costo de rendimiento constante $O(1)$ por píxel, independiente de la complejidad de la iluminación.
 
 \newpage
