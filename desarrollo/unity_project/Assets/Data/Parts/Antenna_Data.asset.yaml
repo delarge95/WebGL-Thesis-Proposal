@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: PLACEHOLDER_GUID, type: 3}
+  m_Name: Antenna_Data
+  m_EditorClassIdentifier: 
+  id: ant-001
+  partName: RHCP Antenna (5.8GHz)
+  category: Electronics
+  description: Right-hand circular polarized pagoda antenna for 5.8GHz video transmission. Provides excellent signal quality and multipath rejection.
+  weight: 6.5
+  dimensions: 25 x 25 x 45 mm
+  material: Brass / PCB / Plastic Housing
+  partType: 4
+  materialProperties:
+    primaryColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    roughness: 0.3
+    metallic: 0.7
+  requiredTools:
+    - RP-SMA Wrench (optional)
+  safetyWarnings:
+    - Fragile - handle with care
+    - Do not bend antenna elements
+    - Verify RHCP/LHCP matches your goggles
+  installationTips:
+    - Point antenna rearward and upward
+    - Use 90-degree adapter if needed
+    - Keep away from carbon fiber frame
+    - Secure cable to prevent vibration damage
+  installationTimeMinutes: 2
+  difficultyLevel: 1
+  torqueSpec: Hand tight
+  assemblyOrder: 8
+  prerequisites:
+    - vtx-001
+  connectionTypes:
+    - RP-SMA
+  screwCount: 0
+  screwSize: 

@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: PLACEHOLDER_GUID, type: 3}
+  m_Name: GPS_Data
+  m_EditorClassIdentifier: 
+  id: gps-001
+  partName: GPS Module (M10)
+  category: Electronics
+  description: Ublox M10 GPS module with integrated compass, supporting GPS, GLONASS, Galileo, and BeiDou. Enables return-to-home and position hold.
+  weight: 10.0
+  dimensions: 35 x 35 x 8 mm
+  material: FR4 PCB / Ceramic Antenna Patch
+  partType: 4
+  materialProperties:
+    primaryColor: {r: 0.05, g: 0.2, b: 0.05, a: 1}
+    roughness: 0.7
+    metallic: 0.1
+  requiredTools:
+    - Hex Key 2mm
+    - GPS Mast (optional)
+  safetyWarnings:
+    - Mount away from high-current wires (interferes with compass)
+    - Ceramic patch is fragile - don't press on it
+    - Requires clear sky view to function
+  installationTips:
+    - Mount on GPS mast above frame if possible
+    - Keep at least 5cm from ESC/motors
+    - Arrow on module points forward
+    - Calibrate compass after installation
+  installationTimeMinutes: 10
+  difficultyLevel: 2
+  torqueSpec: 0.2 Nm
+  assemblyOrder: 9
+  prerequisites:
+    - body-001
+    - fc-001
+  connectionTypes:
+    - Screw
+    - JST
+  screwCount: 2
+  screwSize: M2x5
