@@ -1,0 +1,17 @@
+{
+    "name": "UI",
+    "rootNamespace": "WebGL.UI",
+    "references": [
+        "GUID:YOUR_CORE_GUID_HERE",
+        "Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

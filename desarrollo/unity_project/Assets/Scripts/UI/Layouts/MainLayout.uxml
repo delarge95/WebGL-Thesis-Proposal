@@ -1,0 +1,21 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Style src="../Styles/MainLayout.uss" />
+    
+    <ui:VisualElement name="Root" class="root">
+        <!-- Header -->
+        <ui:VisualElement name="Header" class="header">
+            <ui:Label text="Drone Viewer Pro" class="title-label" />
+            <ui:Button text="Explode View" name="ExplodeBtn" class="button-primary" />
+        </ui:VisualElement>
+
+        <!-- Details Panel (Right Side) -->
+        <ui:VisualElement name="DetailsPanel" class="glass-panel details-panel">
+            <ui:Label text="Component Details" class="title-label" style="font-size: 18px; margin-bottom: 10px;" />
+            <ui:Label text="Select a part to view details..." name="DescriptionLabel" style="color: rgb(200, 200, 200); white-space: normal;" />
+            
+            <ui:VisualElement style="flex-grow: 1;" />
+            
+            <ui:Button text="Focus" name="FocusBtn" class="button-primary" style="background-color: rgba(255, 100, 0, 0.8);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

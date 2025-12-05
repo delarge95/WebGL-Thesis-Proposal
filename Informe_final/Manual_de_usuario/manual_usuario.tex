@@ -1,0 +1,267 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{times}
+\usepackage[margin=2.54cm]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{xcolor}
+
+% Header/Footer
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Manual de Usuario - Prototipo Web 3D}
+\lhead{Ingeniería Multimedia - UNAD}
+\rfoot{Página \thepage}
+
+\title{\textbf{Manual de Usuario}\\Prototipo Web 3D Interactivo para Visualización Técnica de Drones}
+\author{Alexander Woodcock Salomón}
+\date{Diciembre 2025}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introducción}
+Bienvenido al prototipo Web 3D interactivo para visualización técnica de drones. Este sistema le permite explorar, analizar y aprender sobre la estructura y componentes de drones de alto rendimiento directamente desde su navegador web, sin necesidad de instalar software adicional.
+
+\subsection{¿Para Quién es Este Manual?}
+\begin{itemize}
+    \item \textbf{Ingenieros de Ensamblaje:} Guías paso a paso con herramientas de medición y anotaciones.
+    \item \textbf{Estudiantes de Ingeniería:} Exploración interactiva de componentes con información técnica detallada.
+    \item \textbf{Técnicos de Mantenimiento:} Vistas de despiece, puntos de conexión y especificaciones de torque.
+    \item \textbf{Público General:} Navegación intuitiva para comprender la estructura de drones.
+\end{itemize}
+
+\section{Requisitos del Sistema}
+
+\subsection{Hardware Mínimo}
+\begin{itemize}
+    \item \textbf{Dispositivo:} PC, Laptop, Tablet o Smartphone (gama media-alta)
+    \item \textbf{RAM:} 4 GB mínimo, 8 GB recomendado
+    \item \textbf{GPU:} Compatible con WebGL 2.0
+\end{itemize}
+
+\subsection{Software}
+\begin{itemize}
+    \item \textbf{Navegador:} Chrome 90+ (recomendado), Firefox 90+, Edge 90+, Safari 15+
+    \item \textbf{Conexión:} Banda ancha (5+ Mbps) para carga inicial
+\end{itemize}
+
+\section{Acceso al Sistema}
+\begin{enumerate}
+    \item Abra su navegador web preferido
+    \item Ingrese a la URL: \url{https://[ENLACE\_DEL\_PROTOTIPO]}
+    \item Espere a que la barra de progreso complete la carga inicial
+    \item El modelo 3D aparecerá automáticamente
+\end{enumerate}
+
+\section{Navegación Básica}
+
+\subsection{Controles de Cámara}
+\begin{tabular}{|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Acción} & \textbf{Mouse/Teclado} & \textbf{Táctil} \\
+\hline
+Rotar vista & Clic izq. + arrastrar & Un dedo + arrastrar \\
+\hline
+Panorámica (Pan) & Clic der. + arrastrar & Dos dedos + arrastrar \\
+\hline
+Zoom & Rueda del mouse & Gesto de pinza \\
+\hline
+Reset cámara & Tecla R & Botón Reset \\
+\hline
+\end{tabular}
+
+\subsection{Atajos de Teclado}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Tecla} & \textbf{Función} \\
+\hline
+1-6 & Vistas predefinidas (Frente, Atrás, Izq., Der., Arriba, Isométrica) \\
+\hline
+E & Activar/desactivar vista explosionada \\
+\hline
+R & Resetear vista de cámara \\
+\hline
+Esc & Volver a modo exploración \\
+\hline
+F3 & Mostrar/ocultar métricas de rendimiento \\
+\hline
+F12 & Capturar pantalla \\
+\hline
+Ctrl + / - & Aumentar/reducir escala de UI \\
+\hline
+\end{tabular}
+
+\section{Modos de Visualización}
+
+El sistema ofrece 7 modos de visualización diferentes, accesibles desde la barra de herramientas inferior:
+
+\begin{enumerate}
+    \item \textbf{Realista:} Materiales originales con iluminación PBR
+    \item \textbf{Rayos X:} Vista semi-transparente para ver componentes internos
+    \item \textbf{Blueprint:} Estilo de plano técnico azul
+    \item \textbf{Color Sólido:} Un solo color configurable para todas las piezas
+    \item \textbf{Wireframe:} Solo las líneas de la geometría
+    \item \textbf{Fantasma:} Versión muy transparente del modelo
+    \item \textbf{Térmico:} Simulación de vista térmica
+\end{enumerate}
+
+\section{Exploración de Piezas}
+
+\subsection{Seleccionar una Pieza}
+\begin{enumerate}
+    \item Haga clic sobre cualquier componente del dron
+    \item La pieza se resaltará visualmente
+    \item Aparecerá el panel de información a la derecha
+\end{enumerate}
+
+\subsection{Panel de Información}
+Al seleccionar una pieza, verá:
+\begin{itemize}
+    \item Nombre y tipo de componente
+    \item Descripción de su función
+    \item Peso y dimensiones
+    \item Tipo de material y propiedades
+    \item Botones de acción: Ocultar, Aislar, Enfocar
+\end{itemize}
+
+\subsection{Catálogo de Piezas}
+Acceda al catálogo completo desde el botón "Catálogo" en la barra de herramientas:
+\begin{itemize}
+    \item \textbf{Búsqueda:} Escriba el nombre de cualquier pieza
+    \item \textbf{Filtrado:} Por categoría (Estructura, Propulsión, Electrónica, Sensores)
+    \item \textbf{Visibilidad:} Toggle de ojo para ocultar/mostrar cada pieza
+\end{itemize}
+
+\section{Vista Explosionada (Despiece)}
+
+\subsection{Activar Vista Explosionada}
+\begin{enumerate}
+    \item Presione el botón "Explode" en la barra de herramientas
+    \item Use el deslizador para controlar el nivel de separación
+    \item Las piezas se separan animadamente según su orden de ensamblaje
+\end{enumerate}
+
+\subsection{Interactuar en Vista Explosionada}
+\begin{itemize}
+    \item Las piezas siguen siendo seleccionables
+    \item La información técnica permanece accesible
+    \item Puede combinar con otros modos de visualización
+\end{itemize}
+
+\section{Cortes Transversales}
+
+La herramienta de corte transversal permite ver el interior del dron:
+\begin{enumerate}
+    \item Presione el botón de tijera en la barra de herramientas
+    \item Seleccione el eje de corte (X, Y o Z)
+    \item Ajuste la posición del plano de corte con el deslizador
+    \item Active "Invertir" para cambiar la dirección del corte
+\end{enumerate}
+
+\section{Encendido del Dron (Simulación)}
+
+Simule el funcionamiento del dron:
+\begin{enumerate}
+    \item Presione el botón de encendido (Power)
+    \item Observe la secuencia de arranque:
+    \begin{itemize}
+        \item Las luces cambian de rojo a verde
+        \item Las hélices comienzan a girar
+        \item Se activan los efectos de partículas
+    \end{itemize}
+    \item En modo "Volando", el dron simula movimiento de hover
+    \item Presione nuevamente para apagar
+\end{enumerate}
+
+\section{Herramientas de Ingeniero}
+
+Acceda desde el botón de herramientas (llave inglesa) en la esquina superior derecha:
+
+\subsection{Herramienta de Medición}
+\begin{itemize}
+    \item \textbf{Distancia:} Mida entre dos puntos
+    \item \textbf{Ángulo:} Mida ángulos entre tres puntos
+    \item \textbf{Radio:} Mida radios, circunferencias y áreas
+\end{itemize}
+Haga clic para colocar puntos. Presione Esc para cancelar.
+
+\subsection{Puntos de Conexión}
+Visualice dónde se conectan las piezas:
+\begin{itemize}
+    \item Puntos de tornillo (gris)
+    \item Conexiones snap (verde)
+    \item Soldaduras (naranja)
+    \item Cables (azul)
+\end{itemize}
+
+\subsection{Anotaciones}
+Añada notas directamente sobre el modelo 3D para documentación o colaboración.
+
+\subsection{Guía de Ensamblaje}
+Siga instrucciones paso a paso para ensamblar el dron:
+\begin{itemize}
+    \item Navegue entre pasos con Anterior/Siguiente
+    \item Vea herramientas requeridas y tiempos estimados
+    \item Marque pasos como completados
+    \item Las piezas relevantes se resaltan automáticamente
+\end{itemize}
+
+\subsection{Lista de Materiales (BOM)}
+Consulte la lista completa de piezas con cantidades y pesos totales.
+
+\subsection{Lista de Verificación}
+Verifique cada pieza durante el ensamblaje real del dron.
+
+\section{Configuración y Accesibilidad}
+
+Acceda a Configuración desde el menú:
+\begin{itemize}
+    \item \textbf{Volumen:} Ajuste audio maestro, efectos y música
+    \item \textbf{Escala UI:} Aumente o reduzca el tamaño de la interfaz
+    \item \textbf{Alto Contraste:} Active para mejor visibilidad
+    \item \textbf{Reducir Movimiento:} Desactive animaciones para sensibilidades
+\end{itemize}
+
+\section{Solución de Problemas}
+
+\subsection{El modelo no carga}
+\begin{itemize}
+    \item Verifique su conexión a internet
+    \item Actualice su navegador a la última versión
+    \item Visite \url{https://get.webgl.org/} para verificar compatibilidad WebGL
+    \item Recargue la página (F5 o Ctrl+R)
+\end{itemize}
+
+\subsection{Rendimiento lento}
+\begin{itemize}
+    \item Cierre otras pestañas y aplicaciones pesadas
+    \item En portátiles, conecte a la corriente eléctrica
+    \item El sistema ajusta automáticamente la calidad; espere unos segundos
+    \item Presione F3 para ver las métricas de rendimiento
+\end{itemize}
+
+\subsection{Audio no funciona}
+\begin{itemize}
+    \item Verifique que el navegador permita audio automático
+    \item Haga clic en cualquier parte de la aplicación para activar audio
+    \item Revise el volumen en Configuración
+\end{itemize}
+
+\section{Soporte y Contacto}
+
+Para reportar errores, sugerencias o solicitar ayuda:
+
+\textbf{Correo:} awoodcocks@unadvirtual.edu.co
+
+\textbf{Repositorio:} \url{https://github.com/[usuario]/webgl-drone-viewer}
+
+\end{document}
