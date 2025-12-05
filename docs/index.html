@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
   
   <style>
     /* ==========================================
@@ -806,34 +807,26 @@
     </div>
     
     <div class="docs-grid">
-      <a href="./manual_usuario.pdf" class="doc-card" data-hover>
+      <a href="./DEMO_SCRIPT.md" class="doc-card" data-hover>
         <div class="doc-icon">📖</div>
         <div class="doc-info">
-          <h4>Manual de Usuario</h4>
-          <p>Guía completa de uso del visor 3D</p>
-        </div>
-        <span class="doc-arrow">↗</span>
-      </a>
-      <a href="./manual_tecnico.pdf" class="doc-card" data-hover>
-        <div class="doc-icon">⚙️</div>
-        <div class="doc-info">
-          <h4>Manual Técnico</h4>
-          <p>Arquitectura, código y APIs</p>
+          <h4>Demo Script</h4>
+          <p>Guía de presentación en vivo</p>
         </div>
         <span class="doc-arrow">↗</span>
       </a>
       <a href="./ARCHITECTURE.md" class="doc-card" data-hover>
-        <div class="doc-icon">🏗️</div>
+        <div class="doc-icon">⚙️</div>
         <div class="doc-info">
           <h4>Arquitectura</h4>
-          <p>Diagramas y patrones de diseño</p>
+          <p>Patrones y estructura del código</p>
         </div>
         <span class="doc-arrow">↗</span>
       </a>
       <a href="./DEPLOYMENT_GUIDE.md" class="doc-card" data-hover>
         <div class="doc-icon">🚀</div>
         <div class="doc-info">
-          <h4>Guía de Deployment</h4>
+          <h4>Deployment Guide</h4>
           <p>GitHub Pages, Vercel, Netlify</p>
         </div>
         <span class="doc-arrow">↗</span>
@@ -862,11 +855,19 @@
         </div>
         <span class="doc-arrow">↗</span>
       </a>
-      <a href="./NASA_TLX.md" class="doc-card" data-hover>
+      <a href="./CUESTIONARIO_NASA_TLX.md" class="doc-card" data-hover>
         <div class="doc-icon">🧠</div>
         <div class="doc-info">
           <h4>NASA-TLX</h4>
           <p>Carga cognitiva</p>
+        </div>
+        <span class="doc-arrow">↗</span>
+      </a>
+      <a href="https://github.com/delarge95/WebGL_tesis" class="doc-card" data-hover>
+        <div class="doc-icon">📂</div>
+        <div class="doc-info">
+          <h4>Repositorio</h4>
+          <p>Código fuente completo</p>
         </div>
         <span class="doc-arrow">↗</span>
       </a>
@@ -967,7 +968,7 @@
     // Wait for DOM
     document.addEventListener('DOMContentLoaded', () => {
       // Register GSAP plugins
-      gsap.registerPlugin(ScrollTrigger);
+      gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
       // Preloader
       const preloader = document.getElementById('preloader');
