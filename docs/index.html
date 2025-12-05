@@ -329,6 +329,30 @@
           <span>Arquitectura del Sistema</span>
           <span class="link-arrow">→</span>
         </a>
+        <a href="./DEPLOYMENT_GUIDE.md" class="link-item">
+          <span>Guía de Despliegue</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./WEBGL_BUILD_SETTINGS.md" class="link-item">
+          <span>Configuración WebGL</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./AUDIO_REQUIREMENTS.md" class="link-item">
+          <span>Assets de Audio</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./CUESTIONARIO_SUS.md" class="link-item">
+          <span>Validación SUS</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./CUESTIONARIO_NASA_TLX.md" class="link-item">
+          <span>Validación NASA-TLX</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./DEMO_SCRIPT.md" class="link-item">
+          <span>Guía de Demo</span>
+          <span class="link-arrow">→</span>
+        </a>
         <a href="https://github.com/delarge95/WebGL_tesis" class="link-item" target="_blank">
           <span>Repositorio GitHub</span>
           <span class="link-arrow">→</span>
@@ -374,7 +398,21 @@
         ease: "sine.inOut"
       });
 
-      // 3. SEAMLESS TRANSITION LOGIC
+      // 3. SCROLL "SPEED BUMP" (Pinning Effect)
+      // Pins the hero section while content moves up, creating a "heavy" scroll feel
+      ScrollTrigger.create({
+        trigger: ".hero",
+        start: "top top",
+        end: "+=500", // The distance of the "speed bump"
+        pin: true,
+        scrub: 1,
+        animation: gsap.timeline()
+          .to(heroContent, { y: -100, opacity: 0, scale: 0.9 }) // Content moves up and fades
+          .to(heroGraphic, { y: -50, opacity: 0.5, scale: 0.8 }, "<") // Graphic moves slower (parallax)
+          .to(scrollHint, { opacity: 0 }, "<")
+      });
+
+      // 4. SEAMLESS TRANSITION LOGIC
       btnStart.addEventListener('click', () => {
         
         // A. Lock Scroll
@@ -400,7 +438,7 @@
           
       });
 
-      // 4. EXIT LOGIC
+      // 5. EXIT LOGIC
       btnExit.addEventListener('click', () => {
         
         // A. Unlock Scroll
@@ -424,7 +462,7 @@
           .to(scrollHint, { opacity: 1, duration: 0.5 }, "-=1.0");
       });
 
-      // 5. Scroll Animations for Info Sections
+      // 6. Scroll Animations for Info Sections
       gsap.utils.toArray('.info-section').forEach(section => {
         gsap.from(section.querySelectorAll('.grid-item, .link-item'), {
           opacity: 0,
