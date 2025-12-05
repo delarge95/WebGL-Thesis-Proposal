@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: PLACEHOLDER_GUID, type: 3}
+  m_Name: Camera_FPV_Data
+  m_EditorClassIdentifier: 
+  id: cam-fpv-001
+  partName: FPV Camera
+  category: Electronics
+  description: Low-latency 1200TVL CCD camera with 2.1mm lens, 160-degree FOV. Ideal for FPV racing and freestyle.
+  weight: 14.0
+  dimensions: 19 x 19 x 21 mm
+  material: Aluminum Housing / Glass Lens
+  partType: 4
+  materialProperties:
+    primaryColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    roughness: 0.4
+    metallic: 0.6
+  requiredTools:
+    - Hex Key 2mm
+    - Soldering Iron
+    - Camera Angle Gauge
+  safetyWarnings:
+    - Lens is fragile - handle carefully
+    - Do not expose sensor directly to sunlight
+    - ESD sensitive component
+  installationTips:
+    - Set camera angle between 25-35 degrees for freestyle
+    - Secure wires away from propeller path
+    - Use vibration damping mount if needed
+  installationTimeMinutes: 10
+  difficultyLevel: 3
+  torqueSpec: 0.2 Nm
+  assemblyOrder: 6
+  prerequisites:
+    - body-001
+  connectionTypes:
+    - Screw
+    - Solder
+  screwCount: 2
+  screwSize: M2x6

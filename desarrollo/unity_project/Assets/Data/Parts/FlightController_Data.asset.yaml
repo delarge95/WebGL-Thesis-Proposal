@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: PLACEHOLDER_GUID, type: 3}
+  m_Name: FlightController_Data
+  m_EditorClassIdentifier: 
+  id: fc-001
+  partName: Flight Controller
+  category: Electronics
+  description: F7 flight controller with integrated OSD, blackbox logging, and support for 8 PWM outputs. Runs Betaflight firmware.
+  weight: 8.5
+  dimensions: 36 x 36 x 6 mm
+  material: FR4 PCB / Electronic Components
+  partType: 4
+  materialProperties:
+    primaryColor: {r: 0.05, g: 0.15, b: 0.05, a: 1}
+    roughness: 0.7
+    metallic: 0.3
+  requiredTools:
+    - Hex Key 2mm
+    - Soldering Iron
+    - USB Cable
+    - Betaflight Configurator
+  safetyWarnings:
+    - ESD sensitive - ground yourself before handling
+    - Never power on without propellers removed during configuration
+    - Verify motor direction before flight
+  installationTips:
+    - Use soft mounting grommets to reduce vibration
+    - Keep gyro away from ESC and motor wires
+    - Flash latest firmware before installation
+  installationTimeMinutes: 20
+  difficultyLevel: 4
+  torqueSpec: 0.3 Nm
+  assemblyOrder: 3
+  prerequisites:
+    - body-001
+  connectionTypes:
+    - Screw
+    - Solder
+  screwCount: 4
+  screwSize: M3x6
