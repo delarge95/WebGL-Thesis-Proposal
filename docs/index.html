@@ -69,10 +69,38 @@
       z-index: 10;
     }
 
+    .doc-nav-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn-nav-doc {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .btn-nav-doc:hover { border-color: var(--text-main); color: var(--text-main); }
+    .btn-nav-doc:disabled { opacity: 0.3; cursor: not-allowed; }
+
     .doc-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.2rem;
+      font-size: 1rem;
       color: var(--text-main);
+      text-align: center;
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    @media (min-width: 768px) {
+      .doc-title { font-size: 1.2rem; max-width: 500px; }
     }
 
     .btn-close-doc {
@@ -86,6 +114,22 @@
       transition: all 0.2s;
     }
     .btn-close-doc:hover { border-color: var(--text-main); color: var(--text-main); }
+
+    /* GitHub Link Style */
+    .link-item.github-link {
+      margin-top: 1rem;
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.02);
+    }
+    .link-item.github-link:hover {
+      border-color: var(--text-main);
+      background: rgba(255,255,255,0.05);
+    }
+    .github-icon { width: 20px; height: 20px; fill: currentColor; margin-right: 0.5rem; }
+
+    /* ... */
 
     .doc-content {
       flex: 1;
@@ -425,6 +469,10 @@
   <div class="doc-overlay" id="docOverlay">
     <div class="doc-modal">
       <div class="doc-header">
+        <div class="doc-nav-group">
+          <button class="btn-nav-doc" id="prevDoc" aria-label="Anterior">←</button>
+          <button class="btn-nav-doc" id="nextDoc" aria-label="Siguiente">→</button>
+        </div>
         <span class="doc-title" id="docTitle">Documento</span>
         <button class="btn-close-doc" id="btnCloseDoc">✕</button>
       </div>
@@ -437,10 +485,209 @@
 
   <div class="content-wrapper">
     
-    <!-- Features -->
+    <!-- ... -->
+
+    <!-- Documentation -->
     <section class="info-section container">
       <div class="section-header">
-        <h2 class="section-title">Capacidades</h2>
+        <h2 class="section-title">Documentación</h2>
+      </div>
+      <div class="link-list" id="docLinksList">
+        <a href="./manuals/manual_usuario.md" class="link-item doc-trigger">
+          <span>Manual de Usuario</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./manuals/manual_tecnico.md" class="link-item doc-trigger">
+          <span>Manual Técnico</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./manuals/ARCHITECTURE.md" class="link-item doc-trigger">
+          <span>Arquitectura del Sistema</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./manuals/DEPLOYMENT_GUIDE.md" class="link-item doc-trigger">
+          <span>Guía de Despliegue</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./manuals/WEBGL_BUILD_SETTINGS.md" class="link-item doc-trigger">
+          <span>Configuración WebGL</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./manuals/AUDIO_REQUIREMENTS.md" class="link-item doc-trigger">
+          <span>Assets de Audio</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./manuals/CUESTIONARIO_SUS.md" class="link-item doc-trigger">
+          <span>Validación SUS</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./manuals/CUESTIONARIO_NASA_TLX.md" class="link-item doc-trigger">
+          <span>Validación NASA-TLX</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./manuals/DEMO_SCRIPT.md" class="link-item doc-trigger">
+          <span>Guía de Demo</span>
+          <span class="link-arrow">→</span>
+        </a>
+        
+        <a href="https://github.com/delarge95/WebGL_tesis" class="link-item github-link" target="_blank">
+          <div style="display: flex; align-items: center;">
+            <svg class="github-icon" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            <span>Repositorio GitHub</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+      </div>
+    </section>
+    
+    <!-- ... -->
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose' });
+
+      // ... (Existing logic intro/app) ...
+      
+      // Doc Viewer Elements
+      const docOverlay = document.getElementById('docOverlay');
+      const btnCloseDoc = document.getElementById('btnCloseDoc');
+      const docContent = document.getElementById('docContent');
+      const docTitleLabel = document.getElementById('docTitle');
+      
+      const btnPrevDoc = document.getElementById('prevDoc');
+      const btnNextDoc = document.getElementById('nextDoc');
+      
+      let docLinks = []; // Will store valid doc links
+      let currentDocIndex = -1;
+
+      // Extract doc links dynamically
+      const docLinkElements = Array.from(document.querySelectorAll('.doc-trigger'));
+      docLinks = docLinkElements.map(el => ({
+        url: el.getAttribute('href'),
+        title: el.querySelector('span').innerText
+      }));
+
+      // Click Handlers for Links
+      docLinkElements.forEach((link, index) => {
+        link.addEventListener('click', async (e) => {
+          e.preventDefault();
+          currentDocIndex = index;
+          updateNavButtons();
+          openDocViewer(docLinks[index].title);
+          await loadMarkdown(docLinks[index].url);
+        });
+      });
+
+      // Navigation Buttons
+      btnPrevDoc.addEventListener('click', () => navigateDoc(-1));
+      btnNextDoc.addEventListener('click', () => navigateDoc(1));
+
+      async function navigateDoc(direction) {
+        const newIndex = currentDocIndex + direction;
+        if (newIndex >= 0 && newIndex < docLinks.length) {
+          currentDocIndex = newIndex;
+          const doc = docLinks[currentDocIndex];
+          updateNavButtons();
+          docTitleLabel.innerText = doc.title;
+          
+          // Slight fade out/in effect
+          docContent.style.opacity = '0.5';
+          await loadMarkdown(doc.url);
+          docContent.style.opacity = '1';
+        }
+      }
+
+      function updateNavButtons() {
+        btnPrevDoc.disabled = currentDocIndex <= 0;
+        btnNextDoc.disabled = currentDocIndex >= docLinks.length - 1;
+        btnPrevDoc.style.opacity = btnPrevDoc.disabled ? '0.3' : '1';
+        btnNextDoc.style.opacity = btnNextDoc.disabled ? '0.3' : '1';
+      }
+
+      // Touch / Swipe Logic
+      let touchStartX = 0;
+      let touchEndX = 0;
+      
+      docContent.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+      docContent.addEventListener('touchend', e => { 
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      }, {passive: true});
+
+      function handleSwipe() {
+        const swipeThreshold = 50;
+        if (touchEndX < touchStartX - swipeThreshold) navigateDoc(1); // Swipe Left -> Next
+        if (touchEndX > touchStartX + swipeThreshold) navigateDoc(-1); // Swipe Right -> Prev
+      }
+
+      // Functions
+      function openDocViewer(title) {
+        docTitleLabel.innerText = title;
+        docContent.innerHTML = '<div style="text-align: center; padding: 4rem;">Cargando documento...</div>';
+        docOverlay.classList.add('active');
+        document.body.classList.add('no-scroll');
+      }
+
+      function closeDocViewer() {
+        docOverlay.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+        setTimeout(() => { docContent.innerHTML = ''; }, 400);
+      }
+
+      btnCloseDoc.addEventListener('click', closeDocViewer);
+      
+      docOverlay.addEventListener('click', (e) => { if (e.target === docOverlay) closeDocViewer(); });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+           if (docOverlay.classList.contains('active')) closeDocViewer();
+        }
+        // Arrow keys navigation
+        if (docOverlay.classList.contains('active')) {
+          if (e.key === 'ArrowLeft') navigateDoc(-1);
+          if (e.key === 'ArrowRight') navigateDoc(1);
+        }
+      });
+
+      async function loadMarkdown(url) {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          const text = await response.text();
+          
+          const html = DOMPurify.sanitize(marked.parse(text));
+          docContent.innerHTML = html;
+
+          // Mermaid Render
+          const mermaidBlocks = docContent.querySelectorAll('code.language-mermaid');
+          if (mermaidBlocks.length > 0) {
+             mermaidBlocks.forEach((block, index) => {
+               const pre = block.parentElement;
+               const div = document.createElement('div');
+               div.className = 'mermaid';
+               div.textContent = block.textContent;
+               div.id = `mermaid-${index}`;
+               pre.replaceWith(div);
+             });
+             await mermaid.run({ querySelector: '.mermaid' });
+          }
+        } catch (err) {
+          docContent.innerHTML = `<div style="text-align: center; color: #ef4444; padding: 4rem;">
+            <h3>Error de Carga</h3>
+            <p>${err.message}</p>
+            <br>
+            <p style="font-size: 0.9em; color: var(--text-muted);">
+              <strong>NOTA IMPORTANTE:</strong><br>
+              Si estás viendo esto localmente (file://), los navegadores bloquean la carga de archivos por seguridad.<br>
+              Por favor usa un servidor local (ej. VS Code Live Server, python -m http.server) o súbelo a GitHub Pages.
+            </p>
+          </div>`;
+        }
+      }
+
+    });
+  </script>        <h2 class="section-title">Capacidades</h2>
       </div>
       <div class="grid-minimal">
         <div class="grid-item">
@@ -492,11 +739,11 @@
         <h2 class="section-title">Documentación</h2>
       </div>
       <div class="link-list">
-        <a href="../Informe_final/Manual_de_usuario/manual_usuario.md" class="link-item">
+        <a href="./manuals/manual_usuario.md" class="link-item">
           <span>Manual de Usuario</span>
           <span class="link-arrow">→</span>
         </a>
-        <a href="../Informe_final/Manual_tecnico/manual_tecnico.md" class="link-item">
+        <a href="./manuals/manual_tecnico.md" class="link-item">
           <span>Manual Técnico</span>
           <span class="link-arrow">→</span>
         </a>
