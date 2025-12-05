@@ -8,8 +8,8 @@
 | Aspecto | Detalle |
 |---------|---------|
 | **Duración Total** | 24 semanas (6 meses) |
-| **Fecha Inicio** | Julio 2024 |
-| **Fecha Fin** | Diciembre 2024 |
+| **Fecha Inicio** | Julio 2025 |
+| **Fecha Fin** | Diciembre 2025 |
 | **Metodología** | Design Science Research + Scrum |
 | **Sprints** | 12 sprints de 2 semanas |
 

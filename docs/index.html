@@ -3,24 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="WebGL Drone Viewer - Visualización 3D interactiva de hardware de drones">
+  <meta name="description" content="WebGL Drone Viewer - Visualización 3D interactiva de hardware de drones de alto rendimiento">
   <meta name="author" content="Alexander Woodcock Salomón">
+  <meta name="theme-color" content="#0A0E17">
   <title>WebGL Drone Viewer | Visualización 3D Interactiva</title>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
   <style>
+    /* ==========================================
+       2026 DESIGN SYSTEM
+       Trends: Scroll storytelling, AI-minimalism,
+       Neobrutalism accents, Micro-animations,
+       Immersive depth, Cinematic hero
+       ========================================== */
+    
     :root {
-      --color-bg: #0A0E17;
-      --color-bg-card: #1E293B;
-      --color-primary: #3B82F6;
-      --color-accent: #10B981;
-      --color-text: #F8FAFC;
-      --color-text-secondary: #94A3B8;
-      --color-border: #334155;
+      /* Core Colors */
+      --void: #050709;
+      --deep-space: #0A0E17;
+      --cosmos: #0F1629;
+      --nebula: #1E293B;
+      --stardust: #334155;
+      
+      /* Accent Spectrum */
+      --electric: #3B82F6;
+      --electric-glow: #60A5FA;
+      --cyber: #10B981;
+      --cyber-glow: #34D399;
+      --plasma: #8B5CF6;
+      --fusion: #F97316;
+      
+      /* Text */
+      --text-pure: #FFFFFF;
+      --text-primary: #F1F5F9;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      
+      /* Effects */
+      --glow-blue: 0 0 60px rgba(59, 130, 246, 0.3);
+      --glow-cyber: 0 0 40px rgba(16, 185, 129, 0.2);
+      
+      /* Timing */
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
     }
     
     * {
@@ -29,383 +58,1247 @@
       box-sizing: border-box;
     }
     
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--color-bg);
-      color: var(--color-text);
-      min-height: 100vh;
-      line-height: 1.6;
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y proximity;
     }
     
-    /* Hero Section */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--void);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* ==========================================
+       NOISE TEXTURE OVERLAY
+       ========================================== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    
+    /* ==========================================
+       CURSOR GLOW EFFECT
+       ========================================== */
+    .cursor-glow {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      transition: opacity 0.3s ease;
+    }
+    
+    /* ==========================================
+       NAVIGATION
+       ========================================== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(180deg, var(--void) 0%, transparent 100%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: var(--text-pure);
+      text-decoration: none;
+    }
+    
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--electric), var(--cyber));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      position: relative;
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--electric);
+      transition: width 0.3s var(--ease-out-expo);
+    }
+    
+    .nav-links a:hover {
+      color: var(--text-pure);
+    }
+    
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    
+    .nav-cta {
+      padding: 0.625rem 1.25rem;
+      background: var(--nebula);
+      border: 1px solid var(--stardust);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .nav-cta:hover {
+      background: var(--stardust);
+      border-color: var(--electric);
+    }
+    
+    /* ==========================================
+       HERO SECTION - CINEMATIC
+       ========================================== */
     .hero {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 2rem;
+      position: relative;
+      padding: 8rem 3rem 4rem;
+      overflow: hidden;
+      scroll-snap-align: start;
+    }
+    
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+    }
+    
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 50% at 50% 50%, black 40%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 50%, black 40%, transparent 100%);
+    }
+    
+    .hero-gradient {
+      position: absolute;
+      width: 100%;
+      height: 100%;
       background: 
-        radial-gradient(ellipse at 20% 30%, rgba(59,130,246,0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 70%, rgba(16,185,129,0.15) 0%, transparent 50%),
-        var(--color-bg);
+        radial-gradient(ellipse 50% 80% at 20% 40%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 60% at 80% 60%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 30% 40% at 50% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+      animation: heroGradientPulse 8s ease-in-out infinite;
     }
     
-    .badge {
-      display: inline-block;
+    @keyframes heroGradientPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.05); }
+    }
+    
+    .hero-content {
+      max-width: 900px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
       padding: 0.5rem 1rem;
-      background: rgba(59, 130, 246, 0.2);
-      color: var(--color-primary);
-      border-radius: 9999px;
-      font-size: 0.875rem;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 100px;
+      font-size: 0.8125rem;
       font-weight: 500;
+      color: var(--electric-glow);
       margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s var(--ease-out-expo) 0.2s both;
     }
     
-    h1 {
+    .eyebrow-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--cyber);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+    
+    .hero-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-size: clamp(3rem, 8vw, 5.5rem);
       font-weight: 700;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s var(--ease-out-expo) 0.3s both;
+    }
+    
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, var(--text-pure) 0%, var(--electric-glow) 50%, var(--cyber) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
     
-    .subtitle {
-      font-size: 1.25rem;
-      color: var(--color-text-secondary);
-      max-width: 600px;
-      margin-bottom: 2rem;
+    .hero-title .accent {
+      color: var(--electric);
     }
     
-    .cta-buttons {
+    .hero-description {
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      animation: fadeInUp 0.8s var(--ease-out-expo) 0.4s both;
+    }
+    
+    .hero-actions {
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
-      justify-content: center;
+      animation: fadeInUp 0.8s var(--ease-out-expo) 0.5s both;
     }
     
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.875rem 1.75rem;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      border: none;
-      cursor: pointer;
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     
     .btn-primary {
-      background: var(--color-primary);
-      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 1rem 2rem;
+      background: var(--electric);
+      color: var(--text-pure);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s var(--ease-out-expo);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--electric-glow), var(--electric));
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
     
     .btn-primary:hover {
-      background: #2563EB;
       transform: translateY(-2px);
+      box-shadow: var(--glow-blue);
+    }
+    
+    .btn-primary:hover::before {
+      opacity: 1;
+    }
+    
+    .btn-primary span {
+      position: relative;
+      z-index: 1;
     }
     
     .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 1rem 2rem;
       background: transparent;
-      color: var(--color-text);
-      border: 1px solid var(--color-border);
+      color: var(--text-primary);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 8px;
+      border: 1px solid var(--stardust);
+      transition: all 0.3s var(--ease-out-expo);
     }
     
     .btn-secondary:hover {
-      background: var(--color-bg-card);
-      border-color: var(--color-primary);
+      background: var(--nebula);
+      border-color: var(--electric);
+      transform: translateY(-2px);
     }
     
-    /* Features Section */
-    .features {
-      padding: 5rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
+    /* Hero Visual - 3D Preview */
+    .hero-visual {
+      position: absolute;
+      right: -5%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 55%;
+      max-width: 700px;
+      aspect-ratio: 4/3;
+      z-index: 1;
+      animation: floatVisual 6s ease-in-out infinite;
+    }
+    
+    @keyframes floatVisual {
+      0%, 100% { transform: translateY(-50%) translateX(0); }
+      50% { transform: translateY(-52%) translateX(-10px); }
+    }
+    
+    .hero-visual-frame {
+      width: 100%;
+      height: 100%;
+      background: var(--cosmos);
+      border: 1px solid var(--stardust);
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 
+        0 0 0 1px rgba(255,255,255,0.05) inset,
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        var(--glow-blue);
+    }
+    
+    .hero-visual-content {
+      position: absolute;
+      inset: 1px;
+      background: 
+        linear-gradient(135deg, var(--cosmos) 0%, var(--deep-space) 100%);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .drone-placeholder {
+      font-size: 8rem;
+      opacity: 0.2;
+      animation: droneHover 3s ease-in-out infinite;
+    }
+    
+    @keyframes droneHover {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-5px) rotate(2deg); }
+      75% { transform: translateY(5px) rotate(-2deg); }
+    }
+    
+    .hero-visual-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 60%, var(--void) 100%);
+    }
+    
+    .hero-visual-badge {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(10, 14, 23, 0.9);
+      border: 1px solid var(--stardust);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      backdrop-filter: blur(8px);
+    }
+    
+    .badge-live {
+      width: 8px;
+      height: 8px;
+      background: var(--cyber);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    /* ==========================================
+       SCROLL INDICATOR
+       ========================================== */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: fadeInUp 0.8s var(--ease-out-expo) 0.8s both;
+    }
+    
+    .scroll-indicator span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(180deg, var(--electric), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; height: 40px; }
+      50% { opacity: 0.5; height: 60px; }
+    }
+    
+    /* ==========================================
+       SECTION - FEATURES (BENTO GRID)
+       ========================================== */
+    .section {
+      padding: 6rem 3rem;
+      scroll-snap-align: start;
+    }
+    
+    .section-header {
+      max-width: 700px;
+      margin-bottom: 4rem;
+    }
+    
+    .section-label {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--electric);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
     }
     
     .section-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 2rem;
-      text-align: center;
-      margin-bottom: 3rem;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
     }
     
-    .feature-grid {
+    .section-description {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+    
+    /* Bento Grid */
+    .bento-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 200px;
+      gap: 1.25rem;
+      max-width: 1400px;
+      margin: 0 auto;
     }
     
-    .feature-card {
-      background: var(--color-bg-card);
-      border: 1px solid var(--color-border);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      transition: all 0.2s ease;
+    .bento-item {
+      background: var(--cosmos);
+      border: 1px solid var(--nebula);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s var(--ease-out-expo);
+      display: flex;
+      flex-direction: column;
     }
     
-    .feature-card:hover {
+    .bento-item:hover {
+      border-color: var(--stardust);
       transform: translateY(-4px);
-      border-color: var(--color-primary);
+      box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
     }
     
-    .feature-icon {
+    .bento-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--electric), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .bento-item:hover::before {
+      opacity: 1;
+    }
+    
+    /* Bento variations */
+    .bento-large {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+    
+    .bento-tall {
+      grid-row: span 2;
+    }
+    
+    .bento-wide {
+      grid-column: span 2;
+    }
+    
+    .bento-icon {
       width: 48px;
       height: 48px;
-      background: rgba(59, 130, 246, 0.2);
-      border-radius: 0.75rem;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.5rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
+      transition: all 0.3s ease;
     }
     
-    .feature-card h3 {
+    .bento-item:hover .bento-icon {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: var(--electric);
+      transform: scale(1.05);
+    }
+    
+    .bento-title {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.25rem;
+      font-weight: 600;
       margin-bottom: 0.5rem;
     }
     
-    .feature-card p {
-      color: var(--color-text-secondary);
+    .bento-text {
       font-size: 0.9375rem;
+      color: var(--text-secondary);
+      flex-grow: 1;
     }
     
-    /* Stats Section */
-    .stats {
-      padding: 4rem 2rem;
-      background: var(--color-bg-card);
-      border-top: 1px solid var(--color-border);
-      border-bottom: 1px solid var(--color-border);
+    .bento-visual {
+      position: absolute;
+      right: -20%;
+      bottom: -20%;
+      width: 60%;
+      height: 60%;
+      opacity: 0.1;
+      font-size: 10rem;
+      pointer-events: none;
     }
     
-    .stats-grid {
+    /* Feature highlight for large card */
+    .bento-large .bento-title {
+      font-size: 1.75rem;
+    }
+    
+    .bento-large .bento-text {
+      font-size: 1rem;
+      max-width: 400px;
+    }
+    
+    /* ==========================================
+       SECTION - METRICS
+       ========================================== */
+    .metrics-section {
+      background: var(--cosmos);
+      border-top: 1px solid var(--nebula);
+      border-bottom: 1px solid var(--nebula);
+    }
+    
+    .metrics-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(5, 1fr);
       gap: 2rem;
-      max-width: 1000px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    
-    .stat-value {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 2.5rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .stat-label {
-      color: var(--color-text-secondary);
-      font-size: 0.875rem;
-      margin-top: 0.25rem;
-    }
-    
-    /* Tech Stack */
-    .tech-stack {
-      padding: 5rem 2rem;
       max-width: 1200px;
       margin: 0 auto;
     }
     
+    .metric-item {
+      text-align: center;
+      padding: 2rem 0;
+      position: relative;
+    }
+    
+    .metric-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 60%;
+      background: linear-gradient(180deg, transparent, var(--stardust), transparent);
+    }
+    
+    .metric-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--text-pure), var(--electric-glow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    
+    .metric-label {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    
+    /* ==========================================
+       SECTION - TECH STACK
+       ========================================== */
     .tech-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
       justify-content: center;
+      max-width: 1000px;
+      margin: 0 auto;
     }
     
     .tech-item {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.25rem;
-      background: var(--color-bg-card);
-      border: 1px solid var(--color-border);
-      border-radius: 0.5rem;
+      gap: 0.75rem;
+      padding: 1rem 1.5rem;
+      background: var(--cosmos);
+      border: 1px solid var(--nebula);
+      border-radius: 8px;
       font-size: 0.9375rem;
+      font-weight: 500;
+      transition: all 0.3s var(--ease-out-expo);
     }
     
-    /* Footer */
-    footer {
-      padding: 3rem 2rem;
+    .tech-item:hover {
+      border-color: var(--stardust);
+      background: var(--nebula);
+      transform: translateY(-2px);
+    }
+    
+    .tech-icon {
+      font-size: 1.25rem;
+    }
+    
+    /* ==========================================
+       SECTION - TIMELINE
+       ========================================== */
+    .timeline {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--electric), var(--cyber), var(--plasma));
+      border-radius: 1px;
+    }
+    
+    .timeline-item {
+      padding-left: 3rem;
+      padding-bottom: 3rem;
+      position: relative;
+    }
+    
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 0;
+      width: 12px;
+      height: 12px;
+      background: var(--electric);
+      border-radius: 50%;
+      border: 3px solid var(--void);
+    }
+    
+    .timeline-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--electric);
+      margin-bottom: 0.5rem;
+    }
+    
+    .timeline-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .timeline-text {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+    }
+    
+    /* ==========================================
+       SECTION - CTA
+       ========================================== */
+    .cta-section {
       text-align: center;
-      color: var(--color-text-secondary);
-      font-size: 0.875rem;
+      padding: 8rem 3rem;
+      position: relative;
+      overflow: hidden;
     }
     
-    footer a {
-      color: var(--color-primary);
-      text-decoration: none;
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 60% 50% at 50% 100%, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
     }
     
-    footer a:hover {
-      text-decoration: underline;
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .cta-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .cta-text {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+    
+    /* ==========================================
+       FOOTER
+       ========================================== */
+    footer {
+      padding: 4rem 3rem 2rem;
+      border-top: 1px solid var(--nebula);
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
     }
     
     .footer-links {
       display: flex;
       gap: 2rem;
-      justify-content: center;
-      margin-bottom: 1rem;
     }
     
-    /* Coming Soon Badge */
-    .coming-soon {
-      display: inline-block;
-      padding: 0.25rem 0.5rem;
-      background: rgba(245, 158, 11, 0.2);
-      color: #F97316;
-      border-radius: 0.25rem;
-      font-size: 0.75rem;
-      font-weight: 500;
-      margin-left: 0.5rem;
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s ease;
     }
     
-    /* Responsive */
-    @media (max-width: 768px) {
-      .hero {
-        padding: 1.5rem;
+    .footer-links a:hover {
+      color: var(--text-primary);
+    }
+    
+    .footer-copy {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+    
+    .footer-copy a {
+      color: var(--electric);
+      text-decoration: none;
+    }
+    
+    /* ==========================================
+       RESPONSIVE
+       ========================================== */
+    @media (max-width: 1200px) {
+      .hero-visual {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        width: 100%;
+        max-width: 500px;
+        margin-top: 3rem;
       }
       
-      .cta-buttons {
+      .hero {
+        align-items: center;
+        text-align: center;
+      }
+      
+      .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .hero-description {
+        text-align: center;
+      }
+    }
+    
+    @media (max-width: 1024px) {
+      .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .bento-large {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+      
+      .metrics-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .metric-item:nth-child(3)::after {
+        display: none;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem 1.5rem;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .section {
+        padding: 4rem 1.5rem;
+      }
+      
+      .hero {
+        padding: 6rem 1.5rem 3rem;
+      }
+      
+      .bento-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .bento-large, .bento-wide, .bento-tall {
+        grid-column: span 1;
+        grid-row: span 1;
+      }
+      
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .metric-item::after {
+        display: none;
+      }
+      
+      .hero-actions {
         flex-direction: column;
         width: 100%;
       }
       
-      .btn {
+      .btn-primary, .btn-secondary {
         width: 100%;
         justify-content: center;
       }
       
-      .footer-links {
+      .footer-content {
         flex-direction: column;
-        gap: 1rem;
+        text-align: center;
       }
     }
+    
+    /* ==========================================
+       SCROLL ANIMATIONS
+       ========================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s var(--ease-out-expo);
+    }
+    
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
   </style>
 </head>
 <body>
+  <!-- Cursor Glow -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+  
+  <!-- Navigation -->
+  <nav>
+    <a href="#" class="logo">
+      <div class="logo-icon">🚁</div>
+      <span>Drone Viewer</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#tech">Tecnología</a></li>
+      <li><a href="#timeline">Timeline</a></li>
+    </ul>
+    <a href="https://github.com/delarge95/WebGL_tesis" target="_blank" class="nav-cta">Ver en GitHub ↗</a>
+  </nav>
+  
   <!-- Hero Section -->
   <section class="hero">
-    <span class="badge">🚁 Proyecto de Tesis - UNAD 2025</span>
-    <h1>WebGL Drone Viewer</h1>
-    <p class="subtitle">
-      Visualización 3D interactiva de hardware de drones de alto rendimiento. 
-      Explora componentes, modos de visualización y herramientas de ingeniería directamente en tu navegador.
-    </p>
-    <div class="cta-buttons">
-      <a href="./Build/index.html" class="btn btn-primary">
-        🎮 Abrir Visor 3D
-        <span class="coming-soon">Próximamente</span>
-      </a>
-      <a href="https://github.com/delarge95/WebGL_tesis" class="btn btn-secondary" target="_blank">
-        📂 Ver en GitHub
-      </a>
+    <div class="hero-bg">
+      <div class="hero-grid"></div>
+      <div class="hero-gradient"></div>
+    </div>
+    
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Proyecto de Tesis · UNAD 2025
+      </div>
+      
+      <h1 class="hero-title">
+        <span class="gradient-text">Visualización 3D</span><br>
+        de Hardware<span class="accent">.</span>
+      </h1>
+      
+      <p class="hero-description">
+        Explora componentes de drones de alto rendimiento en un visor WebGL interactivo. 
+        Sin instalación. Sin plugins. Solo tu navegador.
+      </p>
+      
+      <div class="hero-actions">
+        <a href="./Build/index.html" class="btn-primary">
+          <span>Abrir Visor 3D</span>
+          <span>→</span>
+        </a>
+        <a href="#features" class="btn-secondary">
+          <span>Explorar Features</span>
+        </a>
+      </div>
+    </div>
+    
+    <div class="hero-visual">
+      <div class="hero-visual-frame">
+        <div class="hero-visual-content">
+          <div class="drone-placeholder">🚁</div>
+        </div>
+        <div class="hero-visual-overlay"></div>
+        <div class="hero-visual-badge">
+          <span class="badge-live"></span>
+          WebGL 2.0 · 60 FPS
+        </div>
+      </div>
+    </div>
+    
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
     </div>
   </section>
   
-  <!-- Features Section -->
-  <section class="features">
-    <h2 class="section-title">Características Principales</h2>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🎨</div>
-        <h3>7 Modos de Visualización</h3>
-        <p>Realista, Rayos X, Plano técnico, Color sólido, Wireframe, Fantasma y Térmico.</p>
+  <!-- Features Section - Bento Grid -->
+  <section class="section" id="features">
+    <div class="section-header reveal">
+      <span class="section-label">// Capacidades</span>
+      <h2 class="section-title">Todo lo que necesitas para explorar hardware</h2>
+      <p class="section-description">
+        Herramientas de visualización e ingeniería diseñadas para comprender estructuras 3D complejas sin esfuerzo.
+      </p>
+    </div>
+    
+    <div class="bento-grid">
+      <div class="bento-item bento-large reveal">
+        <div class="bento-icon">🎨</div>
+        <h3 class="bento-title">7 Modos de Visualización</h3>
+        <p class="bento-text">
+          Realista, Rayos X, Blueprint, Sólido, Wireframe, Fantasma y Térmico. 
+          Cada modo con shaders HLSL personalizados optimizados para WebGL.
+        </p>
+        <div class="bento-visual">🎨</div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">💥</div>
-        <h3>Vista Explosionada</h3>
-        <p>Separa los componentes animadamente para inspeccionar la estructura interna.</p>
+      
+      <div class="bento-item reveal reveal-delay-1">
+        <div class="bento-icon">💥</div>
+        <h3 class="bento-title">Vista Explosionada</h3>
+        <p class="bento-text">Separa componentes animadamente para inspeccionar la estructura interna.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">✂️</div>
-        <h3>Corte Transversal</h3>
-        <p>Planos de corte dinámicos en ejes X, Y, Z para ver secciones del modelo.</p>
+      
+      <div class="bento-item reveal reveal-delay-2">
+        <div class="bento-icon">✂️</div>
+        <h3 class="bento-title">Corte Transversal</h3>
+        <p class="bento-text">Planos de corte dinámicos en ejes X, Y, Z.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">📋</div>
-        <h3>Guía de Ensamblaje</h3>
-        <p>Instrucciones paso a paso con herramientas, torques y advertencias de seguridad.</p>
+      
+      <div class="bento-item bento-tall reveal reveal-delay-1">
+        <div class="bento-icon">🔧</div>
+        <h3 class="bento-title">Herramientas de Ingeniería</h3>
+        <p class="bento-text">
+          Guía de ensamblaje, medición de distancias, puntos de conexión, lista de materiales (BOM), 
+          anotaciones 3D y checklist de verificación.
+        </p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">📏</div>
-        <h3>Herramienta de Medición</h3>
-        <p>Mide distancias, ángulos y radios entre puntos del modelo 3D.</p>
+      
+      <div class="bento-item reveal reveal-delay-2">
+        <div class="bento-icon">📋</div>
+        <h3 class="bento-title">Catálogo de Partes</h3>
+        <p class="bento-text">Busca y filtra componentes por categoría.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔍</div>
-        <h3>Catálogo de Partes</h3>
-        <p>Busca y filtra componentes por categoría con información técnica detallada.</p>
+      
+      <div class="bento-item reveal reveal-delay-3">
+        <div class="bento-icon">🎮</div>
+        <h3 class="bento-title">Simulación de Drone</h3>
+        <p class="bento-text">Estados On/Off con animación de hélices.</p>
       </div>
     </div>
   </section>
   
-  <!-- Stats Section -->
-  <section class="stats">
-    <div class="stats-grid">
-      <div>
-        <div class="stat-value">70+</div>
-        <div class="stat-label">Scripts C#</div>
+  <!-- Metrics Section -->
+  <section class="section metrics-section">
+    <div class="metrics-grid">
+      <div class="metric-item reveal">
+        <div class="metric-value">70+</div>
+        <div class="metric-label">Scripts C#</div>
       </div>
-      <div>
-        <div class="stat-value">10K+</div>
-        <div class="stat-label">Líneas de Código</div>
+      <div class="metric-item reveal reveal-delay-1">
+        <div class="metric-value">10K+</div>
+        <div class="metric-label">Líneas de Código</div>
       </div>
-      <div>
-        <div class="stat-value">7</div>
-        <div class="stat-label">Shaders HLSL</div>
+      <div class="metric-item reveal reveal-delay-2">
+        <div class="metric-value">7</div>
+        <div class="metric-label">Shaders HLSL</div>
       </div>
-      <div>
-        <div class="stat-value">18</div>
-        <div class="stat-label">Managers</div>
+      <div class="metric-item reveal reveal-delay-3">
+        <div class="metric-value">18</div>
+        <div class="metric-label">Managers</div>
       </div>
-      <div>
-        <div class="stat-value">>30</div>
-        <div class="stat-label">FPS en Móvil</div>
+      <div class="metric-item reveal reveal-delay-4">
+        <div class="metric-value">&gt;30</div>
+        <div class="metric-label">FPS Móvil</div>
       </div>
     </div>
   </section>
   
   <!-- Tech Stack Section -->
-  <section class="tech-stack">
-    <h2 class="section-title">Stack Tecnológico</h2>
+  <section class="section" id="tech">
+    <div class="section-header reveal" style="text-align: center; margin-left: auto; margin-right: auto;">
+      <span class="section-label">// Stack Tecnológico</span>
+      <h2 class="section-title">Construido con tecnología de vanguardia</h2>
+    </div>
+    
     <div class="tech-grid">
-      <div class="tech-item">⚡ Unity 6.0 LTS</div>
-      <div class="tech-item">🎮 Universal Render Pipeline</div>
-      <div class="tech-item">🌐 WebGL 2.0</div>
-      <div class="tech-item">📦 WebAssembly</div>
-      <div class="tech-item">💻 C# 11</div>
-      <div class="tech-item">🎨 UI Toolkit</div>
-      <div class="tech-item">🧊 Blender 4.0</div>
-      <div class="tech-item">📝 HLSL Shaders</div>
+      <div class="tech-item reveal">
+        <span class="tech-icon">⚡</span>
+        <span>Unity 6.0 LTS</span>
+      </div>
+      <div class="tech-item reveal reveal-delay-1">
+        <span class="tech-icon">🎮</span>
+        <span>Universal Render Pipeline</span>
+      </div>
+      <div class="tech-item reveal reveal-delay-1">
+        <span class="tech-icon">🌐</span>
+        <span>WebGL 2.0</span>
+      </div>
+      <div class="tech-item reveal reveal-delay-2">
+        <span class="tech-icon">📦</span>
+        <span>WebAssembly</span>
+      </div>
+      <div class="tech-item reveal reveal-delay-2">
+        <span class="tech-icon">💻</span>
+        <span>C# 11</span>
+      </div>
+      <div class="tech-item reveal reveal-delay-3">
+        <span class="tech-icon">🖼️</span>
+        <span>UI Toolkit</span>
+      </div>
+      <div class="tech-item reveal reveal-delay-3">
+        <span class="tech-icon">🧊</span>
+        <span>Blender 4.0</span>
+      </div>
+      <div class="tech-item reveal reveal-delay-4">
+        <span class="tech-icon">✨</span>
+        <span>HLSL Shaders</span>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Timeline Section -->
+  <section class="section" id="timeline">
+    <div class="section-header reveal">
+      <span class="section-label">// Desarrollo</span>
+      <h2 class="section-title">6 meses de desarrollo iterativo</h2>
+    </div>
+    
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-date">Jul - Ago 2025</div>
+        <h3 class="timeline-title">Investigación y Planificación</h3>
+        <p class="timeline-text">Revisión de 40+ papers, análisis de estado del arte, marco teórico y propuesta de proyecto.</p>
+      </div>
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="timeline-date">Sep 2025</div>
+        <h3 class="timeline-title">Pipeline 3D</h3>
+        <p class="timeline-text">Modelado en Blender, retopología, UV mapping, baking de normales y exportación optimizada.</p>
+      </div>
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="timeline-date">Oct - Nov 2025</div>
+        <h3 class="timeline-title">Desarrollo Unity</h3>
+        <p class="timeline-text">Arquitectura core, 7 shaders HLSL, sistema de selección, modos de visualización y herramientas de ingeniería.</p>
+      </div>
+      <div class="timeline-item reveal reveal-delay-3">
+        <div class="timeline-date">Dic 2025</div>
+        <h3 class="timeline-title">Testing y Entrega</h3>
+        <p class="timeline-text">Pruebas de usabilidad (SUS), validación de rendimiento, documentación y entrega final.</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content reveal">
+      <h2 class="cta-title">¿Listo para explorar?</h2>
+      <p class="cta-text">Abre el visor 3D directamente en tu navegador. Sin descargas.</p>
+      <a href="./Build/index.html" class="btn-primary">
+        <span>Iniciar Experiencia 3D</span>
+        <span>→</span>
+      </a>
     </div>
   </section>
   
   <!-- Footer -->
   <footer>
-    <div class="footer-links">
-      <a href="https://github.com/delarge95/WebGL_tesis">GitHub</a>
-      <a href="./docs/manual_usuario.pdf">Manual de Usuario</a>
-      <a href="./docs/manual_tecnico.pdf">Manual Técnico</a>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="https://github.com/delarge95/WebGL_tesis" target="_blank">GitHub</a>
+        <a href="./docs/manual_usuario.pdf">Manual de Usuario</a>
+        <a href="./docs/manual_tecnico.pdf">Manual Técnico</a>
+      </div>
+      <p class="footer-copy">
+        © 2025 Alexander Woodcock Salomón · 
+        <a href="https://unad.edu.co" target="_blank">UNAD</a> · 
+        Ingeniería Multimedia
+      </p>
     </div>
-    <p>
-      © 2025 Alexander Woodcock Salomón · 
-      <a href="https://unad.edu.co" target="_blank">UNAD</a> · 
-      Ingeniería Multimedia
-    </p>
   </footer>
+  
+  <!-- Scripts -->
+  <script>
+    // Cursor glow effect
+    const cursorGlow = document.getElementById('cursorGlow');
+    let mouseX = 0, mouseY = 0;
+    let glowX = 0, glowY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    
+    function animateCursor() {
+      glowX += (mouseX - glowX) * 0.1;
+      glowY += (mouseY - glowY) * 0.1;
+      cursorGlow.style.left = glowX + 'px';
+      cursorGlow.style.top = glowY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    
+    // Scroll reveal
+    const revealElements = document.querySelectorAll('.reveal');
+    
+    const revealOnScroll = () => {
+      revealElements.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (elementTop < windowHeight - 100) {
+          el.classList.add('active');
+        }
+      });
+    };
+    
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
