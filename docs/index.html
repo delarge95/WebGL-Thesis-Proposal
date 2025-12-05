@@ -6,1182 +6,439 @@
   <meta name="description" content="WebGL Drone Viewer - Visualización 3D interactiva">
   <title>Drone Viewer | WebGL 3D</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
   
   <style>
     /* ==========================================
-       DRONE VIEWER - AWWWARDS STYLE CSS
-       2026 Design: Scrollytelling, Minimal, Tech
+       MINIMALIST & SEAMLESS DESIGN
+       2026 Aesthetic: Elegant, Void, Fluid
        ========================================== */
 
     :root {
-      --void: #020204;
-      --space: #0a0a0f;
-      --dark: #12121a;
-      --gray: #1a1a24;
-      --muted: #2a2a38;
-      --accent: #3b82f6;
-      --accent-glow: #60a5fa;
-      --cyber: #10b981;
-      --white: #ffffff;
-      --silver: #a0a0b0;
-      --dim: #606070;
+      --bg: #050505;
+      --text-main: #ffffff;
+      --text-muted: #888888;
+      --accent: #ffffff; /* Minimalist accent is white */
+      --border: rgba(255, 255, 255, 0.1);
+      --transition-ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html { 
       scroll-behavior: smooth; 
-      cursor: none;
+      background: var(--bg);
     }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--void);
-      color: var(--white);
+      background: var(--bg);
+      color: var(--text-main);
       overflow-x: hidden;
-      cursor: none;
+      -webkit-font-smoothing: antialiased;
     }
 
-    ::selection { background: var(--accent); color: var(--white); }
+    /* Typography */
+    h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 400; letter-spacing: -0.02em; }
+    p { font-weight: 300; line-height: 1.6; color: var(--text-muted); }
 
-    /* Cursor - Optimized for Performance */
-    .cursor {
-      width: 8px; height: 8px;
-      background: var(--white);
-      border-radius: 50%;
-      position: fixed;
-      top: 0; left: 0;
-      pointer-events: none;
-      z-index: 9999;
-      mix-blend-mode: difference;
-      will-change: transform;
+    /* Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
     }
 
-    .cursor-follower {
-      width: 40px; height: 40px;
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      position: fixed;
-      top: -16px; left: -16px; /* Center offset */
-      pointer-events: none;
-      z-index: 9998;
-      transition: width 0.2s, height 0.2s, border-color 0.2s;
-      will-change: transform;
-    }
-
-    /* ... (keep other styles) ... */
-
-    .doc-card {
-      display: flex; align-items: center; gap: 1rem;
-      padding: 1.5rem;
-      background: #1a1a24; /* Lighter background for visibility */
-      border: 1px solid #2a2a38; /* Stronger border */
-      border-radius: 8px;
-      text-decoration: none;
-      color: var(--white);
-      transition: all 0.3s;
+    /* HERO SECTION - The "Welcome Screen" */
+    .hero {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       position: relative;
       z-index: 10;
-    }
-    
-    /* ... (keep other styles) ... */
-
-    /* ... (keep other styles) ... */
-
-    /* Preloader */
-    .preloader {
-      position: fixed; inset: 0;
-      background: var(--void);
-      z-index: 10000;
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    .preloader-content { text-align: center; }
-    .preloader-icon { font-size: 3rem; margin-bottom: 1.5rem; animation: float 2s ease-in-out infinite; }
-    .preloader-bar { width: 200px; height: 2px; background: var(--gray); border-radius: 1px; overflow: hidden; }
-    .preloader-progress { width: 0; height: 100%; background: var(--accent); transition: width 0.5s; }
-    .preloader-text { margin-top: 1rem; font-size: 0.75rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.2em; }
-
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-
-    /* Navigation */
-    .nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.5rem 4rem;
-      mix-blend-mode: difference;
-    }
-
-    .nav-logo {
-      display: flex; align-items: center; gap: 0.5rem;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 600; font-size: 0.875rem;
-      color: var(--white); text-decoration: none;
-      letter-spacing: 0.1em;
-    }
-
-    .nav-logo-icon { color: var(--accent); }
-
-    .nav-links { display: flex; gap: 3rem; }
-    .nav-links a {
-      color: var(--silver); text-decoration: none;
-      font-size: 0.8125rem; font-weight: 500;
-      text-transform: uppercase; letter-spacing: 0.1em;
-      transition: color 0.3s;
-    }
-    .nav-links a:hover { color: var(--white); }
-
-    .nav-cta {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.625rem 1.25rem;
-      border: 1px solid var(--muted);
-      border-radius: 100px;
-      color: var(--white); text-decoration: none;
-      font-size: 0.75rem; font-weight: 500;
-      text-transform: uppercase; letter-spacing: 0.1em;
-      transition: all 0.3s;
-    }
-    .nav-cta:hover { border-color: var(--accent); background: rgba(59,130,246,0.1); }
-
-    /* Hero */
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      padding: 0 4rem;
-      position: relative;
       overflow: hidden;
     }
 
-    .hero-bg { position: absolute; inset: 0; z-index: -1; }
-    .hero-grid {
-      position: absolute; inset: 0;
-      background-image: linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
-      background-size: 80px 80px;
-      mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black, transparent);
+    .hero-content {
+      text-align: center;
+      z-index: 2;
+      mix-blend-mode: difference; /* Ensures text is visible over graphic */
     }
-
-    .hero-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.4;
-    }
-    .hero-orb-1 { width: 600px; height: 600px; background: var(--accent); top: -20%; left: -10%; }
-    .hero-orb-2 { width: 400px; height: 400px; background: var(--cyber); bottom: -10%; right: 10%; }
-    .hero-orb-3 { width: 300px; height: 300px; background: #8b5cf6; top: 30%; right: 30%; }
-
-    .hero-content { max-width: 600px; }
-
-    .hero-tag {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 100px;
-      font-size: 0.6875rem;
-      color: var(--silver);
-      text-transform: uppercase; letter-spacing: 0.15em;
-      margin-bottom: 2rem;
-    }
-
-    .tag-dot {
-      width: 6px; height: 6px;
-      background: var(--cyber);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
     .hero-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 1;
       margin-bottom: 1.5rem;
+      opacity: 0; /* Animated in */
+      transform: translateY(20px);
     }
 
-    .title-line { display: block; overflow: hidden; }
-    .title-accent { color: var(--accent); }
-    .title-small { font-size: 0.5em; color: var(--silver); font-weight: 400; margin-top: 0.5rem; }
-
-    .hero-desc {
-      font-size: 1.125rem; font-weight: 300;
-      color: var(--silver); line-height: 1.7;
-      margin-bottom: 2.5rem;
-      max-width: 450px;
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      max-width: 500px;
+      margin: 0 auto 3rem;
+      opacity: 0; /* Animated in */
+      transform: translateY(20px);
     }
 
-    .hero-actions { display: flex; gap: 1rem; margin-bottom: 4rem; }
-
-    .btn-primary {
-      position: relative;
-      display: inline-flex; align-items: center; gap: 0.75rem;
-      padding: 1rem 2rem;
-      background: var(--accent);
-      color: var(--white);
-      font-size: 0.875rem; font-weight: 600;
-      text-decoration: none;
-      border-radius: 4px;
-      overflow: hidden;
-      transition: transform 0.3s;
-    }
-    .btn-primary:hover { transform: translateY(-2px); }
-    .btn-bg { position: absolute; inset: 0; background: linear-gradient(135deg, var(--accent-glow), var(--accent)); opacity: 0; transition: opacity 0.3s; }
-    .btn-primary:hover .btn-bg { opacity: 1; }
-    .btn-text, .btn-icon { position: relative; z-index: 1; }
-
-    .btn-ghost {
-      padding: 1rem 2rem;
-      color: var(--silver);
-      font-size: 0.875rem; font-weight: 500;
-      text-decoration: none;
-      border: 1px solid var(--muted);
-      border-radius: 4px;
-      transition: all 0.3s;
-    }
-    .btn-ghost:hover { color: var(--white); border-color: var(--silver); }
-
-    .btn-large { padding: 1.25rem 3rem; font-size: 1rem; }
-
-    .hero-stats { display: flex; align-items: center; gap: 2rem; }
-    .stat { text-align: center; }
-    .stat-value { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; color: var(--white); }
-    .stat-label { font-size: 0.6875rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.15em; }
-    .stat-sep { width: 1px; height: 40px; background: var(--muted); }
-
-    /* Hero Visual */
-    .hero-visual { display: flex; justify-content: center; align-items: center; }
-
-    .visual-frame {
-      width: 100%; max-width: 500px;
-      aspect-ratio: 4/3;
-      background: var(--space);
-      border: 1px solid var(--gray);
-      border-radius: 8px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .visual-content {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, var(--space), var(--dark));
-    }
-
-    .drone-3d { font-size: 8rem; animation: droneFloat 4s ease-in-out infinite; }
-    @keyframes droneFloat { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-15px) rotate(3deg)} }
-
-    .visual-ui { position: absolute; inset: 0; pointer-events: none; }
-    .ui-element {
+    /* The Animated Graphic - Acts as the transition element */
+    .hero-graphic {
       position: absolute;
-      padding: 0.5rem 0.75rem;
-      background: rgba(0,0,0,0.6);
-      border: 1px solid var(--gray);
-      border-radius: 4px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.625rem;
-      text-transform: uppercase; letter-spacing: 0.1em;
-    }
-    .ui-top-left { top: 1rem; left: 1rem; }
-    .ui-bottom-right { bottom: 1rem; right: 1rem; }
-    .ui-label { color: var(--dim); display: block; margin-bottom: 0.25rem; }
-    .ui-value { color: var(--cyber); font-weight: 500; }
-
-    .visual-scanline {
-      position: absolute; inset: 0;
-      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px);
-      pointer-events: none;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60vh;
+      height: 60vh;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%);
+      border-radius: 50%;
+      z-index: 1;
+      filter: blur(40px);
+      opacity: 0;
+      transition: opacity 2s ease;
     }
 
-    /* Scroll Cue */
-    .scroll-cue {
-      position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-    }
-    .scroll-cue span { font-size: 0.625rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.2em; }
-    .scroll-line { width: 1px; height: 50px; background: linear-gradient(180deg, var(--accent), transparent); animation: scrollPulse 2s infinite; }
-    @keyframes scrollPulse { 0%,100%{height:50px;opacity:1} 50%{height:70px;opacity:0.5} }
-
-    /* Marquee */
-    .marquee {
-      padding: 2rem 0;
-      background: var(--space);
-      border-top: 1px solid var(--gray);
-      border-bottom: 1px solid var(--gray);
-      overflow: hidden;
-    }
-
-    .marquee-track {
-      display: flex; gap: 3rem;
-      animation: scroll 20s linear infinite;
+    /* Start Button - Minimalist */
+    .btn-start {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--text-main);
+      padding: 1rem 3rem;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.875rem; font-weight: 500;
-      color: var(--silver);
-      text-transform: uppercase; letter-spacing: 0.2em;
-      white-space: nowrap;
-    }
-
-    .marquee-dot { color: var(--accent); }
-
-    @keyframes scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-
-    /* Features Horizontal - Fixed Visibility */
-    .features { padding: 8rem 4rem; }
-    .features-header { max-width: 500px; margin-bottom: 4rem; }
-
-    .features-track {
-      display: flex; gap: 1.5rem;
-      overflow-x: auto;
-      padding-bottom: 2rem;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .features-track::-webkit-scrollbar { height: 4px; } /* Visible scrollbar */
-    .features-track::-webkit-scrollbar-track { background: var(--gray); }
-    .features-track::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
-
-    .feature-card {
-      flex: 0 0 320px; /* Fixed width, no shrinking */
-      padding: 2.5rem;
-      background: #1a1a24; /* Lighter background */
-      border: 1px solid #2a2a38; /* Visible border */
-      border-radius: 8px;
-      position: relative;
-      scroll-snap-align: start;
-      transition: all 0.4s;
-      opacity: 1 !important; /* Force visibility */
-      transform: none !important; /* Reset transform issues */
-    }
-
-    .feature-card:hover { border-color: var(--accent); transform: translateY(-5px) !important; }
-    
-    /* ... (keep other styles) ... */
-
-        // Features section - Simplified animation to prevent visibility issues
-        gsap.from('.features-header', {
-          opacity: 0, y: 30, duration: 0.8,
-          scrollTrigger: { trigger: '.features-header', start: 'top 80%' }
-        });
-
-        // Removed complex stagger on cards to ensure they are visible
-        // The CSS opacity: 1 !important ensures they are seen even if JS fails
-    .card-icon { font-size: 2rem; margin-bottom: 1.5rem; }
-    .feature-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; }
-    .feature-card p { font-size: 0.875rem; color: var(--silver); line-height: 1.6; }
-    .card-num { position: absolute; top: 2rem; right: 2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted); }
-
-    /* Story Scrollytelling */
-    .story {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 400vh;
-      position: relative;
-    }
-
-    .story-sticky {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4rem;
-    }
-
-    .story-visual { width: 100%; max-width: 500px; }
-    .story-frame {
-      width: 100%;
-      aspect-ratio: 1;
-      background: var(--space);
-      border: 1px solid var(--gray);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      border-radius: 100px;
+      transition: all 0.4s var(--transition-ease);
+      opacity: 0; /* Animated in */
+      transform: translateY(20px);
       position: relative;
       overflow: hidden;
     }
 
-    .story-drone { font-size: 10rem; transition: transform 0.5s, filter 0.5s; }
-    .story-drone.exploded { transform: scale(1.2); }
-    .story-drone.xray { filter: hue-rotate(180deg) saturate(2); }
-    .story-drone.tools { transform: rotateY(180deg); }
+    .btn-start:hover {
+      border-color: var(--text-main);
+      background: rgba(255,255,255,0.05);
+      padding: 1rem 4rem; /* Subtle expansion */
+    }
 
-    .story-content { padding: 4rem; }
-    .story-panel {
-      min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: center;
-      opacity: 0.3;
+    /* Scroll Indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
       transition: opacity 0.5s;
     }
-    .story-panel.active { opacity: 1; }
+    .scroll-hint span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-muted); }
+    .scroll-line { width: 1px; height: 40px; background: rgba(255,255,255,0.2); }
 
-    .panel-num { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent); margin-bottom: 1rem; }
-    .story-panel h3 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 600; margin-bottom: 1rem; }
-    .story-panel p { font-size: 1rem; color: var(--silver); line-height: 1.7; max-width: 400px; }
-
-    /* Tech Stack */
-    .tech { padding: 8rem 4rem; }
-    .tech-header { margin-bottom: 4rem; }
-
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      max-width: 1000px;
+    /* APP CONTAINER - The Seamless Overlay */
+    .app-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--bg); /* Matches body bg for seamless fade */
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none; /* Click-through when hidden */
+      transition: opacity 1s var(--transition-ease);
+      display: flex;
+      flex-direction: column;
     }
 
-    .tech-card {
-      padding: 2rem;
-      background: var(--space);
-      border: 1px solid var(--gray);
-      border-radius: 8px;
-      text-align: center;
+    .app-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .app-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      opacity: 0; /* Fades in slightly after overlay */
+      transition: opacity 1s ease 0.5s;
+    }
+
+    .app-overlay.active .app-frame { opacity: 1; }
+
+    .btn-exit {
+      position: absolute;
+      top: 2rem; right: 2rem;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--text-main);
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      z-index: 101;
       transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
     }
-    .tech-card:hover { border-color: var(--muted); transform: translateY(-4px); }
-    .tech-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .tech-name { display: block; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.9375rem; margin-bottom: 0.25rem; }
-    .tech-desc { font-size: 0.75rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; }
 
-    /* Documentation */
-    .docs { padding: 8rem 4rem; background: var(--space); }
-    .docs-header { margin-bottom: 4rem; max-width: 500px; }
+    .btn-exit:hover { border-color: var(--text-main); background: rgba(255,255,255,0.1); }
 
-    .docs-grid {
+    /* INFO SECTIONS - Minimalist (Below Fold) */
+    .info-section {
+      padding: 8rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-header { margin-bottom: 4rem; }
+    .section-title { font-size: 2rem; margin-bottom: 1rem; }
+
+    /* Minimal Grid */
+    .grid-minimal {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 4rem 2rem;
     }
 
-    .doc-card {
-      display: flex; align-items: center; gap: 1rem;
-      padding: 1.5rem;
-      background: var(--dark);
-      border: 1px solid var(--gray);
-      border-radius: 8px;
+    .grid-item h3 { font-size: 1.25rem; margin-bottom: 1rem; color: var(--text-main); }
+    .grid-item p { font-size: 0.9rem; }
+    .grid-icon { font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--text-muted); }
+
+    /* Links List */
+    .link-list { display: flex; flex-direction: column; gap: 1rem; }
+    .link-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
       text-decoration: none;
-      color: var(--white);
-      transition: all 0.3s;
+      color: var(--text-muted);
+      transition: color 0.3s;
     }
-    .doc-card:hover { border-color: var(--muted); background: var(--gray); }
-    .doc-icon { font-size: 1.5rem; }
-    .doc-info h4 { font-size: 0.9375rem; font-weight: 600; margin-bottom: 0.25rem; }
-    .doc-info p { font-size: 0.75rem; color: var(--silver); }
-    .doc-arrow { margin-left: auto; color: var(--dim); transition: transform 0.3s; }
-    .doc-card:hover .doc-arrow { transform: translate(4px, -4px); color: var(--accent); }
-
-    /* Timeline */
-    .timeline { padding: 8rem 4rem; }
-    .timeline-header { margin-bottom: 4rem; }
-
-    .timeline-track { position: relative; max-width: 800px; padding-left: 3rem; }
-    .timeline-line { position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--accent), var(--cyber)); }
-
-    .timeline-item { position: relative; padding-bottom: 3rem; padding-left: 2rem; }
-    .timeline-dot { position: absolute; left: -2.5rem; top: 0; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--void); }
-    .timeline-date { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent); margin-bottom: 0.5rem; }
-    .timeline-content h4 { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
-    .timeline-content p { font-size: 0.875rem; color: var(--silver); }
-
-    /* CTA */
-    .cta {
-      padding: 10rem 4rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .cta::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse 50% 50% at 50% 100%, rgba(59,130,246,0.15), transparent);
-    }
-    .cta-content { position: relative; z-index: 1; }
-    .cta h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; margin-bottom: 1rem; }
-    .cta p { font-size: 1.125rem; color: var(--silver); margin-bottom: 2.5rem; }
+    .link-item:hover { color: var(--text-main); }
+    .link-item span { font-size: 1rem; }
+    .link-arrow { opacity: 0; transform: translateX(-10px); transition: all 0.3s; }
+    .link-item:hover .link-arrow { opacity: 1; transform: translateX(0); }
 
     /* Footer */
-    .footer { padding: 6rem 4rem 2rem; border-top: 1px solid var(--gray); }
-    .footer-main { display: flex; justify-content: space-between; margin-bottom: 4rem; }
-    .footer-brand { max-width: 300px; }
-    .footer-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1rem; letter-spacing: 0.1em; color: var(--white); display: block; margin-bottom: 1rem; }
-    .footer-brand p { font-size: 0.875rem; color: var(--silver); line-height: 1.6; }
-    .footer-links { display: flex; gap: 4rem; }
-    .footer-col h5 { font-size: 0.75rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; }
-    .footer-col a { display: block; color: var(--silver); text-decoration: none; font-size: 0.875rem; margin-bottom: 0.5rem; transition: color 0.3s; }
-    .footer-col a:hover { color: var(--white); }
-    .footer-bottom { padding-top: 2rem; border-top: 1px solid var(--gray); text-align: center; }
-    .footer-bottom p { font-size: 0.75rem; color: var(--dim); }
-    .footer-bottom a { color: var(--accent); text-decoration: none; }
+    footer { padding: 4rem 0; text-align: center; border-top: 1px solid var(--border); }
+    footer p { font-size: 0.8rem; opacity: 0.5; }
 
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .hero { grid-template-columns: 1fr; text-align: center; padding-top: 8rem; }
-      .hero-content { max-width: 100%; }
-      .hero-desc { margin-left: auto; margin-right: auto; }
-      .hero-actions { justify-content: center; }
-      .hero-stats { justify-content: center; }
-      .hero-visual { margin-top: 4rem; }
-      .story { grid-template-columns: 1fr; }
-      .story-sticky { display: none; }
-      .tech-grid { grid-template-columns: repeat(2, 1fr); }
-      .docs-grid { grid-template-columns: repeat(2, 1fr); }
-    }
+    /* Utility */
+    .hidden { display: none; }
+    .no-scroll { overflow: hidden; }
 
-    @media (max-width: 768px) {
-      .nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      .hero, .features, .tech, .docs, .timeline, .cta, .footer { padding-left: 1.5rem; padding-right: 1.5rem; }
-      .tech-grid, .docs-grid { grid-template-columns: 1fr; }
-      .footer-main { flex-direction: column; gap: 3rem; }
-      .footer-links { flex-wrap: wrap; gap: 2rem; }
-      html, body { cursor: auto; }
-      .cursor, .cursor-follower { display: none; }
-    }
   </style>
 </head>
 <body>
-  <!-- Preloader -->
-  <div class="preloader" id="preloader">
-    <div class="preloader-content">
-      <div class="preloader-icon">🚁</div>
-      <div class="preloader-bar"><div class="preloader-progress"></div></div>
-      <div class="preloader-text">Iniciando sistemas...</div>
-    </div>
-  </div>
 
-  <!-- Cursor -->
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-follower" id="cursorFollower"></div>
-
-  <!-- Navigation -->
-  <nav class="nav" id="nav">
-    <a href="#" class="nav-logo">
-      <span class="nav-logo-icon">◆</span>
-      <span>DRONE.VIEWER</span>
-    </a>
-    <div class="nav-links">
-      <a href="#features" data-hover>Features</a>
-      <a href="#tech" data-hover>Stack</a>
-      <a href="#docs" data-hover>Docs</a>
-      <a href="#timeline" data-hover>Timeline</a>
-    </div>
-    <a href="https://github.com/delarge95/WebGL_tesis" target="_blank" class="nav-cta" data-hover>
-      <span>GitHub</span>
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-    </a>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero" id="hero">
-    <div class="hero-bg">
-      <div class="hero-grid"></div>
-      <div class="hero-orb hero-orb-1"></div>
-      <div class="hero-orb hero-orb-2"></div>
-      <div class="hero-orb hero-orb-3"></div>
-    </div>
+  <!-- HERO / WELCOME SCREEN -->
+  <section class="hero">
+    <div class="hero-graphic" id="heroGraphic"></div>
     
     <div class="hero-content">
-      <div class="hero-tag">
-        <span class="tag-dot"></span>
-        UNAD · Ingeniería Multimedia · 2025
-      </div>
-      
-      <h1 class="hero-title">
-        <span class="title-line">Visualización</span>
-        <span class="title-line">
-          <span class="title-accent">3D</span> Interactiva
-        </span>
-        <span class="title-line title-small">de Hardware de Drones</span>
-      </h1>
-      
-      <p class="hero-desc">
-        Explora componentes de drones de alto rendimiento en tiempo real. 
-        Sin instalación. Sin plugins. Solo WebGL.
-      </p>
-      
-      <div class="hero-actions">
-        <a href="./Build/index.html" class="btn-primary" data-hover>
-          <span class="btn-bg"></span>
-          <span class="btn-text">Iniciar Experiencia</span>
-          <span class="btn-icon">→</span>
-        </a>
-        <a href="#features" class="btn-ghost" data-hover>Explorar</a>
-      </div>
-      
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-value" data-count="70">0</span>
-          <span class="stat-label">Scripts</span>
-        </div>
-        <div class="stat-sep"></div>
-        <div class="stat">
-          <span class="stat-value" data-count="7">0</span>
-          <span class="stat-label">Shaders</span>
-        </div>
-        <div class="stat-sep"></div>
-        <div class="stat">
-          <span class="stat-value" data-count="30">0</span>
-          <span class="stat-label">FPS+</span>
-        </div>
-      </div>
+      <h1 class="hero-title">Drone Viewer</h1>
+      <p class="hero-subtitle">Visualización técnica de alta fidelidad. Ingeniería de precisión en WebGL.</p>
+      <button class="btn-start" id="btnStart">Iniciar Experiencia</button>
     </div>
-    
-    <div class="hero-visual">
-      <div class="visual-frame">
-        <div class="visual-content">
-          <div class="drone-3d">🚁</div>
-        </div>
-        <div class="visual-ui">
-          <div class="ui-element ui-top-left">
-            <span class="ui-label">MODE</span>
-            <span class="ui-value">REALISTIC</span>
-          </div>
-          <div class="ui-element ui-bottom-right">
-            <span class="ui-label">FPS</span>
-            <span class="ui-value">60.0</span>
-          </div>
-        </div>
-        <div class="visual-scanline"></div>
-      </div>
-    </div>
-    
-    <div class="scroll-cue">
-      <span>SCROLL</span>
+
+    <div class="scroll-hint">
+      <span>Explorar</span>
       <div class="scroll-line"></div>
     </div>
   </section>
 
-  <!-- Marquee -->
-  <div class="marquee">
-    <div class="marquee-track">
-      <span>WEBGL 2.0</span><span class="marquee-dot">◆</span>
-      <span>UNITY 6</span><span class="marquee-dot">◆</span>
-      <span>C# 11</span><span class="marquee-dot">◆</span>
-      <span>HLSL SHADERS</span><span class="marquee-dot">◆</span>
-      <span>UI TOOLKIT</span><span class="marquee-dot">◆</span>
-      <span>BLENDER 4</span><span class="marquee-dot">◆</span>
-      <span>WEBASSEMBLY</span><span class="marquee-dot">◆</span>
-      <span>WEBGL 2.0</span><span class="marquee-dot">◆</span>
-      <span>UNITY 6</span><span class="marquee-dot">◆</span>
-      <span>C# 11</span><span class="marquee-dot">◆</span>
-      <span>HLSL SHADERS</span><span class="marquee-dot">◆</span>
-      <span>UI TOOLKIT</span><span class="marquee-dot">◆</span>
-    </div>
+  <!-- APP OVERLAY (Seamless Transition) -->
+  <div class="app-overlay" id="appOverlay">
+    <button class="btn-exit" id="btnExit">✕</button>
+    <!-- Iframe loads here. Preload it but keep hidden -->
+    <iframe src="./Build/index.html" class="app-frame" id="appFrame" allow="fullscreen"></iframe>
   </div>
 
-  <!-- Features Horizontal Scroll -->
-  <section class="features" id="features">
-    <div class="features-header">
-      <span class="section-num">01</span>
-      <h2 class="section-title">Capacidades</h2>
-      <p class="section-desc">7 modos de visualización. Herramientas de ingeniería. Todo en tu navegador.</p>
-    </div>
+  <!-- INFO SECTIONS (Below Fold) -->
+  <div class="content-wrapper">
     
-    <div class="features-track">
-      <div class="feature-card">
-        <div class="card-icon">🎨</div>
-        <h3>Modos de Visualización</h3>
-        <p>Realista, X-Ray, Blueprint, Sólido, Wireframe, Ghosted, Térmico</p>
-        <span class="card-num">01</span>
+    <!-- Features -->
+    <section class="info-section container">
+      <div class="section-header">
+        <h2 class="section-title">Capacidades</h2>
       </div>
-      <div class="feature-card">
-        <div class="card-icon">💥</div>
-        <h3>Vista Explosionada</h3>
-        <p>Separación animada de componentes para inspección interna</p>
-        <span class="card-num">02</span>
+      <div class="grid-minimal">
+        <div class="grid-item">
+          <div class="grid-icon">01</div>
+          <h3>Visualización Avanzada</h3>
+          <p>7 modos de renderizado incluyendo Rayos X, Térmico y Blueprint para análisis técnico profundo.</p>
+        </div>
+        <div class="grid-item">
+          <div class="grid-icon">02</div>
+          <h3>Interacción Total</h3>
+          <p>Despiece explosivo, cortes transversales y manipulación orbital completa.</p>
+        </div>
+        <div class="grid-item">
+          <div class="grid-icon">03</div>
+          <h3>Ingeniería</h3>
+          <p>Herramientas de medición, BOM interactivo y guías de ensamblaje paso a paso.</p>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="card-icon">✂️</div>
-        <h3>Corte Transversal</h3>
-        <p>Planos de corte dinámicos en ejes X, Y, Z</p>
-        <span class="card-num">03</span>
-      </div>
-      <div class="feature-card">
-        <div class="card-icon">📏</div>
-        <h3>Medición</h3>
-        <p>Distancias, ángulos y radios entre puntos 3D</p>
-        <span class="card-num">04</span>
-      </div>
-      <div class="feature-card">
-        <div class="card-icon">🔧</div>
-        <h3>Guía de Ensamblaje</h3>
-        <p>Instrucciones paso a paso con torques y herramientas</p>
-        <span class="card-num">05</span>
-      </div>
-      <div class="feature-card">
-        <div class="card-icon">📋</div>
-        <h3>Catálogo de Partes</h3>
-        <p>Búsqueda y filtrado por categoría</p>
-        <span class="card-num">06</span>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Scrollytelling Section -->
-  <section class="story" id="story">
-    <div class="story-sticky">
-      <div class="story-visual">
-        <div class="story-frame">
-          <div class="story-drone">🚁</div>
+    <!-- Tech Stack -->
+    <section class="info-section container">
+      <div class="section-header">
+        <h2 class="section-title">Tecnología</h2>
+      </div>
+      <div class="grid-minimal">
+        <div class="grid-item">
+          <h3>Unity 6 LTS</h3>
+          <p>Motor gráfico de última generación optimizado para web.</p>
+        </div>
+        <div class="grid-item">
+          <h3>WebGL 2.0</h3>
+          <p>Renderizado de alto rendimiento sin plugins.</p>
+        </div>
+        <div class="grid-item">
+          <h3>WebAssembly</h3>
+          <p>Ejecución de código nativo C# en el navegador.</p>
+        </div>
+        <div class="grid-item">
+          <h3>HLSL Shaders</h3>
+          <p>Programación gráfica personalizada para efectos técnicos.</p>
         </div>
       </div>
-    </div>
-    
-    <div class="story-content">
-      <div class="story-panel" data-step="1">
-        <span class="panel-num">01</span>
-        <h3>Explora desde cualquier ángulo</h3>
-        <p>Rotación 360°, zoom y pan con controles intuitivos de cámara orbital.</p>
-      </div>
-      <div class="story-panel" data-step="2">
-        <span class="panel-num">02</span>
-        <h3>Selecciona componentes</h3>
-        <p>Click en cualquier pieza para ver especificaciones técnicas detalladas.</p>
-      </div>
-      <div class="story-panel" data-step="3">
-        <span class="panel-num">03</span>
-        <h3>Cambia la perspectiva</h3>
-        <p>7 shaders HLSL personalizados para diferentes análisis técnicos.</p>
-      </div>
-      <div class="story-panel" data-step="4">
-        <span class="panel-num">04</span>
-        <h3>Herramientas profesionales</h3>
-        <p>Medición, anotaciones, BOM y guías de ensamblaje integradas.</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Tech Stack -->
-  <section class="tech" id="tech">
-    <div class="tech-header">
-      <span class="section-num">02</span>
-      <h2 class="section-title">Stack Tecnológico</h2>
-    </div>
-    
-    <div class="tech-grid">
-      <div class="tech-card" data-hover>
-        <div class="tech-icon">⚡</div>
-        <span class="tech-name">Unity 6.0 LTS</span>
-        <span class="tech-desc">Game Engine</span>
+    <!-- Documentation -->
+    <section class="info-section container">
+      <div class="section-header">
+        <h2 class="section-title">Documentación</h2>
       </div>
-      <div class="tech-card" data-hover>
-        <div class="tech-icon">🎮</div>
-        <span class="tech-name">URP</span>
-        <span class="tech-desc">Render Pipeline</span>
+      <div class="link-list">
+        <a href="./manual_usuario.pdf" class="link-item">
+          <span>Manual de Usuario</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./manual_tecnico.pdf" class="link-item">
+          <span>Manual Técnico</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="./ARCHITECTURE.md" class="link-item">
+          <span>Arquitectura del Sistema</span>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="https://github.com/delarge95/WebGL_tesis" class="link-item" target="_blank">
+          <span>Repositorio GitHub</span>
+          <span class="link-arrow">→</span>
+        </a>
       </div>
-      <div class="tech-card" data-hover>
-        <div class="tech-icon">🌐</div>
-        <span class="tech-name">WebGL 2.0</span>
-        <span class="tech-desc">Graphics API</span>
-      </div>
-      <div class="tech-card" data-hover>
-        <div class="tech-icon">📦</div>
-        <span class="tech-name">WASM</span>
-        <span class="tech-desc">Runtime</span>
-      </div>
-      <div class="tech-card" data-hover>
-        <div class="tech-icon">💻</div>
-        <span class="tech-name">C# 11</span>
-        <span class="tech-desc">Language</span>
-      </div>
-      <div class="tech-card" data-hover>
-        <div class="tech-icon">✨</div>
-        <span class="tech-name">HLSL</span>
-        <span class="tech-desc">Shaders</span>
-      </div>
-      <div class="tech-card" data-hover>
-        <div class="tech-icon">🖼️</div>
-        <span class="tech-name">UI Toolkit</span>
-        <span class="tech-desc">Interface</span>
-      </div>
-      <div class="tech-card" data-hover>
-        <div class="tech-icon">🧊</div>
-        <span class="tech-name">Blender 4</span>
-        <span class="tech-desc">3D Pipeline</span>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Documentation -->
-  <section class="docs" id="docs">
-    <div class="docs-header">
-      <span class="section-num">03</span>
-      <h2 class="section-title">Documentación</h2>
-      <p class="section-desc">Guías técnicas, manuales y recursos para desarrolladores.</p>
-    </div>
-    
-    <div class="docs-grid">
-      <a href="./DEMO_SCRIPT.md" class="doc-card" data-hover>
-        <div class="doc-icon">📖</div>
-        <div class="doc-info">
-          <h4>Demo Script</h4>
-          <p>Guía de presentación en vivo</p>
-        </div>
-        <span class="doc-arrow">↗</span>
-      </a>
-      <a href="./ARCHITECTURE.md" class="doc-card" data-hover>
-        <div class="doc-icon">⚙️</div>
-        <div class="doc-info">
-          <h4>Arquitectura</h4>
-          <p>Patrones y estructura del código</p>
-        </div>
-        <span class="doc-arrow">↗</span>
-      </a>
-      <a href="./DEPLOYMENT_GUIDE.md" class="doc-card" data-hover>
-        <div class="doc-icon">🚀</div>
-        <div class="doc-info">
-          <h4>Deployment Guide</h4>
-          <p>GitHub Pages, Vercel, Netlify</p>
-        </div>
-        <span class="doc-arrow">↗</span>
-      </a>
-      <a href="./WEBGL_BUILD_SETTINGS.md" class="doc-card" data-hover>
-        <div class="doc-icon">🎯</div>
-        <div class="doc-info">
-          <h4>WebGL Settings</h4>
-          <p>Configuración optimizada Unity</p>
-        </div>
-        <span class="doc-arrow">↗</span>
-      </a>
-      <a href="./AUDIO_REQUIREMENTS.md" class="doc-card" data-hover>
-        <div class="doc-icon">🔊</div>
-        <div class="doc-info">
-          <h4>Audio Assets</h4>
-          <p>Especificaciones de sonido</p>
-        </div>
-        <span class="doc-arrow">↗</span>
-      </a>
-      <a href="./CUESTIONARIO_SUS.md" class="doc-card" data-hover>
-        <div class="doc-icon">📊</div>
-        <div class="doc-info">
-          <h4>SUS Questionnaire</h4>
-          <p>Validación de usabilidad</p>
-        </div>
-        <span class="doc-arrow">↗</span>
-      </a>
-      <a href="./CUESTIONARIO_NASA_TLX.md" class="doc-card" data-hover>
-        <div class="doc-icon">🧠</div>
-        <div class="doc-info">
-          <h4>NASA-TLX</h4>
-          <p>Carga cognitiva</p>
-        </div>
-        <span class="doc-arrow">↗</span>
-      </a>
-      <a href="https://github.com/delarge95/WebGL_tesis" class="doc-card" data-hover>
-        <div class="doc-icon">📂</div>
-        <div class="doc-info">
-          <h4>Repositorio</h4>
-          <p>Código fuente completo</p>
-        </div>
-        <span class="doc-arrow">↗</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- Timeline -->
-  <section class="timeline" id="timeline">
-    <div class="timeline-header">
-      <span class="section-num">04</span>
-      <h2 class="section-title">Desarrollo</h2>
-    </div>
-    
-    <div class="timeline-track">
-      <div class="timeline-line"></div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-date">JUL-AGO 2025</span>
-          <h4>Investigación</h4>
-          <p>Marco teórico, 40+ papers revisados</p>
-        </div>
+    <footer>
+      <div class="container">
+        <p>2025 · UNAD · Ingeniería Multimedia</p>
       </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-date">SEP 2025</span>
-          <h4>Pipeline 3D</h4>
-          <p>Blender, retopología, baking</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-date">OCT-NOV 2025</span>
-          <h4>Desarrollo</h4>
-          <p>70+ scripts, 7 shaders HLSL</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-date">DIC 2025</span>
-          <h4>Validación</h4>
-          <p>Pruebas SUS, entrega final</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta">
-    <div class="cta-content">
-      <h2>¿Listo para explorar?</h2>
-      <p>Abre el visor 3D directamente en tu navegador</p>
-      <a href="./Build/index.html" class="btn-primary btn-large" data-hover>
-        <span class="btn-bg"></span>
-        <span class="btn-text">Iniciar Experiencia 3D</span>
-        <span class="btn-icon">→</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-main">
-      <div class="footer-brand">
-        <span class="footer-logo">◆ DRONE.VIEWER</span>
-        <p>Visualización 3D interactiva de hardware de drones</p>
-      </div>
-      <div class="footer-links">
-        <div class="footer-col">
-          <h5>Proyecto</h5>
-          <a href="https://github.com/delarge95/WebGL_tesis">GitHub</a>
-          <a href="./Build/index.html">Demo</a>
-          <a href="./ARCHITECTURE.md">Arquitectura</a>
-        </div>
-        <div class="footer-col">
-          <h5>Documentación</h5>
-          <a href="./manual_usuario.pdf">Manual Usuario</a>
-          <a href="./manual_tecnico.pdf">Manual Técnico</a>
-          <a href="./DEPLOYMENT_GUIDE.md">Deployment</a>
-        </div>
-        <div class="footer-col">
-          <h5>Validación</h5>
-          <a href="./CUESTIONARIO_SUS.md">SUS</a>
-          <a href="./NASA_TLX.md">NASA-TLX</a>
-          <a href="./DEMO_SCRIPT.md">Demo Script</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2025 Alexander Woodcock Salomón · <a href="https://unad.edu.co">UNAD</a> · Ingeniería Multimedia</p>
-    </div>
-  </footer>
+    </footer>
+  </div>
 
   <script>
-    // Wait for DOM
     document.addEventListener('DOMContentLoaded', () => {
-      // Register GSAP plugins
-      gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-
-      // Preloader
-      const preloader = document.getElementById('preloader');
-      const progress = document.querySelector('.preloader-progress');
       
-      let loadProgress = 0;
-      const loadInterval = setInterval(() => {
-        loadProgress += Math.random() * 30;
-        if (loadProgress >= 100) {
-          loadProgress = 100;
-          clearInterval(loadInterval);
-          setTimeout(() => {
-            gsap.to(preloader, {
-              opacity: 0,
-              duration: 0.5,
-              onComplete: () => {
-                preloader.style.display = 'none';
-                initAnimations();
-              }
-            });
-          }, 300);
-        }
-        progress.style.width = loadProgress + '%';
-      }, 200);
+      // Elements
+      const btnStart = document.getElementById('btnStart');
+      const btnExit = document.getElementById('btnExit');
+      const appOverlay = document.getElementById('appOverlay');
+      const heroGraphic = document.getElementById('heroGraphic');
+      const heroContent = document.querySelector('.hero-content');
+      const scrollHint = document.querySelector('.scroll-hint');
+      const body = document.body;
 
-      // Custom Cursor
-      const cursor = document.getElementById('cursor');
-      const follower = document.getElementById('cursorFollower');
-      let mouseX = 0, mouseY = 0;
-      let cursorX = 0, cursorY = 0;
-      let followerX = 0, followerY = 0;
+      // 1. Intro Animation
+      const tl = gsap.timeline();
+      
+      tl.to(heroGraphic, { opacity: 1, duration: 2, ease: "power2.out" })
+        .to('.hero-title', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=1.5")
+        .to('.hero-subtitle', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
+        .to('.btn-start', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
+        .to('.scroll-hint', { opacity: 1, duration: 1 }, "-=0.5");
 
-      document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
+      // 2. Continuous Graphic Animation (Breathing)
+      gsap.to(heroGraphic, {
+        scale: 1.2,
+        opacity: 0.8,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
       });
 
-      // Cursor animation loop - Optimized with Transforms
-      function animateCursor() {
-        // Faster lerp for snappier feel (0.2 -> 0.5)
-        cursorX += (mouseX - cursorX) * 0.5;
-        cursorY += (mouseY - cursorY) * 0.5;
+      // 3. SEAMLESS TRANSITION LOGIC
+      btnStart.addEventListener('click', () => {
         
-        // Follower slightly slower but faster than before (0.1 -> 0.2)
-        followerX += (mouseX - followerX) * 0.2;
-        followerY += (mouseY - followerY) * 0.2;
+        // A. Lock Scroll
+        body.classList.add('no-scroll');
 
-        // Use transform for performance (no layout thrashing)
-        cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
-        follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
+        // B. Transition Animation
+        const transitionTl = gsap.timeline();
 
-        requestAnimationFrame(animateCursor);
-      }
-      animateCursor();
-
-      // Hover effects
-      document.querySelectorAll('[data-hover]').forEach(el => {
-        el.addEventListener('mouseenter', () => follower.classList.add('hover'));
-        el.addEventListener('mouseleave', () => follower.classList.remove('hover'));
+        // Expand graphic to fill screen (The "Melt" effect)
+        transitionTl
+          .to(heroGraphic, { 
+            scale: 50, // Massive scale to cover screen
+            opacity: 1,
+            duration: 1.5,
+            ease: "power2.inIn"
+          })
+          .to(heroContent, { opacity: 0, duration: 0.5 }, "-=1.5") // Fade out text
+          .to(scrollHint, { opacity: 0, duration: 0.5 }, "-=1.5")
+          
+          // Reveal App Overlay
+          .set(appOverlay, { className: "app-overlay active" }) // Make active
+          .to(appOverlay, { opacity: 1, duration: 0.5 }, "-=0.5"); // Ensure full opacity
+          
       });
 
-      // Main animations
-      function initAnimations() {
-        // Hero animations
-        gsap.from('.hero-tag', { opacity: 0, y: 30, duration: 0.8, delay: 0.2 });
-        gsap.from('.title-line', { opacity: 0, y: 50, duration: 0.8, stagger: 0.1, delay: 0.3 });
-        gsap.from('.hero-desc', { opacity: 0, y: 30, duration: 0.8, delay: 0.6 });
-        gsap.from('.hero-actions', { opacity: 0, y: 30, duration: 0.8, delay: 0.7 });
-        gsap.from('.hero-stats', { opacity: 0, y: 30, duration: 0.8, delay: 0.8 });
-        gsap.from('.hero-visual', { opacity: 0, scale: 0.9, duration: 1, delay: 0.5, ease: 'power2.out' });
-        gsap.from('.scroll-cue', { opacity: 0, duration: 0.8, delay: 1.2 });
+      // 4. EXIT LOGIC
+      btnExit.addEventListener('click', () => {
+        
+        // A. Unlock Scroll
+        body.classList.remove('no-scroll');
 
-        // Counter animation
-        document.querySelectorAll('[data-count]').forEach(el => {
-          const target = parseInt(el.dataset.count);
-          gsap.to(el, {
-            innerText: target,
-            duration: 2,
-            delay: 1,
-            snap: { innerText: 1 },
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 80%',
-              once: true
-            }
-          });
-        });
+        // B. Reverse Transition
+        const exitTl = gsap.timeline();
 
-        // Nav hide/show on scroll
-        let lastScroll = 0;
-        const nav = document.getElementById('nav');
-        window.addEventListener('scroll', () => {
-          const currentScroll = window.scrollY;
-          if (currentScroll > lastScroll && currentScroll > 100) {
-            nav.style.transform = 'translateY(-100%)';
-          } else {
-            nav.style.transform = 'translateY(0)';
-          }
-          lastScroll = currentScroll;
-        });
+        exitTl
+          .to(appOverlay, { opacity: 0, duration: 0.5 })
+          .set(appOverlay, { className: "app-overlay" }) // Hide
+          
+          // Shrink graphic back
+          .to(heroGraphic, { 
+            scale: 1, 
+            opacity: 1, // Reset to breathing state
+            duration: 1.5,
+            ease: "power2.out"
+          })
+          .to(heroContent, { opacity: 1, duration: 0.5 }, "-=1.0")
+          .to(scrollHint, { opacity: 1, duration: 0.5 }, "-=1.0");
+      });
 
-        // Features section - Simplified animation to prevent visibility issues
-        gsap.from('.features-header', {
-          opacity: 0, y: 30, duration: 0.8,
-          scrollTrigger: { trigger: '.features-header', start: 'top 80%' }
-        });
-
-        // Removed complex stagger on cards to ensure they are visible
-        // The CSS opacity: 1 !important ensures they are seen even if JS fails
-
-        // Scrollytelling
-        const storyPanels = document.querySelectorAll('.story-panel');
-        const storyDrone = document.querySelector('.story-drone');
-
-        storyPanels.forEach((panel, i) => {
-          ScrollTrigger.create({
-            trigger: panel,
-            start: 'top center',
-            end: 'bottom center',
-            onEnter: () => {
-              storyPanels.forEach(p => p.classList.remove('active'));
-              panel.classList.add('active');
-              updateDroneState(i + 1);
-            },
-            onEnterBack: () => {
-              storyPanels.forEach(p => p.classList.remove('active'));
-              panel.classList.add('active');
-              updateDroneState(i + 1);
-            }
-          });
-        });
-
-        function updateDroneState(step) {
-          storyDrone.className = 'story-drone';
-          if (step === 2) storyDrone.classList.add('exploded');
-          if (step === 3) storyDrone.classList.add('xray');
-          if (step === 4) storyDrone.classList.add('tools');
-        }
-
-        // Tech cards
-        gsap.from('.tech-card', {
-          opacity: 0, y: 30, duration: 0.5, stagger: 0.05,
-          scrollTrigger: { trigger: '.tech-grid', start: 'top 80%' }
-        });
-
-        // Doc cards - Removed opacity animation to guarantee visibility
-        gsap.from('.doc-card', {
-          y: 30, duration: 0.5, stagger: 0.05,
-          scrollTrigger: { trigger: '.docs-grid', start: 'top 90%' }
-        });
-
-        // Timeline
-        gsap.from('.timeline-item', {
-          opacity: 0, x: -30, duration: 0.6, stagger: 0.15,
-          scrollTrigger: { trigger: '.timeline-track', start: 'top 80%' }
-        });
-
-        // CTA
-        gsap.from('.cta-content', {
-          opacity: 0, y: 50, duration: 0.8,
-          scrollTrigger: { trigger: '.cta', start: 'top 80%' }
-        });
-
-        // Parallax orbs
-        gsap.to('.hero-orb-1', {
-          y: -100,
+      // 5. Scroll Animations for Info Sections
+      gsap.utils.toArray('.info-section').forEach(section => {
+        gsap.from(section.querySelectorAll('.grid-item, .link-item'), {
+          opacity: 0,
+          y: 30,
+          duration: 0.8,
+          stagger: 0.1,
           scrollTrigger: {
-            trigger: '.hero',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1
-          }
-        });
-
-        gsap.to('.hero-orb-2', {
-          y: -150,
-          scrollTrigger: {
-            trigger: '.hero',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1
-          }
-        });
-      }
-
-      // Smooth scroll for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            gsap.to(window, {
-              scrollTo: target,
-              duration: 1,
-              ease: 'power2.inOut'
-            });
+            trigger: section,
+            start: "top 80%",
+            toggleActions: "play none none reverse"
           }
         });
       });
+
     });
   </script>
 </body>
