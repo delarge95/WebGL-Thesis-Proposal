@@ -1,0 +1,312 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{times}
+\usepackage[margin=2.54cm]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{verbatim}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{listings}
+
+% Code listing style
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10}
+}
+
+% Header/Footer
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Manual Técnico - Prototipo Web 3D}
+\lhead{Ingeniería Multimedia - UNAD}
+\rfoot{Página \thepage}
+
+\title{\textbf{Manual Técnico}\\Prototipo Web 3D Interactivo para Visualización Técnica de Drones}
+\author{Alexander Woodcock Salomón}
+\date{Diciembre 2025}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introducción}
+Este documento técnico detalla la arquitectura, componentes y procedimientos de mantenimiento del prototipo Web 3D para visualización técnica de drones. El sistema implementa más de 65 scripts con arquitectura modular, patrones de diseño profesionales y optimizaciones específicas para WebGL.
+
+\subsection{Alcance del Documento}
+\begin{itemize}
+    \item Arquitectura del sistema y patrones de diseño
+    \item Descripción de todos los sistemas implementados
+    \item Procedimientos de compilación y despliegue
+    \item Guías de extensión y mantenimiento
+\end{itemize}
+
+\section{Arquitectura del Sistema}
+
+\subsection{Stack Tecnológico}
+\begin{itemize}
+    \item \textbf{Motor:} Unity 6.3 LTS
+    \item \textbf{Lenguaje:} C\# 11 (Scripting) / HLSL (Shaders)
+    \item \textbf{Plataforma:} WebGL 2.0
+    \item \textbf{Compilador:} IL2CPP $\rightarrow$ WebAssembly (WASM)
+    \item \textbf{Pipeline Gráfico:} Universal Render Pipeline (URP)
+    \item \textbf{UI Framework:} UI Toolkit (USS/UXML)
+\end{itemize}
+
+\subsection{Patrones de Diseño Implementados}
+\begin{itemize}
+    \item \textbf{Singleton/PersistentSingleton:} Para managers globales
+    \item \textbf{Event Bus:} Comunicación desacoplada entre sistemas
+    \item \textbf{State Machine:} Control de estados de la aplicación
+    \item \textbf{ScriptableObjects:} Configuración de datos (DronePartData, AssemblyGuideData)
+    \item \textbf{Object Pooling:} Reutilización de objetos para rendimiento
+\end{itemize}
+
+\subsection{Diagrama de Arquitectura}
+\begin{verbatim}
++------------------+     +------------------+     +------------------+
+|   AppStateMachine|<--->|     EventBus     |<--->| SelectionManager |
++------------------+     +------------------+     +------------------+
+         |                       |                        |
+         v                       v                        v
++------------------+     +------------------+     +------------------+
+|   GameManager    |     |   AudioManager   |     |  UIManager       |
++------------------+     +------------------+     +------------------+
+         |                       |                        |
+         v                       v                        v
++------------------+     +------------------+     +------------------+
+| OrbitCamera      |     |  SaveSystem      |     | PartCatalogUI    |
++------------------+     +------------------+     +------------------+
+\end{verbatim}
+
+\section{Estructura del Proyecto}
+
+\begin{verbatim}
+Assets/Scripts/
++-- Core/
+|   +-- Data/           # ScriptableObjects (DronePartData)
+|   +-- Events/         # Sistema de eventos (EventBus)
+|   +-- Managers/       # 25+ Managers (Singletons)
+|   +-- Content/        # Componentes de piezas
+|   +-- Utils/          # Utilidades (Singleton, TweenEngine)
++-- UI/
+|   +-- UIManager.cs    # Control principal UI
+|   +-- PartCatalogUI   # Catálogo de piezas
+|   +-- EnhancedInfoPanel # Panel de información
+|   +-- AssemblyStepUI  # Guía de ensamblaje
++-- Graphics/
+|   +-- Shaders/        # Shaders personalizados
+|   +-- PostProcessing/ # Efectos de post-procesado
+\end{verbatim}
+
+\section{Sistemas Principales}
+
+\subsection{Core Managers (25+ Scripts)}
+
+\subsubsection{AppStateMachine.cs}
+Máquina de estados principal. Estados: Loading, Exploration, ExplodedView, PartFocus, Settings, Menu.
+\begin{lstlisting}[language=C]
+AppStateMachine.Instance.TransitionTo(AppState.ExplodedView);
+\end{lstlisting}
+
+\subsubsection{EventBus.cs}
+Sistema de eventos pub/sub para comunicación desacoplada.
+\begin{lstlisting}[language=C]
+EventBus.Publish(new PartSelectedEvent(partData));
+EventBus.Subscribe<PartSelectedEvent>(OnPartSelected);
+\end{lstlisting}
+
+\subsubsection{SelectionManager.cs}
+Gestiona selección de piezas con raycast, integra HighlightSystem, CursorManager y AnalyticsManager.
+
+\subsubsection{ViewModeManager.cs}
+Controla 7 modos de visualización:
+\begin{itemize}
+    \item Realistic - Material original
+    \item XRay - Semi-transparente con fresnel
+    \item Blueprint - Estilo técnico
+    \item SolidColor - Color sólido configurable
+    \item Wireframe - Solo líneas
+    \item Ghosted - Fantasma
+    \item Thermal - Vista térmica
+\end{itemize}
+
+\subsubsection{PartCatalogManager.cs}
+Búsqueda y filtrado de piezas por nombre, tipo, categoría y material.
+
+\subsubsection{PartVisibilityManager.cs}
+Control de visibilidad: ocultar, mostrar, aislar piezas con animaciones de fade.
+
+\subsubsection{CrossSectionManager.cs}
+Cortes transversales en ejes X, Y, Z con plano visual y posición configurable.
+
+\subsubsection{DroneStateController.cs}
+Control de estado del dron: Off, StartingUp, Idle, Flying, ShuttingDown. Incluye animación de propelas, luces de estado y partículas.
+
+\subsubsection{ModularPartsSystem.cs}
+Sistema de slots para intercambio de piezas modulares con animaciones.
+
+\subsection{Herramientas de Ensamblaje}
+
+\subsubsection{AssemblyGuideManager.cs}
+Guía paso a paso con:
+\begin{itemize}
+    \item Pasos secuenciales con navegación
+    \item Herramientas requeridas por paso
+    \item Tiempos estimados
+    \item Niveles de dificultad (1-5)
+    \item Advertencias de seguridad
+    \item Tips de instalación
+\end{itemize}
+
+\subsubsection{MeasurementTool.cs}
+Herramienta de medición con modos: Distancia, Ángulo, Radio.
+
+\subsubsection{ConnectionPointsViewer.cs}
+Visualización de puntos de conexión (tornillos, snaps, soldaduras, cables).
+
+\subsubsection{BillOfMaterialsManager.cs}
+Generación de lista de materiales con exportación CSV.
+
+\subsubsection{AnnotationSystem.cs}
+Sistema de notas 3D con billboard text.
+
+\subsubsection{AssemblyChecklist.cs}
+Lista de verificación de piezas con progreso.
+
+\subsection{Sistemas de Audio y Visual}
+
+\subsubsection{AudioManager.cs}
+Control de audio con volúmenes separados (Master, SFX, Music) y persistencia.
+
+\subsubsection{QualityManager.cs}
+Ajuste dinámico de calidad basado en FPS.
+
+\subsubsection{TweenEngine.cs}
+Motor de animaciones ligero (alternativa a DOTween) con 8 tipos de easing.
+
+\subsubsection{NotificationManager.cs}
+Sistema de notificaciones toast animadas.
+
+\section{ScriptableObjects}
+
+\subsection{DronePartData}
+Configuración completa de cada pieza:
+\begin{itemize}
+    \item Info General: nombre, ID, tipo, descripción
+    \item Specs Técnicos: peso, dimensiones, función
+    \item Materiales: tipo, propiedades, fabricante
+    \item Vista Explosionada: dirección, distancia, prioridad
+    \item Info de Ensamblaje: herramientas, torque, tornillos, dificultad
+\end{itemize}
+
+\subsection{AssemblyGuideData}
+Definición de guías de ensamblaje con lista de pasos configurables.
+
+\section{Compilación y Despliegue}
+
+\subsection{Requisitos de Build}
+\begin{enumerate}
+    \item Unity 6.3 LTS
+    \item WebGL Build Support instalado
+    \item URP configurado
+\end{enumerate}
+
+\subsection{Configuración de Build}
+\begin{enumerate}
+    \item File $>$ Build Settings $>$ WebGL
+    \item Player Settings:
+    \begin{itemize}
+        \item Compression: Brotli (producción) o Disabled (desarrollo)
+        \item Code Stripping: High
+        \item IL2CPP Code Generation: Faster (Smaller) Builds
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Despliegue}
+Subir carpeta Build/ a servidor con headers:
+\begin{verbatim}
+Content-Type: application/wasm (para .wasm)
+Content-Encoding: br (si usa Brotli)
+\end{verbatim}
+
+\section{Extensión del Sistema}
+
+\subsection{Añadir Nueva Pieza}
+\begin{enumerate}
+    \item Crear DronePartData asset (Create $>$ WebGL $>$ Drone Part Data)
+    \item Configurar todos los campos
+    \item Añadir ExplodablePart component al modelo 3D
+    \item Asignar DronePartData al component
+    \item Añadir ConnectionPointMarker a puntos de conexión
+\end{enumerate}
+
+\subsection{Añadir Nuevo Modo de Vista}
+\begin{enumerate}
+    \item Añadir entrada a enum ViewMode
+    \item Crear material en ViewModeManager
+    \item Implementar lógica en ApplyModeToRenderers()
+    \item Añadir botón en ViewModeToolbar
+\end{enumerate}
+
+\subsection{Añadir Nuevo Manager}
+\begin{enumerate}
+    \item Heredar de Singleton<T> o PersistentSingleton<T>
+    \item Implementar lógica en Awake() y Start()
+    \item Suscribirse a eventos relevantes del EventBus
+    \item Añadir al GameObject \_GameManagers en escena
+\end{enumerate}
+
+\section{Resumen de Scripts}
+
+\begin{longtable}{|p{5cm}|p{8cm}|}
+\hline
+\textbf{Script} & \textbf{Función} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Script} & \textbf{Función} \\
+\hline
+\endhead
+AppStateMachine & Máquina de estados principal \\
+EventBus & Sistema de eventos \\
+SelectionManager & Selección de piezas \\
+ViewModeManager & Modos de visualización (7) \\
+PartCatalogManager & Búsqueda y filtrado \\
+PartVisibilityManager & Ocultar/mostrar piezas \\
+CrossSectionManager & Cortes transversales \\
+DroneStateController & On/Off del dron \\
+ModularPartsSystem & Intercambio de piezas \\
+AssemblyGuideManager & Guía de ensamblaje \\
+MeasurementTool & Mediciones 3D \\
+ConnectionPointsViewer & Puntos de conexión \\
+BillOfMaterialsManager & Lista de materiales \\
+AnnotationSystem & Notas 3D \\
+AssemblyChecklist & Verificación de piezas \\
+AudioManager & Control de audio \\
+TweenEngine & Motor de animaciones \\
+OrbitCameraController & Cámara orbital \\
+CameraPresets & Vistas predefinidas \\
+HighlightSystem & Resaltado visual \\
+CursorManager & Cursores dinámicos \\
+LoadingController & Pantalla de carga \\
+AnalyticsManager & Métricas de uso \\
+AccessibilityManager & Opciones de accesibilidad \\
+ErrorHandler & Manejo de errores \\
+ScreenshotManager & Captura de pantalla \\
+KeyboardShortcuts & Atajos de teclado \\
+PerformanceMonitor & Métricas de rendimiento \\
+WebGLOptimizer & Optimizaciones WebGL \\
+\hline
+\end{longtable}
+
+\textbf{Total: 65+ scripts, 9,000+ líneas de código}
+
+\end{document}

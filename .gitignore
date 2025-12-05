@@ -1,0 +1,86 @@
+# Unity WebGL Thesis - Drone Visualization
+
+## Archivos ignorados
+
+# Unity
+desarrollo/unity_project/Library/
+desarrollo/unity_project/Temp/
+desarrollo/unity_project/Obj/
+desarrollo/unity_project/Build/
+desarrollo/unity_project/Builds/
+desarrollo/unity_project/Logs/
+desarrollo/unity_project/UserSettings/
+desarrollo/unity_project/MemoryCaptures/
+desarrollo/unity_project/*.csproj
+desarrollo/unity_project/*.unityproj
+desarrollo/unity_project/*.sln
+desarrollo/unity_project/*.suo
+desarrollo/unity_project/*.tmp
+desarrollo/unity_project/*.user
+desarrollo/unity_project/*.userprefs
+desarrollo/unity_project/*.pidb
+desarrollo/unity_project/*.booproj
+desarrollo/unity_project/*.svd
+desarrollo/unity_project/*.pdb
+desarrollo/unity_project/*.mdb
+desarrollo/unity_project/*.opendb
+desarrollo/unity_project/*.VC.db
+desarrollo/unity_project/*.pidb.meta
+desarrollo/unity_project/*.pdb.meta
+desarrollo/unity_project/*.mdb.meta
+
+# Blender
+desarrollo/blender_assets/*.blend1
+desarrollo/blender_assets/*.blend2
+
+# LaTeX
+Propuesta/*.aux
+Propuesta/*.log
+Propuesta/*.out
+Propuesta/*.toc
+Propuesta/*.lot
+Propuesta/*.lof
+Propuesta/*.synctex.gz
+Propuesta/*.fls
+Propuesta/*.fdb_latexmk
+Propuesta/*.bbl
+Propuesta/*.blg
+
+Informe_final/*.aux
+Informe_final/*.log
+Informe_final/*.out
+Informe_final/*.toc
+Informe_final/*.lot
+Informe_final/*.lof
+Informe_final/*.synctex.gz
+
+Informe_final/Manual_tecnico/*.aux
+Informe_final/Manual_tecnico/*.log
+Informe_final/Manual_tecnico/*.out
+Informe_final/Manual_tecnico/*.toc
+
+Informe_final/Manual_de_usuario/*.aux
+Informe_final/Manual_de_usuario/*.log
+Informe_final/Manual_de_usuario/*.out
+Informe_final/Manual_de_usuario/*.toc
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+.vs/
+*.swp
+*.swo
+*~
+
+# Node
+node_modules/
+
+# Build outputs
+*.exe
+*.dll
+*.so
+*.dylib
