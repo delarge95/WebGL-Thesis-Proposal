@@ -48,15 +48,17 @@
 
     ::selection { background: var(--accent); color: var(--white); }
 
-    /* Cursor */
+    /* Cursor - Optimized for Performance */
     .cursor {
       width: 8px; height: 8px;
       background: var(--white);
       border-radius: 50%;
       position: fixed;
+      top: 0; left: 0;
       pointer-events: none;
       z-index: 9999;
       mix-blend-mode: difference;
+      will-change: transform;
     }
 
     .cursor-follower {
@@ -64,15 +66,31 @@
       border: 1px solid rgba(255,255,255,0.3);
       border-radius: 50%;
       position: fixed;
+      top: -16px; left: -16px; /* Center offset */
       pointer-events: none;
       z-index: 9998;
-      transition: transform 0.15s, width 0.2s, height 0.2s;
+      transition: width 0.2s, height 0.2s, border-color 0.2s;
+      will-change: transform;
     }
 
-    .cursor-follower.hover {
-      width: 60px; height: 60px;
-      border-color: var(--accent);
+    /* ... (keep other styles) ... */
+
+    .doc-card {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.5rem;
+      background: #1a1a24; /* Lighter background for visibility */
+      border: 1px solid #2a2a38; /* Stronger border */
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--white);
+      transition: all 0.3s;
+      position: relative;
+      z-index: 10;
     }
+    
+    /* ... (keep other styles) ... */
+
+    /* ... (keep other styles) ... */
 
     /* Preloader */
     .preloader {
@@ -316,27 +334,9 @@
 
     @keyframes scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
-    /* Features Horizontal */
+    /* Features Horizontal - Fixed Visibility */
     .features { padding: 8rem 4rem; }
     .features-header { max-width: 500px; margin-bottom: 4rem; }
-
-    .section-num {
-      display: block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--accent);
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-    }
-
-    .section-desc { font-size: 1rem; color: var(--silver); font-weight: 300; max-width: 400px; }
 
     .features-track {
       display: flex; gap: 1.5rem;
@@ -346,22 +346,35 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    .features-track::-webkit-scrollbar { height: 2px; }
+    .features-track::-webkit-scrollbar { height: 4px; } /* Visible scrollbar */
     .features-track::-webkit-scrollbar-track { background: var(--gray); }
-    .features-track::-webkit-scrollbar-thumb { background: var(--accent); }
+    .features-track::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
 
     .feature-card {
-      flex: 0 0 320px;
+      flex: 0 0 320px; /* Fixed width, no shrinking */
       padding: 2.5rem;
-      background: var(--space);
-      border: 1px solid var(--gray);
+      background: #1a1a24; /* Lighter background */
+      border: 1px solid #2a2a38; /* Visible border */
       border-radius: 8px;
       position: relative;
       scroll-snap-align: start;
       transition: all 0.4s;
+      opacity: 1 !important; /* Force visibility */
+      transform: none !important; /* Reset transform issues */
     }
 
-    .feature-card:hover { border-color: var(--muted); transform: translateY(-8px); }
+    .feature-card:hover { border-color: var(--accent); transform: translateY(-5px) !important; }
+    
+    /* ... (keep other styles) ... */
+
+        // Features section - Simplified animation to prevent visibility issues
+        gsap.from('.features-header', {
+          opacity: 0, y: 30, duration: 0.8,
+          scrollTrigger: { trigger: '.features-header', start: 'top 80%' }
+        });
+
+        // Removed complex stagger on cards to ensure they are visible
+        // The CSS opacity: 1 !important ensures they are seen even if JS fails
     .card-icon { font-size: 2rem; margin-bottom: 1.5rem; }
     .feature-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; }
     .feature-card p { font-size: 0.875rem; color: var(--silver); line-height: 1.6; }
@@ -1006,17 +1019,19 @@
         mouseY = e.clientY;
       });
 
-      // Cursor animation loop
+      // Cursor animation loop - Optimized with Transforms
       function animateCursor() {
-        cursorX += (mouseX - cursorX) * 0.2;
-        cursorY += (mouseY - cursorY) * 0.2;
-        followerX += (mouseX - followerX) * 0.1;
-        followerY += (mouseY - followerY) * 0.1;
+        // Faster lerp for snappier feel (0.2 -> 0.5)
+        cursorX += (mouseX - cursorX) * 0.5;
+        cursorY += (mouseY - cursorY) * 0.5;
+        
+        // Follower slightly slower but faster than before (0.1 -> 0.2)
+        followerX += (mouseX - followerX) * 0.2;
+        followerY += (mouseY - followerY) * 0.2;
 
-        cursor.style.left = cursorX + 'px';
-        cursor.style.top = cursorY + 'px';
-        follower.style.left = followerX + 'px';
-        follower.style.top = followerY + 'px';
+        // Use transform for performance (no layout thrashing)
+        cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
+        follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
 
         requestAnimationFrame(animateCursor);
       }
@@ -1069,16 +1084,14 @@
           lastScroll = currentScroll;
         });
 
-        // Features section
+        // Features section - Simplified animation to prevent visibility issues
         gsap.from('.features-header', {
-          opacity: 0, y: 50, duration: 0.8,
+          opacity: 0, y: 30, duration: 0.8,
           scrollTrigger: { trigger: '.features-header', start: 'top 80%' }
         });
 
-        gsap.from('.feature-card', {
-          opacity: 0, y: 50, duration: 0.6, stagger: 0.1,
-          scrollTrigger: { trigger: '.features-track', start: 'top 80%' }
-        });
+        // Removed complex stagger on cards to ensure they are visible
+        // The CSS opacity: 1 !important ensures they are seen even if JS fails
 
         // Scrollytelling
         const storyPanels = document.querySelectorAll('.story-panel');
@@ -1115,10 +1128,10 @@
           scrollTrigger: { trigger: '.tech-grid', start: 'top 80%' }
         });
 
-        // Doc cards
+        // Doc cards - Removed opacity animation to guarantee visibility
         gsap.from('.doc-card', {
-          opacity: 0, y: 30, duration: 0.5, stagger: 0.05,
-          scrollTrigger: { trigger: '.docs-grid', start: 'top 80%' }
+          y: 30, duration: 0.5, stagger: 0.05,
+          scrollTrigger: { trigger: '.docs-grid', start: 'top 90%' }
         });
 
         // Timeline
