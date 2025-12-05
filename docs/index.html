@@ -69,24 +69,62 @@
       z-index: 10;
     }
 
-    .doc-nav-group {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
+    /* NAV BUTTONS (Floating Outside) */
     .btn-nav-doc {
-      background: transparent;
-      border: 1px solid var(--border);
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
       color: var(--text-muted);
-      width: 32px; height: 32px;
+      width: 50px; height: 50px;
       border-radius: 50%;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
+      transition: all 0.3s;
+      z-index: 210; /* Above modal */
+      font-size: 1.5rem;
+      backdrop-filter: blur(5px);
     }
-    .btn-nav-doc:hover { border-color: var(--text-main); color: var(--text-main); }
-    .btn-nav-doc:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn-nav-doc:hover { 
+      border-color: var(--text-main); 
+      color: var(--text-main); 
+      background: rgba(255,255,255,0.1);
+      scale: 1.1;
+    }
+    .btn-nav-doc:disabled { opacity: 0; pointer-events: none; }
+    
+    #prevDoc { left: 2rem; }
+    #nextDoc { right: 2rem; }
+
+    /* PDF BUTTON */
+    .btn-pdf {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 100px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      margin-left: auto; /* Push to right */
+      margin-right: 1rem;
+    }
+    .btn-pdf:hover {
+      border-color: var(--text-main); color: var(--text-main);
+    }
+    .btn-pdf.hidden { display: none; }
+
+    /* Fix Grid Mobile */
+    @media (max-width: 768px) {
+      #prevDoc { left: 1rem; width: 40px; height: 40px; }
+      #nextDoc { right: 1rem; width: 40px; height: 40px; }
+      .grid-minimal { grid-template-columns: 1fr; gap: 3rem; } /* Single column on mobile */
+      .section-header { text-align: center; } /* Center headers on mobile */
+    }
+
+    /* ... */
 
     .doc-title {
       font-family: 'Space Grotesk', sans-serif;
@@ -467,13 +505,25 @@
 
   <!-- DOC VIEWER OVERLAY -->
   <div class="doc-overlay" id="docOverlay">
+    <!-- Nav Buttons (Outside Modal) -->
+    <button class="btn-nav-doc" id="prevDoc" aria-label="Anterior">←</button>
+    <button class="btn-nav-doc" id="nextDoc" aria-label="Siguiente">→</button>
+
     <div class="doc-modal">
       <div class="doc-header">
-        <div class="doc-nav-group">
-          <button class="btn-nav-doc" id="prevDoc" aria-label="Anterior">←</button>
-          <button class="btn-nav-doc" id="nextDoc" aria-label="Siguiente">→</button>
-        </div>
         <span class="doc-title" id="docTitle">Documento</span>
+        
+        <a href="#" target="_blank" class="btn-pdf hidden" id="btnPdf">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          Ver PDF
+        </a>
+
         <button class="btn-close-doc" id="btnCloseDoc">✕</button>
       </div>
       <div class="doc-content markdown-body" id="docContent">
@@ -554,79 +604,80 @@
       const btnCloseDoc = document.getElementById('btnCloseDoc');
       const docContent = document.getElementById('docContent');
       const docTitleLabel = document.getElementById('docTitle');
+      const btnPdf = document.getElementById('btnPdf'); // PDF Button
       
       const btnPrevDoc = document.getElementById('prevDoc');
       const btnNextDoc = document.getElementById('nextDoc');
       
-      let docLinks = []; // Will store valid doc links
+      let docLinks = []; 
       let currentDocIndex = -1;
 
       // Extract doc links dynamically
       const docLinkElements = Array.from(document.querySelectorAll('.doc-trigger'));
       docLinks = docLinkElements.map(el => ({
         url: el.getAttribute('href'),
-        title: el.querySelector('span').innerText
+        title: el.querySelector('span').innerText,
+        // Heuristic: Assume PDF has same name but .pdf extension
+        pdfUrl: el.getAttribute('href').replace('.md', '.pdf') 
       }));
 
-      // Click Handlers for Links
+      // Click Handlers
       docLinkElements.forEach((link, index) => {
         link.addEventListener('click', async (e) => {
           e.preventDefault();
           currentDocIndex = index;
-          updateNavButtons();
-          openDocViewer(docLinks[index].title);
+          updateViewerState();
           await loadMarkdown(docLinks[index].url);
         });
       });
 
-      // Navigation Buttons
-      btnPrevDoc.addEventListener('click', () => navigateDoc(-1));
-      btnNextDoc.addEventListener('click', () => navigateDoc(1));
+      // Navigation
+      btnPrevDoc.addEventListener('click', (e) => { e.stopPropagation(); navigateDoc(-1); });
+      btnNextDoc.addEventListener('click', (e) => { e.stopPropagation(); navigateDoc(1); });
 
       async function navigateDoc(direction) {
         const newIndex = currentDocIndex + direction;
         if (newIndex >= 0 && newIndex < docLinks.length) {
           currentDocIndex = newIndex;
-          const doc = docLinks[currentDocIndex];
-          updateNavButtons();
-          docTitleLabel.innerText = doc.title;
+          updateViewerState();
           
-          // Slight fade out/in effect
           docContent.style.opacity = '0.5';
-          await loadMarkdown(doc.url);
+          await loadMarkdown(docLinks[currentDocIndex].url);
           docContent.style.opacity = '1';
         }
       }
 
-      function updateNavButtons() {
+      function updateViewerState() {
+        const doc = docLinks[currentDocIndex];
+        docTitleLabel.innerText = doc.title;
+        
+        // Nav Buttons
         btnPrevDoc.disabled = currentDocIndex <= 0;
         btnNextDoc.disabled = currentDocIndex >= docLinks.length - 1;
-        btnPrevDoc.style.opacity = btnPrevDoc.disabled ? '0.3' : '1';
-        btnNextDoc.style.opacity = btnNextDoc.disabled ? '0.3' : '1';
-      }
+        btnPrevDoc.style.opacity = btnPrevDoc.disabled ? '0' : '1'; // Hide if disabled
+        btnNextDoc.style.opacity = btnNextDoc.disabled ? '0' : '1';
+        
+        // PDF Button Logic
+        // Only show if it matches likely PDF manuals (manual_usuario, manual_tecnico)
+        // Since we don't know for sure if others have PDFs, we'll check naming convention
+        const isManual = doc.url.includes('manual_usuario') || doc.url.includes('manual_tecnico');
+        
+        if (isManual) {
+          btnPdf.classList.remove('hidden');
+          btnPdf.href = doc.pdfUrl;
+        } else {
+          btnPdf.classList.add('hidden');
+        }
 
-      // Touch / Swipe Logic
-      let touchStartX = 0;
-      let touchEndX = 0;
+        openDocViewer();
+      }
       
-      docContent.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
-      docContent.addEventListener('touchend', e => { 
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-      }, {passive: true});
-
-      function handleSwipe() {
-        const swipeThreshold = 50;
-        if (touchEndX < touchStartX - swipeThreshold) navigateDoc(1); // Swipe Left -> Next
-        if (touchEndX > touchStartX + swipeThreshold) navigateDoc(-1); // Swipe Right -> Prev
-      }
-
-      // Functions
-      function openDocViewer(title) {
-        docTitleLabel.innerText = title;
-        docContent.innerHTML = '<div style="text-align: center; padding: 4rem;">Cargando documento...</div>';
-        docOverlay.classList.add('active');
-        document.body.classList.add('no-scroll');
+      function openDocViewer() {
+        if (!docOverlay.classList.contains('active')) {
+          docContent.innerHTML = '<div style="text-align: center; padding: 4rem;">Cargando documento...</div>';
+          docOverlay.classList.add('active');
+          document.body.classList.add('no-scroll');
+        }
       }
 
       function closeDocViewer() {
@@ -730,55 +781,6 @@
           <h3>HLSL Shaders</h3>
           <p>Programación gráfica personalizada para efectos técnicos.</p>
         </div>
-      </div>
-    </section>
-
-    <!-- Documentation -->
-    <section class="info-section container">
-      <div class="section-header">
-        <h2 class="section-title">Documentación</h2>
-      </div>
-      <div class="link-list">
-        <a href="./manuals/manual_usuario.md" class="link-item">
-          <span>Manual de Usuario</span>
-          <span class="link-arrow">→</span>
-        </a>
-        <a href="./manuals/manual_tecnico.md" class="link-item">
-          <span>Manual Técnico</span>
-          <span class="link-arrow">→</span>
-        </a>
-        <a href="./ARCHITECTURE.md" class="link-item">
-          <span>Arquitectura del Sistema</span>
-          <span class="link-arrow">→</span>
-        </a>
-        <a href="./DEPLOYMENT_GUIDE.md" class="link-item">
-          <span>Guía de Despliegue</span>
-          <span class="link-arrow">→</span>
-        </a>
-        <a href="./WEBGL_BUILD_SETTINGS.md" class="link-item">
-          <span>Configuración WebGL</span>
-          <span class="link-arrow">→</span>
-        </a>
-        <a href="./AUDIO_REQUIREMENTS.md" class="link-item">
-          <span>Assets de Audio</span>
-          <span class="link-arrow">→</span>
-        </a>
-        <a href="./CUESTIONARIO_SUS.md" class="link-item">
-          <span>Validación SUS</span>
-          <span class="link-arrow">→</span>
-        </a>
-        <a href="./CUESTIONARIO_NASA_TLX.md" class="link-item">
-          <span>Validación NASA-TLX</span>
-          <span class="link-arrow">→</span>
-        </a>
-        <a href="./DEMO_SCRIPT.md" class="link-item">
-          <span>Guía de Demo</span>
-          <span class="link-arrow">→</span>
-        </a>
-        <a href="https://github.com/delarge95/WebGL_tesis" class="link-item" target="_blank">
-          <span>Repositorio GitHub</span>
-          <span class="link-arrow">→</span>
-        </a>
       </div>
     </section>
 
