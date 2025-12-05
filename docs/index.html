@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="WebGL Drone Viewer - Visualización 3D interactiva de hardware de drones">
+  <meta name="author" content="Alexander Woodcock Salomón">
+  <title>WebGL Drone Viewer | Visualización 3D Interactiva</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --color-bg: #0A0E17;
+      --color-bg-card: #1E293B;
+      --color-primary: #3B82F6;
+      --color-accent: #10B981;
+      --color-text: #F8FAFC;
+      --color-text-secondary: #94A3B8;
+      --color-border: #334155;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      background: 
+        radial-gradient(ellipse at 20% 30%, rgba(59,130,246,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(16,185,129,0.15) 0%, transparent 50%),
+        var(--color-bg);
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(59, 130, 246, 0.2);
+      color: var(--color-primary);
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+    
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--color-text-secondary);
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #2563EB;
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--color-bg-card);
+      border-color: var(--color-primary);
+    }
+    
+    /* Features Section */
+    .features {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .feature-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      transition: all 0.2s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--color-primary);
+    }
+    
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(59, 130, 246, 0.2);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .feature-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .feature-card p {
+      color: var(--color-text-secondary);
+      font-size: 0.9375rem;
+    }
+    
+    /* Stats Section */
+    .stats {
+      padding: 4rem 2rem;
+      background: var(--color-bg-card);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .stat-label {
+      color: var(--color-text-secondary);
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+    
+    /* Tech Stack */
+    .tech-stack {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .tech-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    
+    .tech-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: 0.5rem;
+      font-size: 0.9375rem;
+    }
+    
+    /* Footer */
+    footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--color-text-secondary);
+      font-size: 0.875rem;
+    }
+    
+    footer a {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+    
+    footer a:hover {
+      text-decoration: underline;
+    }
+    
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    
+    /* Coming Soon Badge */
+    .coming-soon {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      background: rgba(245, 158, 11, 0.2);
+      color: #F97316;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-left: 0.5rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 1.5rem;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .footer-links {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <span class="badge">🚁 Proyecto de Tesis - UNAD 2025</span>
+    <h1>WebGL Drone Viewer</h1>
+    <p class="subtitle">
+      Visualización 3D interactiva de hardware de drones de alto rendimiento. 
+      Explora componentes, modos de visualización y herramientas de ingeniería directamente en tu navegador.
+    </p>
+    <div class="cta-buttons">
+      <a href="./Build/index.html" class="btn btn-primary">
+        🎮 Abrir Visor 3D
+        <span class="coming-soon">Próximamente</span>
+      </a>
+      <a href="https://github.com/delarge95/WebGL_tesis" class="btn btn-secondary" target="_blank">
+        📂 Ver en GitHub
+      </a>
+    </div>
+  </section>
+  
+  <!-- Features Section -->
+  <section class="features">
+    <h2 class="section-title">Características Principales</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3>7 Modos de Visualización</h3>
+        <p>Realista, Rayos X, Plano técnico, Color sólido, Wireframe, Fantasma y Térmico.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💥</div>
+        <h3>Vista Explosionada</h3>
+        <p>Separa los componentes animadamente para inspeccionar la estructura interna.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✂️</div>
+        <h3>Corte Transversal</h3>
+        <p>Planos de corte dinámicos en ejes X, Y, Z para ver secciones del modelo.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>Guía de Ensamblaje</h3>
+        <p>Instrucciones paso a paso con herramientas, torques y advertencias de seguridad.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📏</div>
+        <h3>Herramienta de Medición</h3>
+        <p>Mide distancias, ángulos y radios entre puntos del modelo 3D.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>Catálogo de Partes</h3>
+        <p>Busca y filtra componentes por categoría con información técnica detallada.</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-value">70+</div>
+        <div class="stat-label">Scripts C#</div>
+      </div>
+      <div>
+        <div class="stat-value">10K+</div>
+        <div class="stat-label">Líneas de Código</div>
+      </div>
+      <div>
+        <div class="stat-value">7</div>
+        <div class="stat-label">Shaders HLSL</div>
+      </div>
+      <div>
+        <div class="stat-value">18</div>
+        <div class="stat-label">Managers</div>
+      </div>
+      <div>
+        <div class="stat-value">>30</div>
+        <div class="stat-label">FPS en Móvil</div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Tech Stack Section -->
+  <section class="tech-stack">
+    <h2 class="section-title">Stack Tecnológico</h2>
+    <div class="tech-grid">
+      <div class="tech-item">⚡ Unity 6.0 LTS</div>
+      <div class="tech-item">🎮 Universal Render Pipeline</div>
+      <div class="tech-item">🌐 WebGL 2.0</div>
+      <div class="tech-item">📦 WebAssembly</div>
+      <div class="tech-item">💻 C# 11</div>
+      <div class="tech-item">🎨 UI Toolkit</div>
+      <div class="tech-item">🧊 Blender 4.0</div>
+      <div class="tech-item">📝 HLSL Shaders</div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/delarge95/WebGL_tesis">GitHub</a>
+      <a href="./docs/manual_usuario.pdf">Manual de Usuario</a>
+      <a href="./docs/manual_tecnico.pdf">Manual Técnico</a>
+    </div>
+    <p>
+      © 2025 Alexander Woodcock Salomón · 
+      <a href="https://unad.edu.co" target="_blank">UNAD</a> · 
+      Ingeniería Multimedia
+    </p>
+  </footer>
+</body>
+</html>

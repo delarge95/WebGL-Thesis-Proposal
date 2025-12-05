@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: PLACEHOLDER_GUID, type: 3}
+  m_Name: VTX_Data
+  m_EditorClassIdentifier: 
+  id: vtx-001
+  partName: Video Transmitter (VTX)
+  category: Electronics
+  description: 800mW 5.8GHz video transmitter with 48 channels, smart audio support, and adjustable power output (25mW to 800mW).
+  weight: 8.0
+  dimensions: 30 x 30 x 5 mm
+  material: FR4 PCB / Aluminum Heatsink
+  partType: 4
+  materialProperties:
+    primaryColor: {r: 0.2, g: 0.05, b: 0.05, a: 1}
+    roughness: 0.5
+    metallic: 0.4
+  requiredTools:
+    - Soldering Iron
+    - RP-SMA Wrench
+    - Betaflight (for SmartAudio)
+  safetyWarnings:
+    - NEVER power on without antenna connected
+    - Gets very hot at high power - use heatsink
+    - Check local regulations for transmit power
+    - Keep antenna away from carbon fiber (blocks signal)
+  installationTips:
+    - Mount in clear line of sight to rear
+    - Use heatsink/thermal tape
+    - Route antenna away from propeller path
+    - Configure pit mode for bench testing
+  installationTimeMinutes: 15
+  difficultyLevel: 3
+  torqueSpec: Hand tight
+  assemblyOrder: 7
+  prerequisites:
+    - body-001
+    - fc-001
+  connectionTypes:
+    - Screw
+    - Solder
+    - RP-SMA
+  screwCount: 2
+  screwSize: M2x5
