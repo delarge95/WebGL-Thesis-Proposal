@@ -116,12 +116,37 @@
     }
     .btn-pdf.hidden { display: none; }
 
+    /* Lightbox for Mermaid */
+    .lightbox {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95); z-index: 300;
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .lightbox.active { opacity: 1; pointer-events: all; }
+    .lightbox-content {
+      width: 100%; height: 100%; overflow: auto; /* Scrollable if large */
+      display: flex; justify-content: center; align-items: start; /* Align top for long charts */
+      padding: 2rem;
+    }
+    .lightbox-content svg {
+      width: auto; height: auto;
+      max-width: none; /* Allow expansion */
+      min-width: 100%; /* Force mobile readability */
+      background: #0d1117; padding: 1rem; border-radius: 8px;
+    }
+    .lightbox-close {
+      position: absolute; top: 1rem; right: 1rem;
+      background: rgba(255,255,255,0.1); border: none; color: white;
+      width: 40px; height: 40px; border-radius: 50%;
+      font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+
     /* Fix Grid Mobile */
     @media (max-width: 768px) {
-      #prevDoc { left: 1rem; width: 40px; height: 40px; }
-      #nextDoc { right: 1rem; width: 40px; height: 40px; }
-      .grid-minimal { grid-template-columns: 1fr; gap: 3rem; } /* Single column on mobile */
-      .section-header { text-align: center; } /* Center headers on mobile */
+      #prevDoc, #nextDoc { display: none; } /* Hide arrows, use swipe */
+      .grid-minimal { grid-template-columns: 1fr; gap: 3rem; }
+      .section-header { text-align: center; } 
     }
 
     .doc-title {
@@ -646,6 +671,12 @@
     </footer>
   </div>
 
+  <!-- MERMAID LIGHTBOX -->
+  <div id="chartLightbox" class="lightbox">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <div class="lightbox-content" id="lightboxContent"></div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       
@@ -755,12 +786,65 @@
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
            if (docOverlay.classList.contains('active')) closeDocViewer();
+           if (chartLightbox.classList.contains('active')) closeLightbox();
         }
         // Arrow keys navigation
         if (docOverlay.classList.contains('active')) {
           if (e.key === 'ArrowLeft') navigateDoc(-1);
           if (e.key === 'ArrowRight') navigateDoc(1);
         }
+      });
+
+      // --- MOBILE SWIPE LOGIC ---
+      let touchStartX = 0;
+      let touchEndX = 0;
+      
+      docOverlay.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, {passive: true});
+      
+      docOverlay.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      }, {passive: true});
+      
+      function handleSwipe() {
+        if (touchEndX < touchStartX - 50) navigateDoc(1); // Swipe Left -> Next
+        if (touchEndX > touchStartX + 50) navigateDoc(-1); // Swipe Right -> Prev
+      }
+
+      // --- MERMAID LIGHTBOX LOGIC ---
+      const chartLightbox = document.getElementById('chartLightbox');
+      const lightboxContent = document.getElementById('lightboxContent');
+      const lightboxClose = document.getElementById('lightboxClose');
+
+      // Global click delegation for Mermaid charts (dynamic content)
+      docContent.addEventListener('click', (e) => {
+        const svg = e.target.closest('.mermaid svg');
+        if (svg) {
+          e.stopPropagation();
+          openLightbox(svg);
+        }
+      });
+
+      function openLightbox(originalSvg) {
+        lightboxContent.innerHTML = '';
+        const clone = originalSvg.cloneNode(true);
+        // Clean fixed sizes to allow scaling
+        clone.style.maxWidth = 'none';
+        clone.style.height = 'auto';
+        lightboxContent.appendChild(clone);
+        chartLightbox.classList.add('active');
+      }
+
+      function closeLightbox() {
+        chartLightbox.classList.remove('active');
+        setTimeout(() => lightboxContent.innerHTML = '', 300);
+      }
+
+      lightboxClose.addEventListener('click', closeLightbox);
+      chartLightbox.addEventListener('click', (e) => {
+        if(e.target === chartLightbox || e.target === lightboxContent) closeLightbox();
       });
 
       // 1. Intro Animation
