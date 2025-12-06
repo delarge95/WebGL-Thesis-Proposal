@@ -124,8 +124,6 @@
       .section-header { text-align: center; } /* Center headers on mobile */
     }
 
-    /* ... */
-
     .doc-title {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1rem;
@@ -166,8 +164,6 @@
       background: rgba(255,255,255,0.05);
     }
     .github-icon { width: 20px; height: 20px; fill: currentColor; margin-right: 0.5rem; }
-
-    /* ... */
 
     .doc-content {
       flex: 1;
@@ -423,10 +419,8 @@
     /* Minimal Grid */
     .grid-minimal {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 3rem;
-      max-width: 1100px;
-      margin: 0 auto;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 4rem 2rem;
     }
 
     .grid-item h3 { font-size: 1.25rem; margin-bottom: 1rem; color: var(--text-main); }
@@ -505,7 +499,38 @@
     <iframe src="./Build/index.html" class="app-frame" id="appFrame" allow="fullscreen"></iframe>
   </div>
 
+  <!-- DOC VIEWER OVERLAY -->
+  <div class="doc-overlay" id="docOverlay">
+    <!-- Nav Buttons (Outside Modal) -->
+    <button class="btn-nav-doc" id="prevDoc" aria-label="Anterior">←</button>
+    <button class="btn-nav-doc" id="nextDoc" aria-label="Siguiente">→</button>
 
+    <div class="doc-modal">
+      <div class="doc-header">
+        <span class="doc-title" id="docTitle">Documento</span>
+        
+        <a href="#" target="_blank" class="btn-pdf hidden" id="btnPdf">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          Ver PDF
+        </a>
+
+        <button class="btn-close-doc" id="btnCloseDoc">✕</button>
+      </div>
+      <div class="doc-content markdown-body" id="docContent">
+        <!-- Markdown renders here -->
+        <div style="text-align: center; color: var(--text-muted);">Cargando...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    
     <!-- Features -->
     <section class="info-section">
       <div class="container">
@@ -621,6 +646,7 @@
     </footer>
   </div>
 
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
       
       // Initialize Libraries
@@ -640,9 +666,102 @@
       const btnCloseDoc = document.getElementById('btnCloseDoc');
       const docContent = document.getElementById('docContent');
       const docTitleLabel = document.getElementById('docTitle');
-      const btnPdf = document.getElementById('btnPdf');
+      const btnPdf = document.getElementById('btnPdf'); // PDF Button
+      
       const btnPrevDoc = document.getElementById('prevDoc');
       const btnNextDoc = document.getElementById('nextDoc');
+      
+      let docLinks = []; 
+      let currentDocIndex = -1;
+
+      // Extract doc links dynamically
+      const docLinkElements = Array.from(document.querySelectorAll('.doc-trigger'));
+      docLinks = docLinkElements.map(el => ({
+        url: el.getAttribute('href'),
+        title: el.querySelector('span').innerText,
+        // Heuristic: Assume PDF has same name but .pdf extension
+        pdfUrl: el.getAttribute('href').replace('.md', '.pdf') 
+      }));
+
+      // Click Handlers
+      docLinkElements.forEach((link, index) => {
+        link.addEventListener('click', async (e) => {
+          e.preventDefault();
+          currentDocIndex = index;
+          updateViewerState();
+          await loadMarkdown(docLinks[index].url);
+        });
+      });
+
+      // Navigation
+      btnPrevDoc.addEventListener('click', (e) => { e.stopPropagation(); navigateDoc(-1); });
+      btnNextDoc.addEventListener('click', (e) => { e.stopPropagation(); navigateDoc(1); });
+
+      async function navigateDoc(direction) {
+        const newIndex = currentDocIndex + direction;
+        if (newIndex >= 0 && newIndex < docLinks.length) {
+          currentDocIndex = newIndex;
+          updateViewerState();
+          
+          docContent.style.opacity = '0.5';
+          await loadMarkdown(docLinks[currentDocIndex].url);
+          docContent.style.opacity = '1';
+        }
+      }
+
+      function updateViewerState() {
+        const doc = docLinks[currentDocIndex];
+        docTitleLabel.innerText = doc.title;
+        
+        // Nav Buttons
+        btnPrevDoc.disabled = currentDocIndex <= 0;
+        btnNextDoc.disabled = currentDocIndex >= docLinks.length - 1;
+        btnPrevDoc.style.opacity = btnPrevDoc.disabled ? '0' : '1'; // Hide if disabled
+        btnNextDoc.style.opacity = btnNextDoc.disabled ? '0' : '1';
+        
+        // PDF Button Logic
+        // Only show if it matches likely PDF manuals (manual_usuario, manual_tecnico)
+        // Since we don't know for sure if others have PDFs, we'll check naming convention
+        const isManual = doc.url.includes('manual_usuario') || doc.url.includes('manual_tecnico');
+        
+        if (isManual) {
+          btnPdf.classList.remove('hidden');
+          btnPdf.href = doc.pdfUrl;
+        } else {
+          btnPdf.classList.add('hidden');
+        }
+
+        openDocViewer();
+      }
+      
+      function openDocViewer() {
+        if (!docOverlay.classList.contains('active')) {
+          docContent.innerHTML = '<div style="text-align: center; padding: 4rem;">Cargando documento...</div>';
+          docOverlay.classList.add('active');
+          document.body.classList.add('no-scroll');
+        }
+      }
+
+      function closeDocViewer() {
+        docOverlay.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+        setTimeout(() => { docContent.innerHTML = ''; }, 400);
+      }
+
+      btnCloseDoc.addEventListener('click', closeDocViewer);
+      
+      docOverlay.addEventListener('click', (e) => { if (e.target === docOverlay) closeDocViewer(); });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+           if (docOverlay.classList.contains('active')) closeDocViewer();
+        }
+        // Arrow keys navigation
+        if (docOverlay.classList.contains('active')) {
+          if (e.key === 'ArrowLeft') navigateDoc(-1);
+          if (e.key === 'ArrowRight') navigateDoc(1);
+        }
+      });
 
       // 1. Intro Animation
       const tl = gsap.timeline();
@@ -708,99 +827,6 @@
         });
       });
 
-      // --- DOC VIEWER LOGIC (ADVANCED) ---
-      let docLinks = []; 
-      let currentDocIndex = -1;
-
-      // Build Doc List
-      const docLinkElements = Array.from(document.querySelectorAll('.doc-trigger'));
-      docLinks = docLinkElements.map(el => ({
-        url: el.getAttribute('href'),
-        title: el.querySelector('span').innerText,
-        pdfUrl: el.getAttribute('href').replace('.md', '.pdf')
-      }));
-
-      // Click Handlers
-      docLinkElements.forEach((link, index) => {
-        link.addEventListener('click', async (e) => {
-          e.preventDefault();
-          currentDocIndex = index;
-          updateViewerState();
-          await loadMarkdown(docLinks[index].url);
-        });
-      });
-
-      // Navigation Controls
-      if(btnPrevDoc) btnPrevDoc.addEventListener('click', (e) => { e.stopPropagation(); navigateDoc(-1); });
-      if(btnNextDoc) btnNextDoc.addEventListener('click', (e) => { e.stopPropagation(); navigateDoc(1); });
-
-      async function navigateDoc(direction) {
-        const newIndex = currentDocIndex + direction;
-        if (newIndex >= 0 && newIndex < docLinks.length) {
-          currentDocIndex = newIndex;
-          updateViewerState();
-          
-          docContent.style.opacity = '0.5';
-          await loadMarkdown(docLinks[currentDocIndex].url);
-          docContent.style.opacity = '1';
-        }
-      }
-
-      function updateViewerState() {
-        const doc = docLinks[currentDocIndex];
-        docTitleLabel.innerText = doc.title;
-        
-        // Button States
-        if(btnPrevDoc) {
-            btnPrevDoc.disabled = currentDocIndex <= 0;
-            btnPrevDoc.style.opacity = btnPrevDoc.disabled ? '0' : '1';
-        }
-        if(btnNextDoc) {
-            btnNextDoc.disabled = currentDocIndex >= docLinks.length - 1;
-            btnNextDoc.style.opacity = btnNextDoc.disabled ? '0' : '1';
-        }
-        
-        // PDF Button Check
-        const isManual = doc.url.includes('manual_usuario') || doc.url.includes('manual_tecnico');
-        if (isManual && btnPdf) {
-          btnPdf.classList.remove('hidden');
-          btnPdf.href = doc.pdfUrl;
-        } else if (btnPdf) {
-          btnPdf.classList.add('hidden');
-        }
-
-        openDocViewer();
-      }
-
-      function openDocViewer() {
-        if (docOverlay && !docOverlay.classList.contains('active')) {
-          docContent.innerHTML = '<div style="text-align: center; padding: 4rem;">Cargando documento...</div>';
-          docOverlay.classList.add('active');
-          body.classList.add('no-scroll');
-        }
-      }
-
-      function closeDocViewer() {
-        if(docOverlay) docOverlay.classList.remove('active');
-        body.classList.remove('no-scroll');
-        setTimeout(() => { if(docContent) docContent.innerHTML = ''; }, 400);
-      }
-
-      // Events
-      if(btnCloseDoc) btnCloseDoc.addEventListener('click', closeDocViewer);
-      if(docOverlay) docOverlay.addEventListener('click', (e) => { if (e.target === docOverlay) closeDocViewer(); });
-      
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-           if (docOverlay && docOverlay.classList.contains('active')) closeDocViewer();
-           else if (appOverlay && appOverlay.classList.contains('active')) btnExit.click();
-        }
-        if (docOverlay && docOverlay.classList.contains('active')) {
-          if (e.key === 'ArrowLeft') navigateDoc(-1);
-          if (e.key === 'ArrowRight') navigateDoc(1);
-        }
-      });
-
       async function loadMarkdown(url) {
         try {
           const response = await fetch(url);
@@ -808,35 +834,35 @@
           const text = await response.text();
           
           const html = DOMPurify.sanitize(marked.parse(text));
-          if(docContent) {
-            docContent.innerHTML = html;
+          docContent.innerHTML = html;
 
-            const mermaidBlocks = docContent.querySelectorAll('code.language-mermaid');
-            if (mermaidBlocks.length > 0) {
-                mermaidBlocks.forEach((block, index) => {
-                const pre = block.parentElement;
-                const div = document.createElement('div');
-                div.className = 'mermaid';
-                div.textContent = block.textContent;
-                div.id = `mermaid-${index}`;
-                pre.replaceWith(div);
-                });
-                await mermaid.run({ querySelector: '.mermaid' });
-            }
+          // Mermaid Render
+          const mermaidBlocks = docContent.querySelectorAll('code.language-mermaid');
+          if (mermaidBlocks.length > 0) {
+             mermaidBlocks.forEach((block, index) => {
+               const pre = block.parentElement;
+               const div = document.createElement('div');
+               div.className = 'mermaid';
+               div.textContent = block.textContent;
+               div.id = `mermaid-${index}`;
+               pre.replaceWith(div);
+             });
+             await mermaid.run({ querySelector: '.mermaid' });
           }
         } catch (err) {
-          if(docContent) {
-            docContent.innerHTML = `<div style="text-align: center; color: #ef4444; padding: 4rem;">
-                <h3>Error al cargar</h3>
-                <p>${err.message}</p>
-                <br>
-                <p style="font-size: 0.9em; color: var(--text-muted);">
-                <strong>NOTA:</strong> Usa un servidor local (localhost) para ver el contenido.
-                </p>
-            </div>`;
-          }
+          docContent.innerHTML = `<div style="text-align: center; color: #ef4444; padding: 4rem;">
+            <h3>Error de Carga</h3>
+            <p>${err.message}</p>
+            <br>
+            <p style="font-size: 0.9em; color: var(--text-muted);">
+              <strong>NOTA IMPORTANTE:</strong><br>
+              Si estás viendo esto localmente (file://), los navegadores bloquean la carga de archivos por seguridad.<br>
+              Por favor usa un servidor local (ej. VS Code Live Server, python -m http.server) o súbelo a GitHub Pages.
+            </p>
+          </div>`;
         }
       }
+
     });
   </script>
 </body>
