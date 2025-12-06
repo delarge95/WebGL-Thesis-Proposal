@@ -621,7 +621,6 @@
     </footer>
   </div>
 
-  <script>
     document.addEventListener('DOMContentLoaded', () => {
       
       // Initialize Libraries
@@ -641,6 +640,9 @@
       const btnCloseDoc = document.getElementById('btnCloseDoc');
       const docContent = document.getElementById('docContent');
       const docTitleLabel = document.getElementById('docTitle');
+      const btnPdf = document.getElementById('btnPdf');
+      const btnPrevDoc = document.getElementById('prevDoc');
+      const btnNextDoc = document.getElementById('nextDoc');
 
       // 1. Intro Animation
       const tl = gsap.timeline();
@@ -707,15 +709,10 @@
       });
 
       // --- DOC VIEWER LOGIC (ADVANCED) ---
-      
-      const btnPdf = document.getElementById('btnPdf');
-      const btnPrevDoc = document.getElementById('prevDoc');
-      const btnNextDoc = document.getElementById('nextDoc');
-      
       let docLinks = []; 
       let currentDocIndex = -1;
 
-      // 1. Build Doc List
+      // Build Doc List
       const docLinkElements = Array.from(document.querySelectorAll('.doc-trigger'));
       docLinks = docLinkElements.map(el => ({
         url: el.getAttribute('href'),
@@ -723,7 +720,7 @@
         pdfUrl: el.getAttribute('href').replace('.md', '.pdf')
       }));
 
-      // 2. Click Handlers
+      // Click Handlers
       docLinkElements.forEach((link, index) => {
         link.addEventListener('click', async (e) => {
           e.preventDefault();
@@ -733,9 +730,9 @@
         });
       });
 
-      // 3. Navigation Controls
-      btnPrevDoc.addEventListener('click', (e) => { e.stopPropagation(); navigateDoc(-1); });
-      btnNextDoc.addEventListener('click', (e) => { e.stopPropagation(); navigateDoc(1); });
+      // Navigation Controls
+      if(btnPrevDoc) btnPrevDoc.addEventListener('click', (e) => { e.stopPropagation(); navigateDoc(-1); });
+      if(btnNextDoc) btnNextDoc.addEventListener('click', (e) => { e.stopPropagation(); navigateDoc(1); });
 
       async function navigateDoc(direction) {
         const newIndex = currentDocIndex + direction;
@@ -754,17 +751,21 @@
         docTitleLabel.innerText = doc.title;
         
         // Button States
-        btnPrevDoc.disabled = currentDocIndex <= 0;
-        btnNextDoc.disabled = currentDocIndex >= docLinks.length - 1;
-        btnPrevDoc.style.opacity = btnPrevDoc.disabled ? '0' : '1';
-        btnNextDoc.style.opacity = btnNextDoc.disabled ? '0' : '1';
+        if(btnPrevDoc) {
+            btnPrevDoc.disabled = currentDocIndex <= 0;
+            btnPrevDoc.style.opacity = btnPrevDoc.disabled ? '0' : '1';
+        }
+        if(btnNextDoc) {
+            btnNextDoc.disabled = currentDocIndex >= docLinks.length - 1;
+            btnNextDoc.style.opacity = btnNextDoc.disabled ? '0' : '1';
+        }
         
         // PDF Button Check
         const isManual = doc.url.includes('manual_usuario') || doc.url.includes('manual_tecnico');
-        if (isManual) {
+        if (isManual && btnPdf) {
           btnPdf.classList.remove('hidden');
           btnPdf.href = doc.pdfUrl;
-        } else {
+        } else if (btnPdf) {
           btnPdf.classList.add('hidden');
         }
 
@@ -772,7 +773,7 @@
       }
 
       function openDocViewer() {
-        if (!docOverlay.classList.contains('active')) {
+        if (docOverlay && !docOverlay.classList.contains('active')) {
           docContent.innerHTML = '<div style="text-align: center; padding: 4rem;">Cargando documento...</div>';
           docOverlay.classList.add('active');
           body.classList.add('no-scroll');
@@ -780,21 +781,21 @@
       }
 
       function closeDocViewer() {
-        docOverlay.classList.remove('active');
+        if(docOverlay) docOverlay.classList.remove('active');
         body.classList.remove('no-scroll');
-        setTimeout(() => { docContent.innerHTML = ''; }, 400);
+        setTimeout(() => { if(docContent) docContent.innerHTML = ''; }, 400);
       }
 
-      // 4. Events
-      btnCloseDoc.addEventListener('click', closeDocViewer);
-      docOverlay.addEventListener('click', (e) => { if (e.target === docOverlay) closeDocViewer(); });
+      // Events
+      if(btnCloseDoc) btnCloseDoc.addEventListener('click', closeDocViewer);
+      if(docOverlay) docOverlay.addEventListener('click', (e) => { if (e.target === docOverlay) closeDocViewer(); });
       
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-           if (docOverlay.classList.contains('active')) closeDocViewer();
-           else if (appOverlay.classList.contains('active')) btnExit.click();
+           if (docOverlay && docOverlay.classList.contains('active')) closeDocViewer();
+           else if (appOverlay && appOverlay.classList.contains('active')) btnExit.click();
         }
-        if (docOverlay.classList.contains('active')) {
+        if (docOverlay && docOverlay.classList.contains('active')) {
           if (e.key === 'ArrowLeft') navigateDoc(-1);
           if (e.key === 'ArrowRight') navigateDoc(1);
         }
@@ -807,32 +808,35 @@
           const text = await response.text();
           
           const html = DOMPurify.sanitize(marked.parse(text));
-          docContent.innerHTML = html;
+          if(docContent) {
+            docContent.innerHTML = html;
 
-          const mermaidBlocks = docContent.querySelectorAll('code.language-mermaid');
-          if (mermaidBlocks.length > 0) {
-             mermaidBlocks.forEach((block, index) => {
-               const pre = block.parentElement;
-               const div = document.createElement('div');
-               div.className = 'mermaid';
-               div.textContent = block.textContent;
-               div.id = `mermaid-${index}`;
-               pre.replaceWith(div);
-             });
-             await mermaid.run({ querySelector: '.mermaid' });
+            const mermaidBlocks = docContent.querySelectorAll('code.language-mermaid');
+            if (mermaidBlocks.length > 0) {
+                mermaidBlocks.forEach((block, index) => {
+                const pre = block.parentElement;
+                const div = document.createElement('div');
+                div.className = 'mermaid';
+                div.textContent = block.textContent;
+                div.id = `mermaid-${index}`;
+                pre.replaceWith(div);
+                });
+                await mermaid.run({ querySelector: '.mermaid' });
+            }
           }
         } catch (err) {
-          docContent.innerHTML = `<div style="text-align: center; color: #ef4444; padding: 4rem;">
-            <h3>Error al cargar</h3>
-            <p>${err.message}</p>
-            <br>
-            <p style="font-size: 0.9em; color: var(--text-muted);">
-              <strong>NOTA:</strong> Usa un servidor local (localhost) para ver el contenido.
-            </p>
-          </div>`;
+          if(docContent) {
+            docContent.innerHTML = `<div style="text-align: center; color: #ef4444; padding: 4rem;">
+                <h3>Error al cargar</h3>
+                <p>${err.message}</p>
+                <br>
+                <p style="font-size: 0.9em; color: var(--text-muted);">
+                <strong>NOTA:</strong> Usa un servidor local (localhost) para ver el contenido.
+                </p>
+            </div>`;
+          }
         }
       }
-
     });
   </script>
 </body>
