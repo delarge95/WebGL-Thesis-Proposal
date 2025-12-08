@@ -1,10 +1,17 @@
 import React from 'react'
+import Hero from './components/sections/Hero'
+import CapacidadesSection from './components/sections/CapacidadesSection'
+import TecnologiaSection from './components/sections/TecnologiaSection'
+import Footer from './components/sections/Footer'
+import './App.css'
 
 function App() {
   return (
     <div className="app">
-      <h1>WebGL Drone Viewer</h1>
-      <p>Configuración inicial - React + Vite funcionando</p>
+      <Hero />
+      <CapacidadesSection />
+      <TecnologiaSection />
+      <Footer />
     </div>
   )
 }

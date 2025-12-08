@@ -1,0 +1,90 @@
+.card {
+  position: relative;
+  padding: 2rem;
+  border-radius: 12px;
+  background: transparent;
+  overflow: hidden;
+  cursor: pointer;
+  isolation: isolate;
+}
+
+/* Animation layer (behind content) */
+.card__animation-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.card:hover .card__animation-layer {
+  opacity: 1;
+}
+
+/* Content wrapper */
+.card__content {
+  position: relative;
+  z-index: 1;
+}
+
+.card__title {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--text-main);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), color 0.4s ease;
+}
+
+.card__description {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  transition: color 0.4s ease 0.05s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0.05s;
+}
+
+.card:hover .card__description {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Border gradient effect */
+.card__border-gradient {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 1px;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+  background-size: 200% 200%;
+  background-position: 100% 100%;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease, background-position 0.8s ease;
+  pointer-events: none;
+}
+
+.card:hover .card__border-gradient {
+  opacity: 1;
+  background-position: 0% 0%;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5rem;
+  }
+
+  .card__title {
+    font-size: 1.1rem;
+  }
+
+  .card__description {
+    font-size: 0.85rem;
+  }
+}
