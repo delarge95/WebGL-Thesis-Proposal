@@ -457,6 +457,7 @@
     .link-item {
       display: flex; justify-content: space-between; align-items: center;
       padding: 1.5rem 0;
+      padding-right: 2rem; /* Espacio extra para la flecha */
       border-bottom: 1px solid var(--border);
       text-decoration: none;
       color: var(--text-muted);
@@ -464,12 +465,403 @@
     }
     .link-item:hover { color: var(--text-main); }
     .link-item span { font-size: 1rem; }
-    .link-arrow { opacity: 0; transform: translateX(-10px); transition: all 0.3s; }
+    .link-arrow { 
+      opacity: 0; 
+      transform: translateX(-10px); 
+      transition: all 0.3s;
+      flex-shrink: 0; /* Evita que la flecha se comprima */
+      min-width: 1.5rem; /* Ancho mínimo para la flecha */
+    }
     .link-item:hover .link-arrow { opacity: 1; transform: translateX(0); }
+
+    /* ==========================================
+       MICRO INTERACTIONS - Capacidades & Tecnología
+       Subtle, Professional, Unique per Card
+       ========================================== */
+    
+    /* Base card styles with refined transitions */
+    .grid-item {
+      position: relative;
+      padding: 2rem;
+      border-radius: 12px;
+      background: transparent;
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      overflow: hidden;
+    }
+    
+    /* Soft glow layer (behind content) */
+    .grid-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      background: transparent;
+      opacity: 0;
+      transition: opacity 0.6s ease, background 0.6s ease;
+      z-index: -1;
+    }
+    
+    /* Animated border gradient */
+    .grid-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      padding: 1px;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+      background-size: 200% 200%;
+      background-position: 100% 100%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.5s ease, background-position 0.8s ease;
+      pointer-events: none;
+    }
+    
+    .grid-item:hover::after {
+      opacity: 1;
+      background-position: 0% 0%;
+    }
+
+    /* Card 01 - Visualización: Subtle pulse glow */
+    .grid-item:nth-child(1):hover::before {
+      opacity: 1;
+      background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+      animation: pulse-glow-1 2s ease-in-out infinite;
+    }
+    
+    .grid-item:nth-child(1) .grid-icon {
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    
+    .grid-item:nth-child(1):hover .grid-icon {
+      color: #3b82f6;
+      text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+      transform: translateY(-2px);
+    }
+    
+    @keyframes pulse-glow-1 {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* Card 02 - Interacción: Floating effect */
+    .grid-item:nth-child(2):hover {
+      transform: translateY(-8px);
+    }
+    
+    .grid-item:nth-child(2):hover::before {
+      opacity: 1;
+      background: radial-gradient(ellipse at bottom, rgba(16, 185, 129, 0.06) 0%, transparent 70%);
+    }
+    
+    .grid-item:nth-child(2) .grid-icon {
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    
+    .grid-item:nth-child(2):hover .grid-icon {
+      color: #10b981;
+      transform: translateY(-4px) scale(1.1);
+    }
+    
+    .grid-item:nth-child(2) h3 {
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0.05s;
+    }
+    
+    .grid-item:nth-child(2):hover h3 {
+      transform: translateY(-2px);
+    }
+
+    /* Card 03 - Ingeniería: Precision scan line */
+    .grid-item:nth-child(3)::after {
+      background: linear-gradient(90deg, transparent 30%, rgba(139, 92, 246, 0.3) 50%, transparent 70%);
+      background-size: 200% 100%;
+      background-position: 100% 0;
+    }
+    
+    .grid-item:nth-child(3):hover::after {
+      animation: scan-line 1.5s ease-in-out infinite;
+    }
+    
+    .grid-item:nth-child(3):hover::before {
+      opacity: 1;
+      background: linear-gradient(180deg, rgba(139, 92, 246, 0.04) 0%, transparent 100%);
+    }
+    
+    .grid-item:nth-child(3) .grid-icon {
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    
+    .grid-item:nth-child(3):hover .grid-icon {
+      color: #8b5cf6;
+      letter-spacing: 0.1em;
+    }
+    
+    @keyframes scan-line {
+      0% { background-position: 100% 0; }
+      100% { background-position: -100% 0; }
+    }
+
+    /* Card 04 - Unity: Subtle rotation hint */
+    .grid-item:nth-child(4):hover::before {
+      opacity: 1;
+      background: conic-gradient(from 180deg at 50% 50%, rgba(59, 130, 246, 0.03) 0deg, transparent 120deg, rgba(16, 185, 129, 0.03) 240deg, transparent 360deg);
+    }
+    
+    .grid-item:nth-child(4) h3 {
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    
+    .grid-item:nth-child(4):hover h3 {
+      background: linear-gradient(90deg, #fff, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Card 05 - WebGL: Render shimmer */
+    .grid-item:nth-child(5):hover::before {
+      opacity: 1;
+      background: linear-gradient(135deg, rgba(251, 146, 60, 0.05) 0%, transparent 50%, rgba(251, 146, 60, 0.03) 100%);
+    }
+    
+    .grid-item:nth-child(5) h3 {
+      transition: all 0.4s ease;
+    }
+    
+    .grid-item:nth-child(5):hover h3 {
+      text-shadow: 0 0 30px rgba(251, 146, 60, 0.3);
+    }
+    
+    .grid-item:nth-child(5) p {
+      transition: color 0.4s ease 0.1s;
+    }
+    
+    .grid-item:nth-child(5):hover p {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Card 06 - WebAssembly: Code compile effect */
+    .grid-item:nth-child(6):hover::before {
+      opacity: 1;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(99, 102, 241, 0.02) 2px,
+        rgba(99, 102, 241, 0.02) 4px
+      );
+      animation: compile-lines 0.5s steps(10) infinite;
+    }
+    
+    .grid-item:nth-child(6) h3 {
+      transition: all 0.3s ease;
+      font-family: 'Space Grotesk', monospace;
+    }
+    
+    .grid-item:nth-child(6):hover h3 {
+      letter-spacing: 0.02em;
+      color: #818cf8;
+    }
+    
+    @keyframes compile-lines {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(4px); }
+    }
+
+    /* Card 07 - HLSL Shaders: Gradient flow */
+    .grid-item:nth-child(7):hover::before {
+      opacity: 1;
+      background: linear-gradient(45deg, 
+        rgba(236, 72, 153, 0.04) 0%, 
+        rgba(139, 92, 246, 0.04) 50%, 
+        rgba(59, 130, 246, 0.04) 100%);
+      background-size: 200% 200%;
+      animation: gradient-flow 3s ease infinite;
+    }
+    
+    .grid-item:nth-child(7) h3 {
+      transition: all 0.5s ease;
+    }
+    
+    .grid-item:nth-child(7):hover h3 {
+      background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% auto;
+      animation: gradient-text 2s ease infinite;
+    }
+    
+    @keyframes gradient-flow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    
+    @keyframes gradient-text {
+      0%, 100% { background-position: 0% center; }
+      50% { background-position: 100% center; }
+    }
+
+    /* Text animations for all cards */
+    .grid-item h3 {
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), color 0.4s ease;
+    }
+    
+    .grid-item p {
+      transition: color 0.4s ease 0.05s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0.05s;
+    }
+    
+    .grid-item:hover p {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    /* Stagger animation on hover for child elements */
+    .grid-item .grid-icon,
+    .grid-item h3,
+    .grid-item p {
+      position: relative;
+      z-index: 1;
+    }
 
     /* Footer */
     footer { padding: 4rem 0; text-align: center; border-top: 1px solid var(--border); }
     footer p { font-size: 0.8rem; opacity: 0.5; }
+
+    /* ==========================================
+       LINK ITEM MICRO INTERACTIONS
+       Refined hover effects for documentation
+       ========================================== */
+    
+    .link-item {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .link-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.8), rgba(139, 92, 246, 0.8));
+      transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    
+    .link-item:hover::before {
+      width: 100%;
+    }
+    
+    .link-item span:first-child {
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), color 0.3s ease;
+    }
+    
+    .link-item:hover span:first-child {
+      transform: translateX(8px);
+      color: var(--text-main);
+    }
+    
+    .link-arrow {
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    
+    .link-item:hover .link-arrow {
+      opacity: 1;
+      transform: translateX(4px);
+      color: #3b82f6;
+    }
+    
+    /* GitHub link special effect */
+    .github-link {
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    
+    .github-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .github-link svg {
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    
+    .github-link:hover svg {
+      transform: rotate(360deg);
+    }
+
+    /* ==========================================
+       BUTTON MICRO INTERACTIONS
+       Professional hover states
+       ========================================== */
+    
+    .btn-start {
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .btn-start::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      transform: scale(0.5);
+      z-index: -1;
+    }
+    
+    .btn-start:hover::before {
+      opacity: 1;
+      transform: scale(2);
+    }
+    
+    .btn-start::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      background-size: 200% 100%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+    
+    .btn-start:hover::after {
+      opacity: 1;
+      animation: shimmer-btn 2s infinite;
+    }
+    
+    @keyframes shimmer-btn {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* Section title subtle animation */
+    .section-title {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 2rem;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.6), transparent);
+      transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    
+    .info-section:hover .section-title::after {
+      width: 4rem;
+    }
 
     /* Utility */
     .hidden { display: none; }
@@ -564,17 +956,14 @@
         </div>
         <div class="grid-minimal">
           <div class="grid-item">
-            <div class="grid-icon">01</div>
             <h3>Visualización Avanzada</h3>
             <p>7 modos de renderizado incluyendo Rayos X, Térmico y Blueprint para análisis técnico profundo.</p>
           </div>
           <div class="grid-item">
-            <div class="grid-icon">02</div>
             <h3>Interacción Total</h3>
             <p>Despiece explosivo, cortes transversales y manipulación orbital completa.</p>
           </div>
           <div class="grid-item">
-            <div class="grid-icon">03</div>
             <h3>Ingeniería</h3>
             <p>Herramientas de medición, BOM interactivo y guías de ensamblaje paso a paso.</p>
           </div>
@@ -903,11 +1292,68 @@
           .to(scrollHint, { opacity: 1, duration: 0.5 }, "-=1.0");
       });
 
-      // 6. Scroll Animations
-      gsap.utils.toArray('.info-section').forEach(section => {
-        gsap.from(section.querySelectorAll('.grid-item, .link-item'), {
-          opacity: 0, y: 30, duration: 0.8, stagger: 0.1,
-          scrollTrigger: { trigger: section, start: "top 80%", toggleActions: "play none none reverse" }
+      // 6. Scroll Animations with enhanced stagger
+      gsap.utils.toArray('.info-section').forEach((section, sectionIndex) => {
+        const items = section.querySelectorAll('.grid-item, .link-item');
+        
+        // Asegurar visibilidad inicial (fix para hard refresh)
+        gsap.set(items, { opacity: 1, y: 0 });
+        
+        // Enhanced entrance animation with stagger
+        gsap.from(items, {
+          opacity: 0, 
+          y: 40, 
+          duration: 0.8, 
+          stagger: {
+            each: 0.1,
+            from: "start"
+          },
+          ease: "power3.out",
+          scrollTrigger: { 
+            trigger: section, 
+            start: "top 85%", 
+            toggleActions: "play none none reverse",
+            // Refresh después de cargar para recalcular posiciones
+            onRefresh: (self) => {
+              if (!self.isActive) {
+                gsap.set(items, { opacity: 1, y: 0 });
+              }
+            }
+          }
+        });
+        
+        // Subtle parallax for section headers
+        const header = section.querySelector('.section-header');
+        if (header) {
+          gsap.to(header, {
+            y: -20,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 0.5
+            }
+          });
+        }
+      });
+      
+      // 7. Grid items enhanced hover (GSAP for smoother feel)
+      document.querySelectorAll('.grid-item').forEach((item, index) => {
+        item.addEventListener('mouseenter', () => {
+          gsap.to(item, {
+            scale: 1.02,
+            duration: 0.4,
+            ease: "power2.out"
+          });
+        });
+        
+        item.addEventListener('mouseleave', () => {
+          gsap.to(item, {
+            scale: 1,
+            duration: 0.4,
+            ease: "power2.out"
+          });
         });
       });
 
