@@ -1,0 +1,20 @@
+{
+  "name": "webgl-drone-viewer",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Drone Viewer con WebGL - Visualización 3D interactiva",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "framer-motion": "^11.11.17"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.3"
+  }
+}
