@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
+using WebGL.Core.Utils;
+
 namespace WebGL.Core.Managers
 {
-    public class QualityManager : MonoBehaviour
+    public class QualityManager : Singleton<QualityManager>
     {
         [Header("Settings")]
         [SerializeField] private float targetFPS = 30f;
@@ -12,14 +14,14 @@ namespace WebGL.Core.Managers
         [SerializeField] private float maxScale = 1.0f;
 
         private float currentScale = 1.0f;
-        private float timeSinceLastCheck = 0f;
+        // private float timeSinceLastCheck = 0f;
         private float frameCount = 0f;
         private float dt = 0f;
 
         private void Start()
         {
             // Initial setting
-            ScalableBufferManager.ResizeBuffers(maxScale, maxScale);
+            // ScalableBufferManager.ResizeBuffers(maxScale, maxScale);
         }
 
         private void Update()
@@ -44,14 +46,14 @@ namespace WebGL.Core.Managers
             {
                 // Decrease resolution
                 currentScale = Mathf.Max(minScale, currentScale - 0.1f);
-                ScalableBufferManager.ResizeBuffers(currentScale, currentScale);
+                // ScalableBufferManager.ResizeBuffers(currentScale, currentScale);
                 Debug.Log($"[QualityManager] Low FPS ({fps:0.0}). Reducing scale to {currentScale}");
             }
             else if (fps > targetFPS + 10 && currentScale < maxScale)
             {
                 // Increase resolution
                 currentScale = Mathf.Min(maxScale, currentScale + 0.05f);
-                ScalableBufferManager.ResizeBuffers(currentScale, currentScale);
+                // ScalableBufferManager.ResizeBuffers(currentScale, currentScale);
                 Debug.Log($"[QualityManager] Good FPS ({fps:0.0}). Increasing scale to {currentScale}");
             }
         }

@@ -60,7 +60,7 @@ namespace WebGL.UI
             progressContainer.style.width = Length.Percent(50);
             progressContainer.style.height = 4;
             progressContainer.style.backgroundColor = new Color(1, 1, 1, 0.1f);
-            progressContainer.style.borderRadius = 2;
+            progressContainer.style.borderTopLeftRadius = 2; progressContainer.style.borderTopRightRadius = 2; progressContainer.style.borderBottomLeftRadius = 2; progressContainer.style.borderBottomRightRadius = 2;
             loadingPanel.Add(progressContainer);
 
             // Progress bar fill
@@ -68,7 +68,7 @@ namespace WebGL.UI
             progressBar.style.height = Length.Percent(100);
             progressBar.style.width = Length.Percent(0);
             progressBar.style.backgroundColor = new Color(0.2f, 0.8f, 1f, 1f);
-            progressBar.style.borderRadius = 2;
+            progressBar.style.borderTopLeftRadius = 2; progressBar.style.borderTopRightRadius = 2; progressBar.style.borderBottomLeftRadius = 2; progressBar.style.borderBottomRightRadius = 2;
             progressContainer.Add(progressBar);
 
             // Status label

@@ -36,7 +36,7 @@ namespace WebGL.UI
             tooltipContainer.style.paddingBottom = 5;
             tooltipContainer.style.paddingLeft = 10;
             tooltipContainer.style.paddingRight = 10;
-            tooltipContainer.style.borderRadius = 5;
+            tooltipContainer.style.borderTopLeftRadius = 5; tooltipContainer.style.borderTopRightRadius = 5; tooltipContainer.style.borderBottomLeftRadius = 5; tooltipContainer.style.borderBottomRightRadius = 5;
             tooltipContainer.style.display = DisplayStyle.None;
 
             tooltipLabel = new Label();

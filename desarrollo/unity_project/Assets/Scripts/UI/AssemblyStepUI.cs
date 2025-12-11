@@ -59,7 +59,7 @@ namespace WebGL.UI
             guidePanel.style.width = 380;
             guidePanel.style.maxHeight = Length.Percent(90);
             guidePanel.style.backgroundColor = new Color(0.06f, 0.08f, 0.12f, 0.98f);
-            guidePanel.style.borderRadius = 16;
+            guidePanel.style.borderTopLeftRadius = 16; guidePanel.style.borderTopRightRadius = 16; guidePanel.style.borderBottomLeftRadius = 16; guidePanel.style.borderBottomRightRadius = 16;
             guidePanel.style.display = DisplayStyle.None;
 
             // Header
@@ -89,7 +89,7 @@ namespace WebGL.UI
             stepNumberLabel.style.paddingRight = 10;
             stepNumberLabel.style.paddingTop = 4;
             stepNumberLabel.style.paddingBottom = 4;
-            stepNumberLabel.style.borderRadius = 12;
+            stepNumberLabel.style.borderTopLeftRadius = 12; stepNumberLabel.style.borderTopRightRadius = 12; stepNumberLabel.style.borderBottomLeftRadius = 12; stepNumberLabel.style.borderBottomRightRadius = 12;
             stepNumberLabel.style.alignSelf = Align.FlexStart;
             stepContent.Add(stepNumberLabel);
 
@@ -142,7 +142,7 @@ namespace WebGL.UI
             warningsLabel.style.paddingRight = 10;
             warningsLabel.style.paddingTop = 8;
             warningsLabel.style.paddingBottom = 8;
-            warningsLabel.style.borderRadius = 8;
+            warningsLabel.style.borderTopLeftRadius = 8; warningsLabel.style.borderTopRightRadius = 8; warningsLabel.style.borderBottomLeftRadius = 8; warningsLabel.style.borderBottomRightRadius = 8;
             warningsLabel.style.marginTop = 10;
             warningsLabel.style.whiteSpace = WhiteSpace.Normal;
             warningsLabel.style.display = DisplayStyle.None;
@@ -157,7 +157,7 @@ namespace WebGL.UI
             tipLabel.style.paddingRight = 10;
             tipLabel.style.paddingTop = 8;
             tipLabel.style.paddingBottom = 8;
-            tipLabel.style.borderRadius = 8;
+            tipLabel.style.borderTopLeftRadius = 8; tipLabel.style.borderTopRightRadius = 8; tipLabel.style.borderBottomLeftRadius = 8; tipLabel.style.borderBottomRightRadius = 8;
             tipLabel.style.marginTop = 10;
             tipLabel.style.whiteSpace = WhiteSpace.Normal;
             tipLabel.style.display = DisplayStyle.None;
@@ -198,7 +198,7 @@ namespace WebGL.UI
             closeButton.style.width = 30;
             closeButton.style.height = 30;
             closeButton.style.backgroundColor = Color.clear;
-            closeButton.style.borderWidth = 0;
+            closeButton.style.borderTopWidth = 0; closeButton.style.borderBottomWidth = 0; closeButton.style.borderLeftWidth = 0; closeButton.style.borderRightWidth = 0;
             closeButton.style.color = new Color(1, 1, 1, 0.5f);
             closeButton.style.fontSize = 16;
             header.Add(closeButton);
@@ -223,13 +223,13 @@ namespace WebGL.UI
             var barBg = new VisualElement();
             barBg.style.height = 4;
             barBg.style.backgroundColor = new Color(1, 1, 1, 0.1f);
-            barBg.style.borderRadius = 2;
+            barBg.style.borderTopLeftRadius = 2; barBg.style.borderTopRightRadius = 2; barBg.style.borderBottomLeftRadius = 2; barBg.style.borderBottomRightRadius = 2;
 
             progressBar = new VisualElement();
             progressBar.style.height = Length.Percent(100);
             progressBar.style.width = Length.Percent(0);
             progressBar.style.backgroundColor = new Color(0.2f, 0.8f, 0.4f);
-            progressBar.style.borderRadius = 2;
+            progressBar.style.borderTopLeftRadius = 2; progressBar.style.borderTopRightRadius = 2; progressBar.style.borderBottomLeftRadius = 2; progressBar.style.borderBottomRightRadius = 2;
 
             barBg.Add(progressBar);
             container.Add(barBg);
@@ -241,7 +241,7 @@ namespace WebGL.UI
         {
             var card = new VisualElement();
             card.style.backgroundColor = new Color(1, 1, 1, 0.05f);
-            card.style.borderRadius = 8;
+            card.style.borderTopLeftRadius = 8; card.style.borderTopRightRadius = 8; card.style.borderBottomLeftRadius = 8; card.style.borderBottomRightRadius = 8;
             card.style.paddingLeft = 12;
             card.style.paddingRight = 12;
             card.style.paddingTop = 10;
@@ -280,8 +280,8 @@ namespace WebGL.UI
             prevButton.style.height = 40;
             prevButton.style.marginRight = 5;
             prevButton.style.backgroundColor = new Color(1, 1, 1, 0.1f);
-            prevButton.style.borderWidth = 0;
-            prevButton.style.borderRadius = 8;
+            prevButton.style.borderTopWidth = 0; prevButton.style.borderBottomWidth = 0; prevButton.style.borderLeftWidth = 0; prevButton.style.borderRightWidth = 0;
+            prevButton.style.borderTopLeftRadius = 8; prevButton.style.borderTopRightRadius = 8; prevButton.style.borderBottomLeftRadius = 8; prevButton.style.borderBottomRightRadius = 8;
             prevButton.style.color = Color.white;
             container.Add(prevButton);
 
@@ -291,8 +291,8 @@ namespace WebGL.UI
             completeButton.style.height = 40;
             completeButton.style.marginRight = 5;
             completeButton.style.backgroundColor = new Color(0.2f, 0.7f, 0.4f);
-            completeButton.style.borderWidth = 0;
-            completeButton.style.borderRadius = 8;
+            completeButton.style.borderTopWidth = 0; completeButton.style.borderBottomWidth = 0; completeButton.style.borderLeftWidth = 0; completeButton.style.borderRightWidth = 0;
+            completeButton.style.borderTopLeftRadius = 8; completeButton.style.borderTopRightRadius = 8; completeButton.style.borderBottomLeftRadius = 8; completeButton.style.borderBottomRightRadius = 8;
             completeButton.style.color = Color.white;
             container.Add(completeButton);
 
@@ -301,8 +301,8 @@ namespace WebGL.UI
             nextButton.style.flexGrow = 1;
             nextButton.style.height = 40;
             nextButton.style.backgroundColor = new Color(0.2f, 0.6f, 1f);
-            nextButton.style.borderWidth = 0;
-            nextButton.style.borderRadius = 8;
+            nextButton.style.borderTopWidth = 0; nextButton.style.borderBottomWidth = 0; nextButton.style.borderLeftWidth = 0; nextButton.style.borderRightWidth = 0;
+            nextButton.style.borderTopLeftRadius = 8; nextButton.style.borderTopRightRadius = 8; nextButton.style.borderBottomLeftRadius = 8; nextButton.style.borderBottomRightRadius = 8;
             nextButton.style.color = Color.white;
             container.Add(nextButton);
 

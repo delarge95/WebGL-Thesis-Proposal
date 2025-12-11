@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using WebGL.Core.Utils;
 
-namespace WebGL.UI
+namespace WebGL.Core.Managers
 {
     public class NotificationManager : PersistentSingleton<NotificationManager>
     {
@@ -38,7 +38,10 @@ namespace WebGL.UI
             notificationContainer.style.paddingBottom = 10;
             notificationContainer.style.paddingLeft = 20;
             notificationContainer.style.paddingRight = 20;
-            notificationContainer.style.borderRadius = 20;
+            notificationContainer.style.borderTopLeftRadius = 20;
+            notificationContainer.style.borderTopRightRadius = 20;
+            notificationContainer.style.borderBottomLeftRadius = 20;
+            notificationContainer.style.borderBottomRightRadius = 20;
             notificationContainer.style.opacity = 0; // Hidden by default
 
             notificationLabel = new Label();

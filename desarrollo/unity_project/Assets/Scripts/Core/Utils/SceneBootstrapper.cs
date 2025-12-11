@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using WebGL.Core.Managers;
+using WebGL.Core.Content;
 
 namespace WebGL.Core.Utils
 {

@@ -150,11 +150,11 @@ namespace WebGL.UI
                 var current = AppStateMachine.Instance.CurrentState;
                 if (current == AppState.ExplodedView)
                 {
-                    AppStateMachine.Instance.TransitionTo(AppState.Exploration);
+                    AppStateMachine.Instance.SetState(AppState.Exploration);
                 }
                 else
                 {
-                    AppStateMachine.Instance.TransitionTo(AppState.ExplodedView);
+                    AppStateMachine.Instance.SetState(AppState.ExplodedView);
                 }
             }
             else if (GameManager.Instance != null)

@@ -124,7 +124,7 @@ namespace WebGL.Core.Managers
             return summary;
         }
 
-        private void OnApplicationQuit()
+        protected override void OnApplicationQuit()
         {
             if (logToConsole)
             {
