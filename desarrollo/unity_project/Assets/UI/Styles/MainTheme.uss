@@ -116,7 +116,7 @@
     padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--font-size-md);
     transition-duration: var(--transition-fast);
-    cursor: pointer;
+    cursor: link;
 }
 
 .btn:hover {
@@ -209,7 +209,7 @@
 .body-text {
     font-size: var(--font-size-md);
     color: var(--color-text-primary);
-    line-height: 1.5;
+    /* line-height: 1.5; Not supported in USS */
 }
 
 /* ----------------------------------------
