@@ -56,7 +56,7 @@ namespace WebGL.UI
             toolbar.style.flexDirection = FlexDirection.Row;
             toolbar.style.alignItems = Align.Center;
             toolbar.style.backgroundColor = new Color(0.08f, 0.08f, 0.12f, 0.95f);
-            toolbar.style.borderRadius = 25;
+            toolbar.style.borderTopLeftRadius = 25; toolbar.style.borderTopRightRadius = 25; toolbar.style.borderBottomLeftRadius = 25; toolbar.style.borderBottomRightRadius = 25;
             toolbar.style.paddingLeft = 10;
             toolbar.style.paddingRight = 10;
             toolbar.style.paddingTop = 8;
@@ -106,8 +106,8 @@ namespace WebGL.UI
             btn.style.paddingRight = 12;
             btn.style.marginRight = 5;
             btn.style.backgroundColor = new Color(1, 1, 1, 0.1f);
-            btn.style.borderWidth = 0;
-            btn.style.borderRadius = 17;
+            btn.style.borderTopWidth = 0; btn.style.borderBottomWidth = 0; btn.style.borderLeftWidth = 0; btn.style.borderRightWidth = 0;
+            btn.style.borderTopLeftRadius = 17; btn.style.borderTopRightRadius = 17; btn.style.borderBottomLeftRadius = 17; btn.style.borderBottomRightRadius = 17;
             btn.style.color = Color.white;
             btn.style.fontSize = 11;
             btn.name = $"ModeBtn_{mode}";
@@ -129,8 +129,8 @@ namespace WebGL.UI
             btn.style.height = 34;
             btn.style.marginRight = 5;
             btn.style.backgroundColor = new Color(1, 1, 1, 0.1f);
-            btn.style.borderWidth = 0;
-            btn.style.borderRadius = 17;
+            btn.style.borderTopWidth = 0; btn.style.borderBottomWidth = 0; btn.style.borderLeftWidth = 0; btn.style.borderRightWidth = 0;
+            btn.style.borderTopLeftRadius = 17; btn.style.borderTopRightRadius = 17; btn.style.borderBottomLeftRadius = 17; btn.style.borderBottomRightRadius = 17;
             btn.style.color = Color.white;
             btn.style.fontSize = 16;
             btn.tooltip = tooltip;
@@ -195,7 +195,7 @@ namespace WebGL.UI
             
             if (AppStateMachine.Instance != null)
             {
-                AppStateMachine.Instance.TransitionTo(AppState.Exploration);
+                AppStateMachine.Instance.SetState(AppState.Exploration);
             }
 
             if (NotificationManager.Instance != null)

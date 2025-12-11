@@ -2,6 +2,8 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using WebGL.Core.Content;
+using WebGL.UI;
 
 namespace WebGL.Core.Utils
 {
@@ -71,10 +73,10 @@ namespace WebGL.Core.Utils
             go.AddComponent<Managers.SelectionManager>();
             go.AddComponent<Managers.AudioManager>();
             go.AddComponent<Managers.NotificationManager>();
-            go.AddComponent<Managers.SaveSystem>();
+            // go.AddComponent<Managers.SaveSystem>(); // Static class cannot be a component
             
             // Feature managers
-            go.AddComponent<Managers.ExplodedViewManager>();
+            go.AddComponent<ExplodedViewManager>();
             go.AddComponent<Managers.ViewModeManager>();
             go.AddComponent<Managers.PartCatalogManager>();
             go.AddComponent<Managers.PartVisibilityManager>();

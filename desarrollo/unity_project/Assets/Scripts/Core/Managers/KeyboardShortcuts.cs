@@ -56,11 +56,11 @@ namespace WebGL.Core.Managers
             var currentState = AppStateMachine.Instance.CurrentState;
             if (currentState == AppState.ExplodedView)
             {
-                AppStateMachine.Instance.TransitionTo(AppState.Exploration);
+                AppStateMachine.Instance.SetState(AppState.Exploration);
             }
             else if (currentState == AppState.Exploration)
             {
-                AppStateMachine.Instance.TransitionTo(AppState.ExplodedView);
+                AppStateMachine.Instance.SetState(AppState.ExplodedView);
             }
             
             if (AudioManager.Instance != null) AudioManager.Instance.PlayClick();
@@ -81,7 +81,7 @@ namespace WebGL.Core.Managers
             // Then transition
             if (currentState != AppState.Exploration)
             {
-                AppStateMachine.Instance.TransitionTo(AppState.Exploration);
+                AppStateMachine.Instance.SetState(AppState.Exploration);
             }
         }
 

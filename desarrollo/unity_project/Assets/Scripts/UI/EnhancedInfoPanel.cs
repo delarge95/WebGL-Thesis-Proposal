@@ -42,7 +42,7 @@ namespace WebGL.UI
         private Button closeButton;
 
         private ExplodablePart currentPart;
-        private bool isVisible = false;
+        // private bool isVisible = false;
 
         protected override void Awake()
         {
@@ -86,7 +86,7 @@ namespace WebGL.UI
             infoPanel.style.width = 350;
             infoPanel.style.maxHeight = Length.Percent(80);
             infoPanel.style.backgroundColor = new Color(0.08f, 0.08f, 0.12f, 0.95f);
-            infoPanel.style.borderRadius = 12;
+            infoPanel.style.borderTopLeftRadius = 12; infoPanel.style.borderTopRightRadius = 12; infoPanel.style.borderBottomLeftRadius = 12; infoPanel.style.borderBottomRightRadius = 12;
             infoPanel.style.display = DisplayStyle.None;
             infoPanel.style.opacity = 0;
 
@@ -99,7 +99,7 @@ namespace WebGL.UI
             closeButton.style.width = 30;
             closeButton.style.height = 30;
             closeButton.style.backgroundColor = Color.clear;
-            closeButton.style.borderWidth = 0;
+            closeButton.style.borderTopWidth = 0; closeButton.style.borderBottomWidth = 0; closeButton.style.borderLeftWidth = 0; closeButton.style.borderRightWidth = 0;
             closeButton.style.color = new Color(1, 1, 1, 0.5f);
             closeButton.style.fontSize = 18;
             infoPanel.Add(closeButton);
@@ -224,8 +224,8 @@ namespace WebGL.UI
             button.style.paddingLeft = 15;
             button.style.paddingRight = 15;
             button.style.backgroundColor = new Color(1, 1, 1, 0.1f);
-            button.style.borderWidth = 0;
-            button.style.borderRadius = 6;
+            button.style.borderTopWidth = 0; button.style.borderBottomWidth = 0; button.style.borderLeftWidth = 0; button.style.borderRightWidth = 0;
+            button.style.borderTopLeftRadius = 6; button.style.borderTopRightRadius = 6; button.style.borderBottomLeftRadius = 6; button.style.borderBottomRightRadius = 6;
             button.style.color = Color.white;
             button.style.fontSize = 12;
             return button;
@@ -278,7 +278,7 @@ namespace WebGL.UI
             if (infoPanel == null) return;
 
             infoPanel.style.display = DisplayStyle.Flex;
-            isVisible = true;
+            // isVisible = true;
 
             // Animate in
             if (TweenEngine.Instance != null)
@@ -295,7 +295,7 @@ namespace WebGL.UI
         {
             if (infoPanel == null) return;
 
-            isVisible = false;
+            // isVisible = false;
 
             if (TweenEngine.Instance != null)
             {

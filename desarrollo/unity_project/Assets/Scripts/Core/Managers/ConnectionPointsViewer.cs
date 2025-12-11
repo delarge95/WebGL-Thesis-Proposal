@@ -37,7 +37,7 @@ namespace WebGL.Core.Managers
         public bool IsVisible => showConnections;
         public List<ConnectionPoint> AllConnections => allConnections;
 
-        public event Action<ConnectionPoint> OnConnectionSelected;
+        // public event Action<ConnectionPoint> OnConnectionSelected;
 
         private void Start()
         {

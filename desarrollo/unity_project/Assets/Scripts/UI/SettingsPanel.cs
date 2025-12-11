@@ -54,7 +54,7 @@ namespace WebGL.UI
             panel.style.paddingBottom = 20;
             panel.style.paddingLeft = 30;
             panel.style.paddingRight = 30;
-            panel.style.borderRadius = 12;
+            panel.style.borderTopLeftRadius = 12; panel.style.borderTopRightRadius = 12; panel.style.borderBottomLeftRadius = 12; panel.style.borderBottomRightRadius = 12;
 
             // Title
             var title = new Label("Settings");
@@ -135,7 +135,7 @@ namespace WebGL.UI
 
             if (AppStateMachine.Instance != null)
             {
-                AppStateMachine.Instance.TransitionTo(AppState.Settings);
+                AppStateMachine.Instance.SetState(AppState.Settings);
             }
         }
 
@@ -147,7 +147,7 @@ namespace WebGL.UI
 
             if (AppStateMachine.Instance != null)
             {
-                AppStateMachine.Instance.TransitionTo(AppState.Exploration);
+                AppStateMachine.Instance.SetState(AppState.Exploration);
             }
 
             if (AudioManager.Instance != null)

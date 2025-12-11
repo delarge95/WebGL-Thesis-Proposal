@@ -17,7 +17,7 @@ namespace WebGL.Core.Content
         private Color originalColor = Color.white;
         private Coroutine pulseCoroutine;
         private bool isSelected = false;
-        private bool isHovered = false;
+        // private bool // isHovered = false;
 
         private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
 
@@ -33,21 +33,21 @@ namespace WebGL.Core.Content
         public void OnHoverEnter()
         {
             if (isSelected) return;
-            isHovered = true;
+            // isHovered = true;
             materialController.SetColor(hoverColor);
         }
 
         public void OnHoverExit()
         {
             if (isSelected) return;
-            isHovered = false;
+            // isHovered = false;
             materialController.ResetProperties();
         }
 
         public void OnSelect()
         {
             isSelected = true;
-            isHovered = false;
+            // isHovered = false;
             materialController.SetColor(selectedColor);
             StartPulse();
         }

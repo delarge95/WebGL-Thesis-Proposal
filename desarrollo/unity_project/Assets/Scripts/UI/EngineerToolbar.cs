@@ -42,7 +42,7 @@ namespace WebGL.UI
             // Dropdown panel
             dropdownPanel = new VisualElement();
             dropdownPanel.style.backgroundColor = new Color(0.08f, 0.08f, 0.12f, 0.95f);
-            dropdownPanel.style.borderRadius = 12;
+            dropdownPanel.style.borderTopLeftRadius = 12; dropdownPanel.style.borderTopRightRadius = 12; dropdownPanel.style.borderBottomLeftRadius = 12; dropdownPanel.style.borderBottomRightRadius = 12;
             dropdownPanel.style.marginTop = 10;
             dropdownPanel.style.paddingLeft = 10;
             dropdownPanel.style.paddingRight = 10;
@@ -102,8 +102,8 @@ namespace WebGL.UI
             btn.style.width = 50;
             btn.style.height = 50;
             btn.style.backgroundColor = new Color(0.08f, 0.08f, 0.12f, 0.95f);
-            btn.style.borderWidth = 0;
-            btn.style.borderRadius = 25;
+            btn.style.borderTopWidth = 0; btn.style.borderBottomWidth = 0; btn.style.borderLeftWidth = 0; btn.style.borderRightWidth = 0;
+            btn.style.borderTopLeftRadius = 25; btn.style.borderTopRightRadius = 25; btn.style.borderBottomLeftRadius = 25; btn.style.borderBottomRightRadius = 25;
             btn.style.color = Color.white;
             btn.style.fontSize = 22;
             btn.tooltip = tooltip;
@@ -120,8 +120,8 @@ namespace WebGL.UI
             btn.style.marginBottom = 5;
             btn.style.paddingLeft = 12;
             btn.style.backgroundColor = new Color(1, 1, 1, 0.05f);
-            btn.style.borderWidth = 0;
-            btn.style.borderRadius = 8;
+            btn.style.borderTopWidth = 0; btn.style.borderBottomWidth = 0; btn.style.borderLeftWidth = 0; btn.style.borderRightWidth = 0;
+            btn.style.borderTopLeftRadius = 8; btn.style.borderTopRightRadius = 8; btn.style.borderBottomLeftRadius = 8; btn.style.borderBottomRightRadius = 8;
 
             var iconLabel = new Label(icon);
             iconLabel.style.fontSize = 16;

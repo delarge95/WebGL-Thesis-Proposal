@@ -57,7 +57,7 @@ namespace WebGL.UI
             catalogPanel.style.bottom = 20;
             catalogPanel.style.width = 280;
             catalogPanel.style.backgroundColor = new Color(0.08f, 0.08f, 0.12f, 0.95f);
-            catalogPanel.style.borderRadius = 12;
+            catalogPanel.style.borderTopLeftRadius = 20; catalogPanel.style.borderTopRightRadius = 20; catalogPanel.style.borderBottomLeftRadius = 20; catalogPanel.style.borderBottomRightRadius = 20;
             catalogPanel.style.display = DisplayStyle.None;
 
             // Header
@@ -77,11 +77,12 @@ namespace WebGL.UI
 
             // Search field
             searchField = new TextField();
-            searchField.placeholder = "Search parts...";
+            // searchField.placeholder = "Search parts...";
+            searchField.value = "Search parts..."; // Fallback
             searchField.style.marginTop = 15;
             searchField.style.height = 36;
             searchField.style.backgroundColor = new Color(0, 0, 0, 0.3f);
-            searchField.style.borderRadius = 8;
+            searchField.style.borderTopLeftRadius = 8; searchField.style.borderTopRightRadius = 8; searchField.style.borderBottomLeftRadius = 8; searchField.style.borderBottomRightRadius = 8;
             searchField.style.color = Color.white;
             searchField.RegisterValueChangedCallback(OnSearchChanged);
             header.Add(searchField);
@@ -143,8 +144,8 @@ namespace WebGL.UI
             btn.style.marginRight = 5;
             btn.style.marginBottom = 5;
             btn.style.backgroundColor = new Color(1, 1, 1, 0.1f);
-            btn.style.borderWidth = 0;
-            btn.style.borderRadius = 14;
+            btn.style.borderTopWidth = 0; btn.style.borderBottomWidth = 0; btn.style.borderLeftWidth = 0; btn.style.borderRightWidth = 0;
+            btn.style.borderTopLeftRadius = 14; btn.style.borderTopRightRadius = 14; btn.style.borderBottomLeftRadius = 14; btn.style.borderBottomRightRadius = 14;
             btn.style.color = Color.white;
             btn.style.fontSize = 11;
             categoryButtons.Add(btn);
@@ -220,15 +221,15 @@ namespace WebGL.UI
             item.style.paddingRight = 10;
             item.style.marginBottom = 5;
             item.style.backgroundColor = new Color(1, 1, 1, 0.05f);
-            item.style.borderRadius = 8;
-            item.style.borderWidth = 0;
+            item.style.borderTopLeftRadius = 8; item.style.borderTopRightRadius = 8; item.style.borderBottomLeftRadius = 8; item.style.borderBottomRightRadius = 8;
+            item.style.borderTopWidth = 0; item.style.borderBottomWidth = 0; item.style.borderLeftWidth = 0; item.style.borderRightWidth = 0;
 
             // Icon placeholder
             var icon = new VisualElement();
             icon.style.width = 32;
             icon.style.height = 32;
             icon.style.backgroundColor = new Color(0.2f, 0.6f, 1f, 0.3f);
-            icon.style.borderRadius = 6;
+            icon.style.borderTopLeftRadius = 6; icon.style.borderTopRightRadius = 6; icon.style.borderBottomLeftRadius = 6; icon.style.borderBottomRightRadius = 6;
             icon.style.marginRight = 10;
             item.Add(icon);
 
@@ -254,7 +255,7 @@ namespace WebGL.UI
             visBtn.style.width = 30;
             visBtn.style.height = 30;
             visBtn.style.backgroundColor = Color.clear;
-            visBtn.style.borderWidth = 0;
+            visBtn.style.borderTopWidth = 0; visBtn.style.borderBottomWidth = 0; visBtn.style.borderLeftWidth = 0; visBtn.style.borderRightWidth = 0;
             visBtn.style.fontSize = 14;
             item.Add(visBtn);
 

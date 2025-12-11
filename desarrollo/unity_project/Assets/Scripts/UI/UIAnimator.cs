@@ -28,7 +28,7 @@ namespace WebGL.UI
             
             // Use UI Toolkit's experimental animation API if available, or manual lerp
             // Here we use a simple transition class approach which is cleaner
-            element.RemoveToClassList(ClassFadeOut);
+            element.RemoveFromClassList(ClassFadeOut);
             
             // Fallback manual lerp if CSS transitions aren't set up
             float timer = 0;

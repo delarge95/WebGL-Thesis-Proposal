@@ -17,7 +17,7 @@ namespace WebGL.Core.Content
         private List<ExplodablePart> parts = new List<ExplodablePart>();
         private float currentFactor = 0f;
         private float targetFactor = 0f;
-        private bool isAnimating = false;
+        // private bool isAnimating = false;
 
         protected override void Awake()
         {

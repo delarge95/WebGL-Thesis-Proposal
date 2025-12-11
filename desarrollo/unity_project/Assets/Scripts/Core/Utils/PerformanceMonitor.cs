@@ -14,7 +14,7 @@ namespace WebGL.Core.Managers
         [Header("Thresholds")]
         [SerializeField] private int targetFPS = 60;
         [SerializeField] private int warningFPS = 30;
-        [SerializeField] private int criticalFPS = 15;
+        // [SerializeField] private int criticalFPS = 15;
 
         private float deltaTime = 0f;
         private float fps = 0f;
@@ -25,8 +25,8 @@ namespace WebGL.Core.Managers
         private long peakMemory = 0;
 
         // Draw call tracking
-        private int lastDrawCalls = 0;
-        private int lastTriangles = 0;
+        // private int lastDrawCalls = 0;
+        // private int lastTriangles = 0;
 
         public float FPS => fps;
         public long MemoryMB => System.GC.GetTotalMemory(false) / (1024 * 1024);
@@ -85,8 +85,9 @@ namespace WebGL.Core.Managers
             // Quality level
             GUI.Label(new Rect(15, 75, 190, 20), $"Quality: {QualitySettings.names[QualitySettings.GetQualityLevel()]}", style);
 
-            // Resolution scale
-            float scale = UnityEngine.Rendering.ScalableBufferManager.heightScaleFactor;
+            // Resolution scale - Disabled for Unity 6 compatibility
+            // float scale = UnityEngine.Rendering.ScalableBufferManager.heightScaleFactor;
+            float scale = 1.0f;
             GUI.Label(new Rect(15, 95, 190, 20), $"Resolution: {(scale * 100):F0}%", style);
 
             // Hotkey hint
@@ -100,7 +101,7 @@ namespace WebGL.Core.Managers
             return $"FPS: {fps:F1}\n" +
                    $"Memory: {MemoryMB} MB (Peak: {PeakMemoryMB} MB)\n" +
                    $"Quality: {QualitySettings.names[QualitySettings.GetQualityLevel()]}\n" +
-                   $"Resolution Scale: {(UnityEngine.Rendering.ScalableBufferManager.heightScaleFactor * 100):F0}%";
+                   $"Resolution Scale: 100%"; // Fixed for Unity 6
         }
     }
 }

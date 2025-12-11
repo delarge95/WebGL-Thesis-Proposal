@@ -4,8 +4,8 @@ namespace WebGL.Core.Managers
 {
     public class CameraController : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private float sensitivity = 1.0f;
+        // [Header("Settings")]
+        // [SerializeField] private float sensitivity = 1.0f;
         
         // Placeholder for Cinemachine Virtual Camera reference
         // public CinemachineVirtualCamera virtualCamera;
