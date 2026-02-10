@@ -45,6 +45,11 @@ namespace WebGL.Core.Utils
     {
         protected override void Awake()
         {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
             base.Awake();
             DontDestroyOnLoad(gameObject);
         }

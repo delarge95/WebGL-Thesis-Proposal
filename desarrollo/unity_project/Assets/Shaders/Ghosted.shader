@@ -36,6 +36,7 @@ Shader "WebGL/Ghosted"
             Cull Back
 
             HLSLPROGRAM
+            #pragma target 3.0
             #pragma vertex vert
             #pragma fragment frag
             #pragma shader_feature_local _DEPTH_FADE

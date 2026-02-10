@@ -35,6 +35,7 @@ Shader "WebGL/ClippableLit"
             ZTest LEqual
 
             HLSLPROGRAM
+            #pragma target 3.0
             #pragma vertex vert
             #pragma fragment frag
 
@@ -166,6 +167,7 @@ Shader "WebGL/ClippableLit"
             Cull Back
 
             HLSLPROGRAM
+            #pragma target 3.0
             #pragma vertex ShadowVert
             #pragma fragment ShadowFrag
 

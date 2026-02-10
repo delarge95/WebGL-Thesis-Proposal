@@ -1,0 +1,10 @@
+E:\WebGL_tesis\.agent\skills\arch_guard\analyzers\bin\Release\netstandard2.0\UnityArchitectGuard.deps.json
+E:\WebGL_tesis\.agent\skills\arch_guard\analyzers\bin\Release\netstandard2.0\UnityArchitectGuard.dll
+E:\WebGL_tesis\.agent\skills\arch_guard\analyzers\bin\Release\netstandard2.0\UnityArchitectGuard.pdb
+E:\WebGL_tesis\.agent\skills\arch_guard\analyzers\obj\Release\netstandard2.0\UnityArchitectGuard.csproj.AssemblyReference.cache
+E:\WebGL_tesis\.agent\skills\arch_guard\analyzers\obj\Release\netstandard2.0\UnityArchitectGuard.GeneratedMSBuildEditorConfig.editorconfig
+E:\WebGL_tesis\.agent\skills\arch_guard\analyzers\obj\Release\netstandard2.0\UnityArchitectGuard.AssemblyInfoInputs.cache
+E:\WebGL_tesis\.agent\skills\arch_guard\analyzers\obj\Release\netstandard2.0\UnityArchitectGuard.AssemblyInfo.cs
+E:\WebGL_tesis\.agent\skills\arch_guard\analyzers\obj\Release\netstandard2.0\UnityArchitectGuard.csproj.CoreCompileInputs.cache
+E:\WebGL_tesis\.agent\skills\arch_guard\analyzers\obj\Release\netstandard2.0\UnityArchitectGuard.dll
+E:\WebGL_tesis\.agent\skills\arch_guard\analyzers\obj\Release\netstandard2.0\UnityArchitectGuard.pdb

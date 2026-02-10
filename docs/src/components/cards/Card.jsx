@@ -1,19 +1,19 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import './Card.css';
+import React from "react";
+import { motion } from "framer-motion";
+import "./Card.css";
 
 /**
  * Generic Card component with Framer Motion support
  * Each card type will have unique animation variants
  */
-const Card = ({ 
-  id, 
-  title, 
-  description, 
+const Card = ({
+  id,
+  title,
+  description,
   animationType,
   animationVariants,
   children,
-  className = ''
+  className = "",
 }) => {
   return (
     <motion.div
@@ -27,7 +27,7 @@ const Card = ({
     >
       {/* Animation overlay layer */}
       <div className="card__animation-layer" />
-      
+
       {/* Content */}
       <div className="card__content">
         <h3 className="card__title">{title}</h3>

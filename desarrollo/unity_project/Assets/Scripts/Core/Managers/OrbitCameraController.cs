@@ -1,5 +1,6 @@
 using UnityEngine;
 using WebGL.Core.Utils;
+using System.Collections;
 
 namespace WebGL.Core.Managers
 {
@@ -10,140 +11,337 @@ namespace WebGL.Core.Managers
         [SerializeField] private Vector3 targetOffset = Vector3.zero;
 
         [Header("Orbit Settings")]
-        [SerializeField] private float distance = 5f;
-        [SerializeField] private float minDistance = 2f;
-        [SerializeField] private float maxDistance = 15f;
+        [SerializeField] private float distance = 10f;
+        [SerializeField] private float minDistance = 3f;
+        [SerializeField] private float maxDistance = 25f;
 
         [Header("Rotation Settings")]
-        [SerializeField] private float rotationSpeed = 5f;
-        [SerializeField] private float minVerticalAngle = -80f;
-        [SerializeField] private float maxVerticalAngle = 80f;
+        [SerializeField] private float rotationSpeed = 5f; 
+        [SerializeField] private float minVerticalAngle = -89f; // Allow looking from below
+        [SerializeField] private float maxVerticalAngle = 89f;
+
+        [Header("Panning Settings")]
+        [SerializeField] private float panSpeed = 0.25f; // Slower for precision
+        [SerializeField] private Vector2 panLimit = new Vector2(10f, 10f); // Limit X/Z panning
 
         [Header("Zoom Settings")]
         [SerializeField] private float zoomSpeed = 5f;
-        [SerializeField] private float zoomSmoothness = 10f;
+        [SerializeField] private float zoomDamping = 10f;
 
         [Header("Damping")]
-        [SerializeField] private float rotationDamping = 5f;
-        [SerializeField] private float movementDamping = 8f;
+        [SerializeField] private float dampingFactor = 5f; // Smoother transitions
 
-        [Header("Auto Rotation")]
-        [SerializeField] private bool autoRotate = false;
-        [SerializeField] private float autoRotateSpeed = 10f;
-        [SerializeField] private float autoRotateDelay = 5f;
+        // View Shift for UI
+        private float currentViewShiftRatio = 0f; // 0 to 1 (percentage of screen height)
+        private float targetViewShiftRatio = 0f;
 
-        private float currentHorizontalAngle = 0f;
-        private float currentVerticalAngle = 30f;
-        private float targetHorizontalAngle = 0f;
-        private float targetVerticalAngle = 30f;
+        private float currentDistance;
         private float targetDistance;
-        private float lastInputTime;
-        private Vector3 currentTargetPosition;
+        
+        private float currentX = 0f;
+        private float currentY = 20f;
+        private float targetX = 0f;
+        private float targetY = 20f;
+
+        private Vector3 currentFocusPoint;
+        private Vector3 targetFocusPoint;
 
         protected override void Awake()
         {
             base.Awake();
+            currentDistance = distance;
             targetDistance = distance;
-            lastInputTime = Time.time;
+            
+            // FORCE override inspector values that might be stale
+            minVerticalAngle = -89f; 
+            maxVerticalAngle = 89f;
+
+            if (target != null)
+            {
+                currentFocusPoint = target.position + targetOffset;
+                targetFocusPoint = currentFocusPoint;
+            }
         }
 
         private void LateUpdate()
         {
-            if (target == null) return;
-
+            // Camera can operate without a physical target transform (using focus point).
             HandleInput();
-            HandleAutoRotation();
+            
+            // Interpolate View Shift
+            currentViewShiftRatio = Mathf.Lerp(currentViewShiftRatio, targetViewShiftRatio, Time.deltaTime * dampingFactor);
+            
             UpdateCamera();
         }
 
         private void HandleInput()
         {
-            // Use InputManager if available
-            Vector2 lookInput = Vector2.zero;
-            float zoomInput = 0f;
-
-            if (InputManager.Instance != null)
+            if (Input.touchCount > 0)
             {
-                lookInput = InputManager.Instance.LookInput;
-                zoomInput = InputManager.Instance.ZoomInput;
+                HandleTouchInput();
             }
             else
             {
-                // Fallback to direct input
-                if (Input.GetMouseButton(1))
-                {
-                    lookInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-                }
-                zoomInput = Input.GetAxis("Mouse ScrollWheel");
-            }
-
-            // Apply rotation
-            if (lookInput.sqrMagnitude > 0.001f)
-            {
-                targetHorizontalAngle += lookInput.x * rotationSpeed;
-                targetVerticalAngle -= lookInput.y * rotationSpeed;
-                targetVerticalAngle = Mathf.Clamp(targetVerticalAngle, minVerticalAngle, maxVerticalAngle);
-                lastInputTime = Time.time;
-            }
-
-            // Apply zoom
-            if (Mathf.Abs(zoomInput) > 0.01f)
-            {
-                targetDistance -= zoomInput * zoomSpeed;
-                targetDistance = Mathf.Clamp(targetDistance, minDistance, maxDistance);
-                lastInputTime = Time.time;
+                HandleMouseInput();
             }
         }
 
-        private void HandleAutoRotation()
+        private void HandleMouseInput()
         {
-            if (!autoRotate) return;
-
-            if (Time.time - lastInputTime > autoRotateDelay)
+            // 0. Smart Pivot: Re-center on Interaction Start
+            if (Input.GetMouseButtonDown(1))
             {
-                targetHorizontalAngle += autoRotateSpeed * Time.deltaTime;
+                PickPivot(Input.mousePosition);
+            }
+
+            // 1. Orbit (Right Click)
+            if (Input.GetMouseButton(1))
+            {
+                float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
+                float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
+                ApplyOrbit(mouseX, mouseY);
+            }
+
+            // 2. Pan (Middle Click)
+            if (Input.GetMouseButton(2))
+            {
+                float mouseX = Input.GetAxis("Mouse X") * panSpeed;
+                float mouseY = Input.GetAxis("Mouse Y") * panSpeed;
+                ApplyPan(mouseX, mouseY);
+            }
+
+            // 3. Zoom (Scroll)
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            if (Mathf.Abs(scroll) > 0.001f)
+            {
+                ApplyZoom(scroll * 2f);
+            }
+        }
+
+        private void HandleTouchInput()
+        {
+            // 1 Finger: Orbit
+            if (Input.touchCount == 1)
+            {
+                Touch touch = Input.GetTouch(0);
+
+                if (touch.phase == TouchPhase.Moved)
+                {
+                    float touchX = touch.deltaPosition.x * rotationSpeed * 0.2f; // Scale down for touch
+                    float touchY = touch.deltaPosition.y * rotationSpeed * 0.2f;
+                    ApplyOrbit(touchX, touchY);
+                }
+            }
+
+            // 2 Fingers: Pan & Zoom
+            if (Input.touchCount == 2)
+            {
+                Touch t0 = Input.GetTouch(0);
+                Touch t1 = Input.GetTouch(1);
+
+                // Pan Logic (Movement of center point)
+                Vector2 curCenter = (t0.position + t1.position) / 2f;
+                Vector2 prevCenter = (t0.position - t0.deltaPosition + t1.position - t1.deltaPosition) / 2f;
+                Vector2 panDelta = curCenter - prevCenter;
+
+                // Zoom Logic (Pinch distance change)
+                float curDist = Vector2.Distance(t0.position, t1.position);
+                float prevDist = Vector2.Distance(t0.position - t0.deltaPosition, t1.position - t1.deltaPosition);
+                float zoomDelta = (curDist - prevDist) * 0.01f; // Scale factor
+
+                // Apply
+                if (panDelta.magnitude > 0.1f)
+                {
+                     ApplyPan(panDelta.x * panSpeed * 0.5f, panDelta.y * panSpeed * 0.5f);
+                }
+                
+                if (Mathf.Abs(zoomDelta) > 0.001f)
+                {
+                    ApplyZoom(zoomDelta * 5f);
+                }
+            }
+        }
+
+        // Shared Logic
+        private void ApplyOrbit(float x, float y)
+        {
+            targetX += x;
+            targetY -= y;
+            targetY = Mathf.Clamp(targetY, minVerticalAngle, maxVerticalAngle);
+        }
+
+        private void ApplyPan(float x, float y)
+        {
+            Vector3 right = transform.right;
+            // Use World Up to prevent "pulling back" sensation ("Elevator Panning")
+            Vector3 up = Vector3.up; 
+            
+            // Flatten right vector to keep it horizontal
+            right.y = 0f; 
+            right.Normalize();
+
+            Vector3 move = (-right * x) + (-up * y);
+
+            if (target != null)
+            {
+                targetOffset += move;
+                targetOffset.x = Mathf.Clamp(targetOffset.x, -panLimit.x, panLimit.x);
+                targetOffset.y = Mathf.Clamp(targetOffset.y, -panLimit.y, panLimit.y); // Negative allowed
+                targetOffset.z = Mathf.Clamp(targetOffset.z, -panLimit.y, panLimit.y);
+            }
+            else
+            {
+                targetFocusPoint += move;
+                targetFocusPoint.x = Mathf.Clamp(targetFocusPoint.x, -panLimit.x, panLimit.x);
+                targetFocusPoint.y = Mathf.Clamp(targetFocusPoint.y, -panLimit.y, panLimit.y); // Negative allowed
+                targetFocusPoint.z = Mathf.Clamp(targetFocusPoint.z, -panLimit.y, panLimit.y);
+            }
+        }
+
+        private void ApplyZoom(float amount)
+        {
+             targetDistance -= amount * zoomSpeed; 
+             targetDistance = Mathf.Clamp(targetDistance, minDistance, maxDistance);
+        }
+
+        private void PickPivot(Vector2 screenPos)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(screenPos);
+            
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f)) // Max distance 100
+            {
+                Vector3 newFocus = hit.point;
+                float newDist = Vector3.Distance(transform.position, newFocus);
+                
+                // Clamp distance to avoid being too close
+                if (newDist >= minDistance)
+                {
+                    if (target != null)
+                    {
+                        targetOffset = newFocus - target.position;
+                    }
+                    else
+                    {
+                        targetFocusPoint = newFocus;
+                    }
+
+                    // Smooth Transition
+                    targetFocusPoint = newFocus;
+                    targetDistance = newDist;
+                }
             }
         }
 
         private void UpdateCamera()
         {
-            // Smooth angles
-            currentHorizontalAngle = Mathf.LerpAngle(currentHorizontalAngle, targetHorizontalAngle, rotationDamping * Time.deltaTime);
-            currentVerticalAngle = Mathf.Lerp(currentVerticalAngle, targetVerticalAngle, rotationDamping * Time.deltaTime);
-            distance = Mathf.Lerp(distance, targetDistance, zoomSmoothness * Time.deltaTime);
+            float dt = Time.deltaTime;
 
-            // Smooth target position
-            Vector3 targetPos = target.position + targetOffset;
-            currentTargetPosition = Vector3.Lerp(currentTargetPosition, targetPos, movementDamping * Time.deltaTime);
+            // Smooth Orbit Angles
+            currentX = Mathf.Lerp(currentX, targetX, dt * dampingFactor);
+            currentY = Mathf.Lerp(currentY, targetY, dt * dampingFactor);
 
-            // Calculate camera position
-            Quaternion rotation = Quaternion.Euler(currentVerticalAngle, currentHorizontalAngle, 0f);
-            Vector3 offset = rotation * new Vector3(0f, 0f, -distance);
-            Vector3 desiredPosition = currentTargetPosition + offset;
+            // Smooth Distance
+            currentDistance = Mathf.Lerp(currentDistance, targetDistance, dt * zoomDamping);
 
-            transform.position = desiredPosition;
-            transform.LookAt(currentTargetPosition);
+            // Smooth Focus Point (Panning/Target Switch)
+            if (target != null)
+                targetFocusPoint = target.position + targetOffset;
+            
+            currentFocusPoint = Vector3.Lerp(currentFocusPoint, targetFocusPoint, dt * dampingFactor);
+
+            // Calculate Position & Rotation
+            Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
+            
+            // Base Position
+            Vector3 direction = new Vector3(0.0f, 0.0f, -currentDistance);
+            Vector3 position = rotation * direction + currentFocusPoint;
+
+            // --- VIEW SHIFT LOGIC ---
+            // Calculate world-space vertical offset based on FOV and Distance
+            if (Mathf.Abs(currentViewShiftRatio) > 0.001f)
+            {
+                Camera cam = GetComponent<Camera>();
+                if (cam != null)
+                {
+                    // Frustum height at target distance
+                    float frustumHeight = 2.0f * currentDistance * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+                    float worldOffset = frustumHeight * currentViewShiftRatio;
+
+                    // Shift position DOWN to make object appear UP
+                    // We effectively look at a point below the actual target
+                    Vector3 shiftVector = -Vector3.up * worldOffset; 
+                    
+                    position += shiftVector;
+                    
+                    // We must also shift the LookAt target so rotation pivot remains correct relative to the screen
+                    transform.position = position;
+                    transform.LookAt(currentFocusPoint + shiftVector);
+                    return;
+                }
+            }
+
+            transform.rotation = rotation;
+            transform.position = position;
         }
 
-        public void SetTarget(Transform newTarget, Vector3 offset = default)
+        public void SetTarget(Transform newTarget, bool snap = false)
         {
             target = newTarget;
-            targetOffset = offset;
+            targetOffset = Vector3.zero;
+            
             if (target != null)
             {
-                currentTargetPosition = target.position + targetOffset;
+                targetFocusPoint = target.position + targetOffset;
+                if (snap)
+                {
+                    currentFocusPoint = targetFocusPoint;
+                    targetDistance = 5f; // Reset zoom on focus
+                }
             }
+        }
+
+        public void FocusOnObject(Transform objTransform)
+        {
+            if (objTransform == null) return;
+            
+            Vector3 centerOffset = Vector3.zero;
+            var rend = objTransform.GetComponent<Renderer>();
+            if (rend != null)
+            {
+                centerOffset = rend.bounds.center - objTransform.position;
+            }
+
+            // Keep current rotation angles
+            targetX = currentX; 
+            targetY = 20f;      
+            
+            SetTarget(objTransform, false);
+            targetOffset = centerOffset; 
+            
+            targetDistance = 6f; // Standard zoom
+        }
+
+        public void SetViewportShift(float shiftRatio)
+        {
+            targetViewShiftRatio = shiftRatio;
+        }
+
+        public void ResetView()
+        {
+            targetX = 0f;
+            targetY = 20f;
+            targetDistance = 10f;
         }
 
         public void SetAngles(float horizontal, float vertical, bool immediate = false)
         {
-            targetHorizontalAngle = horizontal;
-            targetVerticalAngle = Mathf.Clamp(vertical, minVerticalAngle, maxVerticalAngle);
+            targetX = horizontal;
+            targetY = Mathf.Clamp(vertical, minVerticalAngle, maxVerticalAngle);
 
             if (immediate)
             {
-                currentHorizontalAngle = targetHorizontalAngle;
-                currentVerticalAngle = targetVerticalAngle;
+                currentX = targetX;
+                currentY = targetY;
             }
         }
 
@@ -152,14 +350,8 @@ namespace WebGL.Core.Managers
             targetDistance = Mathf.Clamp(newDistance, minDistance, maxDistance);
             if (immediate)
             {
-                distance = targetDistance;
+                currentDistance = targetDistance;
             }
-        }
-
-        public void ResetView()
-        {
-            SetAngles(0f, 30f, false);
-            SetDistance(5f, false);
         }
     }
 }

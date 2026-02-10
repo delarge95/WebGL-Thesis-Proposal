@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 using WebGL.Core.Managers;
 using WebGL.Core.Utils;
 using WebGL.Core.Events;
+using System.Collections;
 
 namespace WebGL.UI
 {
@@ -11,13 +12,23 @@ namespace WebGL.UI
         [Header("UI Documents")]
         [SerializeField] private UIDocument mainDocument;
 
+        // Visual Elements
         private VisualElement root;
-        private VisualElement detailsPanel;
-        private VisualElement sidebar;
-        private Button explodeButton;
-        private Button resetButton;
-        private Slider explosionSlider;
-        private Label stateLabel;
+        private VisualElement detailsSheet;
+        private VisualElement bottomBar;
+        private VisualElement sliderContainer;
+        private Label partNameLabel; // In Bottom Bar
+        private Label sheetTitle;
+        private Label sheetCategory;
+        private Label sheetDesc;
+
+        // Buttons
+        private Button shaderBtn;
+        private Button explodeBtn;
+        private Button infoBtn;
+
+        // State
+        private bool isSheetOpen = false;
 
         protected override void Awake()
         {
@@ -44,151 +55,141 @@ namespace WebGL.UI
 
         private void InitializeUI()
         {
-            // Query elements by ID
-            detailsPanel = root.Q<VisualElement>("DetailsPanel");
-            sidebar = root.Q<VisualElement>("Sidebar");
-            explodeButton = root.Q<Button>("ExplodeBtn");
-            resetButton = root.Q<Button>("ResetBtn");
-            explosionSlider = root.Q<Slider>("ExplosionSlider");
-            stateLabel = root.Q<Label>("StateLabel");
+            if (root == null) return;
 
-            // Button callbacks
-            if (explodeButton != null)
-            {
-                explodeButton.clicked += OnExplodeClicked;
-            }
+            // Bind Elements
+            detailsSheet = root.Q<VisualElement>("DetailsSheet");
+            bottomBar = root.Q<VisualElement>("BottomBar");
+            sliderContainer = root.Q<VisualElement>("SliderContainer");
+            
+            partNameLabel = root.Q<Label>("SelectionIndicator");
+            
+            sheetTitle = root.Q<Label>("PartName");
+            sheetCategory = root.Q<Label>("PartCategory");
+            sheetDesc = root.Q<Label>("PartDescription");
 
-            if (resetButton != null)
-            {
-                resetButton.clicked += OnResetClicked;
-            }
+            shaderBtn = root.Q<Button>("ShaderBtn");
+            explodeBtn = root.Q<Button>("ExplodeBtn");
+            infoBtn = root.Q<Button>("InfoBtn");
 
-            if (explosionSlider != null)
-            {
-                explosionSlider.RegisterValueChangedCallback(OnSliderChanged);
-            }
+            // Event Listeners
+            if (shaderBtn != null) shaderBtn.clicked += OnShaderToggle;
+            if (explodeBtn != null) explodeBtn.clicked += OnExplodeToggle;
+            if (infoBtn != null) infoBtn.clicked += OnInfoToggle;
 
-            // Initial state
-            if (detailsPanel != null)
-                detailsPanel.style.display = DisplayStyle.None;
+            // Step 2 Fix: Allow closing by clicking header since buttons hide
+            var header = root.Q(className: "sheet-header");
+            if (header != null) header.RegisterCallback<ClickEvent>(evt => SetSheetState(!isSheetOpen));
+
+            // Initial State
+            UpdatePartIndicator(null);
+            if (infoBtn != null) infoBtn.SetEnabled(false);
         }
 
         private void SubscribeToEvents()
         {
-            EventBus.Subscribe<AppStateChangedEvent>(OnStateChanged);
             EventBus.Subscribe<PartSelectedEvent>(OnPartSelected);
         }
 
         private void UnsubscribeFromEvents()
         {
-            EventBus.Unsubscribe<AppStateChangedEvent>(OnStateChanged);
             EventBus.Unsubscribe<PartSelectedEvent>(OnPartSelected);
         }
 
-        private void OnStateChanged(AppStateChangedEvent evt)
+        #region Interaction Handlers
+
+        private void OnShaderToggle()
         {
-            // Update UI based on new state
-            if (stateLabel != null)
-            {
-                stateLabel.text = evt.NewState.ToString();
-            }
-
-            // Update button text
-            if (explodeButton != null)
-            {
-                explodeButton.text = evt.NewState == AppState.ExplodedView ? "Collapse" : "Explode";
-            }
-
-            // Show/hide slider
-            if (explosionSlider != null)
-            {
-                explosionSlider.style.display = evt.NewState == AppState.ExplodedView 
-                    ? DisplayStyle.Flex 
-                    : DisplayStyle.None;
-            }
+            Debug.Log("[UIManager] Shader Toggle Clicked (Feature Pending)");
+            // Future implementation: Cycle RenderPipelineAsset or Material Properties
         }
 
-        private void OnPartSelected(PartSelectedEvent evt)
+        private void OnExplodeToggle()
         {
-            if (detailsPanel == null) return;
-
-            if (evt.PartData != null)
-            {
-                // Show panel with animation
-                if (UIAnimator.Instance != null)
-                {
-                    UIAnimator.Instance.FadeIn(detailsPanel);
-                }
-                else
-                {
-                    detailsPanel.style.display = DisplayStyle.Flex;
-                }
-            }
-            else
-            {
-                // Hide panel with animation
-                if (UIAnimator.Instance != null)
-                {
-                    UIAnimator.Instance.FadeOut(detailsPanel);
-                }
-                else
-                {
-                    detailsPanel.style.display = DisplayStyle.None;
-                }
-            }
-        }
-
-        private void OnExplodeClicked()
-        {
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayClick();
-            }
-
+            // Toggle between Exploration and ExplodedView
             if (AppStateMachine.Instance != null)
             {
                 var current = AppStateMachine.Instance.CurrentState;
                 if (current == AppState.ExplodedView)
-                {
-                    AppStateMachine.Instance.SetState(AppState.Exploration);
-                }
+                    AppStateMachine.Instance.EnterExploration();
                 else
-                {
-                    AppStateMachine.Instance.SetState(AppState.ExplodedView);
-                }
-            }
-            else if (GameManager.Instance != null)
-            {
-                // Fallback
-                GameManager.Instance.SetState(AppState.ExplodedView);
+                    AppStateMachine.Instance.EnterExplodedView();
             }
         }
 
-        private void OnResetClicked()
+        private void OnInfoToggle()
         {
-            if (AudioManager.Instance != null)
+            SetSheetState(!isSheetOpen);
+        }
+
+        private void SetSheetState(bool isOpen)
+        {
+            isSheetOpen = isOpen;
+            if (detailsSheet != null)
             {
-                AudioManager.Instance.PlayClick();
+                if (isOpen)
+                    detailsSheet.RemoveFromClassList("details-sheet--hidden");
+                else
+                    detailsSheet.AddToClassList("details-sheet--hidden");
             }
 
+            // Step 2 Refinement: Shift UI up
+            if (bottomBar != null) bottomBar.EnableInClassList("ui-shifted", isOpen);
+            if (sliderContainer != null) sliderContainer.EnableInClassList("ui-shifted", isOpen);
+
+            // Step 2.5: Shift Visual Center of 3D World
+            // If sheet is open (~40% height), we want to shift center UP by half of that (~20%)?
+            // User request: "resolution equivalent to previous size minus sheet height".
+            // Effectively centering in the top 60%.
+            // Center of top 60% is at y=0.7 (relative to full 0.5). Shift is +0.2?
+            // Let's try 0.15f (15%) as a safe "Professional" offset.
             if (OrbitCameraController.Instance != null)
             {
-                OrbitCameraController.Instance.ResetView();
-            }
-
-            if (SelectionManager.Instance != null)
-            {
-                SelectionManager.Instance.Deselect();
+                OrbitCameraController.Instance.SetViewportShift(isOpen ? 0.15f : 0f);
             }
         }
 
-        private void OnSliderChanged(ChangeEvent<float> evt)
+        #endregion
+
+        #region Event Callbacks
+
+        private void OnPartSelected(PartSelectedEvent evt)
         {
-            var manager = FindAnyObjectByType<WebGL.Core.Content.ExplodedViewManager>();
-            if (manager != null)
+            UpdatePartIndicator(evt.PartData);
+
+            if (evt.PartData != null)
             {
-                manager.SetExplosionFactor(evt.newValue);
+                // Part Selected: Enable Info Button
+                if (infoBtn != null) infoBtn.SetEnabled(true);
+
+                if (sheetTitle != null) sheetTitle.text = evt.PartData.PartName.ToUpper();
+                if (sheetCategory != null) sheetCategory.text = $"CATEGORY: {evt.PartData.Category}"; 
+                if (sheetDesc != null) sheetDesc.text = evt.PartData.Description;
+            }
+            else
+            {
+                // Deselected: Disable Info Button & Auto-Close Sheet
+                if (infoBtn != null) infoBtn.SetEnabled(false);
+                SetSheetState(false);
             }
         }
+
+        private void UpdatePartIndicator(WebGL.Core.Data.DronePartData data)
+        {
+            if (partNameLabel == null) return;
+
+            if (data != null)
+            {
+                partNameLabel.text = data.PartName.ToUpper();
+                partNameLabel.style.color = new StyleColor(new Color(0.06f, 0.73f, 0.5f)); // Cyber Green
+            }
+            else
+            {
+                partNameLabel.text = "SELECT A PART";
+                partNameLabel.style.color = new StyleColor(new Color(0.6f, 0.6f, 0.7f)); // Silver
+            }
+        }
+
+        #endregion
     }
 }

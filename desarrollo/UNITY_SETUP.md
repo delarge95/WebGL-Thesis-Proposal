@@ -33,6 +33,21 @@ After Unity creates the project:
 2. Unity will compile them automatically
 3. Check the Console for any shader errors
 
+## Step 3.5: Install Required Packages
+
+Open **Window > Package Manager** and install:
+
+### From Unity Registry
+1. **Cinemachine** - Advanced camera system
+2. **Shader Graph** - Visual shader editor (usually pre-installed with URP)
+
+### From Asset Store (My Assets)
+1. Go to: https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676
+2. Click **Add to My Assets**
+3. In Unity: **Window > Package Manager > My Assets**
+4. Find **DOTween** > **Import**
+5. After import, go to **Tools > Demigiant > DOTween Utility Panel** > **Setup DOTween**
+
 ## Step 4: Configure Project Settings
 
 ### Quality Settings
@@ -47,12 +62,43 @@ After Unity creates the project:
 
 ### Player Settings
 1. **Edit > Project Settings > Player**
-2. **Company Name**: UNAD
-3. **Product Name**: WebGL Drone Viewer
-4. **WebGL Settings**:
-   - Compression Format: Brotli
-   - Decompression Fallback: Enabled
-   - Memory Size: 512 (increase if needed)
+
+#### General (Top Section)
+- **Company Name**: UNAD
+- **Product Name**: WebGL Drone Viewer
+- **Version**: 1.0
+- **Default Icon**: Assign `Assets/UI/Icons/default_icon.png`
+- **Default Cursor**: Assign `Assets/UI/Icons/default_cursor.png`
+
+#### Resolution and Presentation
+- **Default Canvas Width**: 1920
+- **Default Canvas Height**: 1080
+- **Run In Background**: ✅ Enabled
+- **WebGL Template**: Default (see note below)
+
+> **WebGL Templates:**
+> - **Default**: Full Unity loading bar, responsive canvas.
+> - **Minimal**: Bare-bones HTML, no loading UI (for custom implementations).
+> - **PWA**: Progressive Web App support (offline caching, installable on mobile).
+> 
+> **Recommendation**: Use **Default** for development, consider **PWA** for final deployment.
+
+#### Other Settings > Rendering
+- **Color Space**: Gamma (better WebGL compatibility)
+- **Auto Graphics API**: ✅ Enabled
+
+#### Other Settings > Configuration
+- **Scripting Backend**: Default
+- **Api Compatibility Level**: .NET Standard 2.1
+- **Active Input Handling**: Input Manager (Old) - OK for this project
+
+#### Publishing Settings (WebGL-Specific)
+- **Compression Format**: **Brotli** (best compression)
+- **Data Caching**: ✅ Enabled
+- **Decompression Fallback**: ✅ Enabled (for server compatibility)
+- **Power Preference**: High Performance
+- **Initial Memory Size (MB)**: **512** (increase if model is large)
+- **Maximum Memory Size (MB)**: 2048
 
 ### Tags and Layers
 Create these layers if they don't exist:
