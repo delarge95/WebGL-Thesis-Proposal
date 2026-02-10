@@ -17,6 +17,9 @@ namespace WebGL.Core.Content
 
         public void SetColor(Color color)
         {
+            if (_renderer == null) _renderer = GetComponent<Renderer>();
+            if (_propBlock == null) _propBlock = new MaterialPropertyBlock();
+
             // Get current properties
             _renderer.GetPropertyBlock(_propBlock);
             

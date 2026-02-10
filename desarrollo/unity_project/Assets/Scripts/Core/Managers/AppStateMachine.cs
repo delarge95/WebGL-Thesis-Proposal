@@ -65,6 +65,7 @@ namespace WebGL.Core.Managers
         {
             // Publish initial state
             EventBus.Publish(new StateChangedEvent(currentState, currentState));
+            EventBus.Publish(new AppStateChangedEvent(currentState));
             
             if (debugLogging)
             {
@@ -100,6 +101,8 @@ namespace WebGL.Core.Managers
             // Fire events
             OnStateChanged?.Invoke(previousState, currentState);
             EventBus.Publish(new StateChangedEvent(previousState, currentState));
+            // Compatibility Fix: Publish AppStateChangedEvent for UI/ExplodedViewManager
+            EventBus.Publish(new AppStateChangedEvent(currentState));
 
             if (debugLogging)
             {

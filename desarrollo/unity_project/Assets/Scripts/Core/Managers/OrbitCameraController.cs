@@ -46,6 +46,10 @@ namespace WebGL.Core.Managers
         private Vector3 currentFocusPoint;
         private Vector3 targetFocusPoint;
 
+        // Reset Logic
+        private Vector3 initialFocusPoint;
+        private Vector3 initialTargetOffset;
+
         protected override void Awake()
         {
             base.Awake();
@@ -55,12 +59,19 @@ namespace WebGL.Core.Managers
             // FORCE override inspector values that might be stale
             minVerticalAngle = -89f; 
             maxVerticalAngle = 89f;
+        }
 
+        private void Start()
+        {
             if (target != null)
             {
                 currentFocusPoint = target.position + targetOffset;
                 targetFocusPoint = currentFocusPoint;
             }
+            
+            // Capture Initial State for Reset
+            initialFocusPoint = targetFocusPoint;
+            initialTargetOffset = targetOffset;
         }
 
         private void LateUpdate()
@@ -328,9 +339,17 @@ namespace WebGL.Core.Managers
 
         public void ResetView()
         {
+            // Reset Orbit & Zoom
             targetX = 0f;
             targetY = 20f;
-            targetDistance = 10f;
+            targetDistance = 10f; // Could also capture initial distance if desired
+
+            // Reset Pan / Focus
+            targetFocusPoint = initialFocusPoint;
+            targetOffset = initialTargetOffset;
+            
+            // Optional: Reset View Shift
+            targetViewShiftRatio = 0f;
         }
 
         public void SetAngles(float horizontal, float vertical, bool immediate = false)

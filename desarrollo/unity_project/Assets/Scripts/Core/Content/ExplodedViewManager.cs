@@ -118,6 +118,36 @@ namespace WebGL.Core.Content
         public float GetExplosionFactor() => explosionFactor;
         public float GetCurrentFactor() => currentFactor;
 
+        public void SetCategoryFilters(List<string> activeCategories)
+        {
+            foreach (var part in parts)
+            {
+                if (part == null) continue;
+
+                if (activeCategories == null || activeCategories.Count == 0 || activeCategories.Contains("ALL"))
+                {
+                    part.gameObject.SetActive(true);
+                }
+                else
+                {
+                    // Case-insensitive check against multiple categories
+                    bool match = false;
+                    if (part.Data != null)
+                    {
+                        foreach (var cat in activeCategories)
+                        {
+                            if (part.Data.Category.Equals(cat, System.StringComparison.OrdinalIgnoreCase))
+                            {
+                                match = true;
+                                break;
+                            }
+                        }
+                    }
+                    part.gameObject.SetActive(match);
+                }
+            }
+        }
+
         public void RegisterPart(ExplodablePart part)
         {
             if (!parts.Contains(part))

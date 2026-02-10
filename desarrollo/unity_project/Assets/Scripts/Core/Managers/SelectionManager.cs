@@ -192,8 +192,14 @@ namespace WebGL.Core.Managers
                 return;
             }
 
-            // Deselect previous and select new
-            Deselect();
+            // Swap Selection Logic (User Request: Don't close sheet if swapping)
+            if (currentSelection != null)
+            {
+                // Manually clean up old selection visual
+                if (currentHighlight != null) currentHighlight.OnDeselect();
+                // Do NOT call Deselect() here to avoid firing PartSelectedEvent(null)
+            }
+
             SelectObject(hoveredObject);
         }
 

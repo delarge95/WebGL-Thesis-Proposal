@@ -15,11 +15,7 @@
             </ui:Button>
         </ui:VisualElement>
 
-        <!-- Step 1: Explosion Slider Container (Hidden by default) -->
-        <ui:VisualElement name="SliderContainer" class="slider-container slider-hidden" picking-mode="Ignore">
-            <ui:Label text="EXPLODED VIEW" class="slider-label" />
-            <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider" />
-        </ui:VisualElement>
+        <!-- Step 1: Explosion Slider Container (Moved to bottom) -->
 
         <!-- Bottom Sheet (Details) -->
         <ui:VisualElement name="DetailsSheet" class="details-sheet details-sheet--hidden">
@@ -34,7 +30,24 @@
             
             <!-- Content Section (Visible on Expansion) -->
             <ui:VisualElement class="sheet-content">
-                <ui:Label text="Category: Structure" name="PartCategory" class="sheet-subtitle" />
+                <!-- Data Grid for Specs -->
+                <ui:VisualElement class="data-grid">
+                    <!-- Row 1: Category -->
+                    <ui:VisualElement class="data-row">
+                        <ui:Label text="CATEGORY" class="data-label" />
+                        <ui:Label text="Structure" name="PartCategory" class="data-value" />
+                    </ui:VisualElement>
+                    <!-- Row 2: Function -->
+                    <ui:VisualElement class="data-row">
+                        <ui:Label text="FUNCTION" class="data-label" />
+                        <ui:Label text="Protection" name="PartFunction" class="data-value" />
+                    </ui:VisualElement>
+                    <!-- Row 3: Material -->
+                    <ui:VisualElement class="data-row">
+                        <ui:Label text="MATERIAL" class="data-label" />
+                        <ui:Label text="Carbon Fiber" name="PartMaterial" class="data-value" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
                 <ui:ScrollView class="sheet-scroll">
                     <ui:Label text="Detailed technical specifications will appear here." name="PartDescription" class="sheet-desc" />
                 </ui:ScrollView>
@@ -46,6 +59,16 @@
             
             <!-- 1. Actions Row (Buttons) -->
             <ui:VisualElement class="actions-row" picking-mode="Ignore">
+                
+                <!-- Category Filter Menu (Pop-up) -->
+                <ui:VisualElement name="CategoryMenu" class="category-menu category-menu--hidden" picking-mode="Position">
+                    <ui:Button text="ALL" name="CatBtn_All" class="btn-tag btn-tag--active" />
+                    <ui:Button text="STRUCTURE" name="CatBtn_Structure" class="btn-tag" />
+                    <ui:Button text="PROPULSION" name="CatBtn_Propulsion" class="btn-tag" />
+                    <ui:Button text="AVIONICS" name="CatBtn_Avionics" class="btn-tag" />
+                    <ui:Button text="POWER" name="CatBtn_Power" class="btn-tag" />
+                </ui:VisualElement>
+
                 <ui:Button name="ShaderBtn" class="icon-button" tooltip="Toggle Render Mode">
                     <ui:Label text="👁️" class="button-icon-text"/>
                 </ui:Button>
@@ -66,6 +89,12 @@
                 <ui:Label text="" name="SelectionIndicator" class="selection-label" />
             </ui:VisualElement>
             
+        </ui:VisualElement>
+
+        <!-- Step 3 Move: Slider Container (Moved to end for Z-Index priority) -->
+        <ui:VisualElement name="SliderContainer" class="slider-container slider-hidden" picking-mode="Position">
+            <ui:Label text="EXPLODED VIEW" class="slider-label" />
+            <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider" picking-mode="Position" />
         </ui:VisualElement>
 
     </ui:VisualElement>

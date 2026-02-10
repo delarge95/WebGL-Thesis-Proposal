@@ -13,10 +13,28 @@ namespace WebGL.Core.Content
 
         public DronePartData Data => partData;
 
-        private void Start()
+        public void SetData(DronePartData newData)
+        {
+            partData = newData;
+        }
+
+        public void Initialize()
         {
             initialPosition = transform.localPosition;
-            
+            CalculateTargetPosition();
+        }
+
+        private void Start()
+        {
+            // If already initialized via script, this might be redundant but safe
+            if (targetPosition == Vector3.zero && transform.localPosition != Vector3.zero) 
+            {
+                Initialize();
+            }
+        }
+
+        private void CalculateTargetPosition()
+        {
             // If data is assigned, calculate target position based on direction and distance
             if (partData != null)
             {
@@ -24,8 +42,9 @@ namespace WebGL.Core.Content
             }
             else
             {
-                // Fallback if no data: explode outwards from center
-                targetPosition = initialPosition + (initialPosition.normalized * 0.5f);
+                // Fallback if no data: explode outwards from center (or Up if at zero)
+                Vector3 dir = initialPosition == Vector3.zero ? Vector3.up : initialPosition.normalized;
+                targetPosition = initialPosition + (dir * 0.5f);
             }
         }
 
