@@ -175,6 +175,13 @@
     text-shadow: 0 1px 4px black;
 }
 
+#ResetViewBtn {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    translate: 0 -50%;
+}
+
 /* --- BOTTOM SHEET --- */
 .details-sheet {
     position: absolute;
@@ -401,7 +408,66 @@
 }
 
 .slider-label {
-    margin-right: 10px;
+    display: none; /* Hidden to allow slider to take full width */
+}
+
+/* ----------------------------------------
+   Category Menu (Pop-up)
+   ---------------------------------------- */
+.category-menu {
+    position: absolute;
+    bottom: 90px; /* Above buttons */
+    left: 50%;
+    translate: -50% 0; /* Centered */
+    
+    flex-direction: row;
+    background-color: rgba(15, 20, 30, 0.95);
+    border-radius: 24px;
+    padding: 8px 16px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    
+    opacity: 1;
+    scale: 1 1;
+    transition-duration: 0.2s;
+    transition-property: opacity, scale, translate;
+    transition-timing-function: ease-out-back;
+}
+
+.category-menu--hidden {
+    opacity: 0;
+    scale: 0.8 0.8;
+    translate: -50% 20px; /* Slide down and fade out */
+    display: none;
+}
+
+/* Update btn-tag for menu usage */
+.btn-tag {
+    width: auto; /* Allow auto width for text */
+    min-width: 60px;
+    height: 32px;
+    margin-right: 8px; /* Spacing between tags */
+    margin-bottom: 0; /* Override previous grid style */
+    
+    font-size: 10px;
+    -unity-font-style: bold;
+    color: rgb(180, 190, 210);
+    
+    background-color: transparent;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+}
+
+.btn-tag:hover {
+    border-color: rgb(0, 217, 255);
+    color: rgb(240, 244, 255);
+}
+
+.btn-tag--active {
+    background-color: rgb(0, 217, 255);
+    border-color: rgb(0, 217, 255);
+    color: rgb(10, 14, 39); /* Dark text on bright bg */
 }
 
 /* ----------------------------------------
@@ -413,29 +479,9 @@
     justify-content: center;
 }
 
-.unity-base-slider__tracker {
-    background-color: rgb(160, 165, 184);
-    height: 2px;
-    border-radius: 1px;
-    border-width: 0;
-}
-
-.unity-base-slider__dragger {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: rgb(10, 14, 39);
-    border-color: rgb(0, 217, 255);
-    border-width: 2px;
-    margin-top: -10px;
-    transition-property: scale, background-color;
-    transition-duration: 0.15s;
-}
-
-.unity-base-slider__dragger:hover {
-    scale: 1.2;
-    background-color: rgb(0, 217, 255);
-}
+/* Old Slider Styes (Removed to avoid conflict with .glass-slider) */
+/* .unity-base-slider__tracker { ... } */
+/* .unity-base-slider__dragger { ... } */
 
 /* ----------------------------------------
    Data Grid
@@ -550,46 +596,98 @@
 /* Slider Contextual container */
 .slider-container {
     position: absolute;
-    bottom: 140px; 
-    right: 20px; 
-    width: 200px;
-    height: auto; /* Override previous fixed height */
+    bottom: 180px; /* Raised significantly to clear buttons */
     
-    background-color: rgba(15, 20, 30, 0.8); 
-    border-radius: 16px;
-    padding: 16px;
+    /* Center Horizontally (Robust Method) */
+    left: 50%;
+    margin-left: -130px; /* Half of width (260px) */
+    /* Remove translate-x to avoid conflict with .ui-shifted */
+    translate: 0 0;
+    
+    width: 260px; 
+    height: auto;
+    
+    background-color: rgba(15, 20, 30, 0.9); 
+    border-radius: 24px;
+    /* Asymmetric padding to visually center the slider (pushed down) */
+    padding: 18px 20px 6px 20px; 
     border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+    
+    /* Layout */
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; /* Center content (the slider) */
     
     opacity: 1;
-    transition-duration: 0.2s;
+    transition-duration: 0.3s;
     transition-property: opacity, translate;
+    transition-timing-function: ease-out-back;
 }
 
 .slider-hidden {
     opacity: 0;
-    translate: 20px 0;
+    translate: 0 20px; /* Slide down slightly */
     display: none; 
+}
+
+/* New: Shift up when Category Menu is open to avoid overlap */
+.slider-container--shifted-up {
+    bottom: 240px; /* Shift up from 180px */
 }
 
 /* Slider Customization */
 .glass-slider {
-    min-height: 30px;
+    min-height: 30px; /* Sufficient height for touch */
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0; /* detailed reset */
+    flex-grow: 1; 
+    justify-content: center; /* Center the drag-container vertically */
 }
 
+/* The horizontal bar container */
 .glass-slider #unity-drag-container {
-    height: 4px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 2px;
+    height: 10px; /* Thicker touch area */
+    justify-content: center; /* Center tracker vertically */
 }
 
-.glass-slider #unity-dragger {
+/* The actual line (Tracker) */
+.glass-slider .unity-base-slider__tracker {
+    background-color: rgba(255, 255, 255, 0.3);
+    height: 4px; /* Visible line thickness */
+    border-radius: 2px;
+    border-width: 0;
+    top: 50%;
+    margin-top: -2px; /* True vertical center */
+}
+
+/* The Knob (Dragger) */
+.glass-slider .unity-base-slider__dragger {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background-color: #ffffff;
-    border-width: 0;
-    margin-top: -10px; 
+    
+    background-color: rgb(0, 217, 255); /* Cyan Knob */
+    border-width: 2px;
+    border-color: white;
+    
+    margin-top: -12px; /* Center relative to top: 50% */
+    top: 50%;
+    
+    transition-property: scale, background-color;
+    transition-duration: 0.1s;
+}
+
+.glass-slider .unity-base-slider__dragger:hover {
+    scale: 1.2;
+    background-color: white;
+    border-color: rgb(0, 217, 255);
+}
+
+/* Remove default border on dragger when focused */
+.glass-slider .unity-base-slider__dragger:focus {
+    border-color: white;
 }
 
 /* Refined Bottom Sheet (Step 2) */

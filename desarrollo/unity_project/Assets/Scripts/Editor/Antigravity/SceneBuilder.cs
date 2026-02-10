@@ -93,36 +93,9 @@ namespace WebGL.Editor.Antigravity
                 evtObj.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
             }
 
-            // 9. Create Test Geometry (The "Drone")
-            var testObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            testObj.name = "TestDrone_Cube";
-            testObj.transform.position = Vector3.zero;
-            testObj.transform.localScale = Vector3.one * 2f;
-            
-            // Ensure Collider
-            if (testObj.GetComponent<Collider>() == null)
-            {
-                testObj.AddComponent<BoxCollider>();
-            }
-            
-            // Add Interaction Components
-            var explodable = testObj.AddComponent<WebGL.Core.Content.ExplodablePart>();
-            testObj.AddComponent<WebGL.Core.Content.HighlightSystem>();
-            
-            // Assign Dummy Data
-            var dummyData = AssetFactory.CreateDummyPartData();
-            // Use SerializedObject to set private field "partData"
-            var soPart = new SerializedObject(explodable);
-            soPart.FindProperty("partData").objectReferenceValue = dummyData;
-            soPart.ApplyModifiedProperties();
-            
-            // Ensure it has a material that supports property blocks (Standard)
-            var renderer = testObj.GetComponent<Renderer>();
-            renderer.sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-
             // 10. Save Scene
             EditorSceneManager.SaveScene(scene, scenePath);
-            Debug.Log($"[SceneBuilder] Scene built with TEST CUBE at {scenePath}");
+            Debug.Log($"[SceneBuilder] Scene built successfully at {scenePath}");
         }
     }
 }
