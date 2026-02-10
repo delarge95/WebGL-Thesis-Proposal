@@ -416,14 +416,14 @@
    ---------------------------------------- */
 .category-menu {
     position: absolute;
-    bottom: 90px; /* Above buttons */
+    bottom: 300px; /* Raised above the 220px footer zone */
     left: 50%;
     translate: -50% 0; /* Centered */
     
     flex-direction: row;
     background-color: rgba(15, 20, 30, 0.95);
-    border-radius: 24px;
-    padding: 8px 16px;
+    border-radius: 40px; /* Smoother pills */
+    padding: 16px 32px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.1);
     
@@ -597,7 +597,7 @@
 /* Slider Contextual container */
 .slider-container {
     position: absolute;
-    bottom: 180px; /* Raised significantly to clear buttons */
+    bottom: 420px; /* Raised significantly to clear category menu (300px + height) */
     
     /* Center Horizontally (Robust Method) */
     left: 50%;
@@ -634,7 +634,7 @@
 
 /* New: Shift up when Category Menu is open to avoid overlap */
 .slider-container--shifted-up {
-    bottom: 240px; /* Shift up from 180px */
+    bottom: 520px; /* Shift up from 420px */
 }
 
 /* Slider Customization */
