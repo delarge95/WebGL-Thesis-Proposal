@@ -35,5 +35,26 @@ namespace WebGL.Core.Content
              // Clearing the block removes overrides, reverting to material defaults
             _renderer.SetPropertyBlock(null);
         }
+
+        // X-Ray Support
+        private Material originalMaterial;
+
+        public void ToggleXRay(bool enable, Material xrayMat)
+        {
+            if (_renderer == null) _renderer = GetComponent<Renderer>();
+
+            if (enable)
+            {
+                if (originalMaterial == null) originalMaterial = _renderer.sharedMaterial;
+                _renderer.material = xrayMat; // Use instance for now to avoid leaking
+            }
+            else
+            {
+                if (originalMaterial != null)
+                {
+                    _renderer.material = originalMaterial;
+                }
+            }
+        }
     }
 }

@@ -146,8 +146,44 @@ namespace WebGL.UI
 
         private void OnShaderToggle()
         {
-            Debug.Log("[UIManager] Shader Toggle Clicked (Feature Pending)");
-            // Future implementation: Cycle RenderPipelineAsset or Material Properties
+            if (ExplodedViewManager.Instance != null)
+            {
+                ExplodedViewManager.Instance.CycleVisualMode();
+                var currentMode = ExplodedViewManager.Instance.CurrentMode;
+
+                // Visual Feedback
+                if (shaderBtn != null)
+                {
+                    bool isActive = currentMode != ExplodedViewManager.VisualMode.Normal;
+                    shaderBtn.EnableInClassList("btn-tag--active", isActive); 
+
+                    // Update Tooltip or Icon Color if possible
+                    var label = shaderBtn.Q<Label>();
+                    // Unfortunately shaderBtn usually has an icon, but we can tint it
+                    
+                    if (isActive)
+                    {
+                        // Tint based on mode?
+                        Color tint = Color.white;
+                        switch(currentMode)
+                        {
+                            case ExplodedViewManager.VisualMode.XRay: tint = Color.cyan; break;
+                            case ExplodedViewManager.VisualMode.Blueprint: tint = new Color(0.2f, 0.6f, 1.0f); break; // Blue
+                            case ExplodedViewManager.VisualMode.Thermal: tint = new Color(1.0f, 0.4f, 0.0f); break; // Orange
+                            case ExplodedViewManager.VisualMode.Wireframe: tint = Color.green; break;
+                            case ExplodedViewManager.VisualMode.Ghosted: tint = new Color(0.8f, 0.8f, 1.0f); break;
+                            default: tint = Color.white; break;
+                        }
+                        shaderBtn.style.color = new StyleColor(tint);
+                        shaderBtn.tooltip = $"View: {currentMode}";
+                    }
+                    else
+                    {
+                        shaderBtn.style.color = new StyleColor(Color.white);
+                        shaderBtn.tooltip = "Toggle Visual Mode";
+                    }
+                }
+            }
         }
 
         private void OnExplodeToggle()

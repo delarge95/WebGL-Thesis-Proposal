@@ -53,5 +53,14 @@ namespace WebGL.Core.Content
             // Linear interpolation between initial and target position
             transform.localPosition = Vector3.Lerp(initialPosition, targetPosition, factor);
         }
+
+        public void SetXRay(bool enable, Material xrayMat)
+        {
+            MaterialController controller = GetComponent<MaterialController>();
+            if (controller != null)
+            {
+                controller.ToggleXRay(enable, xrayMat);
+            }
+        }
     }
 }
