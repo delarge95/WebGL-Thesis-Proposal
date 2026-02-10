@@ -39,6 +39,8 @@ namespace WebGL.Core.Utils
             // Create UI container
             CreateUIContainer();
             
+            // NOTE: EventSystem not needed for UI Toolkit
+            
             // Create camera rig
             CreateCameraRig();
             
@@ -116,6 +118,10 @@ namespace WebGL.Core.Utils
 
             Debug.Log("[ProjectSetupWizard] Created MainMenu_UI with UI components.");
         }
+
+        // NOTE: EventSystem NOT needed for UI Toolkit-only scenes
+        // UI Toolkit has its own native event system
+        // See: https://docs.unity3d.com/6000.2/Documentation/Manual/UIE-Runtime-Event-System.html
 
         private static void CreateCameraRig()
         {
@@ -269,3 +275,5 @@ namespace WebGL.Core.Utils
 #endif
     }
 }
+
+

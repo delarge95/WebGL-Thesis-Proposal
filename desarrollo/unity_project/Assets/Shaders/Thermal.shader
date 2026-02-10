@@ -39,6 +39,7 @@ Shader "WebGL/Thermal"
             ZWrite On
 
             HLSLPROGRAM
+            #pragma target 3.0
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_fog

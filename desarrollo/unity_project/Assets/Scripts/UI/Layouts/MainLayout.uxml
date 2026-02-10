@@ -1,21 +1,72 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:Style src="../Styles/MainLayout.uss" />
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Styles/MainTheme.uss" />
     
-    <ui:VisualElement name="Root" class="root">
-        <!-- Header -->
-        <ui:VisualElement name="Header" class="header">
-            <ui:Label text="Drone Viewer Pro" class="title-label" />
-            <ui:Button text="Explode View" name="ExplodeBtn" class="button-primary" />
+    <!-- Root Container -->
+    <!-- Root Container (Pass Through Clicks) -->
+    <ui:VisualElement name="Root" class="root-container" picking-mode="Ignore">
+        
+        <!-- Top Bar (Header) -->
+        <ui:VisualElement name="TopBar" class="top-bar" picking-mode="Ignore">
+            <ui:Label text="DRONE VIEWER" class="header-title" />
+            <!-- Step 1: Reset View Button (Top Right) -->
+            <!-- Apple HIG: Min 44pt target handled in USS padding -->
+            <ui:Button name="ResetViewBtn" class="icon-button-small" tooltip="Reset Camera">
+                <ui:Label text="↺" class="button-icon-text-small"/>
+            </ui:Button>
         </ui:VisualElement>
 
-        <!-- Details Panel (Right Side) -->
-        <ui:VisualElement name="DetailsPanel" class="glass-panel details-panel">
-            <ui:Label text="Component Details" class="title-label" style="font-size: 18px; margin-bottom: 10px;" />
-            <ui:Label text="Select a part to view details..." name="DescriptionLabel" style="color: rgb(200, 200, 200); white-space: normal;" />
-            
-            <ui:VisualElement style="flex-grow: 1;" />
-            
-            <ui:Button text="Focus" name="FocusBtn" class="button-primary" style="background-color: rgba(255, 100, 0, 0.8);" />
+        <!-- Step 1: Explosion Slider Container (Hidden by default) -->
+        <ui:VisualElement name="SliderContainer" class="slider-container slider-hidden" picking-mode="Ignore">
+            <ui:Label text="EXPLODED VIEW" class="slider-label" />
+            <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider" />
         </ui:VisualElement>
+
+        <!-- Bottom Sheet (Details) -->
+        <ui:VisualElement name="DetailsSheet" class="details-sheet details-sheet--hidden">
+            <!-- Handle for dragging affordance -->
+            <ui:VisualElement class="sheet-handle" />
+            
+            <!-- Header Section (Always Visible-ish) -->
+            <ui:VisualElement class="sheet-header">
+                <ui:Label text="SELECT A PART" name="PartName" class="sheet-title" />
+                <ui:Label text="Tap for details" class="sheet-hint" />
+            </ui:VisualElement>
+            
+            <!-- Content Section (Visible on Expansion) -->
+            <ui:VisualElement class="sheet-content">
+                <ui:Label text="Category: Structure" name="PartCategory" class="sheet-subtitle" />
+                <ui:ScrollView class="sheet-scroll">
+                    <ui:Label text="Detailed technical specifications will appear here." name="PartDescription" class="sheet-desc" />
+                </ui:ScrollView>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Bottom Bar (Controls) -->
+        <ui:VisualElement name="BottomBar" class="bottom-bar" picking-mode="Ignore">
+            
+            <!-- 1. Actions Row (Buttons) -->
+            <ui:VisualElement class="actions-row" picking-mode="Ignore">
+                <ui:Button name="ShaderBtn" class="icon-button" tooltip="Toggle Render Mode">
+                    <ui:Label text="👁️" class="button-icon-text"/>
+                </ui:Button>
+                <!-- Step 1: Layer Filter Button -->
+                <ui:Button name="LayerBtn" class="icon-button" tooltip="Filter Layers">
+                    <ui:Label text="📑" class="button-icon-text"/>
+                </ui:Button>
+                <ui:Button name="ExplodeBtn" class="icon-button" tooltip="Toggle Explosion">
+                    <ui:Label text="💥" class="button-icon-text"/>
+                </ui:Button>
+                <ui:Button name="InfoBtn" class="icon-button" tooltip="View Details">
+                    <ui:Label text="ℹ️" class="button-icon-text"/>
+                </ui:Button>
+            </ui:VisualElement>
+
+            <!-- 2. Selected Part Name (Below Buttons per user request) -->
+            <ui:VisualElement class="info-row" picking-mode="Ignore">
+                <ui:Label text="" name="SelectionIndicator" class="selection-label" />
+            </ui:VisualElement>
+            
+        </ui:VisualElement>
+
     </ui:VisualElement>
 </ui:UXML>

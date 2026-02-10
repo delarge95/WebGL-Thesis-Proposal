@@ -1,0 +1,1057 @@
+{
+  "nodes": [
+    {
+      "id": "DOTweenModuleAudio",
+      "data": {
+        "type": "script",
+        "name": "DOTweenModuleAudio",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Plugins\\Demigiant\\DOTween\\Modules\\DOTweenModuleAudio.cs"
+      }
+    },
+    {
+      "id": "DOTweenModuleEPOOutline",
+      "data": {
+        "type": "script",
+        "name": "DOTweenModuleEPOOutline",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Plugins\\Demigiant\\DOTween\\Modules\\DOTweenModuleEPOOutline.cs"
+      }
+    },
+    {
+      "id": "DOTweenModulePhysics",
+      "data": {
+        "type": "script",
+        "name": "DOTweenModulePhysics",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Plugins\\Demigiant\\DOTween\\Modules\\DOTweenModulePhysics.cs"
+      }
+    },
+    {
+      "id": "DOTweenModuleSprite",
+      "data": {
+        "type": "script",
+        "name": "DOTweenModuleSprite",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Plugins\\Demigiant\\DOTween\\Modules\\DOTweenModuleSprite.cs"
+      }
+    },
+    {
+      "id": "DOTweenModuleUI",
+      "data": {
+        "type": "script",
+        "name": "DOTweenModuleUI",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Plugins\\Demigiant\\DOTween\\Modules\\DOTweenModuleUI.cs"
+      }
+    },
+    {
+      "id": "DOTweenModuleUnityVersion",
+      "data": {
+        "type": "script",
+        "name": "DOTweenModuleUnityVersion",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Plugins\\Demigiant\\DOTween\\Modules\\DOTweenModuleUnityVersion.cs"
+      }
+    },
+    {
+      "id": "DOTweenModuleUtils",
+      "data": {
+        "type": "script",
+        "name": "DOTweenModuleUtils",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Plugins\\Demigiant\\DOTween\\Modules\\DOTweenModuleUtils.cs"
+      }
+    },
+    {
+      "id": "ExplodablePart",
+      "data": {
+        "type": "script",
+        "name": "ExplodablePart",
+        "parent": "MonoBehaviour",
+        "methods": [
+          "UpdateExplosion"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Content\\ExplodablePart.cs"
+      }
+    },
+    {
+      "id": "ExplodedViewManager",
+      "data": {
+        "type": "script",
+        "name": "ExplodedViewManager",
+        "parent": "Singleton<ExplodedViewManager>",
+        "methods": [
+          "SetExplosionFactor",
+          "GetExplosionFactor",
+          "GetCurrentFactor",
+          "RegisterPart",
+          "UnregisterPart"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Content\\ExplodedViewManager.cs"
+      }
+    },
+    {
+      "id": "HighlightSystem",
+      "data": {
+        "type": "script",
+        "name": "HighlightSystem",
+        "parent": "MonoBehaviour",
+        "methods": [
+          "OnHoverEnter",
+          "OnHoverExit",
+          "OnSelect",
+          "OnDeselect"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Content\\HighlightSystem.cs"
+      }
+    },
+    {
+      "id": "MaterialController",
+      "data": {
+        "type": "script",
+        "name": "MaterialController",
+        "parent": "MonoBehaviour",
+        "methods": [
+          "SetColor",
+          "ResetProperties"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Content\\MaterialController.cs"
+      }
+    },
+    {
+      "id": "AssemblyGuideData",
+      "data": {
+        "type": "script",
+        "name": "AssemblyGuideData",
+        "parent": "ScriptableObject",
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Data\\AssemblyGuideData.cs"
+      }
+    },
+    {
+      "id": "DronePartData",
+      "data": {
+        "type": "script",
+        "name": "DronePartData",
+        "parent": "ScriptableObject",
+        "methods": [
+          "GetFullDescription",
+          "GetAssemblyInfo"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Data\\DronePartData.cs"
+      }
+    },
+    {
+      "id": "EventBus",
+      "data": {
+        "type": "script",
+        "name": "EventBus",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Events\\EventBus.cs"
+      }
+    },
+    {
+      "id": "AccessibilityManager",
+      "data": {
+        "type": "script",
+        "name": "AccessibilityManager",
+        "parent": "PersistentSingleton<AccessibilityManager>",
+        "methods": [
+          "SetUIScale",
+          "SetHighContrastMode",
+          "SetReducedMotion"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\AccessibilityManager.cs"
+      }
+    },
+    {
+      "id": "AnalyticsEvent",
+      "data": {
+        "type": "script",
+        "name": "AnalyticsEvent",
+        "parent": null,
+        "methods": [
+          "TrackEvent",
+          "TrackPartSelected",
+          "TrackStateChange",
+          "TrackZoom",
+          "TrackCameraPreset",
+          "GetSessionDuration",
+          "GetSessionSummary"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\AnalyticsManager.cs"
+      }
+    },
+    {
+      "id": "Annotation",
+      "data": {
+        "type": "script",
+        "name": "Annotation",
+        "parent": null,
+        "methods": [
+          "AddAnnotation",
+          "RemoveAnnotation",
+          "ClearAllAnnotations",
+          "ShowAnnotations",
+          "HideAnnotations",
+          "Toggle",
+          "GetAnnotationsForPart",
+          "SaveAnnotations"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\AnnotationSystem.cs"
+      }
+    },
+    {
+      "id": "AppStateMachine",
+      "data": {
+        "type": "script",
+        "name": "AppStateMachine",
+        "parent": "Singleton<AppStateMachine>",
+        "methods": [
+          "SetState",
+          "ReturnToPreviousState",
+          "EnterExploration",
+          "EnterExplodedView",
+          "EnterFocusMode",
+          "OpenSettings",
+          "OpenMenu",
+          "IsInteractive"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\AppStateMachine.cs"
+      }
+    },
+    {
+      "id": "ChecklistItem",
+      "data": {
+        "type": "script",
+        "name": "ChecklistItem",
+        "parent": null,
+        "methods": [
+          "GenerateChecklist",
+          "VerifyItem",
+          "UnverifyItem",
+          "ToggleItem",
+          "AddNote",
+          "ResetChecklist",
+          "GetPendingItems",
+          "GetVerifiedItems",
+          "GetSummary"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\AssemblyChecklist.cs"
+      }
+    },
+    {
+      "id": "AssemblyStep",
+      "data": {
+        "type": "script",
+        "name": "AssemblyStep",
+        "parent": null,
+        "methods": [
+          "StartGuide",
+          "StopGuide",
+          "NextStep",
+          "PreviousStep",
+          "GoToStep",
+          "CompleteCurrentStep",
+          "ToggleStepComplete",
+          "GetCompletedCount",
+          "GetAllRequiredTools",
+          "GetTotalEstimatedTime"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\AssemblyGuideManager.cs"
+      }
+    },
+    {
+      "id": "AssetLoader",
+      "data": {
+        "type": "script",
+        "name": "AssetLoader",
+        "parent": "MonoBehaviour",
+        "methods": [
+          "LoadAssetAsync"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\AssetLoader.cs"
+      }
+    },
+    {
+      "id": "AudioManager",
+      "data": {
+        "type": "script",
+        "name": "AudioManager",
+        "parent": "PersistentSingleton<AudioManager>",
+        "methods": [
+          "SetMasterVolume",
+          "SetSFXVolume",
+          "SetMusicVolume",
+          "PlayHover",
+          "PlayClick",
+          "PlayExplosionSound",
+          "PlayTransition",
+          "PlayError",
+          "PlaySuccess",
+          "PlayMusic",
+          "StopMusic",
+          "PauseMusic",
+          "ResumeMusic"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\AudioManager.cs"
+      }
+    },
+    {
+      "id": "BOMItem",
+      "data": {
+        "type": "script",
+        "name": "BOMItem",
+        "parent": null,
+        "methods": [
+          "GenerateBOM",
+          "GetByCategory",
+          "GetByMaterial",
+          "ExportToCSV",
+          "GetSummary"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\BillOfMaterialsManager.cs"
+      }
+    },
+    {
+      "id": "CameraController",
+      "data": {
+        "type": "script",
+        "name": "CameraController",
+        "parent": "MonoBehaviour",
+        "methods": [
+          "FocusOnObject"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\CameraController.cs"
+      }
+    },
+    {
+      "id": "CameraPresets",
+      "data": {
+        "type": "script",
+        "name": "CameraPresets",
+        "parent": "Singleton<CameraPresets>",
+        "methods": [
+          "ApplyPreset",
+          "ApplyPreset"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\CameraPresets.cs"
+      }
+    },
+    {
+      "id": "ConnectionPoint",
+      "data": {
+        "type": "script",
+        "name": "ConnectionPoint",
+        "parent": null,
+        "methods": [
+          "FindAllConnections",
+          "ShowConnections",
+          "HideConnections",
+          "Toggle",
+          "GetConnectionsByType",
+          "GetConnectionsForPart"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\ConnectionPointsViewer.cs"
+      }
+    },
+    {
+      "id": "CrossSectionManager",
+      "data": {
+        "type": "script",
+        "name": "CrossSectionManager",
+        "parent": "Singleton<CrossSectionManager>",
+        "methods": [
+          "EnableCrossSection",
+          "DisableCrossSection",
+          "ToggleCrossSection",
+          "SetAxis",
+          "SetPosition",
+          "SetInverted"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\CrossSectionManager.cs"
+      }
+    },
+    {
+      "id": "CursorManager",
+      "data": {
+        "type": "script",
+        "name": "CursorManager",
+        "parent": "Singleton<CursorManager>",
+        "methods": [
+          "SetCursor",
+          "ResetCursor"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\CursorManager.cs"
+      }
+    },
+    {
+      "id": "DroneStateController",
+      "data": {
+        "type": "script",
+        "name": "DroneStateController",
+        "parent": "Singleton<DroneStateController>",
+        "methods": [
+          "TurnOn",
+          "TurnOff",
+          "TogglePower",
+          "SetFlying"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\DroneStateController.cs"
+      }
+    },
+    {
+      "id": "ErrorHandler",
+      "data": {
+        "type": "script",
+        "name": "ErrorHandler",
+        "parent": "PersistentSingleton<ErrorHandler>",
+        "methods": [
+          "ShowError",
+          "Hide"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\ErrorHandler.cs"
+      }
+    },
+    {
+      "id": "GameManager",
+      "data": {
+        "type": "script",
+        "name": "GameManager",
+        "parent": "PersistentSingleton<GameManager>",
+        "methods": [
+          "SetState"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\GameManager.cs"
+      }
+    },
+    {
+      "id": "InputManager",
+      "data": {
+        "type": "script",
+        "name": "InputManager",
+        "parent": "PersistentSingleton<InputManager>",
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\InputManager.cs"
+      }
+    },
+    {
+      "id": "KeyboardShortcuts",
+      "data": {
+        "type": "script",
+        "name": "KeyboardShortcuts",
+        "parent": "Singleton<KeyboardShortcuts>",
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\KeyboardShortcuts.cs"
+      }
+    },
+    {
+      "id": "MeasurementTool",
+      "data": {
+        "type": "script",
+        "name": "MeasurementTool",
+        "parent": "Singleton<MeasurementTool>",
+        "methods": [
+          "Activate",
+          "Deactivate",
+          "Toggle",
+          "ClearMeasurement",
+          "SetMode"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\MeasurementTool.cs"
+      }
+    },
+    {
+      "id": "ModularSlot",
+      "data": {
+        "type": "script",
+        "name": "ModularSlot",
+        "parent": null,
+        "methods": [
+          "CanAttach",
+          "SwapPart",
+          "RemovePart",
+          "GetSlotByName",
+          "GetCompatibleParts"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\ModularPartsSystem.cs"
+      }
+    },
+    {
+      "id": "NotificationManager",
+      "data": {
+        "type": "script",
+        "name": "NotificationManager",
+        "parent": "PersistentSingleton<NotificationManager>",
+        "methods": [
+          "ShowNotification"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\NotificationManager.cs"
+      }
+    },
+    {
+      "id": "OrbitCameraController",
+      "data": {
+        "type": "script",
+        "name": "OrbitCameraController",
+        "parent": "Singleton<OrbitCameraController>",
+        "methods": [
+          "SetTarget",
+          "SetAngles",
+          "SetDistance",
+          "ResetView"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\OrbitCameraController.cs"
+      }
+    },
+    {
+      "id": "PartCategory",
+      "data": {
+        "type": "script",
+        "name": "PartCategory",
+        "parent": null,
+        "methods": [
+          "RefreshPartsList",
+          "Search",
+          "FilterByCategory",
+          "FilterByMaterial",
+          "ClearFilters",
+          "FocusPart",
+          "GetAllMaterials",
+          "GetAllPartTypes",
+          "GetPartByName"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\PartCatalogManager.cs"
+      }
+    },
+    {
+      "id": "PartVisibilityManager",
+      "data": {
+        "type": "script",
+        "name": "PartVisibilityManager",
+        "parent": "Singleton<PartVisibilityManager>",
+        "methods": [
+          "HidePart",
+          "ShowPart",
+          "TogglePartVisibility",
+          "IsolatePart",
+          "ClearIsolation",
+          "ShowAllParts",
+          "HideAllParts",
+          "IsPartVisible",
+          "GetIsolatedPart"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\PartVisibilityManager.cs"
+      }
+    },
+    {
+      "id": "QualityManager",
+      "data": {
+        "type": "script",
+        "name": "QualityManager",
+        "parent": "Singleton<QualityManager>",
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\QualityManager.cs"
+      }
+    },
+    {
+      "id": "SaveSystem",
+      "data": {
+        "type": "script",
+        "name": "SaveSystem",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\SaveSystem.cs"
+      }
+    },
+    {
+      "id": "ScreenshotManager",
+      "data": {
+        "type": "script",
+        "name": "ScreenshotManager",
+        "parent": "Singleton<ScreenshotManager>",
+        "methods": [
+          "CaptureScreenshot"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\ScreenshotManager.cs"
+      }
+    },
+    {
+      "id": "SelectionManager",
+      "data": {
+        "type": "script",
+        "name": "SelectionManager",
+        "parent": "Singleton<SelectionManager>",
+        "methods": [
+          "SelectObject",
+          "Deselect",
+          "SelectByData"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\SelectionManager.cs"
+      }
+    },
+    {
+      "id": "ViewModeConfig",
+      "data": {
+        "type": "script",
+        "name": "ViewModeConfig",
+        "parent": null,
+        "methods": [
+          "SetViewMode",
+          "SetSolidColor",
+          "ResetToRealistic",
+          "CycleViewMode"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\ViewModeManager.cs"
+      }
+    },
+    {
+      "id": "WebGLOptimizer",
+      "data": {
+        "type": "script",
+        "name": "WebGLOptimizer",
+        "parent": "PersistentSingleton<WebGLOptimizer>",
+        "methods": [
+          "ForceGarbageCollection",
+          "SetQualityPreset"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\WebGLOptimizer.cs"
+      }
+    },
+    {
+      "id": "DronePartSetup",
+      "data": {
+        "type": "script",
+        "name": "DronePartSetup",
+        "parent": "MonoBehaviour",
+        "methods": [
+          "SetupPart",
+          "AddConnectionPointMarkers",
+          "CreatePartDataAsset"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Utils\\DronePartSetup.cs"
+      }
+    },
+    {
+      "id": "FPSCounter",
+      "data": {
+        "type": "script",
+        "name": "FPSCounter",
+        "parent": "MonoBehaviour",
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Utils\\FPSCounter.cs"
+      }
+    },
+    {
+      "id": "Pool",
+      "data": {
+        "type": "script",
+        "name": "Pool",
+        "parent": null,
+        "methods": [
+          "SpawnFromPool"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Utils\\ObjectPooler.cs"
+      }
+    },
+    {
+      "id": "PerformanceMonitor",
+      "data": {
+        "type": "script",
+        "name": "PerformanceMonitor",
+        "parent": "Singleton<PerformanceMonitor>",
+        "methods": [
+          "GetPerformanceReport"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Utils\\PerformanceMonitor.cs"
+      }
+    },
+    {
+      "id": "RuntimeConsole",
+      "data": {
+        "type": "script",
+        "name": "RuntimeConsole",
+        "parent": "PersistentSingleton<RuntimeConsole>",
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Utils\\RuntimeConsole.cs"
+      }
+    },
+    {
+      "id": "SceneBootstrapper",
+      "data": {
+        "type": "script",
+        "name": "SceneBootstrapper",
+        "parent": "MonoBehaviour",
+        "methods": [
+          "ValidateSceneSetup",
+          "CreateDefaultManagersObject"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Utils\\SceneBootstrapper.cs"
+      }
+    },
+    {
+      "id": "StaticInstance",
+      "data": {
+        "type": "script",
+        "name": "StaticInstance",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Utils\\Singleton.cs"
+      }
+    },
+    {
+      "id": "TweenEngine",
+      "data": {
+        "type": "script",
+        "name": "TweenEngine",
+        "parent": "PersistentSingleton<TweenEngine>",
+        "methods": [
+          "TweenFloat",
+          "TweenPosition",
+          "TweenLocalPosition",
+          "TweenScale",
+          "TweenVector3",
+          "TweenColor",
+          "StopTween",
+          "StopAllTweens"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Utils\\TweenEngine.cs"
+      }
+    },
+    {
+      "id": "WebGLProfiler",
+      "data": {
+        "type": "script",
+        "name": "WebGLProfiler",
+        "parent": "MonoBehaviour",
+        "methods": [
+          "GetCurrentFps",
+          "GetFrameTimeMs",
+          "GetHeapMB"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Utils\\WebGLProfiler.cs"
+      }
+    },
+    {
+      "id": "ProjectSetupWizard",
+      "data": {
+        "type": "script",
+        "name": "ProjectSetupWizard",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Editor\\ProjectSetupWizard.cs"
+      }
+    },
+    {
+      "id": "ShaderVariantStripper",
+      "data": {
+        "type": "script",
+        "name": "ShaderVariantStripper",
+        "parent": "IPreprocessShaders",
+        "methods": [
+          "OnProcessShader"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Editor\\ShaderVariantStripper.cs"
+      }
+    },
+    {
+      "id": "AntigravityBridge",
+      "data": {
+        "type": "script",
+        "name": "AntigravityBridge",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Editor\\Antigravity\\AntigravityBridge.cs"
+      }
+    },
+    {
+      "id": "DronePartDataTests",
+      "data": {
+        "type": "script",
+        "name": "DronePartDataTests",
+        "parent": null,
+        "methods": [
+          "DronePartData_DefaultValues_AreValid",
+          "DronePartData_SetProperties_RetainsValues",
+          "DronePartData_RequiredTools_ReturnsCorrectCount",
+          "DronePartData_SafetyWarnings_AreAccessible",
+          "DronePartData_GetAssemblyInfo_ReturnsFormattedString",
+          "DronePartData_NullArrays_DoNotCauseErrors",
+          "TearDown"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Tests\\Editor\\DronePartDataTests.cs"
+      }
+    },
+    {
+      "id": "EventBusTests",
+      "data": {
+        "type": "script",
+        "name": "EventBusTests",
+        "parent": null,
+        "methods": [
+          "Setup",
+          "TearDown",
+          "Subscribe_AddsSubscriber",
+          "Subscribe_PreventsDuplicates",
+          "Subscribe_NullCallback_DoesNotCrash",
+          "Unsubscribe_RemovesSubscriber",
+          "Unsubscribe_NonExistentHandler_DoesNotCrash",
+          "Publish_InvokesSubscriber",
+          "Publish_InvokesMultipleSubscribers",
+          "Publish_DifferentEventTypes_DoNotInterfere",
+          "Publish_NoSubscribers_DoesNotCrash",
+          "ClearSubscribers_RemovesAllForType",
+          "ClearAllSubscribers_RemovesEverything"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Tests\\Editor\\EventBusTests.cs"
+      }
+    },
+    {
+      "id": "AssemblyStepUI",
+      "data": {
+        "type": "script",
+        "name": "AssemblyStepUI",
+        "parent": "Singleton<AssemblyStepUI>",
+        "methods": [
+          "UpdateUI",
+          "Show",
+          "Hide",
+          "Toggle"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\AssemblyStepUI.cs"
+      }
+    },
+    {
+      "id": "DetailsPanelController",
+      "data": {
+        "type": "script",
+        "name": "DetailsPanelController",
+        "parent": "MonoBehaviour",
+        "methods": [
+          "UpdateDetails"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\DetailsPanelController.cs"
+      }
+    },
+    {
+      "id": "EngineerToolbar",
+      "data": {
+        "type": "script",
+        "name": "EngineerToolbar",
+        "parent": "Singleton<EngineerToolbar>",
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\EngineerToolbar.cs"
+      }
+    },
+    {
+      "id": "EnhancedInfoPanel",
+      "data": {
+        "type": "script",
+        "name": "EnhancedInfoPanel",
+        "parent": "Singleton<EnhancedInfoPanel>",
+        "methods": [
+          "ShowPartInfo",
+          "Show",
+          "Hide"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\EnhancedInfoPanel.cs"
+      }
+    },
+    {
+      "id": "LoadingController",
+      "data": {
+        "type": "script",
+        "name": "LoadingController",
+        "parent": "PersistentSingleton<LoadingController>",
+        "methods": [
+          "Show",
+          "Hide",
+          "SetProgress"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\LoadingController.cs"
+      }
+    },
+    {
+      "id": "PartCatalogUI",
+      "data": {
+        "type": "script",
+        "name": "PartCatalogUI",
+        "parent": "Singleton<PartCatalogUI>",
+        "methods": [
+          "Show",
+          "Hide",
+          "Toggle"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\PartCatalogUI.cs"
+      }
+    },
+    {
+      "id": "SceneTransitionManager",
+      "data": {
+        "type": "script",
+        "name": "SceneTransitionManager",
+        "parent": "PersistentSingleton<SceneTransitionManager>",
+        "methods": [
+          "FadeOut",
+          "FadeIn",
+          "CrossFade"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\SceneTransitionManager.cs"
+      }
+    },
+    {
+      "id": "SettingsPanel",
+      "data": {
+        "type": "script",
+        "name": "SettingsPanel",
+        "parent": "Singleton<SettingsPanel>",
+        "methods": [
+          "Show",
+          "Hide",
+          "Toggle"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\SettingsPanel.cs"
+      }
+    },
+    {
+      "id": "TooltipSystem",
+      "data": {
+        "type": "script",
+        "name": "TooltipSystem",
+        "parent": "PersistentSingleton<TooltipSystem>",
+        "methods": [
+          "Show",
+          "Hide"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\TooltipSystem.cs"
+      }
+    },
+    {
+      "id": "UIAnimator",
+      "data": {
+        "type": "script",
+        "name": "UIAnimator",
+        "parent": "Singleton<UIAnimator>",
+        "methods": [
+          "FadeIn",
+          "FadeOut"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\UIAnimator.cs"
+      }
+    },
+    {
+      "id": "UIManager",
+      "data": {
+        "type": "script",
+        "name": "UIManager",
+        "parent": "Singleton<UIManager>",
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\UIManager.cs"
+      }
+    },
+    {
+      "id": "ViewModeToolbar",
+      "data": {
+        "type": "script",
+        "name": "ViewModeToolbar",
+        "parent": "Singleton<ViewModeToolbar>",
+        "methods": [
+          "Show",
+          "Hide"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\ViewModeToolbar.cs"
+      }
+    },
+    {
+      "id": "UIConstants",
+      "data": {
+        "type": "script",
+        "name": "UIConstants",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\Generated\\UIConstants.cs"
+      }
+    },
+    {
+      "id": "MainLayout.uxml",
+      "data": {
+        "type": "uxml",
+        "name": "MainLayout.uxml",
+        "elements": [
+          "Root",
+          "HeroContainer",
+          "StartBtn",
+          "AppContainer",
+          "ExitBtn",
+          "Sidebar",
+          "FilterStructure",
+          "FilterEnergy",
+          "FilterMechanical",
+          "ResetBtn",
+          "ExplosionSlider",
+          "DetailsPanel",
+          "PartName",
+          "PartCategory",
+          "PartDescription",
+          "FocusBtn"
+        ],
+        "referenced_classes": [
+          "root",
+          "hero-container",
+          "hero-title",
+          "hero-subtitle",
+          "btn btn-primary btn-wide",
+          "app-container",
+          "hud-bar hud-top",
+          "app-logo",
+          "btn btn-ghost btn-exit",
+          "sidebar",
+          "btn-tag",
+          "tag-dot tag-dot-accent",
+          "btn-tag",
+          "tag-dot tag-dot-energy",
+          "btn-tag",
+          "tag-dot tag-dot-mechanical",
+          "sidebar-spacer",
+          "btn-icon",
+          "reset-icon-label",
+          "hud-bar hud-bottom",
+          "data-label slider-label",
+          "slider-container",
+          "details-panel",
+          "panel-header",
+          "panel-title",
+          "panel-subtitle",
+          "panel-content",
+          "part-description",
+          "data-row",
+          "data-label",
+          "data-value data-value-status",
+          "data-row",
+          "data-label",
+          "data-value",
+          "data-row",
+          "data-label",
+          "data-value",
+          "panel-spacer",
+          "btn btn-ghost btn-full-width"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\Layouts\\MainLayout.uxml"
+      }
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "node_count": 73,
+    "edge_count": 0
+  }
+}

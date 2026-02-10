@@ -36,6 +36,7 @@ Shader "WebGL/XRay"
             Cull Back
 
             HLSLPROGRAM
+            #pragma target 3.0
             #pragma vertex vert
             #pragma fragment frag
 
@@ -104,6 +105,7 @@ Shader "WebGL/XRay"
             Cull Back
 
             HLSLPROGRAM
+            #pragma target 3.0
             #pragma vertex vert
             #pragma fragment frag
 

@@ -70,6 +70,7 @@ namespace WebGL.Core.Data
         public string Function => function;
         public string MaterialType => materialType;
         public string MaterialProperties => materialProperties;
+        public string Category => category;
 
         public string GetFullDescription()
         {

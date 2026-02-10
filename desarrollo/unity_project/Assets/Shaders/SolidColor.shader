@@ -35,6 +35,7 @@ Shader "WebGL/SolidColor"
             ZWrite On
 
             HLSLPROGRAM
+            #pragma target 3.0
             #pragma vertex vert
             #pragma fragment frag
             #pragma shader_feature_local _OUTLINE_ON
@@ -93,6 +94,7 @@ Shader "WebGL/SolidColor"
             ZWrite On
 
             HLSLPROGRAM
+            #pragma target 3.0
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
@@ -178,6 +180,7 @@ Shader "WebGL/SolidColor"
             Cull Back
 
             HLSLPROGRAM
+            #pragma target 3.0
             #pragma vertex ShadowVert
             #pragma fragment ShadowFrag
 

@@ -15,7 +15,7 @@ namespace WebGL.Core.Managers
         [Header("State Configuration")]
         [SerializeField]
         [Tooltip("The initial state when the application starts")]
-        private AppState initialState = AppState.Intro;
+        private AppState initialState = AppState.Exploration;
 
         [SerializeField]
         [Tooltip("Enable debug logging for state transitions")]

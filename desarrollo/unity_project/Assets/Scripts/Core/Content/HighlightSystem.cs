@@ -47,7 +47,13 @@ namespace WebGL.Core.Content
         public void OnSelect()
         {
             isSelected = true;
-            // isHovered = false;
+            // Enable emission keyword for URP
+            Renderer rend = GetComponent<Renderer>();
+            if (rend != null)
+            {
+                rend.material.EnableKeyword("_EMISSION");
+            }
+            
             materialController.SetColor(selectedColor);
             StartPulse();
         }
@@ -57,6 +63,10 @@ namespace WebGL.Core.Content
             isSelected = false;
             StopPulse();
             materialController.ResetProperties();
+            
+            // Optional: Disable emission if it wasn't on originally, 
+            // but for safety we often leave it enabled with black color 
+            // to avoid shader variant switching cost
         }
 
         private void StartPulse()
@@ -79,13 +89,25 @@ namespace WebGL.Core.Content
             Renderer rend = GetComponent<Renderer>();
             MaterialPropertyBlock block = new MaterialPropertyBlock();
 
+            // Cache ID
+            int emissionColorId = Shader.PropertyToID("_EmissionColor");
+            // Standard/URP Lit usually uses _EmissionColor
+
             while (isSelected)
             {
                 float pulse = Mathf.Sin(Time.time * pulseSpeed) * pulseIntensity + 1f;
+                // Pulse from base color to base * intensity
                 Color pulsedColor = selectedColor * pulse;
 
                 rend.GetPropertyBlock(block);
-                block.SetColor("_BaseColor", pulsedColor);
+                
+                // Set Emission for Glow
+                block.SetColor(emissionColorId, pulsedColor * 2f); // Boost intensity
+                
+                // Set Base Color for tint (URP usually _BaseColor, Built-in _Color)
+                block.SetColor("_BaseColor", pulsedColor); 
+                block.SetColor("_Color", pulsedColor); // Fallback for standard shaders
+                
                 rend.SetPropertyBlock(block);
 
                 yield return null;

@@ -173,6 +173,13 @@ namespace WebGL.Core.Managers
         {
             if (!Input.GetMouseButtonDown(0)) return;
             
+            // UI Blocking Check
+            if (UnityEngine.EventSystems.EventSystem.current != null && 
+                UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+            
             if (hoveredObject == null)
             {
                 Deselect();
