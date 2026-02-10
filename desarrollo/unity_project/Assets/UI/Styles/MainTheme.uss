@@ -10,7 +10,7 @@
     flex-grow: 1;
     background-color: rgb(10, 14, 39);
     color: rgb(240, 244, 255);
-    font-size: 14px;
+    font-size: 24px; /* Scaled for High DPI */
 }
 
 /* Full Screen Overlay for App */
@@ -48,17 +48,17 @@
 }
 
 .hero-title {
-    font-size: 48px;
+    font-size: 80px;
     -unity-font-style: bold;
     color: rgb(240, 244, 255);
-    margin-bottom: 16px;
-    letter-spacing: -1px;
+    margin-bottom: 32px;
+    letter-spacing: -2px;
 }
 
 .hero-subtitle {
-    font-size: 16px;
+    font-size: 32px;
     color: rgb(180, 190, 210);
-    margin-bottom: 40px;
+    margin-bottom: 80px;
     letter-spacing: 1px;
 }
 
@@ -86,8 +86,8 @@
     /* NO Background Box per user request ("Cuadro azul oscuro atras") */
     background-color: transparent;
     
-    /* Safe Area Bottom (iOS Home Indicator) ~34px */
-    padding-bottom: 40px; 
+    /* Safe Area Bottom (iOS Home Indicator) ~34px * 2 for high dpi comfort */
+    padding-bottom: 80px; 
 }
 
 /* 1. Actions Row */
@@ -103,8 +103,8 @@
 /* 2. Buttons (The Guide: 48dp+, Recommended 60-72px) */
 /* User Request: "Significativamente más grandes" */
 .icon-button {
-    width: 64px;
-    height: 64px;
+    width: 100px;
+    height: 100px;
     
     /* Spacing: 8-12px between related buttons */
     margin-left: 12px;
@@ -134,7 +134,7 @@
 }
 
 .button-icon-text {
-    font-size: 28px; /* Large Icon Emoji */
+    font-size: 48px; /* Large Icon Emoji */
 }
 
 /* 3. Name Label (Below Buttons) */
@@ -146,7 +146,7 @@
 }
 
 .selection-label {
-    font-size: 16px; /* Min legible body size */
+    font-size: 28px; /* Readable on mobile */
     color: white;
     -unity-font-style: bold;
     text-shadow: 0 1px 2px black; /* Ensure legibility against 3D bg */
@@ -165,11 +165,11 @@
     justify-content: center;
     align-items: center;
     background-color: transparent; /* Clean look */
-    margin-top: 44px; /* iOS Status Bar / Notch Safe Area */
+    margin-top: 80px; /* iOS Status Bar Safe Area */
 }
 
 .header-title {
-    font-size: 20px;
+    font-size: 32px;
     color: rgba(255, 255, 255, 0.8);
     -unity-font-style: bold;
     text-shadow: 0 1px 4px black;
@@ -219,7 +219,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    height: 80px;
+    height: 120px;
     flex-direction: row;
     align-items: center;
     padding: 0 32px;
@@ -239,7 +239,7 @@
 }
 
 .app-logo {
-    font-size: 18px;
+    font-size: 32px;
     -unity-font-style: bold;
     color: rgb(240, 244, 255);
     letter-spacing: 2px;
@@ -274,9 +274,9 @@
 .details-panel {
     position: absolute;
     right: 24px;
-    top: 100px;
-    bottom: 120px;
-    width: 320px;
+    top: 150px;
+    bottom: 200px;
+    width: 600px;
     background-color: rgba(10, 10, 15, 0.95);
     border-color: rgba(255, 255, 255, 0.1);
     border-width: 1px;
@@ -299,14 +299,14 @@
 }
 
 .panel-title {
-    font-size: 24px;
+    font-size: 48px;
     color: rgb(240, 244, 255);
     -unity-font-style: bold;
     margin-bottom: 4px;
 }
 
 .panel-subtitle {
-    font-size: 12px;
+    font-size: 24px;
     color: rgb(50, 220, 150);
     letter-spacing: 1px;
 }
@@ -317,8 +317,8 @@
 .btn {
     border-width: 1px;
     border-radius: 100px;
-    padding: 12px 24px;
-    font-size: 14px;
+    padding: 20px 40px;
+    font-size: 24px;
     -unity-font-style: bold;
     transition-property: background-color, border-color, scale;
     transition-duration: 0.2s;
@@ -444,12 +444,12 @@
 /* Update btn-tag for menu usage */
 .btn-tag {
     width: auto; /* Allow auto width for text */
-    min-width: 60px;
-    height: 32px;
-    margin-right: 8px; /* Spacing between tags */
+    min-width: 120px;
+    height: 60px;
+    margin-right: 12px; /* Spacing between tags */
     margin-bottom: 0; /* Override previous grid style */
     
-    font-size: 10px;
+    font-size: 20px;
     -unity-font-style: bold;
     color: rgb(180, 190, 210);
     
@@ -474,7 +474,7 @@
    Slider
    ---------------------------------------- */
 .slider-container {
-    width: 300px;
+    width: 600px;
     height: 40px;
     justify-content: center;
 }
@@ -496,12 +496,12 @@
 
 .data-label {
     color: rgb(100, 110, 130);
-    font-size: 12px;
+    font-size: 20px;
 }
 
 .data-value {
     color: rgb(180, 190, 210);
-    font-size: 12px;
+    font-size: 20px;
     -unity-font-style: bold;
 }
 
@@ -550,6 +550,7 @@
     color: rgb(180, 190, 210);
     margin-bottom: 20px;
     white-space: normal;
+    font-size: 20px;
 }
 
 .data-value-status {
@@ -570,9 +571,9 @@
 
 /* Top Bar Reset Button overrides */
 .icon-button-small {
-    /* Apple HIG: Min 44x44pt Touch Target */
-    width: 48px;
-    height: 48px;
+    /* Apple HIG: Min 44x44pt Touch Target -> Scaled to ~80px */
+    width: 80px;
+    height: 80px;
     background-color: rgba(20, 30, 50, 0.4);
     border-radius: 50%;
     border-width: 1px;
@@ -589,7 +590,7 @@
 }
 
 .button-icon-text-small {
-    font-size: 24px;
+    font-size: 40px;
     color: #ffffff;
 }
 
@@ -600,17 +601,17 @@
     
     /* Center Horizontally (Robust Method) */
     left: 50%;
-    margin-left: -130px; /* Half of width (260px) */
+    margin-left: -250px; /* Half of width (500px) */
     /* Remove translate-x to avoid conflict with .ui-shifted */
     translate: 0 0;
     
-    width: 260px; 
+    width: 500px; 
     height: auto;
     
     background-color: rgba(15, 20, 30, 0.9); 
-    border-radius: 24px;
+    border-radius: 40px;
     /* Asymmetric padding to visually center the slider (pushed down) */
-    padding: 18px 20px 6px 20px; 
+    padding: 24px 30px 10px 30px; 
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.15);
     
@@ -638,7 +639,7 @@
 
 /* Slider Customization */
 .glass-slider {
-    min-height: 30px; /* Sufficient height for touch */
+    min-height: 50px; /* Sufficient height for touch */
     margin-top: 0;
     margin-bottom: 0;
     padding: 0; /* detailed reset */
@@ -664,15 +665,15 @@
 
 /* The Knob (Dragger) */
 .glass-slider .unity-base-slider__dragger {
-    width: 24px;
-    height: 24px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     
     background-color: rgb(0, 217, 255); /* Cyan Knob */
     border-width: 2px;
     border-color: white;
     
-    margin-top: -12px; /* Center relative to top: 50% */
+    margin-top: -24px; /* Center relative to top: 50% */
     top: 50%;
     
     transition-property: scale, background-color;
@@ -696,14 +697,14 @@
 }
 
 .sheet-title {
-    font-size: 20px;
+    font-size: 36px;
     -unity-font-style: bold;
     color: white;
     margin-bottom: 4px;
 }
 
 .sheet-hint {
-    font-size: 12px;
+    font-size: 20px;
     color: rgba(255, 255, 255, 0.5);
     -unity-font-style: italic;
 }
@@ -739,7 +740,7 @@
 
 .details-sheet {
     /* Fixed Height for perfect sync with button animation */
-    height: 380px; 
+    height: 550px; 
     
     /* Ensure it anchors to bottom */
     position: absolute;
