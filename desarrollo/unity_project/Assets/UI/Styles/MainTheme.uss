@@ -155,16 +155,7 @@
     padding: 4px 12px;
     border-radius: 12px;
     
-    /* Fade in/out logic */
-    opacity: 1;
-    transition-property: opacity, scale;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-out;
-}
-
-.selection-label--hidden {
-    opacity: 0;
-    scale: 0.9 0.9; /* Slight shrink effect */
+    /* Fade in/out logic handled by opacity usually */
 }
 
 /* --- TOP BAR --- */
