@@ -155,7 +155,16 @@
     padding: 4px 12px;
     border-radius: 12px;
     
-    /* Fade in/out logic handled by opacity usually */
+    /* Fade in/out logic */
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.selection-label--hidden {
+    opacity: 0;
+    display: none; /* Ensure it doesn't take layout space if needed, though Opacity is requested for fade. Let's stick to Opacity first. Actually, display:none kills transition. */
 }
 
 /* --- TOP BAR --- */
