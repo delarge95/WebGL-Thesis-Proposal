@@ -1,46 +1,102 @@
-/* ----------------------------------------
-   Step 7: Smart Hotspots
-   ---------------------------------------- */
+/* ────────────────────────────────────────────────
+   Smart Hotspots — Professional Polish
+   Based on Sketchfab / Automotive Configurator UX
+   8pt Grid · HIG/MD3 Compliant
+   ──────────────────────────────────────────────── */
+
 .world-space-container {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    justify-content: flex-start;
-    align-items: flex-start;
+    picking-mode: ignore;
 }
 
+/* ─── Base Dot ─── */
 .hotspot-dot {
     position: absolute;
     width: 24px;
     height: 24px;
-    background-color: rgba(0, 217, 255, 0.8); /* Cyan */
+
+    /* Translucent cyan ring (Sketchfab style) */
+    background-color: rgba(0, 200, 255, 0.12);
     border-radius: 50%;
     border-width: 2px;
-    border-color: white;
-    
-    /* Center the dot on its coordinates */
+    border-color: rgba(0, 220, 255, 0.85);
+
+    /* Center on world coordinate */
     translate: -50% -50%;
-    
-    transition-duration: 0.2s;
-    transition-property: scale, opacity, background-color;
-    
-    cursor: initial; /* Unity doesn't always support this but good for intent */
+
+    /* Smooth transitions */
+    transition-duration: 0.25s;
+    transition-property: scale, opacity, background-color, border-color, border-width;
+    transition-timing-function: ease-out;
+
+    /* Clickable */
+    picking-mode: position;
+
+    /* Overflow visible for label tooltip */
+    overflow: visible;
 }
 
-.hotspot-dot:hover {
-    scale: 1.3 1.3;
-    background-color: rgb(255, 255, 255);
-    border-color: rgb(0, 217, 255);
+/* ─── Hover State ─── */
+.hotspot-dot--hover {
+    scale: 1.5 1.5;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgb(255, 255, 255);
+    border-width: 3px;
 }
 
+/* ─── Active/Selected ─── */
 .hotspot-dot--active {
-    background-color: rgb(255, 200, 50); /* Gold/Orange selection */
-    scale: 1.2 1.2;
+    background-color: rgba(0, 220, 255, 0.35);
+    border-color: rgb(0, 220, 255);
+    border-width: 3px;
+    scale: 1.3 1.3;
 }
 
+/* ─── Hidden (Smooth Fade) ─── */
 .hotspot-dot--hidden {
     opacity: 0;
-    display: none;
+    scale: 0.3 0.3;
+    picking-mode: ignore;
+}
+
+/* ─── Name Label (Tooltip) ─── */
+.hotspot-label {
+    position: absolute;
+    left: 24px;  /* Right of dot (8pt grid: 24px) */
+    top: 50%;
+    translate: 0 -50%;
+
+    /* Glassmorphic pill */
+    background-color: rgba(10, 14, 28, 0.88);
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgba(0, 220, 255, 0.4);
+    padding: 4px 16px;
+
+    /* Typography — 16px min per guide */
+    font-size: 16px;
+    color: rgba(240, 244, 255, 0.95);
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+    white-space: nowrap;
+
+    /* Hidden by default */
+    opacity: 0;
+    scale: 0.9 0.9;
+    picking-mode: ignore;
+
+    /* Transition */
+    transition-duration: 0.2s;
+    transition-property: opacity, scale;
+    transition-timing-function: ease-out;
+}
+
+/* ─── Label Visible (on hover) ─── */
+.hotspot-label--visible {
+    opacity: 1;
+    scale: 1 1;
 }

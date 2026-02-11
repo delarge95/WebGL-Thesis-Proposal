@@ -1,35 +1,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using WebGL.Core; 
-using WebGL.Core.Data; // For DronePartData
-using WebGL.Core.Content; // For ExplodablePart
-using WebGL.Core.Managers; // For SelectionManager
-using WebGL.Core.Utils; // For Singleton
+using WebGL.Core.Content;
+using WebGL.Core.Managers;
+using WebGL.Core.Utils;
 
+/// <summary>
+/// Manages all SmartHotspot instances.
+/// Self-healing: UIManager auto-creates this if missing from the scene.
+/// </summary>
 public class HotspotManager : Singleton<HotspotManager>
 {
-    //[SerializeField] private UIDocument uiDocument; // Optional if we want direct reference, but UIManager has it
-    [SerializeField] private Vector3 offset = new Vector3(0, 0, 0); // Global offset
-
     private VisualElement _container;
-    private List<SmartHotspot> _activeHotspots = new List<SmartHotspot>();
+    private readonly List<SmartHotspot> _activeHotspots = new List<SmartHotspot>();
     private Camera _mainCamera;
 
-    private void Start()
-    {
-        _mainCamera = Camera.main;
-        
-        // Wait for UIManager to be ready or grab container directly if possible
-        // Better to subscribe to an event or wait for Start
-    }
-
+    /// <summary>
+    /// Called by UIManager once the root VisualElement is ready.
+    /// </summary>
     public void Initialize(VisualElement root)
     {
+        _mainCamera = Camera.main;
+
         _container = root.Q<VisualElement>("WorldSpaceContainer");
         if (_container == null)
         {
-            Debug.LogError("HotspotManager: 'WorldSpaceContainer' not found in UXML.");
+            Debug.LogError("[HotspotManager] 'WorldSpaceContainer' not found in UXML.");
             return;
         }
 
@@ -38,42 +34,28 @@ public class HotspotManager : Singleton<HotspotManager>
 
     private void SpawnHotspots()
     {
-        // 1. Find all ExplodablePart components in the scene (these are the actual GameObjects)
         ExplodablePart[] parts = FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None);
+
+        if (parts.Length == 0) return;
 
         foreach (var part in parts)
         {
-            if (part == null || part.Data == null) continue;
-            
-            // Create hotspot attached to this part's transform
+            if (part == null) continue;
             CreateHotspot(part.transform);
         }
-        
-        Debug.Log($"HotspotManager: Created {_activeHotspots.Count} hotspots.");
     }
 
     private void CreateHotspot(Transform target)
     {
+        // SmartHotspot now handles its own click/hover events internally
         SmartHotspot hotspot = new SmartHotspot(_container, target, _mainCamera);
-        
-        // Register Click Event
-        hotspot.RegisterCallback<ClickEvent>(evt => 
-        {
-            // Propagate selection using correct API
-            if (SelectionManager.Instance != null)
-            {
-                SelectionManager.Instance.SelectObject(target);
-            }
-        });
-
         _activeHotspots.Add(hotspot);
     }
 
     private void LateUpdate()
     {
-        if (_container == null || _activeHotspots.Count == 0) return;
+        if (_container == null) return;
 
-        // Batch update positions
         foreach (var hotspot in _activeHotspots)
         {
             hotspot.Update();
