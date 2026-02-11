@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using WebGL.Core; 
 using WebGL.Core.Data; // For DronePartData
+using WebGL.Core.Content; // For ExplodablePart
 using WebGL.Core.Managers; // For SelectionManager
 using WebGL.Core.Utils; // For Singleton
 
@@ -37,13 +38,14 @@ public class HotspotManager : Singleton<HotspotManager>
 
     private void SpawnHotspots()
     {
-        // 1. Find all DronePartData components in the scene
-        DronePartData[] parts = FindObjectsByType<DronePartData>(FindObjectsSortMode.None);
+        // 1. Find all ExplodablePart components in the scene (these are the actual GameObjects)
+        ExplodablePart[] parts = FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None);
 
         foreach (var part in parts)
         {
-            // Only add hotspots for significant parts or all parts?
-            // Let's add for all for now.
+            if (part == null || part.Data == null) continue;
+            
+            // Create hotspot attached to this part's transform
             CreateHotspot(part.transform);
         }
         
@@ -57,8 +59,11 @@ public class HotspotManager : Singleton<HotspotManager>
         // Register Click Event
         hotspot.RegisterCallback<ClickEvent>(evt => 
         {
-            // Propagate selection
-            SelectionManager.Instance.SelectPart(target.gameObject);
+            // Propagate selection using correct API
+            if (SelectionManager.Instance != null)
+            {
+                SelectionManager.Instance.SelectObject(target);
+            }
         });
 
         _activeHotspots.Add(hotspot);
