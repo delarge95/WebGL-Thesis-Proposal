@@ -737,7 +737,7 @@
 /* Step 2 Refinement: UI Shift on Expand */
 /* SYNCHRONIZATION: Must match .details-sheet height */
 .ui-shifted {
-    translate: 0 -420px;  /* Height (420) + Reduced Gap (0) -> Visual separation handled by padding/margins? */
+    translate: 0 -320px;  /* Height (320) + Reduced Gap (0) */
     transition-duration: 0.3s;
     transition-timing-function: ease-out-cubic;
 }
@@ -749,7 +749,7 @@
 
 .details-sheet {
     /* Fixed Height */
-    height: 420px; 
+    height: 320px; /* Reduced by 100px per user request */ 
     
     /* Docked to Bottom */
     position: absolute;
