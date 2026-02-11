@@ -775,7 +775,7 @@
 .details-sheet--hidden {
     translate: 0 100%; /* Slide down fully */
     opacity: 1; /* Keep opacity, just slide */
-    pointer-events: none;
+    picking-mode: ignore;
 }
 
 /* Ensure Bottom Bar transitions smooth */
