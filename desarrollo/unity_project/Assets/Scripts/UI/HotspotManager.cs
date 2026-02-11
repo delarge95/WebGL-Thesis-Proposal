@@ -70,4 +70,23 @@ public class HotspotManager : Singleton<HotspotManager>
         }
         _activeHotspots.Clear();
     }
+
+    /// <summary>
+    /// Show or hide all hotspots without destroying them.
+    /// </summary>
+    public void SetVisible(bool visible)
+    {
+        if (_container == null) return;
+
+        if (visible)
+        {
+            _container.style.opacity = 1f;
+            _container.pickingMode = PickingMode.Ignore;
+        }
+        else
+        {
+            _container.style.opacity = 0f;
+            _container.pickingMode = PickingMode.Ignore;
+        }
+    }
 }

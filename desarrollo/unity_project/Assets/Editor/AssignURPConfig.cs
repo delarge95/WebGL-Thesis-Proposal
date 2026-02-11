@@ -23,10 +23,10 @@ public class AssignURPConfig : MonoBehaviour
         
         if (urpAsset != null)
         {
-            GraphicsSettings.renderPipelineAsset = urpAsset;
-            QualitySettings.renderPipeline = urpAsset;
+            GraphicsSettings.defaultRenderPipeline = urpAsset;
+            // QualitySettings.renderPipeline is deprecated; relying on GraphicsSettings.
             
-            Debug.Log($"SUCCESS: Assigned '{urpAsset.name}' as the active Render Pipeline Asset in Graphics & Quality Settings.");
+            Debug.Log($"SUCCESS: Assigned '{urpAsset.name}' as the active Render Pipeline Asset in Graphics Settings.");
         }
         else
         {
