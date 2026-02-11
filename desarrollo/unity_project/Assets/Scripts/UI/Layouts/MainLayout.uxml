@@ -1,103 +1,195 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Styles/MainTheme.uss" />
     
-    <!-- Root Container (Pass Through Clicks) -->
+    <!-- ═══════════════════════════════════════════════
+         Root Container — MUST be Ignore so clicks pass to 3D scene
+         ═══════════════════════════════════════════════ -->
     <ui:VisualElement name="Root" class="root-container" picking-mode="Ignore">
         
-        <!-- Step 7: World Space UI Container (Behind HUD, Overlay on 3D) -->
+        <!-- World Space UI Container (hotspots) -->
         <ui:VisualElement name="WorldSpaceContainer" class="world-space-container" picking-mode="Ignore" />
 
         <!-- Top Bar (Header) -->
         <ui:VisualElement name="TopBar" class="top-bar" picking-mode="Ignore">
-            <ui:Label text="DRONE VIEWER" class="header-title" />
-            <!-- Step 1: Reset View Button (Top Right) -->
-            <!-- Apple HIG: Min 44pt target handled in USS padding -->
+            <ui:Label text="DRONE VIEWER" class="header-title" picking-mode="Ignore" />
             <ui:Button name="ResetViewBtn" class="icon-button-small" tooltip="Reset Camera">
-                <ui:Label text="↺" class="button-icon-text-small"/>
+                <ui:Label text="↺" class="button-icon-text-small" picking-mode="Ignore"/>
             </ui:Button>
         </ui:VisualElement>
 
-        <!-- Step 1: Explosion Slider Container (Moved to bottom) -->
+        <!-- ═══════════════════════════════════════════════
+             Popup Menus (positioned absolutely — at Root level for proper hit testing)
+             ═══════════════════════════════════════════════ -->
+        
+        <!-- Shader Mode Menu -->
+        <ui:VisualElement name="ShaderMenu" class="shader-menu shader-menu--hidden" picking-mode="Position">
+            <ui:Button text="Realistic" name="ShaderMode_Realistic" class="shader-mode-btn shader-mode-btn--active" />
+            <ui:Button text="X-Ray" name="ShaderMode_XRay" class="shader-mode-btn" />
+            <ui:Button text="Blueprint" name="ShaderMode_Blueprint" class="shader-mode-btn" />
+            <ui:Button text="Solid" name="ShaderMode_SolidColor" class="shader-mode-btn" />
+            <ui:Button text="Wire" name="ShaderMode_Wireframe" class="shader-mode-btn" />
+            <ui:Button text="Ghost" name="ShaderMode_Ghosted" class="shader-mode-btn" />
+            <ui:Button text="Thermal" name="ShaderMode_Thermal" class="shader-mode-btn" />
+        </ui:VisualElement>
 
-        <!-- Bottom Sheet (Details) -->
+        <!-- Category Filter Menu -->
+        <ui:VisualElement name="CategoryMenu" class="category-menu category-menu--hidden" picking-mode="Position">
+            <ui:Button text="ALL" name="CatBtn_All" class="btn-tag btn-tag--active" />
+            <ui:Button text="STRUCTURE" name="CatBtn_Structure" class="btn-tag" />
+            <ui:Button text="PROPULSION" name="CatBtn_Propulsion" class="btn-tag" />
+            <ui:Button text="AVIONICS" name="CatBtn_Avionics" class="btn-tag" />
+            <ui:Button text="POWER" name="CatBtn_Power" class="btn-tag" />
+        </ui:VisualElement>
+
+        <!-- Environment Panel -->
+        <ui:VisualElement name="EnvPanel" class="env-panel env-panel--hidden" picking-mode="Position">
+            <ui:Label text="ENVIRONMENT" class="env-panel-title" picking-mode="Ignore" />
+            <ui:VisualElement class="env-presets-row">
+                <ui:Button text="Studio" name="EnvPreset_Studio" class="env-preset-btn env-preset-btn--active" />
+                <ui:Button text="Sunset" name="EnvPreset_Sunset" class="env-preset-btn" />
+                <ui:Button text="Night" name="EnvPreset_Night" class="env-preset-btn" />
+                <ui:Button text="Blue" name="EnvPreset_Blueprint" class="env-preset-btn" />
+                <ui:Button text="Neutral" name="EnvPreset_Neutral" class="env-preset-btn" />
+            </ui:VisualElement>
+            <ui:VisualElement class="env-slider-group">
+                <ui:Label text="ROTATION" class="env-slider-label" picking-mode="Ignore" />
+                <ui:Slider name="EnvLightRotation" low-value="0" high-value="360" value="45" class="glass-slider env-slider" picking-mode="Position" />
+            </ui:VisualElement>
+            <ui:VisualElement class="env-slider-group">
+                <ui:Label text="INTENSITY" class="env-slider-label" picking-mode="Ignore" />
+                <ui:Slider name="EnvLightIntensity" low-value="0.1" high-value="3" value="1" class="glass-slider env-slider" picking-mode="Position" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ═══════════════════════════════════════════════
+             Bottom Sheet (Details Panel — BEFORE BottomBar so buttons render ON TOP)
+             Slides up from bottom.
+             ═══════════════════════════════════════════════ -->
         <ui:VisualElement name="DetailsSheet" class="details-sheet details-sheet--hidden">
-            <!-- Handle for dragging affordance -->
-            <ui:VisualElement class="sheet-handle" />
+            <ui:VisualElement class="sheet-handle" picking-mode="Ignore" />
             
-            <!-- Header Section (Always Visible-ish) -->
+            <!-- Header -->
             <ui:VisualElement class="sheet-header">
-                <ui:Label text="SELECT A PART" name="PartName" class="sheet-title" />
-                <ui:Label text="Tap for details" class="sheet-hint" />
+                <ui:Label text="SELECT A PART" name="PartName" class="sheet-title" picking-mode="Ignore" />
+                <ui:Label text="Tap for details" class="sheet-hint" picking-mode="Ignore" />
             </ui:VisualElement>
             
-            <!-- Content Section (Visible on Expansion) -->
-            <ui:VisualElement class="sheet-content">
-                <!-- Data Grid for Specs -->
+            <!-- Scrollable Content -->
+            <ui:ScrollView class="sheet-scroll" mode="Vertical" touch-scroll-type="Elastic" picking-mode="Position">
+                <!-- Data Grid -->
                 <ui:VisualElement class="data-grid">
-                    <!-- Row 1: Category -->
                     <ui:VisualElement class="data-row">
                         <ui:Label text="CATEGORY" class="data-label" />
-                        <ui:Label text="Structure" name="PartCategory" class="data-value" />
+                        <ui:Label text="—" name="PartCategory" class="data-value" />
                     </ui:VisualElement>
-                    <!-- Row 2: Function -->
                     <ui:VisualElement class="data-row">
                         <ui:Label text="FUNCTION" class="data-label" />
-                        <ui:Label text="Protection" name="PartFunction" class="data-value" />
+                        <ui:Label text="—" name="PartFunction" class="data-value" />
                     </ui:VisualElement>
-                    <!-- Row 3: Material -->
                     <ui:VisualElement class="data-row">
                         <ui:Label text="MATERIAL" class="data-label" />
-                        <ui:Label text="Carbon Fiber" name="PartMaterial" class="data-value" />
+                        <ui:Label text="—" name="PartMaterial" class="data-value" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="data-row">
+                        <ui:Label text="WEIGHT" class="data-label" />
+                        <ui:Label text="—" name="PartWeight" class="data-value" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="data-row">
+                        <ui:Label text="DIMENSIONS" class="data-label" />
+                        <ui:Label text="—" name="PartDimensions" class="data-value" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="data-row">
+                        <ui:Label text="POWER" class="data-label" />
+                        <ui:Label text="—" name="PartPower" class="data-value" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="data-row">
+                        <ui:Label text="TEMP" class="data-label" />
+                        <ui:Label text="—" name="PartTemp" class="data-value" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:ScrollView class="sheet-scroll">
-                    <ui:Label text="Detailed technical specifications will appear here." name="PartDescription" class="sheet-desc" />
-                </ui:ScrollView>
-            </ui:VisualElement>
-        </ui:VisualElement>
 
-        <!-- Bottom Bar (Controls) -->
-        <ui:VisualElement name="BottomBar" class="bottom-bar" picking-mode="Ignore">
-            
-            <!-- 1. Actions Row (Buttons) -->
-            <ui:VisualElement class="actions-row" picking-mode="Ignore">
-                
-                <!-- Category Filter Menu (Pop-up) -->
-                <ui:VisualElement name="CategoryMenu" class="category-menu category-menu--hidden" picking-mode="Position">
-                    <ui:Button text="ALL" name="CatBtn_All" class="btn-tag btn-tag--active" />
-                    <ui:Button text="STRUCTURE" name="CatBtn_Structure" class="btn-tag" />
-                    <ui:Button text="PROPULSION" name="CatBtn_Propulsion" class="btn-tag" />
-                    <ui:Button text="AVIONICS" name="CatBtn_Avionics" class="btn-tag" />
-                    <ui:Button text="POWER" name="CatBtn_Power" class="btn-tag" />
+                <!-- Assembly Section -->
+                <ui:VisualElement class="assembly-section">
+                    <ui:Label text="ASSEMBLY" class="section-title" />
+                    <ui:VisualElement class="data-row">
+                        <ui:Label text="DIFFICULTY" class="data-label" />
+                        <ui:Label text="—" name="PartDifficulty" class="data-value data-value-stars" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="data-row">
+                        <ui:Label text="TOOLS" class="data-label" />
+                        <ui:Label text="—" name="PartTools" class="data-value" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="data-row">
+                        <ui:Label text="TIME" class="data-label" />
+                        <ui:Label text="—" name="PartAssemblyTime" class="data-value" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
 
-                <ui:Button name="ShaderBtn" class="icon-button" tooltip="Toggle Render Mode">
-                    <ui:Label text="👁️" class="button-icon-text"/>
+                <!-- Description -->
+                <ui:Label text="" name="PartDescription" class="part-description" />
+            </ui:ScrollView>
+        </ui:VisualElement>
+
+        <!-- ═══════════════════════════════════════════════
+             Bottom Bar — Action Buttons (AFTER sheet → renders ON TOP of sheet)
+             ═══════════════════════════════════════════════ -->
+        <ui:VisualElement name="BottomBar" class="bottom-bar" picking-mode="Ignore">
+            
+            <!-- Actions Row -->
+            <ui:VisualElement class="actions-row" picking-mode="Ignore">
+                <ui:Button name="ShaderBtn" class="icon-button" tooltip="Toggle Render Mode (Hold for menu)">
+                    <ui:Label text="👁️" class="button-icon-text" picking-mode="Ignore"/>
                 </ui:Button>
-                <!-- Step 1: Layer Filter Button -->
                 <ui:Button name="LayerBtn" class="icon-button" tooltip="Filter Layers">
-                    <ui:Label text="📑" class="button-icon-text"/>
+                    <ui:Label text="📑" class="button-icon-text" picking-mode="Ignore"/>
                 </ui:Button>
                 <ui:Button name="ExplodeBtn" class="icon-button" tooltip="Toggle Explosion">
-                    <ui:Label text="💥" class="button-icon-text"/>
+                    <ui:Label text="💥" class="button-icon-text" picking-mode="Ignore"/>
                 </ui:Button>
                 <ui:Button name="InfoBtn" class="icon-button" tooltip="View Details">
-                    <ui:Label text="ℹ️" class="button-icon-text"/>
+                    <ui:Label text="ℹ️" class="button-icon-text" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="EnvBtn" class="icon-button" tooltip="Environment Settings">
+                    <ui:Label text="🌐" class="button-icon-text" picking-mode="Ignore"/>
                 </ui:Button>
             </ui:VisualElement>
 
-            <!-- 2. Selected Part Name (Below Buttons per user request) -->
+            <!-- Selected Part Name -->
             <ui:VisualElement class="info-row" picking-mode="Ignore">
-                <ui:Label text="" name="SelectionIndicator" class="selection-label" />
+                <ui:Label text="" name="SelectionIndicator" class="selection-label" picking-mode="Ignore" />
             </ui:VisualElement>
             
         </ui:VisualElement>
 
-        <!-- Step 3 Move: Slider Container (Moved to end for Z-Index priority) -->
+        <!-- Slider Container -->
         <ui:VisualElement name="SliderContainer" class="slider-container slider-hidden" picking-mode="Position">
-            <ui:Label text="EXPLODED VIEW" class="slider-label" />
+            <ui:Label text="EXPLODED VIEW" class="slider-label" picking-mode="Ignore" />
             <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider" picking-mode="Position" />
         </ui:VisualElement>
 
     </ui:VisualElement>
+
+    <!-- ═══════════════════════════════════════════════
+         Hero / Pre-Load Menu (overlay — LAST so it's on top)
+         picking-mode Ignore when hidden so it doesn't block 3D clicks
+         ═══════════════════════════════════════════════ -->
+    <ui:VisualElement name="HeroContainer" class="hero-container">
+        <ui:Label text="DRONE VIEWER" class="hero-title" picking-mode="Ignore" />
+        <ui:Label text="Interactive 3D Visualization" class="hero-subtitle" picking-mode="Ignore" />
+        
+        <ui:VisualElement class="hero-menu">
+            <ui:Button name="HeroExploreBtn" class="btn btn-primary btn-wide" text="EXPLORE" />
+            <ui:Button name="HeroAssemblyBtn" class="btn btn-ghost btn-wide" text="ASSEMBLY GUIDE" />
+            <ui:Button name="HeroAboutBtn" class="btn btn-ghost btn-wide" text="ABOUT" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+    <!-- About Panel -->
+    <ui:VisualElement name="AboutPanel" class="about-panel about-panel--hidden">
+        <ui:Label text="DRONE VIEWER PRO" class="about-title" picking-mode="Ignore" />
+        <ui:Label text="Interactive 3D drone visualization for engineering education. Built with Unity WebGL." class="about-desc" picking-mode="Ignore" />
+        <ui:Label text="Thesis Project — 2026" class="about-credit" picking-mode="Ignore" />
+        <ui:Button name="AboutCloseBtn" text="✕" class="btn-icon about-close" />
+    </ui:VisualElement>
+
 </ui:UXML>

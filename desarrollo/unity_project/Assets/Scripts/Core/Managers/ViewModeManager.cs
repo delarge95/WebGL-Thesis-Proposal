@@ -184,14 +184,15 @@ namespace WebGL.Core.Managers
 
         private Material CreateFallbackMaterial(string name, Color color)
         {
-            var mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            var shader = Shader.Find("Universal Render Pipeline/Lit");
+            if (shader == null) shader = Shader.Find("Standard");
+            var mat = new Material(shader);
             mat.name = name + "_Fallback";
-            mat.SetColor("_BaseColor", color);
-            mat.SetFloat("_Surface", 1); // Transparent
-            mat.SetFloat("_SrcBlend", 5);
-            mat.SetFloat("_DstBlend", 10);
-            mat.SetFloat("_ZWrite", 0);
-            mat.renderQueue = 3000;
+            // Use OPAQUE rendering — transparent causes invisible objects
+            Color opaqueColor = new Color(color.r, color.g, color.b, 1f);
+            mat.SetColor("_BaseColor", opaqueColor);
+            mat.color = opaqueColor;
+            // Keep Surface=0 (Opaque), default blend, ZWrite on
             return mat;
         }
 
@@ -199,6 +200,13 @@ namespace WebGL.Core.Managers
         {
             if (isTransitioning) return;
             if (currentMode == mode) return;
+
+            // Lazy re-cache if renderers were not found at Start()
+            if (allRenderers.Count == 0)
+            {
+                CacheRenderers();
+                CreateDefaultMaterials();
+            }
 
             ViewMode previousMode = currentMode;
             currentMode = mode;
@@ -220,39 +228,16 @@ namespace WebGL.Core.Managers
         {
             isTransitioning = true;
 
-            // Fade out
-            yield return FadeRenderers(1f, 0f, transitionDuration * 0.5f);
-
-            // Apply materials
+            // Apply materials directly — no fade.
+            // The previous FadeRenderers used MaterialPropertyBlock.GetColor("_BaseColor")
+            // which returns (0,0,0,0) for blocks that haven't been explicitly set,
+            // causing all renderers to turn invisible/black.
             ApplyModeToRenderers(mode);
 
-            // Fade in
-            yield return FadeRenderers(0f, 1f, transitionDuration * 0.5f);
+            // Brief yield to allow visual update
+            yield return null;
 
             isTransitioning = false;
-        }
-
-        private System.Collections.IEnumerator FadeRenderers(float from, float to, float duration)
-        {
-            float timer = 0f;
-            while (timer < duration)
-            {
-                timer += Time.deltaTime;
-                float t = timer / duration;
-                float alpha = Mathf.Lerp(from, to, t);
-
-                foreach (var renderer in allRenderers)
-                {
-                    if (renderer == null) continue;
-                    var block = new MaterialPropertyBlock();
-                    renderer.GetPropertyBlock(block);
-                    Color color = block.GetColor("_BaseColor");
-                    color.a = alpha;
-                    block.SetColor("_BaseColor", color);
-                    renderer.SetPropertyBlock(block);
-                }
-                yield return null;
-            }
         }
 
         private void ApplyModeToRenderers(ViewMode mode)
@@ -265,10 +250,12 @@ namespace WebGL.Core.Managers
                 switch (mode)
                 {
                     case ViewMode.Realistic:
+                        // Restore original materials AND clear property block overrides
                         if (originalMaterials.TryGetValue(renderer, out materials))
                         {
                             renderer.materials = materials;
                         }
+                        renderer.SetPropertyBlock(null); // Clear any _BaseColor overrides
                         break;
 
                     case ViewMode.XRay:

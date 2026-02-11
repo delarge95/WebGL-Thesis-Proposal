@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 using WebGL.Core.Data;
 using WebGL.Core.Utils;
 using WebGL.Core.Events;
@@ -173,9 +174,9 @@ namespace WebGL.Core.Managers
         {
             if (!Input.GetMouseButtonDown(0)) return;
             
-            // UI Blocking Check
-            if (UnityEngine.EventSystems.EventSystem.current != null && 
-                UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            // UI Blocking Check — uses UI Toolkit's Panel.Pick for accurate hit testing.
+            // EventSystem.IsPointerOverGameObject() doesn't work correctly with UI Toolkit.
+            if (IsPointerOverUIToolkit())
             {
                 return;
             }
@@ -201,6 +202,39 @@ namespace WebGL.Core.Managers
             }
 
             SelectObject(hoveredObject);
+        }
+
+        /// <summary>
+        /// Uses UI Toolkit's Panel.Pick to determine if the pointer is over
+        /// an interactive UI element (one with picking-mode: Position).
+        /// This is the correct approach for UI Toolkit — EventSystem.IsPointerOverGameObject
+        /// does NOT work reliably with UI Toolkit panels.
+        /// </summary>
+        private bool IsPointerOverUIToolkit()
+        {
+            // Find the UIDocument in the scene
+            var uiDoc = Object.FindFirstObjectByType<UIDocument>();
+            if (uiDoc == null || uiDoc.rootVisualElement == null) return false;
+
+            // Convert mouse position to panel coordinates
+            // UI Toolkit uses top-left origin, Input.mousePosition uses bottom-left
+            Vector2 mousePos = Input.mousePosition;
+            mousePos.y = Screen.height - mousePos.y;
+
+            // Panel.Pick returns the topmost VisualElement at the given position
+            // It only returns elements with picking-mode: Position
+            VisualElement picked = uiDoc.rootVisualElement.panel.Pick(mousePos);
+
+            // If Pick returns null or the root container (which has Ignore),
+            // then the pointer is NOT over any interactive UI element
+            if (picked == null) return false;
+
+            // The TemplateContainer (topmost parent) is not interactive UI
+            if (picked == uiDoc.rootVisualElement.parent) return false;
+            
+            // The root-container itself has picking-mode: Ignore
+            // so Pick() won't return it. If we get here, we hit an interactive element.
+            return true;
         }
 
         #endregion

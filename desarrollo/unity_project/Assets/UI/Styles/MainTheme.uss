@@ -130,7 +130,7 @@
     justify-content: flex-end;
     align-items: center;
     background-color: transparent;
-    padding-bottom: 80px;
+    padding-bottom: 32px;
 
     /* Smooth shift for sheet */
     transition-property: translate;
@@ -253,14 +253,15 @@
 
 /* ────────────────────────────────────────────────
    Bottom Sheet (Details Panel)
-   Height: 420px, radius: 40px top
+   Slides up from bottom. Buttons sit above via z-order.
    ──────────────────────────────────────────────── */
 .details-sheet {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 420px;
+    min-height: 200px;
+    max-height: 55%;
 
     background-color: rgba(10, 14, 28, 0.96);
     border-top-left-radius: 40px;
@@ -268,9 +269,11 @@
     border-top-width: 1px;
     border-top-color: rgba(255, 255, 255, 0.08);
     padding: 32px;
+    padding-top: 96px;
     padding-bottom: 40px;
 
     translate: 0 0;
+    transition-property: translate;
     transition-duration: 0.3s;
     transition-timing-function: ease-out;
 }
@@ -309,16 +312,18 @@
 .sheet-content {
     opacity: 1;
     transition-duration: 0.2s;
+    flex-grow: 1;
+    overflow: hidden;
 }
 
 .sheet-scroll {
-    height: 152px;
+    flex-grow: 1;
     margin-top: 8px;
 }
 
-/* UI Shift on Sheet Expand */
+/* UI Shift on Sheet Expand — moves buttons up above the sheet */
 .ui-shifted {
-    translate: 0 -320px;
+    translate: 0 -200px;
     transition-duration: 0.3s;
     transition-timing-function: ease-out;
 }
@@ -328,7 +333,7 @@
    ──────────────────────────────────────────────── */
 .category-menu {
     position: absolute;
-    bottom: 152px;
+    bottom: 120px;
     left: 50%;
     translate: -50% 0;
 
@@ -732,4 +737,240 @@
     margin-bottom: 24px;
     white-space: normal;
     font-size: 20px;
+}
+
+/* ────────────────────────────────────────────────
+   Assembly Section (Inside Sheet)
+   ──────────────────────────────────────────────── */
+.assembly-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.section-title {
+    font-size: 16px;
+    color: rgb(0, 217, 255);
+    letter-spacing: 2px;
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+}
+
+.data-value-stars {
+    color: rgb(255, 200, 50);
+}
+
+/* ────────────────────────────────────────────────
+   Shader Menu (Phase 1 — Long Press Popup)
+   ──────────────────────────────────────────────── */
+.shader-menu {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    translate: -50% 0;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: rgba(10, 14, 28, 0.94);
+    border-radius: 24px;
+    padding: 12px 16px;
+    border-width: 1px;
+    border-color: rgba(0, 220, 255, 0.2);
+
+    opacity: 1;
+    scale: 1 1;
+    transition-property: opacity, scale, translate;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.shader-menu--hidden {
+    opacity: 0;
+    scale: 0.88 0.88;
+    translate: -50% 16px;
+    picking-mode: ignore;
+}
+
+.shader-mode-btn {
+    picking-mode: position;
+    min-width: 80px;
+    height: 40px;
+    margin: 4px;
+    padding: 0 12px;
+    font-size: 16px;
+    -unity-font-style: bold;
+    color: rgb(160, 168, 192);
+    background-color: transparent;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition-property: background-color, border-color, color;
+    transition-duration: 0.2s;
+}
+
+.shader-mode-btn:hover {
+    border-color: rgba(0, 220, 255, 0.5);
+    color: white;
+}
+
+.shader-mode-btn--active {
+    background-color: rgb(0, 217, 255);
+    border-color: rgb(0, 217, 255);
+    color: rgb(10, 14, 28);
+}
+
+/* ────────────────────────────────────────────────
+   Environment Panel (Phase 5)
+   ──────────────────────────────────────────────── */
+.env-panel {
+    position: absolute;
+    bottom: 120px;
+    right: 16px;
+
+    width: 320px;
+    background-color: rgba(10, 14, 28, 0.94);
+    border-radius: 24px;
+    padding: 24px;
+    border-width: 1px;
+    border-color: rgba(0, 220, 255, 0.15);
+
+    opacity: 1;
+    scale: 1 1;
+    transition-property: opacity, scale;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.env-panel--hidden {
+    opacity: 0;
+    scale: 0.92 0.92;
+    picking-mode: ignore;
+}
+
+.env-panel-title {
+    font-size: 14px;
+    color: rgb(0, 217, 255);
+    letter-spacing: 3px;
+    -unity-font-style: bold;
+    margin-bottom: 16px;
+}
+
+.env-presets-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.env-preset-btn {
+    min-width: 56px;
+    height: 32px;
+    margin: 4px;
+    padding: 0 8px;
+    font-size: 14px;
+    color: rgb(160, 168, 192);
+    background-color: transparent;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition-property: background-color, border-color, color;
+    transition-duration: 0.15s;
+}
+
+.env-preset-btn:hover {
+    border-color: rgba(0, 220, 255, 0.5);
+    color: white;
+}
+
+.env-preset-btn--active {
+    background-color: rgb(0, 217, 255);
+    border-color: rgb(0, 217, 255);
+    color: rgb(10, 14, 28);
+}
+
+.env-slider-group {
+    margin-bottom: 8px;
+}
+
+.env-slider-label {
+    font-size: 12px;
+    color: rgb(100, 110, 136);
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+.env-slider {
+    min-height: 32px;
+}
+
+/* ────────────────────────────────────────────────
+   Hero Menu (Phase 4)
+   ──────────────────────────────────────────────── */
+.hero-menu {
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-menu > .btn {
+    margin-bottom: 16px;
+}
+
+.hero--hidden {
+    opacity: 0;
+    picking-mode: ignore;
+    transition-property: opacity;
+    transition-duration: 0.5s;
+}
+
+/* ────────────────────────────────────────────────
+   About Panel (Phase 4)
+   ──────────────────────────────────────────────── */
+.about-panel {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    width: 500px;
+    background-color: rgba(10, 14, 28, 0.96);
+    border-radius: 24px;
+    padding: 40px;
+    border-width: 1px;
+    border-color: rgba(0, 220, 255, 0.2);
+    align-items: center;
+    opacity: 1;
+    transition-property: opacity, scale;
+    transition-duration: 0.3s;
+}
+
+.about-panel--hidden {
+    opacity: 0;
+    scale: 0.9 0.9;
+    picking-mode: ignore;
+}
+
+.about-title {
+    font-size: 32px;
+    -unity-font-style: bold;
+    color: rgb(0, 217, 255);
+    margin-bottom: 16px;
+}
+
+.about-desc {
+    font-size: 20px;
+    color: rgb(160, 168, 192);
+    white-space: normal;
+    -unity-text-align: middle-center;
+    margin-bottom: 16px;
+}
+
+.about-credit {
+    font-size: 16px;
+    color: rgb(100, 110, 136);
+}
+
+.about-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
 }
