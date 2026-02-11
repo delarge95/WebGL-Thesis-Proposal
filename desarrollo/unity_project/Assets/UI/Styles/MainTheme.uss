@@ -775,7 +775,7 @@
 .details-sheet--hidden {
     translate: 0 100%; /* Slide down fully */
     opacity: 1; /* Keep opacity, just slide */
-    picking-mode: ignore;
+    /* picking-mode: ignore; -- Causing warnings. Handled by C# or display:none if needed. */
 }
 
 /* Ensure Bottom Bar transitions smooth */

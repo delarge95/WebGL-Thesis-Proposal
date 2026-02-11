@@ -58,7 +58,7 @@ public class SmartHotspot
         Show();
     }
 
-    public void RegisterCallback<T>(EventCallback<T> callback) where T : EventBase
+    public void RegisterCallback<T>(EventCallback<T> callback) where T : EventBase<T>, new()
     {
         _root.RegisterCallback(callback);
     }
