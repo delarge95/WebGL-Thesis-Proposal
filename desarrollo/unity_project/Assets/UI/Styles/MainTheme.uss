@@ -749,7 +749,7 @@
 
 .details-sheet {
     /* Fixed Height */
-    height: 320px; /* Reduced by 100px per user request */ 
+    height: 420px; /* Restored to previous height (User requested "stay higher") */ 
     
     /* Docked to Bottom */
     position: absolute;
