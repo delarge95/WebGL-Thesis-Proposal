@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using WebGL.Core; // For DronePartData
+using WebGL.Core.Utils; // For Singleton if it's there
 
 public class HotspotManager : Singleton<HotspotManager>
 {
