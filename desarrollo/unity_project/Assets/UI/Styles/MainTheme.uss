@@ -113,9 +113,9 @@
     width: 100px;
     height: 100px;
     
-    /* Spacing: 8-12px between related buttons */
-    margin-left: 12px;
-    margin-right: 12px;
+    /* Spacing: 16px between related buttons (8pt grid) */
+    margin-left: 16px;
+    margin-right: 16px;
     
     /* Visuals: Glassy Circle, High Contrast */
     background-color: rgba(20, 30, 50, 0.9); /* Dark enough to see */
@@ -149,7 +149,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 30px; /* Fixed height to prevent jumpiness */
+    height: 32px; /* Fixed height to prevent jumpiness (8pt grid) */
 }
 
 .selection-label {
