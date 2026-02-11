@@ -243,6 +243,12 @@ namespace WebGL.UI
                 sliderContainer.EnableInClassList("ui-shifted", isOpen);
             }
 
+            // Step 3: Hide the "Blue Name" (Selection Label) when sheet is open to avoid duplication
+            if (partNameLabel != null)
+            {
+                partNameLabel.EnableInClassList("selection-label--hidden", isOpen);
+            }
+
             // Step 2.5: Shift Visual Center of 3D World
             if (OrbitCameraController.Instance != null)
             {
