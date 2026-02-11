@@ -233,8 +233,8 @@ namespace WebGL.UI
                     detailsSheet.AddToClassList("details-sheet--hidden");
             }
 
-            // Step 2 Refinement: Shift UI up
-            if (bottomBar != null) bottomBar.EnableInClassList("ui-shifted", isOpen);
+            // Step 2 Refinement: Shift UI up - REMOVED per user request to keep buttons at bottom (2955)
+            // if (bottomBar != null) bottomBar.EnableInClassList("ui-shifted", isOpen);
             
             // Note: SliderContainer visibility is now managed by AppState, not Sheet State entirely.
             // But if Sheet is open, we might want to shift it if it WAS visible.
