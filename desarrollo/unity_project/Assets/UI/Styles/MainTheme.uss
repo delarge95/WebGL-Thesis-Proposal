@@ -748,21 +748,26 @@
 */
 
 .details-sheet {
-    /* Fixed Height for perfect sync with button animation */
-    height: 550px; 
+    /* Fixed Height for perfect sync */
+    height: 400px; /* Reduced from 550px to fit better with new floating position */
     
-    /* Ensure it anchors to bottom */
+    /* Ensure it anchors above the buttons (approx 200px) + 60px gap */
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 260px;
+    left: 24px; /* Add margin for floating card look */
+    right: 24px;
+    border-radius: 24px; /* Rounded corners since it's floating */
     
     translate: 0 0; /* Expanded state */
 }
 
 .details-sheet--hidden {
-    translate: 0 100%; /* Fully collapsed (Off-screen) */
-    background-color: rgba(15, 20, 30, 0.95);
+    /* Move down by height (400px) + bottom margin (260px) to fully hide? 
+       Actually translate is relative to self. 
+       If we translate Y by 120%, it moves down. */
+    translate: 0 150%; 
+    opacity: 0;
+    pointer-events: none; /* Prevent clicks when hidden */
 }
 
 /* Ensure Bottom Bar transitions smooth */
