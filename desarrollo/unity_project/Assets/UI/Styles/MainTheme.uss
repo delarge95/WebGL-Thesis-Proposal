@@ -1,26 +1,38 @@
-/* ============================================
-   WebGL Drone Viewer - Main Theme Stylesheet
-   NO CSS VARIABLES - Direct values only
-   ============================================ */
+/* ============================================================
+   WebGL Drone Viewer — Main Theme Stylesheet
+   2026 Futuristic Minimalist · 8pt Grid · HIG/MD3 Compliant
+   ============================================================ */
 
 /* Import Modules */
 @import "Hotspots.uss";
 
-/* ----------------------------------------
+/* ────────────────────────────────────────────────
+   Design Tokens (Direct Values — USS has no vars)
+   
+   Primary:        rgb(0, 217, 255)     Cyan
+   Surface:        rgba(10, 14, 28, 0.88)
+   On-Surface:     rgb(240, 244, 255)
+   On-Surface-Dim: rgb(160, 168, 192)
+   Accent-Green:   rgb(50, 220, 150)
+   Border:         rgba(255, 255, 255, 0.08)
+   Border-Hover:   rgba(0, 220, 255, 0.4)
+   Radius-SM:      8px
+   Radius-MD:      16px
+   Radius-LG:      32px
+   Radius-Full:    100px
+   ──────────────────────────────────────────────── */
 
-
-
-/* ----------------------------------------
-   Base Containers
-   ---------------------------------------- */
+/* ────────────────────────────────────────────────
+   Base Root
+   ──────────────────────────────────────────────── */
 .root {
     flex-grow: 1;
-    background-color: rgb(10, 14, 39);
+    background-color: rgb(10, 14, 28);
     color: rgb(240, 244, 255);
-    font-size: 24px; /* Scaled for High DPI */
+    font-size: 24px;
 }
 
-/* Full Screen Overlay for App */
+/* Full Screen Overlay */
 .app-container {
     position: absolute;
     left: 0;
@@ -28,19 +40,19 @@
     right: 0;
     bottom: 0;
     opacity: 0;
-    display: none;
+    picking-mode: ignore;
     transition-property: opacity;
     transition-duration: 0.8s;
 }
 
 .app-container--active {
     opacity: 1;
-    display: flex;
+    picking-mode: position;
 }
 
-/* ----------------------------------------
+/* ────────────────────────────────────────────────
    Hero / Landing Screen
-   ---------------------------------------- */
+   ──────────────────────────────────────────────── */
 .hero-container {
     position: absolute;
     left: 0;
@@ -49,7 +61,7 @@
     bottom: 0;
     align-items: center;
     justify-content: center;
-    background-color: rgb(10, 14, 39);
+    background-color: rgb(10, 14, 28);
     transition-property: opacity;
     transition-duration: 0.5s;
 }
@@ -64,105 +76,170 @@
 
 .hero-subtitle {
     font-size: 32px;
-    color: rgb(180, 190, 210);
+    color: rgb(160, 168, 192);
     margin-bottom: 80px;
     letter-spacing: 1px;
 }
 
-/* Global Settings */
+/* ────────────────────────────────────────────────
+   Root Container
+   ──────────────────────────────────────────────── */
 .root-container {
     flex-grow: 1;
     background-color: transparent;
-    justify-content: space-between; 
-    /* Safe Areas handled by padding in specific elements if needed, 
-       but for root we let it fill. */
+    justify-content: space-between;
 }
 
-/* --- BOTTOM LAYOUT (Mobile First) --- */
+/* ────────────────────────────────────────────────
+   Top Bar (Header)
+   Height: 64px (8pt grid), margin-top: 80px safe area
+   ──────────────────────────────────────────────── */
+.top-bar {
+    height: 64px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    margin-top: 80px;
+}
+
+.header-title {
+    font-size: 32px;
+    color: rgba(255, 255, 255, 0.8);
+    -unity-font-style: bold;
+    text-shadow: 0 1px 4px black;
+    letter-spacing: 2px;
+}
+
+#ResetViewBtn {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    translate: 0 -50%;
+}
+
+/* ────────────────────────────────────────────────
+   Bottom Bar (Controls — Thumb Zone)
+   ──────────────────────────────────────────────── */
 .bottom-bar {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    
-    /* Structure: Column (Buttons Row Top, Name Bottom) */
-    flex-direction: column; 
-    justify-content: flex-end; /* Push content to very bottom */
+    flex-direction: column;
+    justify-content: flex-end;
     align-items: center;
-    
-    /* NO Background Box per user request ("Cuadro azul oscuro atras") */
     background-color: transparent;
-    
-    /* Safe Area Bottom (iOS Home Indicator) ~34px * 2 for high dpi comfort */
-    padding-bottom: 80px; 
+    padding-bottom: 80px;
+
+    /* Smooth shift for sheet */
+    transition-property: translate;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
 }
 
-/* 1. Actions Row */
+/* Actions Row — 16px spacing between buttons (8pt grid) */
 .actions-row {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    
-    /* Spacing between groups if we had them, but here it's one group */
-    margin-bottom: 12px; /* Space between buttons and Name Label */
+    margin-bottom: 16px;
 }
 
-/* 2. Buttons (The Guide: 48dp+, Recommended 60-72px) */
-/* User Request: "Significativamente más grandes" */
+/* ────────────────────────────────────────────────
+   Icon Buttons (100px — exceeds 48dp minimum)
+   ──────────────────────────────────────────────── */
 .icon-button {
-    width: 100px;
-    height: 100px;
-    
-    /* Spacing: 16px between related buttons (8pt grid) */
+    width: 104px;
+    height: 104px;
     margin-left: 16px;
     margin-right: 16px;
-    
-    /* Visuals: Glassy Circle, High Contrast */
-    background-color: rgba(20, 30, 50, 0.9); /* Dark enough to see */
-    border-radius: 50%; /* Perfect Circle */
-    border-width: 2px;
-    border-color: rgba(0, 255, 255, 0.5); /* Cyan border */
-    
+
+    /* Glassmorphic circle */
+    background-color: rgba(10, 14, 28, 0.88);
+    border-radius: 50%;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+
     justify-content: center;
     align-items: center;
-    
-    transition-duration: 0.1s;
+
+    transition-property: background-color, border-color, scale;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.icon-button:hover {
+    border-color: rgba(0, 220, 255, 0.5);
+    background-color: rgba(0, 220, 255, 0.08);
+}
+
+.icon-button:active {
+    scale: 0.92;
+    background-color: rgba(0, 220, 255, 0.2);
 }
 
 .icon-button:disabled {
     opacity: 0.3;
-    background-color: rgba(20, 30, 50, 0.5); /* Darker, less interactive */
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-.icon-button:active {
-    scale: 0.9;
-    background-color: rgba(0, 255, 255, 0.3);
+    background-color: rgba(10, 14, 28, 0.5);
+    border-color: rgba(255, 255, 255, 0.04);
 }
 
 .button-icon-text {
-    font-size: 48px; /* Large Icon Emoji */
+    font-size: 48px;
 }
 
-/* 3. Name Label (Below Buttons) */
+/* Small Icon Button (Reset — Top Right) */
+.icon-button-small {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(10, 14, 28, 0.4);
+    border-radius: 50%;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+    justify-content: center;
+    align-items: center;
+    transition-property: border-color, background-color, scale;
+    transition-duration: 0.2s;
+    margin-right: 24px;
+}
+
+.icon-button-small:hover {
+    border-color: rgba(0, 220, 255, 0.5);
+}
+
+.icon-button-small:active {
+    scale: 0.92;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.button-icon-text-small {
+    font-size: 40px;
+    color: rgb(240, 244, 255);
+}
+
+/* ────────────────────────────────────────────────
+   Selection Label (Below Buttons)
+   ──────────────────────────────────────────────── */
 .info-row {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 32px; /* Fixed height to prevent jumpiness (8pt grid) */
+    height: 40px;
 }
 
 .selection-label {
-    font-size: 28px; /* Readable on mobile */
+    font-size: 28px;
     color: white;
     -unity-font-style: bold;
-    text-shadow: 0 1px 2px black; /* Ensure legibility against 3D bg */
-    
-    background-color: rgba(0, 0, 0, 0.5); /* Subtle pill for text readability */
-    padding: 4px 12px;
-    border-radius: 12px;
-    
-    /* Fade in/out logic */
+    text-shadow: 0 1px 2px black;
+
+    /* Frosted glass pill */
+    background-color: rgba(10, 14, 28, 0.6);
+    padding: 8px 16px;
+    border-radius: 16px;
+
+    /* Smooth fade — NO display:none */
     opacity: 1;
     transition-property: opacity;
     transition-duration: 0.3s;
@@ -171,545 +248,49 @@
 
 .selection-label--hidden {
     opacity: 0;
-    display: none; /* Ensure it doesn't take layout space if needed, though Opacity is requested for fade. Let's stick to Opacity first. Actually, display:none kills transition. */
+    picking-mode: ignore;
 }
 
-/* --- TOP BAR --- */
-.top-bar {
-    height: 60px; /* Standard App Bar height */
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent; /* Clean look */
-    margin-top: 80px; /* iOS Status Bar Safe Area */
-}
-
-.header-title {
-    font-size: 32px;
-    color: rgba(255, 255, 255, 0.8);
-    -unity-font-style: bold;
-    text-shadow: 0 1px 4px black;
-}
-
-#ResetViewBtn {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    translate: 0 -50%;
-}
-
-/* --- BOTTOM SHEET --- */
+/* ────────────────────────────────────────────────
+   Bottom Sheet (Details Panel)
+   Height: 420px, radius: 40px top
+   ──────────────────────────────────────────────── */
 .details-sheet {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 70%; 
-    background-color: rgba(15, 20, 30, 0.98);
-    border-top-left-radius: 32px;
-    border-top-right-radius: 32px;
+    height: 420px;
+
+    background-color: rgba(10, 14, 28, 0.96);
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.08);
     padding: 32px;
-    
-    border-top-left-radius: 32px;
-    border-top-right-radius: 32px;
-    padding: 32px;
-    
-    /* Default is 0,0 (Open) - we control via --hidden class */
+    padding-bottom: 40px;
+
+    translate: 0 0;
     transition-duration: 0.3s;
-    transition-timing-function: ease-out-cubic;
+    transition-timing-function: ease-out;
 }
-/* Removed .details-sheet--visible as it is redundant */
+
+.details-sheet--hidden {
+    translate: 0 100%;
+    opacity: 1;
+}
 
 .sheet-handle {
     width: 40px;
-    height: 5px;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 2.5px;
-    align-self: center;
-    margin-bottom: 20px;
-}
-/* ----------------------------------------
-   HUD Elements
-   ---------------------------------------- */
-.hud-bar {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 120px;
-    flex-direction: row;
-    align-items: center;
-    padding: 0 32px;
-    background-color: rgba(2, 2, 4, 0);
-}
-
-.hud-top {
-    top: 0;
-    justify-content: space-between;
-}
-
-.hud-bottom {
-    bottom: 0;
-    justify-content: center;
-    background-color: rgba(2, 2, 4, 0.6);
-    padding-bottom: 24px;
-}
-
-.app-logo {
-    font-size: 32px;
-    -unity-font-style: bold;
-    color: rgb(240, 244, 255);
-    letter-spacing: 2px;
-}
-
-/* ----------------------------------------
-   Sidebar
-   ---------------------------------------- */
-.sidebar {
-    position: absolute;
-    left: 24px;
-    top: 50%;
-    translate: 0 -50%;
-    background-color: rgb(20, 24, 53);
-    border-color: rgba(255, 255, 255, 0.1);
-    border-width: 1px;
-    border-radius: 12px;
-    padding: 16px;
-    width: 60px;
-    align-items: center;
-    transition-property: border-color;
-    transition-duration: 0.3s;
-}
-
-.sidebar:hover {
-    border-color: rgb(160, 165, 184);
-}
-
-/* ----------------------------------------
-   Details Panel
-   ---------------------------------------- */
-.details-panel {
-    position: absolute;
-    right: 24px;
-    top: 150px;
-    bottom: 200px;
-    width: 600px;
-    background-color: rgba(10, 10, 15, 0.95);
-    border-color: rgba(255, 255, 255, 0.1);
-    border-width: 1px;
-    border-radius: 12px;
-    padding: 24px;
-    translate: 110% 0;
-    transition-property: translate;
-    transition-duration: 0.4s;
-}
-
-.details-panel--visible {
-    translate: 0 0;
-}
-
-.panel-header {
-    border-bottom-width: 1px;
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-    padding-bottom: 16px;
-    margin-bottom: 16px;
-}
-
-.panel-title {
-    font-size: 48px;
-    color: rgb(240, 244, 255);
-    -unity-font-style: bold;
-    margin-bottom: 4px;
-}
-
-.panel-subtitle {
-    font-size: 24px;
-    color: rgb(50, 220, 150);
-    letter-spacing: 1px;
-}
-
-/* ----------------------------------------
-   Buttons
-   ---------------------------------------- */
-.btn {
-    border-width: 1px;
-    border-radius: 100px;
-    padding: 20px 40px;
-    font-size: 24px;
-    -unity-font-style: bold;
-    transition-property: background-color, border-color, scale;
-    transition-duration: 0.2s;
-    cursor: link;
-    justify-content: center;
-    align-items: center;
-}
-
-.btn-primary {
-    background-color: rgb(0, 217, 255);
-    border-color: rgb(0, 217, 255);
-    color: rgb(8, 10, 25);
-    border-width: 0;
-}
-
-.btn-primary:hover {
-    background-color: rgb(100, 230, 255);
-    scale: 1.05;
-}
-
-.btn-ghost {
-    background-color: transparent;
-    border-color: rgb(160, 165, 184);
-    color: rgb(180, 190, 210);
-}
-
-.btn-ghost:hover {
-    border-color: rgb(240, 244, 255);
-    color: rgb(240, 244, 255);
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-.btn-icon {
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    border-radius: 50%;
-    background-color: rgb(20, 24, 53);
-    border-color: rgba(255, 255, 255, 0.1);
-    border-width: 1px;
-    transition-property: border-color, background-color;
-    transition-duration: 0.2s;
-}
-
-.btn-icon:hover {
-    border-color: rgb(0, 217, 255);
-    background-color: rgba(59, 130, 246, 0.1);
-}
-
-.btn-tag {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 8px;
-    border-radius: 50%;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-    transition-property: border-color, background-color;
-    transition-duration: 0.2s;
-}
-
-.btn-tag:hover {
-    border-color: rgb(180, 190, 210);
-}
-
-.btn-tag--active {
-    border-color: rgb(240, 244, 255);
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.tag-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-}
-
-.btn-wide {
-    width: 200px;
-}
-
-.btn-exit {
-    width: 80px;
-    height: 32px;
-    font-size: 10px;
-}
-
-.slider-label {
-    display: none; /* Hidden to allow slider to take full width */
-}
-
-/* ----------------------------------------
-   Category Menu (Pop-up)
-   ---------------------------------------- */
-.category-menu {
-    position: absolute;
-    bottom: 150px; /* Lowered 30px more per user request */
-    left: 50%;
-    translate: -50% 0; /* Centered */
-    
-    flex-direction: row;
-    background-color: rgba(15, 20, 30, 0.95);
-    border-radius: 40px; /* Smoother pills */
-    padding: 16px 32px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
-    
-    opacity: 1;
-    scale: 1 1;
-    transition-duration: 0.2s;
-    transition-property: opacity, scale, translate;
-    transition-timing-function: ease-out-back;
-}
-
-.category-menu--hidden {
-    opacity: 0;
-    scale: 0.8 0.8;
-    translate: -50% 20px; /* Slide down and fade out */
-    display: none;
-}
-
-/* Update btn-tag for menu usage */
-.btn-tag {
-    width: auto; /* Allow auto width for text */
-    min-width: 120px;
-    height: 60px;
-    margin-right: 12px; /* Spacing between tags */
-    margin-bottom: 0; /* Override previous grid style */
-    
-    font-size: 20px;
-    -unity-font-style: bold;
-    color: rgb(180, 190, 210);
-    
-    background-color: transparent;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-}
-
-.btn-tag:hover {
-    border-color: rgb(0, 217, 255);
-    color: rgb(240, 244, 255);
-}
-
-.btn-tag--active {
-    background-color: rgb(0, 217, 255);
-    border-color: rgb(0, 217, 255);
-    color: rgb(10, 14, 39); /* Dark text on bright bg */
-}
-
-/* ----------------------------------------
-   Slider
-   ---------------------------------------- */
-.slider-container {
-    width: 600px;
-    height: 40px;
-    justify-content: center;
-}
-
-/* Old Slider Styes (Removed to avoid conflict with .glass-slider) */
-/* .unity-base-slider__tracker { ... } */
-/* .unity-base-slider__dragger { ... } */
-
-/* ----------------------------------------
-   Data Grid
-   ---------------------------------------- */
-.data-row {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom-width: 1px;
-    border-bottom-color: rgba(255, 255, 255, 0.05);
-}
-
-.data-label {
-    color: rgb(100, 110, 130);
-    font-size: 20px;
-}
-
-.data-value {
-    color: rgb(180, 190, 210);
-    font-size: 20px;
-    -unity-font-style: bold;
-}
-
-/* ----------------------------------------
-   Glassmorphic Panel
-   ---------------------------------------- */
-.glass-panel {
-    background-color: rgba(20, 24, 53, 0.85);
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 24px;
-    transition-property: background-color, border-color;
-    transition-duration: 0.3s;
-}
-
-.glass-panel:hover {
-    background-color: rgba(30, 35, 65, 0.9);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-/* ----------------------------------------
-   Utility Classes
-   ---------------------------------------- */
-.tag-dot-accent {
-    background-color: rgb(0, 217, 255);
-}
-
-.tag-dot-energy {
-    background-color: rgb(100, 230, 255);
-}
-
-.tag-dot-mechanical {
-    background-color: rgb(180, 190, 210);
-}
-
-.sidebar-spacer {
-    height: 20px;
-}
-
-.reset-icon-label {
-    color: rgb(180, 190, 210);
-}
-
-.part-description {
-    color: rgb(180, 190, 210);
-    margin-bottom: 20px;
-    white-space: normal;
-    font-size: 20px;
-}
-
-.data-value-status {
-    color: rgb(50, 220, 150);
-}
-
-.panel-spacer {
-    flex-grow: 1;
-}
-
-.btn-full-width {
-    width: 100%;
-}
-
-/* =========================================================
-   STEP 1 & 2 NEW STYLES (Unity UI/UX Pro)
-   ========================================================= */
-
-/* Top Bar Reset Button overrides */
-.icon-button-small {
-    /* Apple HIG: Min 44x44pt Touch Target -> Scaled to ~80px */
-    width: 80px;
-    height: 80px;
-    background-color: rgba(20, 30, 50, 0.4);
-    border-radius: 50%;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.2);
-    justify-content: center;
-    align-items: center;
-    transition-duration: 0.1s;
-    margin-right: 20px; /* Spacing from edge */
-}
-
-.icon-button-small:active {
-    scale: 0.95;
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.button-icon-text-small {
-    font-size: 40px;
-    color: #ffffff;
-}
-
-/* Slider Contextual container */
-.slider-container {
-    position: absolute;
-    bottom: 270px; /* Lowered from 300px */
-    
-    /* Center Horizontally (Robust Method) */
-    left: 50%;
-    margin-left: -250px; /* Half of width (500px) */
-    /* Remove translate-x to avoid conflict with .ui-shifted */
-    translate: 0 0;
-    
-    width: 500px; 
-    height: auto;
-    
-    background-color: rgba(15, 20, 30, 0.9); 
-    border-radius: 40px;
-    /* Asymmetric padding to visually center the slider (pushed down) */
-    padding: 24px 30px 10px 30px; 
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.15);
-    
-    /* Layout */
-    flex-direction: row;
-    align-items: center;
-    justify-content: center; /* Center content (the slider) */
-    
-    opacity: 1;
-    transition-duration: 0.3s;
-    transition-property: opacity, translate;
-    transition-timing-function: ease-out-back;
-}
-
-.slider-hidden {
-    opacity: 0;
-    translate: 0 20px; /* Slide down slightly */
-    display: none; 
-}
-
-/* New: Shift up when Category Menu is open to avoid overlap */
-.slider-container--shifted-up {
-    bottom: 370px; /* Shift up from 270px */
-}
-
-/* Slider Customization */
-.glass-slider {
-    min-height: 50px; /* Sufficient height for touch */
-    margin-top: 0;
-    margin-bottom: 0;
-    padding: 0; /* detailed reset */
-    flex-grow: 1; 
-    justify-content: center; /* Center the drag-container vertically */
-}
-
-/* The horizontal bar container */
-.glass-slider #unity-drag-container {
-    height: 10px; /* Thicker touch area */
-    justify-content: center; /* Center tracker vertically */
-}
-
-/* The actual line (Tracker) */
-.glass-slider .unity-base-slider__tracker {
-    background-color: rgba(255, 255, 255, 0.3);
-    height: 4px; /* Visible line thickness */
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.24);
     border-radius: 2px;
-    border-width: 0;
-    top: 50%;
-    margin-top: -2px; /* True vertical center */
+    align-self: center;
+    margin-bottom: 24px;
 }
 
-/* The Knob (Dragger) */
-.glass-slider .unity-base-slider__dragger {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    
-    background-color: rgb(0, 217, 255); /* Cyan Knob */
-    border-width: 2px;
-    border-color: white;
-    
-    margin-top: -24px; /* Center relative to top: 50% */
-    top: 50%;
-    
-    transition-property: scale, background-color;
-    transition-duration: 0.1s;
-}
-
-.glass-slider .unity-base-slider__dragger:hover {
-    scale: 1.2;
-    background-color: white;
-    border-color: rgb(0, 217, 255);
-}
-
-/* Remove default border on dragger when focused */
-.glass-slider .unity-base-slider__dragger:focus {
-    border-color: white;
-}
-
-/* Refined Bottom Sheet (Step 2) */
 .sheet-header {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .sheet-title {
@@ -730,61 +311,425 @@
     transition-duration: 0.2s;
 }
 
-/* Hidden state overrides */
-.details-sheet--hidden {
-    translate: 0 85%; /* Keep just the header visible peeking up */
-    background-color: rgba(15, 20, 30, 0.9); /* Slightly more transparent when down */
-}
-
 .sheet-scroll {
-    height: 150px; /* Limit height for scrolling */
-    margin-top: 10px;
+    height: 152px;
+    margin-top: 8px;
 }
 
-/* Step 2 Refinement: UI Shift on Expand */
-/* SYNCHRONIZATION: Must match .details-sheet height */
+/* UI Shift on Sheet Expand */
 .ui-shifted {
-    translate: 0 -320px;  /* Height (320) + Reduced Gap (0) */
+    translate: 0 -320px;
     transition-duration: 0.3s;
-    transition-timing-function: ease-out-cubic;
+    transition-timing-function: ease-out;
 }
 
-/* Sheet Logic: 
-   Base .details-sheet = Visible (0,0) position. 
-   .details-sheet--hidden = Pushed down.
-*/
-
-.details-sheet {
-    /* Fixed Height */
-    height: 420px; /* Restored to previous height (User requested "stay higher") */ 
-    
-    /* Docked to Bottom */
+/* ────────────────────────────────────────────────
+   Category Menu (Pop-up Pill Bar)
+   ──────────────────────────────────────────────── */
+.category-menu {
     position: absolute;
-    bottom: 0;
+    bottom: 152px;
+    left: 50%;
+    translate: -50% 0;
+
+    flex-direction: row;
+    background-color: rgba(10, 14, 28, 0.92);
+    border-radius: 40px;
+    padding: 16px 32px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+
+    /* Smooth show/hide — NO display:none */
+    opacity: 1;
+    scale: 1 1;
+    transition-duration: 0.25s;
+    transition-property: opacity, scale, translate;
+    transition-timing-function: ease-out;
+}
+
+.category-menu--hidden {
+    opacity: 0;
+    scale: 0.88 0.88;
+    translate: -50% 16px;
+    picking-mode: ignore;
+}
+
+/* Category Tag Buttons */
+.btn-tag {
+    width: auto;
+    min-width: 120px;
+    height: 56px;
+    margin-right: 8px;
+    margin-bottom: 0;
+
+    font-size: 20px;
+    -unity-font-style: bold;
+    color: rgb(160, 168, 192);
+
+    background-color: transparent;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+
+    justify-content: center;
+    align-items: center;
+
+    transition-property: border-color, background-color, color;
+    transition-duration: 0.2s;
+}
+
+.btn-tag:hover {
+    border-color: rgba(0, 220, 255, 0.6);
+    color: rgb(240, 244, 255);
+}
+
+.btn-tag--active {
+    background-color: rgb(0, 217, 255);
+    border-color: rgb(0, 217, 255);
+    color: rgb(10, 14, 28);
+}
+
+/* ────────────────────────────────────────────────
+   Explosion Slider
+   ──────────────────────────────────────────────── */
+.slider-container {
+    position: absolute;
+    bottom: 272px;
+    left: 50%;
+    margin-left: -248px;
+    translate: 0 0;
+
+    width: 496px;
+    height: auto;
+
+    background-color: rgba(10, 14, 28, 0.88);
+    border-radius: 40px;
+    padding: 24px 32px 8px 32px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    /* Smooth show/hide — NO display:none */
+    opacity: 1;
+    transition-duration: 0.3s;
+    transition-property: opacity, translate, scale;
+    transition-timing-function: ease-out;
+}
+
+.slider-hidden {
+    opacity: 0;
+    scale: 0.96 0.96;
+    translate: 0 16px;
+    picking-mode: ignore;
+}
+
+.slider-container--shifted-up {
+    bottom: 376px;
+}
+
+.slider-label {
+    display: none;
+}
+
+/* Slider Track/Dragger */
+.glass-slider {
+    min-height: 48px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.glass-slider #unity-drag-container {
+    height: 8px;
+    justify-content: center;
+}
+
+.glass-slider .unity-base-slider__tracker {
+    background-color: rgba(255, 255, 255, 0.2);
+    height: 4px;
+    border-radius: 2px;
+    border-width: 0;
+    top: 50%;
+    margin-top: -2px;
+}
+
+.glass-slider .unity-base-slider__dragger {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgb(0, 217, 255);
+    border-width: 2px;
+    border-color: white;
+    margin-top: -24px;
+    top: 50%;
+    transition-property: scale, background-color;
+    transition-duration: 0.15s;
+}
+
+.glass-slider .unity-base-slider__dragger:hover {
+    scale: 1.16;
+    background-color: white;
+    border-color: rgb(0, 217, 255);
+}
+
+.glass-slider .unity-base-slider__dragger:focus {
+    border-color: white;
+}
+
+/* ────────────────────────────────────────────────
+   Data Grid (Sheet Content)
+   ──────────────────────────────────────────────── */
+.data-row {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.04);
+}
+
+.data-label {
+    color: rgb(100, 110, 136);
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+.data-value {
+    color: rgb(200, 208, 224);
+    font-size: 20px;
+    -unity-font-style: bold;
+}
+
+.data-value-status {
+    color: rgb(50, 220, 150);
+}
+
+/* ────────────────────────────────────────────────
+   Glassmorphic Panel (Reusable)
+   ──────────────────────────────────────────────── */
+.glass-panel {
+    background-color: rgba(10, 14, 28, 0.85);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+    transition-property: background-color, border-color;
+    transition-duration: 0.25s;
+}
+
+.glass-panel:hover {
+    background-color: rgba(20, 24, 40, 0.9);
+    border-color: rgba(0, 220, 255, 0.2);
+}
+
+/* ────────────────────────────────────────────────
+   Buttons (Generic)
+   ──────────────────────────────────────────────── */
+.btn {
+    border-width: 1px;
+    border-radius: 100px;
+    padding: 16px 40px;
+    font-size: 24px;
+    -unity-font-style: bold;
+    transition-property: background-color, border-color, scale;
+    transition-duration: 0.2s;
+    cursor: link;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-primary {
+    background-color: rgb(0, 217, 255);
+    border-color: rgb(0, 217, 255);
+    color: rgb(10, 14, 28);
+    border-width: 0;
+}
+
+.btn-primary:hover {
+    background-color: rgb(100, 230, 255);
+    scale: 1.04;
+}
+
+.btn-ghost {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.16);
+    color: rgb(160, 168, 192);
+}
+
+.btn-ghost:hover {
+    border-color: rgb(240, 244, 255);
+    color: rgb(240, 244, 255);
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+.btn-icon {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border-radius: 50%;
+    background-color: rgba(10, 14, 28, 0.8);
+    border-color: rgba(255, 255, 255, 0.08);
+    border-width: 1px;
+    transition-property: border-color, background-color;
+    transition-duration: 0.2s;
+}
+
+.btn-icon:hover {
+    border-color: rgba(0, 220, 255, 0.5);
+    background-color: rgba(0, 220, 255, 0.08);
+}
+
+.btn-wide {
+    width: 200px;
+}
+
+.btn-full-width {
+    width: 100%;
+}
+
+/* ────────────────────────────────────────────────
+   Utility / Tag Dots
+   ──────────────────────────────────────────────── */
+.tag-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.tag-dot-accent {
+    background-color: rgb(0, 217, 255);
+}
+
+.tag-dot-energy {
+    background-color: rgb(100, 230, 255);
+}
+
+.tag-dot-mechanical {
+    background-color: rgb(160, 168, 192);
+}
+
+/* ────────────────────────────────────────────────
+   Sidebar (Desktop — Left Edge)
+   ──────────────────────────────────────────────── */
+.sidebar {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    translate: 0 -50%;
+    background-color: rgba(10, 14, 28, 0.88);
+    border-color: rgba(255, 255, 255, 0.08);
+    border-width: 1px;
+    border-radius: 16px;
+    padding: 16px;
+    width: 64px;
+    align-items: center;
+    transition-property: border-color;
+    transition-duration: 0.25s;
+}
+
+.sidebar:hover {
+    border-color: rgba(0, 220, 255, 0.4);
+}
+
+.sidebar-spacer {
+    height: 24px;
+}
+
+/* ────────────────────────────────────────────────
+   Details Panel (Desktop — Right Side)
+   ──────────────────────────────────────────────── */
+.details-panel {
+    position: absolute;
+    right: 24px;
+    top: 152px;
+    bottom: 200px;
+    width: 600px;
+    background-color: rgba(10, 14, 28, 0.95);
+    border-color: rgba(255, 255, 255, 0.08);
+    border-width: 1px;
+    border-radius: 16px;
+    padding: 24px;
+    translate: 110% 0;
+    transition-property: translate;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-out;
+}
+
+.details-panel--visible {
+    translate: 0 0;
+}
+
+.panel-header {
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
+.panel-title {
+    font-size: 48px;
+    color: rgb(240, 244, 255);
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+}
+
+.panel-subtitle {
+    font-size: 24px;
+    color: rgb(50, 220, 150);
+    letter-spacing: 1px;
+}
+
+.panel-spacer {
+    flex-grow: 1;
+}
+
+/* ────────────────────────────────────────────────
+   HUD Bars
+   ──────────────────────────────────────────────── */
+.hud-bar {
+    position: absolute;
     left: 0;
     right: 0;
-    
-    /* Top Rounding Only */
-    border-radius: 40px 40px 0 0;
-    
-    padding-bottom: 40px; /* Safe Area internal */
-    
-    translate: 0 0; /* Expanded state */
+    height: 120px;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 32px;
+    background-color: transparent;
 }
 
-.details-sheet--hidden {
-    translate: 0 100%; /* Slide down fully */
-    opacity: 1; /* Keep opacity, just slide */
-    /* picking-mode: ignore; -- Causing warnings. Handled by C# or display:none if needed. */
+.hud-top {
+    top: 0;
+    justify-content: space-between;
 }
 
-/* Ensure Bottom Bar transitions smooth */
-.bottom-bar {
-    transition-property: translate;
-    transition-duration: 0.3s;
+.hud-bottom {
+    bottom: 0;
+    justify-content: center;
+    background-color: rgba(10, 14, 28, 0.6);
+    padding-bottom: 24px;
 }
 
-/* Ensure Slider transitions smooth */
-.slider-container {
-    transition-property: opacity, translate; /* Already matches, but ensuring consistency */
+.app-logo {
+    font-size: 32px;
+    -unity-font-style: bold;
+    color: rgb(240, 244, 255);
+    letter-spacing: 2px;
+}
+
+/* ────────────────────────────────────────────────
+   Misc Text
+   ──────────────────────────────────────────────── */
+.reset-icon-label {
+    color: rgb(160, 168, 192);
+}
+
+.part-description {
+    color: rgb(160, 168, 192);
+    margin-bottom: 24px;
+    white-space: normal;
+    font-size: 20px;
 }
