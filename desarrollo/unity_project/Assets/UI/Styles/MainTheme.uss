@@ -416,7 +416,7 @@
    ---------------------------------------- */
 .category-menu {
     position: absolute;
-    bottom: 230px; /* Lowered further per user request */
+    bottom: 180px; /* Lowered significantly to sit just above buttons */
     left: 50%;
     translate: -50% 0; /* Centered */
     
@@ -597,7 +597,7 @@
 /* Slider Contextual container */
 .slider-container {
     position: absolute;
-    bottom: 350px; /* Lowered from 380px */
+    bottom: 300px; /* Lowered from 350px */
     
     /* Center Horizontally (Robust Method) */
     left: 50%;
@@ -634,7 +634,7 @@
 
 /* New: Shift up when Category Menu is open to avoid overlap */
 .slider-container--shifted-up {
-    bottom: 450px; /* Shift up from 350px */
+    bottom: 400px; /* Shift up from 300px */
 }
 
 /* Slider Customization */
