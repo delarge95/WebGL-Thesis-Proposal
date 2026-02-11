@@ -737,7 +737,7 @@
 /* Step 2 Refinement: UI Shift on Expand */
 /* SYNCHRONIZATION: Must match .details-sheet height */
 .ui-shifted {
-    translate: 0 -480px;  /* Height (420) + Gap (60) */
+    translate: 0 -420px;  /* Height (420) + Reduced Gap (0) -> Visual separation handled by padding/margins? */
     transition-duration: 0.3s;
     transition-timing-function: ease-out-cubic;
 }
