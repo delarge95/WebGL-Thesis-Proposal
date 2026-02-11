@@ -5,6 +5,9 @@
     <!-- Root Container (Pass Through Clicks) -->
     <ui:VisualElement name="Root" class="root-container" picking-mode="Ignore">
         
+        <!-- Step 7: World Space UI Container (Behind HUD, Overlay on 3D) -->
+        <ui:VisualElement name="WorldSpaceContainer" class="world-space-container" picking-mode="Ignore" />
+
         <!-- Top Bar (Header) -->
         <ui:VisualElement name="TopBar" class="top-bar" picking-mode="Ignore">
             <ui:Label text="DRONE VIEWER" class="header-title" />
