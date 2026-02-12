@@ -228,9 +228,11 @@ namespace WebGL.UI
             UpdatePartIndicator(null);
             if (infoBtn != null) infoBtn.SetEnabled(false);
             
-            // Slider ALWAYS starts hidden — only shown when ExplodeBtn is clicked
-            if (sliderContainer != null)
-                sliderContainer.AddToClassList("slider-hidden");
+            if (AppStateMachine.Instance != null && sliderContainer != null)
+            {
+                 bool isExploded = AppStateMachine.Instance.CurrentState == AppState.ExplodedView;
+                 sliderContainer.EnableInClassList("slider-hidden", !isExploded);
+            }
 
             // ── Auto-create managers if missing ──
             EnsureManagers();
@@ -315,8 +317,6 @@ namespace WebGL.UI
             if (shaderMenu == null) return;
             _shaderMenuShown = !_shaderMenuShown;
             shaderMenu.EnableInClassList("shader-menu--hidden", !_shaderMenuShown);
-            // Explicitly set picking mode to ensure buttons are clickable when menu is visible
-            shaderMenu.pickingMode = _shaderMenuShown ? PickingMode.Position : PickingMode.Ignore;
         }
 
         private void BindShaderMenuButtons()
@@ -644,7 +644,9 @@ namespace WebGL.UI
                 if (sheetAssemblyTime != null)
                     sheetAssemblyTime.text = evt.PartData.installationTimeMinutes > 0 ? $"~{evt.PartData.installationTimeMinutes:F0} min" : "N/A";
 
-                // Data populated — user opens sheet manually via InfoBtn
+                // Auto-open info sheet ONLY when triggered by a hotspot click
+                if (evt.FromHotspot)
+                    SetSheetState(true);
             }
             else
             {

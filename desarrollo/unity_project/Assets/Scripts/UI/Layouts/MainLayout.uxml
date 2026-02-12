@@ -62,8 +62,38 @@
         </ui:VisualElement>
 
         <!-- ═══════════════════════════════════════════════
-             Bottom Sheet (Details Panel — BEFORE BottomBar so buttons render ON TOP)
-             Slides up from bottom.
+             Bottom Bar — Action Buttons (always visible, above sheet)
+             ═══════════════════════════════════════════════ -->
+        <ui:VisualElement name="BottomBar" class="bottom-bar" picking-mode="Ignore">
+            
+            <!-- Actions Row -->
+            <ui:VisualElement class="actions-row" picking-mode="Ignore">
+                <ui:Button name="ShaderBtn" class="icon-button" tooltip="Toggle Render Mode (Hold for menu)">
+                    <ui:Label text="👁️" class="button-icon-text" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="LayerBtn" class="icon-button" tooltip="Filter Layers">
+                    <ui:Label text="📑" class="button-icon-text" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="ExplodeBtn" class="icon-button" tooltip="Toggle Explosion">
+                    <ui:Label text="💥" class="button-icon-text" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="InfoBtn" class="icon-button" tooltip="View Details">
+                    <ui:Label text="ℹ️" class="button-icon-text" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="EnvBtn" class="icon-button" tooltip="Environment Settings">
+                    <ui:Label text="🌐" class="button-icon-text" picking-mode="Ignore"/>
+                </ui:Button>
+            </ui:VisualElement>
+
+            <!-- Selected Part Name -->
+            <ui:VisualElement class="info-row" picking-mode="Ignore">
+                <ui:Label text="" name="SelectionIndicator" class="selection-label" picking-mode="Ignore" />
+            </ui:VisualElement>
+            
+        </ui:VisualElement>
+
+        <!-- ═══════════════════════════════════════════════
+             Bottom Sheet (Details — slides up from very bottom)
              ═══════════════════════════════════════════════ -->
         <ui:VisualElement name="DetailsSheet" class="details-sheet details-sheet--hidden">
             <ui:VisualElement class="sheet-handle" picking-mode="Ignore" />
@@ -128,37 +158,6 @@
                 <!-- Description -->
                 <ui:Label text="" name="PartDescription" class="part-description" />
             </ui:ScrollView>
-        </ui:VisualElement>
-
-        <!-- ═══════════════════════════════════════════════
-             Bottom Bar — Action Buttons (AFTER sheet → renders ON TOP of sheet)
-             ═══════════════════════════════════════════════ -->
-        <ui:VisualElement name="BottomBar" class="bottom-bar" picking-mode="Ignore">
-            
-            <!-- Actions Row -->
-            <ui:VisualElement class="actions-row" picking-mode="Ignore">
-                <ui:Button name="ShaderBtn" class="icon-button" tooltip="Toggle Render Mode (Hold for menu)">
-                    <ui:Label text="👁️" class="button-icon-text" picking-mode="Ignore"/>
-                </ui:Button>
-                <ui:Button name="LayerBtn" class="icon-button" tooltip="Filter Layers">
-                    <ui:Label text="📑" class="button-icon-text" picking-mode="Ignore"/>
-                </ui:Button>
-                <ui:Button name="ExplodeBtn" class="icon-button" tooltip="Toggle Explosion">
-                    <ui:Label text="💥" class="button-icon-text" picking-mode="Ignore"/>
-                </ui:Button>
-                <ui:Button name="InfoBtn" class="icon-button" tooltip="View Details">
-                    <ui:Label text="ℹ️" class="button-icon-text" picking-mode="Ignore"/>
-                </ui:Button>
-                <ui:Button name="EnvBtn" class="icon-button" tooltip="Environment Settings">
-                    <ui:Label text="🌐" class="button-icon-text" picking-mode="Ignore"/>
-                </ui:Button>
-            </ui:VisualElement>
-
-            <!-- Selected Part Name -->
-            <ui:VisualElement class="info-row" picking-mode="Ignore">
-                <ui:Label text="" name="SelectionIndicator" class="selection-label" picking-mode="Ignore" />
-            </ui:VisualElement>
-            
         </ui:VisualElement>
 
         <!-- Slider Container -->

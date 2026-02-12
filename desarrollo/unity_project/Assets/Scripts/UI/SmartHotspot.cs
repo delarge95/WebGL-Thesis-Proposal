@@ -143,7 +143,7 @@ public class SmartHotspot
         evt.StopPropagation();
         if (SelectionManager.Instance != null)
         {
-            SelectionManager.Instance.SelectObject(_target);
+            SelectionManager.Instance.SelectObject(_target, fromHotspot: true);
         }
     }
 

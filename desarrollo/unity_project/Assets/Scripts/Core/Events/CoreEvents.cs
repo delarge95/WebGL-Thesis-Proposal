@@ -6,7 +6,12 @@ namespace WebGL.Core.Events
     public struct PartSelectedEvent
     {
         public DronePartData PartData;
-        public PartSelectedEvent(DronePartData data) { PartData = data; }
+        public bool FromHotspot;
+        public PartSelectedEvent(DronePartData data, bool fromHotspot = false)
+        {
+            PartData = data;
+            FromHotspot = fromHotspot;
+        }
     }
 
     public struct AppStateChangedEvent
