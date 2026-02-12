@@ -23,17 +23,17 @@ namespace WebGL.UI
         private VisualElement envPanel;
         private Label partNameLabel;
         private Label sheetTitle;
-        private Label sheetCategory;
-        private Label sheetFunction;
-        private Label sheetMaterial;
+        private TextField sheetCategory;
+        private TextField sheetFunction;
+        private TextField sheetMaterial;
         private TextField sheetDesc;
-        private Label sheetWeight;
-        private Label sheetDimensions;
-        private Label sheetPower;
-        private Label sheetTemp;
-        private Label sheetDifficulty;
-        private Label sheetTools;
-        private Label sheetAssemblyTime;
+        private TextField sheetWeight;
+        private TextField sheetDimensions;
+        private TextField sheetPower;
+        private TextField sheetTemp;
+        private TextField sheetDifficulty;
+        private TextField sheetTools;
+        private TextField sheetAssemblyTime;
 
         // Buttons
         private Button shaderBtn;
@@ -107,17 +107,17 @@ namespace WebGL.UI
             partNameLabel = root.Q<Label>("SelectionIndicator");
             
             sheetTitle = root.Q<Label>("PartName");
-            sheetCategory = root.Q<Label>("PartCategory");
-            sheetFunction = root.Q<Label>("PartFunction");
-            sheetMaterial = root.Q<Label>("PartMaterial");
+            sheetCategory = root.Q<TextField>("PartCategory");
+            sheetFunction = root.Q<TextField>("PartFunction");
+            sheetMaterial = root.Q<TextField>("PartMaterial");
             sheetDesc = root.Q<TextField>("PartDescription");
-            sheetWeight = root.Q<Label>("PartWeight");
-            sheetDimensions = root.Q<Label>("PartDimensions");
-            sheetPower = root.Q<Label>("PartPower");
-            sheetTemp = root.Q<Label>("PartTemp");
-            sheetDifficulty = root.Q<Label>("PartDifficulty");
-            sheetTools = root.Q<Label>("PartTools");
-            sheetAssemblyTime = root.Q<Label>("PartAssemblyTime");
+            sheetWeight = root.Q<TextField>("PartWeight");
+            sheetDimensions = root.Q<TextField>("PartDimensions");
+            sheetPower = root.Q<TextField>("PartPower");
+            sheetTemp = root.Q<TextField>("PartTemp");
+            sheetDifficulty = root.Q<TextField>("PartDifficulty");
+            sheetTools = root.Q<TextField>("PartTools");
+            sheetAssemblyTime = root.Q<TextField>("PartAssemblyTime");
 
             shaderBtn = root.Q<Button>("ShaderBtn");
             explodeBtn = root.Q<Button>("ExplodeBtn");
@@ -693,29 +693,29 @@ namespace WebGL.UI
 
                 // Populate all fields
                 if (sheetTitle != null) sheetTitle.text = evt.PartData.PartName.ToUpper();
-                if (sheetCategory != null) sheetCategory.text = evt.PartData.Category;
-                if (sheetFunction != null) sheetFunction.text = evt.PartData.Function;
-                if (sheetMaterial != null) sheetMaterial.text = evt.PartData.MaterialType;
+                if (sheetCategory != null) sheetCategory.value = evt.PartData.Category;
+                if (sheetFunction != null) sheetFunction.value = evt.PartData.Function;
+                if (sheetMaterial != null) sheetMaterial.value = evt.PartData.MaterialType;
                 if (sheetDesc != null) sheetDesc.value = evt.PartData.Description;
-                if (sheetWeight != null) sheetWeight.text = $"{evt.PartData.Weight:F2} kg";
-                if (sheetDimensions != null) sheetDimensions.text = evt.PartData.Dimensions;
-                if (sheetPower != null) sheetPower.text = evt.PartData.powerConsumption > 0 ? $"{evt.PartData.powerConsumption:F1} W" : "N/A";
-                if (sheetTemp != null) sheetTemp.text = evt.PartData.operatingTemp > 0 ? $"{evt.PartData.operatingTemp:F0}°C" : "N/A";
+                if (sheetWeight != null) sheetWeight.value = $"{evt.PartData.Weight:F2} kg";
+                if (sheetDimensions != null) sheetDimensions.value = evt.PartData.Dimensions;
+                if (sheetPower != null) sheetPower.value = evt.PartData.powerConsumption > 0 ? $"{evt.PartData.powerConsumption:F1} W" : "N/A";
+                if (sheetTemp != null) sheetTemp.value = evt.PartData.operatingTemp > 0 ? $"{evt.PartData.operatingTemp:F0}°C" : "N/A";
 
                 // Assembly info
                 if (sheetDifficulty != null)
                 {
                     int d = Mathf.Clamp(evt.PartData.difficultyLevel, 0, 5);
-                    sheetDifficulty.text = new string('★', d) + new string('☆', 5 - d);
+                    sheetDifficulty.value = new string('★', d) + new string('☆', 5 - d);
                 }
                 if (sheetTools != null)
                 {
-                    sheetTools.text = (evt.PartData.requiredTools != null && evt.PartData.requiredTools.Length > 0)
+                    sheetTools.value = (evt.PartData.requiredTools != null && evt.PartData.requiredTools.Length > 0)
                         ? string.Join(", ", evt.PartData.requiredTools)
                         : "None";
                 }
                 if (sheetAssemblyTime != null)
-                    sheetAssemblyTime.text = evt.PartData.installationTimeMinutes > 0 ? $"~{evt.PartData.installationTimeMinutes:F0} min" : "N/A";
+                    sheetAssemblyTime.value = evt.PartData.installationTimeMinutes > 0 ? $"~{evt.PartData.installationTimeMinutes:F0} min" : "N/A";
 
                 // Auto-open info sheet ONLY when triggered by a hotspot click
                 if (evt.FromHotspot)
