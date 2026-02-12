@@ -107,7 +107,7 @@
         <!-- ═══════════════════════════════════════════════
              Bottom Sheet (Details — slides up from very bottom)
              ═══════════════════════════════════════════════ -->
-        <ui:VisualElement name="DetailsSheet" class="details-sheet details-sheet--hidden">
+        <ui:VisualElement name="DetailsSheet" class="details-sheet details-sheet--hidden" picking-mode="Position">
             <ui:VisualElement class="sheet-handle" picking-mode="Ignore" />
             
             <!-- Header -->

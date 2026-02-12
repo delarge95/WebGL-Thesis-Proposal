@@ -40,14 +40,14 @@
     right: 0;
     bottom: 0;
     opacity: 0;
-    picking-mode: ignore;
+
     transition-property: opacity;
     transition-duration: 0.8s;
 }
 
 .app-container--active {
     opacity: 1;
-    picking-mode: position;
+
 }
 
 /* ────────────────────────────────────────────────
@@ -256,7 +256,7 @@
 
 .selection-label--hidden {
     opacity: 0;
-    picking-mode: ignore;
+
 }
 
 /* ────────────────────────────────────────────────
@@ -284,13 +284,13 @@
     transition-duration: 0.3s;
     transition-timing-function: ease-out;
     
-    picking-mode: position; /* Ensure it catches clicks */
+
 }
 
 .details-sheet--hidden {
     translate: 0 100%;
     opacity: 1;
-    picking-mode: ignore;
+
 }
 
 .sheet-handle {
@@ -381,12 +381,12 @@
     opacity: 0;
     scale: 0.88 0.88;
     translate: -50% 16px;
-    picking-mode: ignore;
+
 }
 
 /* Ensure children are also ignored when hidden to prevent blocking clicks */
 .category-menu--hidden > * {
-    picking-mode: ignore;
+
 }
 
 /* Category Tag Buttons */
@@ -458,11 +458,11 @@
     opacity: 0;
     scale: 0.96 0.96;
     translate: 0 16px;
-    picking-mode: ignore;
+
 }
 
 .slider-hidden > * {
-    picking-mode: ignore;
+
 }
 
 /* slider-container--shifted-up removed — menus inside BottomBar now */
@@ -826,11 +826,11 @@
     opacity: 0;
     scale: 0.88 0.88;
     translate: -50% 16px;
-    picking-mode: ignore;
+
 }
 
 .shader-menu--hidden > * {
-    picking-mode: ignore;
+
 }
 
 .shader-mode-btn {
@@ -885,11 +885,11 @@
 .env-panel--hidden {
     opacity: 0;
     scale: 0.92 0.92;
-    picking-mode: ignore;
+
 }
 
 .env-panel--hidden > * {
-    picking-mode: ignore;
+
 }
 
 .env-panel-title {
@@ -961,7 +961,7 @@
 
 .hero--hidden {
     opacity: 0;
-    picking-mode: ignore;
+
     transition-property: opacity;
     transition-duration: 0.5s;
 }
@@ -989,7 +989,7 @@
 .about-panel--hidden {
     opacity: 0;
     scale: 0.9 0.9;
-    picking-mode: ignore;
+
 }
 
 .about-title {

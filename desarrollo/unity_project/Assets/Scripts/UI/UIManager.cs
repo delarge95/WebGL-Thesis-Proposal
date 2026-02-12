@@ -484,9 +484,15 @@ namespace WebGL.UI
             if (detailsSheet != null)
             {
                 if (isOpen)
+                {
                     detailsSheet.RemoveFromClassList("details-sheet--hidden");
+                    detailsSheet.pickingMode = PickingMode.Position;
+                }
                 else
+                {
                     detailsSheet.AddToClassList("details-sheet--hidden");
+                    detailsSheet.pickingMode = PickingMode.Ignore;
+                }
             }
 
             // Move buttons up/down with the sheet
