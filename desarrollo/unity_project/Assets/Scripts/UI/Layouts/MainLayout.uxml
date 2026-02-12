@@ -18,9 +18,20 @@
         </ui:VisualElement>
 
         <!-- ═══════════════════════════════════════════════
-             Popup Menus (positioned absolutely — at Root level for proper hit testing)
+             Popup Menus — Root level, position: absolute
+             C# manages dynamic stacking via style.bottom
+             
+             MATH (8pt grid):
+               padding-bottom: 24px + info-row: ~24px + margin: 16px + button: 104px = 168px
+               Base popup bottom = 168 + 16 (gap) = 184px
              ═══════════════════════════════════════════════ -->
-        
+
+        <!-- Slider Container -->
+        <ui:VisualElement name="SliderContainer" class="slider-container slider-hidden" picking-mode="Position">
+            <ui:Label text="EXPLODED VIEW" class="slider-label" picking-mode="Ignore" />
+            <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider" picking-mode="Position" />
+        </ui:VisualElement>
+
         <!-- Shader Mode Menu -->
         <ui:VisualElement name="ShaderMenu" class="shader-menu shader-menu--hidden" picking-mode="Position">
             <ui:Button text="Realistic" name="ShaderMode_Realistic" class="shader-mode-btn shader-mode-btn--active" />
@@ -62,10 +73,9 @@
         </ui:VisualElement>
 
         <!-- ═══════════════════════════════════════════════
-             Bottom Bar — Action Buttons (always visible, above sheet)
+             Bottom Bar — ONLY buttons and selection label
              ═══════════════════════════════════════════════ -->
         <ui:VisualElement name="BottomBar" class="bottom-bar" picking-mode="Ignore">
-            
             <!-- Actions Row -->
             <ui:VisualElement class="actions-row" picking-mode="Ignore">
                 <ui:Button name="ShaderBtn" class="icon-button" tooltip="Toggle Render Mode (Hold for menu)">
@@ -89,7 +99,6 @@
             <ui:VisualElement class="info-row" picking-mode="Ignore">
                 <ui:Label text="" name="SelectionIndicator" class="selection-label" picking-mode="Ignore" />
             </ui:VisualElement>
-            
         </ui:VisualElement>
 
         <!-- ═══════════════════════════════════════════════
@@ -158,12 +167,6 @@
                 <!-- Description -->
                 <ui:Label text="" name="PartDescription" class="part-description" />
             </ui:ScrollView>
-        </ui:VisualElement>
-
-        <!-- Slider Container -->
-        <ui:VisualElement name="SliderContainer" class="slider-container slider-hidden" picking-mode="Position">
-            <ui:Label text="EXPLODED VIEW" class="slider-label" picking-mode="Ignore" />
-            <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider" picking-mode="Position" />
         </ui:VisualElement>
 
     </ui:VisualElement>
