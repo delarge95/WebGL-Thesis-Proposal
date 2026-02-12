@@ -85,8 +85,12 @@ namespace WebGL.Core.Managers
             UpdateCamera();
         }
 
+        public static bool GlobalInputBlocked = false;
+
         private void HandleInput()
         {
+            if (GlobalInputBlocked) return;
+
             if (Input.touchCount > 0)
             {
                 HandleTouchInput();

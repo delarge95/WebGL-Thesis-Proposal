@@ -118,6 +118,13 @@
     translate: 0 -50%;
 }
 
+#HotspotBtn {
+    position: absolute;
+    right: 128px; /* 24px (margin) + 80px (ResetBtn) + 24px (gap) */
+    top: 50%;
+    translate: 0 -50%;
+}
+
 /* ────────────────────────────────────────────────
    Bottom Bar (Controls — Thumb Zone)
    ──────────────────────────────────────────────── */
@@ -133,7 +140,8 @@
     padding-bottom: 24px;
 
     /* Smooth shift for sheet */
-    transition-property: translate;
+    /* Smooth shift for sheet */
+    transition-property: bottom;
     transition-duration: 0.3s;
     transition-timing-function: ease-out;
 }
@@ -321,10 +329,10 @@
 }
 
 /* UI Shift on Sheet Expand — moves buttons up above the sheet */
+/* UI Shift on Sheet Expand — moves buttons up above the sheet */
 .ui-shifted {
-    translate: 0 -200px;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-out;
+    bottom: 56%; /* Matches max-height (55%) + safety margin */
+    /* No translate needed, we animate bottom property on .bottom-bar */
 }
 
 /* ────────────────────────────────────────────────

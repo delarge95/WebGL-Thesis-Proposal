@@ -74,19 +74,22 @@ public class HotspotManager : Singleton<HotspotManager>
     /// <summary>
     /// Show or hide all hotspots without destroying them.
     /// </summary>
+    public bool IsVisible { get; private set; } = true;
+
+    /// <summary>
+    /// Show or hide all hotspots without destroying them.
+    /// </summary>
     public void SetVisible(bool visible)
     {
+        IsVisible = visible;
         if (_container == null) return;
 
-        if (visible)
-        {
-            _container.style.opacity = 1f;
-            _container.pickingMode = PickingMode.Ignore;
-        }
-        else
-        {
-            _container.style.opacity = 0f;
-            _container.pickingMode = PickingMode.Ignore;
-        }
+        _container.style.opacity = visible ? 1f : 0f;
+        _container.pickingMode = PickingMode.Ignore; // Always ignore container, children handle clicks
+    }
+
+    public void ToggleVisibility()
+    {
+        SetVisible(!IsVisible);
     }
 }
