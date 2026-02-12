@@ -61,7 +61,9 @@ namespace WebGL.UI
         // padding-bottom(24) + info-row(24) + margin(16) + button(104) + EXTRA_GAP(24) = 192px
         private const float POPUP_BASE_BOTTOM = 192f;
         private const float POPUP_GAP = 24f;        // 8pt × 3 (Increased from 16f)
-        private const float SHEET_SHIFT = 200f;      // matches .ui-shifted translate
+        private const float POPUP_BASE_BOTTOM = 192f;
+        private const float POPUP_GAP = 24f;
+        // SHEET_SHIFT removed in favor of dynamic calculation
 
         protected override void Awake()
         {
@@ -120,7 +122,9 @@ namespace WebGL.UI
 
             explosionSlider = root.Q<Slider>("ExplosionSlider");
 
-            // ── Shader Button: Tap + Long-Press ──
+            var hotspotBtn = root.Q<Button>("HotspotBtn");
+            if (hotspotBtn != null) hotspotBtn.clicked += ToggleHotspots;
+
             // ── Shader Button: Single Click Toggle ──
             if (shaderBtn != null) shaderBtn.clicked += ToggleShaderMenu;
 
@@ -157,7 +161,32 @@ namespace WebGL.UI
             if (explosionSlider != null) explosionSlider.RegisterValueChangedCallback(OnExplosionSliderChanged);
 
             var header = root.Q(className: "sheet-header");
+            var handle = root.Q(className: "sheet-handle");
             if (header != null) header.RegisterCallback<ClickEvent>(evt => SetSheetState(!isSheetOpen));
+            
+            // Drag to dismiss
+            if (handle != null)
+            {
+                handle.RegisterCallback<PointerDownEvent>(evt => { _dragStartY = evt.position.y; _isDraggingSheet = true; });
+                handle.RegisterCallback<PointerUpEvent>(evt => _isDraggingSheet = false);
+                handle.RegisterCallback<PointerLeaveEvent>(evt => _isDraggingSheet = false);
+                handle.RegisterCallback<PointerMoveEvent>(evt => 
+                {
+                    if (_isDraggingSheet && (evt.position.y - _dragStartY > 50)) 
+                    {
+                        SetSheetState(false);
+                        _isDraggingSheet = false;
+                    }
+                });
+            }
+
+            // Block Camera Zoom on Scroll
+            var sheetScroll = root.Q<ScrollView>(className: "sheet-scroll");
+            if (sheetScroll != null)
+            {
+                sheetScroll.RegisterCallback<PointerEnterEvent>(evt => OrbitCameraController.GlobalInputBlocked = true);
+                sheetScroll.RegisterCallback<PointerLeaveEvent>(evt => OrbitCameraController.GlobalInputBlocked = false);
+            }
 
             // ── Hero Menu ──
             var heroExploreBtn = root.Q<Button>("HeroExploreBtn");
@@ -512,10 +541,25 @@ namespace WebGL.UI
         //      etc.
         //    When info sheet is open, sheetOffset = SHEET_SHIFT (200px)
         // ══════════════════════════════════════════════════════
+        private float _dragStartY;
+        private bool _isDraggingSheet;
+
+        private void ToggleHotspots()
+        {
+            if (HotspotManager.Instance != null)
+                HotspotManager.Instance.ToggleVisibility();
+        }
+
         private void RepositionPopups()
         {
-            float sheetOffset = isSheetOpen ? SHEET_SHIFT : 0f;
-            float currentBottom = POPUP_BASE_BOTTOM + sheetOffset;
+            // Dynamic shift based on screen height (matches CSS .ui-shifted bottom: 56%)
+            float rootHeight = root != null ? root.layout.height : 0f;
+            if (float.IsNaN(rootHeight) || rootHeight < 1f) rootHeight = Screen.height;
+            
+            // Base calculation:
+            // Closed: Start at 192px.
+            // Open: Start at (SheetHeight 56%) + 192px (to clear the buttons which are now at 56%).
+            float currentBottom = isSheetOpen ? (rootHeight * 0.56f) + POPUP_BASE_BOTTOM : POPUP_BASE_BOTTOM;
 
             // Ordered list of popups — bottom to top stacking priority.
             // Each entry: (element, hiddenClass, estimatedHeight).

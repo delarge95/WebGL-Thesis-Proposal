@@ -12,6 +12,9 @@
         <!-- Top Bar (Header) -->
         <ui:VisualElement name="TopBar" class="top-bar" picking-mode="Ignore">
             <ui:Label text="DRONE VIEWER" class="header-title" picking-mode="Ignore" />
+            <ui:Button name="HotspotBtn" class="icon-button-small" tooltip="Toggle Hotspots">
+                <ui:Label text="🎯" class="button-icon-text-small" picking-mode="Ignore"/>
+            </ui:Button>
             <ui:Button name="ResetViewBtn" class="icon-button-small" tooltip="Reset Camera">
                 <ui:Label text="↺" class="button-icon-text-small" picking-mode="Ignore"/>
             </ui:Button>
