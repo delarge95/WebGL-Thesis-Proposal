@@ -7,7 +7,7 @@ public class FixSceneConfig : MonoBehaviour
     public static void AddHotspotManager()
     {
         // 1. Check if it already exists
-        var existing = FindObjectOfType<HotspotManager>();
+        var existing = FindFirstObjectByType<HotspotManager>();
         if (existing != null)
         {
             Debug.Log($"SUCCESS: HotspotManager already exists on '{existing.gameObject.name}'.");
