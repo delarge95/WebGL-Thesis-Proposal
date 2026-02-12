@@ -61,9 +61,7 @@ namespace WebGL.UI
         // padding-bottom(24) + info-row(24) + margin(16) + button(104) + EXTRA_GAP(24) = 192px
         private const float POPUP_BASE_BOTTOM = 192f;
         private const float POPUP_GAP = 24f;        // 8pt × 3 (Increased from 16f)
-        private const float POPUP_BASE_BOTTOM = 192f;
-        private const float POPUP_GAP = 24f;
-        // SHEET_SHIFT removed in favor of dynamic calculation
+
 
         protected override void Awake()
         {

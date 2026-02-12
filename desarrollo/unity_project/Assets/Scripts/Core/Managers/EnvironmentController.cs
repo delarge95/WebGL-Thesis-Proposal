@@ -13,8 +13,6 @@ namespace WebGL.Core.Managers
         [SerializeField] private Light directionalLight;
 
         [Header("Defaults")]
-        [SerializeField] private float defaultLightIntensity = 1f;
-        [SerializeField] private float defaultLightRotationY = 45f;
 
         private string _currentPreset = "Studio";
 
