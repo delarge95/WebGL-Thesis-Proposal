@@ -55,11 +55,7 @@ namespace WebGL.UI
         private System.Collections.Generic.List<string> activeCategories = new System.Collections.Generic.List<string>() { "ALL" };
 
         // Shader long-press
-        private bool _shaderPointerDown = false;
-        private float _shaderDownTime = 0f;
-        private const float LONG_PRESS_THRESHOLD = 0.45f;
         private bool _shaderMenuShown = false;
-        private bool _longPressTriggered = false;
 
         // ── Layout Math Constants (8pt grid) ──
         // padding-bottom(24) + info-row(24) + margin(16) + button(104) + EXTRA_GAP(24) = 192px
@@ -90,19 +86,7 @@ namespace WebGL.UI
             UnsubscribeFromEvents();
         }
 
-        private void Update()
-        {
-            // Long-press detection for shader button
-            if (_shaderPointerDown && !_longPressTriggered)
-            {
-                _shaderDownTime += Time.unscaledDeltaTime;
-                if (_shaderDownTime >= LONG_PRESS_THRESHOLD)
-                {
-                    _longPressTriggered = true;
-                    ShowShaderMenu();
-                }
-            }
-        }
+
 
         private void InitializeUI()
         {
@@ -137,33 +121,8 @@ namespace WebGL.UI
             explosionSlider = root.Q<Slider>("ExplosionSlider");
 
             // ── Shader Button: Tap + Long-Press ──
-            if (shaderBtn != null)
-            {
-                // Use TrickleDown to capture events BEFORE the button's internal click handler
-                shaderBtn.RegisterCallback<PointerDownEvent>(evt =>
-                {
-                    _shaderPointerDown = true;
-                    _shaderDownTime = 0f;
-                    _longPressTriggered = false;
-                }, TrickleDown.TrickleDown);
-                shaderBtn.RegisterCallback<PointerUpEvent>(evt =>
-                {
-                    _shaderPointerDown = false;
-                    if (_longPressTriggered)
-                    {
-                        // Long-press already handled — prevent the click
-                        evt.StopImmediatePropagation();
-                    }
-                    else
-                    {
-                        OnShaderTap();
-                    }
-                }, TrickleDown.TrickleDown);
-                shaderBtn.RegisterCallback<PointerLeaveEvent>(evt =>
-                {
-                    _shaderPointerDown = false;
-                });
-            }
+            // ── Shader Button: Single Click Toggle ──
+            if (shaderBtn != null) shaderBtn.clicked += ToggleShaderMenu;
 
             if (explodeBtn != null) explodeBtn.clicked += OnExplodeToggle;
             if (infoBtn != null) infoBtn.clicked += OnInfoToggle;
@@ -304,25 +263,14 @@ namespace WebGL.UI
 
         #region Shader System
 
-        /// <summary> Single tap: Toggle Realistic ↔ XRay </summary>
-        private void OnShaderTap()
-        {
-            if (ViewModeManager.Instance == null) return;
-
-            var current = ViewModeManager.Instance.CurrentMode;
-            if (current == ViewMode.Realistic)
-                ViewModeManager.Instance.SetViewMode(ViewMode.XRay);
-            else
-                ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
-
-            UpdateShaderButtonVisual();
-        }
-
-        /// <summary> Long press: Show shader selection menu </summary>
-        private void ShowShaderMenu()
+        /// <summary> Toggle shader selection menu </summary>
+        private void ToggleShaderMenu()
         {
             if (shaderMenu == null) return;
             _shaderMenuShown = !_shaderMenuShown;
+            
+            if (_shaderMenuShown) shaderMenu.BringToFront();
+
             shaderMenu.EnableInClassList("shader-menu--hidden", !_shaderMenuShown);
             RepositionPopups();
         }
@@ -343,10 +291,9 @@ namespace WebGL.UI
                 {
                     if (ViewModeManager.Instance != null)
                         ViewModeManager.Instance.SetViewMode(mode);
-                    _shaderMenuShown = false;
-                    if (shaderMenu != null) shaderMenu.AddToClassList("shader-menu--hidden");
                     UpdateShaderButtonVisual();
                     UpdateShaderMenuActiveState(mode);
+                    RepositionPopups(); // Ensure layout stays correct (though menu didn't move)
                 };
             }
         }
@@ -407,6 +354,7 @@ namespace WebGL.UI
         {
             if (envPanel == null) return;
             envPanel.ToggleInClassList("env-panel--hidden");
+            if (!envPanel.ClassListContains("env-panel--hidden")) envPanel.BringToFront();
             RepositionPopups();
         }
 
@@ -548,6 +496,7 @@ namespace WebGL.UI
             if (categoryMenu != null)
             {
                 categoryMenu.ToggleInClassList("category-menu--hidden");
+                if (!categoryMenu.ClassListContains("category-menu--hidden")) categoryMenu.BringToFront();
                 RepositionPopups();
             }
         }
@@ -660,6 +609,7 @@ namespace WebGL.UI
                 if (isExploded)
                 {
                     sliderContainer.RemoveFromClassList("slider-hidden");
+                    sliderContainer.BringToFront();
 
                     if (explosionSlider != null)
                         explosionSlider.SetValueWithoutNotify(0.5f);

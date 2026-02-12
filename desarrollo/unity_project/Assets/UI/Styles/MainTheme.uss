@@ -358,6 +358,11 @@
     picking-mode: ignore;
 }
 
+/* Ensure children are also ignored when hidden to prevent blocking clicks */
+.category-menu--hidden > * {
+    picking-mode: ignore;
+}
+
 /* Category Tag Buttons */
 .btn-tag {
     width: auto;
@@ -427,6 +432,10 @@
     opacity: 0;
     scale: 0.96 0.96;
     translate: 0 16px;
+    picking-mode: ignore;
+}
+
+.slider-hidden > * {
     picking-mode: ignore;
 }
 
@@ -770,6 +779,10 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    
+    width: 90%;
+    max-width: 640px;
+    
     background-color: rgba(10, 14, 28, 0.94);
     border-radius: 24px;
     padding: 12px 16px;
@@ -787,6 +800,10 @@
     opacity: 0;
     scale: 0.88 0.88;
     translate: -50% 16px;
+    picking-mode: ignore;
+}
+
+.shader-menu--hidden > * {
     picking-mode: ignore;
 }
 
@@ -842,6 +859,10 @@
 .env-panel--hidden {
     opacity: 0;
     scale: 0.92 0.92;
+    picking-mode: ignore;
+}
+
+.env-panel--hidden > * {
     picking-mode: ignore;
 }
 
