@@ -89,6 +89,11 @@ namespace WebGL.Core.Managers
         private void HandleHover()
         {
             if (Camera.main == null) return;
+            if (OrbitCameraController.GlobalInputBlocked) 
+            {
+                ClearHover();
+                return;
+            }
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -173,6 +178,9 @@ namespace WebGL.Core.Managers
         private void HandleClick()
         {
             if (!Input.GetMouseButtonDown(0)) return;
+            
+            // Respect global input block (set by UI pointer events)
+            if (OrbitCameraController.GlobalInputBlocked) return;
             
             // UI Blocking Check — uses UI Toolkit's Panel.Pick for accurate hit testing.
             // EventSystem.IsPointerOverGameObject() doesn't work correctly with UI Toolkit.

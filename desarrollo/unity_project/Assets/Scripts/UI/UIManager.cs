@@ -102,6 +102,10 @@ namespace WebGL.UI
                 // Prevent clicks from passing through to 3D scene or other UI
                 detailsSheet.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
                 detailsSheet.RegisterCallback<PointerUpEvent>(evt => evt.StopPropagation());
+                
+                // Block 3D input when hovering ANY part of the sheet
+                detailsSheet.RegisterCallback<PointerEnterEvent>(evt => OrbitCameraController.GlobalInputBlocked = true);
+                detailsSheet.RegisterCallback<PointerLeaveEvent>(evt => OrbitCameraController.GlobalInputBlocked = false);
             }
             
             partNameLabel = root.Q<Label>("SelectionIndicator");
