@@ -339,6 +339,12 @@
 .read-only-text > .unity-text-field__input {
     background-color: transparent;
     border-width: 0;
+    padding: 0;
+}
+
+/* Force right alignment for data values converted to text fields */
+.data-value.read-only-text > .unity-text-field__input {
+    -unity-text-align: middle-right;
 }
 
 .sheet-scroll {
