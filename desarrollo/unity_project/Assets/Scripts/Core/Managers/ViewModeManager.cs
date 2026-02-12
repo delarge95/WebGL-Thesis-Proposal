@@ -41,7 +41,7 @@ namespace WebGL.Core.Managers
         [Header("Settings")]
         [SerializeField] private ViewMode currentMode = ViewMode.Realistic;
         [SerializeField] private Color solidColor = new Color(0.3f, 0.6f, 1f);
-        [SerializeField] private float transitionDuration = 0.5f;
+
 
         [Header("X-Ray Settings")]
         [SerializeField] private Color xRayColor = new Color(0f, 1f, 0.8f, 0.5f);
