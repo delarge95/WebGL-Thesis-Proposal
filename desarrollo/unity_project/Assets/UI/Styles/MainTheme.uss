@@ -285,9 +285,18 @@
     transition-timing-function: ease-out;
 }
 
+    translate: 0 0;
+    transition-property: translate;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+    
+    picking-mode: position; /* Ensure it catches clicks */
+}
+
 .details-sheet--hidden {
     translate: 0 100%;
     opacity: 1;
+    picking-mode: ignore;
 }
 
 .sheet-handle {
@@ -321,6 +330,21 @@
     transition-duration: 0.2s;
     flex-grow: 1;
     overflow: hidden;
+}
+
+.read-only-text {
+    background-color: transparent;
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+    -unity-font-style: normal;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: normal; /* text-wrap in new Unity */
+}
+
+.read-only-text > .unity-text-field__input {
+    background-color: transparent;
+    border-width: 0;
 }
 
 .sheet-scroll {
