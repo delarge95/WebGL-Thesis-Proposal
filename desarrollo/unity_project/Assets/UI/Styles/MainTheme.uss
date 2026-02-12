@@ -283,12 +283,6 @@
     transition-property: translate;
     transition-duration: 0.3s;
     transition-timing-function: ease-out;
-}
-
-    translate: 0 0;
-    transition-property: translate;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-out;
     
     picking-mode: position; /* Ensure it catches clicks */
 }
