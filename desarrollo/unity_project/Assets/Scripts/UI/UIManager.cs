@@ -26,7 +26,7 @@ namespace WebGL.UI
         private Label sheetCategory;
         private Label sheetFunction;
         private Label sheetMaterial;
-        private Label sheetDesc;
+        private TextField sheetDesc;
         private Label sheetWeight;
         private Label sheetDimensions;
         private Label sheetPower;
@@ -97,13 +97,20 @@ namespace WebGL.UI
             bottomBar = root.Q<VisualElement>("BottomBar");
             sliderContainer = root.Q<VisualElement>("SliderContainer");
             
+            if (detailsSheet != null)
+            {
+                // Prevent clicks from passing through to 3D scene or other UI
+                detailsSheet.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
+                detailsSheet.RegisterCallback<PointerUpEvent>(evt => evt.StopPropagation());
+            }
+            
             partNameLabel = root.Q<Label>("SelectionIndicator");
             
             sheetTitle = root.Q<Label>("PartName");
             sheetCategory = root.Q<Label>("PartCategory");
             sheetFunction = root.Q<Label>("PartFunction");
             sheetMaterial = root.Q<Label>("PartMaterial");
-            sheetDesc = root.Q<Label>("PartDescription");
+            sheetDesc = root.Q<TextField>("PartDescription");
             sheetWeight = root.Q<Label>("PartWeight");
             sheetDimensions = root.Q<Label>("PartDimensions");
             sheetPower = root.Q<Label>("PartPower");
@@ -683,7 +690,7 @@ namespace WebGL.UI
                 if (sheetCategory != null) sheetCategory.text = evt.PartData.Category;
                 if (sheetFunction != null) sheetFunction.text = evt.PartData.Function;
                 if (sheetMaterial != null) sheetMaterial.text = evt.PartData.MaterialType;
-                if (sheetDesc != null) sheetDesc.text = evt.PartData.Description;
+                if (sheetDesc != null) sheetDesc.value = evt.PartData.Description;
                 if (sheetWeight != null) sheetWeight.text = $"{evt.PartData.Weight:F2} kg";
                 if (sheetDimensions != null) sheetDimensions.text = evt.PartData.Dimensions;
                 if (sheetPower != null) sheetPower.text = evt.PartData.powerConsumption > 0 ? $"{evt.PartData.powerConsumption:F1} W" : "N/A";

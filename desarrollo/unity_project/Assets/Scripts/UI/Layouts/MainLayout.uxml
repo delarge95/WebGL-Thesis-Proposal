@@ -167,8 +167,8 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
 
-                <!-- Description -->
-                <ui:Label text="" name="PartDescription" class="part-description" />
+                <!-- Description (Text Field for Selection) -->
+                <ui:TextField name="PartDescription" class="part-description read-only-text" readonly="true" multiline="true" />
             </ui:ScrollView>
         </ui:VisualElement>
 
