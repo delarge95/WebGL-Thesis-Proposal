@@ -61,6 +61,12 @@ namespace WebGL.UI
         private bool _shaderMenuShown = false;
         private bool _longPressTriggered = false;
 
+        // ── Layout Math Constants (8pt grid) ──
+        // padding-bottom(24) + info-row(24) + margin(16) + button(104) + EXTRA_GAP(24) = 192px
+        private const float POPUP_BASE_BOTTOM = 192f;
+        private const float POPUP_GAP = 24f;        // 8pt × 3 (Increased from 16f)
+        private const float SHEET_SHIFT = 200f;      // matches .ui-shifted translate
+
         protected override void Awake()
         {
             base.Awake();
@@ -228,16 +234,17 @@ namespace WebGL.UI
             UpdatePartIndicator(null);
             if (infoBtn != null) infoBtn.SetEnabled(false);
             
-            if (AppStateMachine.Instance != null && sliderContainer != null)
-            {
-                 bool isExploded = AppStateMachine.Instance.CurrentState == AppState.ExplodedView;
-                 sliderContainer.EnableInClassList("slider-hidden", !isExploded);
-            }
+            // Slider ALWAYS starts hidden — only shown when ExplodeBtn is clicked
+            if (sliderContainer != null)
+                sliderContainer.AddToClassList("slider-hidden");
 
             // ── Auto-create managers if missing ──
             EnsureManagers();
 
             // Hotspots are NOT initialized here — gated by _heroDismissed.
+
+            // Ensure layout is correct from frame 0
+            RepositionPopups();
         }
 
         /// <summary>Hide the hero screen and enable hotspots</summary>
@@ -317,6 +324,7 @@ namespace WebGL.UI
             if (shaderMenu == null) return;
             _shaderMenuShown = !_shaderMenuShown;
             shaderMenu.EnableInClassList("shader-menu--hidden", !_shaderMenuShown);
+            RepositionPopups();
         }
 
         private void BindShaderMenuButtons()
@@ -399,6 +407,7 @@ namespace WebGL.UI
         {
             if (envPanel == null) return;
             envPanel.ToggleInClassList("env-panel--hidden");
+            RepositionPopups();
         }
 
         private void BindEnvPanel()
@@ -498,27 +507,88 @@ namespace WebGL.UI
                     detailsSheet.AddToClassList("details-sheet--hidden");
             }
 
+            // Move buttons up/down with the sheet
             if (bottomBar != null) bottomBar.EnableInClassList("ui-shifted", isOpen);
-            
-            if (sliderContainer != null) 
-                sliderContainer.EnableInClassList("ui-shifted", isOpen);
 
             if (partNameLabel != null)
                 partNameLabel.EnableInClassList("selection-label--hidden", isOpen);
 
             if (OrbitCameraController.Instance != null)
                 OrbitCameraController.Instance.SetViewportShift(isOpen ? 0.15f : 0f);
+
+            // When info sheet OPENS: hide slider and close ALL submenus
+            if (isOpen)
+            {
+                // Hide exploded view slider
+                if (sliderContainer != null)
+                    sliderContainer.AddToClassList("slider-hidden");
+
+                // Close shader menu
+                if (shaderMenu != null)
+                {
+                    shaderMenu.AddToClassList("shader-menu--hidden");
+                    _shaderMenuShown = false;
+                }
+
+                // Close category menu
+                if (categoryMenu != null)
+                    categoryMenu.AddToClassList("category-menu--hidden");
+
+                // Close environment panel
+                if (envPanel != null)
+                    envPanel.AddToClassList("env-panel--hidden");
+            }
+
+            // Reposition all popups (shifted = +200px when sheet is open)
+            RepositionPopups();
         }
 
         private void ToggleCategoryMenu()
         {
             if (categoryMenu != null)
             {
-                bool isHidden = categoryMenu.ClassListContains("category-menu--hidden");
                 categoryMenu.ToggleInClassList("category-menu--hidden");
-                
-                if (sliderContainer != null)
-                    sliderContainer.EnableInClassList("slider-container--shifted-up", isHidden);
+                RepositionPopups();
+            }
+        }
+
+        // ══════════════════════════════════════════════════════
+        //  POPUP STACKING — Dynamic repositioning for multi-menu
+        //  
+        //  MATH:
+        //    Base = POPUP_BASE_BOTTOM (184px) from screen bottom
+        //    Each visible popup stacks above the previous one:
+        //      popup[0].bottom = base + sheetOffset
+        //      popup[1].bottom = popup[0].bottom + popup[0].height + POPUP_GAP
+        //      etc.
+        //    When info sheet is open, sheetOffset = SHEET_SHIFT (200px)
+        // ══════════════════════════════════════════════════════
+        private void RepositionPopups()
+        {
+            float sheetOffset = isSheetOpen ? SHEET_SHIFT : 0f;
+            float currentBottom = POPUP_BASE_BOTTOM + sheetOffset;
+
+            // Ordered list of popups — bottom to top stacking priority.
+            // Each entry: (element, hiddenClass, estimatedHeight).
+            // Heights are measured from CSS: padding + content.
+            var popups = new (UnityEngine.UIElements.VisualElement el, string hiddenClass, float height)[]
+            {
+                (sliderContainer, "slider-hidden",        56f),   // label + slider
+                (categoryMenu,    "category-menu--hidden", 64f),   // pill bar row
+                (shaderMenu,      "shader-menu--hidden",   100f),  // Reduced height estimate (fixes Env panel jumping too high)
+                (envPanel,        "env-panel--hidden",     220f),  // presets + 2 sliders
+            };
+
+            foreach (var (el, hiddenClass, height) in popups)
+            {
+                if (el == null) continue;
+
+                bool isVisible = !el.ClassListContains(hiddenClass);
+                if (isVisible)
+                {
+                    el.style.bottom = new UnityEngine.UIElements.StyleLength(currentBottom);
+                    currentBottom += height + POPUP_GAP;
+                }
             }
         }
 
@@ -590,11 +660,6 @@ namespace WebGL.UI
                 if (isExploded)
                 {
                     sliderContainer.RemoveFromClassList("slider-hidden");
-                    
-                    if (categoryMenu != null && !categoryMenu.ClassListContains("category-menu--hidden"))
-                        sliderContainer.AddToClassList("slider-container--shifted-up");
-                    else
-                        sliderContainer.RemoveFromClassList("slider-container--shifted-up");
 
                     if (explosionSlider != null)
                         explosionSlider.SetValueWithoutNotify(0.5f);
@@ -604,6 +669,9 @@ namespace WebGL.UI
                     sliderContainer.AddToClassList("slider-hidden");
                 }
             }
+
+            // Reposition all visible popups after slider visibility change
+            RepositionPopups();
         }
 
         #endregion

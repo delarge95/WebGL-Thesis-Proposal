@@ -332,7 +332,7 @@
    ──────────────────────────────────────────────── */
 .category-menu {
     position: absolute;
-    bottom: 100px;
+    bottom: 192px;  /* 8pt grid: 192px base (increased for extra clearance) */
     left: 50%;
     translate: -50% 0;
 
@@ -398,7 +398,7 @@
    ──────────────────────────────────────────────── */
 .slider-container {
     position: absolute;
-    bottom: 272px;
+    bottom: 192px;  /* 8pt grid: same base */
     left: 50%;
     margin-left: -248px;
     translate: 0 0;
@@ -430,9 +430,7 @@
     picking-mode: ignore;
 }
 
-.slider-container--shifted-up {
-    bottom: 376px;
-}
+/* slider-container--shifted-up removed — menus inside BottomBar now */
 
 .slider-label {
     display: none;
@@ -765,7 +763,7 @@
    ──────────────────────────────────────────────── */
 .shader-menu {
     position: absolute;
-    bottom: 100px;
+    bottom: 192px;  /* 8pt grid: same base */
     left: 50%;
     translate: -50% 0;
 
@@ -824,7 +822,7 @@
    ──────────────────────────────────────────────── */
 .env-panel {
     position: absolute;
-    bottom: 100px;
+    bottom: 192px;  /* 8pt grid: same base */
     right: 16px;
 
     width: 320px;
