@@ -245,7 +245,8 @@ namespace WebGL.Core.Managers
         /// Selects the specified object.
         /// </summary>
         /// <param name="selection">The transform to select.</param>
-        public void SelectObject(Transform selection)
+        /// <param name="fromHotspot">True if triggered by a hotspot click.</param>
+        public void SelectObject(Transform selection, bool fromHotspot = false)
         {
             if (selection == null) return;
 
@@ -262,7 +263,7 @@ namespace WebGL.Core.Managers
             var explodable = selection.GetComponent<ExplodablePart>();
             if (explodable != null && explodable.Data != null)
             {
-                EventBus.Publish(new PartSelectedEvent(explodable.Data));
+                EventBus.Publish(new PartSelectedEvent(explodable.Data, fromHotspot));
                 
                 // Track analytics
                 if (AnalyticsManager.Instance != null)
