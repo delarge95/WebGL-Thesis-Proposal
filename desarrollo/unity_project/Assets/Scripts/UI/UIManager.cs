@@ -57,6 +57,15 @@ namespace WebGL.UI
         // Shader long-press
         private bool _shaderMenuShown = false;
 
+        // Sheet Content Containers
+        private VisualElement contentDetails;
+        private VisualElement contentDevices;
+        private VisualElement contentAbout;
+        private VisualElement contentExit;
+
+        public enum SheetMode { Details, Devices, About, Exit }
+        private SheetMode currentSheetMode = SheetMode.Details;
+
         // ── Layout Math Constants (8pt grid) ──
         // padding-bottom(24) + info-row(24) + margin(16) + button(104) + EXTRA_GAP(24) = 192px
         private const float POPUP_BASE_BOTTOM = 192f;
@@ -93,8 +102,15 @@ namespace WebGL.UI
             if (root == null) return;
 
             // Bind Elements
-            detailsSheet = root.Q<VisualElement>("DetailsSheet");
+            detailsSheet = root.Q<VisualElement>("BottomSheet");
             bottomBar = root.Q<VisualElement>("BottomBar");
+            
+            // Bind Content Containers
+            contentDetails = root.Q<VisualElement>("SheetContent_Details");
+            contentDevices = root.Q<VisualElement>("SheetContent_Devices");
+            contentAbout = root.Q<VisualElement>("SheetContent_About");
+            contentExit = root.Q<VisualElement>("SheetContent_Exit");
+
             sliderContainer = root.Q<VisualElement>("SliderContainer");
             
             if (detailsSheet != null)
@@ -110,7 +126,7 @@ namespace WebGL.UI
             
             partNameLabel = root.Q<Label>("SelectionIndicator");
             
-            sheetTitle = root.Q<Label>("PartName");
+            sheetTitle = root.Q<Label>("SheetTitle");
             sheetCategory = root.Q<TextField>("PartCategory");
             sheetFunction = root.Q<TextField>("PartFunction");
             sheetMaterial = root.Q<TextField>("PartMaterial");
@@ -202,29 +218,30 @@ namespace WebGL.UI
             var heroDeviceBtn = root.Q<Button>("HeroDeviceBtn");
             var heroAboutBtn = root.Q<Button>("HeroAboutBtn");
             var heroExitBtn = root.Q<Button>("HeroExitBtn");
+            var sheetCloseBtn = root.Q<Button>("SheetCloseBtn");
+            
             _heroContainer = root.Q<VisualElement>("HeroContainer");
-            var deviceSelector = root.Q<VisualElement>("DeviceSelector");
 
             if (heroExploreBtn != null) heroExploreBtn.clicked += () =>
             {
                 DismissHero();
                 if (AppStateMachine.Instance != null) AppStateMachine.Instance.EnterExploration();
             };
-            if (heroDeviceBtn != null) heroDeviceBtn.clicked += () =>
-            {
-                if (deviceSelector != null)
-                    deviceSelector.ToggleInClassList("device-selector--hidden");
-            };
-            if (heroAboutBtn != null) heroAboutBtn.clicked += () =>
-            {
-                var aboutPanel = root.Q<VisualElement>("AboutPanel");
-                if (aboutPanel != null)
-                {
-                    aboutPanel.RemoveFromClassList("about-panel--hidden");
-                    aboutPanel.style.display = DisplayStyle.Flex;
-                }
-            };
-            if (heroExitBtn != null) heroExitBtn.clicked += () =>
+            
+            // Unified Bottom Sheet Navigation
+            if (heroDeviceBtn != null) heroDeviceBtn.clicked += () => OpenSheet(SheetMode.Devices);
+            if (heroAboutBtn != null) heroAboutBtn.clicked += () => OpenSheet(SheetMode.About);
+            if (heroExitBtn != null) heroExitBtn.clicked += () => OpenSheet(SheetMode.Exit);
+            
+            // Sheet Close
+            if (sheetCloseBtn != null) sheetCloseBtn.clicked += () => SetSheetState(false);
+
+            // Exit Confirmation
+            var exitConfirmBtn = root.Q<Button>("ExitConfirmBtn");
+            var exitCancelBtn = root.Q<Button>("ExitCancelBtn");
+            
+            if (exitCancelBtn != null) exitCancelBtn.clicked += () => SetSheetState(false);
+            if (exitConfirmBtn != null) exitConfirmBtn.clicked += () => 
             {
 #if UNITY_WEBGL && !UNITY_EDITOR
                 Application.ExternalEval("window.history.back()");
@@ -235,22 +252,12 @@ namespace WebGL.UI
 #endif
 #endif
             };
-
+ 
             // ── Home Button (Return to Hero) ──
             var homeBtn = root.Q<Button>("HomeBtn");
             if (homeBtn != null) homeBtn.clicked += ReturnToHero;
 
-            // ── About Close Button ──
-            var aboutCloseBtn = root.Q<Button>("AboutCloseBtn");
-            if (aboutCloseBtn != null) aboutCloseBtn.clicked += () =>
-            {
-                var aboutPanel = root.Q<VisualElement>("AboutPanel");
-                if (aboutPanel != null)
-                {
-                    aboutPanel.AddToClassList("about-panel--hidden");
-                    aboutPanel.style.display = StyleKeyword.Null; // clear inline override
-                }
-            };
+            // Old About logic removed
 
             // Initial State
             UpdatePartIndicator(null);
@@ -548,7 +555,8 @@ namespace WebGL.UI
 
         private void OnInfoToggle()
         {
-            SetSheetState(!isSheetOpen);
+            if (isSheetOpen) SetSheetState(false);
+            else OpenSheet(SheetMode.Details);
         }
 
         private void OnResetClicked()
@@ -806,7 +814,7 @@ namespace WebGL.UI
 
                 // Auto-open info sheet ONLY when triggered by a hotspot click
                 if (evt.FromHotspot)
-                    SetSheetState(true);
+                    OpenSheet(SheetMode.Details);
             }
             else
             {
@@ -844,6 +852,65 @@ namespace WebGL.UI
                 btn.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
                 btn.RegisterCallback<PointerUpEvent>(evt => evt.StopPropagation());
             });
+        }
+
+        public void OpenSheet(SheetMode mode)
+        {
+            DismissHero(); // Ensure hero is dismissed (keeps top bar)
+
+            // Verify containers exist
+            if (contentDetails == null) return;
+
+            // Helper to hide
+            void Hide(VisualElement el) 
+            {
+                if (el == null) return;
+                el.AddToClassList("sheet-content--hidden");
+                el.RemoveFromClassList("sheet-content--active");
+            }
+            // Helper to show
+            void Show(VisualElement el)
+            {
+                if (el == null) return;
+                el.RemoveFromClassList("sheet-content--hidden");
+                el.AddToClassList("sheet-content--active");
+            }
+
+            // Reset all
+            Hide(contentDetails);
+            Hide(contentDevices);
+            Hide(contentAbout);
+            Hide(contentExit);
+
+            // Set active
+            string titleText = "";
+            switch (mode)
+            {
+                case SheetMode.Details:
+                    Show(contentDetails);
+                    // Title checks
+                    titleText = (SelectionManager.Instance != null && SelectionManager.Instance.HasSelection) 
+                        ? (sheetTitle != null ? sheetTitle.text : "PART DETAILS")
+                        : "SELECT A PART"; 
+                    break;
+                case SheetMode.Devices:
+                    Show(contentDevices);
+                    titleText = "SELECT DEVICE";
+                    break;
+                case SheetMode.About:
+                    Show(contentAbout);
+                    titleText = "ABOUT";
+                    break;
+                case SheetMode.Exit:
+                    Show(contentExit);
+                    titleText = "EXIT APPLICATION";
+                    break;
+            }
+
+            if (sheetTitle != null) sheetTitle.text = titleText;
+            
+            currentSheetMode = mode;
+            SetSheetState(true);
         }
 
         #endregion

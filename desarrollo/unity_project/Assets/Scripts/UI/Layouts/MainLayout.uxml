@@ -110,69 +110,99 @@
         <!-- ═══════════════════════════════════════════════
              Bottom Sheet (Details — slides up from very bottom)
              ═══════════════════════════════════════════════ -->
-        <ui:VisualElement name="DetailsSheet" class="details-sheet details-sheet--hidden" picking-mode="Ignore">
+        <ui:VisualElement name="BottomSheet" class="details-sheet details-sheet--hidden" picking-mode="Ignore">
             <ui:VisualElement class="sheet-handle" picking-mode="Ignore" />
             
-            <!-- Header -->
+            <!-- Header (Always visible in sheet) -->
             <ui:VisualElement class="sheet-header">
-                <ui:Label text="SELECT A PART" name="PartName" class="sheet-title" picking-mode="Ignore" />
-                <ui:Label text="Tap for details" class="sheet-hint" picking-mode="Ignore" />
+                <ui:Label text="SELECT A PART" name="SheetTitle" class="sheet-title" picking-mode="Ignore" />
+                <ui:Button name="SheetCloseBtn" text="✕" class="sheet-close-btn" />
             </ui:VisualElement>
             
-            <!-- Scrollable Content -->
-            <ui:ScrollView class="sheet-scroll" mode="Vertical" touch-scroll-type="Elastic" picking-mode="Position">
-                <!-- Data Grid -->
-                <ui:VisualElement class="data-grid">
-                    <ui:VisualElement class="data-row">
-                        <ui:Label text="CATEGORY" class="data-label" />
-                        <ui:TextField name="PartCategory" class="data-value read-only-text" readonly="true" multiline="true" />
+            <!-- Content Container: DETAILS (Part Info) -->
+            <ui:VisualElement name="SheetContent_Details" class="sheet-content sheet-content--active" picking-mode="Ignore">
+                <ui:ScrollView class="sheet-scroll" mode="Vertical" touch-scroll-type="Elastic" picking-mode="Position">
+                    <!-- Data Grid -->
+                    <ui:VisualElement class="data-grid">
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="CATEGORY" class="data-label" />
+                            <ui:TextField name="PartCategory" class="data-value read-only-text" readonly="true" multiline="true" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="FUNCTION" class="data-label" />
+                            <ui:TextField name="PartFunction" class="data-value read-only-text" readonly="true" multiline="true" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="MATERIAL" class="data-label" />
+                            <ui:TextField name="PartMaterial" class="data-value read-only-text" readonly="true" multiline="true" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="WEIGHT" class="data-label" />
+                            <ui:TextField name="PartWeight" class="data-value read-only-text" readonly="true" multiline="true" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="DIMENSIONS" class="data-label" />
+                            <ui:TextField name="PartDimensions" class="data-value read-only-text" readonly="true" multiline="true" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="POWER" class="data-label" />
+                            <ui:TextField name="PartPower" class="data-value read-only-text" readonly="true" multiline="true" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="TEMP" class="data-label" />
+                            <ui:TextField name="PartTemp" class="data-value read-only-text" readonly="true" multiline="true" />
+                        </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement class="data-row">
-                        <ui:Label text="FUNCTION" class="data-label" />
-                        <ui:TextField name="PartFunction" class="data-value read-only-text" readonly="true" multiline="true" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="data-row">
-                        <ui:Label text="MATERIAL" class="data-label" />
-                        <ui:TextField name="PartMaterial" class="data-value read-only-text" readonly="true" multiline="true" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="data-row">
-                        <ui:Label text="WEIGHT" class="data-label" />
-                        <ui:TextField name="PartWeight" class="data-value read-only-text" readonly="true" multiline="true" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="data-row">
-                        <ui:Label text="DIMENSIONS" class="data-label" />
-                        <ui:TextField name="PartDimensions" class="data-value read-only-text" readonly="true" multiline="true" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="data-row">
-                        <ui:Label text="POWER" class="data-label" />
-                        <ui:TextField name="PartPower" class="data-value read-only-text" readonly="true" multiline="true" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="data-row">
-                        <ui:Label text="TEMP" class="data-label" />
-                        <ui:TextField name="PartTemp" class="data-value read-only-text" readonly="true" multiline="true" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
 
-                <!-- Assembly Section -->
-                <ui:VisualElement class="assembly-section">
-                    <ui:Label text="ASSEMBLY" class="section-title" />
-                    <ui:VisualElement class="data-row">
-                        <ui:Label text="DIFFICULTY" class="data-label" />
-                        <ui:TextField name="PartDifficulty" class="data-value data-value-stars read-only-text" readonly="true" multiline="true" />
+                    <!-- Assembly Section -->
+                    <ui:VisualElement class="assembly-section">
+                        <ui:Label text="ASSEMBLY" class="section-title" />
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="DIFFICULTY" class="data-label" />
+                            <ui:TextField name="PartDifficulty" class="data-value data-value-stars read-only-text" readonly="true" multiline="true" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="TOOLS" class="data-label" />
+                            <ui:TextField name="PartTools" class="data-value read-only-text" readonly="true" multiline="true" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="TIME" class="data-label" />
+                            <ui:TextField name="PartAssemblyTime" class="data-value read-only-text" readonly="true" multiline="true" />
+                        </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement class="data-row">
-                        <ui:Label text="TOOLS" class="data-label" />
-                        <ui:TextField name="PartTools" class="data-value read-only-text" readonly="true" multiline="true" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="data-row">
-                        <ui:Label text="TIME" class="data-label" />
-                        <ui:TextField name="PartAssemblyTime" class="data-value read-only-text" readonly="true" multiline="true" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
 
-                <!-- Description (Text Field for Selection) -->
-                <ui:TextField name="PartDescription" class="part-description read-only-text" readonly="true" multiline="true" />
-            </ui:ScrollView>
+                    <!-- Description -->
+                    <ui:TextField name="PartDescription" class="part-description read-only-text" readonly="true" multiline="true" />
+                </ui:ScrollView>
+            </ui:VisualElement>
+
+            <!-- Content Container: DEVICES -->
+            <ui:VisualElement name="SheetContent_Devices" class="sheet-content sheet-content--hidden" picking-mode="Ignore">
+                 <ui:ScrollView class="sheet-scroll" mode="Vertical" touch-scroll-type="Elastic" picking-mode="Position">
+                    <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="🛸  DJI Phantom 4 Pro" />
+                    <ui:Button name="DeviceBtn_Robot" class="device-option" text="🤖  Boston Dynamics Spot" enabled="false" />
+                    <ui:Button name="DeviceBtn_Satellite" class="device-option" text="🛰️  CubeSat 3U" enabled="false" />
+                </ui:ScrollView>
+            </ui:VisualElement>
+
+            <!-- Content Container: ABOUT -->
+            <ui:VisualElement name="SheetContent_About" class="sheet-content sheet-content--hidden" picking-mode="Ignore">
+                <ui:ScrollView class="sheet-scroll" mode="Vertical" touch-scroll-type="Elastic" picking-mode="Position">
+                    <ui:Label text="Interactive 3D drone visualization for engineering education. Built with Unity WebGL." class="about-desc" picking-mode="Ignore" />
+                    <ui:Label text="Thesis Project — 2026" class="about-credit" picking-mode="Ignore" />
+                    <ui:Button text="VIEW PROJECT ON GITHUB" class="btn btn-ghost btn-wide" />
+                </ui:ScrollView>
+            </ui:VisualElement>
+
+            <!-- Content Container: EXIT -->
+            <ui:VisualElement name="SheetContent_Exit" class="sheet-content sheet-content--hidden" picking-mode="Ignore">
+                <ui:Label text="Are you sure you want to exit the application?" class="about-desc" picking-mode="Ignore" />
+                <ui:VisualElement class="actions-row-centered">
+                    <ui:Button name="ExitConfirmBtn" text="EXIT APP" class="btn btn-primary btn-wide" />
+                    <ui:Button name="ExitCancelBtn" text="CANCEL" class="btn btn-ghost btn-wide" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
         </ui:VisualElement>
 
     </ui:VisualElement>
@@ -192,20 +222,9 @@
             <ui:Button name="HeroExitBtn" class="btn btn-ghost btn-wide" text="EXIT" />
         </ui:VisualElement>
 
-        <!-- Device Selector (hidden by default) -->
-        <ui:VisualElement name="DeviceSelector" class="device-selector device-selector--hidden">
-            <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="🛸  DJI Phantom 4 Pro" />
-            <ui:Button name="DeviceBtn_Robot" class="device-option" text="🤖  Boston Dynamics Spot" enabled="false" />
-            <ui:Button name="DeviceBtn_Satellite" class="device-option" text="🛰️  CubeSat 3U" enabled="false" />
-        </ui:VisualElement>
+        <!-- Device Selector removed / moved to BottomSheet -->
     </ui:VisualElement>
 
-    <!-- About Panel -->
-    <ui:VisualElement name="AboutPanel" class="about-panel about-panel--hidden">
-        <ui:Label text="DRONE VIEWER PRO" class="about-title" picking-mode="Ignore" />
-        <ui:Label text="Interactive 3D drone visualization for engineering education. Built with Unity WebGL." class="about-desc" picking-mode="Ignore" />
-        <ui:Label text="Thesis Project — 2026" class="about-credit" picking-mode="Ignore" />
-        <ui:Button name="AboutCloseBtn" text="✕" class="btn-icon about-close" />
-    </ui:VisualElement>
+    <!-- About Panel removed / moved to BottomSheet -->
 
 </ui:UXML>
