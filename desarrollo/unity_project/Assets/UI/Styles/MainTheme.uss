@@ -8,18 +8,19 @@
 
 /* ────────────────────────────────────────────────
    Design Tokens (Direct Values — USS has no vars)
+   Aligned with web landing page (docs/src/index.css)
    
-   Primary:        rgb(0, 217, 255)     Cyan
-   Surface:        rgba(10, 14, 28, 0.88)
-   On-Surface:     rgb(240, 244, 255)
-   On-Surface-Dim: rgb(160, 168, 192)
+   Background:     rgb(10, 10, 10)          #0a0a0a
+   Surface:        rgba(18, 18, 18, 0.92)   #121212
+   Primary:        rgb(0, 217, 255)         Cyan (CTA only)
+   On-Surface:     rgb(255, 255, 255)       White
+   On-Surface-Dim: rgba(255, 255, 255, 0.4) Muted
    Accent-Green:   rgb(50, 220, 150)
    Border:         rgba(255, 255, 255, 0.08)
-   Border-Hover:   rgba(0, 220, 255, 0.4)
+   Border-Hover:   rgba(255, 255, 255, 0.2) White
    Radius-SM:      8px
-   Radius-MD:      16px
-   Radius-LG:      32px
-   Radius-Full:    100px
+   Radius-MD:      12px
+   Radius-LG:      24px
    ──────────────────────────────────────────────── */
 
 /* ────────────────────────────────────────────────
@@ -27,8 +28,8 @@
    ──────────────────────────────────────────────── */
 .root {
     flex-grow: 1;
-    background-color: rgb(10, 14, 28);
-    color: rgb(240, 244, 255);
+    background-color: rgb(10, 10, 10);
+    color: rgb(255, 255, 255);
     font-size: 24px;
 }
 
@@ -61,24 +62,24 @@
     bottom: 0;
     align-items: center;
     justify-content: center;
-    background-color: rgb(10, 14, 28);
+    background-color: rgb(10, 10, 10);
     transition-property: opacity;
     transition-duration: 0.5s;
 }
 
 .hero-title {
-    font-size: 80px;
+    font-size: 72px;
     -unity-font-style: bold;
-    color: rgb(240, 244, 255);
-    margin-bottom: 32px;
-    letter-spacing: -2px;
+    color: white;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
 }
 
 .hero-subtitle {
-    font-size: 32px;
-    color: rgb(160, 168, 192);
-    margin-bottom: 80px;
-    letter-spacing: 1px;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 48px;
+    letter-spacing: 0;
 }
 
 /* ────────────────────────────────────────────────
@@ -104,11 +105,10 @@
 }
 
 .header-title {
-    font-size: 32px;
-    color: rgba(255, 255, 255, 0.8);
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.6);
     -unity-font-style: bold;
-    text-shadow: 0 1px 4px black;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
 }
 
 #HomeBtn {
@@ -165,14 +165,13 @@
    Icon Buttons (100px — exceeds 48dp minimum)
    ──────────────────────────────────────────────── */
 .icon-button {
-    width: 104px;
-    height: 104px;
+    width: 72px;
+    height: 72px;
     margin-left: 16px;
     margin-right: 16px;
 
-    /* Glassmorphic circle */
-    background-color: rgba(10, 14, 28, 0.88);
-    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
 
@@ -185,52 +184,53 @@
 }
 
 .icon-button:hover {
-    border-color: rgba(0, 220, 255, 0.5);
-    background-color: rgba(0, 220, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 .icon-button:active {
-    scale: 0.92;
-    background-color: rgba(0, 220, 255, 0.2);
+    scale: 0.94;
+    background-color: rgba(255, 255, 255, 0.12);
 }
 
 .icon-button:disabled {
     opacity: 0.3;
-    background-color: rgba(10, 14, 28, 0.5);
+    background-color: rgba(18, 18, 18, 0.5);
     border-color: rgba(255, 255, 255, 0.04);
 }
 
 .button-icon-text {
-    font-size: 48px;
+    font-size: 32px;
 }
 
-/* Small Icon Button (Reset — Top Right) */
+/* Small Icon Button (Top Bar — Reset, Home, Hotspot) */
 .icon-button-small {
-    width: 80px;
-    height: 80px;
-    background-color: rgba(10, 14, 28, 0.4);
-    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
     border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.1);
     justify-content: center;
     align-items: center;
     transition-property: border-color, background-color, scale;
     transition-duration: 0.2s;
-    margin-right: 24px;
+    margin-right: 16px;
 }
 
 .icon-button-small:hover {
-    border-color: rgba(0, 220, 255, 0.5);
-}
-
-.icon-button-small:active {
-    scale: 0.92;
+    border-color: rgba(255, 255, 255, 0.2);
     background-color: rgba(255, 255, 255, 0.08);
 }
 
+.icon-button-small:active {
+    scale: 0.94;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
 .button-icon-text-small {
-    font-size: 40px;
-    color: rgb(240, 244, 255);
+    font-size: 20px;
+    color: white;
 }
 
 /* ────────────────────────────────────────────────
@@ -244,15 +244,13 @@
 }
 
 .selection-label {
-    font-size: 28px;
+    font-size: 20px;
     color: white;
     -unity-font-style: bold;
-    text-shadow: 0 1px 2px black;
 
-    /* Frosted glass pill */
-    background-color: rgba(10, 14, 28, 0.6);
+    background-color: rgba(18, 18, 18, 0.6);
     padding: 8px 16px;
-    border-radius: 16px;
+    border-radius: 8px;
 
     /* Smooth fade — NO display:none */
     opacity: 1;
@@ -278,9 +276,9 @@
     min-height: 200px;
     max-height: 55%;
 
-    background-color: rgba(10, 14, 28, 0.96);
-    border-top-left-radius: 40px;
-    border-top-right-radius: 40px;
+    background-color: rgba(10, 10, 10, 0.96);
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
     border-top-width: 1px;
     border-top-color: rgba(255, 255, 255, 0.08);
     padding: 32px;
@@ -290,20 +288,17 @@
     transition-property: translate;
     transition-duration: 0.3s;
     transition-timing-function: ease-out;
-    
-
 }
 
 .details-sheet--hidden {
     translate: 0 100%;
     opacity: 1;
-
 }
 
 .sheet-handle {
     width: 40px;
-    height: 4px;
-    background-color: rgba(255, 255, 255, 0.24);
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.16);
     border-radius: 2px;
     align-self: center;
     margin-bottom: 24px;
@@ -314,15 +309,15 @@
 }
 
 .sheet-title {
-    font-size: 36px;
+    font-size: 28px;
     -unity-font-style: bold;
     color: white;
     margin-bottom: 4px;
 }
 
 .sheet-hint {
-    font-size: 20px;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
     -unity-font-style: italic;
 }
 
@@ -371,18 +366,17 @@
    ──────────────────────────────────────────────── */
 .category-menu {
     position: absolute;
-    bottom: 192px;  /* 8pt grid: 192px base (increased for extra clearance) */
+    bottom: 192px;
     left: 50%;
     translate: -50% 0;
 
     flex-direction: row;
-    background-color: rgba(10, 14, 28, 0.92);
-    border-radius: 40px;
-    padding: 16px 32px;
+    background-color: rgba(18, 18, 18, 0.94);
+    border-radius: 12px;
+    padding: 8px 16px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
 
-    /* Smooth show/hide — NO display:none */
     opacity: 1;
     scale: 1 1;
     transition-duration: 0.25s;
@@ -397,7 +391,6 @@
     picking-mode: ignore;
 }
 
-/* Ensure children are also ignored when hidden to prevent blocking clicks */
 .category-menu--hidden > * {
     picking-mode: ignore;
 }
@@ -405,19 +398,19 @@
 /* Category Tag Buttons */
 .btn-tag {
     width: auto;
-    min-width: 120px;
-    height: 56px;
+    min-width: 100px;
+    height: 48px;
     margin-right: 8px;
     margin-bottom: 0;
 
-    font-size: 20px;
+    font-size: 16px;
     -unity-font-style: bold;
-    color: rgb(160, 168, 192);
+    color: rgba(255, 255, 255, 0.5);
 
     background-color: transparent;
     border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.12);
-    border-radius: 16px;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
 
     justify-content: center;
     align-items: center;
@@ -427,14 +420,14 @@
 }
 
 .btn-tag:hover {
-    border-color: rgba(0, 220, 255, 0.6);
-    color: rgb(240, 244, 255);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
 }
 
 .btn-tag--active {
     background-color: rgb(0, 217, 255);
     border-color: rgb(0, 217, 255);
-    color: rgb(10, 14, 28);
+    color: rgb(10, 10, 10);
 }
 
 /* ────────────────────────────────────────────────
@@ -442,7 +435,7 @@
    ──────────────────────────────────────────────── */
 .slider-container {
     position: absolute;
-    bottom: 192px;  /* 8pt grid: same base */
+    bottom: 192px;
     left: 50%;
     margin-left: -248px;
     translate: 0 0;
@@ -450,8 +443,8 @@
     width: 496px;
     height: auto;
 
-    background-color: rgba(10, 14, 28, 0.88);
-    border-radius: 40px;
+    background-color: rgba(18, 18, 18, 0.92);
+    border-radius: 12px;
     padding: 24px 32px 8px 32px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
@@ -543,14 +536,14 @@
 }
 
 .data-label {
-    color: rgb(100, 110, 136);
-    font-size: 20px;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 16px;
     letter-spacing: 1px;
 }
 
 .data-value {
-    color: rgb(200, 208, 224);
-    font-size: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
     -unity-font-style: bold;
 }
 
@@ -562,18 +555,18 @@
    Glassmorphic Panel (Reusable)
    ──────────────────────────────────────────────── */
 .glass-panel {
-    background-color: rgba(10, 14, 28, 0.85);
+    background-color: rgba(18, 18, 18, 0.88);
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 24px;
     transition-property: background-color, border-color;
     transition-duration: 0.25s;
 }
 
 .glass-panel:hover {
-    background-color: rgba(20, 24, 40, 0.9);
-    border-color: rgba(0, 220, 255, 0.2);
+    background-color: rgba(24, 24, 24, 0.92);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 /* ────────────────────────────────────────────────
@@ -581,47 +574,50 @@
    ──────────────────────────────────────────────── */
 .btn {
     border-width: 1px;
-    border-radius: 100px;
+    border-radius: 8px;
     padding: 16px 40px;
-    font-size: 24px;
-    -unity-font-style: bold;
+    font-size: 18px;
+    -unity-font-style: normal;
+    letter-spacing: 1px;
     transition-property: background-color, border-color, scale;
-    transition-duration: 0.2s;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
     cursor: link;
     justify-content: center;
     align-items: center;
 }
 
 .btn-primary {
-    background-color: rgb(0, 217, 255);
-    border-color: rgb(0, 217, 255);
-    color: rgb(10, 14, 28);
-    border-width: 0;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-width: 1px;
 }
 
 .btn-primary:hover {
-    background-color: rgb(100, 230, 255);
-    scale: 1.04;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    scale: 1.02;
 }
 
 .btn-ghost {
     background-color: transparent;
-    border-color: rgba(255, 255, 255, 0.16);
-    color: rgb(160, 168, 192);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .btn-ghost:hover {
-    border-color: rgb(240, 244, 255);
-    color: rgb(240, 244, 255);
-    background-color: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .btn-icon {
     width: 48px;
     height: 48px;
     padding: 0;
-    border-radius: 50%;
-    background-color: rgba(10, 14, 28, 0.8);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.08);
     border-width: 1px;
     transition-property: border-color, background-color;
@@ -629,12 +625,12 @@
 }
 
 .btn-icon:hover {
-    border-color: rgba(0, 220, 255, 0.5);
-    background-color: rgba(0, 220, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 .btn-wide {
-    width: 200px;
+    width: 240px;
 }
 
 .btn-full-width {
@@ -659,7 +655,7 @@
 }
 
 .tag-dot-mechanical {
-    background-color: rgb(160, 168, 192);
+    background-color: rgba(255, 255, 255, 0.4);
 }
 
 /* ────────────────────────────────────────────────
@@ -670,10 +666,10 @@
     left: 24px;
     top: 50%;
     translate: 0 -50%;
-    background-color: rgba(10, 14, 28, 0.88);
+    background-color: rgba(18, 18, 18, 0.88);
     border-color: rgba(255, 255, 255, 0.08);
     border-width: 1px;
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 16px;
     width: 64px;
     align-items: center;
@@ -682,7 +678,7 @@
 }
 
 .sidebar:hover {
-    border-color: rgba(0, 220, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .sidebar-spacer {
@@ -698,10 +694,10 @@
     top: 152px;
     bottom: 200px;
     width: 600px;
-    background-color: rgba(10, 14, 28, 0.95);
+    background-color: rgba(10, 10, 10, 0.95);
     border-color: rgba(255, 255, 255, 0.08);
     border-width: 1px;
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 24px;
     translate: 110% 0;
     transition-property: translate;
@@ -721,15 +717,15 @@
 }
 
 .panel-title {
-    font-size: 48px;
-    color: rgb(240, 244, 255);
+    font-size: 36px;
+    color: white;
     -unity-font-style: bold;
     margin-bottom: 8px;
 }
 
 .panel-subtitle {
-    font-size: 24px;
-    color: rgb(50, 220, 150);
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
     letter-spacing: 1px;
 }
 
@@ -759,29 +755,29 @@
 .hud-bottom {
     bottom: 0;
     justify-content: center;
-    background-color: rgba(10, 14, 28, 0.6);
+    background-color: rgba(10, 10, 10, 0.6);
     padding-bottom: 24px;
 }
 
 .app-logo {
-    font-size: 32px;
+    font-size: 24px;
     -unity-font-style: bold;
-    color: rgb(240, 244, 255);
-    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 3px;
 }
 
 /* ────────────────────────────────────────────────
    Misc Text
    ──────────────────────────────────────────────── */
 .reset-icon-label {
-    color: rgb(160, 168, 192);
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .part-description {
-    color: rgb(160, 168, 192);
+    color: rgba(255, 255, 255, 0.4);
     margin-bottom: 24px;
     white-space: normal;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 /* ────────────────────────────────────────────────
@@ -795,9 +791,9 @@
 }
 
 .section-title {
-    font-size: 16px;
-    color: rgb(0, 217, 255);
-    letter-spacing: 2px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 3px;
     -unity-font-style: bold;
     margin-bottom: 8px;
 }
@@ -811,7 +807,7 @@
    ──────────────────────────────────────────────── */
 .shader-menu {
     position: absolute;
-    bottom: 192px;  /* 8pt grid: same base */
+    bottom: 192px;
     left: 50%;
     translate: -50% 0;
 
@@ -822,11 +818,11 @@
     width: 90%;
     max-width: 640px;
     
-    background-color: rgba(10, 14, 28, 0.94);
-    border-radius: 24px;
+    background-color: rgba(18, 18, 18, 0.94);
+    border-radius: 12px;
     padding: 12px 16px;
     border-width: 1px;
-    border-color: rgba(0, 220, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.08);
 
     opacity: 1;
     scale: 1 1;
@@ -851,26 +847,26 @@
     height: 40px;
     margin: 4px;
     padding: 0 12px;
-    font-size: 16px;
-    -unity-font-style: bold;
-    color: rgb(160, 168, 192);
+    font-size: 14px;
+    -unity-font-style: normal;
+    color: rgba(255, 255, 255, 0.5);
     background-color: transparent;
     border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    border-color: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
     transition-property: background-color, border-color, color;
     transition-duration: 0.2s;
 }
 
 .shader-mode-btn:hover {
-    border-color: rgba(0, 220, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.2);
     color: white;
 }
 
 .shader-mode-btn--active {
     background-color: rgb(0, 217, 255);
     border-color: rgb(0, 217, 255);
-    color: rgb(10, 14, 28);
+    color: rgb(10, 10, 10);
 }
 
 /* ────────────────────────────────────────────────
@@ -878,15 +874,15 @@
    ──────────────────────────────────────────────── */
 .env-panel {
     position: absolute;
-    bottom: 192px;  /* 8pt grid: same base */
+    bottom: 192px;
     right: 16px;
 
     width: 320px;
-    background-color: rgba(10, 14, 28, 0.94);
-    border-radius: 24px;
+    background-color: rgba(18, 18, 18, 0.94);
+    border-radius: 12px;
     padding: 24px;
     border-width: 1px;
-    border-color: rgba(0, 220, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.08);
 
     opacity: 1;
     scale: 1 1;
@@ -906,8 +902,8 @@
 }
 
 .env-panel-title {
-    font-size: 14px;
-    color: rgb(0, 217, 255);
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
     letter-spacing: 3px;
     -unity-font-style: bold;
     margin-bottom: 16px;
@@ -925,24 +921,24 @@
     margin: 4px;
     padding: 0 8px;
     font-size: 14px;
-    color: rgb(160, 168, 192);
+    color: rgba(255, 255, 255, 0.5);
     background-color: transparent;
     border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.08);
     border-radius: 8px;
     transition-property: background-color, border-color, color;
     transition-duration: 0.15s;
 }
 
 .env-preset-btn:hover {
-    border-color: rgba(0, 220, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.2);
     color: white;
 }
 
 .env-preset-btn--active {
     background-color: rgb(0, 217, 255);
     border-color: rgb(0, 217, 255);
-    color: rgb(10, 14, 28);
+    color: rgb(10, 10, 10);
 }
 
 .env-slider-group {
@@ -951,7 +947,7 @@
 
 .env-slider-label {
     font-size: 12px;
-    color: rgb(100, 110, 136);
+    color: rgba(255, 255, 255, 0.3);
     letter-spacing: 2px;
     margin-bottom: 4px;
 }
@@ -988,11 +984,11 @@
     top: 50%;
     translate: -50% -50%;
     width: 500px;
-    background-color: rgba(10, 14, 28, 0.96);
-    border-radius: 24px;
+    background-color: rgba(10, 10, 10, 0.96);
+    border-radius: 12px;
     padding: 40px;
     border-width: 1px;
-    border-color: rgba(0, 220, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.08);
     align-items: center;
     opacity: 1;
     transition-property: opacity, scale;
@@ -1004,23 +1000,23 @@
 }
 
 .about-title {
-    font-size: 32px;
+    font-size: 28px;
     -unity-font-style: bold;
-    color: rgb(0, 217, 255);
+    color: white;
     margin-bottom: 16px;
 }
 
 .about-desc {
-    font-size: 20px;
-    color: rgb(160, 168, 192);
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
     white-space: normal;
     -unity-text-align: middle-center;
     margin-bottom: 16px;
 }
 
 .about-credit {
-    font-size: 16px;
-    color: rgb(100, 110, 136);
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.25);
 }
 
 .about-close {
@@ -1035,11 +1031,11 @@
 .device-selector {
     margin-top: 24px;
     width: 320px;
-    background-color: rgba(10, 14, 28, 0.92);
-    border-radius: 20px;
+    background-color: rgba(18, 18, 18, 0.92);
+    border-radius: 12px;
     padding: 12px;
     border-width: 1px;
-    border-color: rgba(0, 220, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.08);
     align-items: stretch;
     opacity: 1;
     scale: 1 1;
@@ -1057,28 +1053,28 @@
     margin-bottom: 4px;
     padding: 0 16px;
     font-size: 16px;
-    color: rgb(160, 168, 192);
+    color: rgba(255, 255, 255, 0.5);
     background-color: transparent;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
+    border-radius: 8px;
     -unity-text-align: middle-left;
     transition-property: background-color, border-color, color;
     transition-duration: 0.2s;
 }
 
 .device-option:hover {
-    border-color: rgba(0, 220, 255, 0.4);
-    color: rgb(240, 244, 255);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
 }
 
 .device-option--active {
-    background-color: rgba(0, 217, 255, 0.12);
-    border-color: rgb(0, 217, 255);
-    color: rgb(0, 217, 255);
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
 }
 
 .device-option:disabled {
-    opacity: 0.35;
-    color: rgb(100, 110, 136);
+    opacity: 0.25;
+    color: rgba(255, 255, 255, 0.3);
 }
