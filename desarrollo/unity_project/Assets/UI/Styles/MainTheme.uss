@@ -30,7 +30,7 @@
     flex-grow: 1;
     background-color: rgb(10, 10, 10);
     color: rgb(255, 255, 255);
-    -unity-font: resource("Fonts/Inter/Inter-Regular");
+    -unity-font: resource("Fonts/SpaceGrotesk/SpaceGrotesk-Regular");
     -unity-font-definition: initial; /* Ensure legacy font loads if SDF fails */
     font-size: 24px;
 }
