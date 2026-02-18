@@ -33,13 +33,13 @@
              ═══════════════════════════════════════════════ -->
 
         <!-- Slider Container -->
-        <ui:VisualElement name="SliderContainer" class="slider-container slider-hidden" picking-mode="Position">
+        <ui:VisualElement name="SliderContainer" class="slider-container slider-hidden" picking-mode="Ignore">
             <ui:Label text="EXPLODED VIEW" class="slider-label" picking-mode="Ignore" />
             <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider" picking-mode="Position" />
         </ui:VisualElement>
 
         <!-- Shader Mode Menu -->
-        <ui:VisualElement name="ShaderMenu" class="shader-menu shader-menu--hidden" picking-mode="Position">
+        <ui:VisualElement name="ShaderMenu" class="shader-menu shader-menu--hidden" picking-mode="Ignore">
             <ui:Button text="Realistic" name="ShaderMode_Realistic" class="shader-mode-btn shader-mode-btn--active" />
             <ui:Button text="X-Ray" name="ShaderMode_XRay" class="shader-mode-btn" />
             <ui:Button text="Blueprint" name="ShaderMode_Blueprint" class="shader-mode-btn" />
@@ -50,7 +50,7 @@
         </ui:VisualElement>
 
         <!-- Category Filter Menu -->
-        <ui:VisualElement name="CategoryMenu" class="category-menu category-menu--hidden" picking-mode="Position">
+        <ui:VisualElement name="CategoryMenu" class="category-menu category-menu--hidden" picking-mode="Ignore">
             <ui:Button text="ALL" name="CatBtn_All" class="btn-tag btn-tag--active" />
             <ui:Button text="STRUCTURE" name="CatBtn_Structure" class="btn-tag" />
             <ui:Button text="PROPULSION" name="CatBtn_Propulsion" class="btn-tag" />
@@ -59,7 +59,7 @@
         </ui:VisualElement>
 
         <!-- Environment Panel -->
-        <ui:VisualElement name="EnvPanel" class="env-panel env-panel--hidden" picking-mode="Position">
+        <ui:VisualElement name="EnvPanel" class="env-panel env-panel--hidden" picking-mode="Ignore">
             <ui:Label text="ENVIRONMENT" class="env-panel-title" picking-mode="Ignore" />
             <ui:VisualElement class="env-presets-row">
                 <ui:Button text="Studio" name="EnvPreset_Studio" class="env-preset-btn env-preset-btn--active" />
@@ -110,7 +110,7 @@
         <!-- ═══════════════════════════════════════════════
              Bottom Sheet (Details — slides up from very bottom)
              ═══════════════════════════════════════════════ -->
-        <ui:VisualElement name="DetailsSheet" class="details-sheet details-sheet--hidden" picking-mode="Position">
+        <ui:VisualElement name="DetailsSheet" class="details-sheet details-sheet--hidden" picking-mode="Ignore">
             <ui:VisualElement class="sheet-handle" picking-mode="Ignore" />
             
             <!-- Header -->

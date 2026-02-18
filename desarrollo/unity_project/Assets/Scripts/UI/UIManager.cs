@@ -245,7 +245,11 @@ namespace WebGL.UI
             if (aboutCloseBtn != null) aboutCloseBtn.clicked += () =>
             {
                 var aboutPanel = root.Q<VisualElement>("AboutPanel");
-                if (aboutPanel != null) aboutPanel.AddToClassList("about-panel--hidden");
+                if (aboutPanel != null)
+                {
+                    aboutPanel.AddToClassList("about-panel--hidden");
+                    aboutPanel.style.display = StyleKeyword.Null; // clear inline override
+                }
             };
 
             // Initial State
@@ -260,6 +264,9 @@ namespace WebGL.UI
             EnsureManagers();
 
             // Hotspots are NOT initialized here — gated by _heroDismissed.
+
+            // Ensure all buttons block 3D input (Fixes Info button deselecting piece)
+            RegisterButtonInputBlockers();
 
             // Ensure layout is correct from frame 0
             RepositionPopups();
@@ -822,6 +829,21 @@ namespace WebGL.UI
                 partNameLabel.text = "SELECT A PART";
                 partNameLabel.style.color = new StyleColor(new Color(0.6f, 0.6f, 0.7f));
             }
+        }
+
+        private void RegisterButtonInputBlockers()
+        {
+            // Find all buttons in the UI
+            root.Query<Button>().ForEach(btn => 
+            {
+                // When hovering ANY button, block 3D input
+                btn.RegisterCallback<PointerEnterEvent>(evt => OrbitCameraController.GlobalInputBlocked = true);
+                btn.RegisterCallback<PointerLeaveEvent>(evt => OrbitCameraController.GlobalInputBlocked = false);
+                
+                // Stop click propagation to prevent 3D selection/deselection
+                btn.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
+                btn.RegisterCallback<PointerUpEvent>(evt => evt.StopPropagation());
+            });
         }
 
         #endregion
