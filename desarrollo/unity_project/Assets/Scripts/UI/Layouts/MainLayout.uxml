@@ -189,7 +189,7 @@
     <ui:VisualElement name="HeroContainer" class="hero-container">
         <!-- Main Hero Content -->
         <ui:VisualElement name="HeroMain" style="width: 100%; height: 100%; align-items: center; justify-content: center;">
-            <ui:Label text="DRONE VIEWER" class="hero-title" picking-mode="Ignore" />
+            <ui:Label text="Drone Viewer" class="hero-title" picking-mode="Ignore" />
             <ui:Label text="Interactive 3D Visualization" class="hero-subtitle" picking-mode="Ignore" />
             
             <ui:VisualElement class="hero-menu">
