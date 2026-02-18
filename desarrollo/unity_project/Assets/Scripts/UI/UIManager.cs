@@ -914,23 +914,9 @@ namespace WebGL.UI
             // Verify containers exist
             if (contentDetails == null) return;
 
-            // Helper to hide
-            void Hide(VisualElement el) 
-            {
-                if (el == null) return;
-                el.AddToClassList("sheet-content--hidden");
-                el.RemoveFromClassList("sheet-content--active");
-            }
-            // Helper to show
-            void Show(VisualElement el)
-            {
-                if (el == null) return;
-                el.RemoveFromClassList("sheet-content--hidden");
-                el.AddToClassList("sheet-content--active");
-            }
-
             // Only Details currently supported in Sheet
-            Show(contentDetails);
+            contentDetails.RemoveFromClassList("sheet-content--hidden");
+            contentDetails.AddToClassList("sheet-content--active");
 
              // Title checks
             string titleText = (SelectionManager.Instance != null && SelectionManager.Instance.HasSelection) 

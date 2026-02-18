@@ -72,7 +72,6 @@
 .hero-title {
     font-size: 64px;
     -unity-font: resource("Fonts/SpaceGrotesk/SpaceGrotesk-Bold");
-    -unity-font-definition: none;
     -unity-font-style: bold;
     color: white;
     margin-bottom: 16px;
