@@ -647,26 +647,27 @@
 }
 
 .btn-primary {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.3);
     color: white;
     border-width: 1px;
 }
 
 .btn-primary:hover {
     background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-    scale: 1.02;
+    border-color: white;
+    scale: 1.05;
 }
 
 .btn-ghost {
     background-color: transparent;
-    border-color: rgba(255, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    border-width: 1px;
 }
 
 .btn-ghost:hover {
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
     color: white;
     background-color: rgba(255, 255, 255, 0.05);
 }
@@ -689,7 +690,8 @@
 }
 
 .btn-wide {
-    width: 240px;
+    width: 280px;
+    margin-bottom: 12px;
 }
 
 .btn-full-width {
@@ -1115,6 +1117,7 @@
 .device-selector--hidden {
     display: none;
 }
+
 
 .device-option {
     height: 48px;
