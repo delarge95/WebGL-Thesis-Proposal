@@ -202,7 +202,7 @@
 
         <!-- Submenu: DEVICES -->
         <ui:VisualElement name="HeroSubmenu_Devices" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
-            <ui:Button name="SubmenuBackBtn_Devices" class="btn-back" text="<" />
+            <ui:Button name="SubmenuBackBtn_Devices" class="btn-back" text="&lt;" />
             <ui:Label text="SELECT DEVICE" class="hero-title" />
             <ui:ScrollView class="submenu-scroll" mode="Vertical" touch-scroll-type="Elastic">
                 <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="🛸  DJI Phantom 4 Pro" />
@@ -213,7 +213,7 @@
 
         <!-- Submenu: ABOUT -->
         <ui:VisualElement name="HeroSubmenu_About" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
-            <ui:Button name="SubmenuBackBtn_About" class="btn-back" text="<" />
+            <ui:Button name="SubmenuBackBtn_About" class="btn-back" text="&lt;" />
             <ui:Label text="ABOUT" class="hero-title" />
             <ui:ScrollView class="submenu-scroll" mode="Vertical" touch-scroll-type="Elastic">
                 <ui:Label text="Interactive 3D drone visualization for engineering education. Built with Unity WebGL." class="about-desc" />
@@ -224,7 +224,7 @@
 
         <!-- Submenu: EXIT -->
         <ui:VisualElement name="HeroSubmenu_Exit" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
-            <ui:Button name="SubmenuBackBtn_Exit" class="btn-back" text="<" />
+            <ui:Button name="SubmenuBackBtn_Exit" class="btn-back" text="&lt;" />
             <ui:Label text="EXIT APP" class="hero-title" />
             <ui:Label text="Are you sure you want to stop the experience?" class="about-desc" />
             <ui:VisualElement class="actions-row-centered">
