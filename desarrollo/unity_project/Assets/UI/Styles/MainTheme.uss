@@ -30,6 +30,8 @@
     flex-grow: 1;
     background-color: rgb(10, 10, 10);
     color: rgb(255, 255, 255);
+    -unity-font: resource("Fonts/Inter/Inter-Regular");
+    -unity-font-definition: initial; /* Ensure legacy font loads if SDF fails */
     font-size: 24px;
 }
 
@@ -293,6 +295,7 @@
 .details-sheet--hidden {
     translate: 0 100%;
     opacity: 1;
+    picking-mode: ignore;
 }
 
 .sheet-handle {
@@ -395,6 +398,10 @@
     picking-mode: ignore;
 }
 
+.category-menu--hidden > * {
+    picking-mode: ignore;
+}
+
 /* Category Tag Buttons */
 .btn-tag {
     width: auto;
@@ -467,7 +474,7 @@
     picking-mode: ignore;
 }
 
-.slider-hidden > * {
+.slider-hidden > *, .shader-menu--hidden > *, .category-menu--hidden > *, .env-panel--hidden > * {
     picking-mode: ignore;
 }
 
@@ -842,6 +849,10 @@
     picking-mode: ignore;
 }
 
+.shader-menu--hidden > * {
+    picking-mode: ignore;
+}
+
 .shader-mode-btn {
     min-width: 80px;
     height: 40px;
@@ -894,6 +905,10 @@
 .env-panel--hidden {
     opacity: 0;
     scale: 0.92 0.92;
+    picking-mode: ignore;
+}
+
+.env-panel--hidden > * {
     picking-mode: ignore;
 }
 
@@ -997,6 +1012,7 @@
 
 .about-panel--hidden {
     display: none;
+    picking-mode: ignore;
 }
 
 .about-title {

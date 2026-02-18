@@ -57,7 +57,14 @@ namespace WebGL.Core.Managers
             targetDistance = distance;
             
             // FORCE override inspector values that might be stale
-            minVerticalAngle = -89f; 
+            minVerticalAngle = -89f;
+
+            // Force Web Design Background Color (#0a0a0a)
+            if (Camera.main != null)
+            {
+                Camera.main.clearFlags = CameraClearFlags.SolidColor;
+                Camera.main.backgroundColor = new Color(10f / 255f, 10f / 255f, 10f / 255f, 1f);
+            } 
             maxVerticalAngle = 89f;
         }
 
