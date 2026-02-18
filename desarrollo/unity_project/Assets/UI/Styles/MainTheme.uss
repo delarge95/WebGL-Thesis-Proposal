@@ -111,6 +111,13 @@
     letter-spacing: 2px;
 }
 
+#HomeBtn {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    translate: 0 -50%;
+}
+
 #ResetViewBtn {
     position: absolute;
     right: 24px;
@@ -387,12 +394,12 @@
     opacity: 0;
     scale: 0.88 0.88;
     translate: -50% 16px;
-
+    picking-mode: ignore;
 }
 
 /* Ensure children are also ignored when hidden to prevent blocking clicks */
 .category-menu--hidden > * {
-
+    picking-mode: ignore;
 }
 
 /* Category Tag Buttons */
@@ -464,11 +471,11 @@
     opacity: 0;
     scale: 0.96 0.96;
     translate: 0 16px;
-
+    picking-mode: ignore;
 }
 
 .slider-hidden > * {
-
+    picking-mode: ignore;
 }
 
 /* slider-container--shifted-up removed — menus inside BottomBar now */
@@ -832,11 +839,11 @@
     opacity: 0;
     scale: 0.88 0.88;
     translate: -50% 16px;
-
+    picking-mode: ignore;
 }
 
 .shader-menu--hidden > * {
-
+    picking-mode: ignore;
 }
 
 .shader-mode-btn {
@@ -891,11 +898,11 @@
 .env-panel--hidden {
     opacity: 0;
     scale: 0.92 0.92;
-
+    picking-mode: ignore;
 }
 
 .env-panel--hidden > * {
-
+    picking-mode: ignore;
 }
 
 .env-panel-title {
@@ -993,9 +1000,7 @@
 }
 
 .about-panel--hidden {
-    opacity: 0;
-    scale: 0.9 0.9;
-
+    display: none;
 }
 
 .about-title {
@@ -1022,4 +1027,58 @@
     position: absolute;
     top: 16px;
     right: 16px;
+}
+
+/* ────────────────────────────────────────────────
+   Device Selector (Hero submenu)
+   ──────────────────────────────────────────────── */
+.device-selector {
+    margin-top: 24px;
+    width: 320px;
+    background-color: rgba(10, 14, 28, 0.92);
+    border-radius: 20px;
+    padding: 12px;
+    border-width: 1px;
+    border-color: rgba(0, 220, 255, 0.15);
+    align-items: stretch;
+    opacity: 1;
+    scale: 1 1;
+    transition-property: opacity, scale;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.device-selector--hidden {
+    display: none;
+}
+
+.device-option {
+    height: 48px;
+    margin-bottom: 4px;
+    padding: 0 16px;
+    font-size: 16px;
+    color: rgb(160, 168, 192);
+    background-color: transparent;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    -unity-text-align: middle-left;
+    transition-property: background-color, border-color, color;
+    transition-duration: 0.2s;
+}
+
+.device-option:hover {
+    border-color: rgba(0, 220, 255, 0.4);
+    color: rgb(240, 244, 255);
+}
+
+.device-option--active {
+    background-color: rgba(0, 217, 255, 0.12);
+    border-color: rgb(0, 217, 255);
+    color: rgb(0, 217, 255);
+}
+
+.device-option:disabled {
+    opacity: 0.35;
+    color: rgb(100, 110, 136);
 }

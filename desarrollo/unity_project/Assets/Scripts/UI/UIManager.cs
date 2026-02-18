@@ -199,25 +199,46 @@ namespace WebGL.UI
 
             // ── Hero Menu ──
             var heroExploreBtn = root.Q<Button>("HeroExploreBtn");
-            var heroAssemblyBtn = root.Q<Button>("HeroAssemblyBtn");
+            var heroDeviceBtn = root.Q<Button>("HeroDeviceBtn");
             var heroAboutBtn = root.Q<Button>("HeroAboutBtn");
+            var heroExitBtn = root.Q<Button>("HeroExitBtn");
             _heroContainer = root.Q<VisualElement>("HeroContainer");
+            var deviceSelector = root.Q<VisualElement>("DeviceSelector");
 
             if (heroExploreBtn != null) heroExploreBtn.clicked += () =>
             {
                 DismissHero();
                 if (AppStateMachine.Instance != null) AppStateMachine.Instance.EnterExploration();
             };
-            if (heroAssemblyBtn != null) heroAssemblyBtn.clicked += () =>
+            if (heroDeviceBtn != null) heroDeviceBtn.clicked += () =>
             {
-                DismissHero();
-                if (AppStateMachine.Instance != null) AppStateMachine.Instance.EnterExplodedView();
+                if (deviceSelector != null)
+                    deviceSelector.ToggleInClassList("device-selector--hidden");
             };
             if (heroAboutBtn != null) heroAboutBtn.clicked += () =>
             {
                 var aboutPanel = root.Q<VisualElement>("AboutPanel");
-                if (aboutPanel != null) aboutPanel.RemoveFromClassList("about-panel--hidden");
+                if (aboutPanel != null)
+                {
+                    aboutPanel.RemoveFromClassList("about-panel--hidden");
+                    aboutPanel.style.display = DisplayStyle.Flex;
+                }
             };
+            if (heroExitBtn != null) heroExitBtn.clicked += () =>
+            {
+#if UNITY_WEBGL && !UNITY_EDITOR
+                Application.ExternalEval("window.history.back()");
+#else
+                Application.Quit();
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#endif
+#endif
+            };
+
+            // ── Home Button (Return to Hero) ──
+            var homeBtn = root.Q<Button>("HomeBtn");
+            if (homeBtn != null) homeBtn.clicked += ReturnToHero;
 
             // ── About Close Button ──
             var aboutCloseBtn = root.Q<Button>("AboutCloseBtn");
@@ -267,6 +288,47 @@ namespace WebGL.UI
                 HotspotManager.Instance.SetVisible(true);
         }
 
+        /// <summary>Return to the hero screen from 3D viewer</summary>
+        private void ReturnToHero()
+        {
+            _heroDismissed = false;
+
+            // Close any open panels/menus first
+            SetSheetState(false);
+            if (shaderMenu != null) { shaderMenu.AddToClassList("shader-menu--hidden"); _shaderMenuShown = false; }
+            if (categoryMenu != null) categoryMenu.AddToClassList("category-menu--hidden");
+            if (envPanel != null) envPanel.AddToClassList("env-panel--hidden");
+            if (sliderContainer != null) sliderContainer.AddToClassList("slider-hidden");
+
+            // Hide hotspots
+            if (HotspotManager.Instance != null)
+                HotspotManager.Instance.SetVisible(false);
+
+            // Reset camera
+            if (OrbitCameraController.Instance != null)
+                OrbitCameraController.Instance.ResetView();
+
+            // Reset view mode
+            if (ViewModeManager.Instance != null)
+                ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
+
+            // Reset app state
+            if (AppStateMachine.Instance != null)
+                AppStateMachine.Instance.SetState(AppState.Exploration);
+
+            // Re-show hero
+            if (_heroContainer != null)
+            {
+                _heroContainer.RemoveFromClassList("hero--hidden");
+                _heroContainer.pickingMode = PickingMode.Position;
+                _heroContainer.style.display = DisplayStyle.Flex;
+                
+                // Hide device selector when returning
+                var deviceSelector = _heroContainer.Q<VisualElement>("DeviceSelector");
+                if (deviceSelector != null) deviceSelector.AddToClassList("device-selector--hidden");
+            }
+        }
+
         /// <summary>Ensure ViewModeManager and EnvironmentController exist</summary>
         private void EnsureManagers()
         {
@@ -307,7 +369,12 @@ namespace WebGL.UI
             if (shaderMenu == null) return;
             _shaderMenuShown = !_shaderMenuShown;
             
-            if (_shaderMenuShown) shaderMenu.BringToFront();
+            if (_shaderMenuShown)
+            {
+                shaderMenu.BringToFront();
+                // Close env panel to prevent 4-deep stacking overlap
+                if (envPanel != null) envPanel.AddToClassList("env-panel--hidden");
+            }
 
             shaderMenu.EnableInClassList("shader-menu--hidden", !_shaderMenuShown);
             RepositionPopups();
@@ -392,7 +459,16 @@ namespace WebGL.UI
         {
             if (envPanel == null) return;
             envPanel.ToggleInClassList("env-panel--hidden");
-            if (!envPanel.ClassListContains("env-panel--hidden")) envPanel.BringToFront();
+            if (!envPanel.ClassListContains("env-panel--hidden"))
+            {
+                envPanel.BringToFront();
+                // Close shader menu to prevent 4-deep stacking overlap
+                if (shaderMenu != null)
+                {
+                    shaderMenu.AddToClassList("shader-menu--hidden");
+                    _shaderMenuShown = false;
+                }
+            }
             RepositionPopups();
         }
 
