@@ -65,6 +65,9 @@ namespace WebGL.Core.Managers
                 Camera.main.clearFlags = CameraClearFlags.SolidColor;
                 Camera.main.backgroundColor = new Color(10f / 255f, 10f / 255f, 10f / 255f, 1f);
             } 
+            // Disable Skybox to ensure solid color
+            RenderSettings.skybox = null;
+
             maxVerticalAngle = 89f;
         }
 

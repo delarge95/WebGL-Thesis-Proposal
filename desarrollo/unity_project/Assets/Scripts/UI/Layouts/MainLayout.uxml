@@ -176,32 +176,7 @@
                 </ui:ScrollView>
             </ui:VisualElement>
 
-            <!-- Content Container: DEVICES -->
-            <ui:VisualElement name="SheetContent_Devices" class="sheet-content sheet-content--hidden" picking-mode="Ignore">
-                 <ui:ScrollView class="sheet-scroll" mode="Vertical" touch-scroll-type="Elastic" picking-mode="Position">
-                    <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="🛸  DJI Phantom 4 Pro" />
-                    <ui:Button name="DeviceBtn_Robot" class="device-option" text="🤖  Boston Dynamics Spot" enabled="false" />
-                    <ui:Button name="DeviceBtn_Satellite" class="device-option" text="🛰️  CubeSat 3U" enabled="false" />
-                </ui:ScrollView>
-            </ui:VisualElement>
 
-            <!-- Content Container: ABOUT -->
-            <ui:VisualElement name="SheetContent_About" class="sheet-content sheet-content--hidden" picking-mode="Ignore">
-                <ui:ScrollView class="sheet-scroll" mode="Vertical" touch-scroll-type="Elastic" picking-mode="Position">
-                    <ui:Label text="Interactive 3D drone visualization for engineering education. Built with Unity WebGL." class="about-desc" picking-mode="Ignore" />
-                    <ui:Label text="Thesis Project — 2026" class="about-credit" picking-mode="Ignore" />
-                    <ui:Button text="VIEW PROJECT ON GITHUB" class="btn btn-ghost btn-wide" />
-                </ui:ScrollView>
-            </ui:VisualElement>
-
-            <!-- Content Container: EXIT -->
-            <ui:VisualElement name="SheetContent_Exit" class="sheet-content sheet-content--hidden" picking-mode="Ignore">
-                <ui:Label text="Are you sure you want to exit the application?" class="about-desc" picking-mode="Ignore" />
-                <ui:VisualElement class="actions-row-centered">
-                    <ui:Button name="ExitConfirmBtn" text="EXIT APP" class="btn btn-primary btn-wide" />
-                    <ui:Button name="ExitCancelBtn" text="CANCEL" class="btn btn-ghost btn-wide" />
-                </ui:VisualElement>
-            </ui:VisualElement>
 
         </ui:VisualElement>
 
@@ -212,14 +187,50 @@
          picking-mode Ignore when hidden so it doesn't block 3D clicks
          ═══════════════════════════════════════════════ -->
     <ui:VisualElement name="HeroContainer" class="hero-container">
-        <ui:Label text="DRONE VIEWER" class="hero-title" picking-mode="Ignore" />
-        <ui:Label text="Interactive 3D Visualization" class="hero-subtitle" picking-mode="Ignore" />
-        
-        <ui:VisualElement class="hero-menu">
-            <ui:Button name="HeroExploreBtn" class="btn btn-primary btn-wide" text="EXPLORE" />
-            <ui:Button name="HeroDeviceBtn" class="btn btn-ghost btn-wide" text="SELECT DEVICE" />
-            <ui:Button name="HeroAboutBtn" class="btn btn-ghost btn-wide" text="ABOUT" />
-            <ui:Button name="HeroExitBtn" class="btn btn-ghost btn-wide" text="EXIT" />
+        <!-- Main Hero Content -->
+        <ui:VisualElement name="HeroMain" style="width: 100%; height: 100%; align-items: center; justify-content: center;">
+            <ui:Label text="DRONE VIEWER" class="hero-title" picking-mode="Ignore" />
+            <ui:Label text="Interactive 3D Visualization" class="hero-subtitle" picking-mode="Ignore" />
+            
+            <ui:VisualElement class="hero-menu">
+                <ui:Button name="HeroExploreBtn" class="btn btn-primary btn-wide" text="EXPLORE" />
+                <ui:Button name="HeroDeviceBtn" class="btn btn-ghost btn-wide" text="SELECT DEVICE" />
+                <ui:Button name="HeroAboutBtn" class="btn btn-ghost btn-wide" text="ABOUT" />
+                <ui:Button name="HeroExitBtn" class="btn btn-ghost btn-wide" text="EXIT" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Submenu: DEVICES -->
+        <ui:VisualElement name="HeroSubmenu_Devices" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
+            <ui:Button name="SubmenuBackBtn_Devices" class="btn-back" text="<" />
+            <ui:Label text="SELECT DEVICE" class="hero-title" />
+            <ui:ScrollView class="submenu-scroll" mode="Vertical" touch-scroll-type="Elastic">
+                <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="🛸  DJI Phantom 4 Pro" />
+                <ui:Button name="DeviceBtn_Robot" class="device-option" text="🤖  Boston Dynamics Spot" enabled="false" />
+                <ui:Button name="DeviceBtn_Satellite" class="device-option" text="🛰️  CubeSat 3U" enabled="false" />
+            </ui:ScrollView>
+        </ui:VisualElement>
+
+        <!-- Submenu: ABOUT -->
+        <ui:VisualElement name="HeroSubmenu_About" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
+            <ui:Button name="SubmenuBackBtn_About" class="btn-back" text="<" />
+            <ui:Label text="ABOUT" class="hero-title" />
+            <ui:ScrollView class="submenu-scroll" mode="Vertical" touch-scroll-type="Elastic">
+                <ui:Label text="Interactive 3D drone visualization for engineering education. Built with Unity WebGL." class="about-desc" />
+                <ui:Label text="Thesis Project — 2026" class="about-credit" />
+                <ui:Button text="VIEW PROJECT ON GITHUB" class="btn btn-ghost btn-wide" />
+            </ui:ScrollView>
+        </ui:VisualElement>
+
+        <!-- Submenu: EXIT -->
+        <ui:VisualElement name="HeroSubmenu_Exit" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
+            <ui:Button name="SubmenuBackBtn_Exit" class="btn-back" text="<" />
+            <ui:Label text="EXIT APP" class="hero-title" />
+            <ui:Label text="Are you sure you want to stop the experience?" class="about-desc" />
+            <ui:VisualElement class="actions-row-centered">
+                <ui:Button name="ExitConfirmBtn" text="EXIT APP" class="btn btn-primary btn-wide" />
+                <ui:Button name="ExitCancelBtn" text="CANCEL" class="btn btn-ghost btn-wide" />
+            </ui:VisualElement>
         </ui:VisualElement>
 
         <!-- Device Selector removed / moved to BottomSheet -->

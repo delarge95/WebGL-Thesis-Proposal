@@ -58,12 +58,17 @@ namespace WebGL.UI
         private bool _shaderMenuShown = false;
 
         // Sheet Content Containers
-        private VisualElement contentDetails;
-        private VisualElement contentDevices;
-        private VisualElement contentAbout;
-        private VisualElement contentExit;
+        private VisualElement contentDetails; 
+        
+        // Hero Submenus
+        private VisualElement heroMain;
+        private VisualElement submenuDevices;
+        private VisualElement submenuAbout;
+        private VisualElement submenuExit;
 
-        public enum SheetMode { Details, Devices, About, Exit }
+        public enum SheetMode { Details } // Only Details uses the sheet now
+        public enum SubmenuType { Devices, About, Exit }
+        
         private SheetMode currentSheetMode = SheetMode.Details;
 
         // ── Layout Math Constants (8pt grid) ──
@@ -107,9 +112,7 @@ namespace WebGL.UI
             
             // Bind Content Containers
             contentDetails = root.Q<VisualElement>("SheetContent_Details");
-            contentDevices = root.Q<VisualElement>("SheetContent_Devices");
-            contentAbout = root.Q<VisualElement>("SheetContent_About");
-            contentExit = root.Q<VisualElement>("SheetContent_Exit");
+            // Removed other sheet contents as they are now Hero Submenus
 
             sliderContainer = root.Q<VisualElement>("SliderContainer");
             
@@ -214,6 +217,7 @@ namespace WebGL.UI
             }
 
             // ── Hero Menu ──
+            // ── Hero Menu ──
             var heroExploreBtn = root.Q<Button>("HeroExploreBtn");
             var heroDeviceBtn = root.Q<Button>("HeroDeviceBtn");
             var heroAboutBtn = root.Q<Button>("HeroAboutBtn");
@@ -221,6 +225,10 @@ namespace WebGL.UI
             var sheetCloseBtn = root.Q<Button>("SheetCloseBtn");
             
             _heroContainer = root.Q<VisualElement>("HeroContainer");
+            heroMain = root.Q<VisualElement>("HeroMain");
+            submenuDevices = root.Q<VisualElement>("HeroSubmenu_Devices");
+            submenuAbout = root.Q<VisualElement>("HeroSubmenu_About");
+            submenuExit = root.Q<VisualElement>("HeroSubmenu_Exit");
 
             if (heroExploreBtn != null) heroExploreBtn.clicked += () =>
             {
@@ -228,19 +236,28 @@ namespace WebGL.UI
                 if (AppStateMachine.Instance != null) AppStateMachine.Instance.EnterExploration();
             };
             
-            // Unified Bottom Sheet Navigation
-            if (heroDeviceBtn != null) heroDeviceBtn.clicked += () => OpenSheet(SheetMode.Devices);
-            if (heroAboutBtn != null) heroAboutBtn.clicked += () => OpenSheet(SheetMode.About);
-            if (heroExitBtn != null) heroExitBtn.clicked += () => OpenSheet(SheetMode.Exit);
+            // Hero Submenu Navigation
+            if (heroDeviceBtn != null) heroDeviceBtn.clicked += () => OpenHeroSubmenu(SubmenuType.Devices);
+            if (heroAboutBtn != null) heroAboutBtn.clicked += () => OpenHeroSubmenu(SubmenuType.About);
+            if (heroExitBtn != null) heroExitBtn.clicked += () => OpenHeroSubmenu(SubmenuType.Exit);
             
-            // Sheet Close
+            // Submenu Back Buttons
+            var backDevices = root.Q<Button>("SubmenuBackBtn_Devices");
+            var backAbout = root.Q<Button>("SubmenuBackBtn_About");
+            var backExit = root.Q<Button>("SubmenuBackBtn_Exit");
+            
+            if (backDevices != null) backDevices.clicked += CloseHeroSubmenu;
+            if (backAbout != null) backAbout.clicked += CloseHeroSubmenu;
+            if (backExit != null) backExit.clicked += CloseHeroSubmenu;
+
+            // Sheet Close (For Details Sheet)
             if (sheetCloseBtn != null) sheetCloseBtn.clicked += () => SetSheetState(false);
 
-            // Exit Confirmation
+            // Exit Confirmation Actions (Inside Submenu)
             var exitConfirmBtn = root.Q<Button>("ExitConfirmBtn");
             var exitCancelBtn = root.Q<Button>("ExitCancelBtn");
             
-            if (exitCancelBtn != null) exitCancelBtn.clicked += () => SetSheetState(false);
+            if (exitCancelBtn != null) exitCancelBtn.clicked += CloseHeroSubmenu; // Cancel returns to Hero Main
             if (exitConfirmBtn != null) exitConfirmBtn.clicked += () => 
             {
 #if UNITY_WEBGL && !UNITY_EDITOR
@@ -331,15 +348,15 @@ namespace WebGL.UI
                 AppStateMachine.Instance.SetState(AppState.Exploration);
 
             // Re-show hero
+            // Re-show hero
             if (_heroContainer != null)
             {
                 _heroContainer.RemoveFromClassList("hero--hidden");
                 _heroContainer.pickingMode = PickingMode.Position;
                 _heroContainer.style.display = DisplayStyle.Flex;
                 
-                // Hide device selector when returning
-                var deviceSelector = _heroContainer.Q<VisualElement>("DeviceSelector");
-                if (deviceSelector != null) deviceSelector.AddToClassList("device-selector--hidden");
+                // Ensure we start at main menu, not a submenu
+                CloseHeroSubmenu();
             }
         }
 
@@ -854,6 +871,42 @@ namespace WebGL.UI
             });
         }
 
+        public void OpenHeroSubmenu(SubmenuType type)
+        {
+            // Toggle Hero Main Content OFF
+            if (heroMain != null) heroMain.style.display = DisplayStyle.None;
+
+            // Reset Submenus
+            if (submenuDevices != null) submenuDevices.RemoveFromClassList("hero-submenu--active");
+            if (submenuAbout != null) submenuAbout.RemoveFromClassList("hero-submenu--active");
+            if (submenuExit != null) submenuExit.RemoveFromClassList("hero-submenu--active");
+
+            // Activate Target
+            switch (type)
+            {
+                case SubmenuType.Devices:
+                    if (submenuDevices != null) submenuDevices.AddToClassList("hero-submenu--active");
+                    break;
+                case SubmenuType.About:
+                    if (submenuAbout != null) submenuAbout.AddToClassList("hero-submenu--active");
+                    break;
+                case SubmenuType.Exit:
+                    if (submenuExit != null) submenuExit.AddToClassList("hero-submenu--active");
+                    break;
+            }
+        }
+
+        public void CloseHeroSubmenu()
+        {
+            // Reset Submenus
+            if (submenuDevices != null) submenuDevices.RemoveFromClassList("hero-submenu--active");
+            if (submenuAbout != null) submenuAbout.RemoveFromClassList("hero-submenu--active");
+            if (submenuExit != null) submenuExit.RemoveFromClassList("hero-submenu--active");
+
+            // Restore Hero Main
+            if (heroMain != null) heroMain.style.display = DisplayStyle.Flex;
+        }
+
         public void OpenSheet(SheetMode mode)
         {
             DismissHero(); // Ensure hero is dismissed (keeps top bar)
@@ -876,36 +929,13 @@ namespace WebGL.UI
                 el.AddToClassList("sheet-content--active");
             }
 
-            // Reset all
-            Hide(contentDetails);
-            Hide(contentDevices);
-            Hide(contentAbout);
-            Hide(contentExit);
+            // Only Details currently supported in Sheet
+            Show(contentDetails);
 
-            // Set active
-            string titleText = "";
-            switch (mode)
-            {
-                case SheetMode.Details:
-                    Show(contentDetails);
-                    // Title checks
-                    titleText = (SelectionManager.Instance != null && SelectionManager.Instance.HasSelection) 
-                        ? (sheetTitle != null ? sheetTitle.text : "PART DETAILS")
-                        : "SELECT A PART"; 
-                    break;
-                case SheetMode.Devices:
-                    Show(contentDevices);
-                    titleText = "SELECT DEVICE";
-                    break;
-                case SheetMode.About:
-                    Show(contentAbout);
-                    titleText = "ABOUT";
-                    break;
-                case SheetMode.Exit:
-                    Show(contentExit);
-                    titleText = "EXIT APPLICATION";
-                    break;
-            }
+             // Title checks
+            string titleText = (SelectionManager.Instance != null && SelectionManager.Instance.HasSelection) 
+                ? (sheetTitle != null ? sheetTitle.text : "PART DETAILS")
+                : "SELECT A PART"; 
 
             if (sheetTitle != null) sheetTitle.text = titleText;
             
