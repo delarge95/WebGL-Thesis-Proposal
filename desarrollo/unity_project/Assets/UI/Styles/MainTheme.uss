@@ -75,8 +75,7 @@
     -unity-font-style: bold;
     color: white;
     margin-bottom: 16px;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    letter-spacing: -2px;
+    letter-spacing: -1px;
 }
 
 .hero-subtitle {
