@@ -11,12 +11,15 @@
 
         <!-- Top Bar (Header) -->
         <ui:VisualElement name="TopBar" class="top-bar" picking-mode="Ignore">
+            <ui:Button name="HomeBtn" class="icon-button-small" tooltip="Return to Menu">
+                <ui:Label text="⌂" class="button-icon-text-small" picking-mode="Ignore"/>
+            </ui:Button>
             <ui:Label text="DRONE VIEWER" class="header-title" picking-mode="Ignore" />
             <ui:Button name="HotspotBtn" class="icon-button-small" tooltip="Toggle Hotspots">
-                <ui:Label text="🎯" class="button-icon-text-small" picking-mode="Ignore"/>
+                <ui:Label text="PINS" class="button-icon-text-small" picking-mode="Ignore"/>
             </ui:Button>
             <ui:Button name="ResetViewBtn" class="icon-button-small" tooltip="Reset Camera">
-                <ui:Label text="↺" class="button-icon-text-small" picking-mode="Ignore"/>
+                <ui:Label text="RST" class="button-icon-text-small" picking-mode="Ignore"/>
             </ui:Button>
         </ui:VisualElement>
 
@@ -82,19 +85,19 @@
             <!-- Actions Row -->
             <ui:VisualElement class="actions-row" picking-mode="Ignore">
                 <ui:Button name="ShaderBtn" class="icon-button" tooltip="Toggle Render Mode (Hold for menu)">
-                    <ui:Label text="👁️" class="button-icon-text" picking-mode="Ignore"/>
+                    <ui:Label text="VIEW" class="button-icon-text" picking-mode="Ignore"/>
                 </ui:Button>
                 <ui:Button name="LayerBtn" class="icon-button" tooltip="Filter Layers">
-                    <ui:Label text="📑" class="button-icon-text" picking-mode="Ignore"/>
+                    <ui:Label text="LAYERS" class="button-icon-text" picking-mode="Ignore"/>
                 </ui:Button>
                 <ui:Button name="ExplodeBtn" class="icon-button" tooltip="Toggle Explosion">
-                    <ui:Label text="💥" class="button-icon-text" picking-mode="Ignore"/>
+                    <ui:Label text="EXP" class="button-icon-text" picking-mode="Ignore"/>
                 </ui:Button>
                 <ui:Button name="InfoBtn" class="icon-button" tooltip="View Details">
-                    <ui:Label text="ℹ️" class="button-icon-text" picking-mode="Ignore"/>
+                    <ui:Label text="INFO" class="button-icon-text" picking-mode="Ignore"/>
                 </ui:Button>
                 <ui:Button name="EnvBtn" class="icon-button" tooltip="Environment Settings">
-                    <ui:Label text="🌐" class="button-icon-text" picking-mode="Ignore"/>
+                    <ui:Label text="ENV" class="button-icon-text" picking-mode="Ignore"/>
                 </ui:Button>
             </ui:VisualElement>
 
@@ -184,8 +187,16 @@
         
         <ui:VisualElement class="hero-menu">
             <ui:Button name="HeroExploreBtn" class="btn btn-primary btn-wide" text="EXPLORE" />
-            <ui:Button name="HeroAssemblyBtn" class="btn btn-ghost btn-wide" text="ASSEMBLY GUIDE" />
+            <ui:Button name="HeroDeviceBtn" class="btn btn-ghost btn-wide" text="SELECT DEVICE" />
             <ui:Button name="HeroAboutBtn" class="btn btn-ghost btn-wide" text="ABOUT" />
+            <ui:Button name="HeroExitBtn" class="btn btn-ghost btn-wide" text="EXIT" />
+        </ui:VisualElement>
+
+        <!-- Device Selector (hidden by default) -->
+        <ui:VisualElement name="DeviceSelector" class="device-selector device-selector--hidden">
+            <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="🛸  DJI Phantom 4 Pro" />
+            <ui:Button name="DeviceBtn_Robot" class="device-option" text="🤖  Boston Dynamics Spot" enabled="false" />
+            <ui:Button name="DeviceBtn_Satellite" class="device-option" text="🛰️  CubeSat 3U" enabled="false" />
         </ui:VisualElement>
     </ui:VisualElement>
 
