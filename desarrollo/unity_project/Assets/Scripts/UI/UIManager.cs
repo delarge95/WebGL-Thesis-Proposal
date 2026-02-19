@@ -411,10 +411,10 @@ namespace WebGL.UI
             {
                 shaderMenu.BringToFront();
                 // Close env panel to prevent 4-deep stacking overlap
-                if (envPanel != null) envPanel.AddToClassList("env-panel--hidden");
+                if (envPanel != null) envPanel.AddToClassList("submenu--hidden");
             }
 
-            shaderMenu.EnableInClassList("shader-menu--hidden", !_shaderMenuShown);
+            shaderMenu.EnableInClassList("submenu--hidden", !_shaderMenuShown);
             RepositionPopups();
         }
 
@@ -458,7 +458,7 @@ namespace WebGL.UI
             for (int i = 0; i < modes.Length; i++)
             {
                 var btn = shaderMenu.Q<Button>($"ShaderMode_{modes[i]}");
-                if (btn != null) btn.EnableInClassList("shader-mode-btn--active", enums[i] == activeMode);
+                if (btn != null) btn.EnableInClassList("submenu-card--active", enums[i] == activeMode);
             }
         }
 
@@ -496,14 +496,14 @@ namespace WebGL.UI
         private void ToggleEnvPanel()
         {
             if (envPanel == null) return;
-            envPanel.ToggleInClassList("env-panel--hidden");
-            if (!envPanel.ClassListContains("env-panel--hidden"))
+            envPanel.ToggleInClassList("submenu--hidden");
+            if (!envPanel.ClassListContains("submenu--hidden"))
             {
                 envPanel.BringToFront();
                 // Close shader menu to prevent 4-deep stacking overlap
                 if (shaderMenu != null)
                 {
-                    shaderMenu.AddToClassList("shader-menu--hidden");
+                    shaderMenu.AddToClassList("submenu--hidden");
                     _shaderMenuShown = false;
                 }
             }
@@ -557,7 +557,7 @@ namespace WebGL.UI
             foreach (var p in presets)
             {
                 var btn = envPanel.Q<Button>($"EnvPreset_{p}");
-                if (btn != null) btn.EnableInClassList("env-preset-btn--active", p == activePreset);
+                if (btn != null) btn.EnableInClassList("submenu-card--active", p == activePreset);
             }
         }
 
@@ -624,6 +624,7 @@ namespace WebGL.UI
                 OrbitCameraController.Instance.SetViewportShift(isOpen ? 0.15f : 0f);
 
             // When info sheet OPENS: hide slider and close ALL submenus
+            // When info sheet OPENS: hide slider and close ALL submenus
             if (isOpen)
             {
                 // Hide exploded view slider
@@ -633,17 +634,17 @@ namespace WebGL.UI
                 // Close shader menu
                 if (shaderMenu != null)
                 {
-                    shaderMenu.AddToClassList("shader-menu--hidden");
+                    shaderMenu.AddToClassList("submenu--hidden");
                     _shaderMenuShown = false;
                 }
 
                 // Close category menu
                 if (categoryMenu != null)
-                    categoryMenu.AddToClassList("category-menu--hidden");
+                    categoryMenu.AddToClassList("submenu--hidden");
 
                 // Close environment panel
                 if (envPanel != null)
-                    envPanel.AddToClassList("env-panel--hidden");
+                    envPanel.AddToClassList("submenu--hidden");
             }
 
             // Reposition all popups (shifted = +200px when sheet is open)
@@ -654,8 +655,8 @@ namespace WebGL.UI
         {
             if (categoryMenu != null)
             {
-                categoryMenu.ToggleInClassList("category-menu--hidden");
-                if (!categoryMenu.ClassListContains("category-menu--hidden")) categoryMenu.BringToFront();
+                categoryMenu.ToggleInClassList("submenu--hidden");
+                if (!categoryMenu.ClassListContains("submenu--hidden")) categoryMenu.BringToFront();
                 RepositionPopups();
             }
         }
@@ -693,13 +694,12 @@ namespace WebGL.UI
 
             // Ordered list of popups — bottom to top stacking priority.
             // Each entry: (element, hiddenClass, estimatedHeight).
-            // Heights are measured from CSS: padding + content.
             var popups = new (UnityEngine.UIElements.VisualElement el, string hiddenClass, float height)[]
             {
                 (sliderContainer, "slider-hidden",        56f),   // label + slider
-                (categoryMenu,    "category-menu--hidden", 64f),   // pill bar row
-                (shaderMenu,      "shader-menu--hidden",   100f),  // Reduced height estimate (fixes Env panel jumping too high)
-                (envPanel,        "env-panel--hidden",     220f),  // presets + 2 sliders
+                (categoryMenu,    "submenu--hidden",      192f),  // increased height for grid
+                (shaderMenu,      "submenu--hidden",      192f),  // increased height for grid
+                (envPanel,        "submenu--hidden",      220f),  // presets + 2 sliders
             };
 
             foreach (var (el, hiddenClass, height) in popups)
@@ -745,7 +745,7 @@ namespace WebGL.UI
                 {
                     var btn = categoryMenu.Q<Button>(btnName);
                     if (btn != null)
-                        btn.EnableInClassList("btn-tag--active", activeCategories.Contains(catName));
+                        btn.EnableInClassList("submenu-card--active", activeCategories.Contains(catName));
                 }
 
                 UpdateButtonState("CatBtn_All", "ALL");
