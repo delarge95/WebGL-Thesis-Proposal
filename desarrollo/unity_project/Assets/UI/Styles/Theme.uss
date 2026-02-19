@@ -127,12 +127,7 @@
     translate: 0 -50%;
 }
 
-#HotspotBtn {
-    position: absolute;
-    right: 128px; /* 24px (margin) + 80px (ResetBtn) + 24px (gap) */
-    top: 50%;
-    translate: 0 -50%;
-}
+/* HotspotBtn moved to Category Menu */
 
 /* ────────────────────────────────────────────────
    Bottom Bar (Controls — Thumb Zone)
@@ -156,50 +151,64 @@
 }
 
 /* Actions Row — 16px spacing between buttons (8pt grid) */
+/* Actions Row — The Unified Glass Pill */
 .actions-row {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-bottom: 16px;
+    
+    background-color: rgba(18, 18, 18, 0.88);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    border-radius: 40px; /* Pill shape for ~80px height */
+    padding: 8px 16px;
+    
+    margin-bottom: 24px;
+    
+    /* Shadow/Glow */
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    
+    transition-property: width, opacity, translate;
+    transition-duration: 0.3s;
 }
 
 /* ────────────────────────────────────────────────
-   Icon Buttons (100px — exceeds 48dp minimum)
+   Icon Buttons (Inside Pill)
    ──────────────────────────────────────────────── */
 .icon-button {
-    width: 72px;
-    height: 72px;
-    margin-left: 16px;
-    margin-right: 16px;
+    width: 64px;
+    height: 64px;
+    margin-left: 8px;
+    margin-right: 8px;
 
-    background-color: rgba(255, 255, 255, 0.05);
+    /* Transparent by default inside pill */
+    background-color: transparent;
     border-radius: 50%;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.08);
+    border-width: 0;
+    border-color: transparent;
 
     justify-content: center;
     align-items: center;
 
-    transition-property: background-color, border-color, scale;
+    transition-property: background-color, scale, color;
     transition-duration: 0.2s;
     transition-timing-function: ease-out;
 }
 
 .icon-button:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.1);
+    scale: 1.1;
 }
 
 .icon-button:active {
-    scale: 0.94;
-    background-color: rgba(255, 255, 255, 0.12);
+    scale: 0.95;
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
-.icon-button:disabled {
-    opacity: 0.3;
-    background-color: rgba(18, 18, 18, 0.5);
-    border-color: rgba(255, 255, 255, 0.04);
-}
+/* ────────────────────────────────────────────────
+   Icon Buttons (100px — exceeds 48dp minimum)
+   ──────────────────────────────────────────────── */
+/* Old .icon-button styles removed — see above */
 
 .button-icon-text {
     font-size: 32px;
