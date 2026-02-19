@@ -2,10 +2,10 @@ Shader "Skybox/AnimatedGradientSkybox"
 {
     Properties
     {
-        _TopColor ("Top Color", Color) = (0.04, 0.04, 0.04, 1)
-        _BottomColor ("Bottom Color", Color) = (0, 0, 0, 1)
-        _Speed ("Speed", Range(0, 10)) = 0.5
-        _Scale ("Scale", Range(0.1, 10)) = 1.0
+        _TopColor ("Center Color", Color) = (0.04, 0.04, 0.06, 1) // Slightly blueish dark center
+        _BottomColor ("Edge Color", Color) = (0, 0, 0, 1)    // Pitch black edge
+        _Speed ("Pulse Speed", Range(0, 10)) = 0.5
+        _Scale ("Radius", Range(0.1, 2.0)) = 0.6            // Smaller radius
     }
     SubShader
     {
@@ -45,24 +45,28 @@ Shader "Skybox/AnimatedGradientSkybox"
 
             fixed4 frag (v2f i) : SV_Target
             {
+                // Screen UV centered
                 float2 uv = i.screenPos.xy / i.screenPos.w;
+                // Correct aspect ratio if possible using _ScreenParams
+                float aspect = _ScreenParams.x / _ScreenParams.y;
+                float2 centeredUV = uv - 0.5;
+                centeredUV.x *= aspect; // Correct aspect so circle is circular
+                
+                float dist = length(centeredUV);
+                
+                // Animation: Breathing Pulse
                 float time = _Time.y * _Speed;
+                float pulse = sin(time) * 0.02; // Subtle pulse
+                float radius = _Scale + pulse;
                 
-                // Subtle organic movement
-                float wave1 = sin(uv.x * _Scale + time) * 0.1;
-                float wave2 = cos(uv.y * _Scale * 0.5 - time * 0.8) * 0.1;
+                // Radial Gradient: Center to Edge
+                // smoothstep for soft falloff
+                float t = smoothstep(0.0, radius, dist);
                 
-                // Gradient with movement
-                float t = saturate(uv.y + wave1 + wave2);
+                // Lerp: 0 (Center) -> _TopColor, 1 (Edge) -> _BottomColor
+                fixed4 col = lerp(_TopColor, _BottomColor, t);
                 
-                // Vignette for premium feel
-                float2 center = uv - 0.5;
-                float vign = 1.0 - dot(center, center) * 0.5;
-                
-                fixed4 col = lerp(_BottomColor, _TopColor, t);
-                
-                // Apply subtle vignette dimming
-                return col * vign;
+                return col;
             }
             ENDCG
         }
