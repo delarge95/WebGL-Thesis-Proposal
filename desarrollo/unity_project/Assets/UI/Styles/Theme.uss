@@ -278,7 +278,7 @@
     opacity: 0;
     transition-duration: 0.3s;
     transition-property: opacity;
-    padding: 80px 48px 40px 48px;
+    padding: 0 48px;
 }
 
 .hero-submenu--active {
@@ -288,8 +288,8 @@
 
 .btn-back {
     position: absolute;
-    top: 40px;
-    left: 40px;
+    top: 80px;
+    left: 24px;
     width: 48px;
     height: 48px;
     background-color: rgba(255, 255, 255, 0.05);
@@ -557,7 +557,7 @@
 .glass-slider #unity-drag-container {
     height: 100%;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .glass-slider .unity-base-slider__tracker {
@@ -1139,6 +1139,7 @@
 .submenu-scroll {
     width: 100%;
     max-width: 400px;
+    overflow: hidden;
 }
 
 .about-desc {
