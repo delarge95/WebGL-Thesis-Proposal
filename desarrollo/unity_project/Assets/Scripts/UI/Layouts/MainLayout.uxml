@@ -15,9 +15,7 @@
                 <ui:Label text="⌂" class="button-icon-text-small" picking-mode="Ignore"/>
             </ui:Button>
             <ui:Label text="DRONE VIEWER" class="header-title" picking-mode="Ignore" />
-            <ui:Button name="HotspotBtn" class="icon-button-small" tooltip="Toggle Hotspots">
-                <ui:Label text="PINS" class="button-icon-text-small" picking-mode="Ignore"/>
-            </ui:Button>
+            <!-- HotspotBtn removed from here -->
             <ui:Button name="ResetViewBtn" class="icon-button-small" tooltip="Reset Camera">
                 <ui:Label text="RST" class="button-icon-text-small" picking-mode="Ignore"/>
             </ui:Button>
@@ -56,6 +54,7 @@
             <ui:Button text="PROPULSION" name="CatBtn_Propulsion" class="btn-tag" />
             <ui:Button text="AVIONICS" name="CatBtn_Avionics" class="btn-tag" />
             <ui:Button text="POWER" name="CatBtn_Power" class="btn-tag" />
+            <ui:Button text="PINS" name="HotspotBtn" class="btn-tag" tooltip="Toggle Hotspots" />
         </ui:VisualElement>
 
         <!-- Environment Panel -->
@@ -84,6 +83,7 @@
         <ui:VisualElement name="BottomBar" class="bottom-bar" picking-mode="Ignore">
             <!-- Actions Row -->
             <ui:VisualElement class="actions-row" picking-mode="Ignore">
+                <!-- Visualization / Tool Group -->
                 <ui:Button name="ShaderBtn" class="icon-button" tooltip="Toggle Render Mode (Hold for menu)">
                     <ui:Label text="VIEW" class="button-icon-text" picking-mode="Ignore"/>
                 </ui:Button>
