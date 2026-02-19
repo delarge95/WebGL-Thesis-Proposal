@@ -110,15 +110,32 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- Environment Panel -->
-        <ui:VisualElement name="EnvPanel" class="env-panel env-panel--hidden" picking-mode="Ignore">
-            <ui:Label text="ENVIRONMENT" class="env-panel-title" picking-mode="Ignore" />
-            <ui:VisualElement class="env-presets-row">
-                <ui:Button text="Studio" name="EnvPreset_Studio" class="env-preset-btn env-preset-btn--active" />
-                <ui:Button text="Sunset" name="EnvPreset_Sunset" class="env-preset-btn" />
-                <ui:Button text="Night" name="EnvPreset_Night" class="env-preset-btn" />
-                <ui:Button text="Blue" name="EnvPreset_Blueprint" class="env-preset-btn" />
-                <ui:Button text="Neutral" name="EnvPreset_Neutral" class="env-preset-btn" />
+        <!-- Environment Panel (Grid + Sliders) -->
+        <ui:VisualElement name="EnvPanel" class="submenu-container submenu--hidden" picking-mode="Ignore">
+            <ui:Label text="ENVIRONMENT" class="submenu-title" />
+            
+            <!-- Presets Grid -->
+            <ui:VisualElement class="submenu-grid">
+                <ui:Button name="EnvPreset_Studio" class="submenu-card submenu-card--active">
+                    <ui:VisualElement class="submenu-icon icon-env-studio" picking-mode="Ignore"/>
+                    <ui:Label text="Studio" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="EnvPreset_Sunset" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-env-sunset" picking-mode="Ignore"/>
+                    <ui:Label text="Sunset" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="EnvPreset_Night" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-env-night" picking-mode="Ignore"/>
+                    <ui:Label text="Night" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="EnvPreset_Blueprint" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-env-blue" picking-mode="Ignore"/>
+                    <ui:Label text="Blue" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="EnvPreset_Neutral" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-env-neutral" picking-mode="Ignore"/>
+                    <ui:Label text="Neutral" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
             </ui:VisualElement>
             <ui:VisualElement class="env-slider-group">
                 <ui:Label text="ROTATION" class="env-slider-label" picking-mode="Ignore" />

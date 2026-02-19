@@ -428,7 +428,25 @@
     -unity-text-align: middle-right;
 }
 
-/* Old shader-menu styles replaced by .submenu-container */
+/* Sheet Close Button */
+.sheet-close-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    -unity-text-align: middle-center;
+    transition-duration: 0.2s;
+}
+
+.sheet-close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
 
 .sheet-scroll {
     flex-grow: 1;
@@ -565,7 +583,11 @@
 .icon-propulsion{ background-image: resource("UI/Icons/icon_layers"); }
 .icon-avionics  { background-image: resource("UI/Icons/icon_layers"); }
 .icon-power     { background-image: resource("UI/Icons/icon_env"); }
-.icon-pin-round { background-image: resource("UI/Icons/icon_pin"); } /* Hotspot Pin */
+.icon-env-studio  { background-image: resource("UI/Icons/icon_env"); }
+.icon-env-sunset  { background-image: resource("UI/Icons/icon_env"); }
+.icon-env-night   { background-image: resource("UI/Icons/icon_env"); }
+.icon-env-blue    { background-image: resource("UI/Icons/icon_env"); }
+.icon-env-neutral { background-image: resource("UI/Icons/icon_env"); }
 
 .btn-tag:hover {
     border-color: rgba(255, 255, 255, 0.3);
@@ -961,137 +983,7 @@
 /* ────────────────────────────────────────────────
    Shader Menu (Phase 1 — Long Press Popup)
    ──────────────────────────────────────────────── */
-.shader-menu {
-    position: absolute;
-    bottom: 192px;
-    left: 50%;
-    translate: -50% 0;
-
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    
-    width: 90%;
-    max-width: 640px;
-    
-    background-color: rgba(18, 18, 18, 0.94);
-    border-radius: 12px;
-    padding: 12px 16px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.08);
-
-    opacity: 1;
-    scale: 1 1;
-    transition-property: opacity, scale, translate;
-    transition-duration: 0.25s;
-    transition-timing-function: ease-out;
-}
-
-.shader-menu--hidden {
-    display: none;
-    opacity: 0;
-    scale: 0.88 0.88;
-    translate: -50% 16px;
-}
-
-
-
-.shader-mode-btn {
-    min-width: 80px;
-    height: 40px;
-    margin: 4px;
-    padding: 0 12px;
-    font-size: 14px;
-    -unity-font-style: normal;
-    color: rgba(255, 255, 255, 0.5);
-    background-color: transparent;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.08);
-    border-radius: 60px;
-    transition-property: background-color, border-color, color;
-    transition-duration: 0.2s;
-}
-
-.shader-mode-btn:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-.shader-mode-btn--active {
-    background-color: rgb(255, 255, 255);
-    border-color: rgb(255, 255, 255);
-    color: rgb(10, 10, 10);
-}
-
-/* ────────────────────────────────────────────────
-   Environment Panel (Phase 5)
-   ──────────────────────────────────────────────── */
-.env-panel {
-    position: absolute;
-    bottom: 192px;
-    right: 16px;
-
-    width: 320px;
-    background-color: rgba(18, 18, 18, 0.94);
-    border-radius: 12px;
-    padding: 24px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.08);
-
-    opacity: 1;
-    scale: 1 1;
-    transition-property: opacity, scale;
-    transition-duration: 0.25s;
-    transition-timing-function: ease-out;
-}
-
-.env-panel--hidden {
-    display: none;
-    opacity: 0;
-    scale: 0.92 0.92;
-}
-
-
-
-.env-panel-title {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.4);
-    letter-spacing: 3px;
-    -unity-font-style: bold;
-    margin-bottom: 16px;
-}
-
-.env-presets-row {
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-}
-
-.env-preset-btn {
-    min-width: 56px;
-    height: 32px;
-    margin: 4px;
-    padding: 0 8px;
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.5);
-    background-color: transparent;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.08);
-    border-radius: 60px;
-    transition-property: background-color, border-color, color;
-    transition-duration: 0.15s;
-}
-
-.env-preset-btn:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-.env-preset-btn--active {
-    background-color: rgb(255, 255, 255);
-    border-color: rgb(255, 255, 255);
-    color: rgb(10, 10, 10);
-}
+/* Old shader-menu and env-panel styles removed (replaced by .submenu-container) */
 
 .env-slider-group {
     margin-bottom: 8px;
