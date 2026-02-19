@@ -1,71 +1,99 @@
-# Bitácora de Desarrollo — WebGL Drone Visualization
+# Bitácora de Desarrollo — Registro de Ejecución
 
-> Registro oficial del proceso de desarrollo, desafíos técnicos y soluciones implementadas.
-> Fuente: Repositorio Git y documentación interna.
-
----
-
-## 1. Definición del Proyecto (Noviembre 2025)
-
-### Objetivo
-Desarrollar una herramienta educativa interactiva basada en WebGL para la visualización y análisis técnico de componentes de drones, superando las limitaciones de los manuales estáticos tradicionales.
-
-### Alcance Inicial
-- Modelo 3D de alta fidelidad.
-- Interacción orbital y zoom.
-- Despiece (Exploded View).
-- Modos de visualización técnica (Rayos X, Blueprint, Térmico).
-
-### Decisiones de Diseño
-- **Estilo**: Minimalismo "Premium" inspirado en Apple HIG y interfaces Sci-Fi (Glassmorphism).
-- **Stack Tecnológico**: Unity 6 (URP), WebGL 2.0.
+> Documento oficial de seguimiento del proyecto "WebGL Drone Viewer".
+> Alineado con el Cronograma Oficial (Fases 1-7).
+> Nota: Las fechas corresponden al año fiscal 2025 según planificación, con extensión post-tesis en 2026.
 
 ---
 
-## 2. Fase de Prototipado y Core (Diciembre 2025)
+## Fase 1: Investigación y Planificación (Julio - Agosto 2025)
 
-### Hitos
-- **Implementación de Managers**: Desarrollo de una arquitectura modular basada en Singletons (`GameManager`, `AudioManager`, etc.).
-- **Sistema de Shaders**: Creación de 7 shaders personalizados (HLSL/ShaderGraph) para los modos de visualización.
-  - *Reto*: Rendimiento en WebGL con transparencias múltiples.
-  - *Solución*: Optimización de `ClippableLit` y uso de `PropertyBlocks`.
-- **Integración Web**: Desarrollo de landing page con GSAP para presentación del proyecto.
+### Estado: COMPLETADO
+- **Revisión de Literatura**: Análisis de 40+ referencias sobre visualización técnica y WebGL.
+- **Marco Teórico**: Definición de estándares (ISO 10110 para óptica, Apple HIG para UI).
+- **Propuesta**: Aprobación del alcance (Visualizador Interactivo de Drones de Alto Rendimiento).
 
 ---
 
-## 3. Fase de Refinamiento UI/UX (Enero - Febrero 2026)
+## Fase 2: Pipeline 3D (Septiembre - Octubre 2025)
 
-### Desafíos de Interacción
-- La UI inicial presentaba conflictos de "raycast blocking" (clicks atravesaban la UI hacia el modelo 3D).
-- **Solución**: Implementación de `PointerEnter/Exit` events en UI Toolkit para bloquear el input 3D.
-
-### Mobile & High-DPI
-- Adaptación de la interfaz para pantallas de alta densidad (Retina/Mobile).
-- **Ajuste**: Aumento de zonas táctiles (min 48px -> 100px en mobile) y escalado dinámico de fuentes.
+### Estado: COMPLETADO
+- **Modelado**: Creación del drone "Spectre X" (High-poly en Blender).
+- **Optimización**: Retopología y baking de texturas (4K PBR) para web.
+- **Exportación**: Validación de FBX y configuración de prefabs en Unity.
 
 ---
 
-## 4. Fase de Pulido Visual y "Awwwards" Quality (Febrero 18, 2026) -> (Sesión Actual)
+## Fase 3: Desarrollo Unity - Core (Octubre - Noviembre 2025)
 
-### Rediseño Hero Menu
-- Transformación del menú principal hacia un estilo "App-like" con navegación fluida.
-- Integración de selectores de dispositivo y menús de información como *Submenus* de pantalla completa.
-
-### Unificación Visual (v2.1)
-- **Problemática**: Inconsistencia entre la Landing Page (Web) y la App WebGL.
-- **Acción**:
-  - Unificación de paleta de colores (`#050505` background, blanco puro como acento).
-  - Reemplazo de tipografías por `Inter` (UI) y `Space Grotesk` (Títulos).
-  - Implementación de **Animated Gradient Skybox** shader para replicar el fondo dinámico de la web en el entorno 3D.
-
-### Optimización de UI Toolkit
-- Resolución de advertencias de consola (`picking-mode`, referencias nulas).
-- Mejora de `ScrollView` clipping y alineación de textos en el Panel de Información.
+### Estado: COMPLETADO
+- **Arquitectura**: Implementación de `GameManager`, `EventBus`, y Singletons.
+- **Interacción**: Sistema de cámara orbital (`OrbitCameraController`) y selección de objetos (`SelectionManager`).
+- **UI Base**: Configuración inicial de UI Toolkit (USS/UXML).
 
 ---
 
-## Próximos Pasos (Hoja de Ruta)
+## Fase 4: Desarrollo Features (Noviembre - Diciembre 2025)
 
-1. **Rediseño Bottom Bar**: Unificación en contenedor "Pill" flotante.
-2. **Iconografía**: Implementación de iconos minimalistas (Freepik/SVG).
-3. **Grid Submenus**: Sistema de navegación por categorías más visual.
+### Estado: COMPLETADO
+- **Despiece**: Algoritmo de expansión de partes (`ExplodedViewManager`).
+- **Shaders**: Desarrollo de 7 modos de visualización (Rayos X, Blueprint, Térmico, etc.).
+- **Datos**: Base de datos de componentes (`DronePartData`).
+
+---
+
+## Fase 5: Herramientas de Ingeniería (Diciembre 2025)
+
+### Estado: COMPLETADO
+- **Guía de Ensamblaje**: Sistema paso a paso.
+- **Herramientas de Medición**: Cálculo de distancias en 3D.
+- **Lista de Materiales (BOM)**: Exportación de datos.
+- **Anotaciones**: Etiquetas 3D flotantes.
+
+---
+
+## Fase 6: Testing y Validación (Diciembre 2025)
+
+### Estado: PENDIENTE
+- [ ] Pruebas Unitarias (Coverage > 80%).
+- [ ] Pruebas de Usabilidad (Cuestionario SUS).
+- [ ] Análisis de Carga Cognitiva (NASA-TLX).
+- [ ] Optimización de Frames (Profiler Report).
+
+---
+
+## Fase 7: Documentación (Diciembre 2025)
+
+### Estado: EN PROGRESO
+- [x] Informe Final (Bitácora).
+- [ ] Manual Técnico (Arquitectura y API).
+- [ ] Manual de Usuario (Guía de uso).
+- [ ] Presentación Final (Diapositivas).
+
+---
+
+## Fase 8: Extensión Post-Entrega / Validación Final (Febrero 2026 - Actual)
+
+> **Nota**: Fase adicional para elevar la calidad visual y UX al estándar "Awwwards".
+
+### Hitos Realizados (Sesión 18/02/2026)
+1.  **Rediseño Visual (v2.1)**:
+    -   Unificación de paleta con Web Landing Page (`#050505` bg, acento blanco).
+    -   Implementación de **Radial Gradient Skybox** shader (fondo dinámico).
+    -   Tipografía `Space Grotesk` (Títulos) + `Inter` (Cuerpo).
+2.  **Refinamiento UX**:
+    -   Hero Menu tipo "App" con submenús integrados.
+    -   Corrección de clipping en menús desplegables (Select Device).
+    -   Alineación pixel-perfect de elementos de navegación.
+3.  **Correcciones Técnicas**:
+    -   `ScrollView` layout fix (Zero margins/padding).
+    -   Elimilación de advertencias USS (`picking-mode`).
+
+### Pendientes Inmediatos
+- [ ] Rediseño Barra Inferior (Unified Pill Container).
+- [ ] Implementación de Iconos Minimalistas (Freepik).
+- [ ] Grid Submenus para selección de partes.
+
+---
+
+*Última actualización: 18 de Febrero, 2026*

@@ -1140,6 +1140,14 @@
     width: 100%;
     max-width: 400px;
     overflow: hidden;
+    align-self: center; /* Ensure scrollview itself is centered */
+}
+
+.submenu-scroll #unity-content-container {
+    width: 100%;
+    align-items: stretch;
+    padding: 0;
+    margin: 0;
 }
 
 .about-desc {
