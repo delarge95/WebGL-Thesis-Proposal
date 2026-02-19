@@ -10,13 +10,12 @@
    Design Tokens (Direct Values — USS has no vars)
    Aligned with web landing page (docs/src/index.css)
    
-   Background:     rgb(10, 10, 10)          #0a0a0a
+   Background:     rgb(5, 5, 5)             #050505
    Surface:        rgba(18, 18, 18, 0.92)   #121212
-   Primary:        rgb(0, 217, 255)         Cyan (CTA only)
+   Primary:        rgb(255, 255, 255)       White (matches web --accent)
    On-Surface:     rgb(255, 255, 255)       White
    On-Surface-Dim: rgba(255, 255, 255, 0.4) Muted
-   Accent-Green:   rgb(50, 220, 150)
-   Border:         rgba(255, 255, 255, 0.08)
+   Border:         rgba(255, 255, 255, 0.1)
    Border-Hover:   rgba(255, 255, 255, 0.2) White
    Radius-SM:      8px
    Radius-MD:      12px
@@ -251,7 +250,7 @@
     color: white;
     -unity-font-style: bold;
 
-    background-color: rgba(18, 18, 18, 0.6);
+    background-color: transparent;
     padding: 8px 16px;
     border-radius: 8px;
 
@@ -401,6 +400,32 @@
 /* Force right alignment for data values converted to text fields */
 .data-value.read-only-text > .unity-text-field__input {
     -unity-text-align: middle-right;
+    overflow: visible;
+}
+
+/* Hide Unity's built-in TextField clear button (the "×") */
+.read-only-text .unity-base-text-field__input > .unity-text-element--inner-input-field-component ~ * {
+    display: none;
+}
+
+/* Sheet Close Button */
+.sheet-close-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    -unity-text-align: middle-center;
+    transition-duration: 0.2s;
+}
+
+.sheet-close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
 }
 
 .sheet-scroll {
@@ -411,7 +436,7 @@
 /* UI Shift on Sheet Expand — moves buttons up above the sheet */
 /* UI Shift on Sheet Expand — moves buttons up above the sheet */
 .ui-shifted {
-    bottom: 56%; /* Matches max-height (55%) + safety margin */
+    bottom: 46%; /* Buttons just above info panel top edge */
     /* No translate needed, we animate bottom property on .bottom-bar */
 }
 
@@ -439,6 +464,7 @@
 }
 
 .category-menu--hidden {
+    display: none;
     opacity: 0;
     scale: 0.88 0.88;
     translate: -50% 16px;
@@ -483,8 +509,8 @@
 }
 
 .btn-tag--active {
-    background-color: rgb(0, 217, 255);
-    border-color: rgb(0, 217, 255);
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(255, 255, 255);
     color: rgb(10, 10, 10);
 }
 
@@ -495,8 +521,8 @@
     position: absolute;
     bottom: 192px;
     left: 50%;
-    margin-left: -248px;
-    translate: 0 0;
+    translate: -50% 0;
+    margin-left: 0;
 
     width: 496px;
     height: auto;
@@ -519,9 +545,10 @@
 }
 
 .slider-hidden {
+    display: none;
     opacity: 0;
     scale: 0.96 0.96;
-    translate: 0 16px;
+    translate: -50% 16px;
     picking-mode: ignore;
 }
 
@@ -560,13 +587,13 @@
 }
 
 .glass-slider .unity-base-slider__dragger {
-    width: 48px;
-    height: 48px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background-color: rgb(0, 217, 255);
+    background-color: rgb(255, 255, 255);
     border-width: 2px;
-    border-color: white;
-    margin-top: -24px;
+    border-color: rgba(255, 255, 255, 0.6);
+    margin-top: -16px;
     top: 50%;
     transition-property: scale, background-color;
     transition-duration: 0.15s;
@@ -574,8 +601,8 @@
 
 .glass-slider .unity-base-slider__dragger:hover {
     scale: 1.16;
-    background-color: white;
-    border-color: rgb(0, 217, 255);
+    background-color: rgba(255, 255, 255, 0.85);
+    border-color: white;
 }
 
 .glass-slider .unity-base-slider__dragger:focus {
@@ -606,7 +633,7 @@
 }
 
 .data-value-status {
-    color: rgb(50, 220, 150);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /* ────────────────────────────────────────────────
@@ -707,7 +734,7 @@
 }
 
 .tag-dot-accent {
-    background-color: rgb(0, 217, 255);
+    background-color: rgb(255, 255, 255);
 }
 
 .tag-dot-energy {
@@ -892,6 +919,7 @@
 }
 
 .shader-menu--hidden {
+    display: none;
     opacity: 0;
     scale: 0.88 0.88;
     translate: -50% 16px;
@@ -928,8 +956,8 @@
 }
 
 .shader-mode-btn--active {
-    background-color: rgb(0, 217, 255);
-    border-color: rgb(0, 217, 255);
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(255, 255, 255);
     color: rgb(10, 10, 10);
 }
 
@@ -956,6 +984,7 @@
 }
 
 .env-panel--hidden {
+    display: none;
     opacity: 0;
     scale: 0.92 0.92;
     picking-mode: ignore;
@@ -1004,8 +1033,8 @@
 }
 
 .env-preset-btn--active {
-    background-color: rgb(0, 217, 255);
-    border-color: rgb(0, 217, 255);
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(255, 255, 255);
     color: rgb(10, 10, 10);
 }
 
@@ -1099,12 +1128,12 @@
    ──────────────────────────────────────────────── */
 .device-selector {
     margin-top: 24px;
-    width: 320px;
+    width: 400px;
     background-color: rgba(18, 18, 18, 0.92);
     border-radius: 12px;
     padding: 12px;
     border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.1);
     align-items: stretch;
     opacity: 1;
     scale: 1 1;
