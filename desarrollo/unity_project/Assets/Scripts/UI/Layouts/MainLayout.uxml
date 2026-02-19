@@ -126,31 +126,31 @@
                     <ui:VisualElement class="data-grid">
                         <ui:VisualElement class="data-row">
                             <ui:Label text="CATEGORY" class="data-label" />
-                            <ui:TextField name="PartCategory" class="data-value read-only-text" readonly="true" multiline="true" />
+                            <ui:Label name="PartCategory" class="data-value" />
                         </ui:VisualElement>
                         <ui:VisualElement class="data-row">
                             <ui:Label text="FUNCTION" class="data-label" />
-                            <ui:TextField name="PartFunction" class="data-value read-only-text" readonly="true" multiline="true" />
+                            <ui:Label name="PartFunction" class="data-value" />
                         </ui:VisualElement>
                         <ui:VisualElement class="data-row">
                             <ui:Label text="MATERIAL" class="data-label" />
-                            <ui:TextField name="PartMaterial" class="data-value read-only-text" readonly="true" multiline="true" />
+                            <ui:Label name="PartMaterial" class="data-value" />
                         </ui:VisualElement>
                         <ui:VisualElement class="data-row">
                             <ui:Label text="WEIGHT" class="data-label" />
-                            <ui:TextField name="PartWeight" class="data-value read-only-text" readonly="true" multiline="true" />
+                            <ui:Label name="PartWeight" class="data-value" />
                         </ui:VisualElement>
                         <ui:VisualElement class="data-row">
                             <ui:Label text="DIMENSIONS" class="data-label" />
-                            <ui:TextField name="PartDimensions" class="data-value read-only-text" readonly="true" multiline="true" />
+                            <ui:Label name="PartDimensions" class="data-value" />
                         </ui:VisualElement>
                         <ui:VisualElement class="data-row">
                             <ui:Label text="POWER" class="data-label" />
-                            <ui:TextField name="PartPower" class="data-value read-only-text" readonly="true" multiline="true" />
+                            <ui:Label name="PartPower" class="data-value" />
                         </ui:VisualElement>
                         <ui:VisualElement class="data-row">
                             <ui:Label text="TEMP" class="data-label" />
-                            <ui:TextField name="PartTemp" class="data-value read-only-text" readonly="true" multiline="true" />
+                            <ui:Label name="PartTemp" class="data-value" />
                         </ui:VisualElement>
                     </ui:VisualElement>
 
@@ -159,20 +159,20 @@
                         <ui:Label text="ASSEMBLY" class="section-title" />
                         <ui:VisualElement class="data-row">
                             <ui:Label text="DIFFICULTY" class="data-label" />
-                            <ui:TextField name="PartDifficulty" class="data-value data-value-stars read-only-text" readonly="true" multiline="true" />
+                            <ui:Label name="PartDifficulty" class="data-value data-value-stars" />
                         </ui:VisualElement>
                         <ui:VisualElement class="data-row">
                             <ui:Label text="TOOLS" class="data-label" />
-                            <ui:TextField name="PartTools" class="data-value read-only-text" readonly="true" multiline="true" />
+                            <ui:Label name="PartTools" class="data-value" />
                         </ui:VisualElement>
                         <ui:VisualElement class="data-row">
                             <ui:Label text="TIME" class="data-label" />
-                            <ui:TextField name="PartAssemblyTime" class="data-value read-only-text" readonly="true" multiline="true" />
+                            <ui:Label name="PartAssemblyTime" class="data-value" />
                         </ui:VisualElement>
                     </ui:VisualElement>
 
                     <!-- Description -->
-                    <ui:TextField name="PartDescription" class="part-description read-only-text" readonly="true" multiline="true" />
+                    <ui:Label name="PartDescription" class="part-description" />
                 </ui:ScrollView>
             </ui:VisualElement>
 
