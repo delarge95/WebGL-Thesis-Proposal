@@ -210,8 +210,26 @@
    ──────────────────────────────────────────────── */
 /* Old .icon-button styles removed — see above */
 
-.button-icon-text {
-    font-size: 32px;
+/* Specific Buttons Icons */
+#HomeBtn { background-image: resource("UI/Icons/icon_home"); }
+#ResetViewBtn { background-image: resource("UI/Icons/icon_reset"); }
+#HotspotBtn { background-image: resource("UI/Icons/icon_pin"); }
+
+#ShaderBtn { background-image: resource("UI/Icons/icon_view"); }
+#LayerBtn { background-image: resource("UI/Icons/icon_layers"); }
+#ExplodeBtn { background-image: resource("UI/Icons/icon_explode"); }
+#InfoBtn { background-image: resource("UI/Icons/icon_info"); }
+#EnvBtn { background-image: resource("UI/Icons/icon_env"); }
+
+/* Hide text when icon is present, or make it minimal */
+.button-icon-text, .button-icon-text-small {
+    display: none;
+}
+
+/* Ensure background scales correctly */
+.icon-button, .icon-button-small, .btn-tag {
+    -unity-background-scale-mode: scale-to-fit;
+    /* In Unity 6 this might be slightly different property name depending on version, generic is safe */
 }
 
 /* Small Icon Button (Top Bar — Reset, Home, Hotspot) */
