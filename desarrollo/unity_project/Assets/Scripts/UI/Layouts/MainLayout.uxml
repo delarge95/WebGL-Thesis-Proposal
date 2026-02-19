@@ -36,25 +36,78 @@
             <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider" picking-mode="Position" />
         </ui:VisualElement>
 
-        <!-- Shader Mode Menu -->
-        <ui:VisualElement name="ShaderMenu" class="shader-menu shader-menu--hidden" picking-mode="Ignore">
-            <ui:Button text="Realistic" name="ShaderMode_Realistic" class="shader-mode-btn shader-mode-btn--active" />
-            <ui:Button text="X-Ray" name="ShaderMode_XRay" class="shader-mode-btn" />
-            <ui:Button text="Blueprint" name="ShaderMode_Blueprint" class="shader-mode-btn" />
-            <ui:Button text="Solid" name="ShaderMode_SolidColor" class="shader-mode-btn" />
-            <ui:Button text="Wire" name="ShaderMode_Wireframe" class="shader-mode-btn" />
-            <ui:Button text="Ghost" name="ShaderMode_Ghosted" class="shader-mode-btn" />
-            <ui:Button text="Thermal" name="ShaderMode_Thermal" class="shader-mode-btn" />
+        <!-- Shader Mode Menu (Grid) -->
+        <ui:VisualElement name="ShaderMenu" class="submenu-container submenu--hidden" picking-mode="Ignore">
+            <ui:Label text="VIEW MODE" class="submenu-title" />
+            <ui:VisualElement class="submenu-grid">
+                <!-- Card 1: Realistic -->
+                <ui:Button name="ShaderMode_Realistic" class="submenu-card submenu-card--active">
+                    <ui:VisualElement class="submenu-icon icon-realistic" picking-mode="Ignore"/>
+                    <ui:Label text="Realistic" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <!-- Card 2: X-Ray -->
+                <ui:Button name="ShaderMode_XRay" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-xray" picking-mode="Ignore"/>
+                    <ui:Label text="X-Ray" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <!-- Card 3: Blueprint -->
+                <ui:Button name="ShaderMode_Blueprint" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-blueprint" picking-mode="Ignore"/>
+                    <ui:Label text="Blueprint" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <!-- Card 4: Solid -->
+                <ui:Button name="ShaderMode_SolidColor" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-solid" picking-mode="Ignore"/>
+                    <ui:Label text="Solid" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <!-- Card 5: Wireframe -->
+                <ui:Button name="ShaderMode_Wireframe" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-wire" picking-mode="Ignore"/>
+                    <ui:Label text="Wire" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <!-- Card 6: Ghost -->
+                <ui:Button name="ShaderMode_Ghosted" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-ghost" picking-mode="Ignore"/>
+                    <ui:Label text="Ghost" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <!-- Card 7: Thermal -->
+                <ui:Button name="ShaderMode_Thermal" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-thermal" picking-mode="Ignore"/>
+                    <ui:Label text="Thermal" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+            </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- Category Filter Menu -->
-        <ui:VisualElement name="CategoryMenu" class="category-menu category-menu--hidden" picking-mode="Ignore">
-            <ui:Button text="ALL" name="CatBtn_All" class="btn-tag btn-tag--active" />
-            <ui:Button text="STRUCTURE" name="CatBtn_Structure" class="btn-tag" />
-            <ui:Button text="PROPULSION" name="CatBtn_Propulsion" class="btn-tag" />
-            <ui:Button text="AVIONICS" name="CatBtn_Avionics" class="btn-tag" />
-            <ui:Button text="POWER" name="CatBtn_Power" class="btn-tag" />
-            <ui:Button name="HotspotBtn" class="btn-tag" tooltip="Toggle Hotspots" />
+        <!-- Category Filter Menu (Grid) -->
+        <ui:VisualElement name="CategoryMenu" class="submenu-container submenu--hidden" picking-mode="Ignore">
+            <ui:Label text="LAYERS" class="submenu-title" />
+            <ui:VisualElement class="submenu-grid">
+                <ui:Button name="CatBtn_All" class="submenu-card submenu-card--active">
+                    <ui:VisualElement class="submenu-icon icon-all" picking-mode="Ignore"/>
+                    <ui:Label text="ALL" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="CatBtn_Structure" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-structure" picking-mode="Ignore"/>
+                    <ui:Label text="Strut" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="CatBtn_Propulsion" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-propulsion" picking-mode="Ignore"/>
+                    <ui:Label text="Prop" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="CatBtn_Avionics" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-avionics" picking-mode="Ignore"/>
+                    <ui:Label text="Avionics" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="CatBtn_Power" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-power" picking-mode="Ignore"/>
+                    <ui:Label text="Power" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <!-- Pins Button (Hotspot Toggle) inside Grid -->
+                <ui:Button name="HotspotBtn" class="submenu-card">
+                    <ui:VisualElement class="submenu-icon icon-pin-round" picking-mode="Ignore"/>
+                    <ui:Label text="Pins" class="submenu-label" picking-mode="Ignore"/>
+                </ui:Button>
+            </ui:VisualElement>
         </ui:VisualElement>
 
         <!-- Environment Panel -->
