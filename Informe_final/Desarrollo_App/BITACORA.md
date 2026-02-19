@@ -1,99 +1,143 @@
-# Bitácora de Desarrollo — Registro de Ejecución
+# Bitácora de Desarrollo — Registro Integral de Ejecución
 
 > Documento oficial de seguimiento del proyecto "WebGL Drone Viewer".
-> Alineado con el Cronograma Oficial (Fases 1-7).
-> Nota: Las fechas corresponden al año fiscal 2025 según planificación, con extensión post-tesis en 2026.
+> Registro detallado de decisiones técnicas, arquitectura y evolución del sistema.
+> Alineado con el Cronograma Oficial (Fases 1-7: H2 2025 | Fase 8: Q1 2026).
 
 ---
 
-## Fase 1: Investigación y Planificación (Julio - Agosto 2025)
+## Fase 1: Investigación y Conceptualización (Julio - Agosto 2025)
 
-### Estado: COMPLETADO
-- **Revisión de Literatura**: Análisis de 40+ referencias sobre visualización técnica y WebGL.
-- **Marco Teórico**: Definición de estándares (ISO 10110 para óptica, Apple HIG para UI).
-- **Propuesta**: Aprobación del alcance (Visualizador Interactivo de Drones de Alto Rendimiento).
+### Objetivo
+Definir la viabilidad técnica y conceptual de un visualizador interactivo 3D para educación en ingeniería, superando las limitaciones de los manuales estáticos PDF.
 
----
-
-## Fase 2: Pipeline 3D (Septiembre - Octubre 2025)
-
-### Estado: COMPLETADO
-- **Modelado**: Creación del drone "Spectre X" (High-poly en Blender).
-- **Optimización**: Retopología y baking de texturas (4K PBR) para web.
-- **Exportación**: Validación de FBX y configuración de prefabs en Unity.
-
----
-
-## Fase 3: Desarrollo Unity - Core (Octubre - Noviembre 2025)
-
-### Estado: COMPLETADO
-- **Arquitectura**: Implementación de `GameManager`, `EventBus`, y Singletons.
-- **Interacción**: Sistema de cámara orbital (`OrbitCameraController`) y selección de objetos (`SelectionManager`).
-- **UI Base**: Configuración inicial de UI Toolkit (USS/UXML).
+### Acciones Realizadas
+1.  **Revisión Bibliográfica y del Estado del Arte**:
+    -   *Acción*: Análisis de 40+ referencias (papers, tesis, herramientas existentes).
+    -   *Justificación*: Identificar brechas en las herramientas actuales (baja interactividad, requisitos de hardware altos).
+    -   *Conclusión*: Se opta por **WebGL 2.0** para garantizar acceso universal sin instalación.
+2.  **Selección del Stack Tecnológico**:
+    -   *Decisión*: Unity 6 (URP) vs Three.js.
+    -   *Razón*: Unity ofrece un pipeline de assets más robusto y herramientas de editor visual para configuraciones complejas (ECS/Prefabs), ideal para un prototipo escalable.
+    -   *Decisión*: Universal Render Pipeline (URP).
+    -   *Razón*: Optimización nativa para plataformas móviles y WebGL, permitiendo shaders personalizados ligeros.
 
 ---
 
-## Fase 4: Desarrollo Features (Noviembre - Diciembre 2025)
+## Fase 2: Pipeline de Producción 3D (Septiembre - Octubre 2025)
 
-### Estado: COMPLETADO
-- **Despiece**: Algoritmo de expansión de partes (`ExplodedViewManager`).
-- **Shaders**: Desarrollo de 7 modos de visualización (Rayos X, Blueprint, Térmico, etc.).
-- **Datos**: Base de datos de componentes (`DronePartData`).
+### Objetivo
+Crear un gemelo digital del drone "Spectre X" optimizado para renderizado web en tiempo real.
 
----
-
-## Fase 5: Herramientas de Ingeniería (Diciembre 2025)
-
-### Estado: COMPLETADO
-- **Guía de Ensamblaje**: Sistema paso a paso.
-- **Herramientas de Medición**: Cálculo de distancias en 3D.
-- **Lista de Materiales (BOM)**: Exportación de datos.
-- **Anotaciones**: Etiquetas 3D flotantes.
-
----
-
-## Fase 6: Testing y Validación (Diciembre 2025)
-
-### Estado: PENDIENTE
-- [ ] Pruebas Unitarias (Coverage > 80%).
-- [ ] Pruebas de Usabilidad (Cuestionario SUS).
-- [ ] Análisis de Carga Cognitiva (NASA-TLX).
-- [ ] Optimización de Frames (Profiler Report).
+### Acciones Realizadas
+1.  **Modelado Hard-Surface (Blender)**:
+    -   *Acción*: Modelado high-poly de la estructura del drone.
+    -   *Detalle técnico*: Uso de modificadores booleanos no destructivos para iteración rápida.
+2.  **Optimización y Retopología**:
+    -   *Acción*: Reducción de polígonos (Target: <100k tris).
+    -   *Justificación*: WebGL tiene límites estrictos de memoria y draw calls.
+3.  **Baking de Texturas**:
+    -   *Acción*: Generación de mapas de Normales, AO y Roughness en texturas atlas 4K.
+    -   *Razón*: Simular detalle geométrico sin costo de procesamiento de vértices (PBR Workflow).
 
 ---
 
-## Fase 7: Documentación (Diciembre 2025)
+## Fase 3: Arquitectura de Software - Unity Core (Octubre - Noviembre 2025)
 
-### Estado: EN PROGRESO
-- [x] Informe Final (Bitácora).
-- [ ] Manual Técnico (Arquitectura y API).
-- [ ] Manual de Usuario (Guía de uso).
-- [ ] Presentación Final (Diapositivas).
+### Objetivo
+Establecer una base sólida de código escalable y modular.
 
----
-
-## Fase 8: Extensión Post-Entrega / Validación Final (Febrero 2026 - Actual)
-
-> **Nota**: Fase adicional para elevar la calidad visual y UX al estándar "Awwwards".
-
-### Hitos Realizados (Sesión 18/02/2026)
-1.  **Rediseño Visual (v2.1)**:
-    -   Unificación de paleta con Web Landing Page (`#050505` bg, acento blanco).
-    -   Implementación de **Radial Gradient Skybox** shader (fondo dinámico).
-    -   Tipografía `Space Grotesk` (Títulos) + `Inter` (Cuerpo).
-2.  **Refinamiento UX**:
-    -   Hero Menu tipo "App" con submenús integrados.
-    -   Corrección de clipping en menús desplegables (Select Device).
-    -   Alineación pixel-perfect de elementos de navegación.
-3.  **Correcciones Técnicas**:
-    -   `ScrollView` layout fix (Zero margins/padding).
-    -   Elimilación de advertencias USS (`picking-mode`).
-
-### Pendientes Inmediatos
-- [ ] Rediseño Barra Inferior (Unified Pill Container).
-- [ ] Implementación de Iconos Minimalistas (Freepik).
-- [ ] Grid Submenus para selección de partes.
+### Implementación Técnica
+1.  **Patrón Singleton & Managers**:
+    -   *Implementación*: `GameManager`, `AudioManager`, `SelectionManager`.
+    -   *Por qué*: Centralizar el control de sistemas globales para evitar dependencias cruzadas (Spaghetti code) y facilitar el acceso desde la UI.
+2.  **Sistema de Eventos (EventBus)**:
+    -   *Implementación*: `Action<T>` events para comunicación desacoplada (`OnPartSelected`, `OnViewModeChanged`).
+    -   *Por qué*: Permite que sistemas dispares (UI, Audio, Renderizado) reaccionen a cambios de estado sin conocerse entre sí, mejorando la mantenibilidad.
+3.  **Controlador de Cámara (`OrbitCameraController`)**:
+    -   *Detalle*: Navegación polar con clamping de ángulos y suavizado (Damping).
+    -   *Razón UX*: Evitar que el usuario pierda de vista el modelo o la orientación (Gimbal lock).
 
 ---
 
-*Última actualización: 18 de Febrero, 2026*
+## Fase 4: Desarrollo de Features Avanzadas (Noviembre - Diciembre 2025)
+
+### Objetivo
+Implementar las funcionalidades educativas clave del visualizador.
+
+### Funcionalidades
+1.  **Vista Explosionada (Exploded View)**:
+    -   *Lógica*: Desplazamiento vectorial de partes basado en su centroide respecto al pivote del drone.
+    -   *Implementación*: `ExplodedViewManager` que interpola posiciones locales usando `Mathf.Lerp`.
+    -   *Por qué*: Permite visualizar componentes internos sin ocultar el contexto estructural.
+2.  **Sistema de Shaders de Visualización**:
+    -   *Desarrollo*: 7 shaders custom HLSL.
+        -   **Rayos X**: Efecto Fresnel invertido + ZTest Always para ver a través de muros.
+        -   **Blueprint**: Detección de bordes (Sobel) en espacio de pantalla + Grid procedural.
+        -   **Térmico**: Mapeo de gradiente de color basado en input normalizado.
+    -   *Reto Técnico*: Manejo de transparencias en WebGL (Depth sorting issues).
+    -   *Solución*: Render queues personalizados y multipass shaders.
+
+---
+
+## Fase 5: Herramientas de Ingeniería y Datos (Diciembre 2025)
+
+### Objetivo
+Aportar valor técnico y educativo real más allá de la visualización estética.
+
+### Implementación
+1.  **Base de Datos (`DronePartData`)**:
+    -   *Estructura*: ScriptableObjects conteniendo metadatos (Peso, Material, Consumo, Torque).
+    -   *Por qué*: Separar datos de lógica (Data-Driven Design). Permite editar valores en el Editor sin recompensar código.
+2.  **Herramientas de Medición**:
+    -   *Acción*: Raycasting de punto a punto para calcular distancias Euclidianas en espacio de mundo.
+    -   *Uso*: Verificar compatibilidad de piezas o dimensiones de ensamblaje.
+
+---
+
+## Fase 6: Testing (Pendiente)
+
+- Pruebas Unitarias para lógica de negocio.
+- Validación con usuarios (Pruebas de Usabilidad).
+
+---
+
+## Fase 7: Documentación (En Progreso)
+
+- Bitácora (Este documento).
+- Manual Técnico.
+
+---
+
+## Fase 8: Optimización y Rediseño "Premium" (Febrero 2026 - Actual)
+
+### Objetivo
+Elevar la calidad visual y la experiencia de usuario (UX) para cumplir estándares de la industria (Awwwards/Apple Design).
+
+### Registro de Cambios (Febrero 18, 2026)
+
+1.  **Rediseño de Interfaz (UI Toolkit)**:
+    -   *Acción*: Migración de estilos básicos a un "Design System" unificado (`DESIGN_TOKENS.md`).
+    -   *Detalle*: Uso de variables CSS (USS) para colores, espaciados y tipografía (`Inter` + `Space Grotesk`).
+    -   *Por qué*: Garantizar consistencia visual y facilitar cambios globales (e.g., Modo Oscuro/Claro).
+    
+2.  **Corrección de Clipping en Menús**:
+    -   *Problema*: El contenedor de scroll del menú de dispositivos (`Select Device`) cortaba el contenido derecho.
+    -   *Causa*: El ancho del `ScrollView` y su `content-container` no coincidían con el ancho de los botones hijos por defecto.
+    -   *Solución*: Se forzó un ancho explícito de **396.5194px** y se eliminaron paddings internos `padding: 0`.
+    -   *Por qué*: WebGL renderiza UI Toolkit con ligeras variaciones de sub-pixel respecto al Editor; el ancho explícito elimina la ambigüedad y previene la aparición de barras de scroll horizontales indeseadas.
+
+3.  **Shader de Fondo Dinámico (Radial Gradient)**:
+    -   *Acción*: Implementación de `AnimatedGradientSkybox.shader`.
+    -   *Lógica*: Gradiente radial en espacio de pantalla (`ComputeScreenPos`) con pulsación sinusoidal.
+    -   *Por qué*: Replical la estética "Premium" de la landing page web dentro del canvas 3D. Un fondo sólido se sentía vacío ("inexpressive"), mientras que el gradiente aporta profundidad y vida sin distraer.
+
+4.  **Alineación Pixel-Perfect**:
+    -   *Acción*: Ajuste del botón "Atrás" a `top: 88px`.
+    -   *Cálculo*: `80px` (margin top) + `32px` (mitad de altura de barra 64px) = `112px` centro. Botón de 48px -> `112 - 24 = 88px`.
+    -   *Por qué*: La percepción de calidad en UI depende de la alineación precisa y el ritmo visual consistente.
+
+---
+
+*Registro mantenido por el Equipo de Desarrollo.*
+*Última actualización: 18 Febrero 2026 - Commit `3325d4b`*
