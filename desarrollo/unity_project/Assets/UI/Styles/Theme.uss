@@ -345,7 +345,6 @@
 .details-sheet--hidden {
     translate: 0 100%;
     opacity: 1;
-    picking-mode: ignore;
 }
 
 .sheet-handle {
@@ -463,16 +462,8 @@
     opacity: 0;
     scale: 0.88 0.88;
     translate: -50% 16px;
-    picking-mode: ignore;
 }
 
-.category-menu--hidden > * {
-    picking-mode: ignore;
-}
-
-.category-menu--hidden > * {
-    picking-mode: ignore;
-}
 
 /* Category Tag Buttons */
 .btn-tag {
@@ -544,12 +535,9 @@
     opacity: 0;
     scale: 0.96 0.96;
     translate: -50% 16px;
-    picking-mode: ignore;
 }
 
-.slider-hidden > *, .shader-menu--hidden > *, .category-menu--hidden > *, .env-panel--hidden > * {
-    picking-mode: ignore;
-}
+
 
 /* slider-container--shifted-up removed — menus inside BottomBar now */
 
@@ -930,16 +918,9 @@
     opacity: 0;
     scale: 0.88 0.88;
     translate: -50% 16px;
-    picking-mode: ignore;
 }
 
-.shader-menu--hidden > * {
-    picking-mode: ignore;
-}
 
-.shader-menu--hidden > * {
-    picking-mode: ignore;
-}
 
 .shader-mode-btn {
     min-width: 80px;
@@ -994,16 +975,9 @@
     display: none;
     opacity: 0;
     scale: 0.92 0.92;
-    picking-mode: ignore;
 }
 
-.env-panel--hidden > * {
-    picking-mode: ignore;
-}
 
-.env-panel--hidden > * {
-    picking-mode: ignore;
-}
 
 .env-panel-title {
     font-size: 12px;
