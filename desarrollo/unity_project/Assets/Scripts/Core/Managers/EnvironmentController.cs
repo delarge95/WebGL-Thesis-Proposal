@@ -64,7 +64,7 @@ namespace WebGL.Core.Managers
             switch (presetName)
             {
                 case "Studio":
-                    bgColor = new Color(0.04f, 0.055f, 0.11f);
+                    bgColor = new Color(5f / 255f, 5f / 255f, 5f / 255f); // #050505 — matches web
                     lightColor = new Color(1f, 0.98f, 0.95f);
                     lightIntensity = 1.2f;
                     lightRotY = 45f;

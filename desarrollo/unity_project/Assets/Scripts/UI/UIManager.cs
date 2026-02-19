@@ -250,8 +250,15 @@ namespace WebGL.UI
             if (backAbout != null) backAbout.clicked += CloseHeroSubmenu;
             if (backExit != null) backExit.clicked += CloseHeroSubmenu;
 
-            // Sheet Close (For Details Sheet)
-            if (sheetCloseBtn != null) sheetCloseBtn.clicked += () => SetSheetState(false);
+            // Sheet Close (For Details Sheet) — StopPropagation prevents header toggle re-opening
+            if (sheetCloseBtn != null)
+            {
+                sheetCloseBtn.RegisterCallback<ClickEvent>(evt =>
+                {
+                    evt.StopPropagation();
+                    SetSheetState(false);
+                });
+            }
 
             // Exit Confirmation Actions (Inside Submenu)
             var exitConfirmBtn = root.Q<Button>("ExitConfirmBtn");

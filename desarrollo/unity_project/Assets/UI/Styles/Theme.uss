@@ -395,6 +395,7 @@
     background-color: transparent;
     border-width: 0;
     padding: 0;
+    white-space: normal;
 }
 
 /* Force right alignment for data values converted to text fields */
@@ -523,7 +524,7 @@
 
     background-color: rgba(18, 18, 18, 0.92);
     border-radius: 12px;
-    padding: 24px 32px 8px 32px;
+    padding: 16px 32px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
 
@@ -609,9 +610,11 @@
 .data-row {
     flex-direction: row;
     justify-content: space-between;
+    align-items: flex-start;
     padding: 8px 0;
     border-bottom-width: 1px;
     border-bottom-color: rgba(255, 255, 255, 0.04);
+    min-height: 32px;
 }
 
 .data-label {
