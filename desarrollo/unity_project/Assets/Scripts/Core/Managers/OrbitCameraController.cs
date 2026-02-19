@@ -59,14 +59,17 @@ namespace WebGL.Core.Managers
             // FORCE override inspector values that might be stale
             minVerticalAngle = -89f;
 
-            // Force Web Design Background Color (#0a0a0a)
+            // Force Web Design Background Color (#050505)
             if (Camera.main != null)
             {
                 Camera.main.clearFlags = CameraClearFlags.SolidColor;
-                Camera.main.backgroundColor = new Color(10f / 255f, 10f / 255f, 10f / 255f, 1f);
+                Camera.main.backgroundColor = new Color(5f / 255f, 5f / 255f, 5f / 255f, 1f);
             } 
-            // Disable Skybox to ensure solid color
+            // Disable Skybox & Environment to ensure solid black
             RenderSettings.skybox = null;
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+            RenderSettings.ambientLight = new Color(0.02f, 0.02f, 0.02f, 1f);
+            RenderSettings.fog = false;
 
             maxVerticalAngle = 89f;
         }
