@@ -288,7 +288,7 @@
 
 .btn-back {
     position: absolute;
-    top: 80px;
+    top: 88px;
     left: 24px;
     width: 48px;
     height: 48px;

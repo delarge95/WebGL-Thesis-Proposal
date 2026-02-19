@@ -15,6 +15,7 @@ namespace WebGL.Core.Managers
         [Header("Defaults")]
 
         private string _currentPreset = "Studio";
+        private Material _gradientSkybox;
 
         protected override void Awake()
         {
@@ -108,8 +109,32 @@ namespace WebGL.Core.Managers
             // Apply camera background
             if (Camera.main != null)
             {
-                Camera.main.clearFlags = CameraClearFlags.SolidColor;
-                Camera.main.backgroundColor = bgColor;
+                if (presetName == "Studio")
+                {
+                    if (_gradientSkybox == null)
+                    {
+                        var shader = Shader.Find("Skybox/AnimatedGradientSkybox");
+                        if (shader != null) _gradientSkybox = new Material(shader);
+                    }
+                    
+                    if (_gradientSkybox != null)
+                    {
+                        Camera.main.clearFlags = CameraClearFlags.Skybox;
+                        RenderSettings.skybox = _gradientSkybox;
+                    }
+                    else
+                    {
+                        // Fallback if shader not found
+                        Camera.main.clearFlags = CameraClearFlags.SolidColor;
+                        Camera.main.backgroundColor = bgColor;
+                    }
+                }
+                else
+                {
+                    Camera.main.clearFlags = CameraClearFlags.SolidColor;
+                    Camera.main.backgroundColor = bgColor;
+                    RenderSettings.skybox = null;
+                }
             }
 
             // Apply light
