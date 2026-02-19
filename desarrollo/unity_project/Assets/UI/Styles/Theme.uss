@@ -428,25 +428,7 @@
     -unity-text-align: middle-right;
 }
 
-/* Sheet Close Button */
-.sheet-close-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 14px;
-    -unity-text-align: middle-center;
-    transition-duration: 0.2s;
-}
-
-.sheet-close-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.3);
-    color: white;
-}
+/* Old shader-menu styles replaced by .submenu-container */
 
 .sheet-scroll {
     flex-grow: 1;
@@ -463,57 +445,127 @@
 /* ────────────────────────────────────────────────
    Category Menu (Pop-up Pill Bar)
    ──────────────────────────────────────────────── */
-.category-menu {
+/* ────────────────────────────────────────────────
+   Unified Grid Submenus (Shader, Category, etc.)
+   ──────────────────────────────────────────────── */
+.submenu-container {
     position: absolute;
     bottom: 192px;
     left: 50%;
     translate: -50% 0;
-
-    flex-direction: row;
+    
     background-color: rgba(18, 18, 18, 0.94);
-    border-radius: 12px;
-    padding: 8px 16px;
+    border-radius: 24px;
+    padding: 24px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
-
-    opacity: 1;
-    scale: 1 1;
+    
+    /* Auto width based on content, but max width for 4 cols */
+    width: auto;
+    max-width: 440px; /* ~4 columns of 88px + gaps */
+    
+    align-items: center;
+    
+    transition-property: opacity, translate, scale;
     transition-duration: 0.25s;
-    transition-property: opacity, scale, translate;
     transition-timing-function: ease-out;
 }
 
-.category-menu--hidden {
-    display: none;
+.submenu--hidden {
     opacity: 0;
-    scale: 0.88 0.88;
-    translate: -50% 16px;
+    scale: 0.9 0.9;
+    translate: -50% 24px;
+    display: none; /* Hide to prevent clicks */
 }
 
-
-/* Category Tag Buttons */
-.btn-tag {
-    width: auto;
-    min-width: 100px;
-    height: 48px;
-    margin-right: 8px;
-    margin-bottom: 0;
-
-    font-size: 16px;
+.submenu-title {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 2px;
+    margin-bottom: 16px;
     -unity-font-style: bold;
-    color: rgba(255, 255, 255, 0.5);
-
-    background-color: transparent;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-
-    justify-content: center;
-    align-items: center;
-
-    transition-property: border-color, background-color, color;
-    transition-duration: 0.2s;
 }
+
+.submenu-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Card Item (Button) */
+.submenu-card {
+    width: 88px;
+    height: 88px;
+    margin: 4px;
+    
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.05);
+    
+    align-items: center;
+    justify-content: center;
+    
+    transition-property: background-color, border-color, scale;
+    transition-duration: 0.15s;
+}
+
+.submenu-card:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    scale: 1.02;
+}
+
+.submenu-card:active {
+    background-color: rgba(255, 255, 255, 0.12);
+    scale: 0.98;
+}
+
+.submenu-card--active {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.submenu-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 8px;
+    background-image: resource("UI/Icons/icon_view"); /* Default fallback */
+    -unity-background-scale-mode: scale-to-fit;
+    opacity: 0.8;
+}
+
+.submenu-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.submenu-card--active .submenu-label {
+    color: white;
+    -unity-font-style: bold;
+}
+
+.submenu-card--active .submenu-icon {
+    opacity: 1;
+}
+
+/* Specific Icons (Placeholders mapped to existing icons for now) */
+/* Real icons should be added to UI/Icons/ and mapped here */
+.icon-realistic { background-image: resource("UI/Icons/icon_view"); }
+.icon-xray      { background-image: resource("UI/Icons/icon_layers"); }
+.icon-blueprint { background-image: resource("UI/Icons/icon_info"); }
+.icon-solid     { background-image: resource("UI/Icons/icon_view"); }
+.icon-wire      { background-image: resource("UI/Icons/icon_view"); }
+.icon-ghost     { background-image: resource("UI/Icons/icon_view"); }
+.icon-thermal   { background-image: resource("UI/Icons/icon_env"); }
+
+.icon-all       { background-image: resource("UI/Icons/icon_layers"); }
+.icon-structure { background-image: resource("UI/Icons/icon_layers"); }
+.icon-propulsion{ background-image: resource("UI/Icons/icon_layers"); }
+.icon-avionics  { background-image: resource("UI/Icons/icon_layers"); }
+.icon-power     { background-image: resource("UI/Icons/icon_env"); }
+.icon-pin-round { background-image: resource("UI/Icons/icon_pin"); } /* Hotspot Pin */
 
 .btn-tag:hover {
     border-color: rgba(255, 255, 255, 0.3);
