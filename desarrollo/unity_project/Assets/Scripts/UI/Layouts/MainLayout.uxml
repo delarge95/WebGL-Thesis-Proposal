@@ -54,7 +54,7 @@
             <ui:Button text="PROPULSION" name="CatBtn_Propulsion" class="btn-tag" />
             <ui:Button text="AVIONICS" name="CatBtn_Avionics" class="btn-tag" />
             <ui:Button text="POWER" name="CatBtn_Power" class="btn-tag" />
-            <ui:Button text="PINS" name="HotspotBtn" class="btn-tag" tooltip="Toggle Hotspots" />
+            <ui:Button name="HotspotBtn" class="btn-tag" tooltip="Toggle Hotspots" />
         </ui:VisualElement>
 
         <!-- Environment Panel -->
