@@ -560,16 +560,17 @@
 /* Slider Track/Dragger */
 .glass-slider {
     min-height: 48px;
-    margin-top: 0;
-    margin-bottom: 0;
+    margin: 0;
     padding: 0;
     flex-grow: 1;
     justify-content: center;
+    align-items: center;
 }
 
 .glass-slider #unity-drag-container {
-    height: 8px;
+    height: 100%;
     justify-content: center;
+    align-items: center;
 }
 
 .glass-slider .unity-base-slider__tracker {
@@ -577,8 +578,11 @@
     height: 4px;
     border-radius: 2px;
     border-width: 0;
+    position: absolute;
     top: 50%;
     margin-top: -2px;
+    left: 0;
+    right: 0;
 }
 
 .glass-slider .unity-base-slider__dragger {
@@ -588,8 +592,9 @@
     background-color: rgb(255, 255, 255);
     border-width: 2px;
     border-color: rgba(255, 255, 255, 0.6);
-    margin-top: -16px;
+    position: absolute;
     top: 50%;
+    margin-top: -16px;
     transition-property: scale, background-color;
     transition-duration: 0.15s;
 }
@@ -621,12 +626,17 @@
     color: rgba(255, 255, 255, 0.35);
     font-size: 16px;
     letter-spacing: 1px;
+    flex-shrink: 0;
+    min-width: 120px;
 }
 
 .data-value {
     color: rgba(255, 255, 255, 0.8);
     font-size: 16px;
     -unity-font-style: bold;
+    flex: 1;
+    -unity-text-align: upper-right;
+    white-space: normal;
 }
 
 .data-value-status {
