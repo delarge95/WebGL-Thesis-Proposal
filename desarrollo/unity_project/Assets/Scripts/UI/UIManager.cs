@@ -2,8 +2,11 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using WebGL.Core.Managers;
 using WebGL.Core.Utils;
+using WebGL.Core.Managers;
+using WebGL.Core.Utils;
 using WebGL.Core.Events;
 using WebGL.Core.Content;
+using WebGL.UI.Panels;
 using System.Collections;
 
 namespace WebGL.UI
@@ -73,6 +76,10 @@ namespace WebGL.UI
         public enum SubmenuType { Devices, About, Exit }
         
         private SheetMode currentSheetMode = SheetMode.Details;
+
+        // ── Extracted Panels (Phase 3: Step 2) ──
+        private UIEnvironmentPanel _uiEnvironmentPanel;
+        private UIAnalyzePanel _uiAnalyzePanel;
 
         // ── Layout Math Constants (8pt grid) ──
         // padding-bottom(24) + info-row(24) + margin(16) + button(104) + EXTRA_GAP(24) = 192px
@@ -208,12 +215,14 @@ namespace WebGL.UI
 
             // ── Shader Menu ──
             shaderMenu = root.Q<VisualElement>("ShaderMenu");
-            BindShaderMenuButtons();
+            _uiAnalyzePanel = new UIAnalyzePanel(shaderMenu, shaderBtn);
+            AddCleanup(() => _uiAnalyzePanel.Dispose());
 
             // ── Environment Panel ──
             envPanel = root.Q<VisualElement>("EnvPanel");
-            if (envBtn != null) envBtn.clicked += ToggleEnvPanel;
-            BindEnvPanel();
+            if (envBtn != null) { envBtn.clicked += ToggleEnvPanel; AddCleanup(() => envBtn.clicked -= ToggleEnvPanel); }
+            _uiEnvironmentPanel = new UIEnvironmentPanel(envPanel);
+            AddCleanup(() => _uiEnvironmentPanel.Dispose());
 
             // ── Category Menu ──
             categoryMenu = root.Q<VisualElement>("CategoryMenu");
@@ -473,75 +482,10 @@ namespace WebGL.UI
             RepositionPopups();
         }
 
-        private void BindShaderMenuButtons()
-        {
-            if (shaderMenu == null) return;
-
-            var modes = new[] { "Realistic", "XRay", "Blueprint", "SolidColor", "Wireframe", "Ghosted", "Thermal" };
-            var enums = new[] { ViewMode.Realistic, ViewMode.XRay, ViewMode.Blueprint, ViewMode.SolidColor, ViewMode.Wireframe, ViewMode.Ghosted, ViewMode.Thermal };
-
-            for (int i = 0; i < modes.Length; i++)
-            {
-                var btn = shaderMenu.Q<Button>($"ShaderMode_{modes[i]}");
-                if (btn == null) continue;
-                var mode = enums[i]; // capture for closure
-                btn.clicked += () =>
-                {
-                    if (ViewModeManager.Instance != null)
-                        ViewModeManager.Instance.SetViewMode(mode);
-                    UpdateShaderButtonVisual();
-                    UpdateShaderMenuActiveState(mode);
-                    RepositionPopups(); // Ensure layout stays correct (though menu didn't move)
-                };
-            }
-        }
-
-        private void UpdateShaderButtonVisual()
-        {
-            if (shaderBtn == null || ViewModeManager.Instance == null) return;
-            var mode = ViewModeManager.Instance.CurrentMode;
-            bool isActive = mode != ViewMode.Realistic;
-            shaderBtn.EnableInClassList("btn-tag--active", isActive);
-            shaderBtn.tooltip = isActive ? $"View: {mode}" : "Toggle Render Mode";
-        }
-
-        private void UpdateShaderMenuActiveState(ViewMode activeMode)
-        {
-            if (shaderMenu == null) return;
-            var modes = new[] { "Realistic", "XRay", "Blueprint", "SolidColor", "Wireframe", "Ghosted", "Thermal" };
-            var enums = new[] { ViewMode.Realistic, ViewMode.XRay, ViewMode.Blueprint, ViewMode.SolidColor, ViewMode.Wireframe, ViewMode.Ghosted, ViewMode.Thermal };
-            for (int i = 0; i < modes.Length; i++)
-            {
-                var btn = shaderMenu.Q<Button>($"ShaderMode_{modes[i]}");
-                if (btn != null) btn.EnableInClassList("submenu-card--active", enums[i] == activeMode);
-            }
-        }
-
         /// <summary> Reacts to ViewModeManager changes to update background </summary>
         private void OnViewModeChanged(ViewMode newMode)
         {
-            UpdateShaderButtonVisual();
-            UpdateShaderMenuActiveState(newMode);
-            ApplyBackgroundForMode(newMode);
-        }
-
-        private void ApplyBackgroundForMode(ViewMode mode)
-        {
-            Color bg;
-            switch (mode)
-            {
-                case ViewMode.XRay:       bg = new Color(0.02f, 0.03f, 0.07f); break;
-                case ViewMode.Blueprint:  bg = new Color(0.04f, 0.08f, 0.18f); break;
-                case ViewMode.SolidColor: bg = new Color(0.08f, 0.08f, 0.10f); break;
-                case ViewMode.Wireframe:  bg = new Color(0.03f, 0.03f, 0.05f); break;
-                case ViewMode.Ghosted:    bg = new Color(0.05f, 0.05f, 0.07f); break;
-                case ViewMode.Thermal:    bg = new Color(0.02f, 0.02f, 0.04f); break;
-                default:                  bg = new Color(0.04f, 0.055f, 0.11f); break;
-            }
-
-            // ONLY set camera background — DO NOT set root.style.backgroundColor!
-            // Setting root background paints an opaque layer that covers the 3D viewport.
-            if (Camera.main != null) Camera.main.backgroundColor = bg;
+            if (_uiAnalyzePanel != null) _uiAnalyzePanel.OnViewModeChanged(newMode);
         }
 
         #endregion
@@ -565,65 +509,6 @@ namespace WebGL.UI
                 if (categoryMenu != null) categoryMenu.AddToClassList("submenu--hidden");
             }
             RepositionPopups();
-        }
-
-        private void BindEnvPanel()
-        {
-            if (envPanel == null) return;
-
-            envLightRotSlider = envPanel.Q<Slider>("EnvLightRotation");
-            envLightIntSlider = envPanel.Q<Slider>("EnvLightIntensity");
-
-            if (envLightRotSlider != null)
-            {
-                envLightRotSlider.RegisterValueChangedCallback(evt =>
-                {
-                    if (EnvironmentController.Instance != null)
-                        EnvironmentController.Instance.SetLightRotation(evt.newValue);
-                });
-                // Block 3D input
-                envLightRotSlider.RegisterCallback<PointerEnterEvent>(evt => OrbitCameraController.GlobalInputBlocked = true);
-                envLightRotSlider.RegisterCallback<PointerLeaveEvent>(evt => OrbitCameraController.GlobalInputBlocked = false);
-                envLightRotSlider.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
-            }
-            if (envLightIntSlider != null)
-            {
-                envLightIntSlider.RegisterValueChangedCallback(evt =>
-                {
-                    if (EnvironmentController.Instance != null)
-                        EnvironmentController.Instance.SetLightIntensity(evt.newValue);
-                });
-                // Block 3D input
-                envLightIntSlider.RegisterCallback<PointerEnterEvent>(evt => OrbitCameraController.GlobalInputBlocked = true);
-                envLightIntSlider.RegisterCallback<PointerLeaveEvent>(evt => OrbitCameraController.GlobalInputBlocked = false);
-                envLightIntSlider.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
-            }
-
-            // Preset buttons
-            var presets = new[] { "Studio", "Sunset", "Night", "Blueprint", "Neutral" };
-            foreach (var preset in presets)
-            {
-                var btn = envPanel.Q<Button>($"EnvPreset_{preset}");
-                if (btn == null) continue;
-                var p = preset; // capture
-                btn.clicked += () =>
-                {
-                    if (EnvironmentController.Instance != null)
-                        EnvironmentController.Instance.ApplyPreset(p);
-                    UpdateEnvPresetActiveState(p);
-                };
-            }
-        }
-
-        private void UpdateEnvPresetActiveState(string activePreset)
-        {
-            if (envPanel == null) return;
-            var presets = new[] { "Studio", "Sunset", "Night", "Blueprint", "Neutral" };
-            foreach (var p in presets)
-            {
-                var btn = envPanel.Q<Button>($"EnvPreset_{p}");
-                if (btn != null) btn.EnableInClassList("submenu-card--active", p == activePreset);
-            }
         }
 
         #endregion
