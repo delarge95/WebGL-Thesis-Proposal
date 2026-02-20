@@ -475,7 +475,7 @@
    ──────────────────────────────────────────────── */
 .submenu-container {
     position: absolute;
-    bottom: 260px; /* User Req 4: Much Higher (was 220px) */
+    bottom: 300px; /* User Req 4: Even Higher (was 260px) */
     left: 50%;
     translate: -50% 0;
     
@@ -620,7 +620,7 @@
    ──────────────────────────────────────────────── */
 .slider-container {
     position: absolute;
-    bottom: 260px; /* Match submenu-container */
+    bottom: 300px; /* Match submenu-container */
     left: 50%;
     translate: -50% 0;
     margin-left: 0;

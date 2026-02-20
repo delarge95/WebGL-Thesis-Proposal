@@ -291,7 +291,7 @@ namespace WebGL.Core.Managers
         /// </summary>
         public void Deselect()
         {
-            if (currentSelection == null) return;
+            // if (currentSelection == null) return; // User Fix: Allow event firing even if null to trigger UI close
 
             // Remove highlight
             if (currentHighlight != null)
@@ -299,13 +299,13 @@ namespace WebGL.Core.Managers
                 currentHighlight.OnDeselect();
             }
 
-            // Publish null selection event
+            // Publish null selection event (ALWAYS, even if already null, to signal "Background Clicked")
             EventBus.Publish(new PartSelectedEvent(null));
 
             currentSelection = null;
             currentHighlight = null;
 
-            Debug.Log("[SelectionManager] Deselected");
+            Debug.Log("[SelectionManager] Deselected (Background Click)");
         }
 
         /// <summary>
