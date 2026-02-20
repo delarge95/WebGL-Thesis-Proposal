@@ -1,6 +1,46 @@
 {
   "nodes": [
     {
+      "id": "AssignURPConfig",
+      "data": {
+        "type": "script",
+        "name": "AssignURPConfig",
+        "parent": "MonoBehaviour",
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Editor\\AssignURPConfig.cs"
+      }
+    },
+    {
+      "id": "FixSceneConfig",
+      "data": {
+        "type": "script",
+        "name": "FixSceneConfig",
+        "parent": "MonoBehaviour",
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Editor\\FixSceneConfig.cs"
+      }
+    },
+    {
+      "id": "FixGraphics",
+      "data": {
+        "type": "script",
+        "name": "FixGraphics",
+        "parent": "MonoBehaviour",
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Editor\\Antigravity\\FixGraphics.cs"
+      }
+    },
+    {
+      "id": "WebGLBuildFixer",
+      "data": {
+        "type": "script",
+        "name": "WebGLBuildFixer",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Editor\\Antigravity\\WebGLBuildFixer.cs"
+      }
+    },
+    {
       "id": "DOTweenModuleAudio",
       "data": {
         "type": "script",
@@ -77,7 +117,10 @@
         "name": "ExplodablePart",
         "parent": "MonoBehaviour",
         "methods": [
-          "UpdateExplosion"
+          "SetData",
+          "Initialize",
+          "UpdateExplosion",
+          "SetXRay"
         ],
         "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Content\\ExplodablePart.cs"
       }
@@ -92,8 +135,11 @@
           "SetExplosionFactor",
           "GetExplosionFactor",
           "GetCurrentFactor",
+          "SetCategoryFilters",
           "RegisterPart",
-          "UnregisterPart"
+          "UnregisterPart",
+          "CycleVisualMode",
+          "SetVisualMode"
         ],
         "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Content\\ExplodedViewManager.cs"
       }
@@ -121,7 +167,8 @@
         "parent": "MonoBehaviour",
         "methods": [
           "SetColor",
-          "ResetProperties"
+          "ResetProperties",
+          "ToggleXRay"
         ],
         "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Content\\MaterialController.cs"
       }
@@ -410,6 +457,20 @@
       }
     },
     {
+      "id": "EnvironmentController",
+      "data": {
+        "type": "script",
+        "name": "EnvironmentController",
+        "parent": "Singleton<EnvironmentController>",
+        "methods": [
+          "SetLightRotation",
+          "SetLightIntensity",
+          "ApplyPreset"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\EnvironmentController.cs"
+      }
+    },
+    {
       "id": "ErrorHandler",
       "data": {
         "type": "script",
@@ -506,9 +567,11 @@
         "parent": "Singleton<OrbitCameraController>",
         "methods": [
           "SetTarget",
+          "FocusOnObject",
+          "SetViewportShift",
+          "ResetView",
           "SetAngles",
-          "SetDistance",
-          "ResetView"
+          "SetDistance"
         ],
         "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\OrbitCameraController.cs"
       }
@@ -625,6 +688,18 @@
           "SetQualityPreset"
         ],
         "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Managers\\WebGLOptimizer.cs"
+      }
+    },
+    {
+      "id": "DroneAssembler",
+      "data": {
+        "type": "script",
+        "name": "DroneAssembler",
+        "parent": "MonoBehaviour",
+        "methods": [
+          "AssembleDrone"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Core\\Utils\\DroneAssembler.cs"
       }
     },
     {
@@ -764,6 +839,16 @@
       }
     },
     {
+      "id": "AnalyzerSetup",
+      "data": {
+        "type": "script",
+        "name": "AnalyzerSetup",
+        "parent": "AssetPostprocessor",
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Editor\\Antigravity\\AnalyzerSetup.cs"
+      }
+    },
+    {
       "id": "AntigravityBridge",
       "data": {
         "type": "script",
@@ -771,6 +856,36 @@
         "parent": null,
         "methods": [],
         "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Editor\\Antigravity\\AntigravityBridge.cs"
+      }
+    },
+    {
+      "id": "AssetFactory",
+      "data": {
+        "type": "script",
+        "name": "AssetFactory",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Editor\\Antigravity\\AssetFactory.cs"
+      }
+    },
+    {
+      "id": "DroneGenerator",
+      "data": {
+        "type": "script",
+        "name": "DroneGenerator",
+        "parent": "EditorWindow",
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Editor\\Antigravity\\DroneGenerator.cs"
+      }
+    },
+    {
+      "id": "SceneBuilder",
+      "data": {
+        "type": "script",
+        "name": "SceneBuilder",
+        "parent": null,
+        "methods": [],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\Editor\\Antigravity\\SceneBuilder.cs"
       }
     },
     {
@@ -867,6 +982,21 @@
       }
     },
     {
+      "id": "HotspotManager",
+      "data": {
+        "type": "script",
+        "name": "HotspotManager",
+        "parent": "Singleton<HotspotManager>",
+        "methods": [
+          "Initialize",
+          "ClearHotspots",
+          "SetVisible",
+          "ToggleVisibility"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\HotspotManager.cs"
+      }
+    },
+    {
       "id": "LoadingController",
       "data": {
         "type": "script",
@@ -923,6 +1053,19 @@
       }
     },
     {
+      "id": "SmartHotspot",
+      "data": {
+        "type": "script",
+        "name": "SmartHotspot",
+        "parent": null,
+        "methods": [
+          "Update",
+          "Destroy"
+        ],
+        "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\SmartHotspot.cs"
+      }
+    },
+    {
       "id": "TooltipSystem",
       "data": {
         "type": "script",
@@ -954,7 +1097,11 @@
         "type": "script",
         "name": "UIManager",
         "parent": "Singleton<UIManager>",
-        "methods": [],
+        "methods": [
+          "OpenHeroSubmenu",
+          "CloseHeroSubmenu",
+          "OpenSheet"
+        ],
         "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\UIManager.cs"
       }
     },
@@ -988,62 +1135,240 @@
         "name": "MainLayout.uxml",
         "elements": [
           "Root",
-          "HeroContainer",
-          "StartBtn",
-          "AppContainer",
-          "ExitBtn",
-          "Sidebar",
-          "FilterStructure",
-          "FilterEnergy",
-          "FilterMechanical",
-          "ResetBtn",
+          "WorldSpaceContainer",
+          "TopBar",
+          "HomeBtn",
+          "ResetViewBtn",
+          "SliderContainer",
           "ExplosionSlider",
-          "DetailsPanel",
-          "PartName",
+          "ShaderMenu",
+          "ShaderMode_Realistic",
+          "ShaderMode_XRay",
+          "ShaderMode_Blueprint",
+          "ShaderMode_SolidColor",
+          "ShaderMode_Wireframe",
+          "ShaderMode_Ghosted",
+          "ShaderMode_Thermal",
+          "CategoryMenu",
+          "CatBtn_All",
+          "CatBtn_Structure",
+          "CatBtn_Propulsion",
+          "CatBtn_Avionics",
+          "CatBtn_Power",
+          "HotspotBtn",
+          "EnvPanel",
+          "EnvPreset_Studio",
+          "EnvPreset_Sunset",
+          "EnvPreset_Night",
+          "EnvPreset_Blueprint",
+          "EnvPreset_Neutral",
+          "EnvLightRotation",
+          "EnvLightIntensity",
+          "BottomBar",
+          "ShaderBtn",
+          "LayerBtn",
+          "ExplodeBtn",
+          "InfoBtn",
+          "EnvBtn",
+          "SelectionIndicator",
+          "BottomSheet",
+          "SheetTitle",
+          "SheetCloseBtn",
+          "SheetContent_Details",
           "PartCategory",
+          "PartFunction",
+          "PartMaterial",
+          "PartWeight",
+          "PartDimensions",
+          "PartPower",
+          "PartTemp",
+          "PartDifficulty",
+          "PartTools",
+          "PartAssemblyTime",
           "PartDescription",
-          "FocusBtn"
+          "HeroContainer",
+          "HeroMain",
+          "HeroExploreBtn",
+          "HeroDeviceBtn",
+          "HeroAboutBtn",
+          "HeroExitBtn",
+          "HeroSubmenu_Devices",
+          "SubmenuBackBtn_Devices",
+          "DeviceBtn_Drone",
+          "DeviceBtn_Robot",
+          "DeviceBtn_Satellite",
+          "HeroSubmenu_About",
+          "SubmenuBackBtn_About",
+          "HeroSubmenu_Exit",
+          "SubmenuBackBtn_Exit",
+          "ExitConfirmBtn",
+          "ExitCancelBtn"
         ],
         "referenced_classes": [
-          "root",
+          "root-container",
+          "world-space-container",
+          "top-bar",
+          "icon-button-small",
+          "button-icon-text-small",
+          "header-title",
+          "icon-button-small",
+          "button-icon-text-small",
+          "slider-container slider-hidden",
+          "slider-label",
+          "glass-slider",
+          "submenu-container submenu--hidden",
+          "submenu-title",
+          "submenu-grid",
+          "submenu-card submenu-card--active",
+          "submenu-icon icon-realistic",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-xray",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-blueprint",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-solid",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-wire",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-ghost",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-thermal",
+          "submenu-label",
+          "submenu-container submenu--hidden",
+          "submenu-title",
+          "submenu-grid",
+          "submenu-card submenu-card--active",
+          "submenu-icon icon-all",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-structure",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-propulsion",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-avionics",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-power",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-pin",
+          "submenu-label",
+          "submenu-container submenu--hidden",
+          "submenu-title",
+          "submenu-grid",
+          "submenu-card submenu-card--active",
+          "submenu-icon icon-env-studio",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-env-sunset",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-env-night",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-env-blue",
+          "submenu-label",
+          "submenu-card",
+          "submenu-icon icon-env-neutral",
+          "submenu-label",
+          "env-slider-group",
+          "env-slider-label",
+          "glass-slider env-slider",
+          "env-slider-group",
+          "env-slider-label",
+          "glass-slider env-slider",
+          "bottom-bar",
+          "actions-row",
+          "icon-button",
+          "button-icon-text",
+          "icon-button",
+          "button-icon-text",
+          "icon-button",
+          "button-icon-text",
+          "icon-button",
+          "button-icon-text",
+          "icon-button",
+          "button-icon-text",
+          "info-row",
+          "selection-label",
+          "details-sheet details-sheet--hidden",
+          "sheet-handle",
+          "sheet-header",
+          "sheet-title",
+          "sheet-close-btn",
+          "sheet-content sheet-content--active",
+          "sheet-scroll",
+          "data-grid",
+          "data-row",
+          "data-label",
+          "data-value",
+          "data-row",
+          "data-label",
+          "data-value",
+          "data-row",
+          "data-label",
+          "data-value",
+          "data-row",
+          "data-label",
+          "data-value",
+          "data-row",
+          "data-label",
+          "data-value",
+          "data-row",
+          "data-label",
+          "data-value",
+          "data-row",
+          "data-label",
+          "data-value",
+          "assembly-section",
+          "section-title",
+          "data-row",
+          "data-label",
+          "data-value data-value-stars",
+          "data-row",
+          "data-label",
+          "data-value",
+          "data-row",
+          "data-label",
+          "data-value",
+          "part-description",
           "hero-container",
           "hero-title",
           "hero-subtitle",
+          "hero-menu",
           "btn btn-primary btn-wide",
-          "app-container",
-          "hud-bar hud-top",
-          "app-logo",
-          "btn btn-ghost btn-exit",
-          "sidebar",
-          "btn-tag",
-          "tag-dot tag-dot-accent",
-          "btn-tag",
-          "tag-dot tag-dot-energy",
-          "btn-tag",
-          "tag-dot tag-dot-mechanical",
-          "sidebar-spacer",
-          "btn-icon",
-          "reset-icon-label",
-          "hud-bar hud-bottom",
-          "data-label slider-label",
-          "slider-container",
-          "details-panel",
-          "panel-header",
-          "panel-title",
-          "panel-subtitle",
-          "panel-content",
-          "part-description",
-          "data-row",
-          "data-label",
-          "data-value data-value-status",
-          "data-row",
-          "data-label",
-          "data-value",
-          "data-row",
-          "data-label",
-          "data-value",
-          "panel-spacer",
-          "btn btn-ghost btn-full-width"
+          "btn btn-ghost btn-wide",
+          "btn btn-ghost btn-wide",
+          "btn btn-ghost btn-wide",
+          "hero-submenu hero-submenu--hidden",
+          "btn-back",
+          "hero-title",
+          "submenu-scroll",
+          "device-option device-option--active",
+          "device-option",
+          "device-option",
+          "hero-submenu hero-submenu--hidden",
+          "btn-back",
+          "hero-title",
+          "submenu-scroll",
+          "about-desc",
+          "about-credit",
+          "btn btn-ghost btn-wide",
+          "hero-submenu hero-submenu--hidden",
+          "btn-back",
+          "hero-title",
+          "about-desc",
+          "actions-row-centered",
+          "btn btn-primary btn-wide",
+          "btn btn-ghost btn-wide"
         ],
         "path": "e:\\WebGL_tesis\\desarrollo\\unity_project\\Assets\\Scripts\\UI\\Layouts\\MainLayout.uxml"
       }
@@ -1051,7 +1376,7 @@
   ],
   "edges": [],
   "metadata": {
-    "node_count": 73,
+    "node_count": 85,
     "edge_count": 0
   }
 }

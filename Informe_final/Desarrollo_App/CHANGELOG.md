@@ -376,6 +376,26 @@
 
 ---
 
+## 2026-02-20 — Phase 3: Technical Architecture Refactoring
+
+### Trabajo Realizado
+
+> Plan documentado en `implementation_plan.md` y `ARCHITECTURE_AUDIT_REPORT.md`
+
+**Step 1: UI Toolkit Memory Leaks Resolvidos:**
+- Implementación de patrón `AddCleanup` con cola de `System.Action` en `UIManager.cs`.
+- Conversión de +50 lambdas anónimas estáticas (`detailsSheet.RegisterCallback`, `explosionSlider.RegisterValueChangedCallback`, `btn.clicked +=`) a instancias cacheadas.
+- Llamada obligatoria a `UnsubscribeFromUIEvents()` dentro de `OnDisable()`.
+- Eliminación total del vector de fuga de memoria que multiplicaba listeners cada vez que se recargaba el HUD del drone.
+
+### Git Commits (2026-02-20)
+
+| Hash | Mensaje |
+|------|---------|
+| (pending) | refactor: implement comprehensive UI Toolkit event cleanup in UIManager to prevent memory leaks |
+
+---
+
 ## Pendiente
 
 - **Phase 2.2**: Animated gradient background (como web hero)
