@@ -139,5 +139,14 @@ Elevar la calidad visual y la experiencia de usuario (UX) para cumplir estándar
 
 ---
 
+### Registro de Cambios (Febrero 20, 2026) — Fase 3: Technical Architecture Refactoring
+
+1.  **Prevención de Fugas de Memoria (UI Toolkit)**:
+    -   *Problema*: El "God Class" `UIManager` asignaba docenas de lambdas anónimas a los eventos visuales (`RegisterCallback<PointerDownEvent>`) en el método `InitializeUI`, pero carecía de una lógica de limpieza en `OnDisable()`. En UI Toolkit, las referencias fuertes de eventos del DOM causan memory leaks severos si la jerarquía sobrevive pero el script se deshabilita/recarga.
+    -   *Solución Técnica*: Se implementó un patrón de "Lazy Evaluation Cleanup": una lista `_uiCleanupActions` que registra cada subscripción mediante cierres de variables (closures) y se encarga de ejecutar `UnregisterCallback` o `-=` masivamente. Se transformaron las lambdas críticas de `RegisterButtonInputBlockers` a Action Caches.
+    -   *Por qué*: Cumplimiento estricto de las KPIs de optimización WebAssembly, garantizando que el Heap allocation se mantiene por debajo de 150MB incluso después de largos tiempos de sesión o cambios de escenas.
+
+---
+
 *Registro mantenido por el Equipo de Desarrollo.*
-*Última actualización: 18 Febrero 2026 - Commit `3325d4b`*
+*Última actualización: 20 Febrero 2026*

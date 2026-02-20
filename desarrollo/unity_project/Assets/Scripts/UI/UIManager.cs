@@ -101,6 +101,25 @@ namespace WebGL.UI
         private void OnDisable()
         {
             UnsubscribeFromEvents();
+            UnsubscribeFromUIEvents();
+        }
+
+        // ── Memory Leak Prevention (Phase 3: Step 1) ──
+        private System.Collections.Generic.List<System.Action> _uiCleanupActions = new System.Collections.Generic.List<System.Action>();
+
+        private void AddCleanup(System.Action cleanupAction)
+        {
+            if (cleanupAction != null) _uiCleanupActions.Add(cleanupAction);
+        }
+
+        private void UnsubscribeFromUIEvents()
+        {
+            foreach (var action in _uiCleanupActions)
+            {
+                action?.Invoke();
+            }
+            _uiCleanupActions.Clear();
+            Debug.Log("[UIManager] UI Events Unsubscribed to prevent memory leaks.");
         }
 
 
@@ -121,13 +140,17 @@ namespace WebGL.UI
             
             if (detailsSheet != null)
             {
-                // Prevent clicks from passing through to 3D scene or other UI
-                detailsSheet.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
-                detailsSheet.RegisterCallback<PointerUpEvent>(evt => evt.StopPropagation());
+                EventCallback<PointerDownEvent> pd = evt => evt.StopPropagation();
+                EventCallback<PointerUpEvent> pu = evt => evt.StopPropagation();
+                detailsSheet.RegisterCallback(pd);
+                detailsSheet.RegisterCallback(pu);
+                AddCleanup(() => { detailsSheet.UnregisterCallback(pd); detailsSheet.UnregisterCallback(pu); });
                 
-                // Block 3D input when hovering ANY part of the sheet
-                detailsSheet.RegisterCallback<PointerEnterEvent>(evt => OrbitCameraController.GlobalInputBlocked = true);
-                detailsSheet.RegisterCallback<PointerLeaveEvent>(evt => OrbitCameraController.GlobalInputBlocked = false);
+                EventCallback<PointerEnterEvent> pe = evt => OrbitCameraController.GlobalInputBlocked = true;
+                EventCallback<PointerLeaveEvent> pl = evt => OrbitCameraController.GlobalInputBlocked = false;
+                detailsSheet.RegisterCallback(pe);
+                detailsSheet.RegisterCallback(pl);
+                AddCleanup(() => { detailsSheet.UnregisterCallback(pe); detailsSheet.UnregisterCallback(pl); });
             }
             
             partNameLabel = root.Q<Label>("SelectionIndicator");
@@ -154,27 +177,34 @@ namespace WebGL.UI
             // ── Popup Blocker ──
             popupBlocker = root.Q<VisualElement>("PopupBlocker");
             if (popupBlocker != null)
-                popupBlocker.RegisterCallback<PointerDownEvent>(evt => CloseAllMenus());
+            {
+                EventCallback<PointerDownEvent> pbDown = evt => CloseAllMenus();
+                popupBlocker.RegisterCallback(pbDown);
+                AddCleanup(() => popupBlocker.UnregisterCallback(pbDown));
+            }
 
             explosionSlider = root.Q<Slider>("ExplosionSlider");
             if (explosionSlider != null)
             {
                 explosionSlider.RegisterValueChangedCallback(OnExplosionSliderChanged);
-                // User Fix: Block 3D input when using slider to prevent "Background Click" deselect
-                explosionSlider.RegisterCallback<PointerEnterEvent>(evt => OrbitCameraController.GlobalInputBlocked = true);
-                explosionSlider.RegisterCallback<PointerLeaveEvent>(evt => OrbitCameraController.GlobalInputBlocked = false);
-                // Stop propagation to be safe
-                explosionSlider.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
+                AddCleanup(() => explosionSlider.UnregisterValueChangedCallback(OnExplosionSliderChanged));
+
+                EventCallback<PointerEnterEvent> esEn = evt => OrbitCameraController.GlobalInputBlocked = true;
+                EventCallback<PointerLeaveEvent> esLe = evt => OrbitCameraController.GlobalInputBlocked = false;
+                EventCallback<PointerDownEvent> esDo = evt => evt.StopPropagation();
+                explosionSlider.RegisterCallback(esEn);
+                explosionSlider.RegisterCallback(esLe);
+                explosionSlider.RegisterCallback(esDo);
+                AddCleanup(() => { explosionSlider.UnregisterCallback(esEn); explosionSlider.UnregisterCallback(esLe); explosionSlider.UnregisterCallback(esDo); });
             }
-            hotspotBtn = root.Q<Button>("HotspotBtn");
-            if (hotspotBtn != null) hotspotBtn.clicked += ToggleHotspots;
+            if (hotspotBtn != null) { hotspotBtn.clicked += ToggleHotspots; AddCleanup(() => hotspotBtn.clicked -= ToggleHotspots); }
 
             // ── Shader Button: Single Click Toggle ──
-            if (shaderBtn != null) shaderBtn.clicked += ToggleShaderMenu;
+            if (shaderBtn != null) { shaderBtn.clicked += ToggleShaderMenu; AddCleanup(() => shaderBtn.clicked -= ToggleShaderMenu); }
 
-            if (explodeBtn != null) explodeBtn.clicked += OnExplodeToggle;
-            if (infoBtn != null) infoBtn.clicked += OnInfoToggle;
-            if (resetBtn != null) resetBtn.clicked += OnResetClicked;
+            if (explodeBtn != null) { explodeBtn.clicked += OnExplodeToggle; AddCleanup(() => explodeBtn.clicked -= OnExplodeToggle); }
+            if (infoBtn != null) { infoBtn.clicked += OnInfoToggle; AddCleanup(() => infoBtn.clicked -= OnInfoToggle); }
+            if (resetBtn != null) { resetBtn.clicked += OnResetClicked; AddCleanup(() => resetBtn.clicked -= OnResetClicked); }
 
             // ── Shader Menu ──
             shaderMenu = root.Q<VisualElement>("ShaderMenu");
@@ -194,13 +224,20 @@ namespace WebGL.UI
             var btnPower = root.Q<Button>("CatBtn_Power");
 
             var layerBtn = root.Q<Button>("LayerBtn");
-            if (layerBtn != null) layerBtn.clicked += ToggleCategoryMenu;
+            if (layerBtn != null) { layerBtn.clicked += ToggleCategoryMenu; AddCleanup(() => layerBtn.clicked -= ToggleCategoryMenu); }
 
-            if (btnAll != null) btnAll.clicked += () => SetCategoryFilter("ALL", btnAll);
-            if (btnStructure != null) btnStructure.clicked += () => SetCategoryFilter("Structure", btnStructure);
-            if (btnPropulsion != null) btnPropulsion.clicked += () => SetCategoryFilter("Propulsion", btnPropulsion);
-            if (btnAvionics != null) btnAvionics.clicked += () => SetCategoryFilter("Avionics", btnAvionics);
-            if (btnPower != null) btnPower.clicked += () => SetCategoryFilter("Power", btnPower);
+            void BindCat(Button b, string cat) { 
+                if (b == null) return; 
+                System.Action a = () => SetCategoryFilter(cat, b); 
+                b.clicked += a; 
+                AddCleanup(() => b.clicked -= a); 
+            }
+
+            BindCat(btnAll, "ALL");
+            BindCat(btnStructure, "Structure");
+            BindCat(btnPropulsion, "Propulsion");
+            BindCat(btnAvionics, "Avionics");
+            BindCat(btnPower, "Power");
     
             // Moved slider logic up to registration block above
             // if (explosionSlider != null) explosionSlider.RegisterValueChangedCallback(OnExplosionSliderChanged);
@@ -931,18 +968,26 @@ namespace WebGL.UI
             }
         }
 
+        private EventCallback<PointerEnterEvent> _onBtnEnter = evt => OrbitCameraController.GlobalInputBlocked = true;
+        private EventCallback<PointerLeaveEvent> _onBtnLeave = evt => OrbitCameraController.GlobalInputBlocked = false;
+        private EventCallback<PointerDownEvent> _onBtnDown = evt => evt.StopPropagation();
+        private EventCallback<PointerUpEvent> _onBtnUp = evt => evt.StopPropagation();
+
         private void RegisterButtonInputBlockers()
         {
-            // Find all buttons in the UI
             root.Query<Button>().ForEach(btn => 
             {
-                // When hovering ANY button, block 3D input
-                btn.RegisterCallback<PointerEnterEvent>(evt => OrbitCameraController.GlobalInputBlocked = true);
-                btn.RegisterCallback<PointerLeaveEvent>(evt => OrbitCameraController.GlobalInputBlocked = false);
+                btn.RegisterCallback(_onBtnEnter);
+                btn.RegisterCallback(_onBtnLeave);
+                btn.RegisterCallback(_onBtnDown);
+                btn.RegisterCallback(_onBtnUp);
                 
-                // Stop click propagation to prevent 3D selection/deselection
-                btn.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
-                btn.RegisterCallback<PointerUpEvent>(evt => evt.StopPropagation());
+                AddCleanup(() => {
+                    btn.UnregisterCallback(_onBtnEnter);
+                    btn.UnregisterCallback(_onBtnLeave);
+                    btn.UnregisterCallback(_onBtnDown);
+                    btn.UnregisterCallback(_onBtnUp);
+                });
             });
         }
 
