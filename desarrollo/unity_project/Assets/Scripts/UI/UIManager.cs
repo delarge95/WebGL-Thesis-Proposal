@@ -157,7 +157,15 @@ namespace WebGL.UI
                 popupBlocker.RegisterCallback<PointerDownEvent>(evt => CloseAllMenus());
 
             explosionSlider = root.Q<Slider>("ExplosionSlider");
-
+            if (explosionSlider != null)
+            {
+                explosionSlider.RegisterValueChangedCallback(OnExplosionSliderChanged);
+                // User Fix: Block 3D input when using slider to prevent "Background Click" deselect
+                explosionSlider.RegisterCallback<PointerEnterEvent>(evt => OrbitCameraController.GlobalInputBlocked = true);
+                explosionSlider.RegisterCallback<PointerLeaveEvent>(evt => OrbitCameraController.GlobalInputBlocked = false);
+                // Stop propagation to be safe
+                explosionSlider.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
+            }
             hotspotBtn = root.Q<Button>("HotspotBtn");
             if (hotspotBtn != null) hotspotBtn.clicked += ToggleHotspots;
 
@@ -193,8 +201,9 @@ namespace WebGL.UI
             if (btnPropulsion != null) btnPropulsion.clicked += () => SetCategoryFilter("Propulsion", btnPropulsion);
             if (btnAvionics != null) btnAvionics.clicked += () => SetCategoryFilter("Avionics", btnAvionics);
             if (btnPower != null) btnPower.clicked += () => SetCategoryFilter("Power", btnPower);
-
-            if (explosionSlider != null) explosionSlider.RegisterValueChangedCallback(OnExplosionSliderChanged);
+    
+            // Moved slider logic up to registration block above
+            // if (explosionSlider != null) explosionSlider.RegisterValueChangedCallback(OnExplosionSliderChanged);
 
             var header = root.Q(className: "sheet-header");
             var handle = root.Q(className: "sheet-handle");
@@ -535,6 +544,10 @@ namespace WebGL.UI
                     if (EnvironmentController.Instance != null)
                         EnvironmentController.Instance.SetLightRotation(evt.newValue);
                 });
+                // Block 3D input
+                envLightRotSlider.RegisterCallback<PointerEnterEvent>(evt => OrbitCameraController.GlobalInputBlocked = true);
+                envLightRotSlider.RegisterCallback<PointerLeaveEvent>(evt => OrbitCameraController.GlobalInputBlocked = false);
+                envLightRotSlider.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
             }
             if (envLightIntSlider != null)
             {
@@ -543,6 +556,10 @@ namespace WebGL.UI
                     if (EnvironmentController.Instance != null)
                         EnvironmentController.Instance.SetLightIntensity(evt.newValue);
                 });
+                // Block 3D input
+                envLightIntSlider.RegisterCallback<PointerEnterEvent>(evt => OrbitCameraController.GlobalInputBlocked = true);
+                envLightIntSlider.RegisterCallback<PointerLeaveEvent>(evt => OrbitCameraController.GlobalInputBlocked = false);
+                envLightIntSlider.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
             }
 
             // Preset buttons
