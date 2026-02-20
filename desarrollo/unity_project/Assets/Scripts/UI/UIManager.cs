@@ -21,6 +21,7 @@ namespace WebGL.UI
         private VisualElement categoryMenu;
         private VisualElement shaderMenu;
         private VisualElement envPanel;
+        private VisualElement popupBlocker;
         private Label partNameLabel;
         private Label sheetTitle;
         private Label sheetCategory;
@@ -41,6 +42,7 @@ namespace WebGL.UI
         private Button infoBtn;
         private Button resetBtn;
         private Button envBtn;
+        private Button hotspotBtn;
 
         // Input Controls
         private Slider explosionSlider;
@@ -56,6 +58,7 @@ namespace WebGL.UI
 
         // Shader long-press
         private bool _shaderMenuShown = false;
+        private bool _hotspotsEnabled = false;
 
         // Sheet Content Containers
         private VisualElement contentDetails; 
@@ -148,9 +151,14 @@ namespace WebGL.UI
             resetBtn = root.Q<Button>("ResetViewBtn");
             envBtn = root.Q<Button>("EnvBtn");
 
+            // ── Popup Blocker ──
+            popupBlocker = root.Q<VisualElement>("PopupBlocker");
+            if (popupBlocker != null)
+                popupBlocker.RegisterCallback<PointerDownEvent>(evt => CloseAllMenus());
+
             explosionSlider = root.Q<Slider>("ExplosionSlider");
 
-            var hotspotBtn = root.Q<Button>("HotspotBtn");
+            hotspotBtn = root.Q<Button>("HotspotBtn");
             if (hotspotBtn != null) hotspotBtn.clicked += ToggleHotspots;
 
             // ── Shader Button: Single Click Toggle ──
@@ -410,8 +418,9 @@ namespace WebGL.UI
             if (_shaderMenuShown)
             {
                 shaderMenu.BringToFront();
-                // Close env panel to prevent 4-deep stacking overlap
+                // Close other menus
                 if (envPanel != null) envPanel.AddToClassList("submenu--hidden");
+                if (categoryMenu != null) categoryMenu.AddToClassList("submenu--hidden");
             }
 
             shaderMenu.EnableInClassList("submenu--hidden", !_shaderMenuShown);
@@ -497,15 +506,17 @@ namespace WebGL.UI
         {
             if (envPanel == null) return;
             envPanel.ToggleInClassList("submenu--hidden");
+            
             if (!envPanel.ClassListContains("submenu--hidden"))
             {
                 envPanel.BringToFront();
-                // Close shader menu to prevent 4-deep stacking overlap
+                // Close other menus
                 if (shaderMenu != null)
                 {
                     shaderMenu.AddToClassList("submenu--hidden");
                     _shaderMenuShown = false;
                 }
+                if (categoryMenu != null) categoryMenu.AddToClassList("submenu--hidden");
             }
             RepositionPopups();
         }
@@ -656,9 +667,25 @@ namespace WebGL.UI
             if (categoryMenu != null)
             {
                 categoryMenu.ToggleInClassList("submenu--hidden");
-                if (!categoryMenu.ClassListContains("submenu--hidden")) categoryMenu.BringToFront();
+                
+                if (!categoryMenu.ClassListContains("submenu--hidden")) 
+                {
+                    categoryMenu.BringToFront();
+                    // Close other menus
+                    if (shaderMenu != null) { shaderMenu.AddToClassList("submenu--hidden"); _shaderMenuShown = false; }
+                    if (envPanel != null) envPanel.AddToClassList("submenu--hidden");
+                }
                 RepositionPopups();
             }
+        }
+
+        private void CloseAllMenus()
+        {
+            if (shaderMenu != null) { shaderMenu.AddToClassList("submenu--hidden"); _shaderMenuShown = false; }
+            if (categoryMenu != null) categoryMenu.AddToClassList("submenu--hidden");
+            if (envPanel != null) envPanel.AddToClassList("submenu--hidden");
+            if (sliderContainer != null) sliderContainer.AddToClassList("slider-hidden");
+            RepositionPopups();
         }
 
         // ══════════════════════════════════════════════════════
@@ -677,8 +704,12 @@ namespace WebGL.UI
 
         private void ToggleHotspots()
         {
+            _hotspotsEnabled = !_hotspotsEnabled;
             if (HotspotManager.Instance != null)
                 HotspotManager.Instance.ToggleVisibility();
+            
+            if (hotspotBtn != null) 
+                hotspotBtn.EnableInClassList("submenu-card--active", _hotspotsEnabled);
         }
 
         private void RepositionPopups()
@@ -702,6 +733,9 @@ namespace WebGL.UI
                 (envPanel,        "submenu--hidden",      220f),  // presets + 2 sliders
             };
 
+
+            bool anyMenuVisible = false;
+
             foreach (var (el, hiddenClass, height) in popups)
             {
                 if (el == null) continue;
@@ -711,8 +745,16 @@ namespace WebGL.UI
                 {
                     el.style.bottom = new UnityEngine.UIElements.StyleLength(currentBottom);
                     currentBottom += height + POPUP_GAP;
+                    
+                    // Track visibility for PopupBlocker (EXCLUDE slider per User Req 2: "I cant click any of the parts")
+                    // PRO: Allows partial interaction. CON: "Click outside" only works if we handle it elsewhere (e.g. OnPartSelected).
+                    if (el != sliderContainer)
+                        anyMenuVisible = true;
                 }
             }
+
+            if (popupBlocker != null)
+                popupBlocker.EnableInClassList("popup-blocker--hidden", !anyMenuVisible);
         }
 
         private void SetCategoryFilter(string category, Button clickedBtn)
@@ -803,49 +845,58 @@ namespace WebGL.UI
         #region Event Callbacks
 
         private void OnPartSelected(PartSelectedEvent evt)
+    {
+        if (partNameLabel == null) return;
+        
+        // User Interaction: Selecting a part should close menus/sliders (User Req 2)
+        CloseAllMenus();
+
+        UpdatePartIndicator(evt.PartData);
+
+        // Check PartData first as it contains the source of truth
+        if (evt.PartData != null && !string.IsNullOrEmpty(evt.PartData.PartName) && evt.PartData.PartName != "NULL")
         {
-            UpdatePartIndicator(evt.PartData);
+            if (infoBtn != null) infoBtn.SetEnabled(true);
+            
+            // Populate all fields
+            if (sheetTitle != null) sheetTitle.text = evt.PartData.PartName.ToUpper();
+            if (sheetCategory != null) sheetCategory.text = evt.PartData.Category;
+            if (sheetFunction != null) sheetFunction.text = evt.PartData.Function;
+            if (sheetMaterial != null) sheetMaterial.text = evt.PartData.MaterialType;
+            if (sheetDesc != null) sheetDesc.text = evt.PartData.Description;
+            if (sheetWeight != null) sheetWeight.text = $"{evt.PartData.Weight:F2} kg";
+            if (sheetDimensions != null) sheetDimensions.text = evt.PartData.Dimensions;
+            if (sheetPower != null) sheetPower.text = evt.PartData.powerConsumption > 0 ? $"{evt.PartData.powerConsumption:F1} W" : "N/A";
+            if (sheetTemp != null) sheetTemp.text = evt.PartData.operatingTemp > 0 ? $"{evt.PartData.operatingTemp:F0}°C" : "N/A";
 
-            if (evt.PartData != null)
+            // Assembly info
+            if (sheetDifficulty != null)
             {
-                if (infoBtn != null) infoBtn.SetEnabled(true);
-
-                // Populate all fields
-                if (sheetTitle != null) sheetTitle.text = evt.PartData.PartName.ToUpper();
-                if (sheetCategory != null) sheetCategory.text = evt.PartData.Category;
-                if (sheetFunction != null) sheetFunction.text = evt.PartData.Function;
-                if (sheetMaterial != null) sheetMaterial.text = evt.PartData.MaterialType;
-                if (sheetDesc != null) sheetDesc.text = evt.PartData.Description;
-                if (sheetWeight != null) sheetWeight.text = $"{evt.PartData.Weight:F2} kg";
-                if (sheetDimensions != null) sheetDimensions.text = evt.PartData.Dimensions;
-                if (sheetPower != null) sheetPower.text = evt.PartData.powerConsumption > 0 ? $"{evt.PartData.powerConsumption:F1} W" : "N/A";
-                if (sheetTemp != null) sheetTemp.text = evt.PartData.operatingTemp > 0 ? $"{evt.PartData.operatingTemp:F0}°C" : "N/A";
-
-                // Assembly info
-                if (sheetDifficulty != null)
-                {
-                    int d = Mathf.Clamp(evt.PartData.difficultyLevel, 0, 5);
-                    sheetDifficulty.text = new string('★', d) + new string('☆', 5 - d);
-                }
-                if (sheetTools != null)
-                {
-                    sheetTools.text = (evt.PartData.requiredTools != null && evt.PartData.requiredTools.Length > 0)
-                        ? string.Join(", ", evt.PartData.requiredTools)
-                        : "None";
-                }
-                if (sheetAssemblyTime != null)
-                    sheetAssemblyTime.text = evt.PartData.installationTimeMinutes > 0 ? $"~{evt.PartData.installationTimeMinutes:F0} min" : "N/A";
-
-                // Auto-open info sheet ONLY when triggered by a hotspot click
-                if (evt.FromHotspot)
-                    OpenSheet(SheetMode.Details);
+                int d = Mathf.Clamp(evt.PartData.difficultyLevel, 0, 5);
+                sheetDifficulty.text = new string('★', d) + new string('☆', 5 - d);
             }
-            else
+            if (sheetTools != null)
             {
-                if (infoBtn != null) infoBtn.SetEnabled(false);
-                SetSheetState(false);
+                sheetTools.text = (evt.PartData.requiredTools != null && evt.PartData.requiredTools.Length > 0)
+                    ? string.Join(", ", evt.PartData.requiredTools)
+                    : "None";
             }
+            if (sheetAssemblyTime != null)
+                sheetAssemblyTime.text = evt.PartData.installationTimeMinutes > 0 ? $"~{evt.PartData.installationTimeMinutes:F0} min" : "N/A";
+
+            // Auto-open info sheet ONLY when triggered by a hotspot click
+            if (evt.FromHotspot)
+                OpenSheet(SheetMode.Details);
         }
+        else
+        {
+            // Deselection
+            partNameLabel.AddToClassList("selection-label--hidden");
+
+            if (infoBtn != null) infoBtn.SetEnabled(false);
+            SetSheetState(false);
+        }
+    }
 
         private void UpdatePartIndicator(WebGL.Core.Data.DronePartData data)
         {

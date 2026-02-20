@@ -154,14 +154,15 @@
 /* Actions Row — The Unified Glass Pill */
 .actions-row {
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between; /* User Req 3: Equal spacing */
     align-items: center;
     
     background-color: rgba(18, 18, 18, 0.88);
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
-    border-radius: 40px; /* Pill shape for ~80px height */
-    padding: 8px 16px;
+    border-radius: 40px; /* Pill shape */
+    padding: 12px 32px;
+    min-width: 600px; /* User Req 1: Wider (was 480) */
     
     margin-bottom: 24px;
     
@@ -385,13 +386,16 @@
 
 .sheet-header {
     margin-bottom: 8px;
+    flex-direction: row; /* User Req 6: X on same line */
+    justify-content: space-between;
+    align-items: center;
 }
 
 .sheet-title {
     font-size: 28px;
     -unity-font-style: bold;
     color: white;
-    margin-bottom: 4px;
+    margin-bottom: 0;
 }
 
 .sheet-hint {
@@ -466,21 +470,23 @@
 /* ────────────────────────────────────────────────
    Unified Grid Submenus (Shader, Category, etc.)
    ──────────────────────────────────────────────── */
+/* ────────────────────────────────────────────────
+   Unified Grid Submenus (Shader, Category, etc.)
+   ──────────────────────────────────────────────── */
 .submenu-container {
     position: absolute;
-    bottom: 192px;
+    bottom: 220px; /* User Req 4: Higher (was 160px) */
     left: 50%;
     translate: -50% 0;
     
-    background-color: rgba(18, 18, 18, 0.94);
-    border-radius: 24px;
-    padding: 24px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.08);
+    /* INVISIBLE CONTAINER (User Req 3) */
+    background-color: transparent;
+    border-width: 0;
+    border-color: transparent;
     
-    /* Auto width based on content, but max width for 4 cols */
-    width: auto;
-    max-width: 440px; /* ~4 columns of 88px + gaps */
+    /* WIDER CONTAINER (User Req 2) */
+    width: 600px;
+    max-width: 800px;
     
     align-items: center;
     
@@ -507,17 +513,21 @@
 .submenu-grid {
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
+    justify-content: flex-start; /* User Req 1: Left-aligned grid */
+    padding-left: 0; /* REMOVED padding to fit 4 cards exactly (150*4 = 600) */
+    width: 600px; 
 }
 
 /* Card Item (Button) */
 .submenu-card {
-    width: 88px;
-    height: 88px;
-    margin: 4px;
+    /* User Req 4: 4 cards total in ~600px width.
+       600 / 4 = 150. Margin 6px -> 12px total. 150 - 12 = 138px.
+       Adjusted to 136px for safety (borders/subpixel) -> 136+2+12 = 150 */
+    width: 136px;
+    height: 120px;
+    margin: 6px;
     
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(20, 20, 20, 0.6); /* User Req 5: More transparent */
     border-radius: 16px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.05);
@@ -589,6 +599,9 @@
 .icon-env-blue    { background-image: resource("UI/Icons/icon_env"); }
 .icon-env-neutral { background-image: resource("UI/Icons/icon_env"); }
 
+/* User Req 5: Pin icon */
+.icon-pin { background-image: resource("UI/Icons/icon_pin"); }
+
 .btn-tag:hover {
     border-color: rgba(255, 255, 255, 0.3);
     color: white;
@@ -605,19 +618,21 @@
    ──────────────────────────────────────────────── */
 .slider-container {
     position: absolute;
-    bottom: 192px;
+    bottom: 220px; /* Match submenu-container */
     left: 50%;
     translate: -50% 0;
     margin-left: 0;
 
-    width: 496px;
+    /* User Req 2: Same width as env slider (600px) */
+    width: 600px;
     height: auto;
 
-    background-color: rgba(18, 18, 18, 0.92);
+    /* User Req 2: Invisible container */
+    background-color: transparent;
     border-radius: 12px;
-    padding: 16px 32px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.08);
+    padding: 0 6px; /* Match env slider padding */
+    border-width: 0;
+    border-color: transparent;
 
     flex-direction: row;
     align-items: center;
@@ -986,18 +1001,36 @@
 /* Old shader-menu and env-panel styles removed (replaced by .submenu-container) */
 
 .env-slider-group {
-    margin-bottom: 8px;
+    width: 100%;
+    margin-top: 16px;
+    padding: 0 6px;
 }
 
 .env-slider-label {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.4);
     letter-spacing: 2px;
     margin-bottom: 4px;
 }
 
 .env-slider {
+    width: 100%; /* User Req 5: Full width */
     min-height: 32px;
+}
+
+/* Popup Blocker */
+.popup-blocker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+}
+
+.popup-blocker--hidden {
+    display: none;
+    picking-mode: ignore;
 }
 
 /* ────────────────────────────────────────────────
