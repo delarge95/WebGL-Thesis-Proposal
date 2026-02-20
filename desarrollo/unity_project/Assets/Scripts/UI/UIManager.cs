@@ -180,6 +180,7 @@ namespace WebGL.UI
             infoBtn = root.Q<Button>("InfoBtn");
             resetBtn = root.Q<Button>("ResetViewBtn");
             envBtn = root.Q<Button>("EnvBtn");
+            hotspotBtn = root.Q<Button>("HotspotBtn");
 
             // ── Popup Blocker ──
             popupBlocker = root.Q<VisualElement>("PopupBlocker");
