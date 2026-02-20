@@ -146,6 +146,11 @@ Elevar la calidad visual y la experiencia de usuario (UX) para cumplir estándar
     -   *Solución Técnica*: Se implementó un patrón de "Lazy Evaluation Cleanup": una lista `_uiCleanupActions` que registra cada subscripción mediante cierres de variables (closures) y se encarga de ejecutar `UnregisterCallback` o `-=` masivamente. Se transformaron las lambdas críticas de `RegisterButtonInputBlockers` a Action Caches.
     -   *Por qué*: Cumplimiento estricto de las KPIs de optimización WebAssembly, garantizando que el Heap allocation se mantiene por debajo de 150MB incluso después de largos tiempos de sesión o cambios de escenas.
 
+2.  **Desacoplamiento Estructural (Single Responsibility)**:
+    -   *Problema*: `UIManager` funcionaba como un "God Class" acoplando lógica de negocio (cambio de shaders, iluminación global) con lógica de interfaz estricta (animaciones y hojas details).
+    -   *Solución Técnica*: Se extrajeron los bloques lógicos de `#region Shader System` y `#region Environment Panel` hacia dos nuevas clases abstractas C# `UIAnalyzePanel` y `UIEnvironmentPanel`. El `UIManager` las inicializa pasándoles inyectores `VisualElement` y ellas gestionan internamente bindings y garbage collection.
+    -   *Por qué*: Reducción masiva de métrica LLOC (Logical Lines of Code), dividiendo dependencias inter-módulo y preparando la base de código para una arquitectura robusta.
+
 ---
 
 *Registro mantenido por el Equipo de Desarrollo.*

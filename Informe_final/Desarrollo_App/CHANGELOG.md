@@ -388,11 +388,18 @@
 - Llamada obligatoria a `UnsubscribeFromUIEvents()` dentro de `OnDisable()`.
 - Eliminación total del vector de fuga de memoria que multiplicaba listeners cada vez que se recargaba el HUD del drone.
 
+**Step 2: Desacoplamiento de UIManager (God Class):**
+- Creación de carpeta y namespace `WebGL.UI.Panels` para lógica local de interfaz.
+- Extracción de lógica de Environment (Sliders, Presets) al nuevo `UIEnvironmentPanel.cs`.
+- Extracción de lógica de Shaders/Filtros (ViewModes) al nuevo `UIAnalyzePanel.cs`.
+- Reducción de más de 120 líneas y limpieza masiva de `#region` obsoletos en `UIManager`.
+
 ### Git Commits (2026-02-20)
 
 | Hash | Mensaje |
 |------|---------|
-| (pending) | refactor: implement comprehensive UI Toolkit event cleanup in UIManager to prevent memory leaks |
+| (pre) | refactor: implement comprehensive UI Toolkit event cleanup in UIManager to prevent memory leaks |
+| (pre) | refactor: dismantle UIManager God Class by extracting UIEnvironmentPanel and UIAnalyzePanel |
 
 ---
 
