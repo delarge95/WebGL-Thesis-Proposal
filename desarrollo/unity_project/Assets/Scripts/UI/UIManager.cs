@@ -50,6 +50,11 @@ namespace WebGL.UI
         // ── Memory Leak Prevention (Phase 3 Step 1) ──
         private System.Collections.Generic.List<System.Action> _uiCleanupActions = new System.Collections.Generic.List<System.Action>();
 
+        // ── Shared callbacks: StopPropagation on all buttons prevents pointer events
+        //    from bubbling to the panel root (which would block button clicks in submenus) ──
+        private EventCallback<PointerDownEvent> _onBtnDown = evt => evt.StopPropagation();
+        private EventCallback<PointerUpEvent> _onBtnUp = evt => evt.StopPropagation();
+
         protected override void Awake()
         {
             base.Awake();
@@ -184,6 +189,9 @@ namespace WebGL.UI
             _detailsSheet.UpdatePartIndicator(null);
             if (infoBtn != null) infoBtn.SetEnabled(false);
             if (sliderContainer != null) sliderContainer.AddToClassList("slider-hidden");
+
+            // ── All buttons need StopPropagation to prevent click-through ──
+            RegisterButtonStopPropagation();
 
             // ── Initial layout ──
             _popupController.RepositionPopups();
@@ -335,7 +343,30 @@ namespace WebGL.UI
             if (_uiAnalyzePanel != null) _uiAnalyzePanel.OnViewModeChanged(newMode);
         }
 
+        // ═══════════════════════════════════════════════════════
+        //  Button StopPropagation (prevents click-through to panels)
+        // ═══════════════════════════════════════════════════════
 
+        /// <summary>
+        /// Registers PointerDown/Up StopPropagation on every button so that
+        /// clicks inside submenus don't bubble up to parent panels (which would
+        /// swallow them and make buttons unclickable).
+        /// NOTE: InputBlocked was removed — IsPointerOverUI() handles 3D blocking.
+        /// </summary>
+        private void RegisterButtonStopPropagation()
+        {
+            root.Query<Button>().ForEach(btn =>
+            {
+                btn.RegisterCallback(_onBtnDown);
+                btn.RegisterCallback(_onBtnUp);
+
+                AddCleanup(() =>
+                {
+                    btn.UnregisterCallback(_onBtnDown);
+                    btn.UnregisterCallback(_onBtnUp);
+                });
+            });
+        }
 
         // ═══════════════════════════════════════════════════════
         //  Manager auto-creation

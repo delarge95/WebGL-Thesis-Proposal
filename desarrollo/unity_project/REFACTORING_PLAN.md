@@ -50,22 +50,24 @@ Tasks derived from the Architecture Audit Report, ordered by priority.
 
 **What was done:**
 - [x] Removed `RegisterButtonInputBlockers()` from `UIManager.cs`
-- [x] Removed `_onBtnEnter`, `_onBtnLeave`, `_onBtnDown`, `_onBtnUp` field declarations from `UIManager.cs`
+- [x] Removed `_onBtnEnter`, `_onBtnLeave` field declarations (InputBlocked handlers)
+- [x] **Kept** `_onBtnDown` (StopPropagation) and `_onBtnUp` (StopPropagation) — these are **critical** to prevent click-through
+- [x] Replaced with `RegisterButtonStopPropagation()` — same Query\<Button\> loop but only registers StopPropagation, no InputBlocked
 - [x] Removed per-slider `PointerEnter/Leave` handlers from `UIEnvironmentPanel.cs` (kept `StopPropagation` for drag isolation)
 - [x] Removed per-slider `PointerEnter/Leave` handlers from `UIManager.cs` explosion slider (kept `StopPropagation`)
 - [x] Removed per-element `PointerEnter/Leave` handlers from `UIDetailsSheet.cs` (sheet + scrollview)
 - [x] Removed `InputManager.InputBlocked` static property (dead code — nobody writes it)
 - [x] Removed `InputBlocked` guards from `OrbitCameraController`, `SelectionManager`, `KeyboardShortcuts`
 - [x] Verified `IsPointerOverUI()` via `Panel.Pick()` is the sole UI-blocking mechanism
-- [x] 0 compile errors across all 7 modified files
+- [x] 0 compile errors across all modified files
+
+**⚠️ Lesson learned:**  
+The original `RegisterButtonInputBlockers()` had 4 callbacks. Two were redundant (`InputBlocked` enter/leave), but two were **essential** (`StopPropagation` down/up). Removing all 4 broke button clicks in submenus because PointerDown events bubbled up to parent panels. Fixed by keeping only the StopPropagation pair in a renamed `RegisterButtonStopPropagation()`.
 
 **Impact:**
-- UIManager.cs: 356 lines (was 388, −32 lines)
-- UIEnvironmentPanel.cs: 108 lines (was 118, −10 lines)
-- UIDetailsSheet.cs: ~275 lines (was 291, −16 lines)
-- InputManager.cs: ~137 lines (was 145, −8 lines)
-- **Total removed: ~66 lines** of fragile, race-condition-prone, redundant event wiring
+- UIManager.cs: ~370 lines (slim coordinator, StopPropagation retained)
 - **Single mechanism** for UI-blocks-3D: `InputManager.IsPointerOverUI()` via `Panel.Pick()`
+- **StopPropagation** on buttons: prevents event bubbling that blocks clicks in nested menus
 
 ---
 
