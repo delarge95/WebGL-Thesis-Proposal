@@ -110,11 +110,8 @@ namespace WebGL.UI
             sliderContainer = root.Q<VisualElement>("SliderContainer");
             explosionSlider = root.Q<Slider>("ExplosionSlider");
 
-            // ── Query ToolInfoBtn for DetailsSheet (allows toggling info panel) ──
-            var toolInfoBtn = root.Q<Button>("ToolInfoBtn");
-
-            // ── Details Sheet (ToolInfoBtn wired as infoBtn for ToggleInfo()) ──
-            _detailsSheet = new UIDetailsSheet(root, toolInfoBtn);
+            // ── Details Sheet (info toggle handled via UIModeController event, not direct button binding) ──
+            _detailsSheet = new UIDetailsSheet(root, null);
             AddCleanup(() => _detailsSheet.Dispose());
 
             // ── Mode Controller (3-mode system: Tools / Analyze / Studio) ──
@@ -255,23 +252,25 @@ namespace WebGL.UI
         private void OnExplosionSliderChanged(ChangeEvent<float> evt)
         {
             ExplodedViewManager.Instance?.SetExplosionFactor(evt.newValue);
-        }
 
-        /// <summary>Called by UIModeController when Explode action button is clicked.</summary>
-        private void OnExplodeToggleRequested()
-        {
             if (AppStateMachine.Instance == null) return;
 
-            if (AppStateMachine.Instance.CurrentState == AppState.ExplodedView)
+            // Moving slider > 0 enters ExplodedView, moving to 0 exits
+            if (evt.newValue > 0.001f && AppStateMachine.Instance.CurrentState != AppState.ExplodedView)
             {
-                // Exit exploded view → return to Exploration
-                AppStateMachine.Instance.EnterExploration();
-            }
-            else
-            {
-                // Enter exploded view
                 AppStateMachine.Instance.EnterExplodedView();
             }
+            else if (evt.newValue <= 0.001f && AppStateMachine.Instance.CurrentState == AppState.ExplodedView)
+            {
+                AppStateMachine.Instance.EnterExploration();
+            }
+        }
+
+        /// <summary>Called by UIModeController when Explode action button is clicked.
+        /// Toggles slider visibility only — moving the slider activates/deactivates exploded view.</summary>
+        private void OnExplodeToggleRequested()
+        {
+            _modeController.ToggleSliderVisibility();
         }
 
         // ═══════════════════════════════════════════════════════
@@ -324,8 +323,7 @@ namespace WebGL.UI
             }
             HotspotManager.Instance?.SetVisible(heroDismissed && isInteractive);
 
-            // Slider visibility (only in ExplodedView)
-            _modeController.SetSliderVisible(isExploded);
+            // Slider visibility now controlled by Explode button toggle, not by state changes
         }
 
         private void OnViewModeChanged(ViewMode newMode)
@@ -368,6 +366,7 @@ namespace WebGL.UI
             if (HotspotManager.Instance == null) managers.AddComponent<HotspotManager>();
             if (ViewModeManager.Instance == null) managers.AddComponent<ViewModeManager>();
             if (EnvironmentController.Instance == null) managers.AddComponent<EnvironmentController>();
+            if (CrossSectionManager.Instance == null) managers.AddComponent<CrossSectionManager>();
         }
     }
 }
