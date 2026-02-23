@@ -75,7 +75,7 @@ namespace WebGL.Core.Managers
         {
             AppState currentState = AppStateMachine.Instance != null 
                 ? AppStateMachine.Instance.CurrentState 
-                : (GameManager.Instance != null ? GameManager.Instance.CurrentState : AppState.Exploration);
+                : AppState.Exploration;
 
             return currentState == AppState.Exploration || 
                    currentState == AppState.ExplodedView || 
