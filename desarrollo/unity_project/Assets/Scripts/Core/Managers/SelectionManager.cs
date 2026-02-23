@@ -89,7 +89,12 @@ namespace WebGL.Core.Managers
         {
             if (Camera.main == null) return;
 
-            // Block hover when pointer is over UI Toolkit elements
+            // Phase 4: Use centralized InputManager for both explicit blocks and UI detection
+            if (InputManager.InputBlocked) 
+            {
+                ClearHover();
+                return;
+            }
             if (InputManager.Instance != null && InputManager.Instance.IsPointerOverUI())
             {
                 ClearHover();
@@ -179,6 +184,9 @@ namespace WebGL.Core.Managers
         private void HandleClick()
         {
             if (!Input.GetMouseButtonDown(0)) return;
+            
+            // Phase 4: Respect centralized input block (set by UI pointer events)
+            if (InputManager.InputBlocked) return;
             
             // UI Blocking Check — delegates to InputManager for centralized UI detection.
             if (InputManager.Instance != null && InputManager.Instance.IsPointerOverUI())
