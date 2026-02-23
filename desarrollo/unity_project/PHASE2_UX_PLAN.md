@@ -82,7 +82,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 
 **Archivos:** `AppStateMachine.cs`, `EventBus` events (si es necesario)  
 **Riesgo:** BAJO — solo agrega, no modifica existente  
-**Estado:** ⬜ Pendiente
+**Estado:** ✅ Completada (commit `2673e5a`)
 
 #### Tareas:
 
@@ -131,7 +131,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 
 **Archivos:** `MainLayout.uxml`, `Theme.uss`  
 **Riesgo:** MEDIO — modifica layout visible, los IDs de botones cambian  
-**Estado:** ⬜ Pendiente
+**Estado:** ✅ Completada (commit `70b2a01`)
 
 #### Tareas:
 
@@ -192,7 +192,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 
 **Archivos:** `UIPopupController.cs` → rename a `UIModeController.cs`, `UIManager.cs` (actualizar referencia)  
 **Riesgo:** ALTO — refactoring de controlador central  
-**Estado:** ⬜ Pendiente
+**Estado:** ✅ Completada (commit `f125f6f`, fusionada con Iteración 4)
 
 #### Tareas:
 
@@ -262,7 +262,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 
 **Archivos:** `UIManager.cs`  
 **Riesgo:** ALTO — coordinador central  
-**Estado:** ⬜ Pendiente
+**Estado:** ✅ Completada (commit `f125f6f`, fusionada con Iteración 3)
 
 #### Tareas:
 
@@ -334,7 +334,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 
 **Archivos:** `MainLayout.uxml` (agregar panel), `UIModeController.cs` o nuevo `UICrossSectionPanel.cs`, `CrossSectionManager.cs` (ya existe)  
 **Riesgo:** MEDIO — funcionalidad nueva pero `CrossSectionManager` ya tiene la lógica  
-**Estado:** ⬜ Pendiente
+**Estado:** ✅ Completada (commit `66673f3`)
 
 #### Contexto:
 
@@ -423,7 +423,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 
 **Archivos:** Varios  
 **Riesgo:** BAJO — limpieza  
-**Estado:** ⬜ Pendiente
+**Estado:** ✅ Completada
 
 #### Tareas:
 
@@ -541,9 +541,8 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 
 | Iteración | Descripción                              | Commit  | Estado      |
 | --------- | ---------------------------------------- | ------- | ----------- |
-| 1         | Expandir AppStateMachine                 | —       | ⬜ Pendiente |
-| 2         | Reestructurar MainLayout.uxml + USS      | —       | ⬜ Pendiente |
-| 3         | UIPopupController → UIModeController     | —       | ⬜ Pendiente |
-| 4         | Rewire UIManager.cs                      | —       | ⬜ Pendiente |
-| 5         | Cross-Section UI en Analyze Mode         | —       | ⬜ Pendiente |
-| 6         | Cleanup & Integración Final              | —       | ⬜ Pendiente |
+| 1         | Expandir AppStateMachine                 | 2673e5a | ✅ Completada |
+| 2         | Reestructurar MainLayout.uxml + USS      | 70b2a01 | ✅ Completada |
+| 3+4       | UIModeController + Rewire UIManager      | f125f6f | ✅ Completada |
+| 5         | Cross-Section UI en Analyze Mode         | 66673f3 | ✅ Completada |
+| 6         | Cleanup & Integración Final              | —       | ✅ Completada |

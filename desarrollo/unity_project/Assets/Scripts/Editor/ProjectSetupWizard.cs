@@ -110,11 +110,13 @@ namespace WebGL.Core.Utils
             
             // Add UI components
             go.AddComponent<UI.UIManager>();
-            go.AddComponent<UI.ViewModeToolbar>();
+            // Phase 2 UX Redesign: ViewModeToolbar and EngineerToolbar disabled
+            // Their functionality is now covered by the 3-mode system (UIModeController)
+            // go.AddComponent<UI.ViewModeToolbar>();
+            // go.AddComponent<UI.EngineerToolbar>();
             go.AddComponent<UI.EnhancedInfoPanel>();
             go.AddComponent<UI.PartCatalogUI>();
             go.AddComponent<UI.AssemblyStepUI>();
-            go.AddComponent<UI.EngineerToolbar>();
 
             Debug.Log("[ProjectSetupWizard] Created MainMenu_UI with UI components.");
         }

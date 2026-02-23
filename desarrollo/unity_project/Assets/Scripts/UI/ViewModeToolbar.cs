@@ -5,6 +5,13 @@ using WebGL.Core.Utils;
 
 namespace WebGL.UI
 {
+    /// <summary>
+    /// [DEPRECATED — Phase 2 UX Redesign] Replaced by the 3-mode system (UIModeController).
+    /// View mode switching is now handled inside AnalyzeModeContainer via UIAnalyzePanel.
+    /// Cross-section is handled by UICrossSectionPanel.
+    /// Kept for reference; not instantiated at runtime.
+    /// </summary>
+    [System.Obsolete("Replaced by UIModeController + UIAnalyzePanel (Phase 2 UX Redesign)")]
     public class ViewModeToolbar : Singleton<ViewModeToolbar>
     {
         [Header("References")]

@@ -421,11 +421,8 @@
 #ResetViewBtn { background-image: resource("UI/Icons/icon_reset"); }
 #HotspotBtn { background-image: resource("UI/Icons/icon_pin"); }
 
-#ShaderBtn { background-image: resource("UI/Icons/icon_view"); }
-#LayerBtn { background-image: resource("UI/Icons/icon_layers"); }
-#ExplodeBtn { background-image: resource("UI/Icons/icon_explode"); }
-#InfoBtn { background-image: resource("UI/Icons/icon_info"); }
-#EnvBtn { background-image: resource("UI/Icons/icon_env"); }
+/* Phase 2 Cleanup: #ShaderBtn, #LayerBtn, #ExplodeBtn, #InfoBtn, #EnvBtn removed
+   — old 5-button toolbar replaced by 3-mode system (ModeExploreBtn/ModeAnalyzeBtn/ModeStudioBtn) */
 
 /* Hide text when icon is present, or make it minimal */
 .button-icon-text, .button-icon-text-small {
