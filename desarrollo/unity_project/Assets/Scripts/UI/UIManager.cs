@@ -51,8 +51,8 @@ namespace WebGL.UI
         private System.Collections.Generic.List<System.Action> _uiCleanupActions = new System.Collections.Generic.List<System.Action>();
 
         // ── Button input blocker callbacks (shared instances) ──
-        private EventCallback<PointerEnterEvent> _onBtnEnter = evt => OrbitCameraController.GlobalInputBlocked = true;
-        private EventCallback<PointerLeaveEvent> _onBtnLeave = evt => OrbitCameraController.GlobalInputBlocked = false;
+        private EventCallback<PointerEnterEvent> _onBtnEnter = evt => InputManager.InputBlocked = true;
+        private EventCallback<PointerLeaveEvent> _onBtnLeave = evt => InputManager.InputBlocked = false;
         private EventCallback<PointerDownEvent> _onBtnDown = evt => evt.StopPropagation();
         private EventCallback<PointerUpEvent> _onBtnUp = evt => evt.StopPropagation();
 
@@ -180,8 +180,8 @@ namespace WebGL.UI
                 explosionSlider.RegisterValueChangedCallback(OnExplosionSliderChanged);
                 AddCleanup(() => explosionSlider.UnregisterValueChangedCallback(OnExplosionSliderChanged));
 
-                EventCallback<PointerEnterEvent> esEn = evt => OrbitCameraController.GlobalInputBlocked = true;
-                EventCallback<PointerLeaveEvent> esLe = evt => OrbitCameraController.GlobalInputBlocked = false;
+                EventCallback<PointerEnterEvent> esEn = evt => InputManager.InputBlocked = true;
+                EventCallback<PointerLeaveEvent> esLe = evt => InputManager.InputBlocked = false;
                 EventCallback<PointerDownEvent> esDo = evt => evt.StopPropagation();
                 explosionSlider.RegisterCallback(esEn);
                 explosionSlider.RegisterCallback(esLe);

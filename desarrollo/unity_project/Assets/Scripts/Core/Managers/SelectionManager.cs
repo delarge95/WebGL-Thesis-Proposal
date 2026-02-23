@@ -88,7 +88,14 @@ namespace WebGL.Core.Managers
         private void HandleHover()
         {
             if (Camera.main == null) return;
-            if (OrbitCameraController.GlobalInputBlocked) 
+
+            // Phase 4: Use centralized InputManager for both explicit blocks and UI detection
+            if (InputManager.InputBlocked) 
+            {
+                ClearHover();
+                return;
+            }
+            if (InputManager.Instance != null && InputManager.Instance.IsPointerOverUI())
             {
                 ClearHover();
                 return;
@@ -178,8 +185,8 @@ namespace WebGL.Core.Managers
         {
             if (!Input.GetMouseButtonDown(0)) return;
             
-            // Respect global input block (set by UI pointer events)
-            if (OrbitCameraController.GlobalInputBlocked) return;
+            // Phase 4: Respect centralized input block (set by UI pointer events)
+            if (InputManager.InputBlocked) return;
             
             // UI Blocking Check — delegates to InputManager for centralized UI detection.
             if (InputManager.Instance != null && InputManager.Instance.IsPointerOverUI())

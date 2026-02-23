@@ -58,20 +58,28 @@ namespace WebGL.Core.Managers
             
             // FORCE override inspector values that might be stale
             minVerticalAngle = -89f;
+            maxVerticalAngle = 89f;
 
-            // Force Web Design Background Color (#050505)
+            // TODO(Phase 5): Move render settings to a dedicated EnvironmentController/SceneSetup class
+            ApplyDefaultRenderSettings();
+        }
+
+        /// <summary>
+        /// Forces the default dark background and disables skybox/fog.
+        /// NOTE: This is a temporary placement — should be moved to a dedicated
+        /// render setup class in a future refactor (Phase 5).
+        /// </summary>
+        private void ApplyDefaultRenderSettings()
+        {
             if (Camera.main != null)
             {
                 Camera.main.clearFlags = CameraClearFlags.SolidColor;
                 Camera.main.backgroundColor = new Color(5f / 255f, 5f / 255f, 5f / 255f, 1f);
-            } 
-            // Disable Skybox & Environment to ensure solid black
+            }
             RenderSettings.skybox = null;
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
             RenderSettings.ambientLight = new Color(0.02f, 0.02f, 0.02f, 1f);
             RenderSettings.fog = false;
-
-            maxVerticalAngle = 89f;
         }
 
         private void Start()
@@ -98,11 +106,19 @@ namespace WebGL.Core.Managers
             UpdateCamera();
         }
 
-        public static bool GlobalInputBlocked = false;
+        public static bool GlobalInputBlocked
+        {
+            get => InputManager.InputBlocked;
+            set => InputManager.InputBlocked = value;
+        }
 
         private void HandleInput()
         {
-            if (GlobalInputBlocked) return;
+            // Phase 4: Centralized input blocking via InputManager
+            if (InputManager.InputBlocked) return;
+
+            // Phase 4: Skip camera input when pointer is over UI Toolkit elements
+            if (InputManager.Instance != null && InputManager.Instance.IsPointerOverUI()) return;
 
             if (Input.touchCount > 0)
             {
