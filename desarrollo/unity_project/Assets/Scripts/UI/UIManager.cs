@@ -318,7 +318,10 @@ namespace WebGL.UI
         private void OnAppStateChanged(AppStateChangedEvent evt)
         {
             bool isExploded = evt.NewState == AppState.ExplodedView;
-            bool isInteractive = evt.NewState == AppState.Exploration || isExploded;
+            bool isInteractive = evt.NewState == AppState.Exploration || 
+                                 evt.NewState == AppState.Analyze || 
+                                 evt.NewState == AppState.Studio || 
+                                 isExploded;
 
             // Hotspots: only after hero is dismissed
             bool heroDismissed = _heroController != null && _heroController.HeroDismissed;
