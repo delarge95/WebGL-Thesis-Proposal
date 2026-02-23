@@ -1,30 +1,55 @@
-# Phase 3 & 4 — Architecture Refactoring: Changelog Detallado
+# Phases 3–5 & Audit Tasks — Architecture Refactoring: Changelog Detallado
 
 **Proyecto:** WebGL Drone Viewer (Unity 6.0 LTS — UI Toolkit / WebGL)  
 **Branch:** `feature/phase3-architecture`  
-**Fecha:** 23 de febrero de 2026  
+**Fecha inicio:** 23 de febrero de 2026  
+**Última actualización:** 24 de febrero de 2026  
 **Autor de los cambios:** GitHub Copilot (agente automatizado)
 
 ---
 
 ## Resumen Ejecutivo
 
-La Fase 3 abordó tres problemas arquitectónicos críticos en el sistema UI del visor de drones WebGL:
+El refactoring abarcó 5 fases + tareas de auditoría, atacando problemas arquitectónicos críticos en el sistema UI del visor de drones WebGL:
+
+### Phase 3 — Core Architecture (commit `04df7a1`)
 
 | #   | Paso                   | Problema                                                                                                | Solución                                                                                   | Estado      |
 | --- | ---------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ----------- |
 | 1   | Memory Leak Prevention | Callbacks de UI Toolkit nunca se des-registraban                                                        | Patrón `AddCleanup()` + `UnsubscribeFromUIEvents()`                                        | ✅ Completo |
 | 2   | God Class Dismantling  | `UIManager.cs` era un monolito de **972 líneas**                                                        | Extracción de 3 sub-controladores → reducción a **388 líneas** (~60%)                      | ✅ Completo |
 | 3   | Input Decoupling       | `SelectionManager` contenía lógica duplicada de hit-testing UI con conversión de coordenadas incorrecta | Centralización en `InputManager.IsPointerOverUI()` con `RuntimePanelUtils.ScreenToPanel()` | ✅ Completo |
-| 4   | Input Hardening        | `GlobalInputBlocked` era un static bool arcano en `OrbitCameraController`, cámara y teclado sin UI-awareness | `InputManager.InputBlocked` centralizado + `IsPointerOverUI()` guard en camera, selection, keyboard | ✅ Completo |
 
-**Resultado de compilación:** ✅ 0 errores en todo el proyecto.
+### Phase 4 — Hardening & Camera-Input Integration (commit `9e24ed5`)
+
+| #   | Paso              | Problema                                                                                                     | Solución                                                                                            | Estado      |
+| --- | ----------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- | ----------- |
+| 4   | Input Hardening   | `GlobalInputBlocked` era un static bool arcano en `OrbitCameraController`, cámara y teclado sin UI-awareness | `InputManager.InputBlocked` centralizado + `IsPointerOverUI()` guard en camera, selection, keyboard | ✅ Completo |
+
+### Phase 5 — Cleanup & Dead-Code Removal (commit `1607733`)
+
+| #   | Paso                           | Problema                                                                            | Solución                                                       | Estado      |
+| --- | ------------------------------ | ----------------------------------------------------------------------------------- | -------------------------------------------------------------- | ----------- |
+| 5   | Remove RenderSettings bloat    | `OrbitCameraController.Awake()` contenía `ApplyDefaultRenderSettings()` fuera de su responsabilidad | Migrado a `EnvironmentController.ApplyDefaults()`              | ✅ Completo |
+| 6   | Remove bridge property         | `OrbitCameraController.GlobalInputBlocked` bridge ya innecesario                    | Eliminado — todos los consumidores ya usan `InputManager.InputBlocked` | ✅ Completo |
+| 7   | Consolidate state management   | `GameManager` duplicaba estado que `AppStateMachine` ya manejaba                    | Consolidado en `AppStateMachine`, `GameManager` simplificado   | ✅ Completo |
+| 8   | Delete dead code               | `CameraController.cs` era un stub vacío (6 líneas) que nunca se usaba               | Eliminado del proyecto                                         | ✅ Completo |
+
+### Audit-Driven Refactoring Tasks (commits `b89e2f7`, `e86ff95`)
+
+| #    | Tarea                              | Acción                                                                        | Resultado                                              | Estado       |
+| ---- | ---------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------ | ------------ |
+| T1   | Simplificar RegisterButtonInputBlockers | Intento de remover mecanismo proactivo InputBlocked                          | **FALLIDO** — rompió submenús → REVERTIDO              | ❌ Revertido |
+| T2   | Verificar paneles "huérfanos"      | Auditoría de `UIEnvironmentPanel` y `UIAnalyzePanel`                          | Confirmado: NO son huérfanos, instanciados por `UIPopupController` | ✅ Verificado |
+| T3   | Null-safety standardization        | 46 patrones verbose `if(X.Instance != null) X.Instance.Method()` → `?.`      | 19 archivos, −115 líneas netas                         | ✅ Completo  |
+
+**Resultado de compilación final:** ✅ 0 errores en todo el proyecto.
 
 ---
 
 ## Archivos Modificados
 
-### Resumen de impacto
+### Resumen de impacto — Phases 3 & 4
 
 | Archivo                | Ruta                            | Acción         | Líneas Antes | Líneas Después | Δ           |
 | ---------------------- | ------------------------------- | -------------- | ------------ | -------------- | ----------- |
@@ -35,7 +60,23 @@ La Fase 3 abordó tres problemas arquitectónicos críticos en el sistema UI del
 | `UIHeroController.cs`  | `Assets/Scripts/UI/Panels/`     | **Nuevo**      | —            | 200            | +200        |
 | `UIPopupController.cs` | `Assets/Scripts/UI/Panels/`     | **Nuevo**      | —            | 273            | +273        |
 
-**Balance neto:** 972 + 50 + 335 = **1357 líneas antes** → 388 + 135 + 302 + 291 + 200 + 273 = **1589 líneas después** (+232 líneas, pero distribuidas en 6 archivos con responsabilidades claras vs 3 archivos monolíticos).
+### Resumen de impacto — Phase 5
+
+| Archivo                        | Ruta                            | Acción          | Cambio                                                    |
+| ------------------------------ | ------------------------------- | --------------- | --------------------------------------------------------- |
+| `OrbitCameraController.cs`     | `Assets/Scripts/Core/Camera/`   | **Modificado**  | Eliminado `ApplyDefaultRenderSettings()` y `GlobalInputBlocked` bridge |
+| `EnvironmentController.cs`     | `Assets/Scripts/Core/Managers/` | **Modificado**  | Recibe `ApplyDefaults()` migrado desde cámara             |
+| `GameManager.cs`               | `Assets/Scripts/Core/Managers/` | **Modificado**  | Removido estado duplicado, delegado a `AppStateMachine`   |
+| `AppStateMachine.cs`           | `Assets/Scripts/Core/Managers/` | **Modificado**  | Consolidado como única fuente de verdad de estado          |
+| `CameraController.cs`          | `Assets/Scripts/Core/Camera/`   | **Eliminado**   | Stub vacío de 6 líneas, nunca referenciado                |
+
+### Resumen de impacto — Task 3 (Null-Safety)
+
+| Archivos modificados | Patrón reemplazado                                  | Reemplazos | Líneas netas |
+| -------------------- | ---------------------------------------------------- | ---------- | ------------ |
+| **19 archivos**      | `if(X.Instance != null) X.Instance.Method()` → `X.Instance?.Method()` | 46         | −115         |
+
+Archivos afectados: `UIManager.cs`, `ViewModeToolbar.cs`, `KeyboardShortcuts.cs`, `PartCatalogUI.cs`, `EnhancedInfoPanel.cs`, `EngineerToolbar.cs`, `UIPopupController.cs`, `UIDetailsSheet.cs`, `UIEnvironmentPanel.cs`, `UIAnalyzePanel.cs`, `SettingsPanel.cs`, `SmartHotspot.cs`, `ExplodedViewManager.cs`, `AssemblyChecklist.cs`, `CrossSectionManager.cs`, `DroneStateController.cs`, `ConnectionPointsViewer.cs`, `ModularPartsSystem.cs`, `DroneAssembler.cs`
 
 ---
 
@@ -464,18 +505,19 @@ Antes de esta implementación limpia, hubo **7+ intentos** de solucionar el hit-
 
 La Fase 4 eliminó el acoplamiento arcano entre los sistemas de input y centralizó el control en `InputManager`, cerrando brechas de UI-awareness en la cámara y los atajos de teclado.
 
-| Step | Cambio | Archivos |
-| --- | --- | --- |
-| 1 | `GlobalInputBlocked` → `InputManager.InputBlocked` (fuente única de verdad) | `InputManager.cs` + 5 consumidores |
-| 2 | `OrbitCameraController` consulta `IsPointerOverUI()` antes de orbit/pan/zoom | `OrbitCameraController.cs` |
-| 3 | `KeyboardShortcuts` suprime atajos cuando el usuario interactúa con UI | `KeyboardShortcuts.cs` |
-| 4 | `SelectionManager.HandleHover()` early-out por `IsPointerOverUI()` | `SelectionManager.cs` |
+| Step | Cambio                                                                       | Archivos                           |
+| ---- | ---------------------------------------------------------------------------- | ---------------------------------- |
+| 1    | `GlobalInputBlocked` → `InputManager.InputBlocked` (fuente única de verdad)  | `InputManager.cs` + 5 consumidores |
+| 2    | `OrbitCameraController` consulta `IsPointerOverUI()` antes de orbit/pan/zoom | `OrbitCameraController.cs`         |
+| 3    | `KeyboardShortcuts` suprime atajos cuando el usuario interactúa con UI       | `KeyboardShortcuts.cs`             |
+| 4    | `SelectionManager.HandleHover()` early-out por `IsPointerOverUI()`           | `SelectionManager.cs`              |
 
 ### Step 1: Extraer `GlobalInputBlocked` → `InputManager.InputBlocked`
 
 **Problema:** `OrbitCameraController.GlobalInputBlocked` era un `public static bool` mutable que vivía en la clase de cámara, pero era escrito por 5 archivos UI diferentes. Esto creaba un acoplamiento arcano — el sistema UI dependía de un campo estático de la cámara para controlar input.
 
 **Solución:**
+
 ```csharp
 // InputManager.cs — nueva propiedad estática (fuente única de verdad)
 public static bool InputBlocked { get; set; }
@@ -490,18 +532,19 @@ public static bool GlobalInputBlocked
 
 **Migración de consumidores:**
 
-| Archivo | Antes | Después |
-| --- | --- | --- |
-| `UIManager.cs` (×4) | `OrbitCameraController.GlobalInputBlocked = true/false` | `InputManager.InputBlocked = true/false` |
-| `UIDetailsSheet.cs` (×4) | `OrbitCameraController.GlobalInputBlocked = true/false` | `InputManager.InputBlocked = true/false` |
+| Archivo                      | Antes                                                   | Después                                  |
+| ---------------------------- | ------------------------------------------------------- | ---------------------------------------- |
+| `UIManager.cs` (×4)          | `OrbitCameraController.GlobalInputBlocked = true/false` | `InputManager.InputBlocked = true/false` |
+| `UIDetailsSheet.cs` (×4)     | `OrbitCameraController.GlobalInputBlocked = true/false` | `InputManager.InputBlocked = true/false` |
 | `UIEnvironmentPanel.cs` (×4) | `OrbitCameraController.GlobalInputBlocked = true/false` | `InputManager.InputBlocked = true/false` |
-| `SelectionManager.cs` (×2) | `OrbitCameraController.GlobalInputBlocked` | `InputManager.InputBlocked` |
+| `SelectionManager.cs` (×2)   | `OrbitCameraController.GlobalInputBlocked`              | `InputManager.InputBlocked`              |
 
 ### Step 2: Integrar `OrbitCameraController` con `InputManager`
 
 **Problema:** La cámara solo verificaba `GlobalInputBlocked` (set por PointerEnter/Leave). Si el usuario hacía scroll sobre un elemento UI sin hover callbacks (raro, pero posible), el zoom de cámara se activaba.
 
 **Solución:** Doble guard en `HandleInput()`:
+
 ```csharp
 private void HandleInput()
 {
@@ -518,6 +561,7 @@ private void HandleInput()
 **Problema:** Los atajos de teclado (1-6 para presets de cámara, E para explode, R para reset, Escape para back) se procesaban incluso cuando el usuario estaba interactuando con UI. Esto podía causar cambios de estado inesperados.
 
 **Solución:**
+
 ```csharp
 private void Update()
 {
@@ -532,6 +576,7 @@ private void Update()
 **Problema:** `HandleHover()` ejecutaba un `Physics.Raycast` en cada frame, incluso cuando el pointer estaba sobre UI Toolkit. Esto era trabajo desperdiciado y podía causar highlights parásitos.
 
 **Solución:** Doble early-out antes del raycast:
+
 ```csharp
 private void HandleHover()
 {
@@ -574,3 +619,224 @@ private void HandleHover()
   └──────────────────────────────────┘
 ```
 
+---
+
+## Phase 5 — Cleanup & Dead-Code Removal
+
+**Commit:** `1607733`  
+**Fecha:** 23 de febrero de 2026  
+**Archivos:** 5 modificados, 1 eliminado (+18 / −52 líneas)
+
+### Resumen
+
+La Fase 5 eliminó código muerto, bridges temporales y responsabilidades fuera de lugar que quedaron como residuo de las fases anteriores. Cada paso fue una extracción quirúrgica con verificación de 0 errores de compilación entre pasos.
+
+| Step | Cambio                                          | Archivos                                             |
+| ---- | ----------------------------------------------- | ---------------------------------------------------- |
+| 1    | Migrar `ApplyDefaultRenderSettings()` a su dueño correcto | `OrbitCameraController.cs`, `EnvironmentController.cs` |
+| 2    | Eliminar bridge `GlobalInputBlocked`            | `OrbitCameraController.cs`                           |
+| 3    | Consolidar `GameManager` → `AppStateMachine`    | `GameManager.cs`, `AppStateMachine.cs`               |
+| 4    | Eliminar `CameraController.cs` (stub vacío)     | `CameraController.cs` (ELIMINADO)                    |
+
+### Step 1: Migrar `ApplyDefaultRenderSettings()`
+
+**Problema:** En Phase 4, `OrbitCameraController.Awake()` contenía un método `ApplyDefaultRenderSettings()` que configuraba `RenderSettings.skybox`, `RenderSettings.ambientMode`, y el color de fondo de la cámara. Esto violaba Single Responsibility — la cámara no debería ser dueña de la configuración de rendering del entorno.
+
+**Solución:**
+
+- **Eliminado** `ApplyDefaultRenderSettings()` de `OrbitCameraController.cs`
+- **Migrado** a `EnvironmentController.ApplyDefaults()`, donde la responsabilidad de entorno/rendering ya reside
+- `EnvironmentController.Start()` llama a `ApplyDefaults()` automáticamente
+
+### Step 2: Eliminar bridge `GlobalInputBlocked`
+
+**Problema:** En Phase 4, se creó un bridge temporal en `OrbitCameraController`:
+
+```csharp
+public static bool GlobalInputBlocked
+{
+    get => InputManager.InputBlocked;
+    set => InputManager.InputBlocked = value;
+}
+```
+
+Este bridge existía para no romper consumidores durante la migración. Tras Phase 4, **todos** los consumidores ya escribían directamente a `InputManager.InputBlocked`, haciendo el bridge dead code.
+
+**Solución:** Eliminación directa de la propiedad. Verificado con grep que 0 archivos la referenciaban.
+
+### Step 3: Consolidar `GameManager` → `AppStateMachine`
+
+**Problema:** `GameManager` mantenía su propio tracking de estado (`isExploring`, `currentMode`) que duplicaba lo que `AppStateMachine` ya manejaba como fuente de verdad con su enum `AppState`. Esto creaba riesgo de desincronización.
+
+**Solución:**
+
+- `GameManager` delegó todo tracking de estado a `AppStateMachine`
+- Propiedades como `IsExploring` ahora consultan `AppStateMachine.CurrentState` en lugar de mantener estado propio
+- Se preservó la interfaz pública de `GameManager` para compatibilidad con scripts que lo referencian
+
+### Step 4: Eliminar `CameraController.cs`
+
+**Problema:** `CameraController.cs` era un archivo de 6 líneas:
+
+```csharp
+using UnityEngine;
+
+public class CameraController : MonoBehaviour
+{
+    // Stub — all camera logic lives in OrbitCameraController
+}
+```
+
+Nunca era referenciado por ningún script, prefab, o escena. Era un residuo de un refactoring previo.
+
+**Solución:** Archivo eliminado del proyecto junto con su `.meta`.
+
+---
+
+## Audit-Driven Refactoring Tasks
+
+**Base:** `ARCHITECTURE_AUDIT_REPORT.md` generado post-Phase 5  
+**Tracking:** `REFACTORING_PLAN.md`
+
+Tras completar las 5 fases, se ejecutó una auditoría arquitectónica que identificó 6 tareas potenciales. Se ejecutaron las 3 primeras; las 3 restantes fueron evaluadas y diferidas como innecesarias para el alcance de la tesis.
+
+---
+
+### Task 1: Simplificar `RegisterButtonInputBlockers` — ❌ FALLIDO / REVERTIDO
+
+**Commits:** `4b80bd5` → `acea37a` → `e7f79d8` (intento) → `b89e2f7` (REVERT total)
+
+**Hipótesis:** El mecanismo dual de bloqueo de input era redundante:
+
+1. **Proactivo:** `RegisterButtonInputBlockers()` — 4 callbacks en TODOS los `<Button>`: `PointerEnter`/`PointerLeave` → `InputBlocked = true/false`, `PointerDown`/`PointerUp` → `StopPropagation()`
+2. **Reactivo:** `IsPointerOverUI()` — `Panel.Pick()` verifica en cada frame si el cursor está sobre UI
+
+Se asumió que el mecanismo reactivo (`Panel.Pick()`) era suficiente por sí solo.
+
+**Qué se hizo:**
+
+1. Eliminado `RegisterButtonInputBlockers()` completamente de `UIManager.cs`
+2. Eliminado `InputManager.InputBlocked` (propiedad estática)
+3. Removidos todos los guardas `if (InputManager.InputBlocked) return;` de 7 archivos
+4. Sólo se dejó `IsPointerOverUI()` como mecanismo único
+
+**Resultado: FALLO TOTAL**
+
+Los submenús del Hero screen dejaron de funcionar. Al hacer click en cualquier botón de submenú (Devices, About, Exit), el click atravesaba la UI y era capturado por el raycast 3D, causando selección de piezas del drone debajo del menú.
+
+**Post-mortem — ¿Por qué falló?**
+
+El mecanismo proactivo (`InputBlocked`) es **esencial** porque cubre una brecha temporal que `Panel.Pick()` no puede resolver:
+
+1. **Timing:** `Panel.Pick()` se evalúa en `Update()`, pero los callbacks de botón (`PointerDownEvent`) ocurren en el ciclo de eventos de UI Toolkit, que puede ejecutarse **antes** del `Update()` de `SelectionManager`
+2. **StopPropagation:** Los `PointerDown`/`PointerUp` de `RegisterButtonInputBlockers` llaman `evt.StopPropagation()`, impidiendo que el evento burbujee hasta elementos de picking debajo. Sin esto, el click llega al viewport 3D
+3. **Frame gap:** Entre el `PointerEnter` y el siguiente `Update()`, hay un frame donde `IsPointerOverUI()` podría aún no detectar la UI, pero el click ya se procesó
+
+**Conclusión:** El mecanismo dual (proactivo `InputBlocked` + reactivo `IsPointerOverUI()`) es **arquitecturalmente necesario**. No es redundancia — son dos capas complementarias que cubren diferentes momentos del ciclo de eventos.
+
+**Acción:** REVERT completo a commit `1607733` via `git checkout 1607733 -- <7 archivos>`. Confirmado: 0 errores, todos los submenús funcionan correctamente.
+
+---
+
+### Task 2: Verificar paneles "huérfanos" — ✅ Verificado (sin cambios)
+
+**Sospecha:** `UIEnvironmentPanel.cs` y `UIAnalyzePanel.cs` parecían no tener instanciador claro.
+
+**Investigación:**
+
+```csharp
+// UIPopupController.cs — constructor
+public UIPopupController(VisualElement root, UIManager manager)
+{
+    // ...
+    _environmentPanel = new UIEnvironmentPanel(root);  // ← Instanciado aquí
+    _analyzePanel = new UIAnalyzePanel(root);           // ← Instanciado aquí
+    // ...
+}
+```
+
+**Conclusión:** Ambos paneles son instanciados por `UIPopupController` en su constructor, que a su vez es creado por `UIManager.InitializeUI()`. La cadena de ownership es clara:
+
+```
+UIManager.InitializeUI()
+  └── new UIPopupController(root, this)
+        ├── new UIEnvironmentPanel(root)
+        └── new UIAnalyzePanel(root)
+```
+
+**Acción:** Ningún cambio de código necesario. Documentado en `REFACTORING_PLAN.md`.
+
+---
+
+### Task 3: Null-Safety Standardization — ✅ Completo
+
+**Commit:** `e86ff95`  
+**Archivos:** 19 modificados (+90 / −205 líneas, neto **−115 líneas**)
+
+**Problema:** A lo largo del codebase existían 46 instancias del patrón verbose:
+
+```csharp
+// ANTES (verbose, 2 líneas):
+if (InputManager.Instance != null)
+    InputManager.Instance.SomeMethod();
+
+// O con bloque:
+if (SelectionManager.Instance != null)
+{
+    SelectionManager.Instance.SomeMethod();
+}
+```
+
+**Solución:** Reemplazo sistemático con el operador null-conditional de C#:
+
+```csharp
+// DESPUÉS (idiomatic, 1 línea):
+InputManager.Instance?.SomeMethod();
+```
+
+**Alcance de los 46 reemplazos:**
+
+| Manager referenciado       | Ocurrencias | Archivos afectados                                                   |
+| -------------------------- | ----------- | -------------------------------------------------------------------- |
+| `InputManager.Instance`    | 12          | UIManager, ViewModeToolbar, KeyboardShortcuts, EngineerToolbar, etc. |
+| `SelectionManager.Instance`| 8           | UIManager, PartCatalogUI, EnhancedInfoPanel, SmartHotspot            |
+| `HotspotManager.Instance`  | 6           | UIManager, UIPopupController, ViewModeToolbar                        |
+| `ViewModeManager.Instance` | 5           | UIManager, UIPopupController, KeyboardShortcuts                      |
+| Otros (Environment, etc.)  | 15          | Diversos archivos de UI y managers                                   |
+
+**Verificación:** 0 errores de compilación. El operador `?.` es semánticamente idéntico al patrón anterior — si `Instance` es `null`, la llamada se omite silenciosamente (retorna `default`).
+
+---
+
+### Tasks 4–6: Diferidos (fuera de alcance de tesis)
+
+| Task | Descripción                        | Razón de diferimiento                                                         |
+| ---- | ---------------------------------- | ----------------------------------------------------------------------------- |
+| T4   | Multi-platform input abstraction   | El proyecto es exclusivamente WebGL — no hay necesidad de abstraer input      |
+| T5   | Multi-scene architecture           | El visor opera en una sola escena — no hay transiciones de escena             |
+| T6   | Unit testing framework             | No es requisito de la tesis; el testing se hace manualmente en browser        |
+
+---
+
+## Historial Completo de Commits
+
+| Commit    | Fase/Task | Descripción                                                  |
+| --------- | --------- | ------------------------------------------------------------ |
+| `04df7a1` | Phase 3   | Memory Leak Prevention + God Class Dismantling + Input Decoupling |
+| `9e24ed5` | Phase 4   | Hardening & Camera-Input Integration                         |
+| `1607733` | Phase 5   | Cleanup & Dead-Code Removal (4 steps)                        |
+| `4b80bd5` | Task 1    | ⚠️ Intento de simplificar RegisterButtonInputBlockers (FALLIDO) |
+| `acea37a` | Task 1    | ⚠️ Segundo intento (FALLIDO)                                 |
+| `e7f79d8` | Task 1    | ⚠️ Tercer intento (FALLIDO)                                  |
+| `b89e2f7` | Task 1    | ↩️ REVERT total a estado de commit 1607733                   |
+| `e86ff95` | Task 3    | Null-safety standardization (46 reemplazos, 19 archivos)     |
+
+---
+
+## Documentos de Referencia
+
+| Documento                        | Contenido                                                         |
+| -------------------------------- | ----------------------------------------------------------------- |
+| `PHASE3_CHANGELOG.md` (este)     | Changelog detallado de todas las fases y tareas                   |
+| `ARCHITECTURE_AUDIT_REPORT.md`   | Auditoría arquitectónica post-Phase 5 con recomendaciones         |
+| `REFACTORING_PLAN.md`            | Plan de ejecución de tareas de auditoría con estado de cada una   |
