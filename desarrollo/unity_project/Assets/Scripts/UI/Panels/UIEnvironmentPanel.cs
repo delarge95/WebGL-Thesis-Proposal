@@ -46,12 +46,17 @@ namespace WebGL.UI.Panels
                 _envLightRotSlider.RegisterValueChangedCallback(onRotChanged);
                 AddCleanup(() => _envLightRotSlider.UnregisterValueChangedCallback(onRotChanged));
 
-                // StopPropagation prevents slider drag from orbiting the camera
+                EventCallback<PointerEnterEvent> onEnter = evt => InputManager.InputBlocked = true;
+                EventCallback<PointerLeaveEvent> onLeave = evt => InputManager.InputBlocked = false;
                 EventCallback<PointerDownEvent> onDown = evt => evt.StopPropagation();
 
+                _envLightRotSlider.RegisterCallback(onEnter);
+                _envLightRotSlider.RegisterCallback(onLeave);
                 _envLightRotSlider.RegisterCallback(onDown);
 
                 AddCleanup(() => {
+                    _envLightRotSlider.UnregisterCallback(onEnter);
+                    _envLightRotSlider.UnregisterCallback(onLeave);
                     _envLightRotSlider.UnregisterCallback(onDown);
                 });
             }
@@ -66,12 +71,17 @@ namespace WebGL.UI.Panels
                 _envLightIntSlider.RegisterValueChangedCallback(onIntChanged);
                 AddCleanup(() => _envLightIntSlider.UnregisterValueChangedCallback(onIntChanged));
 
-                // StopPropagation prevents slider drag from orbiting the camera
+                EventCallback<PointerEnterEvent> onEnter2 = evt => InputManager.InputBlocked = true;
+                EventCallback<PointerLeaveEvent> onLeave2 = evt => InputManager.InputBlocked = false;
                 EventCallback<PointerDownEvent> onDown2 = evt => evt.StopPropagation();
 
+                _envLightIntSlider.RegisterCallback(onEnter2);
+                _envLightIntSlider.RegisterCallback(onLeave2);
                 _envLightIntSlider.RegisterCallback(onDown2);
 
                 AddCleanup(() => {
+                    _envLightIntSlider.UnregisterCallback(onEnter2);
+                    _envLightIntSlider.UnregisterCallback(onLeave2);
                     _envLightIntSlider.UnregisterCallback(onDown2);
                 });
             }

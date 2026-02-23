@@ -50,8 +50,9 @@ namespace WebGL.UI
         // ── Memory Leak Prevention (Phase 3 Step 1) ──
         private System.Collections.Generic.List<System.Action> _uiCleanupActions = new System.Collections.Generic.List<System.Action>();
 
-        // ── Shared callbacks: StopPropagation on all buttons prevents pointer events
-        //    from bubbling to the panel root (which would block button clicks in submenus) ──
+        // ── Button input blocker callbacks (shared instances) ──
+        private EventCallback<PointerEnterEvent> _onBtnEnter = evt => InputManager.InputBlocked = true;
+        private EventCallback<PointerLeaveEvent> _onBtnLeave = evt => InputManager.InputBlocked = false;
         private EventCallback<PointerDownEvent> _onBtnDown = evt => evt.StopPropagation();
         private EventCallback<PointerUpEvent> _onBtnUp = evt => evt.StopPropagation();
 
@@ -179,10 +180,13 @@ namespace WebGL.UI
                 explosionSlider.RegisterValueChangedCallback(OnExplosionSliderChanged);
                 AddCleanup(() => explosionSlider.UnregisterValueChangedCallback(OnExplosionSliderChanged));
 
-                // StopPropagation prevents slider drag from orbiting the camera
+                EventCallback<PointerEnterEvent> esEn = evt => InputManager.InputBlocked = true;
+                EventCallback<PointerLeaveEvent> esLe = evt => InputManager.InputBlocked = false;
                 EventCallback<PointerDownEvent> esDo = evt => evt.StopPropagation();
+                explosionSlider.RegisterCallback(esEn);
+                explosionSlider.RegisterCallback(esLe);
                 explosionSlider.RegisterCallback(esDo);
-                AddCleanup(() => explosionSlider.UnregisterCallback(esDo));
+                AddCleanup(() => { explosionSlider.UnregisterCallback(esEn); explosionSlider.UnregisterCallback(esLe); explosionSlider.UnregisterCallback(esDo); });
             }
 
             // ── Initial state ──
@@ -190,8 +194,8 @@ namespace WebGL.UI
             if (infoBtn != null) infoBtn.SetEnabled(false);
             if (sliderContainer != null) sliderContainer.AddToClassList("slider-hidden");
 
-            // ── All buttons need StopPropagation to prevent click-through ──
-            RegisterButtonStopPropagation();
+            // ── All buttons block 3D input ──
+            RegisterButtonInputBlockers();
 
             // ── Initial layout ──
             _popupController.RepositionPopups();
@@ -344,24 +348,22 @@ namespace WebGL.UI
         }
 
         // ═══════════════════════════════════════════════════════
-        //  Button StopPropagation (prevents click-through to panels)
+        //  Button input blockers (all buttons block 3D raycast)
         // ═══════════════════════════════════════════════════════
 
-        /// <summary>
-        /// Registers PointerDown/Up StopPropagation on every button so that
-        /// clicks inside submenus don't bubble up to parent panels (which would
-        /// swallow them and make buttons unclickable).
-        /// NOTE: InputBlocked was removed — IsPointerOverUI() handles 3D blocking.
-        /// </summary>
-        private void RegisterButtonStopPropagation()
+        private void RegisterButtonInputBlockers()
         {
             root.Query<Button>().ForEach(btn =>
             {
+                btn.RegisterCallback(_onBtnEnter);
+                btn.RegisterCallback(_onBtnLeave);
                 btn.RegisterCallback(_onBtnDown);
                 btn.RegisterCallback(_onBtnUp);
 
                 AddCleanup(() =>
                 {
+                    btn.UnregisterCallback(_onBtnEnter);
+                    btn.UnregisterCallback(_onBtnLeave);
                     btn.UnregisterCallback(_onBtnDown);
                     btn.UnregisterCallback(_onBtnUp);
                 });

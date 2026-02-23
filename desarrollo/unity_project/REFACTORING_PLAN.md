@@ -43,31 +43,29 @@ These items were completed before this plan was created:
 
 Tasks derived from the Architecture Audit Report, ordered by priority.
 
-### Task 1: Remove `RegisterButtonInputBlockers()` + `InputBlocked` — Simplify Input Blocking
+### Task 1: Simplify `RegisterButtonInputBlockers()` — Input Blocking
 **Severity:** 🟡 MEDIUM (Audit Issue #9)  
-**Status:** ✅ Completed  
+**Status:** ⬜ REVERTED — Requires deeper analysis  
 **Files:** `UIManager.cs`, `UIEnvironmentPanel.cs`, `UIDetailsSheet.cs`, `InputManager.cs`, `OrbitCameraController.cs`, `SelectionManager.cs`, `KeyboardShortcuts.cs`
 
-**What was done:**
-- [x] Removed `RegisterButtonInputBlockers()` from `UIManager.cs`
-- [x] Removed `_onBtnEnter`, `_onBtnLeave` field declarations (InputBlocked handlers)
-- [x] **Kept** `_onBtnDown` (StopPropagation) and `_onBtnUp` (StopPropagation) — these are **critical** to prevent click-through
-- [x] Replaced with `RegisterButtonStopPropagation()` — same Query\<Button\> loop but only registers StopPropagation, no InputBlocked
-- [x] Removed per-slider `PointerEnter/Leave` handlers from `UIEnvironmentPanel.cs` (kept `StopPropagation` for drag isolation)
-- [x] Removed per-slider `PointerEnter/Leave` handlers from `UIManager.cs` explosion slider (kept `StopPropagation`)
-- [x] Removed per-element `PointerEnter/Leave` handlers from `UIDetailsSheet.cs` (sheet + scrollview)
-- [x] Removed `InputManager.InputBlocked` static property (dead code — nobody writes it)
-- [x] Removed `InputBlocked` guards from `OrbitCameraController`, `SelectionManager`, `KeyboardShortcuts`
-- [x] Verified `IsPointerOverUI()` via `Panel.Pick()` is the sole UI-blocking mechanism
-- [x] 0 compile errors across all modified files
+**Attempt 1 (commits 4b80bd5, acea37a, e7f79d8) — FAILED, REVERTED:**  
+Removed `InputBlocked` entirely and all 4 per-button callbacks, relying solely on `IsPointerOverUI()`. This broke **all submenu button clicks and the InfoBtn** because:
 
-**⚠️ Lesson learned:**  
-The original `RegisterButtonInputBlockers()` had 4 callbacks. Two were redundant (`InputBlocked` enter/leave), but two were **essential** (`StopPropagation` down/up). Removing all 4 broke button clicks in submenus because PointerDown events bubbled up to parent panels. Fixed by keeping only the StopPropagation pair in a renamed `RegisterButtonStopPropagation()`.
+1. `RegisterButtonInputBlockers()` does **two** critical things, not one:
+   - `PointerEnter/Leave → InputBlocked = true/false` → blocks `SelectionManager` from processing clicks as 3D background clicks
+   - `PointerDown/Up → StopPropagation()` → prevents pointer events from bubbling up to parent panels
 
-**Impact:**
-- UIManager.cs: ~370 lines (slim coordinator, StopPropagation retained)
-- **Single mechanism** for UI-blocks-3D: `InputManager.IsPointerOverUI()` via `Panel.Pick()`
-- **StopPropagation** on buttons: prevents event bubbling that blocks clicks in nested menus
+2. `IsPointerOverUI()` via `Panel.Pick()` was **not a sufficient replacement** because:
+   - Submenus start with `display: none` (via `.submenu--hidden` CSS class)
+   - `Query<Button>()` at init time **cannot find buttons inside `display: none` containers**
+   - Even when submenus are visible, there may be frame-timing gaps where `Panel.Pick()` doesn't yet reflect the updated layout
+   - `InputBlocked` acts as a **proactive** flag (set on hover) while `IsPointerOverUI()` is **reactive** (checked per-frame) — the proactive approach is more reliable for preventing click-through
+
+3. All 7 files were reverted to commit `1607733` (Phase 5 clean state).
+
+**Root cause:** `RegisterButtonInputBlockers()` is NOT just about input blocking — its `StopPropagation` prevents event bubbling within the UI Toolkit panel, and `InputBlocked` provides a reliable proactive guard that survives frame-timing edge cases. Both mechanisms are essential.
+
+**Revised assessment:** This task needs a fundamentally different approach if attempted again. The current dual mechanism (InputBlocked + StopPropagation + IsPointerOverUI) works correctly. Removing parts of it introduces subtle but critical regressions.
 
 ---
 
@@ -156,8 +154,9 @@ Strong references prevent GC of destroyed subscribers.
 | Metric | Value |
 |--------|-------|
 | Total tasks | 6 |
-| Completed | 2 |
+| Completed | 1 |
 | In progress | 0 |
+| Reverted | 1 (Task 1 — needs rethink) |
 | Deferred | 3 (Tasks 4, 5, 6) |
 | Actionable remaining | 1 (Task 3) |
 
