@@ -245,12 +245,10 @@ namespace WebGL.UI.Panels
         /// <summary>Called by OnAppStateChanged — syncs UI mode to reflect external state changes.</summary>
         public void SyncWithAppState(AppState newState)
         {
-            // ExplodedView: show slider + category menu, mark explode button active
+            // ExplodedView: mark explode button active
             if (newState == AppState.ExplodedView)
             {
                 _isExploded = true;
-                SetSliderVisible(true);
-                ShowCategoryMenu(true);
                 UpdateExplodeButtonState();
                 return;
             }
@@ -259,8 +257,6 @@ namespace WebGL.UI.Panels
             if (_isExploded && newState != AppState.ExplodedView)
             {
                 _isExploded = false;
-                SetSliderVisible(false);
-                ShowCategoryMenu(false);
                 UpdateExplodeButtonState();
             }
 
@@ -407,20 +403,38 @@ namespace WebGL.UI.Panels
         //  Slider (Exploded View)
         // ═══════════════════════════════════════════════════════
 
-        /// <summary>Shows/hides the explosion slider. Called by AppState changes.</summary>
+        /// <summary>Shows/hides the explosion slider. Does not change slider value.</summary>
         public void SetSliderVisible(bool visible)
         {
             if (_sliderContainer == null) return;
+            _sliderContainer.EnableInClassList("slider-hidden", !visible);
+        }
 
-            if (visible)
+        /// <summary>Toggles slider visibility. Called by Explode button click.
+        /// When hiding, resets slider to 0 to exit ExplodedView.</summary>
+        public void ToggleSliderVisibility()
+        {
+            if (_sliderContainer == null) return;
+
+            bool isCurrentlyVisible = !_sliderContainer.ClassListContains("slider-hidden");
+
+            if (isCurrentlyVisible)
             {
-                _sliderContainer.RemoveFromClassList("slider-hidden");
+                // Hiding slider → reset explosion to 0
                 if (_explosionSlider != null)
-                    _explosionSlider.SetValueWithoutNotify(0.5f);
+                    _explosionSlider.value = 0f;
+                _sliderContainer.AddToClassList("slider-hidden");
+                ShowCategoryMenu(false);
+                _toolExplodeBtn?.RemoveFromClassList("mode-action-btn--active");
             }
             else
             {
-                _sliderContainer.AddToClassList("slider-hidden");
+                // Showing slider → start at 0, user moves to activate
+                if (_explosionSlider != null)
+                    _explosionSlider.SetValueWithoutNotify(0f);
+                _sliderContainer.RemoveFromClassList("slider-hidden");
+                ShowCategoryMenu(true);
+                _toolExplodeBtn?.AddToClassList("mode-action-btn--active");
             }
         }
 
