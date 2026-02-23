@@ -207,6 +207,122 @@
 }
 
 /* ────────────────────────────────────────────────
+   Mode Buttons (3-Mode System: Explore, Analyze, Studio)
+   ──────────────────────────────────────────────── */
+.mode-btn {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 72px;
+    margin-left: 12px;
+    margin-right: 12px;
+    
+    background-color: transparent;
+    border-radius: 16px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.06);
+    
+    transition-property: background-color, scale, border-color, opacity;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.mode-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    scale: 1.05;
+}
+
+.mode-btn:active {
+    scale: 0.95;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.mode-btn--active {
+    background-color: rgba(0, 170, 255, 0.15);
+    border-color: rgba(0, 170, 255, 0.5);
+}
+
+.mode-btn--active:hover {
+    background-color: rgba(0, 170, 255, 0.22);
+    border-color: rgba(0, 170, 255, 0.6);
+}
+
+.mode-btn-icon {
+    width: 28px;
+    height: 28px;
+    -unity-background-scale-mode: scale-to-fit;
+    margin-bottom: 4px;
+}
+
+.mode-btn-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 1px;
+    -unity-font-style: bold;
+}
+
+.mode-btn--active .mode-btn-label {
+    color: rgba(0, 170, 255, 0.9);
+}
+
+/* Mode-specific icons */
+.icon-explore { background-image: resource("UI/Icons/icon_explore"); }
+.icon-analyze { background-image: resource("UI/Icons/icon_analyze"); }
+.icon-studio  { background-image: resource("UI/Icons/icon_studio"); }
+
+/* ────────────────────────────────────────────────
+   Mode Containers (above bottom bar, contextual tool panels)
+   ──────────────────────────────────────────────── */
+.mode-container {
+    position: absolute;
+    bottom: 180px;
+    left: 50%;
+    translate: -50% 0;
+    
+    flex-direction: column;
+    align-items: center;
+    
+    width: 640px;
+    max-width: 90%;
+    
+    background-color: transparent;
+    
+    transition-property: opacity, translate, scale;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.mode--hidden {
+    display: none;
+    opacity: 0;
+    scale: 0.95 0.95;
+    translate: -50% 16px;
+}
+
+/* Submenus inside mode-containers: override absolute positioning */
+.mode-submenu {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    translate: 0 0;
+    
+    width: 100%;
+    
+    background-color: transparent;
+    border-width: 0;
+    border-color: transparent;
+    
+    align-items: center;
+    margin-bottom: 12px;
+    
+    transition-property: opacity, translate, scale;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+/* ────────────────────────────────────────────────
    Icon Buttons (100px — exceeds 48dp minimum)
    ──────────────────────────────────────────────── */
 /* Old .icon-button styles removed — see above */
