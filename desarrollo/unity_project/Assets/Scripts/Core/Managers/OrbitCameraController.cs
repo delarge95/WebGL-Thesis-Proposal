@@ -1,6 +1,5 @@
 using UnityEngine;
 using WebGL.Core.Utils;
-using System.Collections;
 
 namespace WebGL.Core.Managers
 {
@@ -59,27 +58,7 @@ namespace WebGL.Core.Managers
             // FORCE override inspector values that might be stale
             minVerticalAngle = -89f;
             maxVerticalAngle = 89f;
-
-            // TODO(Phase 5): Move render settings to a dedicated EnvironmentController/SceneSetup class
-            ApplyDefaultRenderSettings();
-        }
-
-        /// <summary>
-        /// Forces the default dark background and disables skybox/fog.
-        /// NOTE: This is a temporary placement — should be moved to a dedicated
-        /// render setup class in a future refactor (Phase 5).
-        /// </summary>
-        private void ApplyDefaultRenderSettings()
-        {
-            if (Camera.main != null)
-            {
-                Camera.main.clearFlags = CameraClearFlags.SolidColor;
-                Camera.main.backgroundColor = new Color(5f / 255f, 5f / 255f, 5f / 255f, 1f);
-            }
-            RenderSettings.skybox = null;
-            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-            RenderSettings.ambientLight = new Color(0.02f, 0.02f, 0.02f, 1f);
-            RenderSettings.fog = false;
+            // Render settings are handled by EnvironmentController.Start() (Phase 5 cleanup)
         }
 
         private void Start()
@@ -104,12 +83,6 @@ namespace WebGL.Core.Managers
             currentViewShiftRatio = Mathf.Lerp(currentViewShiftRatio, targetViewShiftRatio, Time.deltaTime * dampingFactor);
             
             UpdateCamera();
-        }
-
-        public static bool GlobalInputBlocked
-        {
-            get => InputManager.InputBlocked;
-            set => InputManager.InputBlocked = value;
         }
 
         private void HandleInput()

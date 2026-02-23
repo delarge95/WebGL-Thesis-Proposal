@@ -5,17 +5,12 @@ namespace WebGL.Core.Managers
 {
     /// <summary>
     /// Main game manager that persists across scenes.
-    /// Provides backward compatibility and basic state management.
-    /// For advanced state management, use AppStateMachine.
+    /// Provides global debug utilities.
+    /// For application state, use AppStateMachine (single source of truth).
     /// </summary>
     public class GameManager : PersistentSingleton<GameManager>
     {
         #region Serialized Fields
-
-        [Header("State")]
-        [SerializeField] 
-        [Tooltip("Current application state")]
-        private AppState currentState;
 
         [Header("Settings")]
         [SerializeField]
@@ -27,23 +22,9 @@ namespace WebGL.Core.Managers
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets the current application state.
-        /// </summary>
-        public AppState CurrentState => currentState;
-
-        /// <summary>
         /// Gets the debug mode status.
         /// </summary>
         public bool DebugMode => debugMode;
-
-        #endregion
-
-        #region Events
-
-        /// <summary>
-        /// Fired when the game state changes.
-        /// </summary>
-        public event System.Action<AppState> OnStateChanged;
 
         #endregion
 
@@ -51,33 +32,9 @@ namespace WebGL.Core.Managers
 
         private void Start()
         {
-            SetState(AppState.Intro);
-            
             if (debugMode)
             {
                 Debug.Log("[GameManager] Initialized");
-            }
-        }
-
-        #endregion
-
-        #region State Management
-
-        /// <summary>
-        /// Sets the application state and notifies listeners.
-        /// </summary>
-        /// <param name="newState">The new state to set.</param>
-        public void SetState(AppState newState)
-        {
-            if (currentState == newState) return;
-
-            currentState = newState;
-            
-            OnStateChanged?.Invoke(newState);
-
-            if (debugMode)
-            {
-                Debug.Log($"[GameManager] State changed to: {newState}");
             }
         }
 

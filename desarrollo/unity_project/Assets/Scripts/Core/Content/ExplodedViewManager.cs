@@ -61,7 +61,7 @@ namespace WebGL.Core.Content
             // Get current state
             AppState currentState = AppStateMachine.Instance != null 
                 ? AppStateMachine.Instance.CurrentState 
-                : (GameManager.Instance != null ? GameManager.Instance.CurrentState : AppState.Exploration);
+                : AppState.Exploration;
 
             // Calculate target
             if (currentState == AppState.ExplodedView)
