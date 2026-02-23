@@ -5,6 +5,12 @@ using WebGL.Core.Utils;
 
 namespace WebGL.UI
 {
+    /// <summary>
+    /// [DEPRECATED — Phase 2 UX Redesign] Engineering tools dropdown.
+    /// Future integration: tools could move into a dedicated Analyze/Studio sub-panel.
+    /// Kept for reference; not instantiated at runtime.
+    /// </summary>
+    [System.Obsolete("Replaced by 3-mode system (Phase 2 UX Redesign). Not instantiated at runtime.")]
     public class EngineerToolbar : Singleton<EngineerToolbar>
     {
         [Header("References")]

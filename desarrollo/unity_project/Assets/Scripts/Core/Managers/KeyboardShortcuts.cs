@@ -29,6 +29,11 @@ namespace WebGL.Core.Managers
             if (Input.GetKeyDown(KeyCode.Escape)) GoBack();
             if (Input.GetKeyDown(KeyCode.R)) ResetView();
 
+            // Mode shortcuts (Phase 2 UX Redesign)
+            if (Input.GetKeyDown(KeyCode.Alpha7)) SwitchToExplore();
+            if (Input.GetKeyDown(KeyCode.Alpha8)) SwitchToAnalyze();
+            if (Input.GetKeyDown(KeyCode.Alpha9)) SwitchToStudio();
+
             // Accessibility
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Plus))
             {
@@ -55,11 +60,15 @@ namespace WebGL.Core.Managers
             if (AppStateMachine.Instance == null) return;
 
             var currentState = AppStateMachine.Instance.CurrentState;
+
+            // Phase 2: Only toggle exploded view from interactive modes
+            if (!AppStateMachine.Instance.IsInteractive()) return;
+
             if (currentState == AppState.ExplodedView)
             {
                 AppStateMachine.Instance.SetState(AppState.Exploration);
             }
-            else if (currentState == AppState.Exploration)
+            else if (currentState == AppState.Exploration || currentState == AppState.Analyze)
             {
                 AppStateMachine.Instance.SetState(AppState.ExplodedView);
             }
@@ -122,6 +131,31 @@ namespace WebGL.Core.Managers
             {
                 fpsCounter.enabled = !fpsCounter.enabled;
             }
+        }
+
+        // ═══════════════════════════════════════════════════════
+        //  Mode shortcuts (Phase 2 UX Redesign)
+        // ═══════════════════════════════════════════════════════
+
+        private void SwitchToExplore()
+        {
+            if (AppStateMachine.Instance == null || !AppStateMachine.Instance.IsInteractive()) return;
+            AppStateMachine.Instance.EnterExploration();
+            AudioManager.Instance?.PlayClick();
+        }
+
+        private void SwitchToAnalyze()
+        {
+            if (AppStateMachine.Instance == null || !AppStateMachine.Instance.IsInteractive()) return;
+            AppStateMachine.Instance.EnterAnalyze();
+            AudioManager.Instance?.PlayClick();
+        }
+
+        private void SwitchToStudio()
+        {
+            if (AppStateMachine.Instance == null || !AppStateMachine.Instance.IsInteractive()) return;
+            AppStateMachine.Instance.EnterStudio();
+            AudioManager.Instance?.PlayClick();
         }
     }
 }
