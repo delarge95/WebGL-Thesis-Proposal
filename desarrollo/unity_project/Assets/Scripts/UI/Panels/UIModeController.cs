@@ -7,75 +7,107 @@ using System.Collections.Generic;
 namespace WebGL.UI.Panels
 {
     /// <summary>
-    /// Manages the 3-mode system: Explore, Analyze, Studio.
-    /// Replaces UIPopupController (Phase 2 Iteration 3: UX Redesign).
-    /// 
+    /// Manages the 3-mode toolbar system: Tools, Analyze, Studio.
+    /// Each mode has an action bar with sub-action buttons that toggle panels/features.
+    ///
+    /// Tools Mode  → Info (BottomSheet), Explode (slider + categories), Hotspots (toggle)
+    /// Analyze Mode → Shaders (menu), Cross-Section (panel)
+    /// Studio Mode  → Environment presets + lighting sliders (always visible)
+    ///
     /// Responsibilities:
     ///   - Activate/deactivate mode containers (mutual exclusion: only 1 mode active)
-    ///   - Manage sub-menus within Analyze mode (ShaderMenu, CategoryMenu, SliderContainer)
+    ///   - Manage sub-menus within each mode via action bar buttons
     ///   - Handle hotspot toggles and category filters
-    ///   - PopupBlocker: click outside → deactivate current mode
+    ///   - Track active action button states (CSS class toggle)
     /// </summary>
     public class UIModeController
     {
         // ── Mode Containers ──
         private readonly VisualElement _root;
+        private readonly VisualElement _toolsModeContainer;
         private readonly VisualElement _analyzeModeContainer;
         private readonly VisualElement _studioModeContainer;
-        private readonly VisualElement _popupBlocker;
 
-        // ── Analyze sub-elements ──
-        private readonly VisualElement _shaderMenu;
-        private readonly VisualElement _categoryMenu;
+        // ── Tools mode sub-elements ──
+        private readonly Button _toolInfoBtn;
+        private readonly Button _toolExplodeBtn;
+        private readonly Button _toolHotspotBtn;
         private readonly VisualElement _sliderContainer;
         private readonly Slider _explosionSlider;
-        private readonly Button _hotspotBtn;
+        private readonly VisualElement _categoryMenu;
 
-        // ── Mode Buttons ──
-        private readonly Button _modeExploreBtn;
+        // ── Analyze mode sub-elements ──
+        private readonly Button _analyzeShaderBtn;
+        private readonly Button _analyzeCrossSectionBtn;
+        private readonly VisualElement _shaderMenu;
+        private readonly VisualElement _crossSectionPanel;
+
+        // ── Mode Buttons (bottom bar) ──
+        private readonly Button _modeToolsBtn;
         private readonly Button _modeAnalyzeBtn;
         private readonly Button _modeStudioBtn;
 
+        // ── Internal mode enum ──
+        private enum ActiveMode { None, Tools, Analyze, Studio }
+
         // ── State ──
-        private AppState _activeMode = AppState.Exploration;
+        private ActiveMode _activeMode = ActiveMode.None;
         private bool _shaderMenuShown = false;
+        private bool _crossSectionPanelShown = false;
         private bool _hotspotsEnabled = false;
         private bool _isSheetOpen = false;
+        private bool _isExploded = false;
         private List<string> _activeCategories = new List<string>() { "ALL" };
+
+        // ── Callbacks (wired by UIManager) ──
+        /// <summary>Fired when Info action button is clicked.</summary>
+        public event System.Action OnInfoToggleRequested;
+        /// <summary>Fired when Explode action button is clicked.</summary>
+        public event System.Action OnExplodeToggleRequested;
 
         // ── Cleanup ──
         private readonly List<System.Action> _cleanupActions = new List<System.Action>();
 
         public UIModeController(
             VisualElement root,
+            VisualElement toolsModeContainer,
             VisualElement analyzeModeContainer,
             VisualElement studioModeContainer,
-            VisualElement popupBlocker,
-            Slider explosionSlider,
-            Button hotspotBtn)
+            Slider explosionSlider)
         {
             _root = root;
+            _toolsModeContainer = toolsModeContainer;
             _analyzeModeContainer = analyzeModeContainer;
             _studioModeContainer = studioModeContainer;
-            _popupBlocker = popupBlocker;
             _explosionSlider = explosionSlider;
-            _hotspotBtn = hotspotBtn;
 
-            // Query sub-elements from AnalyzeModeContainer
-            if (_analyzeModeContainer != null)
+            // Query Tools mode sub-elements
+            if (_toolsModeContainer != null)
             {
-                _shaderMenu = _analyzeModeContainer.Q<VisualElement>("ShaderMenu");
-                _categoryMenu = _analyzeModeContainer.Q<VisualElement>("CategoryMenu");
-                _sliderContainer = _analyzeModeContainer.Q<VisualElement>("SliderContainer");
+                _toolInfoBtn = _toolsModeContainer.Q<Button>("ToolInfoBtn");
+                _toolExplodeBtn = _toolsModeContainer.Q<Button>("ToolExplodeBtn");
+                _toolHotspotBtn = _toolsModeContainer.Q<Button>("ToolHotspotBtn");
+                _sliderContainer = _toolsModeContainer.Q<VisualElement>("SliderContainer");
+                _categoryMenu = _toolsModeContainer.Q<VisualElement>("CategoryMenu");
             }
 
-            // Query mode buttons from root
-            _modeExploreBtn = root?.Q<Button>("ModeExploreBtn");
+            // Query Analyze mode sub-elements
+            if (_analyzeModeContainer != null)
+            {
+                _analyzeShaderBtn = _analyzeModeContainer.Q<Button>("AnalyzeShaderBtn");
+                _analyzeCrossSectionBtn = _analyzeModeContainer.Q<Button>("AnalyzeCrossSectionBtn");
+                _shaderMenu = _analyzeModeContainer.Q<VisualElement>("ShaderMenu");
+                _crossSectionPanel = _analyzeModeContainer.Q<VisualElement>("CrossSectionPanel");
+            }
+
+            // Query mode buttons from bottom bar
+            _modeToolsBtn = root?.Q<Button>("ModeToolsBtn");
             _modeAnalyzeBtn = root?.Q<Button>("ModeAnalyzeBtn");
             _modeStudioBtn = root?.Q<Button>("ModeStudioBtn");
 
             BindModeButtons();
-            BindPopupBlocker();
+            BindToolsActionButtons();
+            BindAnalyzeActionButtons();
         }
 
         private void AddCleanup(System.Action action)
@@ -85,31 +117,39 @@ namespace WebGL.UI.Panels
 
         public void Dispose()
         {
+            OnInfoToggleRequested = null;
+            OnExplodeToggleRequested = null;
             foreach (var action in _cleanupActions) action?.Invoke();
             _cleanupActions.Clear();
         }
 
         // ═══════════════════════════════════════════════════════
-        //  Mode Button Binding
+        //  Mode Button Binding (bottom bar: Tools / Analyze / Studio)
         // ═══════════════════════════════════════════════════════
 
         private void BindModeButtons()
         {
-            if (_modeExploreBtn != null)
+            if (_modeToolsBtn != null)
             {
-                System.Action onExplore = () => ActivateMode(AppState.Exploration);
-                _modeExploreBtn.clicked += onExplore;
-                AddCleanup(() => _modeExploreBtn.clicked -= onExplore);
+                System.Action onTools = () =>
+                {
+                    if (_activeMode == ActiveMode.Tools)
+                        DeactivateAllModes(); // Toggle off
+                    else
+                        ActivateMode(ActiveMode.Tools);
+                };
+                _modeToolsBtn.clicked += onTools;
+                AddCleanup(() => _modeToolsBtn.clicked -= onTools);
             }
 
             if (_modeAnalyzeBtn != null)
             {
                 System.Action onAnalyze = () =>
                 {
-                    if (_activeMode == AppState.Analyze)
-                        ActivateMode(AppState.Exploration); // Toggle off
+                    if (_activeMode == ActiveMode.Analyze)
+                        DeactivateAllModes();
                     else
-                        ActivateMode(AppState.Analyze);
+                        ActivateMode(ActiveMode.Analyze);
                 };
                 _modeAnalyzeBtn.clicked += onAnalyze;
                 AddCleanup(() => _modeAnalyzeBtn.clicked -= onAnalyze);
@@ -119,27 +159,63 @@ namespace WebGL.UI.Panels
             {
                 System.Action onStudio = () =>
                 {
-                    if (_activeMode == AppState.Studio)
-                        ActivateMode(AppState.Exploration); // Toggle off
+                    if (_activeMode == ActiveMode.Studio)
+                        DeactivateAllModes();
                     else
-                        ActivateMode(AppState.Studio);
+                        ActivateMode(ActiveMode.Studio);
                 };
                 _modeStudioBtn.clicked += onStudio;
                 AddCleanup(() => _modeStudioBtn.clicked -= onStudio);
             }
         }
 
-        private void BindPopupBlocker()
+        // ═══════════════════════════════════════════════════════
+        //  Tools Mode — Action Button Binding
+        // ═══════════════════════════════════════════════════════
+
+        private void BindToolsActionButtons()
         {
-            if (_popupBlocker == null) return;
-            EventCallback<PointerDownEvent> pbDown = evt =>
+            if (_toolInfoBtn != null)
             {
-                // Click outside active mode → return to Explore
-                if (_activeMode != AppState.Exploration)
-                    ActivateMode(AppState.Exploration);
-            };
-            _popupBlocker.RegisterCallback(pbDown);
-            AddCleanup(() => _popupBlocker.UnregisterCallback(pbDown));
+                System.Action onInfo = () => OnInfoToggleRequested?.Invoke();
+                _toolInfoBtn.clicked += onInfo;
+                AddCleanup(() => _toolInfoBtn.clicked -= onInfo);
+            }
+
+            if (_toolExplodeBtn != null)
+            {
+                System.Action onExplode = () => OnExplodeToggleRequested?.Invoke();
+                _toolExplodeBtn.clicked += onExplode;
+                AddCleanup(() => _toolExplodeBtn.clicked -= onExplode);
+            }
+
+            if (_toolHotspotBtn != null)
+            {
+                System.Action onHotspot = () => ToggleHotspots();
+                _toolHotspotBtn.clicked += onHotspot;
+                AddCleanup(() => _toolHotspotBtn.clicked -= onHotspot);
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════
+        //  Analyze Mode — Action Button Binding
+        // ═══════════════════════════════════════════════════════
+
+        private void BindAnalyzeActionButtons()
+        {
+            if (_analyzeShaderBtn != null)
+            {
+                System.Action onShader = () => ToggleShaderMenu();
+                _analyzeShaderBtn.clicked += onShader;
+                AddCleanup(() => _analyzeShaderBtn.clicked -= onShader);
+            }
+
+            if (_analyzeCrossSectionBtn != null)
+            {
+                System.Action onCross = () => ToggleCrossSectionPanel();
+                _analyzeCrossSectionBtn.clicked += onCross;
+                AddCleanup(() => _analyzeCrossSectionBtn.clicked -= onCross);
+            }
         }
 
         // ═══════════════════════════════════════════════════════
@@ -147,58 +223,73 @@ namespace WebGL.UI.Panels
         // ═══════════════════════════════════════════════════════
 
         /// <summary>Activates the specified mode, showing its container and hiding others.</summary>
-        public void ActivateMode(AppState mode)
+        public void ActivateMode(ActiveMode mode)
         {
             _activeMode = mode;
-
-            // Update AppStateMachine
-            if (AppStateMachine.Instance != null)
-            {
-                switch (mode)
-                {
-                    case AppState.Exploration:
-                        AppStateMachine.Instance.EnterExploration();
-                        break;
-                    case AppState.Analyze:
-                        AppStateMachine.Instance.EnterAnalyze();
-                        break;
-                    case AppState.Studio:
-                        AppStateMachine.Instance.EnterStudio();
-                        break;
-                }
-            }
-
-            // Show/hide containers
+            CloseAllMenus();
             UpdateContainerVisibility();
             UpdateModeButtonStates();
-            UpdatePopupBlocker();
+            SyncAppState();
         }
 
-        /// <summary>Deactivates all modes, returning to Explore.</summary>
+        /// <summary>Deactivates all modes — returns to base Exploration state.</summary>
         public void DeactivateAllModes()
         {
-            ActivateMode(AppState.Exploration);
+            _activeMode = ActiveMode.None;
+            CloseAllMenus();
+            UpdateContainerVisibility();
+            UpdateModeButtonStates();
+            SyncAppState();
         }
 
-        /// <summary>Called by OnAppStateChanged — sync mode if state changed externally.</summary>
+        /// <summary>Called by OnAppStateChanged — syncs UI mode to reflect external state changes.</summary>
         public void SyncWithAppState(AppState newState)
         {
-            if (newState == AppState.Exploration || newState == AppState.Analyze || newState == AppState.Studio)
+            // ExplodedView: show slider + category menu, mark explode button active
+            if (newState == AppState.ExplodedView)
             {
-                _activeMode = newState;
+                _isExploded = true;
+                SetSliderVisible(true);
+                ShowCategoryMenu(true);
+                UpdateExplodeButtonState();
+                return;
+            }
+
+            // Leaving ExplodedView
+            if (_isExploded && newState != AppState.ExplodedView)
+            {
+                _isExploded = false;
+                SetSliderVisible(false);
+                ShowCategoryMenu(false);
+                UpdateExplodeButtonState();
+            }
+
+            // Don't force mode switch for FocusMode — keep current mode
+            if (newState == AppState.FocusMode) return;
+
+            // Sync mode from external state changes (e.g. keyboard shortcut)
+            if (newState == AppState.Analyze && _activeMode != ActiveMode.Analyze)
+            {
+                _activeMode = ActiveMode.Analyze;
+                CloseAllMenus();
                 UpdateContainerVisibility();
                 UpdateModeButtonStates();
-                UpdatePopupBlocker();
             }
-            else if (newState == AppState.ExplodedView || newState == AppState.FocusMode)
+            else if (newState == AppState.Studio && _activeMode != ActiveMode.Studio)
             {
-                // Keep current mode UI but don't change containers
-                // ExplodedView/FocusMode are sub-states within Analyze
+                _activeMode = ActiveMode.Studio;
+                CloseAllMenus();
+                UpdateContainerVisibility();
+                UpdateModeButtonStates();
+            }
+            else if (newState == AppState.Exploration)
+            {
+                // External exploration state — don't force close, let user control
             }
         }
 
         // ═══════════════════════════════════════════════════════
-        //  Analyze Sub-Menu Toggles (within AnalyzeModeContainer)
+        //  Sub-Menu Toggles
         // ═══════════════════════════════════════════════════════
 
         public void ToggleShaderMenu()
@@ -206,29 +297,58 @@ namespace WebGL.UI.Panels
             if (_shaderMenu == null) return;
             _shaderMenuShown = !_shaderMenuShown;
 
-            if (_shaderMenuShown)
+            // Mutual exclusion: close cross-section if opening shaders
+            if (_shaderMenuShown && _crossSectionPanelShown)
             {
-                if (_categoryMenu != null) _categoryMenu.AddToClassList("submenu--hidden");
+                _crossSectionPanelShown = false;
+                _crossSectionPanel?.AddToClassList("submenu--hidden");
+                _analyzeCrossSectionBtn?.RemoveFromClassList("mode-action-btn--active");
             }
 
             _shaderMenu.EnableInClassList("submenu--hidden", !_shaderMenuShown);
+            _analyzeShaderBtn?.EnableInClassList("mode-action-btn--active", _shaderMenuShown);
+        }
+
+        public void ToggleCrossSectionPanel()
+        {
+            if (_crossSectionPanel == null) return;
+            _crossSectionPanelShown = !_crossSectionPanelShown;
+
+            // Mutual exclusion: close shaders if opening cross-section
+            if (_crossSectionPanelShown && _shaderMenuShown)
+            {
+                _shaderMenuShown = false;
+                _shaderMenu?.AddToClassList("submenu--hidden");
+                _analyzeShaderBtn?.RemoveFromClassList("mode-action-btn--active");
+            }
+
+            _crossSectionPanel.EnableInClassList("submenu--hidden", !_crossSectionPanelShown);
+            _analyzeCrossSectionBtn?.EnableInClassList("mode-action-btn--active", _crossSectionPanelShown);
         }
 
         public void ToggleCategoryMenu()
         {
             if (_categoryMenu == null) return;
             _categoryMenu.ToggleInClassList("submenu--hidden");
-
-            if (!_categoryMenu.ClassListContains("submenu--hidden"))
-            {
-                if (_shaderMenu != null) { _shaderMenu.AddToClassList("submenu--hidden"); _shaderMenuShown = false; }
-            }
         }
 
-        /// <summary>Closes all sub-menus within the current mode.</summary>
+        /// <summary>Shows or hides the category filter menu. Called when entering/leaving ExplodedView.</summary>
+        private void ShowCategoryMenu(bool visible)
+        {
+            if (_categoryMenu == null) return;
+            _categoryMenu.EnableInClassList("submenu--hidden", !visible);
+        }
+
+        /// <summary>Closes all sub-menus across all modes and resets action button states.</summary>
         public void CloseAllMenus()
         {
+            // Analyze sub-menus
             if (_shaderMenu != null) { _shaderMenu.AddToClassList("submenu--hidden"); _shaderMenuShown = false; }
+            if (_crossSectionPanel != null) { _crossSectionPanel.AddToClassList("submenu--hidden"); _crossSectionPanelShown = false; }
+            _analyzeShaderBtn?.RemoveFromClassList("mode-action-btn--active");
+            _analyzeCrossSectionBtn?.RemoveFromClassList("mode-action-btn--active");
+
+            // Tools sub-menus (CategoryMenu starts hidden, slider controlled separately)
             if (_categoryMenu != null) _categoryMenu.AddToClassList("submenu--hidden");
         }
 
@@ -236,11 +356,11 @@ namespace WebGL.UI.Panels
         //  Sheet Integration
         // ═══════════════════════════════════════════════════════
 
-        /// <summary>Notify when sheet opens/closes.</summary>
+        /// <summary>Notify when sheet opens/closes — updates Info button active state.</summary>
         public void SetSheetOpenState(bool isOpen)
         {
             _isSheetOpen = isOpen;
-            if (isOpen) CloseAllMenus();
+            _toolInfoBtn?.EnableInClassList("mode-action-btn--active", isOpen);
         }
 
         // ═══════════════════════════════════════════════════════
@@ -251,9 +371,7 @@ namespace WebGL.UI.Panels
         {
             _hotspotsEnabled = !_hotspotsEnabled;
             HotspotManager.Instance?.ToggleVisibility();
-
-            if (_hotspotBtn != null)
-                _hotspotBtn.EnableInClassList("submenu-card--active", _hotspotsEnabled);
+            _toolHotspotBtn?.EnableInClassList("mode-action-btn--active", _hotspotsEnabled);
         }
 
         // ═══════════════════════════════════════════════════════
@@ -312,30 +430,49 @@ namespace WebGL.UI.Panels
 
         private void UpdateContainerVisibility()
         {
-            // Analyze container
-            if (_analyzeModeContainer != null)
-                _analyzeModeContainer.EnableInClassList("mode--hidden", _activeMode != AppState.Analyze);
-
-            // Studio container
-            if (_studioModeContainer != null)
-                _studioModeContainer.EnableInClassList("mode--hidden", _activeMode != AppState.Studio);
+            _toolsModeContainer?.EnableInClassList("mode--hidden", _activeMode != ActiveMode.Tools);
+            _analyzeModeContainer?.EnableInClassList("mode--hidden", _activeMode != ActiveMode.Analyze);
+            _studioModeContainer?.EnableInClassList("mode--hidden", _activeMode != ActiveMode.Studio);
 
             // When leaving a mode, close its sub-menus
-            if (_activeMode != AppState.Analyze)
+            if (_activeMode != ActiveMode.Analyze && _activeMode != ActiveMode.Tools)
                 CloseAllMenus();
         }
 
         private void UpdateModeButtonStates()
         {
-            _modeExploreBtn?.EnableInClassList("mode-btn--active", _activeMode == AppState.Exploration);
-            _modeAnalyzeBtn?.EnableInClassList("mode-btn--active", _activeMode == AppState.Analyze);
-            _modeStudioBtn?.EnableInClassList("mode-btn--active", _activeMode == AppState.Studio);
+            _modeToolsBtn?.EnableInClassList("mode-btn--active", _activeMode == ActiveMode.Tools);
+            _modeAnalyzeBtn?.EnableInClassList("mode-btn--active", _activeMode == ActiveMode.Analyze);
+            _modeStudioBtn?.EnableInClassList("mode-btn--active", _activeMode == ActiveMode.Studio);
         }
 
-        private void UpdatePopupBlocker()
+        private void UpdateExplodeButtonState()
         {
-            bool anyModeOpen = _activeMode != AppState.Exploration;
-            _popupBlocker?.EnableInClassList("popup-blocker--hidden", !anyModeOpen);
+            _toolExplodeBtn?.EnableInClassList("mode-action-btn--active", _isExploded);
+        }
+
+        private void SyncAppState()
+        {
+            if (AppStateMachine.Instance == null) return;
+
+            switch (_activeMode)
+            {
+                case ActiveMode.None:
+                case ActiveMode.Tools:
+                    // Tools maps to Exploration (or keeps ExplodedView)
+                    if (!_isExploded && AppStateMachine.Instance.CurrentState != AppState.Exploration
+                        && AppStateMachine.Instance.CurrentState != AppState.FocusMode)
+                        AppStateMachine.Instance.EnterExploration();
+                    break;
+                case ActiveMode.Analyze:
+                    if (AppStateMachine.Instance.CurrentState != AppState.Analyze)
+                        AppStateMachine.Instance.EnterAnalyze();
+                    break;
+                case ActiveMode.Studio:
+                    if (AppStateMachine.Instance.CurrentState != AppState.Studio)
+                        AppStateMachine.Instance.EnterStudio();
+                    break;
+            }
         }
 
         private void UpdateCategoryButtonStates()

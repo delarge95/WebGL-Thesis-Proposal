@@ -107,24 +107,29 @@ namespace WebGL.UI
 
             // ── Query shared elements ──
             resetBtn = root.Q<Button>("ResetViewBtn");
-            var hotspotBtn = root.Q<Button>("HotspotBtn");
             sliderContainer = root.Q<VisualElement>("SliderContainer");
             explosionSlider = root.Q<Slider>("ExplosionSlider");
 
-            // ── Details Sheet (no InfoBtn in new layout — parts clicked directly) ──
-            _detailsSheet = new UIDetailsSheet(root, null);
+            // ── Query ToolInfoBtn for DetailsSheet (allows toggling info panel) ──
+            var toolInfoBtn = root.Q<Button>("ToolInfoBtn");
+
+            // ── Details Sheet (ToolInfoBtn wired as infoBtn for ToggleInfo()) ──
+            _detailsSheet = new UIDetailsSheet(root, toolInfoBtn);
             AddCleanup(() => _detailsSheet.Dispose());
 
-            // ── Mode Controller (replaces UIPopupController) ──
+            // ── Mode Controller (3-mode system: Tools / Analyze / Studio) ──
             _modeController = new UIModeController(
                 root,
+                root.Q<VisualElement>("ToolsModeContainer"),
                 root.Q<VisualElement>("AnalyzeModeContainer"),
                 root.Q<VisualElement>("StudioModeContainer"),
-                root.Q<VisualElement>("PopupBlocker"),
-                explosionSlider,
-                hotspotBtn
+                explosionSlider
             );
             AddCleanup(() => _modeController.Dispose());
+
+            // Wire mode controller events
+            _modeController.OnInfoToggleRequested += () => _detailsSheet.ToggleInfo();
+            _modeController.OnExplodeToggleRequested += OnExplodeToggleRequested;
 
             // Notify mode controller when sheet state changes
             _detailsSheet.OnSheetStateChanged += (isOpen) =>
@@ -132,12 +137,12 @@ namespace WebGL.UI
                 _modeController.SetSheetOpenState(isOpen);
             };
 
-            // ── Analyze Panel (shader cards — ShaderMenu is now inside AnalyzeModeContainer) ──
+            // ── Analyze Panel (shader cards — ShaderMenu inside AnalyzeModeContainer) ──
             var shaderMenu = root.Q<VisualElement>("ShaderMenu");
             _uiAnalyzePanel = new UIAnalyzePanel(shaderMenu, null);
             AddCleanup(() => _uiAnalyzePanel.Dispose());
 
-            // ── Environment Panel (presets + sliders — EnvPanel is now inside StudioModeContainer) ──
+            // ── Environment Panel (presets + sliders — EnvPanel inside StudioModeContainer) ──
             _uiEnvironmentPanel = new UIEnvironmentPanel(root.Q<VisualElement>("EnvPanel"));
             AddCleanup(() => _uiEnvironmentPanel.Dispose());
 
@@ -151,18 +156,15 @@ namespace WebGL.UI
             _heroController.OnHeroReturned += OnHeroReturned;
             AddCleanup(() => _heroController.Dispose());
 
-            // ── Wire remaining toolbar buttons (mode buttons are handled by UIModeController) ──
+            // ── Wire remaining toolbar buttons (mode buttons handled by UIModeController) ──
             if (resetBtn != null) { resetBtn.clicked += OnResetClicked; AddCleanup(() => resetBtn.clicked -= OnResetClicked); }
 
-            // ── Category filter buttons (inside AnalyzeModeContainer) ──
+            // ── Category filter buttons (now inside ToolsModeContainer) ──
             BindCat("CatBtn_All", "ALL");
             BindCat("CatBtn_Structure", "Structure");
             BindCat("CatBtn_Propulsion", "Propulsion");
             BindCat("CatBtn_Avionics", "Avionics");
             BindCat("CatBtn_Power", "Power");
-
-            // ── Hotspot button (inside CategoryMenu in AnalyzeModeContainer) ──
-            if (hotspotBtn != null) { hotspotBtn.clicked += _modeController.ToggleHotspots; AddCleanup(() => hotspotBtn.clicked -= _modeController.ToggleHotspots); }
 
             // ── Explosion slider ──
             if (explosionSlider != null)
@@ -253,6 +255,23 @@ namespace WebGL.UI
         private void OnExplosionSliderChanged(ChangeEvent<float> evt)
         {
             ExplodedViewManager.Instance?.SetExplosionFactor(evt.newValue);
+        }
+
+        /// <summary>Called by UIModeController when Explode action button is clicked.</summary>
+        private void OnExplodeToggleRequested()
+        {
+            if (AppStateMachine.Instance == null) return;
+
+            if (AppStateMachine.Instance.CurrentState == AppState.ExplodedView)
+            {
+                // Exit exploded view → return to Exploration
+                AppStateMachine.Instance.EnterExploration();
+            }
+            else
+            {
+                // Enter exploded view
+                AppStateMachine.Instance.EnterExplodedView();
+            }
         }
 
         // ═══════════════════════════════════════════════════════
