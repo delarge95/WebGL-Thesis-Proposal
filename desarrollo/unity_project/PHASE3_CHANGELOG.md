@@ -1,4 +1,4 @@
-# Phase 3 — Architecture Refactoring: Changelog Detallado
+# Phase 3 & 4 — Architecture Refactoring: Changelog Detallado
 
 **Proyecto:** WebGL Drone Viewer (Unity 6.0 LTS — UI Toolkit / WebGL)  
 **Branch:** `feature/phase3-architecture`  
@@ -11,11 +11,12 @@
 
 La Fase 3 abordó tres problemas arquitectónicos críticos en el sistema UI del visor de drones WebGL:
 
-| # | Paso | Problema | Solución | Estado |
-|---|------|----------|----------|--------|
-| 1 | Memory Leak Prevention | Callbacks de UI Toolkit nunca se des-registraban | Patrón `AddCleanup()` + `UnsubscribeFromUIEvents()` | ✅ Completo |
-| 2 | God Class Dismantling | `UIManager.cs` era un monolito de **972 líneas** | Extracción de 3 sub-controladores → reducción a **388 líneas** (~60%) | ✅ Completo |
-| 3 | Input Decoupling | `SelectionManager` contenía lógica duplicada de hit-testing UI con conversión de coordenadas incorrecta | Centralización en `InputManager.IsPointerOverUI()` con `RuntimePanelUtils.ScreenToPanel()` | ✅ Completo |
+| #   | Paso                   | Problema                                                                                                | Solución                                                                                   | Estado      |
+| --- | ---------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ----------- |
+| 1   | Memory Leak Prevention | Callbacks de UI Toolkit nunca se des-registraban                                                        | Patrón `AddCleanup()` + `UnsubscribeFromUIEvents()`                                        | ✅ Completo |
+| 2   | God Class Dismantling  | `UIManager.cs` era un monolito de **972 líneas**                                                        | Extracción de 3 sub-controladores → reducción a **388 líneas** (~60%)                      | ✅ Completo |
+| 3   | Input Decoupling       | `SelectionManager` contenía lógica duplicada de hit-testing UI con conversión de coordenadas incorrecta | Centralización en `InputManager.IsPointerOverUI()` con `RuntimePanelUtils.ScreenToPanel()` | ✅ Completo |
+| 4   | Input Hardening        | `GlobalInputBlocked` era un static bool arcano en `OrbitCameraController`, cámara y teclado sin UI-awareness | `InputManager.InputBlocked` centralizado + `IsPointerOverUI()` guard en camera, selection, keyboard | ✅ Completo |
 
 **Resultado de compilación:** ✅ 0 errores en todo el proyecto.
 
@@ -25,14 +26,14 @@ La Fase 3 abordó tres problemas arquitectónicos críticos en el sistema UI del
 
 ### Resumen de impacto
 
-| Archivo | Ruta | Acción | Líneas Antes | Líneas Después | Δ |
-|---------|------|--------|-------------|---------------|---|
-| `UIManager.cs` | `Assets/Scripts/UI/` | **Reescrito** | 972 | 388 | −584 (−60%) |
-| `InputManager.cs` | `Assets/Scripts/Core/Managers/` | **Reescrito** | ~50 | 135 | +85 |
-| `SelectionManager.cs` | `Assets/Scripts/Core/Managers/` | **Modificado** | 335 | 302 | −33 |
-| `UIDetailsSheet.cs` | `Assets/Scripts/UI/Panels/` | **Nuevo** | — | 291 | +291 |
-| `UIHeroController.cs` | `Assets/Scripts/UI/Panels/` | **Nuevo** | — | 200 | +200 |
-| `UIPopupController.cs` | `Assets/Scripts/UI/Panels/` | **Nuevo** | — | 273 | +273 |
+| Archivo                | Ruta                            | Acción         | Líneas Antes | Líneas Después | Δ           |
+| ---------------------- | ------------------------------- | -------------- | ------------ | -------------- | ----------- |
+| `UIManager.cs`         | `Assets/Scripts/UI/`            | **Reescrito**  | 972          | 388            | −584 (−60%) |
+| `InputManager.cs`      | `Assets/Scripts/Core/Managers/` | **Reescrito**  | ~50          | 135            | +85         |
+| `SelectionManager.cs`  | `Assets/Scripts/Core/Managers/` | **Modificado** | 335          | 302            | −33         |
+| `UIDetailsSheet.cs`    | `Assets/Scripts/UI/Panels/`     | **Nuevo**      | —            | 291            | +291        |
+| `UIHeroController.cs`  | `Assets/Scripts/UI/Panels/`     | **Nuevo**      | —            | 200            | +200        |
+| `UIPopupController.cs` | `Assets/Scripts/UI/Panels/`     | **Nuevo**      | —            | 273            | +273        |
 
 **Balance neto:** 972 + 50 + 335 = **1357 líneas antes** → 388 + 135 + 302 + 291 + 200 + 273 = **1589 líneas después** (+232 líneas, pero distribuidas en 6 archivos con responsabilidades claras vs 3 archivos monolíticos).
 
@@ -41,7 +42,9 @@ La Fase 3 abordó tres problemas arquitectónicos críticos en el sistema UI del
 ## Paso 1: Memory Leak Prevention
 
 ### Problema
+
 Los event handlers de UI Toolkit (`RegisterCallback`, `.clicked +=`) nunca se des-registraban en `OnDisable()`. Esto causaba:
+
 - Suscripciones zombi que persistían entre escenas
 - Memory leaks acumulativos en builds WebGL de larga duración
 - Comportamientos fantasma (callbacks ejecutándose contra elementos destruidos)
@@ -87,7 +90,9 @@ Todos los siguientes handlers ahora tienen su `AddCleanup()` correspondiente:
 ## Paso 2: God Class Dismantling
 
 ### Problema
+
 `UIManager.cs` era una "God Class" de **972 líneas** que mezclaba:
+
 - Gestión del Bottom Sheet (datos de partes, drag-to-dismiss, open/close)
 - Sistema de popups (shader menu, category menu, env panel, slider stacking)
 - Hero/Landing screen (menú principal, submenús, transiciones)
@@ -104,29 +109,32 @@ Todos los siguientes handlers ahora tienen su `AddCleanup()` correspondiente:
 **Responsabilidad:** Bottom sheet de detalles de piezas
 
 **Constructor:**
+
 ```csharp
 public UIDetailsSheet(VisualElement root, Button infoBtn)
 ```
 
 **API Pública:**
 
-| Método | Descripción |
-|--------|-------------|
-| `SetSheetState(bool isOpen)` | Abre/cierra el sheet. Maneja clases CSS (`details-sheet--hidden`), picking mode, `ui-shifted` en BottomBar, ocultamiento del label selector, y viewport shift del `OrbitCameraController` |
-| `OpenSheet()` | Activa el contenido del sheet (`sheet-content--active`) y llama `SetSheetState(true)` |
-| `ToggleInfo()` | Toggle entre abrir/cerrar |
-| `PopulatePartData(DronePartData, bool fromHotspot)` | Llena los 12 campos de datos de la pieza. Si `fromHotspot=true`, auto-abre el sheet |
-| `UpdatePartIndicator(DronePartData)` | Actualiza el label "SelectionIndicator" con nombre y color |
-| `Dispose()` | Limpia todos los callbacks + anula eventos |
+| Método                                              | Descripción                                                                                                                                                                               |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SetSheetState(bool isOpen)`                        | Abre/cierra el sheet. Maneja clases CSS (`details-sheet--hidden`), picking mode, `ui-shifted` en BottomBar, ocultamiento del label selector, y viewport shift del `OrbitCameraController` |
+| `OpenSheet()`                                       | Activa el contenido del sheet (`sheet-content--active`) y llama `SetSheetState(true)`                                                                                                     |
+| `ToggleInfo()`                                      | Toggle entre abrir/cerrar                                                                                                                                                                 |
+| `PopulatePartData(DronePartData, bool fromHotspot)` | Llena los 12 campos de datos de la pieza. Si `fromHotspot=true`, auto-abre el sheet                                                                                                       |
+| `UpdatePartIndicator(DronePartData)`                | Actualiza el label "SelectionIndicator" con nombre y color                                                                                                                                |
+| `Dispose()`                                         | Limpia todos los callbacks + anula eventos                                                                                                                                                |
 
 **Evento:** `OnSheetStateChanged(bool isOpen)` — UIManager lo conecta a `_popupController.SetSheetOpenState(isOpen)` para que los popups se cierren al abrir el sheet.
 
 **Campos de datos bindeados (12 labels):**
+
 - `SheetTitle`, `PartCategory`, `PartFunction`, `PartMaterial`, `PartDescription`
 - `PartWeight`, `PartDimensions`, `PartPower`, `PartTemp`
 - `PartDifficulty` (★/☆ system), `PartTools`, `PartAssemblyTime`
 
 **Interacciones vinculadas:**
+
 - `sheet-header` → Click para toggle open/close
 - `sheet-handle` → Drag-to-dismiss (threshold: 50px)
 - `sheet-scroll` → Bloquea zoom de cámara (`GlobalInputBlocked`)
@@ -141,6 +149,7 @@ public UIDetailsSheet(VisualElement root, Button infoBtn)
 **Responsabilidad:** Sistema de popups/submenús con stacking dinámico
 
 **Constructor:**
+
 ```csharp
 public UIPopupController(
     VisualElement root,
@@ -155,20 +164,21 @@ public UIPopupController(
 
 **API Pública:**
 
-| Método | Descripción |
-|--------|-------------|
-| `ToggleShaderMenu()` | Toggle del shader menu. Cierra otros menús mutuamente excluyentes |
-| `ToggleEnvPanel()` | Toggle del panel de entorno. Cierra otros menús |
-| `ToggleCategoryMenu()` | Toggle del menú de categorías. Cierra otros menús |
-| `CloseAllMenus()` | Cierra todos los popups + slider |
-| `ToggleHotspots()` | Toggle de visibilidad de hotspots via `HotspotManager` |
+| Método                              | Descripción                                                                                                                          |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `ToggleShaderMenu()`                | Toggle del shader menu. Cierra otros menús mutuamente excluyentes                                                                    |
+| `ToggleEnvPanel()`                  | Toggle del panel de entorno. Cierra otros menús                                                                                      |
+| `ToggleCategoryMenu()`              | Toggle del menú de categorías. Cierra otros menús                                                                                    |
+| `CloseAllMenus()`                   | Cierra todos los popups + slider                                                                                                     |
+| `ToggleHotspots()`                  | Toggle de visibilidad de hotspots via `HotspotManager`                                                                               |
 | `SetCategoryFilter(string, Button)` | Multi-select de categorías (ALL, Structure, Propulsion, Avionics, Power) con delegación a `ExplodedViewManager.SetCategoryFilters()` |
-| `SetSliderVisible(bool)` | Muestra/oculta el slider de explosión |
-| `SetSheetOpenState(bool)` | Reacciona a cambios del details sheet para ajustar stacking |
-| `RepositionPopups()` | **Algoritmo de stacking dinámico** — calcula `style.bottom` para cada popup |
-| `Dispose()` | Limpia callbacks |
+| `SetSliderVisible(bool)`            | Muestra/oculta el slider de explosión                                                                                                |
+| `SetSheetOpenState(bool)`           | Reacciona a cambios del details sheet para ajustar stacking                                                                          |
+| `RepositionPopups()`                | **Algoritmo de stacking dinámico** — calcula `style.bottom` para cada popup                                                          |
+| `Dispose()`                         | Limpia callbacks                                                                                                                     |
 
 **Algoritmo de stacking (`RepositionPopups`):**
+
 ```
 Base = POPUP_BASE_BOTTOM (192px) + (sheet open ? rootHeight * 0.56 + 192 : 0)
 
@@ -177,7 +187,7 @@ Para cada popup visible (bottom → top):
   2. CategoryMenu     (192px height)
   3. ShaderMenu       (192px height)
   4. EnvPanel         (220px height)
-  
+
   popup.style.bottom = currentBottom
   currentBottom += height + POPUP_GAP (24px)
 
@@ -185,6 +195,7 @@ PopupBlocker visible = anyMenuVisible (excluye slider)
 ```
 
 **Constantes de layout (grid de 8pt):**
+
 - `POPUP_BASE_BOTTOM = 192f` — padding-bottom(24) + info-row(24) + margin(16) + button(104) + extra-gap(24)
 - `POPUP_GAP = 24f` — 8pt × 3
 
@@ -196,31 +207,35 @@ PopupBlocker visible = anyMenuVisible (excluye slider)
 **Responsabilidad:** Hero/Landing screen y submenús
 
 **Constructor:**
+
 ```csharp
 public UIHeroController(VisualElement root)
 ```
 
 **API Pública:**
 
-| Método | Descripción |
-|--------|-------------|
-| `DismissHero()` | Oculta hero container (`hero--hidden` + `display:None` + `pickingMode:Ignore`) |
-| `ReturnToHero()` | Restaura hero container y cierra cualquier submenú abierto |
-| `OpenHeroSubmenu(SubmenuType)` | Abre submenú específico (Devices, About, Exit) ocultando `HeroMain` |
-| `CloseHeroSubmenu()` | Cierra todos los submenús y restaura `HeroMain` |
-| `HeroDismissed` (property) | Estado booleano público |
-| `Dispose()` | Limpia callbacks + anula eventos |
+| Método                         | Descripción                                                                    |
+| ------------------------------ | ------------------------------------------------------------------------------ |
+| `DismissHero()`                | Oculta hero container (`hero--hidden` + `display:None` + `pickingMode:Ignore`) |
+| `ReturnToHero()`               | Restaura hero container y cierra cualquier submenú abierto                     |
+| `OpenHeroSubmenu(SubmenuType)` | Abre submenú específico (Devices, About, Exit) ocultando `HeroMain`            |
+| `CloseHeroSubmenu()`           | Cierra todos los submenús y restaura `HeroMain`                                |
+| `HeroDismissed` (property)     | Estado booleano público                                                        |
+| `Dispose()`                    | Limpia callbacks + anula eventos                                               |
 
 **Eventos:**
+
 - `OnHeroDismissed` → UIManager inicializa hotspots
 - `OnHeroReturned` → UIManager resetea cámara, view mode, app state, cierra sheet/menus
 
 **Submenús gestionados:**
+
 - `HeroSubmenu_Devices` — Información de dispositivos
 - `HeroSubmenu_About` — Acerca de
 - `HeroSubmenu_Exit` — Confirmación de salida (`Application.Quit()` / `window.history.back()` en WebGL)
 
 **Botones vinculados (con cleanup):**
+
 - `HeroExploreBtn` → `DismissHero()` + `AppStateMachine.EnterExploration()`
 - `HeroDeviceBtn` / `HeroAboutBtn` / `HeroExitBtn` → `OpenHeroSubmenu(type)`
 - `SubmenuBackBtn_Devices` / `About` / `Exit` → `CloseHeroSubmenu()`
@@ -262,7 +277,9 @@ UIHeroController.OnHeroReturned
 ## Paso 3: Input Decoupling
 
 ### Problema
+
 `SelectionManager.cs` contenía un método privado `IsPointerOverUIToolkit()` que:
+
 1. Llamaba `Object.FindFirstObjectByType<UIDocument>()` **en cada frame** (costoso)
 2. Hacía conversión manual incorrecta: `mousePos.y = Screen.height - mousePos.y`
 3. **No funcionaba con `ScaleWithScreenSize`** (PanelSettings usa referencia 1920×1080, match 0.5)
@@ -295,7 +312,7 @@ public bool IsPointerOverUI()
     if (picked == null) return false;
 
     // TemplateContainer (padre del root) no es UI interactiva
-    if (_mainUIDocument != null && picked == _mainUIDocument.rootVisualElement?.parent) 
+    if (_mainUIDocument != null && picked == _mainUIDocument.rootVisualElement?.parent)
         return false;
 
     return true;
@@ -306,13 +323,14 @@ public bool IsPointerOverUI()
 
 `RuntimePanelUtils.ScreenToPanel(IPanel, Vector2 screenPosition)` es la **única API de Unity** que maneja correctamente **ambas** transformaciones necesarias:
 
-| Transformación | Manual (rota) | RuntimePanelUtils (correcto) |
-|---|---|---|
-| Inversión Y | `Screen.height - y` | ✅ Incluido |
-| ScaleWithScreenSize factor | ❌ No aplicado | ✅ Incluido |
-| DPI scaling | ❌ No aplicado | ✅ Incluido |
+| Transformación             | Manual (rota)       | RuntimePanelUtils (correcto) |
+| -------------------------- | ------------------- | ---------------------------- |
+| Inversión Y                | `Screen.height - y` | ✅ Incluido                  |
+| ScaleWithScreenSize factor | ❌ No aplicado      | ✅ Incluido                  |
+| DPI scaling                | ❌ No aplicado      | ✅ Incluido                  |
 
 **Lazy Caching:**
+
 ```csharp
 private void CacheUIDocumentIfNeeded()
 {
@@ -323,6 +341,7 @@ private void CacheUIDocumentIfNeeded()
         _uiPanel = _mainUIDocument.rootVisualElement.panel;
 }
 ```
+
 - Se ejecuta en `Update()` pero es **O(1)** después del primer frame exitoso
 - Evita `FindFirstObjectByType` en cada frame (problema del código anterior)
 - Tolera escenas donde `UIDocument` aún no existe al momento de `Awake()`
@@ -389,15 +408,15 @@ if (InputManager.Instance != null && InputManager.Instance.IsPointerOverUI()) { 
 
 ## Contexto Técnico
 
-| Aspecto | Detalle |
-|---------|---------|
-| **Motor** | Unity 6.0 LTS |
-| **Target** | WebGL |
-| **UI Framework** | UI Toolkit (UXML/USS) — **no** Canvas/UGUI |
-| **PanelSettings** | `ScaleWithScreenSize`, ref 1920×1080, match 0.5 |
-| **Rendering** | URP (Universal Render Pipeline) |
-| **Patrones** | Singleton / PersistentSingleton, EventBus pub/sub estático |
-| **Assemblies** | `Core.asmdef` (WebGL.Core), `UI.asmdef` (WebGL.UI → references Core) |
+| Aspecto           | Detalle                                                              |
+| ----------------- | -------------------------------------------------------------------- |
+| **Motor**         | Unity 6.0 LTS                                                        |
+| **Target**        | WebGL                                                                |
+| **UI Framework**  | UI Toolkit (UXML/USS) — **no** Canvas/UGUI                           |
+| **PanelSettings** | `ScaleWithScreenSize`, ref 1920×1080, match 0.5                      |
+| **Rendering**     | URP (Universal Render Pipeline)                                      |
+| **Patrones**      | Singleton / PersistentSingleton, EventBus pub/sub estático           |
+| **Assemblies**    | `Core.asmdef` (WebGL.Core), `UI.asmdef` (WebGL.UI → references Core) |
 
 ---
 
@@ -421,14 +440,137 @@ El `PopupBlocker` es un VisualElement invisible que cubre toda la pantalla cuand
 
 Antes de esta implementación limpia, hubo **7+ intentos** de solucionar el hit-testing de UI:
 
-| Commit | Enfoque | Resultado |
-|--------|---------|-----------|
-| `2672806` | Centralizar hit test en InputManager | Base correcta, conversión incorrecta |
-| `b2ad72b` | Triple-check coordinate fallback | Over-engineered, no resolvía la escala |
-| `f940375` | TrickleDown event capturing | Bypass de Panel.Pick, frágil |
-| `12e6887` | `EventSystem.current.IsPointerOverGameObject` | **No funciona con UI Toolkit** |
-| `0f85d26` | DOM CSS-box model hover tracking | Complejo, race conditions |
-| `520959a` | Container hover observation + Position picking | Parcialmente funcional |
-| `177caf9` | Limpieza de errores de sintaxis | Fix de consecuencias |
+| Commit    | Enfoque                                        | Resultado                              |
+| --------- | ---------------------------------------------- | -------------------------------------- |
+| `2672806` | Centralizar hit test en InputManager           | Base correcta, conversión incorrecta   |
+| `b2ad72b` | Triple-check coordinate fallback               | Over-engineered, no resolvía la escala |
+| `f940375` | TrickleDown event capturing                    | Bypass de Panel.Pick, frágil           |
+| `12e6887` | `EventSystem.current.IsPointerOverGameObject`  | **No funciona con UI Toolkit**         |
+| `0f85d26` | DOM CSS-box model hover tracking               | Complejo, race conditions              |
+| `520959a` | Container hover observation + Position picking | Parcialmente funcional                 |
+| `177caf9` | Limpieza de errores de sintaxis                | Fix de consecuencias                   |
 
 **La solución final (`RuntimePanelUtils.ScreenToPanel`) es la respuesta canónica de Unity para este problema.** Es una API de una línea que reemplaza todos los intentos manuales de conversión de coordenadas.
+
+---
+
+## Phase 4 — Hardening & Camera-Input Integration
+
+**Commit:** `9e24ed5`  
+**Fecha:** 23 de febrero de 2026  
+**Archivos:** 7 modificados (+65 / −29 líneas)
+
+### Resumen
+
+La Fase 4 eliminó el acoplamiento arcano entre los sistemas de input y centralizó el control en `InputManager`, cerrando brechas de UI-awareness en la cámara y los atajos de teclado.
+
+| Step | Cambio | Archivos |
+| --- | --- | --- |
+| 1 | `GlobalInputBlocked` → `InputManager.InputBlocked` (fuente única de verdad) | `InputManager.cs` + 5 consumidores |
+| 2 | `OrbitCameraController` consulta `IsPointerOverUI()` antes de orbit/pan/zoom | `OrbitCameraController.cs` |
+| 3 | `KeyboardShortcuts` suprime atajos cuando el usuario interactúa con UI | `KeyboardShortcuts.cs` |
+| 4 | `SelectionManager.HandleHover()` early-out por `IsPointerOverUI()` | `SelectionManager.cs` |
+
+### Step 1: Extraer `GlobalInputBlocked` → `InputManager.InputBlocked`
+
+**Problema:** `OrbitCameraController.GlobalInputBlocked` era un `public static bool` mutable que vivía en la clase de cámara, pero era escrito por 5 archivos UI diferentes. Esto creaba un acoplamiento arcano — el sistema UI dependía de un campo estático de la cámara para controlar input.
+
+**Solución:**
+```csharp
+// InputManager.cs — nueva propiedad estática (fuente única de verdad)
+public static bool InputBlocked { get; set; }
+
+// OrbitCameraController.cs — backward-compatible bridge
+public static bool GlobalInputBlocked
+{
+    get => InputManager.InputBlocked;
+    set => InputManager.InputBlocked = value;
+}
+```
+
+**Migración de consumidores:**
+
+| Archivo | Antes | Después |
+| --- | --- | --- |
+| `UIManager.cs` (×4) | `OrbitCameraController.GlobalInputBlocked = true/false` | `InputManager.InputBlocked = true/false` |
+| `UIDetailsSheet.cs` (×4) | `OrbitCameraController.GlobalInputBlocked = true/false` | `InputManager.InputBlocked = true/false` |
+| `UIEnvironmentPanel.cs` (×4) | `OrbitCameraController.GlobalInputBlocked = true/false` | `InputManager.InputBlocked = true/false` |
+| `SelectionManager.cs` (×2) | `OrbitCameraController.GlobalInputBlocked` | `InputManager.InputBlocked` |
+
+### Step 2: Integrar `OrbitCameraController` con `InputManager`
+
+**Problema:** La cámara solo verificaba `GlobalInputBlocked` (set por PointerEnter/Leave). Si el usuario hacía scroll sobre un elemento UI sin hover callbacks (raro, pero posible), el zoom de cámara se activaba.
+
+**Solución:** Doble guard en `HandleInput()`:
+```csharp
+private void HandleInput()
+{
+    if (InputManager.InputBlocked) return;                              // Explicit UI blocks
+    if (InputManager.Instance != null && InputManager.Instance.IsPointerOverUI()) return; // Panel.Pick() check
+    // ... orbit, pan, zoom logic
+}
+```
+
+**Extracción adicional:** Los `RenderSettings` que estaban hardcodeados en `Awake()` (camera color, skybox null, ambient mode) fueron extraídos a `ApplyDefaultRenderSettings()`, marcado con `TODO(Phase 5)` para migrar a una clase dedicada.
+
+### Step 3: UI-Awareness para `KeyboardShortcuts`
+
+**Problema:** Los atajos de teclado (1-6 para presets de cámara, E para explode, R para reset, Escape para back) se procesaban incluso cuando el usuario estaba interactuando con UI. Esto podía causar cambios de estado inesperados.
+
+**Solución:**
+```csharp
+private void Update()
+{
+    if (!enableShortcuts) return;
+    if (InputManager.InputBlocked) return; // ← Phase 4: new guard
+    // ... keyboard shortcut processing
+}
+```
+
+### Step 4: Optimizar `SelectionManager.HandleHover()`
+
+**Problema:** `HandleHover()` ejecutaba un `Physics.Raycast` en cada frame, incluso cuando el pointer estaba sobre UI Toolkit. Esto era trabajo desperdiciado y podía causar highlights parásitos.
+
+**Solución:** Doble early-out antes del raycast:
+```csharp
+private void HandleHover()
+{
+    if (Camera.main == null) return;
+    if (InputManager.InputBlocked) { ClearHover(); return; }
+    if (InputManager.Instance != null && InputManager.Instance.IsPointerOverUI())
+    {
+        ClearHover();
+        return;
+    }
+    // ... raycast logic (solo se ejecuta si pointer está en 3D viewport)
+}
+```
+
+### Diagrama de dependencias (post-Phase 4)
+
+```
+                    ┌──────────────┐
+                    │ InputManager │ ← Single source of truth
+                    │  .InputBlocked (static)
+                    │  .IsPointerOverUI()
+                    └──────┬───────┘
+                           │
+           ┌───────────────┼───────────────┐
+           │               │               │
+           ▼               ▼               ▼
+  ┌─────────────┐  ┌──────────────┐  ┌────────────────┐
+  │OrbitCamera  │  │SelectionMgr  │  │KeyboardShortcuts│
+  │ .HandleInput│  │ .HandleHover │  │ .Update          │
+  │ .GlobalInput│→ │ .HandleClick │  └────────────────┘
+  │  Blocked    │  └──────────────┘
+  │ (bridge)    │
+  └─────────────┘
+           ▲
+           │ write InputBlocked = true/false
+  ┌────────┴─────────────────────────┐
+  │    UIManager  │ UIDetailsSheet   │
+  │ UIEnvPanel    │ (PointerEnter/   │
+  │               │  PointerLeave)   │
+  └──────────────────────────────────┘
+```
+
