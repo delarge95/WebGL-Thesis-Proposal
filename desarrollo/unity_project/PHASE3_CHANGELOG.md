@@ -22,26 +22,26 @@ El refactoring abarcó 5 fases + tareas de auditoría, atacando problemas arquit
 
 ### Phase 4 — Hardening & Camera-Input Integration (commit `9e24ed5`)
 
-| #   | Paso              | Problema                                                                                                     | Solución                                                                                            | Estado      |
-| --- | ----------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- | ----------- |
-| 4   | Input Hardening   | `GlobalInputBlocked` era un static bool arcano en `OrbitCameraController`, cámara y teclado sin UI-awareness | `InputManager.InputBlocked` centralizado + `IsPointerOverUI()` guard en camera, selection, keyboard | ✅ Completo |
+| #   | Paso            | Problema                                                                                                     | Solución                                                                                            | Estado      |
+| --- | --------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- | ----------- |
+| 4   | Input Hardening | `GlobalInputBlocked` era un static bool arcano en `OrbitCameraController`, cámara y teclado sin UI-awareness | `InputManager.InputBlocked` centralizado + `IsPointerOverUI()` guard en camera, selection, keyboard | ✅ Completo |
 
 ### Phase 5 — Cleanup & Dead-Code Removal (commit `1607733`)
 
-| #   | Paso                           | Problema                                                                            | Solución                                                       | Estado      |
-| --- | ------------------------------ | ----------------------------------------------------------------------------------- | -------------------------------------------------------------- | ----------- |
-| 5   | Remove RenderSettings bloat    | `OrbitCameraController.Awake()` contenía `ApplyDefaultRenderSettings()` fuera de su responsabilidad | Migrado a `EnvironmentController.ApplyDefaults()`              | ✅ Completo |
-| 6   | Remove bridge property         | `OrbitCameraController.GlobalInputBlocked` bridge ya innecesario                    | Eliminado — todos los consumidores ya usan `InputManager.InputBlocked` | ✅ Completo |
-| 7   | Consolidate state management   | `GameManager` duplicaba estado que `AppStateMachine` ya manejaba                    | Consolidado en `AppStateMachine`, `GameManager` simplificado   | ✅ Completo |
-| 8   | Delete dead code               | `CameraController.cs` era un stub vacío (6 líneas) que nunca se usaba               | Eliminado del proyecto                                         | ✅ Completo |
+| #   | Paso                         | Problema                                                                                            | Solución                                                               | Estado      |
+| --- | ---------------------------- | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ----------- |
+| 5   | Remove RenderSettings bloat  | `OrbitCameraController.Awake()` contenía `ApplyDefaultRenderSettings()` fuera de su responsabilidad | Migrado a `EnvironmentController.ApplyDefaults()`                      | ✅ Completo |
+| 6   | Remove bridge property       | `OrbitCameraController.GlobalInputBlocked` bridge ya innecesario                                    | Eliminado — todos los consumidores ya usan `InputManager.InputBlocked` | ✅ Completo |
+| 7   | Consolidate state management | `GameManager` duplicaba estado que `AppStateMachine` ya manejaba                                    | Consolidado en `AppStateMachine`, `GameManager` simplificado           | ✅ Completo |
+| 8   | Delete dead code             | `CameraController.cs` era un stub vacío (6 líneas) que nunca se usaba                               | Eliminado del proyecto                                                 | ✅ Completo |
 
 ### Audit-Driven Refactoring Tasks (commits `b89e2f7`, `e86ff95`)
 
-| #    | Tarea                              | Acción                                                                        | Resultado                                              | Estado       |
-| ---- | ---------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------ | ------------ |
-| T1   | Simplificar RegisterButtonInputBlockers | Intento de remover mecanismo proactivo InputBlocked                          | **FALLIDO** — rompió submenús → REVERTIDO              | ❌ Revertido |
-| T2   | Verificar paneles "huérfanos"      | Auditoría de `UIEnvironmentPanel` y `UIAnalyzePanel`                          | Confirmado: NO son huérfanos, instanciados por `UIPopupController` | ✅ Verificado |
-| T3   | Null-safety standardization        | 46 patrones verbose `if(X.Instance != null) X.Instance.Method()` → `?.`      | 19 archivos, −115 líneas netas                         | ✅ Completo  |
+| #   | Tarea                                   | Acción                                                                  | Resultado                                                          | Estado        |
+| --- | --------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------ | ------------- |
+| T1  | Simplificar RegisterButtonInputBlockers | Intento de remover mecanismo proactivo InputBlocked                     | **FALLIDO** — rompió submenús → REVERTIDO                          | ❌ Revertido  |
+| T2  | Verificar paneles "huérfanos"           | Auditoría de `UIEnvironmentPanel` y `UIAnalyzePanel`                    | Confirmado: NO son huérfanos, instanciados por `UIPopupController` | ✅ Verificado |
+| T3  | Null-safety standardization             | 46 patrones verbose `if(X.Instance != null) X.Instance.Method()` → `?.` | 19 archivos, −115 líneas netas                                     | ✅ Completo   |
 
 **Resultado de compilación final:** ✅ 0 errores en todo el proyecto.
 
@@ -62,18 +62,18 @@ El refactoring abarcó 5 fases + tareas de auditoría, atacando problemas arquit
 
 ### Resumen de impacto — Phase 5
 
-| Archivo                        | Ruta                            | Acción          | Cambio                                                    |
-| ------------------------------ | ------------------------------- | --------------- | --------------------------------------------------------- |
-| `OrbitCameraController.cs`     | `Assets/Scripts/Core/Camera/`   | **Modificado**  | Eliminado `ApplyDefaultRenderSettings()` y `GlobalInputBlocked` bridge |
-| `EnvironmentController.cs`     | `Assets/Scripts/Core/Managers/` | **Modificado**  | Recibe `ApplyDefaults()` migrado desde cámara             |
-| `GameManager.cs`               | `Assets/Scripts/Core/Managers/` | **Modificado**  | Removido estado duplicado, delegado a `AppStateMachine`   |
-| `AppStateMachine.cs`           | `Assets/Scripts/Core/Managers/` | **Modificado**  | Consolidado como única fuente de verdad de estado          |
-| `CameraController.cs`          | `Assets/Scripts/Core/Camera/`   | **Eliminado**   | Stub vacío de 6 líneas, nunca referenciado                |
+| Archivo                    | Ruta                            | Acción         | Cambio                                                                 |
+| -------------------------- | ------------------------------- | -------------- | ---------------------------------------------------------------------- |
+| `OrbitCameraController.cs` | `Assets/Scripts/Core/Camera/`   | **Modificado** | Eliminado `ApplyDefaultRenderSettings()` y `GlobalInputBlocked` bridge |
+| `EnvironmentController.cs` | `Assets/Scripts/Core/Managers/` | **Modificado** | Recibe `ApplyDefaults()` migrado desde cámara                          |
+| `GameManager.cs`           | `Assets/Scripts/Core/Managers/` | **Modificado** | Removido estado duplicado, delegado a `AppStateMachine`                |
+| `AppStateMachine.cs`       | `Assets/Scripts/Core/Managers/` | **Modificado** | Consolidado como única fuente de verdad de estado                      |
+| `CameraController.cs`      | `Assets/Scripts/Core/Camera/`   | **Eliminado**  | Stub vacío de 6 líneas, nunca referenciado                             |
 
 ### Resumen de impacto — Task 3 (Null-Safety)
 
-| Archivos modificados | Patrón reemplazado                                  | Reemplazos | Líneas netas |
-| -------------------- | ---------------------------------------------------- | ---------- | ------------ |
+| Archivos modificados | Patrón reemplazado                                                    | Reemplazos | Líneas netas |
+| -------------------- | --------------------------------------------------------------------- | ---------- | ------------ |
 | **19 archivos**      | `if(X.Instance != null) X.Instance.Method()` → `X.Instance?.Method()` | 46         | −115         |
 
 Archivos afectados: `UIManager.cs`, `ViewModeToolbar.cs`, `KeyboardShortcuts.cs`, `PartCatalogUI.cs`, `EnhancedInfoPanel.cs`, `EngineerToolbar.cs`, `UIPopupController.cs`, `UIDetailsSheet.cs`, `UIEnvironmentPanel.cs`, `UIAnalyzePanel.cs`, `SettingsPanel.cs`, `SmartHotspot.cs`, `ExplodedViewManager.cs`, `AssemblyChecklist.cs`, `CrossSectionManager.cs`, `DroneStateController.cs`, `ConnectionPointsViewer.cs`, `ModularPartsSystem.cs`, `DroneAssembler.cs`
@@ -631,12 +631,12 @@ private void HandleHover()
 
 La Fase 5 eliminó código muerto, bridges temporales y responsabilidades fuera de lugar que quedaron como residuo de las fases anteriores. Cada paso fue una extracción quirúrgica con verificación de 0 errores de compilación entre pasos.
 
-| Step | Cambio                                          | Archivos                                             |
-| ---- | ----------------------------------------------- | ---------------------------------------------------- |
+| Step | Cambio                                                    | Archivos                                               |
+| ---- | --------------------------------------------------------- | ------------------------------------------------------ |
 | 1    | Migrar `ApplyDefaultRenderSettings()` a su dueño correcto | `OrbitCameraController.cs`, `EnvironmentController.cs` |
-| 2    | Eliminar bridge `GlobalInputBlocked`            | `OrbitCameraController.cs`                           |
-| 3    | Consolidar `GameManager` → `AppStateMachine`    | `GameManager.cs`, `AppStateMachine.cs`               |
-| 4    | Eliminar `CameraController.cs` (stub vacío)     | `CameraController.cs` (ELIMINADO)                    |
+| 2    | Eliminar bridge `GlobalInputBlocked`                      | `OrbitCameraController.cs`                             |
+| 3    | Consolidar `GameManager` → `AppStateMachine`              | `GameManager.cs`, `AppStateMachine.cs`                 |
+| 4    | Eliminar `CameraController.cs` (stub vacío)               | `CameraController.cs` (ELIMINADO)                      |
 
 ### Step 1: Migrar `ApplyDefaultRenderSettings()`
 
@@ -796,13 +796,13 @@ InputManager.Instance?.SomeMethod();
 
 **Alcance de los 46 reemplazos:**
 
-| Manager referenciado       | Ocurrencias | Archivos afectados                                                   |
-| -------------------------- | ----------- | -------------------------------------------------------------------- |
-| `InputManager.Instance`    | 12          | UIManager, ViewModeToolbar, KeyboardShortcuts, EngineerToolbar, etc. |
-| `SelectionManager.Instance`| 8           | UIManager, PartCatalogUI, EnhancedInfoPanel, SmartHotspot            |
-| `HotspotManager.Instance`  | 6           | UIManager, UIPopupController, ViewModeToolbar                        |
-| `ViewModeManager.Instance` | 5           | UIManager, UIPopupController, KeyboardShortcuts                      |
-| Otros (Environment, etc.)  | 15          | Diversos archivos de UI y managers                                   |
+| Manager referenciado        | Ocurrencias | Archivos afectados                                                   |
+| --------------------------- | ----------- | -------------------------------------------------------------------- |
+| `InputManager.Instance`     | 12          | UIManager, ViewModeToolbar, KeyboardShortcuts, EngineerToolbar, etc. |
+| `SelectionManager.Instance` | 8           | UIManager, PartCatalogUI, EnhancedInfoPanel, SmartHotspot            |
+| `HotspotManager.Instance`   | 6           | UIManager, UIPopupController, ViewModeToolbar                        |
+| `ViewModeManager.Instance`  | 5           | UIManager, UIPopupController, KeyboardShortcuts                      |
+| Otros (Environment, etc.)   | 15          | Diversos archivos de UI y managers                                   |
 
 **Verificación:** 0 errores de compilación. El operador `?.` es semánticamente idéntico al patrón anterior — si `Instance` es `null`, la llamada se omite silenciosamente (retorna `default`).
 
@@ -810,33 +810,33 @@ InputManager.Instance?.SomeMethod();
 
 ### Tasks 4–6: Diferidos (fuera de alcance de tesis)
 
-| Task | Descripción                        | Razón de diferimiento                                                         |
-| ---- | ---------------------------------- | ----------------------------------------------------------------------------- |
-| T4   | Multi-platform input abstraction   | El proyecto es exclusivamente WebGL — no hay necesidad de abstraer input      |
-| T5   | Multi-scene architecture           | El visor opera en una sola escena — no hay transiciones de escena             |
-| T6   | Unit testing framework             | No es requisito de la tesis; el testing se hace manualmente en browser        |
+| Task | Descripción                      | Razón de diferimiento                                                    |
+| ---- | -------------------------------- | ------------------------------------------------------------------------ |
+| T4   | Multi-platform input abstraction | El proyecto es exclusivamente WebGL — no hay necesidad de abstraer input |
+| T5   | Multi-scene architecture         | El visor opera en una sola escena — no hay transiciones de escena        |
+| T6   | Unit testing framework           | No es requisito de la tesis; el testing se hace manualmente en browser   |
 
 ---
 
 ## Historial Completo de Commits
 
-| Commit    | Fase/Task | Descripción                                                  |
-| --------- | --------- | ------------------------------------------------------------ |
+| Commit    | Fase/Task | Descripción                                                       |
+| --------- | --------- | ----------------------------------------------------------------- |
 | `04df7a1` | Phase 3   | Memory Leak Prevention + God Class Dismantling + Input Decoupling |
-| `9e24ed5` | Phase 4   | Hardening & Camera-Input Integration                         |
-| `1607733` | Phase 5   | Cleanup & Dead-Code Removal (4 steps)                        |
-| `4b80bd5` | Task 1    | ⚠️ Intento de simplificar RegisterButtonInputBlockers (FALLIDO) |
-| `acea37a` | Task 1    | ⚠️ Segundo intento (FALLIDO)                                 |
-| `e7f79d8` | Task 1    | ⚠️ Tercer intento (FALLIDO)                                  |
-| `b89e2f7` | Task 1    | ↩️ REVERT total a estado de commit 1607733                   |
-| `e86ff95` | Task 3    | Null-safety standardization (46 reemplazos, 19 archivos)     |
+| `9e24ed5` | Phase 4   | Hardening & Camera-Input Integration                              |
+| `1607733` | Phase 5   | Cleanup & Dead-Code Removal (4 steps)                             |
+| `4b80bd5` | Task 1    | ⚠️ Intento de simplificar RegisterButtonInputBlockers (FALLIDO)   |
+| `acea37a` | Task 1    | ⚠️ Segundo intento (FALLIDO)                                      |
+| `e7f79d8` | Task 1    | ⚠️ Tercer intento (FALLIDO)                                       |
+| `b89e2f7` | Task 1    | ↩️ REVERT total a estado de commit 1607733                        |
+| `e86ff95` | Task 3    | Null-safety standardization (46 reemplazos, 19 archivos)          |
 
 ---
 
 ## Documentos de Referencia
 
-| Documento                        | Contenido                                                         |
-| -------------------------------- | ----------------------------------------------------------------- |
-| `PHASE3_CHANGELOG.md` (este)     | Changelog detallado de todas las fases y tareas                   |
-| `ARCHITECTURE_AUDIT_REPORT.md`   | Auditoría arquitectónica post-Phase 5 con recomendaciones         |
-| `REFACTORING_PLAN.md`            | Plan de ejecución de tareas de auditoría con estado de cada una   |
+| Documento                      | Contenido                                                       |
+| ------------------------------ | --------------------------------------------------------------- |
+| `PHASE3_CHANGELOG.md` (este)   | Changelog detallado de todas las fases y tareas                 |
+| `ARCHITECTURE_AUDIT_REPORT.md` | Auditoría arquitectónica post-Phase 5 con recomendaciones       |
+| `REFACTORING_PLAN.md`          | Plan de ejecución de tareas de auditoría con estado de cada una |
