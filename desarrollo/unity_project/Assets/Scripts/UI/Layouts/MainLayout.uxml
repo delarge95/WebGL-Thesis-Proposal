@@ -214,7 +214,7 @@
                     <ui:VisualElement class="mode-btn-icon icon-analyze" picking-mode="Ignore"/>
                     <ui:Label text="ANALYZE" class="mode-btn-label" picking-mode="Ignore"/>
                 </ui:Button>
-                <ui:Button name="ModeStudioBtn" class="mode-btn" tooltip="Studio — Environment & Lighting">
+                <ui:Button name="ModeStudioBtn" class="mode-btn" tooltip="Studio — Environment &amp; Lighting">
                     <ui:VisualElement class="mode-btn-icon icon-studio" picking-mode="Ignore"/>
                     <ui:Label text="STUDIO" class="mode-btn-label" picking-mode="Ignore"/>
                 </ui:Button>
