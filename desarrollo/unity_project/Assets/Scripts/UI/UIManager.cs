@@ -9,10 +9,10 @@ using WebGL.UI.Panels;
 namespace WebGL.UI
 {
     /// <summary>
-    /// Slim coordinator for all UI sub-systems (Phase 3 Step 2: God Class Dismantling).
+    /// Slim coordinator for all UI sub-systems (Phase 3 Step 2 + Phase 2 UX Redesign).
     /// Delegates domain logic to:
-    ///   - UIDetailsSheet   → bottom sheet, part data display
-    ///   - UIPopupController → popup menus, stacking, category filters
+    ///   - UIDetailsSheet    → bottom sheet, part data display
+    ///   - UIModeController  → 3-mode system (Explore/Analyze/Studio), sub-menus, category filters
     ///   - UIHeroController  → hero/landing screen
     ///   - UIAnalyzePanel    → shader mode menu cards
     ///   - UIEnvironmentPanel→ environment preset cards + sliders
@@ -27,18 +27,15 @@ namespace WebGL.UI
         // ── Root ──
         private VisualElement root;
 
-        // ── Sub-Controllers (Phase 3 Step 2) ──
+        // ── Sub-Controllers (Phase 3 Step 2 + Phase 2 Redesign) ──
         private UIDetailsSheet _detailsSheet;
-        private UIPopupController _popupController;
+        private UIModeController _modeController;
         private UIHeroController _heroController;
         private UIAnalyzePanel _uiAnalyzePanel;
         private UIEnvironmentPanel _uiEnvironmentPanel;
 
         // ── Buttons (wired here, logic delegated) ──
-        private Button shaderBtn;
-        private Button explodeBtn;
         private Button resetBtn;
-        private Button envBtn;
 
         // ── Slider (explosion) ──
         private Slider explosionSlider;
@@ -108,43 +105,38 @@ namespace WebGL.UI
             EnsureManagers();
 
             // ── Query shared elements ──
-            shaderBtn = root.Q<Button>("ShaderBtn");
-            explodeBtn = root.Q<Button>("ExplodeBtn");
             resetBtn = root.Q<Button>("ResetViewBtn");
-            envBtn = root.Q<Button>("EnvBtn");
-            var infoBtn = root.Q<Button>("InfoBtn");
             var hotspotBtn = root.Q<Button>("HotspotBtn");
             sliderContainer = root.Q<VisualElement>("SliderContainer");
             explosionSlider = root.Q<Slider>("ExplosionSlider");
 
-            // ── Details Sheet ──
-            _detailsSheet = new UIDetailsSheet(root, infoBtn);
+            // ── Details Sheet (no InfoBtn in new layout — parts clicked directly) ──
+            _detailsSheet = new UIDetailsSheet(root, null);
             AddCleanup(() => _detailsSheet.Dispose());
 
-            // ── Popup Controller ──
-            _popupController = new UIPopupController(
+            // ── Mode Controller (replaces UIPopupController) ──
+            _modeController = new UIModeController(
                 root,
-                root.Q<VisualElement>("ShaderMenu"),
-                root.Q<VisualElement>("CategoryMenu"),
-                root.Q<VisualElement>("EnvPanel"),
-                sliderContainer,
+                root.Q<VisualElement>("AnalyzeModeContainer"),
+                root.Q<VisualElement>("StudioModeContainer"),
                 root.Q<VisualElement>("PopupBlocker"),
                 explosionSlider,
                 hotspotBtn
             );
-            AddCleanup(() => _popupController.Dispose());
+            AddCleanup(() => _modeController.Dispose());
 
-            // Notify popup controller when sheet state changes
+            // Notify mode controller when sheet state changes
             _detailsSheet.OnSheetStateChanged += (isOpen) =>
             {
-                _popupController.SetSheetOpenState(isOpen);
+                _modeController.SetSheetOpenState(isOpen);
             };
 
-            // ── Analyze Panel (shader cards) ──
-            _uiAnalyzePanel = new UIAnalyzePanel(root.Q<VisualElement>("ShaderMenu"), shaderBtn);
+            // ── Analyze Panel (shader cards — ShaderMenu is now inside AnalyzeModeContainer) ──
+            var shaderMenu = root.Q<VisualElement>("ShaderMenu");
+            _uiAnalyzePanel = new UIAnalyzePanel(shaderMenu, null);
             AddCleanup(() => _uiAnalyzePanel.Dispose());
 
-            // ── Environment Panel (presets + sliders) ──
+            // ── Environment Panel (presets + sliders — EnvPanel is now inside StudioModeContainer) ──
             _uiEnvironmentPanel = new UIEnvironmentPanel(root.Q<VisualElement>("EnvPanel"));
             AddCleanup(() => _uiEnvironmentPanel.Dispose());
 
@@ -154,25 +146,18 @@ namespace WebGL.UI
             _heroController.OnHeroReturned += OnHeroReturned;
             AddCleanup(() => _heroController.Dispose());
 
-            // ── Wire toolbar buttons ──
-            if (shaderBtn != null) { shaderBtn.clicked += _popupController.ToggleShaderMenu; AddCleanup(() => shaderBtn.clicked -= _popupController.ToggleShaderMenu); }
-            if (explodeBtn != null) { explodeBtn.clicked += OnExplodeToggle; AddCleanup(() => explodeBtn.clicked -= OnExplodeToggle); }
+            // ── Wire remaining toolbar buttons (mode buttons are handled by UIModeController) ──
             if (resetBtn != null) { resetBtn.clicked += OnResetClicked; AddCleanup(() => resetBtn.clicked -= OnResetClicked); }
-            if (envBtn != null) { envBtn.clicked += _popupController.ToggleEnvPanel; AddCleanup(() => envBtn.clicked -= _popupController.ToggleEnvPanel); }
 
-            // ── Layer button → category menu ──
-            var layerBtn = root.Q<Button>("LayerBtn");
-            if (layerBtn != null) { layerBtn.clicked += _popupController.ToggleCategoryMenu; AddCleanup(() => layerBtn.clicked -= _popupController.ToggleCategoryMenu); }
-
-            // ── Category filter buttons ──
+            // ── Category filter buttons (inside AnalyzeModeContainer) ──
             BindCat("CatBtn_All", "ALL");
             BindCat("CatBtn_Structure", "Structure");
             BindCat("CatBtn_Propulsion", "Propulsion");
             BindCat("CatBtn_Avionics", "Avionics");
             BindCat("CatBtn_Power", "Power");
 
-            // ── Hotspot button ──
-            if (hotspotBtn != null) { hotspotBtn.clicked += _popupController.ToggleHotspots; AddCleanup(() => hotspotBtn.clicked -= _popupController.ToggleHotspots); }
+            // ── Hotspot button (inside CategoryMenu in AnalyzeModeContainer) ──
+            if (hotspotBtn != null) { hotspotBtn.clicked += _modeController.ToggleHotspots; AddCleanup(() => hotspotBtn.clicked -= _modeController.ToggleHotspots); }
 
             // ── Explosion slider ──
             if (explosionSlider != null)
@@ -191,14 +176,10 @@ namespace WebGL.UI
 
             // ── Initial state ──
             _detailsSheet.UpdatePartIndicator(null);
-            if (infoBtn != null) infoBtn.SetEnabled(false);
             if (sliderContainer != null) sliderContainer.AddToClassList("slider-hidden");
 
             // ── All buttons block 3D input ──
             RegisterButtonInputBlockers();
-
-            // ── Initial layout ──
-            _popupController.RepositionPopups();
         }
 
         // ═══════════════════════════════════════════════════════
@@ -209,7 +190,7 @@ namespace WebGL.UI
         {
             var btn = root.Q<Button>(btnName);
             if (btn == null) return;
-            System.Action a = () => _popupController.SetCategoryFilter(category, btn);
+            System.Action a = () => _modeController.SetCategoryFilter(category, btn);
             btn.clicked += a;
             AddCleanup(() => btn.clicked -= a);
         }
@@ -233,7 +214,7 @@ namespace WebGL.UI
         {
             // Close everything
             _detailsSheet.SetSheetState(false);
-            _popupController.CloseAllMenus();
+            _modeController.DeactivateAllModes();
 
             // Hide hotspots
             HotspotManager.Instance?.SetVisible(false);
@@ -244,25 +225,12 @@ namespace WebGL.UI
             // Reset view mode
             ViewModeManager.Instance?.SetViewMode(ViewMode.Realistic);
 
-            // Reset app state
-            AppStateMachine.Instance?.SetState(AppState.Exploration);
+            // Reset app state — handled by DeactivateAllModes → Exploration
         }
 
         // ═══════════════════════════════════════════════════════
         //  Toolbar button handlers (simple, remain here)
         // ═══════════════════════════════════════════════════════
-
-        private void OnExplodeToggle()
-        {
-            if (AppStateMachine.Instance != null)
-            {
-                var current = AppStateMachine.Instance.CurrentState;
-                if (current == AppState.ExplodedView)
-                    AppStateMachine.Instance.EnterExploration();
-                else
-                    AppStateMachine.Instance.EnterExplodedView();
-            }
-        }
 
         private void OnResetClicked()
         {
@@ -308,8 +276,8 @@ namespace WebGL.UI
 
         private void OnPartSelected(PartSelectedEvent evt)
         {
-            // Close all popup menus when a part is selected/deselected
-            _popupController.CloseAllMenus();
+            // Close sub-menus within current mode when a part is selected
+            _modeController.CloseAllMenus();
 
             // Delegate data display to details sheet
             _detailsSheet.PopulatePartData(evt.PartData, evt.FromHotspot);
@@ -318,10 +286,10 @@ namespace WebGL.UI
         private void OnAppStateChanged(AppStateChangedEvent evt)
         {
             bool isExploded = evt.NewState == AppState.ExplodedView;
-            bool isInteractive = evt.NewState == AppState.Exploration || 
-                                 evt.NewState == AppState.Analyze || 
-                                 evt.NewState == AppState.Studio || 
-                                 isExploded;
+            bool isInteractive = AppStateMachine.Instance?.IsInteractive() ?? false;
+
+            // Sync mode controller with external state changes
+            _modeController.SyncWithAppState(evt.NewState);
 
             // Hotspots: only after hero is dismissed
             bool heroDismissed = _heroController != null && _heroController.HeroDismissed;
@@ -332,8 +300,8 @@ namespace WebGL.UI
             }
             HotspotManager.Instance?.SetVisible(heroDismissed && isInteractive);
 
-            // Slider visibility
-            _popupController.SetSliderVisible(isExploded);
+            // Slider visibility (only in ExplodedView)
+            _modeController.SetSliderVisible(isExploded);
         }
 
         private void OnViewModeChanged(ViewMode newMode)
