@@ -33,6 +33,7 @@ namespace WebGL.UI
         private UIHeroController _heroController;
         private UIAnalyzePanel _uiAnalyzePanel;
         private UIEnvironmentPanel _uiEnvironmentPanel;
+        private UICrossSectionPanel _uiCrossSectionPanel;
 
         // ── Buttons (wired here, logic delegated) ──
         private Button resetBtn;
@@ -139,6 +140,10 @@ namespace WebGL.UI
             // ── Environment Panel (presets + sliders — EnvPanel is now inside StudioModeContainer) ──
             _uiEnvironmentPanel = new UIEnvironmentPanel(root.Q<VisualElement>("EnvPanel"));
             AddCleanup(() => _uiEnvironmentPanel.Dispose());
+
+            // ── Cross-Section Panel (inside AnalyzeModeContainer) ──
+            _uiCrossSectionPanel = new UICrossSectionPanel(root.Q<VisualElement>("CrossSectionPanel"));
+            AddCleanup(() => _uiCrossSectionPanel.Dispose());
 
             // ── Hero Controller ──
             _heroController = new UIHeroController(root);

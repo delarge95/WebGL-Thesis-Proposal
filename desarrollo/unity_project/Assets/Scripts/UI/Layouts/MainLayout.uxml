@@ -101,7 +101,33 @@
                 </ui:VisualElement>
             </ui:VisualElement>
 
-            <!-- Cross-Section Panel placeholder (Iteration 5) -->
+            <!-- Cross-Section Panel -->
+            <ui:VisualElement name="CrossSectionPanel" class="mode-submenu cross-section-panel" picking-mode="Ignore">
+                <ui:Label text="CROSS SECTION" class="submenu-title" picking-mode="Ignore" />
+                <ui:VisualElement class="cross-section-row" picking-mode="Ignore">
+                    <ui:Button name="CrossSectionToggleBtn" class="submenu-card cross-section-toggle">
+                        <ui:VisualElement class="submenu-icon icon-cross-section" picking-mode="Ignore"/>
+                        <ui:Label text="CUT" class="submenu-label" picking-mode="Ignore"/>
+                    </ui:Button>
+                    <ui:VisualElement name="CrossSectionControls" class="cross-section-controls" style="display: none;">
+                        <ui:VisualElement class="cross-section-axis-group" picking-mode="Ignore">
+                            <ui:Button name="CrossSectionAxisX" class="cross-section-axis-btn">
+                                <ui:Label text="X" class="cross-section-axis-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                            <ui:Button name="CrossSectionAxisY" class="cross-section-axis-btn submenu-card--active">
+                                <ui:Label text="Y" class="cross-section-axis-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                            <ui:Button name="CrossSectionAxisZ" class="cross-section-axis-btn">
+                                <ui:Label text="Z" class="cross-section-axis-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                            <ui:Button name="CrossSectionInvertBtn" class="cross-section-axis-btn">
+                                <ui:Label text="⇅" class="cross-section-axis-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                        </ui:VisualElement>
+                        <ui:Slider name="CrossSectionPosition" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
 
         </ui:VisualElement>
 

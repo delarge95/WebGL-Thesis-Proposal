@@ -323,6 +323,95 @@
 }
 
 /* ────────────────────────────────────────────────
+   Cross-Section Panel (inside Analyze Mode)
+   ──────────────────────────────────────────────── */
+.cross-section-panel {
+    width: 100%;
+    align-items: center;
+}
+
+.cross-section-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.cross-section-toggle {
+    min-width: 80px;
+    margin-right: 16px;
+}
+
+.cross-section-controls {
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+    
+    transition-property: opacity;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.cross-section-axis-group {
+    flex-direction: row;
+    align-items: center;
+    margin-right: 12px;
+}
+
+.cross-section-axis-btn {
+    width: 40px;
+    height: 40px;
+    margin-left: 4px;
+    margin-right: 4px;
+    
+    background-color: rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    
+    justify-content: center;
+    align-items: center;
+    
+    transition-property: background-color, border-color, scale;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.cross-section-axis-btn:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.cross-section-axis-btn:active {
+    scale: 0.92;
+}
+
+.cross-section-axis-btn.submenu-card--active {
+    background-color: rgba(0, 170, 255, 0.15);
+    border-color: rgba(0, 170, 255, 0.5);
+}
+
+.cross-section-axis-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.cross-section-axis-btn.submenu-card--active .cross-section-axis-label {
+    color: rgba(0, 170, 255, 0.9);
+}
+
+.cross-section-slider {
+    flex-grow: 1;
+    min-height: 40px;
+    margin: 0;
+    padding: 0;
+}
+
+.icon-cross-section { background-image: resource("UI/Icons/icon_cross_section"); }
+
+/* ────────────────────────────────────────────────
    Icon Buttons (100px — exceeds 48dp minimum)
    ──────────────────────────────────────────────── */
 /* Old .icon-button styles removed — see above */
