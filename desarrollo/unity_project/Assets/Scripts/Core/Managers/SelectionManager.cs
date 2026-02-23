@@ -73,13 +73,9 @@ namespace WebGL.Core.Managers
         /// </summary>
         private bool ShouldProcessInput()
         {
-            AppState currentState = AppStateMachine.Instance != null 
-                ? AppStateMachine.Instance.CurrentState 
-                : AppState.Exploration;
-
-            return currentState == AppState.Exploration || 
-                   currentState == AppState.ExplodedView || 
-                   currentState == AppState.FocusMode;
+            return AppStateMachine.Instance != null 
+                ? AppStateMachine.Instance.IsInteractive() 
+                : true; // Default to allowing input if state machine unavailable
         }
 
         /// <summary>

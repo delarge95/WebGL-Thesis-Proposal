@@ -128,8 +128,6 @@ namespace WebGL.Core.Managers
         /// <returns>True if transition is allowed.</returns>
         protected virtual bool CanTransitionTo(AppState targetState)
         {
-            // Default: allow all transitions
-            // Custom rules can be added here
             switch (currentState)
             {
                 case AppState.Loading:
@@ -139,6 +137,15 @@ namespace WebGL.Core.Managers
                 case AppState.Intro:
                     // Can exit intro to exploration
                     return targetState == AppState.Exploration;
+
+                // The 3 master modes can freely switch between each other
+                // and also allow ExplodedView/FocusMode within them
+                case AppState.Exploration:
+                case AppState.Analyze:
+                case AppState.Studio:
+                case AppState.ExplodedView:
+                case AppState.FocusMode:
+                    return targetState != AppState.Loading && targetState != AppState.Intro;
                     
                 default:
                     return true;
@@ -175,13 +182,26 @@ namespace WebGL.Core.Managers
         public void OpenMenu() => SetState(AppState.Menu);
 
         /// <summary>
+        /// Enters analyze mode — technical tools (shaders, categories, cross-section).
+        /// </summary>
+        public void EnterAnalyze() => SetState(AppState.Analyze);
+
+        /// <summary>
+        /// Enters studio mode — environment/lighting controls.
+        /// </summary>
+        public void EnterStudio() => SetState(AppState.Studio);
+
+        /// <summary>
         /// Checks if the application is in an interactive state.
+        /// Interactive states allow user to navigate, select parts, and use tools.
         /// </summary>
         public bool IsInteractive()
         {
             return currentState == AppState.Exploration || 
                    currentState == AppState.ExplodedView || 
-                   currentState == AppState.FocusMode;
+                   currentState == AppState.FocusMode ||
+                   currentState == AppState.Analyze ||
+                   currentState == AppState.Studio;
         }
 
         #endregion
@@ -211,6 +231,12 @@ namespace WebGL.Core.Managers
         Settings,
         
         /// <summary>Main menu state.</summary>
-        Menu
+        Menu,
+
+        /// <summary>Analyze mode - technical tools: shaders, categories, cross-section, exploded view.</summary>
+        Analyze,
+
+        /// <summary>Studio mode - environment/lighting controls.</summary>
+        Studio
     }
 }
