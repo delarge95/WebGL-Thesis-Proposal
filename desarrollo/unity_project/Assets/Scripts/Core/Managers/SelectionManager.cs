@@ -94,8 +94,6 @@ namespace WebGL.Core.Managers
             {
                 ClearHover();
                 return;
-            };
-                return;
             }
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
