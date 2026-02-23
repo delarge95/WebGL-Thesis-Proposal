@@ -81,15 +81,8 @@ namespace WebGL.Core.Managers
 
             OnPartSwapped?.Invoke(slot, newPart);
 
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayClick();
-            }
-
-            if (NotificationManager.Instance != null)
-            {
-                NotificationManager.Instance.ShowNotification($"Installed: {newPartPrefab.name}");
-            }
+            AudioManager.Instance?.PlayClick();
+            NotificationManager.Instance?.ShowNotification($"Installed: {newPartPrefab.name}");
 
             Debug.Log($"[ModularParts] Swapped part in slot: {slot.slotName}");
         }

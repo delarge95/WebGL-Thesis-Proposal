@@ -90,16 +90,32 @@ Audit flagged these as potential orphans. Need to verify they are properly insta
 
 ### Task 3: Standardize Null-Safety Patterns
 **Severity:** 🟡 LOW (Audit Issue #11)  
-**Status:** ⬜ Not started  
-**Files:** Multiple managers
+**Status:** ✅ Completed  
+**Files:** 19 files across `Assets/Scripts/UI/` and `Assets/Scripts/Core/`
 
 **Problem:**  
 Inconsistent use of null-conditional `?.` vs bare access when calling singletons.
 
-**Plan:**
-- [ ] Audit all `XxxManager.Instance.Method()` calls
-- [ ] Standardize to `XxxManager.Instance?.Method()` pattern
-- [ ] Ensure `InputManager.Instance != null` checks are consistent
+**Changes applied (46 replacements in 19 files):**
+- [x] Audit all `XxxManager.Instance.Method()` calls — found ~100+ bare calls vs 28 using `?.`
+- [x] Standardize to `XxxManager.Instance?.Method()` pattern
+- [x] Convert verbose `if (X.Instance != null) X.Instance.Method()` → `X.Instance?.Method()`
+- [x] Convert `if (X.Instance != null) X.Instance.PlayClick()` → `X.Instance?.PlayClick()`
+- [x] Property reads with conditions: `SelectionManager.Instance?.HasSelection == true`
+- [x] All 19 files compile with 0 errors
+
+**Preserved (not changed):**
+- Event subscriptions/unsubscriptions (`Instance.OnEvent +=`) — need special handling
+- Early-return guards (`if (X.Instance == null) return;`) — subsequent code depends on existence
+- `if/else` blocks with fallback branches (e.g., TweenEngine fade vs immediate hide)
+- Patterns that read + compute (e.g., `float current = X.Instance.UIScale; X.SetUIScale(current + 0.1f)`)
+
+**Files modified:**
+`UIManager.cs`, `ViewModeToolbar.cs`, `KeyboardShortcuts.cs`, `PartCatalogUI.cs`,
+`EnhancedInfoPanel.cs`, `EngineerToolbar.cs`, `UIPopupController.cs`, `UIDetailsSheet.cs`,
+`UIEnvironmentPanel.cs`, `UIAnalyzePanel.cs`, `SettingsPanel.cs`, `SmartHotspot.cs`,
+`ExplodedViewManager.cs`, `AssemblyChecklist.cs`, `CrossSectionManager.cs`,
+`DroneStateController.cs`, `ConnectionPointsViewer.cs`, `ModularPartsSystem.cs`, `DroneAssembler.cs`
 
 ---
 
@@ -154,11 +170,11 @@ Strong references prevent GC of destroyed subscribers.
 | Metric | Value |
 |--------|-------|
 | Total tasks | 6 |
-| Completed | 1 |
+| Completed | 2 (Tasks 2, 3) |
 | In progress | 0 |
 | Reverted | 1 (Task 1 — needs rethink) |
 | Deferred | 3 (Tasks 4, 5, 6) |
-| Actionable remaining | 1 (Task 3) |
+| Actionable remaining | 0 |
 
 ---
 

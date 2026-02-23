@@ -226,8 +226,7 @@ namespace WebGL.UI
                 _hotspotsInitialized = true;
                 HotspotManager.Instance.Initialize(root);
             }
-            if (HotspotManager.Instance != null)
-                HotspotManager.Instance.SetVisible(true);
+            HotspotManager.Instance?.SetVisible(true);
         }
 
         private void OnHeroReturned()
@@ -237,20 +236,16 @@ namespace WebGL.UI
             _popupController.CloseAllMenus();
 
             // Hide hotspots
-            if (HotspotManager.Instance != null)
-                HotspotManager.Instance.SetVisible(false);
+            HotspotManager.Instance?.SetVisible(false);
 
             // Reset camera
-            if (OrbitCameraController.Instance != null)
-                OrbitCameraController.Instance.ResetView();
+            OrbitCameraController.Instance?.ResetView();
 
             // Reset view mode
-            if (ViewModeManager.Instance != null)
-                ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
+            ViewModeManager.Instance?.SetViewMode(ViewMode.Realistic);
 
             // Reset app state
-            if (AppStateMachine.Instance != null)
-                AppStateMachine.Instance.SetState(AppState.Exploration);
+            AppStateMachine.Instance?.SetState(AppState.Exploration);
         }
 
         // ═══════════════════════════════════════════════════════
@@ -271,13 +266,12 @@ namespace WebGL.UI
 
         private void OnResetClicked()
         {
-            if (AppStateMachine.Instance != null && AppStateMachine.Instance.CurrentState != AppState.Exploration)
+            if (AppStateMachine.Instance?.CurrentState != null && AppStateMachine.Instance.CurrentState != AppState.Exploration)
                 AppStateMachine.Instance.EnterExploration();
 
-            if (OrbitCameraController.Instance != null)
-                OrbitCameraController.Instance.ResetView();
+            OrbitCameraController.Instance?.ResetView();
 
-            if (ViewModeManager.Instance != null && ViewModeManager.Instance.CurrentMode != ViewMode.Realistic)
+            if (ViewModeManager.Instance?.CurrentMode != null && ViewModeManager.Instance.CurrentMode != ViewMode.Realistic)
                 ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
 
             EventBus.Publish(new PartSelectedEvent(null));
@@ -285,8 +279,7 @@ namespace WebGL.UI
 
         private void OnExplosionSliderChanged(ChangeEvent<float> evt)
         {
-            if (ExplodedViewManager.Instance != null)
-                ExplodedViewManager.Instance.SetExplosionFactor(evt.newValue);
+            ExplodedViewManager.Instance?.SetExplosionFactor(evt.newValue);
         }
 
         // ═══════════════════════════════════════════════════════
@@ -332,11 +325,9 @@ namespace WebGL.UI
             if (heroDismissed && isInteractive && !_hotspotsInitialized)
             {
                 _hotspotsInitialized = true;
-                if (HotspotManager.Instance != null)
-                    HotspotManager.Instance.Initialize(root);
+                HotspotManager.Instance?.Initialize(root);
             }
-            if (HotspotManager.Instance != null)
-                HotspotManager.Instance.SetVisible(heroDismissed && isInteractive);
+            HotspotManager.Instance?.SetVisible(heroDismissed && isInteractive);
 
             // Slider visibility
             _popupController.SetSliderVisible(isExploded);

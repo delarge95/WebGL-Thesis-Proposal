@@ -140,11 +140,7 @@ namespace WebGL.UI
         {
             isDropdownOpen = !isDropdownOpen;
             dropdownPanel.style.display = isDropdownOpen ? DisplayStyle.Flex : DisplayStyle.None;
-
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayClick();
-            }
+            AudioManager.Instance?.PlayClick();
         }
 
         private void CloseDropdown()
@@ -156,10 +152,7 @@ namespace WebGL.UI
         private void StartAnnotationMode()
         {
             // Enter annotation mode
-            if (NotificationManager.Instance != null)
-            {
-                NotificationManager.Instance.ShowNotification("Click on a part to add an annotation");
-            }
+            NotificationManager.Instance?.ShowNotification("Click on a part to add an annotation");
             // Would set a flag for SelectionManager to handle annotation creation
         }
 

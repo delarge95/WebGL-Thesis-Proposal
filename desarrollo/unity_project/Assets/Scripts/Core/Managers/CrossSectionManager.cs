@@ -99,11 +99,7 @@ namespace WebGL.Core.Managers
                 planeVisual.SetActive(true);
             }
             ApplyClipPlane();
-
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayClick();
-            }
+            AudioManager.Instance?.PlayClick();
 
             Debug.Log("[CrossSection] Enabled");
         }
@@ -116,11 +112,7 @@ namespace WebGL.Core.Managers
                 planeVisual.SetActive(false);
             }
             ClearClipPlane();
-
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayClick();
-            }
+            AudioManager.Instance?.PlayClick();
 
             Debug.Log("[CrossSection] Disabled");
         }

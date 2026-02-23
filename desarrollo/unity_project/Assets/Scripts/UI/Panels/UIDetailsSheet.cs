@@ -108,8 +108,7 @@ namespace WebGL.UI.Panels
             if (_bottomBar != null) _bottomBar.EnableInClassList("ui-shifted", isOpen);
             if (_partNameLabel != null) _partNameLabel.EnableInClassList("selection-label--hidden", isOpen);
 
-            if (OrbitCameraController.Instance != null)
-                OrbitCameraController.Instance.SetViewportShift(isOpen ? 0.15f : 0f);
+            OrbitCameraController.Instance?.SetViewportShift(isOpen ? 0.15f : 0f);
 
             OnSheetStateChanged?.Invoke(isOpen);
         }
@@ -121,7 +120,7 @@ namespace WebGL.UI.Panels
             _contentDetails.RemoveFromClassList("sheet-content--hidden");
             _contentDetails.AddToClassList("sheet-content--active");
 
-            string titleText = (SelectionManager.Instance != null && SelectionManager.Instance.HasSelection)
+            string titleText = (SelectionManager.Instance?.HasSelection == true)
                 ? (_sheetTitle != null ? _sheetTitle.text : "PART DETAILS")
                 : "SELECT A PART";
 

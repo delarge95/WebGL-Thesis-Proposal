@@ -174,10 +174,7 @@ namespace WebGL.Core.Managers
             SetState(DroneState.Idle);
             PlayDroneSound(idleSound);
 
-            if (NotificationManager.Instance != null)
-            {
-                NotificationManager.Instance.ShowNotification("Drone is now online");
-            }
+            NotificationManager.Instance?.ShowNotification("Drone is now online");
         }
 
         private IEnumerator ShutdownSequence()
@@ -220,10 +217,7 @@ namespace WebGL.Core.Managers
             droneAudioSource.Stop();
             SetState(DroneState.Off);
 
-            if (NotificationManager.Instance != null)
-            {
-                NotificationManager.Instance.ShowNotification("Drone is now offline");
-            }
+            NotificationManager.Instance?.ShowNotification("Drone is now offline");
         }
 
         private void SetState(DroneState newState)

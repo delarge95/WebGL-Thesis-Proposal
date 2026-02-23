@@ -46,11 +46,8 @@ namespace WebGL.Core.Managers
 
         private void ApplyCameraPreset(int index)
         {
-            if (CameraPresets.Instance != null)
-            {
-                CameraPresets.Instance.ApplyPreset(index);
-                if (AudioManager.Instance != null) AudioManager.Instance.PlayClick();
-            }
+            CameraPresets.Instance?.ApplyPreset(index);
+            AudioManager.Instance?.PlayClick();
         }
 
         private void ToggleExplodedView()
@@ -67,7 +64,7 @@ namespace WebGL.Core.Managers
                 AppStateMachine.Instance.SetState(AppState.ExplodedView);
             }
             
-            if (AudioManager.Instance != null) AudioManager.Instance.PlayClick();
+            AudioManager.Instance?.PlayClick();
         }
 
         private void GoBack()
@@ -77,10 +74,7 @@ namespace WebGL.Core.Managers
             var currentState = AppStateMachine.Instance.CurrentState;
             
             // Deselect first
-            if (SelectionManager.Instance != null)
-            {
-                SelectionManager.Instance.Deselect();
-            }
+            SelectionManager.Instance?.Deselect();
 
             // Then transition
             if (currentState != AppState.Exploration)
@@ -91,20 +85,9 @@ namespace WebGL.Core.Managers
 
         private void ResetView()
         {
-            if (OrbitCameraController.Instance != null)
-            {
-                OrbitCameraController.Instance.ResetView();
-            }
-            
-            if (SelectionManager.Instance != null)
-            {
-                SelectionManager.Instance.Deselect();
-            }
-
-            if (NotificationManager.Instance != null)
-            {
-                NotificationManager.Instance.ShowNotification("View reset");
-            }
+            OrbitCameraController.Instance?.ResetView();
+            SelectionManager.Instance?.Deselect();
+            NotificationManager.Instance?.ShowNotification("View reset");
         }
 
         private void IncreaseUIScale()

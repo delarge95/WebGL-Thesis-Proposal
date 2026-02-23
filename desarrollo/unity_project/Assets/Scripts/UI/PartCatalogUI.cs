@@ -154,10 +154,7 @@ namespace WebGL.UI
 
         private void OnSearchChanged(ChangeEvent<string> evt)
         {
-            if (PartCatalogManager.Instance != null)
-            {
-                PartCatalogManager.Instance.Search(evt.newValue);
-            }
+            PartCatalogManager.Instance?.Search(evt.newValue);
         }
 
         private void OnCategoryClicked(string category)
@@ -174,15 +171,8 @@ namespace WebGL.UI
                     : new Color(1, 1, 1, 0.1f);
             }
 
-            if (PartCatalogManager.Instance != null)
-            {
-                PartCatalogManager.Instance.FilterByCategory(category);
-            }
-
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayClick();
-            }
+            PartCatalogManager.Instance?.FilterByCategory(category);
+            AudioManager.Instance?.PlayClick();
         }
 
         private void OnFilterChanged(List<ExplodablePart> parts)
@@ -264,19 +254,13 @@ namespace WebGL.UI
 
         private void OnPartClicked(ExplodablePart part)
         {
-            if (PartCatalogManager.Instance != null)
-            {
-                PartCatalogManager.Instance.FocusPart(part);
-            }
+            PartCatalogManager.Instance?.FocusPart(part);
         }
 
         private void OnVisibilityToggle(ExplodablePart part)
         {
-            if (PartVisibilityManager.Instance != null)
-            {
-                PartVisibilityManager.Instance.TogglePartVisibility(part);
-                RefreshPartsList();
-            }
+            PartVisibilityManager.Instance?.TogglePartVisibility(part);
+            RefreshPartsList();
         }
 
         public void Show()

@@ -180,10 +180,7 @@ namespace WebGL.Core.Utils
             explodable.SetData(data);
             explodable.Initialize();
             
-            if (ExplodedViewManager.Instance != null)
-            {
-                ExplodedViewManager.Instance.RegisterPart(explodable);
-            }
+            ExplodedViewManager.Instance?.RegisterPart(explodable);
         }
     }
 }

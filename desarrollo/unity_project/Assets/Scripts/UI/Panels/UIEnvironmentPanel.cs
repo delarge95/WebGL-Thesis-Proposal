@@ -40,8 +40,7 @@ namespace WebGL.UI.Panels
             {
                 EventCallback<ChangeEvent<float>> onRotChanged = evt => 
                 {
-                    if (EnvironmentController.Instance != null)
-                        EnvironmentController.Instance.SetLightRotation(evt.newValue);
+                    EnvironmentController.Instance?.SetLightRotation(evt.newValue);
                 };
                 _envLightRotSlider.RegisterValueChangedCallback(onRotChanged);
                 AddCleanup(() => _envLightRotSlider.UnregisterValueChangedCallback(onRotChanged));
@@ -65,8 +64,7 @@ namespace WebGL.UI.Panels
             {
                 EventCallback<ChangeEvent<float>> onIntChanged = evt => 
                 {
-                    if (EnvironmentController.Instance != null)
-                        EnvironmentController.Instance.SetLightIntensity(evt.newValue);
+                    EnvironmentController.Instance?.SetLightIntensity(evt.newValue);
                 };
                 _envLightIntSlider.RegisterValueChangedCallback(onIntChanged);
                 AddCleanup(() => _envLightIntSlider.UnregisterValueChangedCallback(onIntChanged));
@@ -94,8 +92,7 @@ namespace WebGL.UI.Panels
                 var p = preset; 
                 System.Action onClick = () =>
                 {
-                    if (EnvironmentController.Instance != null)
-                        EnvironmentController.Instance.ApplyPreset(p);
+                    EnvironmentController.Instance?.ApplyPreset(p);
                     UpdateEnvPresetActiveState(p);
                 };
                 btn.clicked += onClick;

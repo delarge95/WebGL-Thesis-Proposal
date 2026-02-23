@@ -153,8 +153,7 @@ namespace WebGL.UI.Panels
         public void ToggleHotspots()
         {
             _hotspotsEnabled = !_hotspotsEnabled;
-            if (HotspotManager.Instance != null)
-                HotspotManager.Instance.ToggleVisibility();
+            HotspotManager.Instance?.ToggleVisibility();
 
             if (_hotspotBtn != null)
                 _hotspotBtn.EnableInClassList("submenu-card--active", _hotspotsEnabled);
@@ -181,8 +180,7 @@ namespace WebGL.UI.Panels
                     _activeCategories.Add("ALL");
             }
 
-            if (ExplodedViewManager.Instance != null)
-                ExplodedViewManager.Instance.SetCategoryFilters(_activeCategories);
+            ExplodedViewManager.Instance?.SetCategoryFilters(_activeCategories);
 
             UpdateCategoryButtonStates();
         }

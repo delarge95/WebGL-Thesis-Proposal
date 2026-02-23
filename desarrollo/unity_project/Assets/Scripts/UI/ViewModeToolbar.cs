@@ -139,10 +139,7 @@ namespace WebGL.UI
 
         private void OnModeButtonClicked(ViewMode mode)
         {
-            if (ViewModeManager.Instance != null)
-            {
-                ViewModeManager.Instance.SetViewMode(mode);
-            }
+            ViewModeManager.Instance?.SetViewMode(mode);
         }
 
         private void OnModeChanged(ViewMode newMode)
@@ -162,26 +159,17 @@ namespace WebGL.UI
 
         private void OnCrossSectionClicked()
         {
-            if (CrossSectionManager.Instance != null)
-            {
-                CrossSectionManager.Instance.ToggleCrossSection();
-            }
+            CrossSectionManager.Instance?.ToggleCrossSection();
         }
 
         private void OnDroneStateClicked()
         {
-            if (DroneStateController.Instance != null)
-            {
-                DroneStateController.Instance.TogglePower();
-            }
+            DroneStateController.Instance?.TogglePower();
         }
 
         private void OnCatalogClicked()
         {
-            if (PartCatalogUI.Instance != null)
-            {
-                PartCatalogUI.Instance.Toggle();
-            }
+            PartCatalogUI.Instance?.Toggle();
         }
 
         private void OnResetClicked()
@@ -193,15 +181,8 @@ namespace WebGL.UI
             OrbitCameraController.Instance?.ResetView();
             SelectionManager.Instance?.Deselect();
             
-            if (AppStateMachine.Instance != null)
-            {
-                AppStateMachine.Instance.SetState(AppState.Exploration);
-            }
-
-            if (NotificationManager.Instance != null)
-            {
-                NotificationManager.Instance.ShowNotification("View reset");
-            }
+            AppStateMachine.Instance?.SetState(AppState.Exploration);
+            NotificationManager.Instance?.ShowNotification("View reset");
         }
 
         public void Show()
