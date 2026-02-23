@@ -153,5 +153,22 @@ Elevar la calidad visual y la experiencia de usuario (UX) para cumplir estándar
 
 ---
 
+### Registro de Cambios (Febrero 23, 2026) — Fase 1: Responsive Layout Refactor
+
+1.  **Migración a Diseño Fluido (Mobile-First)**:
+    -   *Acción*: Se eliminaron los anchos rígidos de `600px` en `Theme.uss` para `.actions-row`, `.submenu-container` y `.slider-container`.
+    -   *Implementación*: Uso de porcentajes y límites (`width: 90%; max-width: 600px;`) para diseño adaptativo.
+    -   *Por qué*: Cumplir con las restricciones de tamaño en dispositivos móviles pequeños, previniendo visualizaciones cortadas.
+
+2.  **Accesibilidad de Interacciones Táctiles**:
+    -   *Acción*: Aumento del tamaño del botón de cierre (`.sheet-close-btn`) a `44x44px`.
+    -   *Por qué*: Alinear la UX con las Guías de Accesibilidad (Apple HIG/Material Design) para asegurar un hit-testing cómodo con los dedos.
+
+3.  **Refactor Matemático de Grillas**:
+    -   *Acción*: Conversión de tarjetas (`.submenu-card`) estáticas a un sistema flexible con `flex-basis: 21%` y `flex-grow: 1`.
+    -   *Por qué*: Garantizar la renderización exacta de 4 tarjetas por fila sin importar la resolución o relación de aspecto de la pantalla final.
+
+---
+
 *Registro mantenido por el Equipo de Desarrollo.*
-*Última actualización: 20 Febrero 2026*
+*Última actualización: 23 Febrero 2026*

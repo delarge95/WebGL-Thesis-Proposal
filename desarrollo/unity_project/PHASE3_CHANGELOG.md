@@ -830,6 +830,7 @@ InputManager.Instance?.SomeMethod();
 | `e7f79d8` | Task 1    | ⚠️ Tercer intento (FALLIDO)                                       |
 | `b89e2f7` | Task 1    | ↩️ REVERT total a estado de commit 1607733                        |
 | `e86ff95` | Task 3    | Null-safety standardization (46 reemplazos, 19 archivos)          |
+| `7dfcb76` | Phase 1   | Responsive Layout Refactor (UI/UX) - Migración a CSS fluido       |
 
 ---
 
