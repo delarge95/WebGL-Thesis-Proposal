@@ -29,7 +29,7 @@ namespace WebGL.Core.Managers
             if (Input.GetKeyDown(KeyCode.Escape)) GoBack();
             if (Input.GetKeyDown(KeyCode.R)) ResetView();
 
-            // Mode shortcuts (Phase 2 UX Redesign)
+            // Mode shortcuts (Phase 2 UX Redesign — 7: Tools/Explore, 8: Analyze, 9: Studio)
             if (Input.GetKeyDown(KeyCode.Alpha7)) SwitchToExplore();
             if (Input.GetKeyDown(KeyCode.Alpha8)) SwitchToAnalyze();
             if (Input.GetKeyDown(KeyCode.Alpha9)) SwitchToStudio();

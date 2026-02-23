@@ -271,6 +271,7 @@
 .icon-explore { background-image: resource("UI/Icons/icon_explore"); }
 .icon-analyze { background-image: resource("UI/Icons/icon_analyze"); }
 .icon-studio  { background-image: resource("UI/Icons/icon_studio"); }
+.icon-cross-section { background-image: resource("UI/Icons/icon_cross_section"); }
 
 /* ────────────────────────────────────────────────
    Mode Containers (above bottom bar, contextual tool panels)
@@ -321,6 +322,83 @@
     transition-duration: 0.25s;
     transition-timing-function: ease-out;
 }
+
+/* ────────────────────────────────────────────────
+   Mode Action Bar (tool buttons inside each mode container)
+   ──────────────────────────────────────────────── */
+.mode-action-bar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    background-color: rgba(10, 10, 18, 0.75);
+    border-radius: 16px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.mode-action-btn {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 64px;
+    margin-left: 6px;
+    margin-right: 6px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.06);
+    transition-property: background-color, scale, border-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.mode-action-btn:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+    scale: 1.05;
+}
+
+.mode-action-btn:active {
+    scale: 0.95;
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.mode-action-btn--active {
+    background-color: rgba(0, 170, 255, 0.2);
+    border-color: rgba(0, 170, 255, 0.5);
+}
+
+.mode-action-btn--active:hover {
+    background-color: rgba(0, 170, 255, 0.3);
+}
+
+.mode-action-icon {
+    width: 24px;
+    height: 24px;
+    -unity-background-scale-mode: scale-to-fit;
+    margin-bottom: 4px;
+}
+
+.mode-action-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 1px;
+    -unity-font-style: bold;
+}
+
+.mode-action-btn--active .mode-action-label {
+    color: rgba(0, 170, 255, 0.9);
+}
+
+/* Icon references for mode action buttons */
+.icon-tools    { background-image: resource("UI/Icons/icon_tools"); }
+.icon-info     { background-image: resource("UI/Icons/icon_info"); }
+.icon-explode  { background-image: resource("UI/Icons/icon_explode"); }
+.icon-view     { background-image: resource("UI/Icons/icon_view"); }
 
 /* ────────────────────────────────────────────────
    Cross-Section Panel (inside Analyze Mode)
