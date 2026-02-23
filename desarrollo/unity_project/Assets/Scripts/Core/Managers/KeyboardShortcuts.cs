@@ -12,10 +12,6 @@ namespace WebGL.Core.Managers
         {
             if (!enableShortcuts) return;
 
-            // Phase 4: Skip keyboard shortcuts when pointer is interacting with UI
-            // (prevents accidental state changes while typing or interacting with UI elements)
-            if (InputManager.InputBlocked) return;
-
             // Camera Presets
             if (Input.GetKeyDown(KeyCode.Alpha1)) ApplyCameraPreset(0); // Front
             if (Input.GetKeyDown(KeyCode.Alpha2)) ApplyCameraPreset(1); // Back

@@ -87,10 +87,7 @@ namespace WebGL.Core.Managers
 
         private void HandleInput()
         {
-            // Phase 4: Centralized input blocking via InputManager
-            if (InputManager.InputBlocked) return;
-
-            // Phase 4: Skip camera input when pointer is over UI Toolkit elements
+            // Skip camera input when pointer is over UI Toolkit elements
             if (InputManager.Instance != null && InputManager.Instance.IsPointerOverUI()) return;
 
             if (Input.touchCount > 0)
