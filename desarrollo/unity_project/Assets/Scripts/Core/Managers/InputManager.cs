@@ -30,6 +30,15 @@ namespace WebGL.Core.Managers
         /// </summary>
         public bool IsDragging3D { get; private set; }
 
+        /// <summary>
+        /// Global flag set by UI pointer-enter/leave callbacks to block 3D input
+        /// (orbit, pan, zoom, selection hover) while the user is interacting with
+        /// UI Toolkit elements like sliders, sheets, or scroll views.
+        /// Replaces the old OrbitCameraController.GlobalInputBlocked static field
+        /// (Phase 4: Hardening — single source of truth in InputManager).
+        /// </summary>
+        public static bool InputBlocked { get; set; }
+
         protected override void Awake()
         {
             base.Awake();

@@ -210,8 +210,8 @@ namespace WebGL.UI.Panels
                 _detailsSheet.RegisterCallback(pu);
                 AddCleanup(() => { _detailsSheet.UnregisterCallback(pd); _detailsSheet.UnregisterCallback(pu); });
 
-                EventCallback<PointerEnterEvent> pe = evt => OrbitCameraController.GlobalInputBlocked = true;
-                EventCallback<PointerLeaveEvent> pl = evt => OrbitCameraController.GlobalInputBlocked = false;
+                EventCallback<PointerEnterEvent> pe = evt => InputManager.InputBlocked = true;
+                EventCallback<PointerLeaveEvent> pl = evt => InputManager.InputBlocked = false;
                 _detailsSheet.RegisterCallback(pe);
                 _detailsSheet.RegisterCallback(pl);
                 AddCleanup(() => { _detailsSheet.UnregisterCallback(pe); _detailsSheet.UnregisterCallback(pl); });
@@ -258,8 +258,8 @@ namespace WebGL.UI.Panels
             var sheetScroll = _root.Q<ScrollView>(className: "sheet-scroll");
             if (sheetScroll != null)
             {
-                EventCallback<PointerEnterEvent> scrollEnter = evt => OrbitCameraController.GlobalInputBlocked = true;
-                EventCallback<PointerLeaveEvent> scrollLeave = evt => OrbitCameraController.GlobalInputBlocked = false;
+                EventCallback<PointerEnterEvent> scrollEnter = evt => InputManager.InputBlocked = true;
+                EventCallback<PointerLeaveEvent> scrollLeave = evt => InputManager.InputBlocked = false;
                 sheetScroll.RegisterCallback(scrollEnter);
                 sheetScroll.RegisterCallback(scrollLeave);
                 AddCleanup(() => { sheetScroll.UnregisterCallback(scrollEnter); sheetScroll.UnregisterCallback(scrollLeave); });
