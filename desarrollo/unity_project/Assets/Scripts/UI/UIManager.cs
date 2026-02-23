@@ -50,12 +50,6 @@ namespace WebGL.UI
         // ── Memory Leak Prevention (Phase 3 Step 1) ──
         private System.Collections.Generic.List<System.Action> _uiCleanupActions = new System.Collections.Generic.List<System.Action>();
 
-        // ── Button input blocker callbacks (shared instances) ──
-        private EventCallback<PointerEnterEvent> _onBtnEnter = evt => InputManager.InputBlocked = true;
-        private EventCallback<PointerLeaveEvent> _onBtnLeave = evt => InputManager.InputBlocked = false;
-        private EventCallback<PointerDownEvent> _onBtnDown = evt => evt.StopPropagation();
-        private EventCallback<PointerUpEvent> _onBtnUp = evt => evt.StopPropagation();
-
         protected override void Awake()
         {
             base.Awake();
@@ -180,22 +174,16 @@ namespace WebGL.UI
                 explosionSlider.RegisterValueChangedCallback(OnExplosionSliderChanged);
                 AddCleanup(() => explosionSlider.UnregisterValueChangedCallback(OnExplosionSliderChanged));
 
-                EventCallback<PointerEnterEvent> esEn = evt => InputManager.InputBlocked = true;
-                EventCallback<PointerLeaveEvent> esLe = evt => InputManager.InputBlocked = false;
+                // StopPropagation prevents slider drag from orbiting the camera
                 EventCallback<PointerDownEvent> esDo = evt => evt.StopPropagation();
-                explosionSlider.RegisterCallback(esEn);
-                explosionSlider.RegisterCallback(esLe);
                 explosionSlider.RegisterCallback(esDo);
-                AddCleanup(() => { explosionSlider.UnregisterCallback(esEn); explosionSlider.UnregisterCallback(esLe); explosionSlider.UnregisterCallback(esDo); });
+                AddCleanup(() => explosionSlider.UnregisterCallback(esDo));
             }
 
             // ── Initial state ──
             _detailsSheet.UpdatePartIndicator(null);
             if (infoBtn != null) infoBtn.SetEnabled(false);
             if (sliderContainer != null) sliderContainer.AddToClassList("slider-hidden");
-
-            // ── All buttons block 3D input ──
-            RegisterButtonInputBlockers();
 
             // ── Initial layout ──
             _popupController.RepositionPopups();
@@ -347,28 +335,7 @@ namespace WebGL.UI
             if (_uiAnalyzePanel != null) _uiAnalyzePanel.OnViewModeChanged(newMode);
         }
 
-        // ═══════════════════════════════════════════════════════
-        //  Button input blockers (all buttons block 3D raycast)
-        // ═══════════════════════════════════════════════════════
 
-        private void RegisterButtonInputBlockers()
-        {
-            root.Query<Button>().ForEach(btn =>
-            {
-                btn.RegisterCallback(_onBtnEnter);
-                btn.RegisterCallback(_onBtnLeave);
-                btn.RegisterCallback(_onBtnDown);
-                btn.RegisterCallback(_onBtnUp);
-
-                AddCleanup(() =>
-                {
-                    btn.UnregisterCallback(_onBtnEnter);
-                    btn.UnregisterCallback(_onBtnLeave);
-                    btn.UnregisterCallback(_onBtnDown);
-                    btn.UnregisterCallback(_onBtnUp);
-                });
-            });
-        }
 
         // ═══════════════════════════════════════════════════════
         //  Manager auto-creation

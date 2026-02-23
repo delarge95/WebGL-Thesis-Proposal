@@ -209,12 +209,6 @@ namespace WebGL.UI.Panels
                 _detailsSheet.RegisterCallback(pd);
                 _detailsSheet.RegisterCallback(pu);
                 AddCleanup(() => { _detailsSheet.UnregisterCallback(pd); _detailsSheet.UnregisterCallback(pu); });
-
-                EventCallback<PointerEnterEvent> pe = evt => InputManager.InputBlocked = true;
-                EventCallback<PointerLeaveEvent> pl = evt => InputManager.InputBlocked = false;
-                _detailsSheet.RegisterCallback(pe);
-                _detailsSheet.RegisterCallback(pl);
-                AddCleanup(() => { _detailsSheet.UnregisterCallback(pe); _detailsSheet.UnregisterCallback(pl); });
             }
 
             // Header click to toggle
@@ -254,16 +248,7 @@ namespace WebGL.UI.Panels
                 });
             }
 
-            // ScrollView blocks camera zoom
-            var sheetScroll = _root.Q<ScrollView>(className: "sheet-scroll");
-            if (sheetScroll != null)
-            {
-                EventCallback<PointerEnterEvent> scrollEnter = evt => InputManager.InputBlocked = true;
-                EventCallback<PointerLeaveEvent> scrollLeave = evt => InputManager.InputBlocked = false;
-                sheetScroll.RegisterCallback(scrollEnter);
-                sheetScroll.RegisterCallback(scrollLeave);
-                AddCleanup(() => { sheetScroll.UnregisterCallback(scrollEnter); sheetScroll.UnregisterCallback(scrollLeave); });
-            }
+            // ScrollView: IsPointerOverUI() handles camera blocking automatically
 
             // Sheet close button
             var sheetCloseBtn = _root.Q<Button>("SheetCloseBtn");
