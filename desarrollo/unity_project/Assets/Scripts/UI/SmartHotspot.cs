@@ -141,10 +141,7 @@ public class SmartHotspot
     private void OnClick(ClickEvent evt)
     {
         evt.StopPropagation();
-        if (SelectionManager.Instance != null)
-        {
-            SelectionManager.Instance.SelectObject(_target, fromHotspot: true);
-        }
+        SelectionManager.Instance?.SelectObject(_target, fromHotspot: true);
     }
 
     // ═══════════════════════════════════════════════

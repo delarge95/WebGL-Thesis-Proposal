@@ -93,19 +93,13 @@ namespace WebGL.Core.Managers
 
             OnItemVerified?.Invoke(item);
 
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlaySuccess();
-            }
+            AudioManager.Instance?.PlaySuccess();
 
             // Check if all complete
             if (IsComplete)
             {
                 OnChecklistComplete?.Invoke();
-                if (NotificationManager.Instance != null)
-                {
-                    NotificationManager.Instance.ShowNotification("✅ All parts verified!");
-                }
+                NotificationManager.Instance?.ShowNotification("✅ All parts verified!");
             }
 
             Debug.Log($"[Checklist] Verified: {item.partName} ({item.verifiedQuantity}/{item.requiredQuantity})");
@@ -153,10 +147,7 @@ namespace WebGL.Core.Managers
                 item.notes = "";
             }
 
-            if (NotificationManager.Instance != null)
-            {
-                NotificationManager.Instance.ShowNotification("Checklist reset");
-            }
+            NotificationManager.Instance?.ShowNotification("Checklist reset");
         }
 
         public List<ChecklistItem> GetPendingItems()

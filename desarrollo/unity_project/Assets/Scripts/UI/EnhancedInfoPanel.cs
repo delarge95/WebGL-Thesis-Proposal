@@ -314,30 +314,26 @@ namespace WebGL.UI
 
         private void OnHideClicked()
         {
-            if (currentPart != null && PartVisibilityManager.Instance != null)
-            {
-                PartVisibilityManager.Instance.HidePart(currentPart);
-            }
-            if (AudioManager.Instance != null) AudioManager.Instance.PlayClick();
+            if (currentPart != null)
+                PartVisibilityManager.Instance?.HidePart(currentPart);
+            AudioManager.Instance?.PlayClick();
         }
 
         private void OnIsolateClicked()
         {
-            if (currentPart != null && PartVisibilityManager.Instance != null)
-            {
-                PartVisibilityManager.Instance.IsolatePart(currentPart);
-            }
-            if (AudioManager.Instance != null) AudioManager.Instance.PlayClick();
+            if (currentPart != null)
+                PartVisibilityManager.Instance?.IsolatePart(currentPart);
+            AudioManager.Instance?.PlayClick();
         }
 
         private void OnFocusClicked()
         {
-            if (currentPart != null && OrbitCameraController.Instance != null)
+            if (currentPart != null)
             {
-                OrbitCameraController.Instance.SetTarget(currentPart.transform);
-                OrbitCameraController.Instance.SetDistance(3f);
+                OrbitCameraController.Instance?.SetTarget(currentPart.transform);
+                OrbitCameraController.Instance?.SetDistance(3f);
             }
-            if (AudioManager.Instance != null) AudioManager.Instance.PlayClick();
+            AudioManager.Instance?.PlayClick();
         }
     }
 }

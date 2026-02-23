@@ -133,10 +133,7 @@ namespace WebGL.UI
             settingsContainer.style.display = DisplayStyle.Flex;
             isVisible = true;
 
-            if (AppStateMachine.Instance != null)
-            {
-                AppStateMachine.Instance.SetState(AppState.Settings);
-            }
+            AppStateMachine.Instance?.SetState(AppState.Settings);
         }
 
         public void Hide()
@@ -145,15 +142,8 @@ namespace WebGL.UI
             settingsContainer.style.display = DisplayStyle.None;
             isVisible = false;
 
-            if (AppStateMachine.Instance != null)
-            {
-                AppStateMachine.Instance.SetState(AppState.Exploration);
-            }
-
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayClick();
-            }
+            AppStateMachine.Instance?.SetState(AppState.Exploration);
+            AudioManager.Instance?.PlayClick();
         }
 
         public void Toggle()

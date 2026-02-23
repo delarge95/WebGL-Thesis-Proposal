@@ -44,10 +44,7 @@ namespace WebGL.Core.Content
             {
                 // Auto-expand to default
                 SetExplosionFactor(0.5f);
-                if (AudioManager.Instance != null)
-                {
-                    AudioManager.Instance.PlayExplosionSound();
-                }
+                AudioManager.Instance?.PlayExplosionSound();
             }
             else
             {

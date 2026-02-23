@@ -46,8 +46,7 @@ namespace WebGL.UI.Panels
                 
                 System.Action onClick = () =>
                 {
-                    if (ViewModeManager.Instance != null)
-                        ViewModeManager.Instance.SetViewMode(mode);
+                    ViewModeManager.Instance?.SetViewMode(mode);
                 };
                 
                 btn.clicked += onClick;

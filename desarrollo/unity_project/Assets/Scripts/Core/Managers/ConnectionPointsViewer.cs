@@ -76,10 +76,7 @@ namespace WebGL.Core.Managers
             CreateMarkers();
             CreateConnectionLines();
 
-            if (NotificationManager.Instance != null)
-            {
-                NotificationManager.Instance.ShowNotification("Showing connection points");
-            }
+            NotificationManager.Instance?.ShowNotification("Showing connection points");
         }
 
         public void HideConnections()
