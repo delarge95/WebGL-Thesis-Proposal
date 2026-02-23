@@ -223,7 +223,7 @@ namespace WebGL.UI.Panels
         // ═══════════════════════════════════════════════════════
 
         /// <summary>Activates the specified mode, showing its container and hiding others.</summary>
-        public void ActivateMode(ActiveMode mode)
+        private void ActivateMode(ActiveMode mode)
         {
             _activeMode = mode;
             CloseAllMenus();
