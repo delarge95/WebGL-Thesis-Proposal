@@ -51,6 +51,7 @@ Shader "WebGL/SolidColor"
             struct Varyings
             {
                 float4 positionCS : SV_POSITION;
+                float3 positionWS : TEXCOORD0;
             };
 
             CBUFFER_START(UnityPerMaterial)
@@ -63,6 +64,10 @@ Shader "WebGL/SolidColor"
                 half _OutlineWidth;
             CBUFFER_END
 
+            // Global clipping (set by CrossSectionManager)
+            float4 _GlobalClipPlane;
+            float _GlobalClipEnabled;
+
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
@@ -70,8 +75,10 @@ Shader "WebGL/SolidColor"
                 #ifdef _OUTLINE_ON
                 float3 positionOS = IN.positionOS.xyz + IN.normalOS * _OutlineWidth;
                 OUT.positionCS = TransformObjectToHClip(positionOS);
+                OUT.positionWS = TransformObjectToWorld(positionOS);
                 #else
                 OUT.positionCS = float4(0, 0, 0, 0); // Degenerate triangle
+                OUT.positionWS = float3(0, 0, 0);
                 #endif
 
                 return OUT;
@@ -79,6 +86,13 @@ Shader "WebGL/SolidColor"
 
             half4 frag(Varyings IN) : SV_Target
             {
+                // Cross-section clipping
+                if (_GlobalClipEnabled > 0.5)
+                {
+                    float clipDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
+                    if (clipDist < 0) discard;
+                }
+
                 return _OutlineColor;
             }
             ENDHLSL
@@ -127,6 +141,10 @@ Shader "WebGL/SolidColor"
                 half _OutlineWidth;
             CBUFFER_END
 
+            // Global clipping (set by CrossSectionManager)
+            float4 _GlobalClipPlane;
+            float _GlobalClipEnabled;
+
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
@@ -141,6 +159,13 @@ Shader "WebGL/SolidColor"
 
             half4 frag(Varyings IN) : SV_Target
             {
+                // Cross-section clipping
+                if (_GlobalClipEnabled > 0.5)
+                {
+                    float clipDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
+                    if (clipDist < 0) discard;
+                }
+
                 half3 normalWS = normalize(IN.normalWS);
                 half3 viewDirWS = GetWorldSpaceNormalizeViewDir(IN.positionWS);
                 
@@ -196,21 +221,34 @@ Shader "WebGL/SolidColor"
             struct Varyings
             {
                 float4 positionCS : SV_POSITION;
+                float3 positionWS : TEXCOORD0;
             };
 
             float3 _LightDirection;
+
+            // Global clipping (set by CrossSectionManager)
+            float4 _GlobalClipPlane;
+            float _GlobalClipEnabled;
 
             Varyings ShadowVert(Attributes IN)
             {
                 Varyings OUT;
                 float3 positionWS = TransformObjectToWorld(IN.positionOS.xyz);
                 float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
+                OUT.positionWS = positionWS;
                 OUT.positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, _LightDirection));
                 return OUT;
             }
 
             half4 ShadowFrag(Varyings IN) : SV_Target
             {
+                // Cross-section clipping
+                if (_GlobalClipEnabled > 0.5)
+                {
+                    float clipDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
+                    if (clipDist < 0) discard;
+                }
+
                 return 0;
             }
             ENDHLSL

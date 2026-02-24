@@ -434,8 +434,8 @@
 
 .cross-section-axis-group {
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    flex-wrap: nowrap;
+    justify-content: center;
     width: 344px;
     align-self: center;
     margin-right: 0;
@@ -443,12 +443,12 @@
 }
 
 .cross-section-axis-btn {
-    width: 80px;
-    height: 80px;
-    margin: 4px;
+    width: 72px;
+    height: 48px;
+    margin: 0 4px;
     
     background-color: rgba(255, 255, 255, 0.04);
-    border-radius: 16px;
+    border-radius: 12px;
     border-width: 0;
     
     flex-direction: column;

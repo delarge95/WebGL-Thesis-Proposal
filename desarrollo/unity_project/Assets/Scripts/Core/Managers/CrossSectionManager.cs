@@ -1,6 +1,5 @@
 using UnityEngine;
 using WebGL.Core.Utils;
-using System.Collections.Generic;
 
 namespace WebGL.Core.Managers
 {
@@ -13,9 +12,9 @@ namespace WebGL.Core.Managers
 
     /// <summary>
     /// Manages cross-section clipping of all renderers.
-    /// When enabled, swaps all part materials to ClippableLit with _CLIP_ENABLED keyword,
-    /// and sets global shader properties for the clip plane.
-    /// When disabled, restores original materials.
+    /// Sets global shader properties (_GlobalClipPlane / _GlobalClipEnabled) that all
+    /// WebGL/* shaders read to discard fragments on the clipped side.
+    /// No material swap needed — clipping is purely global-property driven.
     /// </summary>
     public class CrossSectionManager : Singleton<CrossSectionManager>
     {
@@ -28,21 +27,14 @@ namespace WebGL.Core.Managers
         [Header("Visuals")]
         [SerializeField] private Color planeColor = new Color(1f, 0.5f, 0f, 0.3f);
         [SerializeField] private bool showPlane = true;
-        [SerializeField] private Color clipEdgeColor = new Color(1f, 0.5f, 0f, 1f);
-        [SerializeField] private float clipEdgeWidth = 0.005f;
 
         [Header("References")]
         [SerializeField] private Transform targetObject;
 
-        // ── Cached renderers & material backup ──
-        private List<Renderer> partRenderers = new List<Renderer>();
-        private Dictionary<Renderer, Material[]> savedMaterials = new Dictionary<Renderer, Material[]>();
-
         private Vector4 clipPlane;
         private GameObject planeVisual;
-        private Shader clippableShader;
 
-        // Global property IDs (must match ClippableLit.shader globals)
+        // Global property IDs (must match all WebGL/* shaders)
         private static readonly int GlobalClipPlaneId = Shader.PropertyToID("_GlobalClipPlane");
         private static readonly int GlobalClipEnabledId = Shader.PropertyToID("_GlobalClipEnabled");
 
@@ -56,35 +48,20 @@ namespace WebGL.Core.Managers
 
         private void Start()
         {
-            clippableShader = Shader.Find("WebGL/ClippableLit");
-            if (clippableShader == null)
-                Debug.LogError("[CrossSectionManager] WebGL/ClippableLit shader not found!");
-
-            CacheRenderers();
+            FindTargetObject();
             CreatePlaneVisual();
-            UpdateClipPlane();
+            // Ensure clipping starts disabled
+            ClearClipPlane();
         }
 
-        private void CacheRenderers()
+        private void FindTargetObject()
         {
-            partRenderers.Clear();
-
             if (targetObject == null)
             {
                 var parts = FindObjectsByType<WebGL.Core.Content.ExplodablePart>(FindObjectsSortMode.None);
                 if (parts.Length > 0)
                     targetObject = parts[0].transform.root;
             }
-
-            // Cache only part renderers (not the plane visual, skybox, etc.)
-            var parts2 = FindObjectsByType<WebGL.Core.Content.ExplodablePart>(FindObjectsSortMode.None);
-            foreach (var part in parts2)
-            {
-                var r = part.GetComponent<Renderer>();
-                if (r != null) partRenderers.Add(r);
-            }
-
-            Debug.Log($"[CrossSectionManager] Cached {partRenderers.Count} part renderers.");
         }
 
         private void CreatePlaneVisual()
@@ -125,31 +102,23 @@ namespace WebGL.Core.Managers
 
         public void EnableCrossSection()
         {
-            if (clippableShader == null)
-            {
-                clippableShader = Shader.Find("WebGL/ClippableLit");
-                if (clippableShader == null) { Debug.LogError("[CrossSection] Shader missing!"); return; }
-            }
-
-            // Re-cache if needed
-            if (partRenderers.Count == 0) CacheRenderers();
+            if (targetObject == null) FindTargetObject();
 
             isEnabled = true;
-            SwapToClippableMaterials();
+            UpdateClipPlane();
+            ApplyClipPlane();
 
             if (planeVisual != null && showPlane)
                 planeVisual.SetActive(true);
 
-            ApplyClipPlane();
             AudioManager.Instance?.PlayClick();
-            Debug.Log("[CrossSection] Enabled");
+            Debug.Log("[CrossSection] Enabled (global clip)");
         }
 
         public void DisableCrossSection()
         {
             isEnabled = false;
             ClearClipPlane();
-            RestoreOriginalMaterials();
 
             if (planeVisual != null)
                 planeVisual.SetActive(false);
@@ -180,71 +149,6 @@ namespace WebGL.Core.Managers
         {
             invertDirection = inverted;
             UpdateClipPlane();
-        }
-
-        // ═══════════════════════════════════════════════════════
-        //  Material Swap — makes all parts clippable
-        // ═══════════════════════════════════════════════════════
-
-        private void SwapToClippableMaterials()
-        {
-            savedMaterials.Clear();
-
-            foreach (var renderer in partRenderers)
-            {
-                if (renderer == null) continue;
-
-                // Save current materials
-                savedMaterials[renderer] = renderer.sharedMaterials;
-
-                // Create clippable copies
-                var origMats = renderer.sharedMaterials;
-                var newMats = new Material[origMats.Length];
-
-                for (int i = 0; i < origMats.Length; i++)
-                {
-                    var orig = origMats[i];
-                    var clipMat = new Material(clippableShader);
-                    clipMat.name = (orig != null ? orig.name : "Unknown") + "_Clippable";
-
-                    // Copy base properties from original
-                    if (orig != null)
-                    {
-                        if (orig.HasProperty("_BaseMap"))
-                            clipMat.SetTexture("_BaseMap", orig.GetTexture("_BaseMap"));
-                        if (orig.HasProperty("_BaseColor"))
-                            clipMat.SetColor("_BaseColor", orig.GetColor("_BaseColor"));
-                        else if (orig.HasProperty("_Color"))
-                            clipMat.SetColor("_BaseColor", orig.GetColor("_Color"));
-                        if (orig.HasProperty("_Metallic"))
-                            clipMat.SetFloat("_Metallic", orig.GetFloat("_Metallic"));
-                        if (orig.HasProperty("_Smoothness"))
-                            clipMat.SetFloat("_Smoothness", orig.GetFloat("_Smoothness"));
-                        if (orig.HasProperty("_BumpMap"))
-                            clipMat.SetTexture("_BumpMap", orig.GetTexture("_BumpMap"));
-                    }
-
-                    // Enable clipping
-                    clipMat.EnableKeyword("_CLIP_ENABLED");
-                    clipMat.SetFloat("_ClipEnabled", 1f);
-                    clipMat.SetColor("_ClipColor", clipEdgeColor);
-                    clipMat.SetFloat("_ClipEdgeWidth", clipEdgeWidth);
-
-                    newMats[i] = clipMat;
-                }
-
-                renderer.materials = newMats;
-            }
-        }
-
-        private void RestoreOriginalMaterials()
-        {
-            foreach (var kvp in savedMaterials)
-            {
-                if (kvp.Key != null)
-                    kvp.Key.materials = kvp.Value;
-            }
-            savedMaterials.Clear();
         }
 
         // ═══════════════════════════════════════════════════════
@@ -306,11 +210,7 @@ namespace WebGL.Core.Managers
 
         private void OnDisable()
         {
-            if (isEnabled)
-            {
-                ClearClipPlane();
-                RestoreOriginalMaterials();
-            }
+            ClearClipPlane();
         }
     }
 }

@@ -69,6 +69,10 @@ Shader "WebGL/Wireframe"
                 half _DepthFadeDistance;
             CBUFFER_END
 
+            // Global clipping (set by CrossSectionManager)
+            float4 _GlobalClipPlane;
+            float _GlobalClipEnabled;
+
             v2g vert(Attributes IN)
             {
                 v2g OUT;
@@ -111,6 +115,13 @@ Shader "WebGL/Wireframe"
 
             half4 frag(g2f IN) : SV_Target
             {
+                // Cross-section clipping
+                if (_GlobalClipEnabled > 0.5)
+                {
+                    float clipDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
+                    if (clipDist < 0) discard;
+                }
+
                 // Find minimum distance to edge
                 float minDist = min(min(IN.dist.x, IN.dist.y), IN.dist.z);
                 
@@ -177,8 +188,9 @@ Shader "WebGL/Wireframe"
             struct Varyings
             {
                 float4 positionCS : SV_POSITION;
-                float3 normalWS : TEXCOORD0;
-                float3 viewDirWS : TEXCOORD1;
+                float3 positionWS : TEXCOORD0;
+                float3 normalWS : TEXCOORD1;
+                float3 viewDirWS : TEXCOORD2;
             };
 
             CBUFFER_START(UnityPerMaterial)
@@ -189,17 +201,29 @@ Shader "WebGL/Wireframe"
                 half _DepthFadeDistance;
             CBUFFER_END
 
+            // Global clipping (set by CrossSectionManager)
+            float4 _GlobalClipPlane;
+            float _GlobalClipEnabled;
+
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
                 OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+                OUT.positionWS = TransformObjectToWorld(IN.positionOS.xyz);
                 OUT.normalWS = TransformObjectToWorldNormal(IN.normalOS);
-                OUT.viewDirWS = GetWorldSpaceNormalizeViewDir(TransformObjectToWorld(IN.positionOS.xyz));
+                OUT.viewDirWS = GetWorldSpaceNormalizeViewDir(OUT.positionWS);
                 return OUT;
             }
 
             half4 frag(Varyings IN) : SV_Target
             {
+                // Cross-section clipping
+                if (_GlobalClipEnabled > 0.5)
+                {
+                    float clipDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
+                    if (clipDist < 0) discard;
+                }
+
                 // Fallback: use fresnel for edge detection
                 half3 normalWS = normalize(IN.normalWS);
                 half3 viewDirWS = normalize(IN.viewDirWS);
