@@ -411,7 +411,7 @@ namespace WebGL.UI.Panels
         }
 
         /// <summary>Toggles slider visibility. Called by Explode button click.
-        /// When hiding, resets slider to 0 to exit ExplodedView.</summary>
+        /// Hiding the slider does NOT reset explosion — the view is preserved.</summary>
         public void ToggleSliderVisibility()
         {
             if (_sliderContainer == null) return;
@@ -420,21 +420,13 @@ namespace WebGL.UI.Panels
 
             if (isCurrentlyVisible)
             {
-                // Hiding slider → reset explosion to 0
-                if (_explosionSlider != null)
-                    _explosionSlider.value = 0f;
+                // Just hide slider — preserve current explosion state
                 _sliderContainer.AddToClassList("slider-hidden");
-                ShowCategoryMenu(false);
-                _toolExplodeBtn?.RemoveFromClassList("mode-action-btn--active");
             }
             else
             {
-                // Showing slider → start at 0, user moves to activate
-                if (_explosionSlider != null)
-                    _explosionSlider.SetValueWithoutNotify(0f);
+                // Show slider — restore to current explosion value (don't reset)
                 _sliderContainer.RemoveFromClassList("slider-hidden");
-                ShowCategoryMenu(true);
-                _toolExplodeBtn?.AddToClassList("mode-action-btn--active");
             }
         }
 

@@ -109,7 +109,7 @@ Shader "WebGL/ClippableLit"
                 // Clipping
                 #if defined(_CLIP_ENABLED)
                 float4 clipPlane = _GlobalClipEnabled > 0.5 ? _GlobalClipPlane : _ClipPlane;
-                float dist = dot(IN.positionWS, clipPlane.xyz) - clipPlane.w;
+                float dist = dot(IN.positionWS, clipPlane.xyz) + clipPlane.w;
                 
                 if (dist < 0)
                     discard;
@@ -171,7 +171,7 @@ Shader "WebGL/ClippableLit"
             #pragma vertex ShadowVert
             #pragma fragment ShadowFrag
 
-            #pragma shader_feature_local _CLIP_ENABLED
+            #pragma multi_compile_local _ _CLIP_ENABLED
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
@@ -211,7 +211,7 @@ Shader "WebGL/ClippableLit"
             {
                 #if defined(_CLIP_ENABLED)
                 float4 clipPlane = _GlobalClipEnabled > 0.5 ? _GlobalClipPlane : _ClipPlane;
-                float dist = dot(IN.positionWS, clipPlane.xyz) - clipPlane.w;
+                float dist = dot(IN.positionWS, clipPlane.xyz) + clipPlane.w;
                 if (dist < 0)
                     discard;
                 #endif
