@@ -144,13 +144,11 @@
     padding-bottom: 16px;
 
     /* Smooth shift for sheet */
-    /* Smooth shift for sheet */
     transition-property: bottom;
     transition-duration: 0.3s;
     transition-timing-function: ease-out;
 }
 
-/* Actions Row — 16px spacing between buttons (8pt grid) */
 /* Actions Row — The Unified Glass Pill */
 .actions-row {
     flex-direction: row;
@@ -742,19 +740,12 @@
     margin-top: 8px;
 }
 
-/* UI Shift on Sheet Expand — moves buttons up above the sheet */
-/* UI Shift on Sheet Expand — moves buttons up above the sheet */
+/* UI Shift on Sheet Expand — moves bottom bar up above the sheet */
 .ui-shifted {
     bottom: 46%; /* Buttons just above info panel top edge */
     /* No translate needed, we animate bottom property on .bottom-bar */
 }
 
-/* ────────────────────────────────────────────────
-   Category Menu (Pop-up Pill Bar)
-   ──────────────────────────────────────────────── */
-/* ────────────────────────────────────────────────
-   Unified Grid Submenus (Shader, Category, etc.)
-   ──────────────────────────────────────────────── */
 /* ────────────────────────────────────────────────
    Unified Grid Submenus (Shader, Category, etc.)
    ──────────────────────────────────────────────── */
