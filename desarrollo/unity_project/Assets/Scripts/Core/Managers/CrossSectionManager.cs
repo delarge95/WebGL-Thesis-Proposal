@@ -25,7 +25,7 @@ namespace WebGL.Core.Managers
         [SerializeField] private bool invertDirection = false;
 
         [Header("Visuals")]
-        [SerializeField] private Color planeColor = new Color(1f, 0.5f, 0f, 0.3f);
+        [SerializeField] private Color planeColor = new Color(0.4f, 0.7f, 1f, 0.10f);
         [SerializeField] private bool showPlane = true;
 
         [Header("References")]
