@@ -108,7 +108,7 @@
 
 .header-title {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.5);
     -unity-font-style: bold;
     letter-spacing: 4px;
 }
@@ -159,8 +159,8 @@
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
     border-radius: 40px;
-    padding: 8px 24px;
-    min-width: 420px;
+    padding: 8px 32px;
+    min-width: auto;
     
     margin-bottom: 16px;
     
@@ -208,51 +208,55 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100px;
-    height: 60px;
-    margin-left: 6px;
-    margin-right: 6px;
+    width: 64px;
+    height: 64px;
+    margin-left: 16px;
+    margin-right: 16px;
     
     background-color: transparent;
-    border-radius: 14px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.04);
+    border-radius: 0;
+    border-width: 0;
+    border-color: transparent;
     
-    transition-property: background-color, scale, border-color, opacity;
+    transition-property: scale, opacity;
     transition-duration: 0.25s;
     transition-timing-function: ease-out;
 }
 
 .mode-btn:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.15);
-    scale: 1.05;
+    background-color: transparent;
+    border-color: transparent;
+    scale: 1.1;
 }
 
 .mode-btn:active {
-    scale: 0.95;
-    background-color: rgba(255, 255, 255, 0.15);
+    scale: 0.92;
+    background-color: transparent;
 }
 
 .mode-btn--active {
-    background-color: rgba(0, 170, 255, 0.15);
-    border-color: rgba(0, 170, 255, 0.5);
+    background-color: transparent;
+    border-width: 0;
+}
+
+.mode-btn--active .mode-btn-icon {
+    -unity-background-tint-color: rgba(0, 170, 255, 1);
 }
 
 .mode-btn--active:hover {
-    background-color: rgba(0, 170, 255, 0.22);
-    border-color: rgba(0, 170, 255, 0.6);
+    background-color: transparent;
+    border-color: transparent;
 }
 
 .mode-btn-icon {
-    width: 22px;
-    height: 22px;
+    width: 28px;
+    height: 28px;
     -unity-background-scale-mode: scale-to-fit;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
 }
 
 .mode-btn-label {
-    font-size: 10px;
+    font-size: 12px;
     color: rgba(255, 255, 255, 0.5);
     letter-spacing: 1px;
     -unity-font-style: bold;
@@ -306,11 +310,10 @@
     
     width: 100%;
     
-    background-color: rgba(10, 10, 18, 0.75);
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.06);
-    border-radius: 14px;
-    padding: 16px;
+    background-color: transparent;
+    border-width: 0;
+    border-radius: 0;
+    padding: 8px 0;
     
     align-items: center;
     margin-bottom: 8px;
@@ -327,63 +330,61 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    padding-left: 6px;
-    padding-right: 6px;
+    padding: 8px 0;
     margin-bottom: 8px;
-    background-color: rgba(10, 10, 18, 0.8);
-    border-radius: 16px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.06);
+    background-color: transparent;
+    border-radius: 0;
+    border-width: 0;
 }
 
 .mode-action-btn {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 72px;
+    width: 64px;
     height: 56px;
-    margin-left: 4px;
-    margin-right: 4px;
-    background-color: rgba(255, 255, 255, 0.04);
-    border-radius: 12px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.05);
-    transition-property: background-color, scale, border-color;
+    margin-left: 12px;
+    margin-right: 12px;
+    background-color: transparent;
+    border-radius: 0;
+    border-width: 0;
+    transition-property: scale;
     transition-duration: 0.2s;
     transition-timing-function: ease-out;
 }
 
 .mode-action-btn:hover {
-    background-color: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.2);
-    scale: 1.05;
+    background-color: transparent;
+    scale: 1.1;
 }
 
 .mode-action-btn:active {
-    scale: 0.95;
-    background-color: rgba(255, 255, 255, 0.18);
+    scale: 0.92;
+    background-color: transparent;
 }
 
 .mode-action-btn--active {
-    background-color: rgba(0, 170, 255, 0.2);
-    border-color: rgba(0, 170, 255, 0.5);
+    background-color: transparent;
+    border-width: 0;
+}
+
+.mode-action-btn--active .mode-action-icon {
+    -unity-background-tint-color: rgba(0, 170, 255, 1);
 }
 
 .mode-action-btn--active:hover {
-    background-color: rgba(0, 170, 255, 0.3);
+    background-color: transparent;
 }
 
 .mode-action-icon {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     -unity-background-scale-mode: scale-to-fit;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
 }
 
 .mode-action-label {
-    font-size: 9px;
+    font-size: 12px;
     color: rgba(255, 255, 255, 0.5);
     letter-spacing: 1px;
     -unity-font-style: bold;
@@ -408,21 +409,23 @@
 }
 
 .cross-section-row {
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
 }
 
 .cross-section-toggle {
     min-width: 80px;
-    margin-right: 16px;
+    margin-right: 0;
+    margin-bottom: 8px;
 }
 
 .cross-section-controls {
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    flex-grow: 1;
+    flex-grow: 0;
+    width: 100%;
     
     transition-property: opacity;
     transition-duration: 0.25s;
@@ -431,32 +434,35 @@
 
 .cross-section-axis-group {
     flex-direction: row;
-    align-items: center;
-    margin-right: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 344px;
+    align-self: center;
+    margin-right: 0;
+    margin-bottom: 8px;
 }
 
 .cross-section-axis-btn {
-    width: 34px;
-    height: 34px;
-    margin-left: 3px;
-    margin-right: 3px;
+    width: 80px;
+    height: 80px;
+    margin: 4px;
     
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    border-width: 0;
     
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     
-    transition-property: background-color, border-color, scale;
+    transition-property: background-color, scale;
     transition-duration: 0.2s;
     transition-timing-function: ease-out;
 }
 
 .cross-section-axis-btn:hover {
-    background-color: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.08);
+    scale: 1.04;
 }
 
 .cross-section-axis-btn:active {
@@ -464,12 +470,12 @@
 }
 
 .cross-section-axis-btn.submenu-card--active {
-    background-color: rgba(0, 170, 255, 0.15);
-    border-color: rgba(0, 170, 255, 0.5);
+    background-color: rgba(0, 170, 255, 0.12);
+    border-width: 0;
 }
 
 .cross-section-axis-label {
-    font-size: 12px;
+    font-size: 14px;
     color: rgba(255, 255, 255, 0.6);
     -unity-font-style: bold;
     -unity-text-align: middle-center;
@@ -480,10 +486,15 @@
 }
 
 .cross-section-slider {
-    flex-grow: 1;
+    width: 344px;
+    height: 40px;
     min-height: 40px;
+    align-self: center;
     margin: 0;
-    padding: 0;
+    padding: 0 16px;
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    flex-grow: 0;
 }
 
 .icon-cross-section { background-image: resource("UI/Icons/icon_cross_section"); }
@@ -514,8 +525,8 @@
 
 /* Small Icon Button (Top Bar — Reset, Home, Hotspot) */
 .icon-button-small {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     background-color: rgba(255, 255, 255, 0.04);
     border-radius: 50%;
     border-width: 1px;
@@ -717,8 +728,8 @@
 
 /* Sheet Close Button */
 .sheet-close-btn {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.05);
     border-width: 1px;
@@ -726,6 +737,7 @@
     color: rgba(255, 255, 255, 0.5);
     font-size: 14px;
     -unity-text-align: middle-center;
+    padding: 4px;
     transition-duration: 0.2s;
 }
 
@@ -779,43 +791,45 @@
 }
 
 .submenu-title {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.3);
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
     letter-spacing: 2px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     -unity-font-style: bold;
 }
 
 .submenu-grid {
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     padding-left: 0;
-    width: 100%;
+    width: 344px;
+    align-self: center;
 }
 
 /* Card Item (Button) */
 .submenu-card {
-    width: 110px;
-    height: 88px;
+    width: 80px;
+    height: 80px;
     margin: 4px;
     
     background-color: rgba(255, 255, 255, 0.04);
-    border-radius: 12px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    border-width: 0;
+    border-color: transparent;
     
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     
-    transition-property: background-color, border-color, scale;
+    transition-property: background-color, scale;
     transition-duration: 0.15s;
 }
 
 .submenu-card:hover {
     background-color: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-    scale: 1.02;
+    border-width: 0;
+    scale: 1.04;
 }
 
 .submenu-card:active {
@@ -824,23 +838,26 @@
 }
 
 .submenu-card--active {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(0, 170, 255, 0.12);
+    border-width: 0;
 }
 
 .submenu-icon {
-    width: 24px;
-    height: 24px;
-    margin-bottom: 6px;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.08);
     background-image: resource("UI/Icons/icon_view"); /* Default fallback */
     -unity-background-scale-mode: scale-to-fit;
     opacity: 0.7;
 }
 
 .submenu-label {
-    font-size: 10px;
+    font-size: 12px;
     color: rgba(255, 255, 255, 0.6);
     letter-spacing: 0.5px;
+    -unity-text-align: middle-center;
 }
 
 .submenu-card--active .submenu-label {
@@ -849,6 +866,7 @@
 }
 
 .submenu-card--active .submenu-icon {
+    background-color: rgba(0, 170, 255, 0.2);
     opacity: 1;
 }
 
@@ -897,14 +915,14 @@
     translate: 0 0;
     margin-left: 0;
 
-    width: 100%;
-    height: auto;
+    width: 344px;
+    height: 40px;
+    align-self: center;
 
-    background-color: rgba(10, 10, 18, 0.75);
-    border-radius: 14px;
-    padding: 12px 20px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    padding: 0 16px;
+    border-width: 0;
 
     flex-direction: row;
     align-items: center;
@@ -929,10 +947,10 @@
 /* slider-container--shifted-up removed — menus inside BottomBar now */
 
 .slider-label {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.35);
-    letter-spacing: 2px;
-    margin-right: 16px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+    margin-right: 12px;
     -unity-font-style: bold;
     white-space: nowrap;
     flex-shrink: 0;
@@ -964,14 +982,14 @@
 }
 
 .glass-slider .unity-base-slider__dragger {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background-color: rgb(255, 255, 255);
     border-width: 2px;
     border-color: rgba(255, 255, 255, 0.5);
     top: 50%;
-    margin-top: -12px;
+    margin-top: -16px;
     transition-property: scale, background-color;
     transition-duration: 0.15s;
 }
@@ -1279,20 +1297,33 @@
 /* Old shader-menu and env-panel styles removed (replaced by .submenu-container) */
 
 .env-slider-group {
-    width: 100%;
-    margin-top: 16px;
-    padding: 0 6px;
+    width: 344px;
+    height: 40px;
+    align-self: center;
+    margin-top: 8px;
+    padding: 0 16px;
+
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    border-width: 0;
+
+    flex-direction: row;
+    align-items: center;
 }
 
 .env-slider-label {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.4);
-    letter-spacing: 2px;
-    margin-bottom: 4px;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+    margin-right: 12px;
+    margin-bottom: 0;
+    -unity-font-style: bold;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .env-slider {
-    width: 100%; /* User Req 5: Full width */
+    flex-grow: 1;
     min-height: 32px;
 }
 

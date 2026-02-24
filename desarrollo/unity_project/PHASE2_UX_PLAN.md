@@ -14,14 +14,14 @@
 
 Todo el trabajo de la fase anterior DEBE preservarse:
 
-| Mecanismo                        | Qué protege                                    | Regla                                                      |
-| -------------------------------- | ---------------------------------------------- | ---------------------------------------------------------- |
-| `AddCleanup()` + `Dispose()`    | Memory leak prevention                         | **TODO** callback registrado DEBE tener su `AddCleanup()`  |
-| `RegisterButtonInputBlockers()` | Mecanismo dual proactivo/reactivo de input      | **NO ELIMINAR** — es arquitecturalmente necesario          |
-| `InputManager.InputBlocked`     | Guard proactiva en PointerEnter/Leave           | **MANTENER** en todos los componentes UI interactivos      |
-| `IsPointerOverUI()` + Panel.Pick| Guard reactiva por frame                        | **NO MODIFICAR** InputManager.cs                           |
-| `RuntimePanelUtils.ScreenToPanel`| Conversión correcta de coordenadas              | **NO REINTRODUCIR** conversiones manuales                  |
-| `EventBus` pub/sub              | Desacoplamiento de eventos                      | Usar `EventBus.Publish()` para nuevos eventos              |
+| Mecanismo                         | Qué protege                                | Regla                                                     |
+| --------------------------------- | ------------------------------------------ | --------------------------------------------------------- |
+| `AddCleanup()` + `Dispose()`      | Memory leak prevention                     | **TODO** callback registrado DEBE tener su `AddCleanup()` |
+| `RegisterButtonInputBlockers()`   | Mecanismo dual proactivo/reactivo de input | **NO ELIMINAR** — es arquitecturalmente necesario         |
+| `InputManager.InputBlocked`       | Guard proactiva en PointerEnter/Leave      | **MANTENER** en todos los componentes UI interactivos     |
+| `IsPointerOverUI()` + Panel.Pick  | Guard reactiva por frame                   | **NO MODIFICAR** InputManager.cs                          |
+| `RuntimePanelUtils.ScreenToPanel` | Conversión correcta de coordenadas         | **NO REINTRODUCIR** conversiones manuales                 |
+| `EventBus` pub/sub                | Desacoplamiento de eventos                 | Usar `EventBus.Publish()` para nuevos eventos             |
 
 ### 📋 Workflow por Iteración
 
@@ -35,6 +35,7 @@ Todo el trabajo de la fase anterior DEBE preservarse:
 ### 📝 Changelog
 
 Se generará y mantendrá `PHASE2_CHANGELOG.md` con documentación detallada de cada iteración:
+
 - Archivos modificados/creados/eliminados
 - Cambios específicos con snippets de código clave
 - Decisiones arquitectónicas y su justificación
@@ -54,6 +55,7 @@ Se generará y mantendrá `PHASE2_CHANGELOG.md` con documentación detallada de 
 ```
 
 **Problemas:**
+
 - 5 botones sin jerarquía = carga cognitiva alta
 - `InfoBtn` es redundante (se hace click en piezas directamente)
 - No hay agrupación lógica de herramientas
@@ -87,6 +89,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 #### Tareas:
 
 1. **Agregar `Analyze` y `Studio` al enum `AppState`:**
+
    ```csharp
    public enum AppState
    {
@@ -97,12 +100,14 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    ```
 
 2. **Actualizar `CanTransitionTo()` para permitir transiciones:**
+
    - Desde `Exploration` → `Analyze`, `Studio` (y viceversa)
    - Desde `Analyze` → `Studio` (y viceversa) — cambio directo entre modos
    - Desde `Analyze`/`Studio` → `ExplodedView`, `FocusMode` — permitido
    - `Loading`/`Intro` mantienen restricciones existentes
 
 3. **Agregar convenience methods:**
+
    ```csharp
    public void EnterAnalyze() => SetState(AppState.Analyze);
    public void EnterStudio() => SetState(AppState.Studio);
@@ -121,6 +126,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    ```
 
 #### Verificación:
+
 - [ ] 0 errores de compilación
 - [ ] Estados existentes no afectados
 - [ ] `CanTransitionTo()` permite Exploration ↔ Analyze ↔ Studio
@@ -136,6 +142,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 #### Tareas:
 
 1. **Reemplazar `.actions-row` con 3 botones de modo:**
+
    ```xml
    <ui:VisualElement class="actions-row" picking-mode="Ignore">
        <ui:Button name="ModeExploreBtn" class="icon-button mode-btn" tooltip="Explore Mode">
@@ -151,6 +158,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    ```
 
 2. **Crear `AnalyzeModeContainer`** — envuelve herramientas técnicas:
+
    ```xml
    <ui:VisualElement name="AnalyzeModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
        <!-- Se mueven aquí: ShaderMenu, CategoryMenu, SliderContainer -->
@@ -159,6 +167,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    ```
 
 3. **Crear `StudioModeContainer`** — envuelve herramientas de entorno:
+
    ```xml
    <ui:VisualElement name="StudioModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
        <!-- Se mueve aquí: EnvPanel -->
@@ -166,6 +175,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    ```
 
 4. **Agregar estilos USS para el sistema de modos:**
+
    - `.mode-btn` — estilo base para botones de modo (más anchos que `icon-button`)
    - `.mode-btn--active` — estado activo (highlight, underline o glow)
    - `.mode-container` — contenedor de modo (position: absolute, bottom)
@@ -176,12 +186,14 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    - El C# que los referencia se actualizará en iteraciones posteriores
 
 #### Decisiones de diseño:
+
 - Los popup menus (ShaderMenu, CategoryMenu, EnvPanel) se **mueven DENTRO** de sus mode containers
 - Dejan de ser popups flotantes y pasan a ser **contenido contextual del modo**
 - El `PopupBlocker` puede mantenerse para el modo Analyze (click fuera cierra menús internos)
 - El `SliderContainer` (explosión) se mueve a AnalyzeModeContainer
 
 #### Verificación:
+
 - [ ] UXML válido (no rompe Unity)
 - [ ] Los 3 botones de modo renderizan correctamente
 - [ ] Mode containers están ocultos por defecto
@@ -199,13 +211,13 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 1. **Renombrar** `UIPopupController.cs` → `UIModeController.cs` (y clase interna)
 
 2. **Cambiar responsabilidad principal:**
-   
-   | Antes (UIPopupController)                          | Después (UIModeController)                              |
-   | -------------------------------------------------- | ------------------------------------------------------- |
-   | Toggle individual de ShaderMenu, CategoryMenu, Env | Activar/desactivar mode containers completos            |
-   | Stacking dinámico con `RepositionPopups()`          | Show/hide por modo (sin stacking entre modos)           |
-   | Mutual exclusion entre popups individuales          | Mutual exclusion entre modos (solo 1 activo)            |
-   | PopupBlocker para cerrar menús                     | PopupBlocker para click fuera del modo Analyze          |
+
+   | Antes (UIPopupController)                          | Después (UIModeController)                     |
+   | -------------------------------------------------- | ---------------------------------------------- |
+   | Toggle individual de ShaderMenu, CategoryMenu, Env | Activar/desactivar mode containers completos   |
+   | Stacking dinámico con `RepositionPopups()`         | Show/hide por modo (sin stacking entre modos)  |
+   | Mutual exclusion entre popups individuales         | Mutual exclusion entre modos (solo 1 activo)   |
+   | PopupBlocker para cerrar menús                     | PopupBlocker para click fuera del modo Analyze |
 
 3. **API del nuevo `UIModeController`:**
 
@@ -213,29 +225,30 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    public class UIModeController
    {
        // Constructor recibe: root, analyzeModeContainer, studioModeContainer, popupBlocker
-       
+
        public void ActivateMode(AppState mode)    // Muestra el container correcto
        public void DeactivateAllModes()            // Oculta todos los containers
-       
+
        // Submenú interno de Analyze (herencia del popup system):
        public void ToggleShaderMenu()              // Dentro de AnalyzeModeContainer
        public void ToggleCategoryMenu()            // Dentro de AnalyzeModeContainer
        public void SetSliderVisible(bool visible)  // Dentro de AnalyzeModeContainer
-       
+
        // Category filters (se mantienen):
        public void SetCategoryFilter(string category, Button clickedBtn)
-       
+
        // Hotspots (se mantiene):
        public void ToggleHotspots()
-       
+
        // Sheet coordination (se mantiene):
        public void SetSheetOpenState(bool isOpen)
-       
+
        public void Dispose()
    }
    ```
 
 4. **Lógica de `ActivateMode()`:**
+
    ```
    Explore → hide AnalyzeModeContainer + hide StudioModeContainer
    Analyze → show AnalyzeModeContainer + hide StudioModeContainer
@@ -245,12 +258,14 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 5. **Preservar `AddCleanup()` pattern** en toda la clase
 
 #### Consideraciones:
+
 - `UIAnalyzePanel` y `UIEnvironmentPanel` siguen siendo instanciados — no cambian
 - La lógica interna de shader cards y env presets permanece intacta
 - El `PopupBlocker` se mantiene para cerrar submenús dentro de Analyze mode
 - `RepositionPopups()` se simplifica — ya no necesita stacking entre menús de diferentes modos
 
 #### Verificación:
+
 - [ ] 0 errores de compilación
 - [ ] `UIModeController` responde a cambios de `AppState`
 - [ ] Explore mode oculta todo correctamente
@@ -267,32 +282,37 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 #### Tareas:
 
 1. **Eliminar referencias a botones obsoletos:**
+
    - Quitar: `shaderBtn`, `explodeBtn`, `envBtn`, `infoBtn`, `layerBtn`
    - Agregar: `modeExploreBtn`, `modeAnalyzeBtn`, `modeStudioBtn`
 
 2. **Wire nuevos botones de modo:**
+
    ```csharp
    modeExploreBtn.clicked += () => AppStateMachine.Instance?.EnterExploration();
    modeAnalyzeBtn.clicked += () => AppStateMachine.Instance?.EnterAnalyze();
    modeStudioBtn.clicked += () => AppStateMachine.Instance?.EnterStudio();
    ```
+
    Con `AddCleanup()` para cada uno.
 
 3. **Reemplazar `_popupController` por `_modeController`:**
+
    ```csharp
    private UIModeController _modeController;
    ```
 
 4. **Actualizar `OnAppStateChanged()`:**
+
    ```csharp
    private void OnAppStateChanged(AppStateChangedEvent evt)
    {
        // Activar modo en UIModeController
        _modeController.ActivateMode(evt.NewState);
-       
+
        // Actualizar botones activos
        UpdateModeButtonStates(evt.NewState);
-       
+
        // Hotspots: solo en modos interactivos + hero dismissed
        bool isInteractive = AppStateMachine.Instance?.IsInteractive() ?? false;
        bool heroDismissed = _heroController?.HeroDismissed ?? false;
@@ -301,10 +321,11 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    ```
 
 5. **Implementar `UpdateModeButtonStates()`:**
+
    ```csharp
    private void UpdateModeButtonStates(AppState state)
    {
-       modeExploreBtn?.EnableInClassList("mode-btn--active", 
+       modeExploreBtn?.EnableInClassList("mode-btn--active",
            state == AppState.Exploration || state == AppState.ExplodedView || state == AppState.FocusMode);
        modeAnalyzeBtn?.EnableInClassList("mode-btn--active", state == AppState.Analyze);
        modeStudioBtn?.EnableInClassList("mode-btn--active", state == AppState.Studio);
@@ -320,6 +341,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    - El query `root.Q<Button>("CatBtn_All")` sigue funcionando porque busca por nombre, no por jerarquía
 
 #### Verificación:
+
 - [ ] 0 errores de compilación
 - [ ] Click en ModeExploreBtn → `AppState.Exploration`
 - [ ] Click en ModeAnalyzeBtn → `AppState.Analyze` → muestra AnalyzeModeContainer
@@ -339,6 +361,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 #### Contexto:
 
 `CrossSectionManager.cs` ya implementa:
+
 - Toggle on/off del corte
 - Selección de eje (X, Y, Z)
 - Posición del plano de corte (float)
@@ -351,11 +374,12 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 #### Tareas:
 
 1. **Agregar `CrossSectionPanel` al UXML** dentro de `AnalyzeModeContainer`:
+
    ```xml
    <!-- Cross-Section Controls (inside AnalyzeModeContainer) -->
    <ui:VisualElement name="CrossSectionPanel" class="submenu-container" picking-mode="Ignore">
        <ui:Label text="CROSS SECTION" class="submenu-title" picking-mode="Ignore" />
-       
+
        <!-- Toggle On/Off -->
        <ui:VisualElement class="cross-section-toggle-row">
            <ui:Button name="CrossSectionToggleBtn" class="submenu-card" tooltip="Toggle Cross Section">
@@ -363,7 +387,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
                <ui:Label text="CUT" class="submenu-label" picking-mode="Ignore"/>
            </ui:Button>
        </ui:VisualElement>
-       
+
        <!-- Axis Selection -->
        <ui:VisualElement class="cross-section-axis-row">
            <ui:Button name="CrossAxisX" class="axis-btn" text="X" />
@@ -371,17 +395,18 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
            <ui:Button name="CrossAxisZ" class="axis-btn" text="Z" />
            <ui:Button name="CrossAxisInvert" class="axis-btn" text="⇄" tooltip="Invert Direction" />
        </ui:VisualElement>
-       
+
        <!-- Position Slider -->
        <ui:VisualElement class="cross-section-slider-row">
            <ui:Label text="POSITION" class="env-slider-label" picking-mode="Ignore" />
-           <ui:Slider name="CrossSectionSlider" low-value="-2" high-value="2" value="0" 
+           <ui:Slider name="CrossSectionSlider" low-value="-2" high-value="2" value="0"
                        class="glass-slider" picking-mode="Position" />
        </ui:VisualElement>
    </ui:VisualElement>
    ```
 
 2. **Crear `UICrossSectionPanel.cs`** (nuevo sub-controlador):
+
    ```csharp
    public class UICrossSectionPanel
    {
@@ -397,6 +422,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    ```
 
 3. **Agregar estilos USS** para el panel de cross-section:
+
    - `.cross-section-toggle-row`, `.cross-section-axis-row`, `.cross-section-slider-row`
    - `.axis-btn` — botones pequeños para selección de eje (pill shape)
    - `.axis-btn--active` — eje seleccionado
@@ -409,6 +435,7 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    ```
 
 #### Verificación:
+
 - [ ] Panel visible cuando Analyze mode está activo
 - [ ] Toggle activa/desactiva el corte visual en el modelo 3D
 - [ ] Cambio de eje funciona (X, Y, Z)
@@ -428,29 +455,35 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 #### Tareas:
 
 1. **Evaluar `ViewModeToolbar.cs`:**
+
    - Crea un toolbar dinámico redundante con botones de cross-section, view modes, reset
    - Con el nuevo sistema de modos, sus funciones están cubiertas por `AnalyzeModeContainer`
    - **Decisión:** Evaluar si se puede desactivar/eliminar o si queda como toolbar alternativo
    - Contiene un botón de CrossSection (`OnCrossSectionClicked`) que ahora está en el panel dedicado
 
 2. **Evaluar `EngineerToolbar.cs`:**
+
    - Crea dropdown con herramientas de ingeniería
    - Evaluar si sus funciones se integran en el sistema de modos o se mantiene separado
 
 3. **Verificar que `KeyboardShortcuts.cs` sigue funcionando:**
+
    - Los atajos deben respetar el modo activo
    - Ej: E (explode) solo en Analyze mode, no en Studio
 
 4. **Verificar que `SelectionManager` sigue funcionando:**
+
    - Click en piezas debe funcionar en todos los modos interactivos
    - El `IsPointerOverUI()` guard sigue activo
 
 5. **Test completo de flujo:**
+
    - Hero → Explore → click parte → sheet → cambiar a Analyze → shaders + categories + cross-section → cambiar a Studio → env presets → volver a Explore → Home → Hero
 
 6. **Actualizar `PHASE2_CHANGELOG.md`** con resumen final y diagrama de arquitectura
 
 #### Verificación:
+
 - [ ] 0 errores de compilación
 - [ ] Flujo completo funcional
 - [ ] No hay memory leaks (todos los `AddCleanup()` verificados)
@@ -505,48 +538,48 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 
 ## Riesgos y Mitigaciones
 
-| Riesgo                                               | Probabilidad | Mitigación                                                    |
-| ---------------------------------------------------- | ------------ | ------------------------------------------------------------- |
-| Botones obsoletos referenciados en C# → NullRef      | ALTA         | Actualizar C# en misma iteración que UXML                     |
-| PopupBlocker deja de funcionar con mode containers   | MEDIA        | Mantener PopupBlocker dentro de AnalyzeModeContainer          |
-| Cross-section shaders no compatibles con view modes  | MEDIA        | Verificar que `_ClipEnabled` funciona con todos los 7 shaders |
-| `RegisterButtonInputBlockers()` no detecta nuevos btn| BAJA         | Se ejecuta en `InitializeUI()` DESPUÉS de crear todo el DOM   |
-| Stacking de popups dentro de Analyze se rompe        | MEDIA        | Simplificar: todos los submenús de Analyze visibles a la vez  |
-| `ViewModeToolbar.cs` colisiona con nuevo layout      | MEDIA        | Evaluar en Iteración 6 — posiblemente desactivar              |
+| Riesgo                                                | Probabilidad | Mitigación                                                    |
+| ----------------------------------------------------- | ------------ | ------------------------------------------------------------- |
+| Botones obsoletos referenciados en C# → NullRef       | ALTA         | Actualizar C# en misma iteración que UXML                     |
+| PopupBlocker deja de funcionar con mode containers    | MEDIA        | Mantener PopupBlocker dentro de AnalyzeModeContainer          |
+| Cross-section shaders no compatibles con view modes   | MEDIA        | Verificar que `_ClipEnabled` funciona con todos los 7 shaders |
+| `RegisterButtonInputBlockers()` no detecta nuevos btn | BAJA         | Se ejecuta en `InitializeUI()` DESPUÉS de crear todo el DOM   |
+| Stacking de popups dentro de Analyze se rompe         | MEDIA        | Simplificar: todos los submenús de Analyze visibles a la vez  |
+| `ViewModeToolbar.cs` colisiona con nuevo layout       | MEDIA        | Evaluar en Iteración 6 — posiblemente desactivar              |
 
 ---
 
 ## Archivos Afectados (estimación)
 
-| Archivo                       | Acción          | Iteración |
-| ----------------------------- | --------------- | --------- |
-| `AppStateMachine.cs`          | Modificado      | 1         |
-| `MainLayout.uxml`             | **Reescrito**   | 2, 5      |
-| `Theme.uss`                   | Modificado      | 2, 5      |
-| `UIPopupController.cs`        | **Renombrado/Reescrito** → `UIModeController.cs` | 3 |
-| `UIManager.cs`                | Modificado      | 4         |
-| `UICrossSectionPanel.cs`      | **Nuevo**       | 5         |
-| `CrossSectionManager.cs`      | Sin cambios     | —         |
-| `UIAnalyzePanel.cs`           | Sin cambios     | —         |
-| `UIEnvironmentPanel.cs`       | Sin cambios     | —         |
-| `UIDetailsSheet.cs`           | Sin cambios     | —         |
-| `UIHeroController.cs`         | Sin cambios     | —         |
-| `ViewModeToolbar.cs`          | Evaluar         | 6         |
-| `EngineerToolbar.cs`          | Evaluar         | 6         |
-| `KeyboardShortcuts.cs`        | Posible ajuste  | 6         |
+| Archivo                  | Acción                                           | Iteración |
+| ------------------------ | ------------------------------------------------ | --------- |
+| `AppStateMachine.cs`     | Modificado                                       | 1         |
+| `MainLayout.uxml`        | **Reescrito**                                    | 2, 5      |
+| `Theme.uss`              | Modificado                                       | 2, 5      |
+| `UIPopupController.cs`   | **Renombrado/Reescrito** → `UIModeController.cs` | 3         |
+| `UIManager.cs`           | Modificado                                       | 4         |
+| `UICrossSectionPanel.cs` | **Nuevo**                                        | 5         |
+| `CrossSectionManager.cs` | Sin cambios                                      | —         |
+| `UIAnalyzePanel.cs`      | Sin cambios                                      | —         |
+| `UIEnvironmentPanel.cs`  | Sin cambios                                      | —         |
+| `UIDetailsSheet.cs`      | Sin cambios                                      | —         |
+| `UIHeroController.cs`    | Sin cambios                                      | —         |
+| `ViewModeToolbar.cs`     | Evaluar                                          | 6         |
+| `EngineerToolbar.cs`     | Evaluar                                          | 6         |
+| `KeyboardShortcuts.cs`   | Posible ajuste                                   | 6         |
 
 ---
 
 ## Tracking de Progreso
 
-| Iteración | Descripción                              | Commit  | Estado      |
-| --------- | ---------------------------------------- | ------- | ----------- |
-| 1         | Expandir AppStateMachine                 | 2673e5a | ✅ Completada |
-| 2         | Reestructurar MainLayout.uxml + USS      | 70b2a01 | ✅ Completada |
-| 3+4       | UIModeController + Rewire UIManager      | f125f6f | ✅ Completada |
-| 5         | Cross-Section UI en Analyze Mode         | 66673f3 | ✅ Completada |
-| 6         | Cleanup & Integración Final              | —       | ✅ Completada |
-| 7         | UX Audit Fixes — Minimalist Grid UI      | —       | 🟡 Planificada |
+| Iteración | Descripción                         | Commit  | Estado         |
+| --------- | ----------------------------------- | ------- | -------------- |
+| 1         | Expandir AppStateMachine            | 2673e5a | ✅ Completada  |
+| 2         | Reestructurar MainLayout.uxml + USS | 70b2a01 | ✅ Completada  |
+| 3+4       | UIModeController + Rewire UIManager | f125f6f | ✅ Completada  |
+| 5         | Cross-Section UI en Analyze Mode    | 66673f3 | ✅ Completada  |
+| 6         | Cleanup & Integración Final         | —       | ✅ Completada  |
+| 7         | UX Audit Fixes — Minimalist Grid UI | —       | ✅ Completada  |
 
 ---
 
@@ -554,12 +587,13 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 
 **Archivos:** `MainLayout.uxml`, `Theme.uss`, `UIModeController.cs` (posibles ajustes)  
 **Riesgo:** MEDIO — cambios visuales extensos pero sin alterar lógica de negocio  
-**Estado:** 🟡 Planificada — ejecutar el 24 de febrero de 2026  
-**Referencia:** `UX_UI_AUDIT_REPORT.md` (violaciones V-FIT-*, T-*, G-*, V-MIL-*, A-*)
+**Estado:** ✅ Completada — 24 de febrero de 2026  
+**Referencia:** `UX_UI_AUDIT_REPORT.md` (violaciones V-FIT-_, T-_, G-_, V-MIL-_, A-\*)
 
 #### Objetivos
 
 Implementar un sistema UI minimalista basado en cuadrícula de 4 columnas, con:
+
 - **Botones de modo** como íconos puros sin cuadro envolvente
 - **Cards cuadradas** con icono redondo centrado + label debajo
 - **Sliders** dimensionados exactamente al ancho de 4 cards
@@ -571,6 +605,7 @@ Implementar un sistema UI minimalista basado en cuadrícula de 4 columnas, con:
 #### 7.1 — Bottom Bar: Botones Icon-Only (sin cuadro)
 
 **Antes:**
+
 ```
 ┌──────────────────────────────────────────────────┐
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐       │  ← pill con borde
@@ -580,6 +615,7 @@ Implementar un sistema UI minimalista basado en cuadrícula de 4 columnas, con:
 ```
 
 **Después:**
+
 ```
 ┌──────────────────────────────────────────────────┐
 │      🔧          📐          ☀️                   │  ← iconos sueltos
@@ -592,54 +628,54 @@ Implementar un sistema UI minimalista basado en cuadrícula de 4 columnas, con:
 ```css
 /* Botón de modo: icono puro, sin fondo ni borde */
 .mode-btn {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 64px;            /* 8×8 grid, suficiente para touch 48px + padding */
-    height: 64px;           /* 8×8 grid */
-    margin-left: 16px;      /* 2×8 spacing entre botones */
-    margin-right: 16px;
-    
-    background-color: transparent;  /* SIN FONDO */
-    border-width: 0;                /* SIN BORDE */
-    border-radius: 0;              /* SIN CUADRO */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 64px; /* 8×8 grid, suficiente para touch 48px + padding */
+  height: 64px; /* 8×8 grid */
+  margin-left: 16px; /* 2×8 spacing entre botones */
+  margin-right: 16px;
+
+  background-color: transparent; /* SIN FONDO */
+  border-width: 0; /* SIN BORDE */
+  border-radius: 0; /* SIN CUADRO */
 }
 
 .mode-btn:hover {
-    background-color: transparent;  /* mantener sin fondo */
-    border-color: transparent;
-    scale: 1.1;                     /* feedback solo por escala */
+  background-color: transparent; /* mantener sin fondo */
+  border-color: transparent;
+  scale: 1.1; /* feedback solo por escala */
 }
 
 .mode-btn:active {
-    scale: 0.92;
+  scale: 0.92;
 }
 
 .mode-btn--active {
-    background-color: transparent;
-    border-width: 0;
+  background-color: transparent;
+  border-width: 0;
 }
 
 .mode-btn--active .mode-btn-icon {
-    /* Feedback de estado: glow en el icono, no en el botón */
-    -unity-background-tint-color: rgba(0, 170, 255, 1);
+  /* Feedback de estado: glow en el icono, no en el botón */
+  -unity-background-tint-color: rgba(0, 170, 255, 1);
 }
 
 .mode-btn--active .mode-btn-label {
-    color: rgba(0, 170, 255, 0.9);
+  color: rgba(0, 170, 255, 0.9);
 }
 
 .mode-btn-icon {
-    width: 28px;            /* 3.5×8 — visible pero no dominante */
-    height: 28px;
-    margin-bottom: 4px;     /* micro-spacing */
+  width: 28px; /* 3.5×8 — visible pero no dominante */
+  height: 28px;
+  margin-bottom: 4px; /* micro-spacing */
 }
 
 .mode-btn-label {
-    font-size: 12px;        /* FIX T-02: 10→12 px (mínimo absoluto) */
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 1px;
-    -unity-font-style: bold;
+  font-size: 12px; /* FIX T-02: 10→12 px (mínimo absoluto) */
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 1px;
+  -unity-font-style: bold;
 }
 ```
 
@@ -647,12 +683,12 @@ Implementar un sistema UI minimalista basado en cuadrícula de 4 columnas, con:
 
 ```css
 .actions-row {
-    background-color: rgba(12, 12, 18, 0.88);  /* pill sigue siendo glass */
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.08);
-    border-radius: 40px;
-    padding: 8px 32px;       /* más padding horizontal para respirar */
-    min-width: auto;         /* quitar min-width fijo, que fluya */
+  background-color: rgba(12, 12, 18, 0.88); /* pill sigue siendo glass */
+  border-width: 1px;
+  border-color: rgba(255, 255, 255, 0.08);
+  border-radius: 40px;
+  padding: 8px 32px; /* más padding horizontal para respirar */
+  min-width: auto; /* quitar min-width fijo, que fluya */
 }
 ```
 
@@ -661,6 +697,7 @@ Implementar un sistema UI minimalista basado en cuadrícula de 4 columnas, con:
 #### 7.2 — Cards Cuadradas con Icono Redondo (4-col Grid)
 
 **Antes:**
+
 ```
 ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐
 │  [icon]  │ │  [icon]  │ │  [icon]  │ │  [icon]  │ │  [icon]  │
@@ -673,6 +710,7 @@ Implementar un sistema UI minimalista basado en cuadrícula de 4 columnas, con:
 ```
 
 **Después:**
+
 ```
    ○           ○           ○           ○       ← iconos redondos
  REALISTIC    X-RAY     BLUEPRINT    SOLID     ← labels
@@ -683,69 +721,69 @@ Implementar un sistema UI minimalista basado en cuadrícula de 4 columnas, con:
 
 **Dimensiones calculadas:**
 
-| Variable | Valor | Cálculo |
-|----------|-------|---------|
-| Card width | 80 px | 10×8 grid |
-| Card height | 80 px | Cuadrada |
-| Card gap (margin) | 8 px | 1×8 grid |
-| Row width (4 cards) | 4×80 + 3×8 = **344 px** | |
-| Icon circle diameter | 40 px | 5×8, centrado en card |
-| Label font | 12 px | Mínimo absoluto |
-| Card background | `rgba(255,255,255,0.04)` | Semi-transparente |
-| Card border | 0 | Sin borde visible |
-| Card border-radius | 16 px | 2×8, suave |
+| Variable             | Valor                    | Cálculo               |
+| -------------------- | ------------------------ | --------------------- |
+| Card width           | 80 px                    | 10×8 grid             |
+| Card height          | 80 px                    | Cuadrada              |
+| Card gap (margin)    | 8 px                     | 1×8 grid              |
+| Row width (4 cards)  | 4×80 + 3×8 = **344 px**  |                       |
+| Icon circle diameter | 40 px                    | 5×8, centrado en card |
+| Label font           | 12 px                    | Mínimo absoluto       |
+| Card background      | `rgba(255,255,255,0.04)` | Semi-transparente     |
+| Card border          | 0                        | Sin borde visible     |
+| Card border-radius   | 16 px                    | 2×8, suave            |
 
 **Cambios USS:**
 
 ```css
 /* ── Card: cuadrada, semi-transparente, sin contenedor visible ── */
 .submenu-card {
-    width: 80px;              /* cuadrada 80×80 */
-    height: 80px;
-    margin: 4px;              /* gap efectivo = 8px entre cards */
-    
-    background-color: rgba(255, 255, 255, 0.04);  /* semi-transparente */
-    border-width: 0;          /* SIN borde */
-    border-radius: 16px;      /* 2×8 grid */
-    
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  width: 80px; /* cuadrada 80×80 */
+  height: 80px;
+  margin: 4px; /* gap efectivo = 8px entre cards */
+
+  background-color: rgba(255, 255, 255, 0.04); /* semi-transparente */
+  border-width: 0; /* SIN borde */
+  border-radius: 16px; /* 2×8 grid */
+
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .submenu-card:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-    border-width: 0;          /* mantener sin borde */
-    scale: 1.04;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-width: 0; /* mantener sin borde */
+  scale: 1.04;
 }
 
 .submenu-card--active {
-    background-color: rgba(0, 170, 255, 0.12);
-    border-width: 0;
+  background-color: rgba(0, 170, 255, 0.12);
+  border-width: 0;
 }
 
 /* ── Icono: círculo centrado ── */
 .submenu-icon {
-    width: 40px;              /* 5×8 grid */
-    height: 40px;
-    border-radius: 50%;       /* CÍRCULO */
-    background-color: rgba(255, 255, 255, 0.08);  /* fondo circular sutil */
-    margin-bottom: 8px;       /* 1×8 grid */
-    -unity-background-scale-mode: scale-to-fit;
-    opacity: 0.7;
+  width: 40px; /* 5×8 grid */
+  height: 40px;
+  border-radius: 50%; /* CÍRCULO */
+  background-color: rgba(255, 255, 255, 0.08); /* fondo circular sutil */
+  margin-bottom: 8px; /* 1×8 grid */
+  -unity-background-scale-mode: scale-to-fit;
+  opacity: 0.7;
 }
 
 .submenu-card--active .submenu-icon {
-    background-color: rgba(0, 170, 255, 0.2);
-    opacity: 1;
+  background-color: rgba(0, 170, 255, 0.2);
+  opacity: 1;
 }
 
 /* ── Label debajo del icono ── */
 .submenu-label {
-    font-size: 12px;          /* FIX T-03: 10→12 px */
-    color: rgba(255, 255, 255, 0.6);
-    letter-spacing: 0.5px;
-    -unity-text-align: middle-center;
+  font-size: 12px; /* FIX T-03: 10→12 px */
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.5px;
+  -unity-text-align: middle-center;
 }
 ```
 
@@ -758,12 +796,12 @@ Implementar un sistema UI minimalista basado en cuadrícula de 4 columnas, con:
 ```css
 /* ── Grid container: ancho fijo = 4 cards + 3 gaps ── */
 .submenu-grid {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;   /* CLAVE: alinear a la izquierda, no centrar */
-    width: 344px;                   /* 4×80 + 3×8 = 344px exacto */
-    padding: 0;
-    align-self: center;            /* centrar el grid dentro del submenu */
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* CLAVE: alinear a la izquierda, no centrar */
+  width: 344px; /* 4×80 + 3×8 = 344px exacto */
+  padding: 0;
+  align-self: center; /* centrar el grid dentro del submenu */
 }
 ```
 
@@ -794,53 +832,58 @@ Fila 2: [NEUTRAL]   [      ] [      ]  [      ]   ← 1/4 + 3 slots
 
 **Dimensiones:**
 
-| Variable | Valor | Cálculo |
-|----------|-------|---------|
-| Slider width | 344 px | Igual que grid de 4 cards |
-| Slider height | 40 px | 80/2 = 40 px (½ card) |
+| Variable       | Valor                                                          | Cálculo                   |
+| -------------- | -------------------------------------------------------------- | ------------------------- |
+| Slider width   | 344 px                                                         | Igual que grid de 4 cards |
+| Slider height  | 40 px                                                          | 80/2 = 40 px (½ card)     |
 | Label position | Integrado dentro del slider-container, alineado a la izquierda |
-| Dragger size | 32 px visual (hit area 48 px) | FIX V-FIT-02 |
+| Dragger size   | 32 px visual (hit area 48 px)                                  | FIX V-FIT-02              |
 
 ```css
 /* ── Slider container: mismo ancho que grid de 4 cards ── */
 .slider-container {
-    width: 344px;             /* = 4×80 + 3×8 — misma anchura que el grid */
-    height: 40px;             /* ½ de una card (80/2) */
-    align-self: center;
-    
-    background-color: rgba(255, 255, 255, 0.04);  /* semi-transparente como cards */
-    border-width: 0;
-    border-radius: 16px;      /* mismo radius que cards */
-    padding: 0 16px;
-    
-    flex-direction: row;
-    align-items: center;
+  width: 344px; /* = 4×80 + 3×8 — misma anchura que el grid */
+  height: 40px; /* ½ de una card (80/2) */
+  align-self: center;
+
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.04
+  ); /* semi-transparente como cards */
+  border-width: 0;
+  border-radius: 16px; /* mismo radius que cards */
+  padding: 0 16px;
+
+  flex-direction: row;
+  align-items: center;
 }
 
 .slider-label {
-    font-size: 12px;          /* FIX T-05: 11→12 px */
-    color: rgba(255, 255, 255, 0.5);  /* FIX A-06: 0.35→0.5 */
-    letter-spacing: 1px;
-    margin-right: 12px;
-    -unity-font-style: bold;
-    white-space: nowrap;
-    flex-shrink: 0;
+  font-size: 12px; /* FIX T-05: 11→12 px */
+  color: rgba(255, 255, 255, 0.5); /* FIX A-06: 0.35→0.5 */
+  letter-spacing: 1px;
+  margin-right: 12px;
+  -unity-font-style: bold;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* Env sliders: misma regla */
 .env-slider-group {
-    width: 344px;
-    height: 40px;
-    align-self: center;
-    margin-top: 8px;
-    padding: 0 16px;
-    
-    background-color: rgba(255, 255, 255, 0.04);
-    border-radius: 16px;
-    border-width: 0;
-    
-    flex-direction: row;
-    align-items: center;
+  width: 344px;
+  height: 40px;
+  align-self: center;
+  margin-top: 8px;
+  padding: 0 16px;
+
+  background-color: rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  border-width: 0;
+
+  flex-direction: row;
+  align-items: center;
 }
 ```
 
@@ -854,25 +897,25 @@ Fila 2: [NEUTRAL]   [      ] [      ]  [      ]   ← 1/4 + 3 slots
 
 ```css
 .mode-submenu {
-    position: relative;
-    width: 100%;
-    
-    background-color: transparent;    /* SIN FONDO */
-    border-width: 0;                  /* SIN BORDE */
-    border-radius: 0;
-    padding: 8px 0;                   /* solo padding vertical para spacing */
-    
-    align-items: center;
-    margin-bottom: 8px;
+  position: relative;
+  width: 100%;
+
+  background-color: transparent; /* SIN FONDO */
+  border-width: 0; /* SIN BORDE */
+  border-radius: 0;
+  padding: 8px 0; /* solo padding vertical para spacing */
+
+  align-items: center;
+  margin-bottom: 8px;
 }
 
 /* Título del submenu: mantener pero ajustar contraste */
 .submenu-title {
-    font-size: 12px;                  /* FIX T-04: 11→12 */
-    color: rgba(255, 255, 255, 0.5);  /* FIX A-05: 0.3→0.5 */
-    letter-spacing: 2px;
-    margin-bottom: 8px;               /* FIX G-30: 10→8 */
-    -unity-font-style: bold;
+  font-size: 12px; /* FIX T-04: 11→12 */
+  color: rgba(255, 255, 255, 0.5); /* FIX A-05: 0.3→0.5 */
+  letter-spacing: 2px;
+  margin-bottom: 8px; /* FIX G-30: 10→8 */
+  -unity-font-style: bold;
 }
 ```
 
@@ -892,23 +935,23 @@ Los botones de eje (X, Y, Z, ⇅) se tratan como 4 cards en una sola fila, segui
 
 ```css
 .cross-section-axis-btn {
-    width: 80px;              /* misma dimensión que submenu-card */
-    height: 80px;
-    margin: 4px;
-    
-    background-color: rgba(255, 255, 255, 0.04);
-    border-width: 0;
-    border-radius: 16px;
-    
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  width: 80px; /* misma dimensión que submenu-card */
+  height: 80px;
+  margin: 4px;
+
+  background-color: rgba(255, 255, 255, 0.04);
+  border-width: 0;
+  border-radius: 16px;
+
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .cross-section-axis-label {
-    font-size: 14px;          /* legible para letras individuales X/Y/Z */
-    color: rgba(255, 255, 255, 0.6);
-    -unity-font-style: bold;
+  font-size: 14px; /* legible para letras individuales X/Y/Z */
+  color: rgba(255, 255, 255, 0.6);
+  -unity-font-style: bold;
 }
 ```
 
@@ -920,43 +963,43 @@ Los botones de acción dentro de cada modo (INFO, EXPLODE, PINS / SHADERS, CUT) 
 
 ```css
 .mode-action-bar {
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 0;
-    margin-bottom: 8px;
-    background-color: transparent;  /* SIN FONDO */
-    border-radius: 0;
-    border-width: 0;                /* SIN BORDE */
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  margin-bottom: 8px;
+  background-color: transparent; /* SIN FONDO */
+  border-radius: 0;
+  border-width: 0; /* SIN BORDE */
 }
 
 .mode-action-btn {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 64px;
-    height: 56px;
-    margin-left: 12px;
-    margin-right: 12px;
-    background-color: transparent;  /* SIN FONDO */
-    border-radius: 0;
-    border-width: 0;                /* SIN BORDE */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 56px;
+  margin-left: 12px;
+  margin-right: 12px;
+  background-color: transparent; /* SIN FONDO */
+  border-radius: 0;
+  border-width: 0; /* SIN BORDE */
 }
 
 .mode-action-btn:hover {
-    background-color: transparent;
-    scale: 1.1;
+  background-color: transparent;
+  scale: 1.1;
 }
 
 .mode-action-btn--active .mode-action-icon {
-    -unity-background-tint-color: rgba(0, 170, 255, 1);
+  -unity-background-tint-color: rgba(0, 170, 255, 1);
 }
 
 .mode-action-label {
-    font-size: 12px;        /* FIX T-01: 9→12 px */
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 1px;
-    -unity-font-style: bold;
+  font-size: 12px; /* FIX T-01: 9→12 px */
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 1px;
+  -unity-font-style: bold;
 }
 ```
 
@@ -964,15 +1007,15 @@ Los botones de acción dentro de cada modo (INFO, EXPLODE, PINS / SHADERS, CUT) 
 
 #### 7.8 — Audit Quick Fixes adicionales (del UX_UI_AUDIT_REPORT.md)
 
-| Fix ID | Cambio | Selector |
-|--------|--------|----------|
-| V-FIT-03 | sheet-close-btn: 32→40 px + padding 4px | `.sheet-close-btn` |
-| V-FIT-04 | icon-button-small: 40→48 px | `.icon-button-small` |
-| V-FIT-02 | slider dragger: 24→32 px | `.glass-slider .unity-base-slider__dragger` |
-| A-04 | header-title opacity: 0.35→0.5 | `.header-title` |
-| G-24 | mode-btn-icon: 22→24 px | `.mode-btn-icon` (ya en 7.1 como 28px) |
-| G-26 | mode-action-icon: 20→24 px | `.mode-action-icon` |
-| G-28 | submenu-icon margin-bottom: 6→8 px | `.submenu-icon` (ya en 7.2 como 8px) |
+| Fix ID   | Cambio                                  | Selector                                    |
+| -------- | --------------------------------------- | ------------------------------------------- |
+| V-FIT-03 | sheet-close-btn: 32→40 px + padding 4px | `.sheet-close-btn`                          |
+| V-FIT-04 | icon-button-small: 40→48 px             | `.icon-button-small`                        |
+| V-FIT-02 | slider dragger: 24→32 px                | `.glass-slider .unity-base-slider__dragger` |
+| A-04     | header-title opacity: 0.35→0.5          | `.header-title`                             |
+| G-24     | mode-btn-icon: 22→24 px                 | `.mode-btn-icon` (ya en 7.1 como 28px)      |
+| G-26     | mode-action-icon: 20→24 px              | `.mode-action-icon`                         |
+| G-28     | submenu-icon margin-bottom: 6→8 px      | `.submenu-icon` (ya en 7.2 como 8px)        |
 
 ---
 
@@ -1012,52 +1055,61 @@ Los botones de acción dentro de cada modo (INFO, EXPLODE, PINS / SHADERS, CUT) 
 #### Tareas de Implementación (checklist)
 
 1. **USS — Bottom Bar Buttons**
-   - [ ] `.mode-btn`: remover fondo, borde, border-radius → icon-only
-   - [ ] `.mode-btn-icon`: 22→28 px
-   - [ ] `.mode-btn-label`: 10→12 px
-   - [ ] `.mode-btn--active`: feedback solo en icono (tint) y label (color)
+
+   - [x] `.mode-btn`: remover fondo, borde, border-radius → icon-only
+   - [x] `.mode-btn-icon`: 22→28 px
+   - [x] `.mode-btn-label`: 10→12 px
+   - [x] `.mode-btn--active`: feedback solo en icono (tint) y label (color)
 
 2. **USS — Cards Cuadradas**
-   - [ ] `.submenu-card`: 110×88 → 80×80, border-width: 0, border-radius: 16
-   - [ ] `.submenu-icon`: hacer circular (border-radius: 50%, width/height: 40px, bg sutil)
-   - [ ] `.submenu-label`: 10→12 px
-   - [ ] `.submenu-grid`: width fijo 344px, justify-content: flex-start
+
+   - [x] `.submenu-card`: 110×88 → 80×80, border-width: 0, border-radius: 16
+   - [x] `.submenu-icon`: hacer circular (border-radius: 50%, width/height: 40px, bg sutil)
+   - [x] `.submenu-label`: 10→12 px
+   - [x] `.submenu-grid`: width fijo 344px, justify-content: flex-start
 
 3. **USS — Sliders**
-   - [ ] `.slider-container`: width: 344px, height: 40px, border-width: 0
-   - [ ] `.env-slider-group`: mismas dimensiones que slider-container
-   - [ ] `.glass-slider dragger`: 24→32 px (hit area 48px)
+
+   - [x] `.slider-container`: width: 344px, height: 40px, border-width: 0
+   - [x] `.env-slider-group`: mismas dimensiones que slider-container
+   - [x] `.glass-slider dragger`: 24→32 px (hit area 48px)
 
 4. **USS — Contenedores Invisibles**
-   - [ ] `.mode-submenu`: background: transparent, border: 0
-   - [ ] `.mode-action-bar`: background: transparent, border: 0
-   - [ ] `.submenu-title`: 11→12 px, opacity 0.3→0.5
+
+   - [x] `.mode-submenu`: background: transparent, border: 0
+   - [x] `.mode-action-bar`: background: transparent, border: 0
+   - [x] `.submenu-title`: 11→12 px, opacity 0.3→0.5
 
 5. **USS — Cross Section como Grid**
-   - [ ] `.cross-section-axis-btn`: 34→80 px (como cards)
-   - [ ] `.cross-section-axis-group`: layout como submenu-grid
-   - [ ] Slider de posición: 344×40 px
+
+   - [x] `.cross-section-axis-btn`: 34→80 px (como cards)
+   - [x] `.cross-section-axis-group`: layout como submenu-grid
+   - [x] Slider de posición: 344×40 px
 
 6. **USS — Mode Action Buttons**
-   - [ ] `.mode-action-btn`: remover fondo/borde → icon-only
-   - [ ] `.mode-action-label`: 9→12 px
-   - [ ] `.mode-action-icon`: 20→24 px
+
+   - [x] `.mode-action-btn`: remover fondo/borde → icon-only
+   - [x] `.mode-action-label`: 9→12 px
+   - [x] `.mode-action-icon`: 20→24 px
 
 7. **USS — Audit Fixes**
-   - [ ] `.icon-button-small`: 40→48 px
-   - [ ] `.sheet-close-btn`: 32→40 px + padding 4px
-   - [ ] `.header-title`: opacity 0.35→0.5
 
-8. **UXML — Cross Section Restructure** (si necesario)
-   - [ ] Reestructurar CrossSectionPanel para que axis btns estén en submenu-grid
-   - [ ] Verificar que el C# (UICrossSectionPanel.cs) sigue encontrando los elementos por nombre
+   - [x] `.icon-button-small`: 40→48 px
+   - [x] `.sheet-close-btn`: 32→40 px + padding 4px
+   - [x] `.header-title`: opacity 0.35→0.5
+
+8. **UXML — Cross Section Restructure** (via USS only)
+
+   - [x] Cross-section layout cambiado a column via `.cross-section-row`, `.cross-section-controls`
+   - [x] Axis btns 80×80 en grid 344px via `.cross-section-axis-group`
+   - [x] C# (`UICrossSectionPanel.cs`) sin cambios — elementos mantienen sus nombres
 
 9. **Verificación**
-   - [ ] 0 errores de compilación
-   - [ ] Grid de 4 cols alineado en todos los submenús
-   - [ ] Slots vacíos visualmente correctos (fila 2 de ShaderMenu tiene 3+vacío)
-   - [ ] Sliders tienen el ancho exacto del grid
-   - [ ] Botones del bottom bar son icon-only sin cuadro
-   - [ ] Todos los font-size ≥ 12 px
-   - [ ] Todos los touch targets ≥ 44 px
-   - [ ] Cards semi-transparentes sin contenedores visibles detrás
+   - [x] 0 errores de compilación
+   - [x] Grid de 4 cols alineado en todos los submenús
+   - [x] Slots vacíos visualmente correctos (fila 2 de ShaderMenu tiene 3+vacío)
+   - [x] Sliders tienen el ancho exacto del grid
+   - [x] Botones del bottom bar son icon-only sin cuadro
+   - [x] Todos los font-size ≥ 12 px
+   - [x] Todos los touch targets ≥ 44 px
+   - [x] Cards semi-transparentes sin contenedores visibles detrás
