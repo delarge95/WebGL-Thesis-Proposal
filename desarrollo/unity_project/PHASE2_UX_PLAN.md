@@ -546,3 +546,518 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 | 3+4       | UIModeController + Rewire UIManager      | f125f6f | ✅ Completada |
 | 5         | Cross-Section UI en Analyze Mode         | 66673f3 | ✅ Completada |
 | 6         | Cleanup & Integración Final              | —       | ✅ Completada |
+| 7         | UX Audit Fixes — Minimalist Grid UI      | —       | 🟡 Planificada |
+
+---
+
+### Iteración 7 — UX Audit Fixes: Minimalist Grid UI
+
+**Archivos:** `MainLayout.uxml`, `Theme.uss`, `UIModeController.cs` (posibles ajustes)  
+**Riesgo:** MEDIO — cambios visuales extensos pero sin alterar lógica de negocio  
+**Estado:** 🟡 Planificada — ejecutar el 24 de febrero de 2026  
+**Referencia:** `UX_UI_AUDIT_REPORT.md` (violaciones V-FIT-*, T-*, G-*, V-MIL-*, A-*)
+
+#### Objetivos
+
+Implementar un sistema UI minimalista basado en cuadrícula de 4 columnas, con:
+- **Botones de modo** como íconos puros sin cuadro envolvente
+- **Cards cuadradas** con icono redondo centrado + label debajo
+- **Sliders** dimensionados exactamente al ancho de 4 cards
+- **Alineación rígida** a cuadrícula (slots vacíos si una fila tiene < 4 cards)
+- **Sin contenedores visibles** — los submenús no tienen fondo/borde propio
+
+---
+
+#### 7.1 — Bottom Bar: Botones Icon-Only (sin cuadro)
+
+**Antes:**
+```
+┌──────────────────────────────────────────────────┐
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐       │  ← pill con borde
+│  │ 🔧 TOOLS │  │ 📐 ANALYZE│  │ ☀️ STUDIO│       │  ← 100×60px con bg
+│  └──────────┘  └──────────┘  └──────────┘       │
+└──────────────────────────────────────────────────┘
+```
+
+**Después:**
+```
+┌──────────────────────────────────────────────────┐
+│      🔧          📐          ☀️                   │  ← iconos sueltos
+│     TOOLS      ANALYZE      STUDIO               │  ← label debajo
+└──────────────────────────────────────────────────┘
+```
+
+**Cambios USS:**
+
+```css
+/* Botón de modo: icono puro, sin fondo ni borde */
+.mode-btn {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 64px;            /* 8×8 grid, suficiente para touch 48px + padding */
+    height: 64px;           /* 8×8 grid */
+    margin-left: 16px;      /* 2×8 spacing entre botones */
+    margin-right: 16px;
+    
+    background-color: transparent;  /* SIN FONDO */
+    border-width: 0;                /* SIN BORDE */
+    border-radius: 0;              /* SIN CUADRO */
+}
+
+.mode-btn:hover {
+    background-color: transparent;  /* mantener sin fondo */
+    border-color: transparent;
+    scale: 1.1;                     /* feedback solo por escala */
+}
+
+.mode-btn:active {
+    scale: 0.92;
+}
+
+.mode-btn--active {
+    background-color: transparent;
+    border-width: 0;
+}
+
+.mode-btn--active .mode-btn-icon {
+    /* Feedback de estado: glow en el icono, no en el botón */
+    -unity-background-tint-color: rgba(0, 170, 255, 1);
+}
+
+.mode-btn--active .mode-btn-label {
+    color: rgba(0, 170, 255, 0.9);
+}
+
+.mode-btn-icon {
+    width: 28px;            /* 3.5×8 — visible pero no dominante */
+    height: 28px;
+    margin-bottom: 4px;     /* micro-spacing */
+}
+
+.mode-btn-label {
+    font-size: 12px;        /* FIX T-02: 10→12 px (mínimo absoluto) */
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+    -unity-font-style: bold;
+}
+```
+
+**Cambios USS en `.actions-row`:**
+
+```css
+.actions-row {
+    background-color: rgba(12, 12, 18, 0.88);  /* pill sigue siendo glass */
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    border-radius: 40px;
+    padding: 8px 32px;       /* más padding horizontal para respirar */
+    min-width: auto;         /* quitar min-width fijo, que fluya */
+}
+```
+
+---
+
+#### 7.2 — Cards Cuadradas con Icono Redondo (4-col Grid)
+
+**Antes:**
+```
+┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐
+│  [icon]  │ │  [icon]  │ │  [icon]  │ │  [icon]  │ │  [icon]  │
+│ REALISTIC│ │  X-RAY   │ │BLUEPRINT │ │  SOLID   │ │  WIRE    │
+└──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘
+  ┌──────────┐ ┌──────────┐
+  │  [icon]  │ │  [icon]  │
+  │  GHOST   │ │ THERMAL  │
+  └──────────┘ └──────────┘
+```
+
+**Después:**
+```
+   ○           ○           ○           ○       ← iconos redondos
+ REALISTIC    X-RAY     BLUEPRINT    SOLID     ← labels
+
+   ○           ○           ○          [ ]      ← icono + slot vacío
+  WIRE       GHOST      THERMAL               ← alineado a grid
+```
+
+**Dimensiones calculadas:**
+
+| Variable | Valor | Cálculo |
+|----------|-------|---------|
+| Card width | 80 px | 10×8 grid |
+| Card height | 80 px | Cuadrada |
+| Card gap (margin) | 8 px | 1×8 grid |
+| Row width (4 cards) | 4×80 + 3×8 = **344 px** | |
+| Icon circle diameter | 40 px | 5×8, centrado en card |
+| Label font | 12 px | Mínimo absoluto |
+| Card background | `rgba(255,255,255,0.04)` | Semi-transparente |
+| Card border | 0 | Sin borde visible |
+| Card border-radius | 16 px | 2×8, suave |
+
+**Cambios USS:**
+
+```css
+/* ── Card: cuadrada, semi-transparente, sin contenedor visible ── */
+.submenu-card {
+    width: 80px;              /* cuadrada 80×80 */
+    height: 80px;
+    margin: 4px;              /* gap efectivo = 8px entre cards */
+    
+    background-color: rgba(255, 255, 255, 0.04);  /* semi-transparente */
+    border-width: 0;          /* SIN borde */
+    border-radius: 16px;      /* 2×8 grid */
+    
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.submenu-card:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-width: 0;          /* mantener sin borde */
+    scale: 1.04;
+}
+
+.submenu-card--active {
+    background-color: rgba(0, 170, 255, 0.12);
+    border-width: 0;
+}
+
+/* ── Icono: círculo centrado ── */
+.submenu-icon {
+    width: 40px;              /* 5×8 grid */
+    height: 40px;
+    border-radius: 50%;       /* CÍRCULO */
+    background-color: rgba(255, 255, 255, 0.08);  /* fondo circular sutil */
+    margin-bottom: 8px;       /* 1×8 grid */
+    -unity-background-scale-mode: scale-to-fit;
+    opacity: 0.7;
+}
+
+.submenu-card--active .submenu-icon {
+    background-color: rgba(0, 170, 255, 0.2);
+    opacity: 1;
+}
+
+/* ── Label debajo del icono ── */
+.submenu-label {
+    font-size: 12px;          /* FIX T-03: 10→12 px */
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.5px;
+    -unity-text-align: middle-center;
+}
+```
+
+---
+
+#### 7.3 — Submenu Grid: 4 columnas fijas + slots vacíos
+
+**Concepto:** El grid usa `flex-wrap: wrap` con un ancho fijo calculado para exactamente 4 cards por fila. Si una fila tiene menos de 4 cards, las posiciones restantes son slots vacíos (se logra con el ancho fijo del grid, NO con elementos invisibles — el flex-wrap + justify-content: flex-start se encarga).
+
+```css
+/* ── Grid container: ancho fijo = 4 cards + 3 gaps ── */
+.submenu-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;   /* CLAVE: alinear a la izquierda, no centrar */
+    width: 344px;                   /* 4×80 + 3×8 = 344px exacto */
+    padding: 0;
+    align-self: center;            /* centrar el grid dentro del submenu */
+}
+```
+
+**Resultado visual (ShaderMenu = 7 cards):**
+
+```
+Fila 1: [REALISTIC] [X-RAY] [BLUEPRINT] [SOLID]    ← 4/4
+Fila 2: [WIRE]      [GHOST] [THERMAL]   [        ]  ← 3/4 + slot vacío
+```
+
+**Resultado visual (CategoryMenu = 5 cards):**
+
+```
+Fila 1: [ALL]       [STRUCTURE] [PROPULSION] [AVIONICS]  ← 4/4
+Fila 2: [POWER]     [        ]  [         ]  [        ]  ← 1/4 + 3 slots
+```
+
+**Resultado visual (EnvPanel = 5 cards):**
+
+```
+Fila 1: [STUDIO]    [SUNSET] [NIGHT]   [BLUE]     ← 4/4
+Fila 2: [NEUTRAL]   [      ] [      ]  [      ]   ← 1/4 + 3 slots
+```
+
+---
+
+#### 7.4 — Sliders: ancho = 4 cards, alto = ½ card
+
+**Dimensiones:**
+
+| Variable | Valor | Cálculo |
+|----------|-------|---------|
+| Slider width | 344 px | Igual que grid de 4 cards |
+| Slider height | 40 px | 80/2 = 40 px (½ card) |
+| Label position | Integrado dentro del slider-container, alineado a la izquierda |
+| Dragger size | 32 px visual (hit area 48 px) | FIX V-FIT-02 |
+
+```css
+/* ── Slider container: mismo ancho que grid de 4 cards ── */
+.slider-container {
+    width: 344px;             /* = 4×80 + 3×8 — misma anchura que el grid */
+    height: 40px;             /* ½ de una card (80/2) */
+    align-self: center;
+    
+    background-color: rgba(255, 255, 255, 0.04);  /* semi-transparente como cards */
+    border-width: 0;
+    border-radius: 16px;      /* mismo radius que cards */
+    padding: 0 16px;
+    
+    flex-direction: row;
+    align-items: center;
+}
+
+.slider-label {
+    font-size: 12px;          /* FIX T-05: 11→12 px */
+    color: rgba(255, 255, 255, 0.5);  /* FIX A-06: 0.35→0.5 */
+    letter-spacing: 1px;
+    margin-right: 12px;
+    -unity-font-style: bold;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Env sliders: misma regla */
+.env-slider-group {
+    width: 344px;
+    height: 40px;
+    align-self: center;
+    margin-top: 8px;
+    padding: 0 16px;
+    
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    border-width: 0;
+    
+    flex-direction: row;
+    align-items: center;
+}
+```
+
+---
+
+#### 7.5 — Contenedores invisibles (sin fondo/borde en submenús)
+
+**Antes:** `.mode-submenu` tenía `background-color: rgba(10,10,18,0.75)` + `border-width: 1px` + `border-color: rgba(255,255,255,0.06)`
+
+**Después:** Eliminar fondo y borde del contenedor. Solo las cards individuales tienen fondo semi-transparente.
+
+```css
+.mode-submenu {
+    position: relative;
+    width: 100%;
+    
+    background-color: transparent;    /* SIN FONDO */
+    border-width: 0;                  /* SIN BORDE */
+    border-radius: 0;
+    padding: 8px 0;                   /* solo padding vertical para spacing */
+    
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+/* Título del submenu: mantener pero ajustar contraste */
+.submenu-title {
+    font-size: 12px;                  /* FIX T-04: 11→12 */
+    color: rgba(255, 255, 255, 0.5);  /* FIX A-05: 0.3→0.5 */
+    letter-spacing: 2px;
+    margin-bottom: 8px;               /* FIX G-30: 10→8 */
+    -unity-font-style: bold;
+}
+```
+
+---
+
+#### 7.6 — Cross-Section Panel: axis btns como cards cuadradas en grid
+
+Los botones de eje (X, Y, Z, ⇅) se tratan como 4 cards en una sola fila, seguidas del slider debajo.
+
+```
+   ○         ○         ○         ○       ← iconos redondos
+    X         Y         Z        ⇅       ← labels
+┌──────────────────────────────────────┐
+│ ──────────────○───────────────────── │  ← slider (344×40)
+└──────────────────────────────────────┘
+```
+
+```css
+.cross-section-axis-btn {
+    width: 80px;              /* misma dimensión que submenu-card */
+    height: 80px;
+    margin: 4px;
+    
+    background-color: rgba(255, 255, 255, 0.04);
+    border-width: 0;
+    border-radius: 16px;
+    
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cross-section-axis-label {
+    font-size: 14px;          /* legible para letras individuales X/Y/Z */
+    color: rgba(255, 255, 255, 0.6);
+    -unity-font-style: bold;
+}
+```
+
+---
+
+#### 7.7 — Mode Action Buttons (ToolsActionBar, AnalyzeActionBar): icon-only
+
+Los botones de acción dentro de cada modo (INFO, EXPLODE, PINS / SHADERS, CUT) siguen el mismo patrón icon-only del bottom bar: sin cuadro, solo icono + label.
+
+```css
+.mode-action-bar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0;
+    margin-bottom: 8px;
+    background-color: transparent;  /* SIN FONDO */
+    border-radius: 0;
+    border-width: 0;                /* SIN BORDE */
+}
+
+.mode-action-btn {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 56px;
+    margin-left: 12px;
+    margin-right: 12px;
+    background-color: transparent;  /* SIN FONDO */
+    border-radius: 0;
+    border-width: 0;                /* SIN BORDE */
+}
+
+.mode-action-btn:hover {
+    background-color: transparent;
+    scale: 1.1;
+}
+
+.mode-action-btn--active .mode-action-icon {
+    -unity-background-tint-color: rgba(0, 170, 255, 1);
+}
+
+.mode-action-label {
+    font-size: 12px;        /* FIX T-01: 9→12 px */
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+    -unity-font-style: bold;
+}
+```
+
+---
+
+#### 7.8 — Audit Quick Fixes adicionales (del UX_UI_AUDIT_REPORT.md)
+
+| Fix ID | Cambio | Selector |
+|--------|--------|----------|
+| V-FIT-03 | sheet-close-btn: 32→40 px + padding 4px | `.sheet-close-btn` |
+| V-FIT-04 | icon-button-small: 40→48 px | `.icon-button-small` |
+| V-FIT-02 | slider dragger: 24→32 px | `.glass-slider .unity-base-slider__dragger` |
+| A-04 | header-title opacity: 0.35→0.5 | `.header-title` |
+| G-24 | mode-btn-icon: 22→24 px | `.mode-btn-icon` (ya en 7.1 como 28px) |
+| G-26 | mode-action-icon: 20→24 px | `.mode-action-icon` |
+| G-28 | submenu-icon margin-bottom: 6→8 px | `.submenu-icon` (ya en 7.2 como 8px) |
+
+---
+
+#### 7.9 — Resumen dimensional (Sistema de Diseño post-Iteración 7)
+
+```
+╔══════════════════════════════════════════════════════════════╗
+║  DESIGN SYSTEM — GRID TOKENS (8pt base)                     ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  Card (base unit):           80 × 80 px  (cuadrada)         ║
+║  Card gap:                   8 px                            ║
+║  Grid width (4 cols):        344 px  (4×80 + 3×8)           ║
+║  Slider container:           344 × 40 px (ancho grid × ½h)  ║
+║  Icon circle:                40 × 40 px  (dentro de card)    ║
+║  Card border-radius:         16 px                           ║
+║  Card background:            rgba(255,255,255,0.04)          ║
+║                                                              ║
+║  Mode btn (bottom bar):      64 × 64 px  (icon-only, 0 bg)  ║
+║  Mode action btn:            64 × 56 px  (icon-only, 0 bg)  ║
+║  Top bar btn:                48 × 48 px  (icon-only)         ║
+║                                                              ║
+║  Font minimum:               12 px (captions/labels)         ║
+║  Font body:                  16 px (data, descriptions)      ║
+║  Spacing scale:              4 / 8 / 12 / 16 / 24 / 32      ║
+║                                                              ║
+║  Accent:                     rgba(0, 170, 255, *)            ║
+║  Surface (card bg):          rgba(255, 255, 255, 0.04)       ║
+║  Surface (card hover):       rgba(255, 255, 255, 0.08)       ║
+║  Surface (card active):      rgba(0, 170, 255, 0.12)         ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+```
+
+---
+
+#### Tareas de Implementación (checklist)
+
+1. **USS — Bottom Bar Buttons**
+   - [ ] `.mode-btn`: remover fondo, borde, border-radius → icon-only
+   - [ ] `.mode-btn-icon`: 22→28 px
+   - [ ] `.mode-btn-label`: 10→12 px
+   - [ ] `.mode-btn--active`: feedback solo en icono (tint) y label (color)
+
+2. **USS — Cards Cuadradas**
+   - [ ] `.submenu-card`: 110×88 → 80×80, border-width: 0, border-radius: 16
+   - [ ] `.submenu-icon`: hacer circular (border-radius: 50%, width/height: 40px, bg sutil)
+   - [ ] `.submenu-label`: 10→12 px
+   - [ ] `.submenu-grid`: width fijo 344px, justify-content: flex-start
+
+3. **USS — Sliders**
+   - [ ] `.slider-container`: width: 344px, height: 40px, border-width: 0
+   - [ ] `.env-slider-group`: mismas dimensiones que slider-container
+   - [ ] `.glass-slider dragger`: 24→32 px (hit area 48px)
+
+4. **USS — Contenedores Invisibles**
+   - [ ] `.mode-submenu`: background: transparent, border: 0
+   - [ ] `.mode-action-bar`: background: transparent, border: 0
+   - [ ] `.submenu-title`: 11→12 px, opacity 0.3→0.5
+
+5. **USS — Cross Section como Grid**
+   - [ ] `.cross-section-axis-btn`: 34→80 px (como cards)
+   - [ ] `.cross-section-axis-group`: layout como submenu-grid
+   - [ ] Slider de posición: 344×40 px
+
+6. **USS — Mode Action Buttons**
+   - [ ] `.mode-action-btn`: remover fondo/borde → icon-only
+   - [ ] `.mode-action-label`: 9→12 px
+   - [ ] `.mode-action-icon`: 20→24 px
+
+7. **USS — Audit Fixes**
+   - [ ] `.icon-button-small`: 40→48 px
+   - [ ] `.sheet-close-btn`: 32→40 px + padding 4px
+   - [ ] `.header-title`: opacity 0.35→0.5
+
+8. **UXML — Cross Section Restructure** (si necesario)
+   - [ ] Reestructurar CrossSectionPanel para que axis btns estén en submenu-grid
+   - [ ] Verificar que el C# (UICrossSectionPanel.cs) sigue encontrando los elementos por nombre
+
+9. **Verificación**
+   - [ ] 0 errores de compilación
+   - [ ] Grid de 4 cols alineado en todos los submenús
+   - [ ] Slots vacíos visualmente correctos (fila 2 de ShaderMenu tiene 3+vacío)
+   - [ ] Sliders tienen el ancho exacto del grid
+   - [ ] Botones del bottom bar son icon-only sin cuadro
+   - [ ] Todos los font-size ≥ 12 px
+   - [ ] Todos los touch targets ≥ 44 px
+   - [ ] Cards semi-transparentes sin contenedores visibles detrás
