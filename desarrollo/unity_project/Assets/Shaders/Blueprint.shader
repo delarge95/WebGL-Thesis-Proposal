@@ -71,6 +71,10 @@ Shader "WebGL/Blueprint"
                 half _FresnelPower;
             CBUFFER_END
 
+            // Global clipping (set by CrossSectionManager)
+            float4 _GlobalClipPlane;
+            float _GlobalClipEnabled;
+
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
@@ -87,6 +91,13 @@ Shader "WebGL/Blueprint"
 
             half4 frag(Varyings IN) : SV_Target
             {
+                // Cross-section clipping
+                if (_GlobalClipEnabled > 0.5)
+                {
+                    float clipDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
+                    if (clipDist < 0) discard;
+                }
+
                 half3 normalWS = normalize(IN.normalWS);
                 half3 viewDirWS = normalize(IN.viewDirWS);
                 
@@ -150,6 +161,7 @@ Shader "WebGL/Blueprint"
             struct Varyings
             {
                 float4 positionCS : SV_POSITION;
+                float3 positionWS : TEXCOORD0;
             };
 
             CBUFFER_START(UnityPerMaterial)
@@ -163,6 +175,10 @@ Shader "WebGL/Blueprint"
                 half _FresnelPower;
             CBUFFER_END
 
+            // Global clipping (set by CrossSectionManager)
+            float4 _GlobalClipPlane;
+            float _GlobalClipEnabled;
+
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
@@ -170,12 +186,20 @@ Shader "WebGL/Blueprint"
                 // Expand along normals
                 float3 positionOS = IN.positionOS.xyz + IN.normalOS * _OutlineWidth;
                 OUT.positionCS = TransformObjectToHClip(positionOS);
+                OUT.positionWS = TransformObjectToWorld(positionOS);
 
                 return OUT;
             }
 
             half4 frag(Varyings IN) : SV_Target
             {
+                // Cross-section clipping
+                if (_GlobalClipEnabled > 0.5)
+                {
+                    float clipDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
+                    if (clipDist < 0) discard;
+                }
+
                 return _LineColor;
             }
             ENDHLSL

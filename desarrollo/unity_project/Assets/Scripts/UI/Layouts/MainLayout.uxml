@@ -47,8 +47,10 @@
 
             <!-- Slider Container (Exploded View) — appears below action bar on toggle -->
             <ui:VisualElement name="SliderContainer" class="mode-submenu slider-hidden" picking-mode="Ignore">
-                <ui:Label text="EXPLODED VIEW" class="slider-label" picking-mode="Ignore" />
-                <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider" picking-mode="Position" />
+                <ui:VisualElement class="env-slider-group">
+                    <ui:Label text="EXPLODE" class="env-slider-label" picking-mode="Ignore" />
+                    <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider env-slider" picking-mode="Position" />
+                </ui:VisualElement>
             </ui:VisualElement>
 
             <!-- Category Filter Menu — appears below action bar on toggle -->

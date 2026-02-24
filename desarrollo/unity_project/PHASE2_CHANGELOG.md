@@ -17,6 +17,7 @@
 | 5         | Cross-Section UI en Analyze Mode    | 66673f3 | 23-feb-2026 | ✅ Completada |
 | 6         | Cleanup & Integración Final         | —       | 23-feb-2026 | ✅ Completada |
 | 7         | UX Audit Fixes — Minimalist Grid UI | —       | 24-feb-2026 | ✅ Completada |
+| 8         | Cross-Section Universal + Polish     | —       | 24-feb-2026 | ✅ Completada |
 
 ---
 
@@ -258,3 +259,57 @@
 - ✅ Todos los touch targets ≥ 44px (dragger 32px visible, cards 80px)
 
 ### Resultado de compilación: ✅ 0 errores
+
+---
+
+## Iteración 8 — Cross-Section Universal + Polish
+
+**Fecha:** 24 de febrero de 2026  
+**Archivos modificados:** 10
+
+### Problema
+
+1. **Cross-section solo funcionaba con ClippableLit** — `CrossSectionManager` hacía swap de materiales a `ClippableLit`, rompiendo cualquier view-mode activo (XRay, Blueprint, etc.)
+2. **Slider de Exploded View fuera de pantalla** — `SliderContainer` usaba layout column sin constraint de ancho, el slider se extendía fuera del viewport
+3. **Botones de eje de cross-section no cabían en fila** — 4 × (80+8) = 352px > 344px grid, el 4to botón se envolvía
+
+### Solución arquitectónica
+
+Desacoplar cross-section del material swap. Todos los shaders WebGL/* ahora leen propiedades globales `_GlobalClipPlane` y `_GlobalClipEnabled` directamente, sin necesidad de cambiar materiales.
+
+### Cambios realizados:
+
+#### 8.1 — Shaders: Clip global en todos los shaders (7 archivos)
+
+Cada shader recibió:
+- Declaraciones globales `float4 _GlobalClipPlane; float _GlobalClipEnabled;`
+- Lógica de discard al inicio del fragment: `if (_GlobalClipEnabled > 0.5) { clip(...) }`
+- Varying `positionWS` añadido donde no existía (passes secundarios)
+
+| Shader             | Passes modificados                    |
+| ------------------ | ------------------------------------- |
+| `XRay.shader`      | Behind + Front (2 passes, +positionWS)|
+| `Blueprint.shader`  | Main + Outline (+positionWS outline)  |
+| `SolidColor.shader` | Outline + Main + ShadowCaster (3)     |
+| `Ghosted.shader`   | 1 pass                                |
+| `Thermal.shader`   | 1 pass                                |
+| `WireframeWebGL.shader` | 1 pass                           |
+| `Wireframe.shader` | Geometry pass + Fallback (+positionWS)|
+
+#### 8.2 — CrossSectionManager.cs: Eliminar material swap
+
+- **Eliminados:** `SwapToClippableMaterials()`, `RestoreOriginalMaterials()`, `CacheRenderers()`
+- **Eliminados campos:** `partRenderers`, `savedMaterials`, `clippableShader`, `clipEdgeColor`, `clipEdgeWidth`
+- **Simplificado:** `EnableCrossSection()` → solo activa globals + plano visual
+- **Simplificado:** `DisableCrossSection()` → solo desactiva globals + oculta plano
+- **Resultado:** 217 líneas (antes 317) — reducción del 32%
+
+#### 8.3 — MainLayout.uxml: Centrar slider de Exploded View
+
+- `SliderContainer` → contenido envuelto en `env-slider-group` (344px, row layout)
+
+#### 8.4 — Theme.uss: Botones de eje de cross-section
+
+- `.cross-section-axis-btn`: 80×80 → 72×48px (caben 4 en 344px)
+- `.cross-section-axis-group`: `flex-wrap: nowrap`, `justify-content: center`
+- `.cross-section-axis-btn`: `border-radius: 16→12px`, `margin: 4px → 0 4px`

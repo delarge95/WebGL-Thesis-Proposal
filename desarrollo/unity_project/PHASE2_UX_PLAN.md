@@ -1113,3 +1113,44 @@ Los botones de acción dentro de cada modo (INFO, EXPLODE, PINS / SHADERS, CUT) 
    - [x] Todos los font-size ≥ 12 px
    - [x] Todos los touch targets ≥ 44 px
    - [x] Cards semi-transparentes sin contenedores visibles detrás
+
+---
+
+### Iteración 8 — Cross-Section Universal + Polish
+
+**Archivos:** `CrossSectionManager.cs`, 7 shaders, `MainLayout.uxml`, `Theme.uss`  
+**Riesgo:** ALTO — cambios en todos los shaders + refactor de manager  
+**Estado:** ✅ Completada — 24 de febrero de 2026
+
+#### Objetivos
+
+- Cross-section funciona con TODOS los view-modes (XRay, Blueprint, SolidColor, etc.)
+- Slider de Exploded View centrado en pantalla
+- 4 botones de eje caben en una fila del grid
+
+#### 8.1 — Global clip en todos los shaders
+
+- [x] `_GlobalClipPlane` + `_GlobalClipEnabled` añadidos a XRay, Blueprint, SolidColor, Ghosted, Thermal, WireframeWebGL, Wireframe
+- [x] Lógica de discard en fragment de cada pass visible
+- [x] `positionWS` varying añadido a passes que no lo tenían
+
+#### 8.2 — Refactor CrossSectionManager
+
+- [x] Eliminados: `SwapToClippableMaterials()`, `RestoreOriginalMaterials()`, `CacheRenderers()`
+- [x] Eliminados campos: `partRenderers`, `savedMaterials`, `clippableShader`
+- [x] `EnableCrossSection()` / `DisableCrossSection()` solo manejan globals
+
+#### 8.3 — Slider centering
+
+- [x] `SliderContainer` envuelto en `env-slider-group` (344px row)
+
+#### 8.4 — Axis button sizing
+
+- [x] `.cross-section-axis-btn`: 80×80 → 72×48
+- [x] `.cross-section-axis-group`: `nowrap`, `center`
+
+#### Verificación
+
+- [x] Cross-section funciona con todos los view-modes
+- [x] Sin conflicto CrossSectionManager ↔ ViewModeManager
+- [x] Slider centrado, 4 botones en fila, grid 8pt

@@ -64,6 +64,10 @@ Shader "WebGL/WireframeWebGL"
                 half _DepthFadeDistance;
             CBUFFER_END
 
+            // Global clipping (set by CrossSectionManager)
+            float4 _GlobalClipPlane;
+            float _GlobalClipEnabled;
+
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
@@ -77,6 +81,13 @@ Shader "WebGL/WireframeWebGL"
 
             half4 frag(Varyings IN) : SV_Target
             {
+                // Cross-section clipping
+                if (_GlobalClipEnabled > 0.5)
+                {
+                    float clipDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
+                    if (clipDist < 0) discard;
+                }
+
                 half3 normalWS = normalize(IN.normalWS);
                 half3 viewDirWS = normalize(IN.viewDirWS);
                 
