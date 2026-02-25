@@ -311,8 +311,10 @@ namespace WebGL.UI.Panels
                 AddCleanup(() => _infoBtn.clicked -= onInfoClick);
             }
 
-            // Swipe-up on BottomBar to open sheet (issue #7 — gesture support)
-            if (_bottomBar != null)
+            // Swipe-up on actions-row pill to open sheet (issue #7 — gesture support)
+            // Note: BottomBar has picking-mode="Ignore", so we use the actions-row which IS clickable
+            var actionsRow = _root.Q<VisualElement>(className: "actions-row");
+            if (actionsRow != null)
             {
                 EventCallback<PointerDownEvent> swipeDown = evt =>
                 {
@@ -324,9 +326,9 @@ namespace WebGL.UI.Panels
                 };
                 EventCallback<PointerMoveEvent> swipeMove = evt =>
                 {
-                    if (_isSwipingUp && (_swipeStartY - evt.position.y > 60))
+                    if (_isSwipingUp && (_swipeStartY - evt.position.y > 50))
                     {
-                        // Swipe upward > 60px threshold → open sheet
+                        // Swipe upward > 50px threshold → open sheet
                         if (SelectionManager.Instance?.HasSelection == true)
                             OpenSheet();
                         _isSwipingUp = false;
@@ -334,16 +336,16 @@ namespace WebGL.UI.Panels
                 };
                 EventCallback<PointerUpEvent> swipeUp = evt => _isSwipingUp = false;
                 EventCallback<PointerLeaveEvent> swipeLeave = evt => _isSwipingUp = false;
-                _bottomBar.RegisterCallback(swipeDown);
-                _bottomBar.RegisterCallback(swipeMove);
-                _bottomBar.RegisterCallback(swipeUp);
-                _bottomBar.RegisterCallback(swipeLeave);
+                actionsRow.RegisterCallback(swipeDown);
+                actionsRow.RegisterCallback(swipeMove);
+                actionsRow.RegisterCallback(swipeUp);
+                actionsRow.RegisterCallback(swipeLeave);
                 AddCleanup(() =>
                 {
-                    _bottomBar.UnregisterCallback(swipeDown);
-                    _bottomBar.UnregisterCallback(swipeMove);
-                    _bottomBar.UnregisterCallback(swipeUp);
-                    _bottomBar.UnregisterCallback(swipeLeave);
+                    actionsRow.UnregisterCallback(swipeDown);
+                    actionsRow.UnregisterCallback(swipeMove);
+                    actionsRow.UnregisterCallback(swipeUp);
+                    actionsRow.UnregisterCallback(swipeLeave);
                 });
             }
         }

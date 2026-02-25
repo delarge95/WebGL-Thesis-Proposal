@@ -11,7 +11,7 @@ namespace WebGL.UI.Panels
     ///
     /// Flow: Mode button → Card Grid (Level 1) → Sub-Panel (Level 2) → Back to Grid → Deactivate
     ///
-    /// Tools Mode:   Card grid (Info, Explode, Pins) → Explode sub-panel
+    /// Tools Mode:   Card grid (Info, Explode, Filter, Pins) → Explode sub-panel / Filter sub-panel
     /// Analyze Mode: Card grid (Shaders, Cut) → Shader menu / Cross-section panel
     /// Studio Mode:  Environment panel directly (single level)
     ///
@@ -32,8 +32,10 @@ namespace WebGL.UI.Panels
         // ── Tools mode: Level 1 card grid + Level 2 sub-panels ──
         private readonly VisualElement _toolsCardGrid;
         private readonly VisualElement _explodeSubPanel;
+        private readonly VisualElement _filterSubPanel;
         private readonly Button _toolInfoBtn;
         private readonly Button _toolExplodeBtn;
+        private readonly Button _toolFilterBtn;
         private readonly Button _toolHotspotBtn;
         private readonly VisualElement _sliderContainer;
         private readonly Slider _explosionSlider;
@@ -59,6 +61,7 @@ namespace WebGL.UI.Panels
         private ActiveMode _activeMode = ActiveMode.None;
         private SubLevel _toolsLevel = SubLevel.CardGrid;
         private SubLevel _analyzeLevel = SubLevel.CardGrid;
+        private string _toolsActivePanel = null;   // "explode" | "filter" | null
         private string _analyzeActivePanel = null; // "shaders" | "cross-section" | null
         private bool _hotspotsEnabled = false;
         private bool _isSheetOpen = false;
@@ -90,11 +93,13 @@ namespace WebGL.UI.Panels
             {
                 _toolsCardGrid = _toolsModeContainer.Q<VisualElement>("ToolsCardGrid");
                 _explodeSubPanel = _toolsModeContainer.Q<VisualElement>("ExplodeSubPanel");
+                _filterSubPanel = _toolsModeContainer.Q<VisualElement>("FilterSubPanel");
                 _toolInfoBtn = _toolsModeContainer.Q<Button>("ToolInfoBtn");
                 _toolExplodeBtn = _toolsModeContainer.Q<Button>("ToolExplodeBtn");
+                _toolFilterBtn = _toolsModeContainer.Q<Button>("ToolFilterBtn");
                 _toolHotspotBtn = _toolsModeContainer.Q<Button>("ToolHotspotBtn");
                 _sliderContainer = _toolsModeContainer.Q<VisualElement>("SliderContainer");
-                _categoryMenu = _toolsModeContainer.Q<VisualElement>("CategoryMenu");
+                _categoryMenu = _filterSubPanel; // category buttons live inside FilterSubPanel now
             }
 
             // ── Analyze mode queries ──
@@ -218,6 +223,14 @@ namespace WebGL.UI.Panels
                 AddCleanup(() => _toolExplodeBtn.clicked -= onExplode);
             }
 
+            // Filter card — navigate to FilterSubPanel (category grid)
+            if (_toolFilterBtn != null)
+            {
+                System.Action onFilter = () => NavigateToSubPanel(ActiveMode.Tools, "filter");
+                _toolFilterBtn.clicked += onFilter;
+                AddCleanup(() => _toolFilterBtn.clicked -= onFilter);
+            }
+
             // Pins card — immediate toggle (no navigation)
             if (_toolHotspotBtn != null)
             {
@@ -264,6 +277,7 @@ namespace WebGL.UI.Panels
             if (mode == ActiveMode.Tools)
             {
                 _toolsLevel = SubLevel.CardGrid;
+                _toolsActivePanel = null;
                 ShowToolsLevel();
             }
             else if (mode == ActiveMode.Analyze)
@@ -289,8 +303,12 @@ namespace WebGL.UI.Panels
             if (mode == ActiveMode.Tools)
             {
                 _toolsLevel = SubLevel.SubPanel;
+                _toolsActivePanel = panelId;
                 ShowToolsLevel();
-                _toolExplodeBtn?.AddToClassList("submenu-card--active");
+
+                // Highlight the active card
+                _toolExplodeBtn?.EnableInClassList("submenu-card--active", panelId == "explode");
+                _toolFilterBtn?.EnableInClassList("submenu-card--active", panelId == "filter");
             }
             else if (mode == ActiveMode.Analyze)
             {
@@ -310,8 +328,10 @@ namespace WebGL.UI.Panels
             if (mode == ActiveMode.Tools)
             {
                 _toolsLevel = SubLevel.CardGrid;
+                _toolsActivePanel = null;
                 ShowToolsLevel();
                 _toolExplodeBtn?.RemoveFromClassList("submenu-card--active");
+                _toolFilterBtn?.RemoveFromClassList("submenu-card--active");
             }
             else if (mode == ActiveMode.Analyze)
             {
@@ -331,7 +351,12 @@ namespace WebGL.UI.Panels
         {
             bool showGrid = _toolsLevel == SubLevel.CardGrid;
             _toolsCardGrid?.EnableInClassList("submenu--hidden", !showGrid);
-            _explodeSubPanel?.EnableInClassList("submenu--hidden", showGrid);
+
+            bool showExplode = !showGrid && _toolsActivePanel == "explode";
+            bool showFilter = !showGrid && _toolsActivePanel == "filter";
+
+            _explodeSubPanel?.EnableInClassList("submenu--hidden", !showExplode);
+            _filterSubPanel?.EnableInClassList("submenu--hidden", !showFilter);
         }
 
         // ═══════════════════════════════════════════════════════
@@ -372,7 +397,11 @@ namespace WebGL.UI.Panels
 
         public void ToggleCategoryMenu()
         {
-            // Categories are now always visible inside ExplodeSubPanel
+            // Navigate to/from FilterSubPanel
+            if (_toolsLevel == SubLevel.SubPanel && _toolsActivePanel == "filter")
+                NavigateToCardGrid(ActiveMode.Tools);
+            else
+                NavigateToSubPanel(ActiveMode.Tools, "filter");
         }
 
         // ═══════════════════════════════════════════════════════
@@ -400,7 +429,7 @@ namespace WebGL.UI.Panels
         public void ToggleSliderVisibility()
         {
             // Navigate to/from ExplodeSubPanel
-            if (_toolsLevel == SubLevel.SubPanel)
+            if (_toolsLevel == SubLevel.SubPanel && _toolsActivePanel == "explode")
                 NavigateToCardGrid(ActiveMode.Tools);
             else
                 NavigateToSubPanel(ActiveMode.Tools, "explode");
@@ -492,9 +521,12 @@ namespace WebGL.UI.Panels
         {
             // Tools
             _toolsLevel = SubLevel.CardGrid;
+            _toolsActivePanel = null;
             _toolsCardGrid?.RemoveFromClassList("submenu--hidden");
             _explodeSubPanel?.AddToClassList("submenu--hidden");
+            _filterSubPanel?.AddToClassList("submenu--hidden");
             _toolExplodeBtn?.RemoveFromClassList("submenu-card--active");
+            _toolFilterBtn?.RemoveFromClassList("submenu-card--active");
 
             // Analyze
             _analyzeLevel = SubLevel.CardGrid;

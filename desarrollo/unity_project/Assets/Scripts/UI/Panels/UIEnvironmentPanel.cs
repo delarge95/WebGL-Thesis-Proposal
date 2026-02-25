@@ -84,7 +84,7 @@ namespace WebGL.UI.Panels
                 });
             }
 
-            var presets = new[] { "Studio", "Sunset", "Night", "Blueprint", "Neutral" };
+            var presets = new[] { "Studio", "Night", "Blueprint", "Neutral" };
             foreach (var preset in presets)
             {
                 var btn = _envPanel.Q<Button>($"EnvPreset_{preset}");
@@ -103,7 +103,7 @@ namespace WebGL.UI.Panels
         public void UpdateEnvPresetActiveState(string activePreset)
         {
             if (_envPanel == null) return;
-            var presets = new[] { "Studio", "Sunset", "Night", "Blueprint", "Neutral" };
+            var presets = new[] { "Studio", "Night", "Blueprint", "Neutral" };
             foreach (var p in presets)
             {
                 var btn = _envPanel.Q<Button>($"EnvPreset_{p}");

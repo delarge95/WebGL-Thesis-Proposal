@@ -15,7 +15,6 @@ namespace WebGL.UI.Panels
     {
         // ── Elements ──
         private readonly VisualElement _panel;
-        private readonly Button _toggleBtn;
         private readonly Button _axisXBtn;
         private readonly Button _axisYBtn;
         private readonly Button _axisZBtn;
@@ -48,7 +47,6 @@ namespace WebGL.UI.Panels
             }
 
             // Query elements
-            _toggleBtn = _panel.Q<Button>("CrossSectionToggleBtn");
             _axisXBtn = _panel.Q<Button>("CrossSectionAxisX");
             _axisYBtn = _panel.Q<Button>("CrossSectionAxisY");
             _axisZBtn = _panel.Q<Button>("CrossSectionAxisZ");
@@ -62,6 +60,9 @@ namespace WebGL.UI.Panels
 
             // Initialize with default axis
             _activeAxes.Add(CrossSectionAxis.Y);
+
+            // Cross-section is always enabled when panel is visible (no toggle needed)
+            _isEnabled = true;
 
             BindButtons();
             BindSliders();
@@ -85,13 +86,6 @@ namespace WebGL.UI.Panels
 
         private void BindButtons()
         {
-            if (_toggleBtn != null)
-            {
-                System.Action onToggle = OnToggleClicked;
-                _toggleBtn.clicked += onToggle;
-                AddCleanup(() => _toggleBtn.clicked -= onToggle);
-            }
-
             if (_axisXBtn != null)
             {
                 System.Action onX = () => OnAxisToggled(CrossSectionAxis.X);
@@ -157,13 +151,6 @@ namespace WebGL.UI.Panels
         // ═══════════════════════════════════════════════════════
         //  Event Handlers
         // ═══════════════════════════════════════════════════════
-
-        private void OnToggleClicked()
-        {
-            CrossSectionManager.Instance?.ToggleCrossSection();
-            _isEnabled = CrossSectionManager.Instance?.IsEnabled ?? false;
-            UpdateVisualState();
-        }
 
         /// <summary>
         /// Toggle an axis on/off. Up to 2 can be active simultaneously.
@@ -236,15 +223,7 @@ namespace WebGL.UI.Panels
 
         private void UpdateVisualState()
         {
-            _toggleBtn?.EnableInClassList("submenu-card--active", _isEnabled);
-
-            var controlsContainer = _panel?.Q<VisualElement>("CrossSectionControls");
-            if (controlsContainer != null)
-            {
-                controlsContainer.style.display = _isEnabled ? DisplayStyle.Flex : DisplayStyle.None;
-                controlsContainer.style.opacity = _isEnabled ? 1f : 0f;
-            }
-
+            // Controls are always visible when the panel is shown (no wrapper to toggle)
             UpdateAxisButtons();
             UpdatePlane2Visibility();
         }
