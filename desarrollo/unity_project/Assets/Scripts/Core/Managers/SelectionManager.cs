@@ -198,7 +198,10 @@ namespace WebGL.Core.Managers
 
             if (hoveredObject == currentSelection)
             {
-                // Clicking same object - could toggle or do nothing
+                // Re-fire selection event so UI can detect double-click/double-tap
+                var explodable = hoveredObject.GetComponent<ExplodablePart>();
+                if (explodable != null && explodable.Data != null)
+                    EventBus.Publish(new PartSelectedEvent(explodable.Data, false));
                 return;
             }
 
