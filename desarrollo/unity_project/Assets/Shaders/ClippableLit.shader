@@ -85,6 +85,8 @@ Shader "WebGL/ClippableLit"
             // Global clipping properties (set by CrossSectionManager)
             float4 _GlobalClipPlane;
             float _GlobalClipEnabled;
+            float4 _GlobalClipPlane2;
+            float _GlobalClipEnabled2;
 
             Varyings vert(Attributes IN)
             {
@@ -106,18 +108,27 @@ Shader "WebGL/ClippableLit"
 
             half4 frag(Varyings IN) : SV_Target
             {
-                // Clipping
-                #if defined(_CLIP_ENABLED)
-                float4 clipPlane = _GlobalClipEnabled > 0.5 ? _GlobalClipPlane : _ClipPlane;
-                float dist = dot(IN.positionWS, clipPlane.xyz) + clipPlane.w;
-                
-                if (dist < 0)
-                    discard;
-                
-                // Edge highlight
-                if (dist < _ClipEdgeWidth)
+                // Global cross-section clipping (unconditional — works in Realistic mode)
+                if (_GlobalClipEnabled > 0.5)
                 {
-                    return _ClipColor;
+                    float gDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
+                    if (gDist < 0) discard;
+                    if (gDist < _ClipEdgeWidth) return _ClipColor;
+                }
+                if (_GlobalClipEnabled2 > 0.5)
+                {
+                    float gDist2 = dot(IN.positionWS, _GlobalClipPlane2.xyz) + _GlobalClipPlane2.w;
+                    if (gDist2 < 0) discard;
+                    if (gDist2 < _ClipEdgeWidth) return _ClipColor;
+                }
+
+                // Local per-material clipping (optional keyword)
+                #if defined(_CLIP_ENABLED)
+                if (_GlobalClipEnabled < 0.5)
+                {
+                    float dist = dot(IN.positionWS, _ClipPlane.xyz) + _ClipPlane.w;
+                    if (dist < 0) discard;
+                    if (dist < _ClipEdgeWidth) return _ClipColor;
                 }
                 #endif
 
@@ -191,6 +202,8 @@ Shader "WebGL/ClippableLit"
             float4 _ClipPlane;
             float4 _GlobalClipPlane;
             float _GlobalClipEnabled;
+            float4 _GlobalClipPlane2;
+            float _GlobalClipEnabled2;
 
             float3 _LightDirection;
 
@@ -209,11 +222,24 @@ Shader "WebGL/ClippableLit"
 
             half4 ShadowFrag(Varyings IN) : SV_Target
             {
+                // Global cross-section clipping
+                if (_GlobalClipEnabled > 0.5)
+                {
+                    float gDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
+                    if (gDist < 0) discard;
+                }
+                if (_GlobalClipEnabled2 > 0.5)
+                {
+                    float gDist2 = dot(IN.positionWS, _GlobalClipPlane2.xyz) + _GlobalClipPlane2.w;
+                    if (gDist2 < 0) discard;
+                }
+
                 #if defined(_CLIP_ENABLED)
-                float4 clipPlane = _GlobalClipEnabled > 0.5 ? _GlobalClipPlane : _ClipPlane;
-                float dist = dot(IN.positionWS, clipPlane.xyz) + clipPlane.w;
-                if (dist < 0)
-                    discard;
+                if (_GlobalClipEnabled < 0.5)
+                {
+                    float dist = dot(IN.positionWS, _ClipPlane.xyz) + _ClipPlane.w;
+                    if (dist < 0) discard;
+                }
                 #endif
 
                 return 0;

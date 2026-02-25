@@ -14,7 +14,7 @@
             <ui:Button name="HomeBtn" class="icon-button-small" tooltip="Return to Menu">
                 <ui:Label text="⌂" class="button-icon-text-small" picking-mode="Ignore"/>
             </ui:Button>
-            <ui:Label text="DRONE VIEWER" class="header-title" picking-mode="Ignore" />
+            <ui:Label text="SELECT A PART" name="TopContextLabel" class="header-title" picking-mode="Ignore" />
             <ui:Button name="ResetViewBtn" class="icon-button-small" tooltip="Reset Camera">
                 <ui:Label text="RST" class="button-icon-text-small" picking-mode="Ignore"/>
             </ui:Button>
@@ -100,68 +100,78 @@
 
             <!-- ═══ TOOLS MODE ═══ Info, Explode, Hotspots -->
             <ui:VisualElement name="ToolsModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
-                <ui:VisualElement name="ToolsActionBar" class="mode-action-bar" picking-mode="Ignore">
-                    <ui:Button name="ToolInfoBtn" class="mode-action-btn" tooltip="Part Info">
-                        <ui:VisualElement class="mode-action-icon icon-info" picking-mode="Ignore"/>
-                        <ui:Label text="INFO" class="mode-action-label" picking-mode="Ignore"/>
-                    </ui:Button>
-                    <ui:Button name="ToolExplodeBtn" class="mode-action-btn" tooltip="Exploded View">
-                        <ui:VisualElement class="mode-action-icon icon-explode" picking-mode="Ignore"/>
-                        <ui:Label text="EXPLODE" class="mode-action-label" picking-mode="Ignore"/>
-                    </ui:Button>
-                    <ui:Button name="ToolHotspotBtn" class="mode-action-btn" tooltip="Toggle Hotspots">
-                        <ui:VisualElement class="mode-action-icon icon-pin" picking-mode="Ignore"/>
-                        <ui:Label text="PINS" class="mode-action-label" picking-mode="Ignore"/>
-                    </ui:Button>
-                </ui:VisualElement>
-
-                <ui:VisualElement name="SliderContainer" class="mode-submenu slider-hidden" picking-mode="Ignore">
-                    <ui:VisualElement class="env-slider-group">
-                        <ui:Label text="EXPLODE" class="env-slider-label" picking-mode="Ignore" />
-                        <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider env-slider" picking-mode="Position" />
+                <!-- Level 1 — Card Grid -->
+                <ui:VisualElement name="ToolsCardGrid" class="mode-submenu" picking-mode="Ignore">
+                    <ui:Label text="TOOLS" class="submenu-title" picking-mode="Ignore"/>
+                    <ui:VisualElement class="submenu-grid">
+                        <ui:Button name="ToolInfoBtn" class="submenu-card" tooltip="Part Info">
+                            <ui:VisualElement class="submenu-icon icon-info" picking-mode="Ignore"/>
+                            <ui:Label text="INFO" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="ToolExplodeBtn" class="submenu-card" tooltip="Exploded View">
+                            <ui:VisualElement class="submenu-icon icon-explode" picking-mode="Ignore"/>
+                            <ui:Label text="EXPLODE" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="ToolHotspotBtn" class="submenu-card" tooltip="Toggle Hotspots">
+                            <ui:VisualElement class="submenu-icon icon-pin" picking-mode="Ignore"/>
+                            <ui:Label text="PINS" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
                     </ui:VisualElement>
                 </ui:VisualElement>
 
-                <ui:VisualElement name="CategoryMenu" class="mode-submenu submenu--hidden" picking-mode="Ignore">
-                    <ui:Label text="FILTER CATEGORY" class="submenu-title" />
-                    <ui:VisualElement class="submenu-grid">
-                        <ui:Button name="CatBtn_All" class="submenu-card submenu-card--active">
-                            <ui:VisualElement class="submenu-icon icon-all" picking-mode="Ignore"/>
-                            <ui:Label text="ALL" class="submenu-label" picking-mode="Ignore"/>
-                        </ui:Button>
-                        <ui:Button name="CatBtn_Structure" class="submenu-card">
-                            <ui:VisualElement class="submenu-icon icon-structure" picking-mode="Ignore"/>
-                            <ui:Label text="STRUCTURE" class="submenu-label" picking-mode="Ignore"/>
-                        </ui:Button>
-                        <ui:Button name="CatBtn_Propulsion" class="submenu-card">
-                            <ui:VisualElement class="submenu-icon icon-propulsion" picking-mode="Ignore"/>
-                            <ui:Label text="PROPULSION" class="submenu-label" picking-mode="Ignore"/>
-                        </ui:Button>
-                        <ui:Button name="CatBtn_Avionics" class="submenu-card">
-                            <ui:VisualElement class="submenu-icon icon-avionics" picking-mode="Ignore"/>
-                            <ui:Label text="AVIONICS" class="submenu-label" picking-mode="Ignore"/>
-                        </ui:Button>
-                        <ui:Button name="CatBtn_Power" class="submenu-card">
-                            <ui:VisualElement class="submenu-icon icon-power" picking-mode="Ignore"/>
-                            <ui:Label text="POWER" class="submenu-label" picking-mode="Ignore"/>
-                        </ui:Button>
+                <!-- Level 2 — Explode Sub-Panel -->
+                <ui:VisualElement name="ExplodeSubPanel" class="mode-submenu submenu--hidden" picking-mode="Ignore">
+                    <ui:Label text="EXPLODED VIEW" class="submenu-title" picking-mode="Ignore"/>
+                    <ui:VisualElement name="SliderContainer" class="env-slider-group" picking-mode="Ignore">
+                        <ui:Label text="EXPLODE" class="env-slider-label" picking-mode="Ignore" />
+                        <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider env-slider" picking-mode="Position" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="CategoryMenu" class="mode-submenu" picking-mode="Ignore">
+                        <ui:Label text="FILTER CATEGORY" class="submenu-title" picking-mode="Ignore"/>
+                        <ui:VisualElement class="submenu-grid">
+                            <ui:Button name="CatBtn_All" class="submenu-card submenu-card--active">
+                                <ui:VisualElement class="submenu-icon icon-all" picking-mode="Ignore"/>
+                                <ui:Label text="ALL" class="submenu-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                            <ui:Button name="CatBtn_Structure" class="submenu-card">
+                                <ui:VisualElement class="submenu-icon icon-structure" picking-mode="Ignore"/>
+                                <ui:Label text="STRUCTURE" class="submenu-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                            <ui:Button name="CatBtn_Propulsion" class="submenu-card">
+                                <ui:VisualElement class="submenu-icon icon-propulsion" picking-mode="Ignore"/>
+                                <ui:Label text="PROPULSION" class="submenu-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                            <ui:Button name="CatBtn_Avionics" class="submenu-card">
+                                <ui:VisualElement class="submenu-icon icon-avionics" picking-mode="Ignore"/>
+                                <ui:Label text="AVIONICS" class="submenu-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                            <ui:Button name="CatBtn_Power" class="submenu-card">
+                                <ui:VisualElement class="submenu-icon icon-power" picking-mode="Ignore"/>
+                                <ui:Label text="POWER" class="submenu-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
 
             <!-- ═══ ANALYZE MODE ═══ Shaders, Cross-Section -->
             <ui:VisualElement name="AnalyzeModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
-                <ui:VisualElement name="AnalyzeActionBar" class="mode-action-bar" picking-mode="Ignore">
-                    <ui:Button name="AnalyzeShaderBtn" class="mode-action-btn" tooltip="Render Modes">
-                        <ui:VisualElement class="mode-action-icon icon-view" picking-mode="Ignore"/>
-                        <ui:Label text="SHADERS" class="mode-action-label" picking-mode="Ignore"/>
-                    </ui:Button>
-                    <ui:Button name="AnalyzeCrossSectionBtn" class="mode-action-btn" tooltip="Cross Section">
-                        <ui:VisualElement class="mode-action-icon icon-cross-section" picking-mode="Ignore"/>
-                        <ui:Label text="CUT" class="mode-action-label" picking-mode="Ignore"/>
-                    </ui:Button>
+                <!-- Level 1 — Card Grid -->
+                <ui:VisualElement name="AnalyzeCardGrid" class="mode-submenu" picking-mode="Ignore">
+                    <ui:Label text="ANALYZE" class="submenu-title" picking-mode="Ignore"/>
+                    <ui:VisualElement class="submenu-grid">
+                        <ui:Button name="AnalyzeShaderBtn" class="submenu-card" tooltip="Render Modes">
+                            <ui:VisualElement class="submenu-icon icon-view" picking-mode="Ignore"/>
+                            <ui:Label text="SHADERS" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="AnalyzeCrossSectionBtn" class="submenu-card" tooltip="Cross Section">
+                            <ui:VisualElement class="submenu-icon icon-cross-section" picking-mode="Ignore"/>
+                            <ui:Label text="CUT" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                    </ui:VisualElement>
                 </ui:VisualElement>
 
+                <!-- Level 2a — Shader Menu -->
                 <ui:VisualElement name="ShaderMenu" class="mode-submenu submenu--hidden" picking-mode="Ignore">
                     <ui:Label text="RENDER MODE" class="submenu-title" />
                     <ui:VisualElement class="submenu-grid">
@@ -196,6 +206,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
 
+                <!-- Level 2b — Cross-Section Panel -->
                 <ui:VisualElement name="CrossSectionPanel" class="mode-submenu cross-section-panel submenu--hidden" picking-mode="Ignore">
                     <ui:Label text="CROSS SECTION" class="submenu-title" picking-mode="Ignore" />
                     <ui:VisualElement class="cross-section-row" picking-mode="Ignore">
@@ -204,6 +215,7 @@
                             <ui:Label text="CUT" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:VisualElement name="CrossSectionControls" class="cross-section-controls" style="display: none;">
+                            <!-- Axis multi-select (up to 2) -->
                             <ui:VisualElement class="cross-section-axis-group" picking-mode="Ignore">
                                 <ui:Button name="CrossSectionAxisX" class="cross-section-axis-btn">
                                     <ui:Label text="X" class="cross-section-axis-label" picking-mode="Ignore"/>
@@ -218,7 +230,18 @@
                                     <ui:Label text="⇅" class="cross-section-axis-label" picking-mode="Ignore"/>
                                 </ui:Button>
                             </ui:VisualElement>
+                            <!-- Plane 1 slider -->
                             <ui:Slider name="CrossSectionPosition" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
+
+                            <!-- Plane 2 controls (shown when 2 axes selected) -->
+                            <ui:VisualElement name="CrossSectionControls2" class="cross-section-controls" style="display: none;">
+                                <ui:VisualElement class="cross-section-axis-group" picking-mode="Ignore">
+                                    <ui:Button name="CrossSectionInvertBtn2" class="cross-section-axis-btn">
+                                        <ui:Label text="⇅ 2" class="cross-section-axis-label" picking-mode="Ignore"/>
+                                    </ui:Button>
+                                </ui:VisualElement>
+                                <ui:Slider name="CrossSectionPosition2" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
