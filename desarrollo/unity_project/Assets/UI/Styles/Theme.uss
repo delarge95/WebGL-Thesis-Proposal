@@ -158,8 +158,8 @@
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
     border-radius: 40px;
-    padding: 8px 32px;
-    min-width: auto;
+    padding: 10px 48px;
+    min-width: 320px;
     
     margin-bottom: 16px;
     
@@ -248,14 +248,14 @@
 }
 
 .mode-btn-icon {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     -unity-background-scale-mode: scale-to-fit;
     margin-bottom: 4px;
 }
 
 .mode-btn-label {
-    font-size: 13px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.5);
     letter-spacing: 1px;
     -unity-font-style: bold;
@@ -373,14 +373,14 @@
 }
 
 .mode-action-icon {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     -unity-background-scale-mode: scale-to-fit;
     margin-bottom: 4px;
 }
 
 .mode-action-label {
-    font-size: 13px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.5);
     letter-spacing: 1px;
     -unity-font-style: bold;
@@ -432,7 +432,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
-    width: 384px;
+    width: 416px;
     align-self: center;
     margin-right: 0;
     margin-bottom: 8px;
@@ -471,7 +471,7 @@
 }
 
 .cross-section-axis-label {
-    font-size: 15px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.6);
     -unity-font-style: bold;
     -unity-text-align: middle-center;
@@ -482,7 +482,7 @@
 }
 
 .cross-section-slider {
-    width: 384px;
+    width: 416px;
     height: 48px;
     min-height: 48px;
     align-self: center;
@@ -561,7 +561,7 @@
 }
 
 .selection-label {
-    font-size: 14px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.7);
     -unity-font-style: bold;
     letter-spacing: 1px;
@@ -787,7 +787,7 @@
 }
 
 .submenu-title {
-    font-size: 13px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.5);
     letter-spacing: 2px;
     margin-bottom: 8px;
@@ -799,14 +799,14 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     padding-left: 0;
-    width: 384px;
+    width: 416px;
     align-self: center;
 }
 
 /* Card Item (Button) */
 .submenu-card {
-    width: 88px;
-    height: 88px;
+    width: 96px;
+    height: 96px;
     margin: 4px;
     
     background-color: rgba(255, 255, 255, 0.04);
@@ -839,8 +839,8 @@
 }
 
 .submenu-icon {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     margin-bottom: 8px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.08);
@@ -850,7 +850,7 @@
 }
 
 .submenu-label {
-    font-size: 13px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.6);
     letter-spacing: 0.5px;
     -unity-text-align: middle-center;
@@ -911,7 +911,7 @@
     translate: 0 0;
     margin-left: 0;
 
-    width: 384px;
+    width: 416px;
     height: 48px;
     align-self: center;
 
@@ -943,7 +943,7 @@
 /* slider-container--shifted-up removed — menus inside BottomBar now */
 
 .slider-label {
-    font-size: 13px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.5);
     letter-spacing: 1px;
     margin-right: 12px;
@@ -1293,7 +1293,7 @@
 /* Old shader-menu and env-panel styles removed (replaced by .submenu-container) */
 
 .env-slider-group {
-    width: 384px;
+    width: 416px;
     height: 48px;
     align-self: center;
     margin-top: 8px;
@@ -1308,7 +1308,7 @@
 }
 
 .env-slider-label {
-    font-size: 13px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.5);
     letter-spacing: 1px;
     margin-right: 12px;

@@ -37,6 +37,11 @@ namespace WebGL.UI.Panels
         public bool IsSheetOpen { get; private set; } = false;
         private float _dragStartY;
         private bool _isDraggingSheet;
+        private float _swipeStartY;
+        private bool _isSwipingUp;
+
+        // ── Top context label (updates "SELECT A PART" ↔ part name) ──
+        private readonly Label _topContextLabel;
 
         // ── Cleanup ──
         private readonly List<System.Action> _cleanupActions = new List<System.Action>();
@@ -67,6 +72,8 @@ namespace WebGL.UI.Panels
             _sheetDifficulty = root.Q<Label>("PartDifficulty");
             _sheetTools = root.Q<Label>("PartTools");
             _sheetAssemblyTime = root.Q<Label>("PartAssemblyTime");
+
+            _topContextLabel = root.Q<Label>("TopContextLabel");
 
             BindInteractions();
         }
@@ -180,17 +187,36 @@ namespace WebGL.UI.Panels
 
         public void UpdatePartIndicator(DronePartData data)
         {
-            if (_partNameLabel == null) return;
-
             if (data != null)
             {
-                _partNameLabel.text = data.PartName.ToUpper();
-                _partNameLabel.style.color = new StyleColor(new Color(0.06f, 0.73f, 0.5f));
+                string upperName = data.PartName.ToUpper();
+
+                // Bottom selection indicator — show part name
+                if (_partNameLabel != null)
+                {
+                    _partNameLabel.text = upperName;
+                    _partNameLabel.style.color = new StyleColor(new Color(0.06f, 0.73f, 0.5f));
+                    _partNameLabel.RemoveFromClassList("selection-label--hidden");
+                }
+
+                // Top context label — show part name too
+                if (_topContextLabel != null)
+                {
+                    _topContextLabel.text = upperName;
+                    _topContextLabel.style.color = new StyleColor(new Color(0.06f, 0.73f, 0.5f));
+                }
             }
             else
             {
-                _partNameLabel.text = "SELECT A PART";
-                _partNameLabel.style.color = new StyleColor(new Color(0.6f, 0.6f, 0.7f));
+                // No selection — hide bottom indicator, top shows "SELECT A PART"
+                if (_partNameLabel != null)
+                    _partNameLabel.AddToClassList("selection-label--hidden");
+
+                if (_topContextLabel != null)
+                {
+                    _topContextLabel.text = "SELECT A PART";
+                    _topContextLabel.style.color = new StyleColor(new Color(0.6f, 0.6f, 0.7f));
+                }
             }
         }
 
@@ -283,6 +309,42 @@ namespace WebGL.UI.Panels
                 System.Action onInfoClick = ToggleInfo;
                 _infoBtn.clicked += onInfoClick;
                 AddCleanup(() => _infoBtn.clicked -= onInfoClick);
+            }
+
+            // Swipe-up on BottomBar to open sheet (issue #7 — gesture support)
+            if (_bottomBar != null)
+            {
+                EventCallback<PointerDownEvent> swipeDown = evt =>
+                {
+                    if (!IsSheetOpen)
+                    {
+                        _swipeStartY = evt.position.y;
+                        _isSwipingUp = true;
+                    }
+                };
+                EventCallback<PointerMoveEvent> swipeMove = evt =>
+                {
+                    if (_isSwipingUp && (_swipeStartY - evt.position.y > 60))
+                    {
+                        // Swipe upward > 60px threshold → open sheet
+                        if (SelectionManager.Instance?.HasSelection == true)
+                            OpenSheet();
+                        _isSwipingUp = false;
+                    }
+                };
+                EventCallback<PointerUpEvent> swipeUp = evt => _isSwipingUp = false;
+                EventCallback<PointerLeaveEvent> swipeLeave = evt => _isSwipingUp = false;
+                _bottomBar.RegisterCallback(swipeDown);
+                _bottomBar.RegisterCallback(swipeMove);
+                _bottomBar.RegisterCallback(swipeUp);
+                _bottomBar.RegisterCallback(swipeLeave);
+                AddCleanup(() =>
+                {
+                    _bottomBar.UnregisterCallback(swipeDown);
+                    _bottomBar.UnregisterCallback(swipeMove);
+                    _bottomBar.UnregisterCallback(swipeUp);
+                    _bottomBar.UnregisterCallback(swipeLeave);
+                });
             }
         }
     }

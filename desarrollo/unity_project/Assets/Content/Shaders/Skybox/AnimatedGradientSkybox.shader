@@ -56,7 +56,7 @@ Shader "Skybox/AnimatedGradientSkybox"
                 
                 // Animation: Breathing Pulse
                 float time = _Time.y * _Speed;
-                float pulse = sin(time) * 0.02; // Subtle pulse
+                float pulse = sin(time) * 0.06; // Visible breathing animation
                 float radius = _Scale + pulse;
                 
                 // Radial Gradient: Center to Edge

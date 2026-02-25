@@ -45,6 +45,11 @@ namespace WebGL.UI
         // ── State ──
         private bool _hotspotsInitialized = false;
 
+        // ── Double-click detection (issue #7) ──
+        private float _lastPartClickTime = 0f;
+        private string _lastPartClickName = null;
+        private const float DOUBLE_CLICK_THRESHOLD = 0.35f;
+
         // ── Memory Leak Prevention (Phase 3 Step 1) ──
         private System.Collections.Generic.List<System.Action> _uiCleanupActions = new System.Collections.Generic.List<System.Action>();
 
@@ -126,7 +131,7 @@ namespace WebGL.UI
 
             // Wire mode controller events
             _modeController.OnInfoToggleRequested += () => _detailsSheet.ToggleInfo();
-            _modeController.OnExplodeToggleRequested += OnExplodeToggleRequested;
+            // OnExplodeToggleRequested no longer needed — Explode card navigates directly
 
             // Notify mode controller when sheet state changes
             _detailsSheet.OnSheetStateChanged += (isOpen) =>
@@ -180,7 +185,7 @@ namespace WebGL.UI
 
             // ── Initial state ──
             _detailsSheet.UpdatePartIndicator(null);
-            if (sliderContainer != null) sliderContainer.AddToClassList("slider-hidden");
+            // Slider is inside ExplodeSubPanel (starts hidden via submenu--hidden)
 
             // ── All buttons block 3D input ──
             RegisterButtonInputBlockers();
@@ -266,12 +271,7 @@ namespace WebGL.UI
             }
         }
 
-        /// <summary>Called by UIModeController when Explode action button is clicked.
-        /// Toggles slider visibility only — moving the slider activates/deactivates exploded view.</summary>
-        private void OnExplodeToggleRequested()
-        {
-            _modeController.ToggleSliderVisibility();
-        }
+        // Explode toggle no longer needed — card navigates to ExplodeSubPanel directly
 
         // ═══════════════════════════════════════════════════════
         //  EventBus subscriptions
@@ -304,6 +304,24 @@ namespace WebGL.UI
 
             // Delegate data display to details sheet
             _detailsSheet.PopulatePartData(evt.PartData, evt.FromHotspot);
+
+            // Double-click / double-tap detection → open info sheet
+            if (evt.PartData != null)
+            {
+                float now = Time.time;
+                string partName = evt.PartData.partName;
+                if (partName == _lastPartClickName && (now - _lastPartClickTime) < DOUBLE_CLICK_THRESHOLD)
+                {
+                    _detailsSheet.OpenSheet();
+                    _lastPartClickTime = 0f;
+                    _lastPartClickName = null;
+                }
+                else
+                {
+                    _lastPartClickTime = now;
+                    _lastPartClickName = partName;
+                }
+            }
         }
 
         private void OnAppStateChanged(AppStateChangedEvent evt)

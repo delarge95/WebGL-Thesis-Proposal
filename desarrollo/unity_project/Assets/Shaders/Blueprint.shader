@@ -74,6 +74,8 @@ Shader "WebGL/Blueprint"
             // Global clipping (set by CrossSectionManager)
             float4 _GlobalClipPlane;
             float _GlobalClipEnabled;
+            float4 _GlobalClipPlane2;
+            float _GlobalClipEnabled2;
 
             Varyings vert(Attributes IN)
             {
@@ -91,11 +93,16 @@ Shader "WebGL/Blueprint"
 
             half4 frag(Varyings IN) : SV_Target
             {
-                // Cross-section clipping
+                // Cross-section clipping (dual plane)
                 if (_GlobalClipEnabled > 0.5)
                 {
                     float clipDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
                     if (clipDist < 0) discard;
+                }
+                if (_GlobalClipEnabled2 > 0.5)
+                {
+                    float clipDist2 = dot(IN.positionWS, _GlobalClipPlane2.xyz) + _GlobalClipPlane2.w;
+                    if (clipDist2 < 0) discard;
                 }
 
                 half3 normalWS = normalize(IN.normalWS);
@@ -178,6 +185,8 @@ Shader "WebGL/Blueprint"
             // Global clipping (set by CrossSectionManager)
             float4 _GlobalClipPlane;
             float _GlobalClipEnabled;
+            float4 _GlobalClipPlane2;
+            float _GlobalClipEnabled2;
 
             Varyings vert(Attributes IN)
             {
@@ -193,11 +202,16 @@ Shader "WebGL/Blueprint"
 
             half4 frag(Varyings IN) : SV_Target
             {
-                // Cross-section clipping
+                // Cross-section clipping (dual plane)
                 if (_GlobalClipEnabled > 0.5)
                 {
                     float clipDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
                     if (clipDist < 0) discard;
+                }
+                if (_GlobalClipEnabled2 > 0.5)
+                {
+                    float clipDist2 = dot(IN.positionWS, _GlobalClipPlane2.xyz) + _GlobalClipPlane2.w;
+                    if (clipDist2 < 0) discard;
                 }
 
                 return _LineColor;
