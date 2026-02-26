@@ -74,7 +74,7 @@ namespace WebGL.UI.ProceduralIcons
             float cy = height / 2f;
             
             // Base structural math
-            float ringRadius = Mathf.Min(width, height) * 0.45f * currentGroupScale;
+            float ringRadius = Mathf.Min(width, height) * 0.40f * currentGroupScale; // Reduced from 0.45f
             
             // 1. Draw Outer Ring
             painter.BeginPath();
