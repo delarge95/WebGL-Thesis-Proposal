@@ -83,7 +83,7 @@ namespace WebGL.UI.ProceduralIcons
             } 
             else 
             {
-                currentScalpelPos = SpringFloat(currentScalpelPos, targetScalpelPos, ref scalpelVelocity, 14f, 0.85f, dt);
+                currentScalpelPos = SpringFloat(currentScalpelPos, targetScalpelPos, ref scalpelVelocity, 23f, 0.85f, dt);
             }
 
             if (Mathf.Abs(currentCircleScale - oldScale) > 0.005f ||
