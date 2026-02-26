@@ -66,7 +66,8 @@ namespace WebGL.UI.ProceduralIcons
             float iconSize = Mathf.Min(width, height) * 0.45f * currentScale; 
             
             // Draw a cohesive, continuous line-art house (Material Design style)
-            float w = iconSize;
+            // Make it slightly taller than wide to look "less wide"
+            float w = iconSize * 0.85f;
             float h = iconSize;
 
             float bot = cy + h * 0.8f;

@@ -6,21 +6,21 @@ namespace WebGL.UI.ProceduralIcons
     [UxmlElement]
     public partial class ProceduralInspectIcon : ProceduralIconBase
     {
-        // 1. Rotation (Searching)
-        private float targetRotation = 0f; // Base rotation offset
-        private float currentRotation = 0f;
-        private float rotationVelocity = 0f;
+        // 1. Bracket Spread (Focus in/out)
+        private float targetSpread = 1f;
+        private float currentSpread = 1f;
+        private float spreadVelocity = 0f;
 
-        // 2. Glint Line (Scanning)
-        private float currentGlintPos = -1f; // -1 to 1 across the lens
+        // 2. Scanner Line
+        private float currentScannerY = -1.2f; // -1 to 1 local
         private bool isInspecting = false;
 
         protected override void OnHoverEnter()
         {
             if (!isInspecting)
             {
-                // Anticipation: The glass rotates to "inspect" closer
-                targetRotation = -20f; // Tilt up into action
+                // Anticipation: Focus brackets expand slightly
+                targetSpread = 1.25f; 
             }
         }
 
@@ -28,17 +28,18 @@ namespace WebGL.UI.ProceduralIcons
         {
             if (!isInspecting)
             {
-                targetRotation = 0f;
+                targetSpread = 1f;
             }
         }
 
         protected override void OnPressed()
         {
-            // Trigger a high-speed scanner glint across the glass
+            // Rapid Focus Snap and Scanner Activation
             if (!isInspecting)
             {
                 isInspecting = true;
-                currentGlintPos = -1.2f; // Start outside left
+                targetSpread = 0.8f; // Snap tighter
+                currentScannerY = -1.2f; // Start scanner above
             }
         }
 
@@ -50,20 +51,29 @@ namespace WebGL.UI.ProceduralIcons
 
             if (isInspecting)
             {
-                // Fast sweep
-                currentGlintPos += dt * 10f; 
+                // Fast scanner sweep
+                currentScannerY += dt * 8f; 
 
-                if (currentGlintPos >= 1.2f)
+                if (currentScannerY >= 1.2f)
                 {
                     isInspecting = false;
-                    currentGlintPos = -1f; // Reset
+                    currentScannerY = -1f; // Reset
+                    targetSpread = isHovered ? 1.25f : 1f;
                 }
             }
 
-            float oldRot = currentRotation;
-            currentRotation = SpringFloat(currentRotation, targetRotation, ref rotationVelocity, 30f, 0.6f, dt);
+            float oldSpread = currentSpread;
+            
+            if (isInspecting)
+            {
+                currentSpread = Mathf.Lerp(currentSpread, targetSpread, dt * 40f); // Quick snap
+            }
+            else
+            {
+                currentSpread = SpringFloat(currentSpread, targetSpread, ref spreadVelocity, 30f, 0.6f, dt); // Bouncy breath
+            }
 
-            if (Mathf.Abs(currentRotation - oldRot) > 0.05f || isInspecting)
+            if (Mathf.Abs(currentSpread - oldSpread) > 0.005f || isInspecting)
             {
                 hasChanged = true;
             }
@@ -76,79 +86,67 @@ namespace WebGL.UI.ProceduralIcons
             float cx = width / 2f;
             float cy = height / 2f;
             
-            // Highly recognizable magnifying glass proportions
-            float baseSize = Mathf.Min(width, height) * 0.45f;
-            float lensRadius = baseSize * 0.5f; 
+            // Base bounding box for the focus brackets
+            float baseSize = Mathf.Min(width, height) * 0.40f * currentSpread;
+            float cornerLen = baseSize * 0.4f; // Length of the L shape arms
             
             painter.strokeColor = currentColor;
-
-            // Offset the center so the whole icon rests symmetrically in the box
-            // The handle goes down-right, so move the lens up-left
-            Vector2 pivot = new Vector2(cx, cy); 
-            Vector2 lensOrigin = new Vector2(cx - baseSize * 0.15f, cy - baseSize * 0.15f);
-
-            // Apply hover rotation to points mathematically (since it's a fixed shape)
-            float rotRad = currentRotation * Mathf.Deg2Rad;
-            float cos = Mathf.Cos(rotRad);
-            float sin = Mathf.Sin(rotRad);
-
-            // Function to rotate a point around pivot
-            Vector2 Rotate(Vector2 p)
-            {
-                float dx = p.x - pivot.x;
-                float dy = p.y - pivot.y;
-                return new Vector2(
-                    pivot.x + (dx * cos - dy * sin),
-                    pivot.y + (dx * sin + dy * cos)
-                );
-            }
-
-            Vector2 rotatedLensCenter = Rotate(lensOrigin);
-
-            // The handle extends at exactly 45 degrees relative to the lens
-            Vector2 handleStart = rotatedLensCenter + Rotate(new Vector2(lensRadius, lensRadius)) - pivot; // Approximated start at edge
-            Vector2 handleEnd = Rotate(new Vector2(cx + baseSize * 0.45f, cy + baseSize * 0.45f));
-
-            // 1. Draw thick handle
-            painter.BeginPath();
-            painter.lineWidth = currentStrokeWidth * 1.5f;
-            painter.MoveTo(handleStart);
-            painter.LineTo(handleEnd);
-            painter.Stroke();
-
-            // 2. Draw Lens
             painter.lineWidth = currentStrokeWidth;
-            painter.BeginPath();
-            painter.Arc(rotatedLensCenter, lensRadius, 0f, 360f);
 
-            Color lensFill = currentColor;
-            lensFill.a *= 0.1f;
-            painter.fillColor = lensFill;
-            painter.Fill();
+            // Define four corners
+            Vector2 tl = new Vector2(cx - baseSize, cy - baseSize);
+            Vector2 tr = new Vector2(cx + baseSize, cy - baseSize);
+            Vector2 bl = new Vector2(cx - baseSize, cy + baseSize);
+            Vector2 br = new Vector2(cx + baseSize, cy + baseSize);
+
+            // 1. Draw Top-Left Bracket
+            painter.BeginPath();
+            painter.MoveTo(tl + new Vector2(0, cornerLen));
+            painter.LineTo(tl);
+            painter.LineTo(tl + new Vector2(cornerLen, 0));
             painter.Stroke();
 
-            // 3. Draw scanning glint
-            if (isInspecting && currentGlintPos > -1f && currentGlintPos < 1f)
-            {
-                float currentLineXLocal = lensRadius * currentGlintPos;
-                float absX = Mathf.Abs(currentLineXLocal);
-                
-                if (absX < lensRadius)
-                {
-                    float yExt = Mathf.Sqrt((lensRadius * lensRadius) - (absX * absX)) * 0.95f;
-                    
-                    // Draw a scanner line (straight vertical relative to lens)
-                    Vector2 glintTop = rotatedLensCenter + Rotate(new Vector2(currentLineXLocal, -yExt)) - pivot;
-                    Vector2 glintBot = rotatedLensCenter + Rotate(new Vector2(currentLineXLocal, yExt)) - pivot;
+            // 2. Draw Top-Right Bracket
+            painter.BeginPath();
+            painter.MoveTo(tr + new Vector2(-cornerLen, 0));
+            painter.LineTo(tr);
+            painter.LineTo(tr + new Vector2(0, cornerLen));
+            painter.Stroke();
 
-                    painter.strokeColor = currentColor;
-                    painter.lineWidth = HoveredStrokeWidth * 1.5f;
-                    painter.BeginPath();
-                    painter.MoveTo(glintTop);
-                    painter.LineTo(glintBot);
-                    painter.Stroke();
-                    painter.lineWidth = currentStrokeWidth; // revert
-                }
+            // 3. Draw Bottom-Left Bracket
+            painter.BeginPath();
+            painter.MoveTo(bl + new Vector2(0, -cornerLen));
+            painter.LineTo(bl);
+            painter.LineTo(bl + new Vector2(cornerLen, 0));
+            painter.Stroke();
+
+            // 4. Draw Bottom-Right Bracket
+            painter.BeginPath();
+            painter.MoveTo(br + new Vector2(-cornerLen, 0));
+            painter.LineTo(br);
+            painter.LineTo(br + new Vector2(0, -cornerLen));
+            painter.Stroke();
+
+            // 5. Draw the Central Dot (Focus Point)
+            painter.BeginPath();
+            painter.Arc(new Vector2(cx, cy), currentStrokeWidth * 1.5f, 0f, 360f);
+            painter.fillColor = currentColor;
+            painter.Fill();
+
+            // 6. Draw Scanner Line
+            if (isInspecting && currentScannerY > -1f && currentScannerY < 1f)
+            {
+                float scanY = cy + (baseSize * currentScannerY);
+                
+                // Draw horizontal line
+                painter.strokeColor = currentColor;
+                painter.lineWidth = HoveredStrokeWidth * 1.5f; // Thicker scanner
+                painter.BeginPath();
+                painter.MoveTo(new Vector2(tl.x - cornerLen*0.2f, scanY));
+                painter.LineTo(new Vector2(tr.x + cornerLen*0.2f, scanY));
+                painter.Stroke();
+                
+                painter.lineWidth = currentStrokeWidth; // Revert
             }
         }
     }

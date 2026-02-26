@@ -44,9 +44,12 @@ namespace WebGL.UI.ProceduralIcons
             if (!isSpiking && isInitialized)
             {
                 isSpiking = true;
-                velHeights[0] += 5f; // Fast upward impulse
-                velHeights[1] += 6f; 
-                velHeights[2] += 4f; 
+                // Asymmetric growth: Shortest bar (0, index 0 is 0.3f) grows MASSIVELY
+                // Tallest bar (1, index 1 is 0.6f) grows very little
+                // Medium bar (2, index 2 is 0.4f) grows medium
+                velHeights[0] += 8f; 
+                velHeights[1] += 3f; 
+                velHeights[2] += 5f; 
             }
         }
 

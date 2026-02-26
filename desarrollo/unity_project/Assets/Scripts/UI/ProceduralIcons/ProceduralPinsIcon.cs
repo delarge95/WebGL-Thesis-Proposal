@@ -131,10 +131,14 @@ namespace WebGL.UI.ProceduralIcons
             // Draw top arc to connect right to left smoothly
             painter.Arc(pinCenter, pinRadius, -30f * Mathf.Deg2Rad, 210f * Mathf.Deg2Rad, ArcDirection.CounterClockwise);
             
-            painter.ClosePath();
+            // We will fill the pin body with background color to hide any overlapping lines 
+            // (e.g., ground line showing through), and stroke it.
+            painter.fillColor = new Color(0.12f, 0.12f, 0.12f); // Same as common UI_icons_test bg
+            painter.Fill(FillRule.NonZero); 
             painter.Stroke();
 
             // Inner hole (Dot)
+            painter.fillColor = currentColor; // Reset for potential use later
             painter.BeginPath();
             painter.Arc(pinCenter, pinRadius * 0.35f, 0f, 360f);
             painter.Stroke();
