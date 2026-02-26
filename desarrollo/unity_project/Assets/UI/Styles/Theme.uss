@@ -79,7 +79,7 @@
 
 .hero-subtitle {
     font-size: 24px;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.65);
     margin-bottom: 48px;
     letter-spacing: 0;
 }
@@ -108,7 +108,7 @@
 
 .header-title {
     font-size: 20px;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.65);
     -unity-font-style: bold;
     letter-spacing: 4px;
 }
@@ -125,53 +125,6 @@
     right: 24px;
     top: 50%;
     translate: 0 -50%;
-}
-
-/* Floating Info Button — small (i) circle, sits before ResetViewBtn */
-#FloatingInfoBtn {
-    position: absolute;
-    right: 84px;
-    top: 50%;
-    translate: 0 -50%;
-}
-
-.floating-info-btn {
-    width: 42px;
-    height: 42px;
-    background-color: rgba(255, 255, 255, 0.06);
-    border-radius: 50%;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.12);
-    justify-content: center;
-    align-items: center;
-    transition-property: border-color, background-color, scale;
-    transition-duration: 0.2s;
-}
-
-.floating-info-btn:hover {
-    border-color: rgba(0, 170, 255, 0.4);
-    background-color: rgba(0, 170, 255, 0.1);
-}
-
-.floating-info-btn:active {
-    scale: 0.92;
-    background-color: rgba(0, 170, 255, 0.18);
-}
-
-.floating-info-label {
-    font-size: 22px;
-    color: rgba(255, 255, 255, 0.7);
-    -unity-font-style: italic;
-    -unity-text-align: middle-center;
-}
-
-.floating-info-btn--active {
-    background-color: rgba(0, 170, 255, 0.15);
-    border-color: rgba(0, 170, 255, 0.5);
-}
-
-.floating-info-btn--active .floating-info-label {
-    color: rgba(0, 170, 255, 0.9);
 }
 
 /* HotspotBtn moved to Category Menu */
@@ -204,10 +157,10 @@
     background-color: transparent;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.3);
-    border-radius: 36px;
+    border-radius: 28px;
     padding: 0 40px;
     min-width: 420px;
-    height: 72px;
+    height: 56px;
     
     margin-bottom: 16px;
     
@@ -299,12 +252,12 @@
     width: 44px;
     height: 44px;
     -unity-background-scale-mode: scale-to-fit;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .mode-btn-label {
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.65);
     letter-spacing: 1px;
     -unity-font-style: bold;
 }
@@ -429,7 +382,7 @@
 
 .mode-action-label {
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.65);
     letter-spacing: 1px;
     -unity-font-style: bold;
 }
@@ -520,7 +473,7 @@
 
 .cross-section-axis-label {
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.65);
     -unity-font-style: bold;
     -unity-text-align: middle-center;
 }
@@ -610,13 +563,13 @@
 
 .selection-label {
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.75);
     -unity-font-style: bold;
     letter-spacing: 1px;
 
     background-color: rgba(10, 10, 18, 0.6);
-    padding: 6px 14px;
-    border-radius: 20px;
+    padding: 8px 16px;
+    border-radius: 16px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.06);
 
@@ -656,8 +609,8 @@
     position: absolute;
     top: 32px;
     left: 24px;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     background-color: rgba(255, 255, 255, 0.04);
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.15);
@@ -737,8 +690,8 @@
 }
 
 .sheet-hint {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.35);
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.65);
     -unity-font-style: italic;
 }
 
@@ -772,8 +725,8 @@
 
 /* Sheet Close Button */
 .sheet-close-btn {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.05);
     border-width: 1px;
@@ -836,9 +789,9 @@
 
 .submenu-title {
     font-size: 20px;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.65);
     letter-spacing: 2px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     -unity-font-style: bold;
 }
 
@@ -889,7 +842,7 @@
 .submenu-icon {
     width: 56px;
     height: 56px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.08);
     background-image: resource("UI/Icons/icon_view"); /* Default fallback */
@@ -899,7 +852,7 @@
 
 .submenu-label {
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.65);
     letter-spacing: 0.5px;
     -unity-text-align: middle-center;
 }
@@ -998,7 +951,7 @@
 
 .slider-label {
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.65);
     letter-spacing: 1px;
     margin-right: 12px;
     -unity-font-style: bold;
@@ -1068,7 +1021,7 @@
 }
 
 .data-label {
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.65);
     font-size: 17px;
     letter-spacing: 1px;
     flex-shrink: 0;
@@ -1309,11 +1262,11 @@
    Misc Text
    ──────────────────────────────────────────────── */
 .reset-icon-label {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.65);
 }
 
 .part-description {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.65);
     margin-bottom: 24px;
     white-space: normal;
     font-size: 16px;
@@ -1330,8 +1283,8 @@
 }
 
 .section-title {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.4);
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.65);
     letter-spacing: 3px;
     -unity-font-style: bold;
     margin-bottom: 8px;
@@ -1363,7 +1316,7 @@
 
 .env-slider-label {
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.65);
     letter-spacing: 1px;
     margin-right: 12px;
     margin-bottom: 0;
@@ -1445,15 +1398,15 @@
 
 .about-desc {
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.65);
     white-space: normal;
     -unity-text-align: middle-center;
     margin-bottom: 16px;
 }
 
 .about-credit {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.25);
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .about-close {
@@ -1523,7 +1476,7 @@
 
 .about-credit {
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.6);
     -unity-text-align: upper-center;
     letter-spacing: 2px;
     margin-bottom: 32px;
@@ -1541,7 +1494,7 @@
     background-color: rgba(255, 255, 255, 0.05);
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.1);
-    border-radius: 32px;
+    border-radius: 28px;
     
     color: rgba(255, 255, 255, 0.8);
     justify-content: flex-start;
