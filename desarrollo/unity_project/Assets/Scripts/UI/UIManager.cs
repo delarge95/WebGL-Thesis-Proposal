@@ -37,6 +37,7 @@ namespace WebGL.UI
 
         // ── Buttons (wired here, logic delegated) ──
         private Button resetBtn;
+        private Button floatingInfoBtn;
 
         // ── Slider (explosion) ──
         private Slider explosionSlider;
@@ -112,6 +113,7 @@ namespace WebGL.UI
 
             // ── Query shared elements ──
             resetBtn = root.Q<Button>("ResetViewBtn");
+            floatingInfoBtn = root.Q<Button>("FloatingInfoBtn");
             sliderContainer = root.Q<VisualElement>("SliderContainer");
             explosionSlider = root.Q<Slider>("ExplosionSlider");
 
@@ -129,9 +131,7 @@ namespace WebGL.UI
             );
             AddCleanup(() => _modeController.Dispose());
 
-            // Wire mode controller events
-            _modeController.OnInfoToggleRequested += () => _detailsSheet.ToggleInfo();
-            // OnExplodeToggleRequested no longer needed — Explode card navigates directly
+            // Info toggle now handled by FloatingInfoBtn wired below — no longer via UIModeController event
 
             // Notify mode controller when sheet state changes
             _detailsSheet.OnSheetStateChanged += (isOpen) =>
@@ -160,6 +160,20 @@ namespace WebGL.UI
 
             // ── Wire remaining toolbar buttons (mode buttons handled by UIModeController) ──
             if (resetBtn != null) { resetBtn.clicked += OnResetClicked; AddCleanup(() => resetBtn.clicked -= OnResetClicked); }
+
+            // ── Floating Info (i) button — toggles part info sheet ──
+            if (floatingInfoBtn != null)
+            {
+                System.Action onInfoClick = () => _detailsSheet.ToggleInfo();
+                floatingInfoBtn.clicked += onInfoClick;
+                AddCleanup(() => floatingInfoBtn.clicked -= onInfoClick);
+            }
+
+            // Notify floating info button when sheet state changes
+            _detailsSheet.OnSheetStateChanged += (isOpen) =>
+            {
+                floatingInfoBtn?.EnableInClassList("floating-info-btn--active", isOpen);
+            };
 
             // ── Category filter buttons (now inside ToolsModeContainer) ──
             BindCat("CatBtn_All", "ALL");

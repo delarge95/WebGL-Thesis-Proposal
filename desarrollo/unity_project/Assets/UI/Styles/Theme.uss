@@ -127,6 +127,53 @@
     translate: 0 -50%;
 }
 
+/* Floating Info Button — small (i) circle, sits before ResetViewBtn */
+#FloatingInfoBtn {
+    position: absolute;
+    right: 84px;
+    top: 50%;
+    translate: 0 -50%;
+}
+
+.floating-info-btn {
+    width: 42px;
+    height: 42px;
+    background-color: rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+    justify-content: center;
+    align-items: center;
+    transition-property: border-color, background-color, scale;
+    transition-duration: 0.2s;
+}
+
+.floating-info-btn:hover {
+    border-color: rgba(0, 170, 255, 0.4);
+    background-color: rgba(0, 170, 255, 0.1);
+}
+
+.floating-info-btn:active {
+    scale: 0.92;
+    background-color: rgba(0, 170, 255, 0.18);
+}
+
+.floating-info-label {
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.7);
+    -unity-font-style: italic;
+    -unity-text-align: middle-center;
+}
+
+.floating-info-btn--active {
+    background-color: rgba(0, 170, 255, 0.15);
+    border-color: rgba(0, 170, 255, 0.5);
+}
+
+.floating-info-btn--active .floating-info-label {
+    color: rgba(0, 170, 255, 0.9);
+}
+
 /* HotspotBtn moved to Category Menu */
 
 /* ────────────────────────────────────────────────
@@ -799,7 +846,7 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     padding-left: 0;
-    width: 496px;
+    width: 372px;
     align-self: center;
 }
 

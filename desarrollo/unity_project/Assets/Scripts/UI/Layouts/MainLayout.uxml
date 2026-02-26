@@ -15,6 +15,9 @@
                 <ui:Label text="⌂" class="button-icon-text-small" picking-mode="Ignore"/>
             </ui:Button>
             <ui:Label text="SELECT A PART" name="TopContextLabel" class="header-title" picking-mode="Ignore" />
+            <ui:Button name="FloatingInfoBtn" class="floating-info-btn" tooltip="Part Info">
+                <ui:Label text="i" class="floating-info-label" picking-mode="Ignore"/>
+            </ui:Button>
             <ui:Button name="ResetViewBtn" class="icon-button-small" tooltip="Reset Camera">
                 <ui:Label text="RST" class="button-icon-text-small" picking-mode="Ignore"/>
             </ui:Button>
@@ -98,16 +101,12 @@
              ═══════════════════════════════════════════════ -->
         <ui:VisualElement name="BottomBar" class="bottom-bar" picking-mode="Ignore">
 
-            <!-- ═══ TOOLS MODE ═══ Info, Explode, Filter, Hotspots -->
+            <!-- ═══ TOOLS MODE ═══ Explode, Filter, Hotspots -->
             <ui:VisualElement name="ToolsModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
                 <!-- Level 1 — Card Grid -->
                 <ui:VisualElement name="ToolsCardGrid" class="mode-submenu" picking-mode="Ignore">
                     <ui:Label text="TOOLS" class="submenu-title" picking-mode="Ignore"/>
                     <ui:VisualElement class="submenu-grid">
-                        <ui:Button name="ToolInfoBtn" class="submenu-card" tooltip="Part Info">
-                            <ui:VisualElement class="submenu-icon icon-info" picking-mode="Ignore"/>
-                            <ui:Label text="INFO" class="submenu-label" picking-mode="Ignore"/>
-                        </ui:Button>
                         <ui:Button name="ToolExplodeBtn" class="submenu-card" tooltip="Exploded View">
                             <ui:VisualElement class="submenu-icon icon-explode" picking-mode="Ignore"/>
                             <ui:Label text="EXPLODE" class="submenu-label" picking-mode="Ignore"/>
@@ -189,7 +188,7 @@
                             <ui:VisualElement class="submenu-icon icon-xray" picking-mode="Ignore"/>
                             <ui:Label text="X-RAY" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
-                        <ui:Button name="ShaderMode_Blueprint" class="submenu-card">
+                        <ui:Button name="ShaderMode_Blueprint" class="submenu-card" style="display: none;">
                             <ui:VisualElement class="submenu-icon icon-blueprint" picking-mode="Ignore"/>
                             <ui:Label text="BLUEPRINT" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
@@ -197,11 +196,11 @@
                             <ui:VisualElement class="submenu-icon icon-solid" picking-mode="Ignore"/>
                             <ui:Label text="SOLID" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
-                        <ui:Button name="ShaderMode_Wireframe" class="submenu-card">
+                        <ui:Button name="ShaderMode_Wireframe" class="submenu-card" style="display: none;">
                             <ui:VisualElement class="submenu-icon icon-wire" picking-mode="Ignore"/>
                             <ui:Label text="WIRE" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
-                        <ui:Button name="ShaderMode_Ghosted" class="submenu-card">
+                        <ui:Button name="ShaderMode_Ghosted" class="submenu-card" style="display: none;">
                             <ui:VisualElement class="submenu-icon icon-ghost" picking-mode="Ignore"/>
                             <ui:Label text="GHOST" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
@@ -262,7 +261,7 @@
                             <ui:VisualElement class="submenu-icon icon-env-blue" picking-mode="Ignore"/>
                             <ui:Label text="BLUE" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
-                        <ui:Button name="EnvPreset_Neutral" class="submenu-card">
+                        <ui:Button name="EnvPreset_Neutral" class="submenu-card" style="display: none;">
                             <ui:VisualElement class="submenu-icon icon-env-neutral" picking-mode="Ignore"/>
                             <ui:Label text="NEUTRAL" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>

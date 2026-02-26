@@ -79,6 +79,14 @@ namespace WebGL.Core.Managers
         private void Start()
         {
             clippableLitShader = Shader.Find("WebGL/ClippableLit");
+            if (clippableLitShader == null)
+            {
+                // Fallback: load from Resources for WebGL builds where Shader.Find may fail
+                var mat = Resources.Load<Material>("ClippableLitRef");
+                if (mat != null) clippableLitShader = mat.shader;
+                if (clippableLitShader == null)
+                    Debug.LogWarning("[CrossSection] ClippableLit shader not found! Cross-section in Realistic mode will not work.");
+            }
             FindTargetObject();
             CreatePlaneVisual(ref planeVisual1, "[CrossSectionPlane1]");
             CreatePlaneVisual(ref planeVisual2, "[CrossSectionPlane2]");
