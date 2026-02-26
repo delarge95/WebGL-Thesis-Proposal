@@ -1512,13 +1512,12 @@
 }
 
 .device-scroll #unity-content-container {
-    padding-bottom: 16px;
+    padding: 0 4px 16px 4px;
 }
 
 .device-option:hover {
     background-color: rgba(255, 255, 255, 0.1);
     border-color: white;
-    scale: 1.01;
 }
 
 .device-option--active {
