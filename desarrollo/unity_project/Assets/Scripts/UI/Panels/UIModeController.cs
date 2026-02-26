@@ -11,13 +11,15 @@ namespace WebGL.UI.Panels
     ///
     /// Flow: Mode button → Card Grid (Level 1) → Sub-Panel (Level 2) → Back to Grid → Deactivate
     ///
-    /// Tools Mode:   Card grid (Info, Explode, Filter, Pins) → Explode sub-panel / Filter sub-panel
+    /// Tools Mode:   Card grid (Explode, Filter, Pins) → Explode sub-panel / Filter sub-panel
     /// Analyze Mode: Card grid (Shaders, Cut) → Shader menu / Cross-section panel
     /// Studio Mode:  Environment panel directly (single level)
     ///
+    /// Info (i) button is a standalone floating button in the TopBar, wired by UIManager.
+    ///
     /// Card click behaviour:
-    ///   - "toggle" cards: toggle a feature immediately, highlight card (Info, Pins)
-    ///   - "navigate" cards: replace card grid with sub-panel (Explode, Shaders, Cut)
+    ///   - "toggle" cards: toggle a feature immediately, highlight card (Pins)
+    ///   - "navigate" cards: replace card grid with sub-panel (Explode, Filter, Shaders, Cut)
     /// Mode button with sub-panel open → returns to card grid (back).
     /// Mode button with card grid → deactivates mode.
     /// </summary>
@@ -33,7 +35,6 @@ namespace WebGL.UI.Panels
         private readonly VisualElement _toolsCardGrid;
         private readonly VisualElement _explodeSubPanel;
         private readonly VisualElement _filterSubPanel;
-        private readonly Button _toolInfoBtn;
         private readonly Button _toolExplodeBtn;
         private readonly Button _toolFilterBtn;
         private readonly Button _toolHotspotBtn;
@@ -94,7 +95,6 @@ namespace WebGL.UI.Panels
                 _toolsCardGrid = _toolsModeContainer.Q<VisualElement>("ToolsCardGrid");
                 _explodeSubPanel = _toolsModeContainer.Q<VisualElement>("ExplodeSubPanel");
                 _filterSubPanel = _toolsModeContainer.Q<VisualElement>("FilterSubPanel");
-                _toolInfoBtn = _toolsModeContainer.Q<Button>("ToolInfoBtn");
                 _toolExplodeBtn = _toolsModeContainer.Q<Button>("ToolExplodeBtn");
                 _toolFilterBtn = _toolsModeContainer.Q<Button>("ToolFilterBtn");
                 _toolHotspotBtn = _toolsModeContainer.Q<Button>("ToolHotspotBtn");
@@ -203,17 +203,7 @@ namespace WebGL.UI.Panels
 
         private void BindToolsCards()
         {
-            // Info card — immediate toggle (no navigation)
-            if (_toolInfoBtn != null)
-            {
-                System.Action onInfo = () =>
-                {
-                    OnInfoToggleRequested?.Invoke();
-                    // Active state managed via SetSheetOpenState callback
-                };
-                _toolInfoBtn.clicked += onInfo;
-                AddCleanup(() => _toolInfoBtn.clicked -= onInfo);
-            }
+            // Info button is now a floating (i) button wired directly in UIManager
 
             // Explode card — navigate to ExplodeSubPanel (slider + categories always visible inside)
             if (_toolExplodeBtn != null)
@@ -319,6 +309,10 @@ namespace WebGL.UI.Panels
                 // Highlight the active card
                 _analyzeShaderBtn?.EnableInClassList("submenu-card--active", panelId == "shaders");
                 _analyzeCrossSectionBtn?.EnableInClassList("submenu-card--active", panelId == "cross-section");
+
+                // Enable cross-section manager when navigating to the panel
+                if (panelId == "cross-section")
+                    CrossSectionManager.Instance?.EnableCrossSection();
             }
         }
 
@@ -335,6 +329,10 @@ namespace WebGL.UI.Panels
             }
             else if (mode == ActiveMode.Analyze)
             {
+                // Disable cross-section when leaving the panel
+                if (_analyzeActivePanel == "cross-section")
+                    CrossSectionManager.Instance?.DisableCrossSection();
+
                 _analyzeLevel = SubLevel.CardGrid;
                 _analyzeActivePanel = null;
                 ShowAnalyzeLevel();
@@ -411,7 +409,7 @@ namespace WebGL.UI.Panels
         public void SetSheetOpenState(bool isOpen)
         {
             _isSheetOpen = isOpen;
-            _toolInfoBtn?.EnableInClassList("submenu-card--active", isOpen);
+            // Floating info button highlight managed by UIManager directly
         }
 
         public void ToggleHotspots()
@@ -519,6 +517,10 @@ namespace WebGL.UI.Panels
 
         private void CloseAllSubPanels()
         {
+            // Disable cross-section if it was active
+            if (_analyzeActivePanel == "cross-section")
+                CrossSectionManager.Instance?.DisableCrossSection();
+
             // Tools
             _toolsLevel = SubLevel.CardGrid;
             _toolsActivePanel = null;
