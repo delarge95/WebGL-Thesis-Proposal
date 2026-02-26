@@ -37,8 +37,6 @@ namespace WebGL.UI
 
         // ── Buttons (wired here, logic delegated) ──
         private Button resetBtn;
-        private Button floatingInfoBtn;
-
         // ── Slider (explosion) ──
         private Slider explosionSlider;
         private VisualElement sliderContainer;
@@ -114,7 +112,6 @@ namespace WebGL.UI
 
             // ── Query shared elements ──
             resetBtn = root.Q<Button>("ResetViewBtn");
-            floatingInfoBtn = root.Q<Button>("FloatingInfoBtn");
             sliderContainer = root.Q<VisualElement>("SliderContainer");
             explosionSlider = root.Q<Slider>("ExplosionSlider");
 
@@ -163,20 +160,6 @@ namespace WebGL.UI
 
             // ── Wire remaining toolbar buttons (mode buttons handled by UIModeController) ──
             if (resetBtn != null) { resetBtn.clicked += OnResetClicked; AddCleanup(() => resetBtn.clicked -= OnResetClicked); }
-
-            // ── Floating Info (i) button — toggles part info sheet ──
-            if (floatingInfoBtn != null)
-            {
-                System.Action onInfoClick = () => _detailsSheet.ToggleInfo();
-                floatingInfoBtn.clicked += onInfoClick;
-                AddCleanup(() => floatingInfoBtn.clicked -= onInfoClick);
-            }
-
-            // Notify floating info button when sheet state changes
-            _detailsSheet.OnSheetStateChanged += (isOpen) =>
-            {
-                floatingInfoBtn?.EnableInClassList("floating-info-btn--active", isOpen);
-            };
 
             // ── Category filter buttons (inside AnalyzeModeContainer/FilterSubPanel) ──
             BindCat("CatBtn_All", "ALL");

@@ -86,18 +86,15 @@ namespace WebGL.Core.Managers
 
             foreach (var p in allParts)
             {
-                var renderer = p.GetComponent<Renderer>();
-                if (renderer == null) continue;
-
                 if (p == part)
                 {
-                    // Make isolated part fully visible
-                    SetPartOpacity(p, 1f);
+                    // Ensure isolated part is visible
+                    p.gameObject.SetActive(true);
                 }
                 else
                 {
-                    // Make other parts semi-transparent
-                    SetPartOpacity(p, isolatedOpacity);
+                    // Hide all other parts
+                    p.gameObject.SetActive(false);
                 }
             }
 
@@ -115,9 +112,14 @@ namespace WebGL.Core.Managers
 
             foreach (var p in allParts)
             {
-                if (partVisibility.TryGetValue(p, out bool visible) && visible)
+                // Restore all parts
+                p.gameObject.SetActive(true);
+                // Reset any material property block overrides
+                var renderer = p.GetComponent<Renderer>();
+                if (renderer != null)
                 {
-                    SetPartOpacity(p, 1f);
+                    MaterialPropertyBlock block = new MaterialPropertyBlock();
+                    renderer.SetPropertyBlock(block);
                 }
             }
 

@@ -15,9 +15,6 @@
                 <ui:Label text="⌂" class="button-icon-text-small" picking-mode="Ignore"/>
             </ui:Button>
             <ui:Label text="SELECT A PART" name="TopContextLabel" class="header-title" picking-mode="Ignore" />
-            <ui:Button name="FloatingInfoBtn" class="floating-info-btn" tooltip="Part Info">
-                <ui:Label text="i" class="floating-info-label" picking-mode="Ignore"/>
-            </ui:Button>
             <ui:Button name="ResetViewBtn" class="icon-button-small" tooltip="Reset Camera">
                 <ui:Label text="RST" class="button-icon-text-small" picking-mode="Ignore"/>
             </ui:Button>
