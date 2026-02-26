@@ -68,11 +68,11 @@ namespace WebGL.UI.ProceduralIcons
 
             if (isFiltering)
             {
-                // Drop accelerates downwards fast!
-                currentDropY += dt * 80f; // Velocity
+                // Drop accelerates downwards extremely fast!
+                currentDropY += dt * 150f; // Was 80f
                 
-                // When drop reaches far bottom, trigger recovery
-                if (currentDropY >= 25f)
+                // When drop reaches bottom, trigger recovery quickly
+                if (currentDropY >= 15f) // Was 25f
                 {
                     isFiltering = false;
                     currentDropY = 0f;
@@ -146,25 +146,24 @@ namespace WebGL.UI.ProceduralIcons
             // 2. Draw Filtering Drop (if active)
             if (isFiltering && currentDropY > 1f)
             {
-                // The drop stretches vertically as it falls (animation principle)
-                float dropStretchY = Mathf.Clamp(currentDropY * 0.2f, 1f, 3f);
+                // Standard drop that doesn't stretch artificially
                 float dropRadius = baseRadius * 0.15f; 
                 float dropX = cx;
                 float dropY = tubeY + currentDropY;
                 
                 // Fade out as it falls
-                float alpha = Mathf.Clamp01(1f - (currentDropY / 25f));
+                float alpha = Mathf.Clamp01(1f - (currentDropY / 15f));
                 Color dropColor = currentColor;
                 dropColor.a *= alpha;
                 
                 painter.fillColor = dropColor;
                 painter.strokeColor = dropColor;
 
-                // Draw drop (ellipse approximation using line hack for UI Toolkit Painter2D without Ellipse support)
+                // Simple round drop
                 painter.lineWidth = dropRadius * 2f;
                 painter.BeginPath();
-                painter.MoveTo(new Vector2(dropX, dropY - dropStretchY * 2f));
-                painter.LineTo(new Vector2(dropX, dropY + dropStretchY));
+                painter.MoveTo(new Vector2(dropX, dropY - dropRadius));
+                painter.LineTo(new Vector2(dropX, dropY + dropRadius));
                 painter.Stroke();
                 
                 painter.lineWidth = currentStrokeWidth; // revert

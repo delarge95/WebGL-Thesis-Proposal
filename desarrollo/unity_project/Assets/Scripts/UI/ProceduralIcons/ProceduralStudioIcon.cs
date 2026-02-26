@@ -6,46 +6,46 @@ namespace WebGL.UI.ProceduralIcons
     [UxmlElement]
     public partial class ProceduralStudioIcon : ProceduralIconBase
     {
-        // Continuous rotation on Hover
-        private float currentRotation = 0f;
-        private float targetRotationSpeed = 0f;
-        private float currentRotationSpeed = 0f;
-
-        // Pulse scale for click
-        private float targetPulseScale = 1f;
-        private float currentPulseScale = 1f;
-        private float pulseVelocity = 0f;
+        // 1. Cube Explosion (Faces offset)
+        private float targetSpread = 0f;
+        private float currentSpread = 0f;
+        private float spreadVelocity = 0f;
         
+        // 2. Cube overall scale squash
+        private float targetScale = 1f;
+        private float currentScale = 1f;
+        private float scaleVelocity = 0f;
+
         // One-click state
-        private bool isPulsing = false;
+        private bool isSnapping = false;
 
         protected override void OnHoverEnter()
         {
-            if (!isPulsing)
+            if (!isSnapping)
             {
-                // Anticipation: blades spin
-                targetRotationSpeed = 180f; // degrees per sec
+                // Anticipation: The box opens slightly (Faces move outward)
+                targetSpread = 4f; 
+                targetScale = 1.15f;
             }
         }
 
         protected override void OnHoverExit()
         {
-            if (!isPulsing)
+            if (!isSnapping)
             {
-                // Blades slow to a halt
-                targetRotationSpeed = 0f;
+                targetSpread = 0f;
+                targetScale = 1f;
             }
         }
 
         protected override void OnPressed()
         {
-            // Explosive Pop
-            if (!isPulsing)
+            // Explosive Snap Shut
+            if (!isSnapping)
             {
-                isPulsing = true;
-                targetPulseScale = 1.4f;
-                // Add an immediate kick to rotation
-                currentRotationSpeed += 360f;
+                isSnapping = true;
+                targetSpread = -1f; // Tightly closed
+                targetScale = 0.7f; // Squash entirely
             }
         }
 
@@ -55,35 +55,32 @@ namespace WebGL.UI.ProceduralIcons
         {
             bool hasChanged = false;
 
-            if (isPulsing)
+            if (isSnapping)
             {
-                if (currentPulseScale >= 1.35f)
+                if (currentScale <= 0.8f) // Near total squash
                 {
-                    isPulsing = false;
-                    targetPulseScale = 1f; // Recover
-                    targetRotationSpeed = isHovered ? 180f : 0f;
+                    isSnapping = false;
+                    targetSpread = isHovered ? 4f : 0f;
+                    targetScale = isHovered ? 1.15f : 1f;
                 }
             }
 
-            float oldScale = currentPulseScale;
-            float oldRot = currentRotation;
+            float oldScale = currentScale;
+            float oldSpread = currentSpread;
 
-            // Spin physics
-            currentRotationSpeed = Mathf.Lerp(currentRotationSpeed, targetRotationSpeed, dt * 5f);
-            currentRotation += currentRotationSpeed * dt;
-
-            // Scale physics
-            if (isPulsing)
+            if (isSnapping)
             {
-                currentPulseScale = Mathf.Lerp(currentPulseScale, targetPulseScale, dt * 35f); // Fast pop
+                currentScale = Mathf.Lerp(currentScale, targetScale, dt * 45f); // Fast snap
+                currentSpread = Mathf.Lerp(currentSpread, targetSpread, dt * 50f);
             }
             else
             {
-                currentPulseScale = SpringFloat(currentPulseScale, targetPulseScale, ref pulseVelocity, 30f, 0.6f, dt); // Bouncy recovery
+                currentScale = SpringFloat(currentScale, targetScale, ref scaleVelocity, 25f, 0.6f, dt); // Bounce recovery
+                currentSpread = SpringFloat(currentSpread, targetSpread, ref spreadVelocity, 30f, 0.5f, dt); // Super bouncy parts
             }
 
-            if (Mathf.Abs(currentPulseScale - oldScale) > 0.005f ||
-                Mathf.Abs(currentRotation - oldRot) > 0.1f)
+            if (Mathf.Abs(currentScale - oldScale) > 0.005f ||
+                Mathf.Abs(currentSpread - oldSpread) > 0.05f)
             {
                 hasChanged = true;
             }
@@ -95,40 +92,74 @@ namespace WebGL.UI.ProceduralIcons
         {
             float cx = width / 2f;
             float cy = height / 2f;
-            float baseRadius = Mathf.Min(width, height) * 0.35f * currentPulseScale;
             
+            // Hexagon bounds calculation
+            float size = Mathf.Min(width, height) * 0.35f * currentScale;
+
             painter.strokeColor = currentColor;
+            painter.fillColor = currentColor;
+
+            // Isometric 3D vectors
+            Vector2 up = new Vector2(0, -size);
+            Vector2 down = new Vector2(0, size);
             
-            // 1. Center Eye / Pupil
-            float centerRadius = baseRadius * 0.3f;
+            // Angles for isometric projection
+            float angle30 = 30f * Mathf.Deg2Rad;
+            Vector2 rightTop = new Vector2(Mathf.Cos(angle30) * size, -Mathf.Sin(angle30) * size);
+            Vector2 rightBot = new Vector2(Mathf.Cos(angle30) * size, Mathf.Sin(angle30) * size);
+            Vector2 leftTop = new Vector2(-Mathf.Cos(angle30) * size, -Mathf.Sin(angle30) * size);
+            Vector2 leftBot = new Vector2(-Mathf.Cos(angle30) * size, Mathf.Sin(angle30) * size);
+
+            // Origin
+            Vector2 center = new Vector2(cx, cy);
+
+            // 1. Draw Top Face (Offset by currentSpread upwards)
+            Vector2 offsetTop = new Vector2(0, -currentSpread * 1.5f);
             painter.BeginPath();
-            painter.Arc(new Vector2(cx, cy), centerRadius, 0f, 360f);
+            painter.MoveTo(center + offsetTop);
+            painter.LineTo(center + rightTop + offsetTop);
+            painter.LineTo(center + up + offsetTop);
+            painter.LineTo(center + leftTop + offsetTop);
+            painter.ClosePath();
+            
+            // Draw lines for Top Face
             painter.Stroke();
 
-            // 2. Three Sweeping Arcs (Blender Logo style)
-            int numBlades = 3;
-            float bladeRadius = baseRadius * 0.8f;
-            float bladeOffset = baseRadius * 0.4f; // Dist from center
+            // Fill top face with solid transparent color to sell the 3D look
+            Color fillColorTop = currentColor;
+            fillColorTop.a *= 0.15f;
+            painter.fillColor = fillColorTop;
+            painter.Fill();
 
-            for (int i = 0; i < numBlades; i++)
-            {
-                float angleOffset = (360f / numBlades) * i;
-                float angleDeg = currentRotation + angleOffset;
-                float angleRad = angleDeg * Mathf.Deg2Rad;
+            // 2. Draw Left Face (Offset diagonally left-down)
+            Vector2 offsetLeft = new Vector2(-Mathf.Cos(angle30) * currentSpread, Mathf.Sin(angle30) * currentSpread);
+            painter.BeginPath();
+            painter.MoveTo(center + offsetLeft);
+            painter.LineTo(center + leftTop + offsetLeft);
+            painter.LineTo(center + leftBot + offsetLeft);
+            painter.LineTo(center + down + offsetLeft);
+            painter.ClosePath();
+            painter.Stroke();
+            
+            Color fillColorLeft = currentColor;
+            fillColorLeft.a *= 0.35f; // Darker
+            painter.fillColor = fillColorLeft;
+            painter.Fill();
 
-                // Center of gravity for this particular blade
-                float bx = cx + Mathf.Cos(angleRad) * bladeOffset;
-                float by = cy + Mathf.Sin(angleRad) * bladeOffset;
-
-                painter.BeginPath();
-                // We draw an arc that wraps partly around the center
-                // To keep it Blender-esque, the sweep should point tangentially
-                float startAngle = angleDeg - 45f;
-                float sweepAngle = 180f; // Half circle
-
-                painter.Arc(new Vector2(bx, by), bladeRadius, startAngle * Mathf.Deg2Rad, sweepAngle * Mathf.Deg2Rad, ArcDirection.Clockwise);
-                painter.Stroke();
-            }
+            // 3. Draw Right Face (Offset diagonally right-down)
+            Vector2 offsetRight = new Vector2(Mathf.Cos(angle30) * currentSpread, Mathf.Sin(angle30) * currentSpread);
+            painter.BeginPath();
+            painter.MoveTo(center + offsetRight);
+            painter.LineTo(center + down + offsetRight);
+            painter.LineTo(center + rightBot + offsetRight);
+            painter.LineTo(center + rightTop + offsetRight);
+            painter.ClosePath();
+            painter.Stroke();
+            
+            Color fillColorRight = currentColor;
+            fillColorRight.a *= 0.05f; // Brightest side
+            painter.fillColor = fillColorRight;
+            painter.Fill();
         }
     }
 }

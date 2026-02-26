@@ -23,8 +23,8 @@ namespace WebGL.UI.ProceduralIcons
             if (!isPlanting)
             {
                 // Anticipation: Pin floats up preparing to plant
-                targetPinY = -8f; // Up is negative Y
-                targetGroundW = 1.2f; // Ground line extends
+                targetPinY = -6f; // Up is negative Y
+                targetGroundW = 1.0f; // Ground line extends
             }
         }
 
@@ -43,7 +43,7 @@ namespace WebGL.UI.ProceduralIcons
             {
                 // Slam into the ground
                 isPlanting = true;
-                targetPinY = 6f; // Overshoot into the ground
+                targetPinY = 5f; // Overshoot down into the ground
             }
         }
 
@@ -55,10 +55,10 @@ namespace WebGL.UI.ProceduralIcons
 
             if (isPlanting)
             {
-                if (currentPinY >= 5.5f)
+                if (currentPinY >= 4.5f)
                 {
                     isPlanting = false;
-                    targetPinY = isHovered ? -8f : 0f;
+                    targetPinY = isHovered ? -6f : 0f;
                 }
             }
 
@@ -67,14 +67,14 @@ namespace WebGL.UI.ProceduralIcons
 
             if (isPlanting)
             {
-                currentPinY = Mathf.Lerp(currentPinY, targetPinY, dt * 50f); // Fast slam
+                currentPinY = Mathf.Lerp(currentPinY, targetPinY, dt * 60f); // Violent slam
             }
             else
             {
-                currentPinY = SpringFloat(currentPinY, targetPinY, ref pinVelocity, 25f, 0.6f, dt); // Bouncy float
+                currentPinY = SpringFloat(currentPinY, targetPinY, ref pinVelocity, 25f, 0.55f, dt); // Bouncy float
             }
 
-            currentGroundW = Mathf.Lerp(currentGroundW, targetGroundW, dt * 15f);
+            currentGroundW = Mathf.Lerp(currentGroundW, targetGroundW, dt * 20f);
 
             if (Mathf.Abs(currentPinY - oldY) > 0.05f || 
                 Mathf.Abs(currentGroundW - oldGW) > 0.01f)
@@ -89,37 +89,54 @@ namespace WebGL.UI.ProceduralIcons
         {
             float cx = width / 2f;
             float cy = height / 2f;
-            float baseSize = Mathf.Min(width, height) * 0.4f;
+            float baseSize = Mathf.Min(width, height) * 0.45f;
 
             painter.strokeColor = currentColor;
+            painter.fillColor = currentColor;
 
-            // 1. Draw the Ground Line
-            float groundY = cy + baseSize * 0.8f;
+            // 1. Draw the Ground Line (Bottom Base)
+            float groundY = cy + baseSize * 0.7f;
             float gw = baseSize * currentGroundW;
             painter.BeginPath();
             painter.MoveTo(new Vector2(cx - gw, groundY));
             painter.LineTo(new Vector2(cx + gw, groundY));
             painter.Stroke();
 
-            // 2. Draw the Pin (Circle with a spike)
+            // 2. Draw the Classic Teardrop Pin
+            // An arc from approx -30 deg to 210 deg, then straight lines down to a tip
             float pinCX = cx;
-            float pinCY = cy + currentPinY; // Offset by animation
-
-            float pinRadius = baseSize * 0.45f;
+            float pinCY = cy - baseSize * 0.1f + currentPinY; 
             
-            // Instead of just a line, let's draw a nice loc-pin shape
-            // Main circle top
+            float pinRadius = baseSize * 0.4f;
+            Vector2 pinCenter = new Vector2(pinCX, pinCY);
+            Vector2 pinTip = new Vector2(pinCX, pinCY + baseSize * 0.65f); // Pointy tip touching the ground
+
             painter.BeginPath();
-            // Start at bottom right of the circle
-            painter.Arc(new Vector2(pinCX, pinCY - pinRadius * 0.5f), pinRadius, 45f * Mathf.Deg2Rad, 135f * Mathf.Deg2Rad, ArcDirection.CounterClockwise);
-            // Connect to spike tip
-            painter.LineTo(new Vector2(pinCX, pinCY + baseSize * 0.7f));
+            
+            // The top curve of the teardrop goes sweeping from the right down to the tip, to the left, and back over the top.
+            // Wait, UI Toolkit Painter2D Arc draws counter-clockwise from startAngle to endAngle? Or clockwise? Default matches mathematical.
+            // 30 degrees (lower right), over the top 90 (top), to 150 degrees (lower left).
+            float startAngleRad = 210f * Mathf.Deg2Rad;
+            float endAngleRad = -30f * Mathf.Deg2Rad;
+            Vector2 arcStartLeft = new Vector2(pinCX + Mathf.Cos(startAngleRad)*pinRadius, pinCY - Mathf.Sin(startAngleRad)*pinRadius);
+            Vector2 arcEndRight = new Vector2(pinCX + Mathf.Cos(endAngleRad)*pinRadius, pinCY - Mathf.Sin(endAngleRad)*pinRadius);
+
+            // Start at bottom-left of the circle
+            painter.MoveTo(arcStartLeft);
+            // Draw left diagonal line to tip
+            painter.LineTo(pinTip);
+            // Draw right diagonal line from tip
+            painter.LineTo(arcEndRight);
+            
+            // Draw top arc to connect right to left smoothly
+            painter.Arc(pinCenter, pinRadius, -30f * Mathf.Deg2Rad, 210f * Mathf.Deg2Rad, ArcDirection.CounterClockwise);
+            
             painter.ClosePath();
             painter.Stroke();
 
-            // Inner dot
+            // Inner hole (Dot)
             painter.BeginPath();
-            painter.Arc(new Vector2(pinCX, pinCY - pinRadius * 0.5f), pinRadius * 0.3f, 0f, 360f);
+            painter.Arc(pinCenter, pinRadius * 0.35f, 0f, 360f);
             painter.Stroke();
         }
     }

@@ -7,8 +7,8 @@ namespace WebGL.UI.ProceduralIcons
     public partial class ProceduralExplodeIcon : ProceduralIconBase
     {
         // Spread between layers
-        private float targetSpreadY = 0f;
-        private float currentSpreadY = 0f;
+        private float targetSpreadY = 4f;
+        private float currentSpreadY = 4f;
         private float spreadVelocity = 0f;
 
         // Overall scale squash on click
@@ -84,11 +84,6 @@ namespace WebGL.UI.ProceduralIcons
                 Mathf.Abs(currentGroupScale - oldScale) > 0.01f)
             {
                 hasChanged = true;
-            }
-
-            // Initialization state logic
-            if (targetSpreadY == 0 && currentSpreadY == 0 && !isHovered) {
-                targetSpreadY = 4f; // New wider resting state
             }
 
             return hasChanged;
