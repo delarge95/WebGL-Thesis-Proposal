@@ -14,6 +14,7 @@ namespace WebGL.UI.ProceduralIcons
         // 2. Scalpel position
         private float targetScalpelPos = 0f;
         private float currentScalpelPos = 0f;
+        private float scalpelVelocity = 0f;
 
         // One-click animation states
         private bool isPerformingCut = false;
@@ -75,9 +76,15 @@ namespace WebGL.UI.ProceduralIcons
 
             currentCircleScale = SpringFloat(currentCircleScale, targetCircleScale, ref circleVelocity, 25f, 0.7f, dt);
             
-            // Scalpel is blazing fast on the cut, slightly slower on return
-            float lerpSpeed = isPerformingCut ? 35f : 20f;
-            currentScalpelPos = Mathf.Lerp(currentScalpelPos, targetScalpelPos, dt * lerpSpeed);
+            // The Attack is a blazing fast linear slice. The Recovery is a beautiful, slow organic spring glide.
+            if (isPerformingCut) 
+            {
+                currentScalpelPos = Mathf.Lerp(currentScalpelPos, targetScalpelPos, dt * 35f);
+            } 
+            else 
+            {
+                currentScalpelPos = SpringFloat(currentScalpelPos, targetScalpelPos, ref scalpelVelocity, 14f, 0.85f, dt);
+            }
 
             if (Mathf.Abs(currentCircleScale - oldScale) > 0.005f ||
                 Mathf.Abs(currentScalpelPos - oldPos) > 0.01f)
