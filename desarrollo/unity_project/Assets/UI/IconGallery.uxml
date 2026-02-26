@@ -1,0 +1,70 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns:pi="WebGL.UI.ProceduralIcons" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center; background-color: rgb(30, 30, 30);">
+        <ui:Label text="Procedural Icons Gallery" style="color: rgb(255, 255, 255); font-size: 24px; -unity-font-style: bold; margin-bottom: 40px;" />
+        
+        <ui:VisualElement style="flex-direction: row; flex-wrap: wrap; justify-content: center; width: 800px;">
+            <!-- Group 1 -->
+            <ui:VisualElement style="align-items: center; margin: 20px;">
+                <ui:Label text="Home" style="color: rgb(180, 180, 180); margin-bottom: 10px;" />
+                <pi:ProceduralHomeIcon style="width: 80px; height: 80px;" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="align-items: center; margin: 20px;">
+                <ui:Label text="Reset View" style="color: rgb(180, 180, 180); margin-bottom: 10px;" />
+                <pi:ProceduralResetIcon style="width: 80px; height: 80px;" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="align-items: center; margin: 20px;">
+                <ui:Label text="Info" style="color: rgb(180, 180, 180); margin-bottom: 10px;" />
+                <pi:ProceduralInfoIcon style="width: 80px; height: 80px;" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="align-items: center; margin: 20px;">
+                <ui:Label text="Cut" style="color: rgb(180, 180, 180); margin-bottom: 10px;" />
+                <pi:ProceduralCutIcon style="width: 80px; height: 80px;" />
+            </ui:VisualElement>
+
+            <!-- Group 2 -->
+            <ui:VisualElement style="align-items: center; margin: 20px;">
+                <ui:Label text="Isolate" style="color: rgb(180, 180, 180); margin-bottom: 10px;" />
+                <pi:ProceduralIsolateIcon style="width: 80px; height: 80px;" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="align-items: center; margin: 20px;">
+                <ui:Label text="Explode" style="color: rgb(180, 180, 180); margin-bottom: 10px;" />
+                <pi:ProceduralExplodeIcon style="width: 80px; height: 80px;" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="align-items: center; margin: 20px;">
+                <ui:Label text="Filter" style="color: rgb(180, 180, 180); margin-bottom: 10px;" />
+                <pi:ProceduralFilterIcon style="width: 80px; height: 80px;" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="align-items: center; margin: 20px;">
+                <ui:Label text="Shaders" style="color: rgb(180, 180, 180); margin-bottom: 10px;" />
+                <pi:ProceduralShadersIcon style="width: 80px; height: 80px;" />
+            </ui:VisualElement>
+
+            <!-- Group 3 -->
+            <ui:VisualElement style="align-items: center; margin: 20px;">
+                <ui:Label text="Studio" style="color: rgb(180, 180, 180); margin-bottom: 10px;" />
+                <pi:ProceduralStudioIcon style="width: 80px; height: 80px;" />
+            </ui:VisualElement>
+
+            <ui:VisualElement style="align-items: center; margin: 20px;">
+                <ui:Label text="Pins" style="color: rgb(180, 180, 180); margin-bottom: 10px;" />
+                <pi:ProceduralPinsIcon style="width: 80px; height: 80px;" />
+            </ui:VisualElement>
+
+            <ui:VisualElement style="align-items: center; margin: 20px;">
+                <ui:Label text="Inspect" style="color: rgb(180, 180, 180); margin-bottom: 10px;" />
+                <pi:ProceduralInspectIcon style="width: 80px; height: 80px;" />
+            </ui:VisualElement>
+
+            <ui:VisualElement style="align-items: center; margin: 20px;">
+                <ui:Label text="Analyze" style="color: rgb(180, 180, 180); margin-bottom: 10px;" />
+                <pi:ProceduralAnalyzeIcon style="width: 80px; height: 80px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
