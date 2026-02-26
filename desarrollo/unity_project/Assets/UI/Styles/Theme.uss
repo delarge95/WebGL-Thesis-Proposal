@@ -204,9 +204,9 @@
     background-color: rgba(12, 12, 18, 0.88);
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
-    border-radius: 44px;
-    padding: 12px 56px;
-    min-width: 400px;
+    border-radius: 9999px;
+    padding: 10px 32px;
+    min-width: 420px;
     
     margin-bottom: 16px;
     
@@ -254,10 +254,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 84px;
-    height: 84px;
-    margin-left: 20px;
-    margin-right: 20px;
+    width: 100px;
+    height: 80px;
+    margin-left: 16px;
+    margin-right: 16px;
     
     background-color: transparent;
     border-radius: 0;
@@ -479,7 +479,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
-    width: 480px;
+    width: 472px;
     align-self: center;
     margin-right: 0;
     margin-bottom: 8px;
@@ -529,7 +529,7 @@
 }
 
 .cross-section-slider {
-    width: 480px;
+    width: 472px;
     height: 56px;
     min-height: 56px;
     align-self: center;
@@ -846,15 +846,15 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     padding-left: 0;
-    width: 372px;
+    width: 472px;
     align-self: center;
 }
 
 /* Card Item (Button) */
 .submenu-card {
-    width: 116px;
-    height: 116px;
-    margin: 4px;
+    width: 148px;
+    height: 148px;
+    margin: 5px;
     
     background-color: rgba(255, 255, 255, 0.04);
     border-radius: 16px;
@@ -886,9 +886,9 @@
 }
 
 .submenu-icon {
-    width: 52px;
-    height: 52px;
-    margin-bottom: 8px;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 10px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.08);
     background-image: resource("UI/Icons/icon_view"); /* Default fallback */
@@ -936,6 +936,12 @@
 
 /* User Req 5: Pin icon */
 .icon-pin { background-image: resource("UI/Icons/icon_pin"); }
+.icon-isolate { background-image: resource("UI/Icons/icon_view"); }
+
+/* Section title spacing (Studio combined panel) */
+.submenu-title--section {
+    margin-top: 16px;
+}
 
 .btn-tag:hover {
     border-color: rgba(255, 255, 255, 0.3);
@@ -1340,7 +1346,7 @@
 /* Old shader-menu and env-panel styles removed (replaced by .submenu-container) */
 
 .env-slider-group {
-    width: 480px;
+    width: 472px;
     height: 56px;
     align-self: center;
     margin-top: 8px;
@@ -1525,6 +1531,8 @@
 .device-option {
     width: 100%;
     height: 64px;
+    min-height: 64px;
+    flex-shrink: 0;
     margin-bottom: 12px;
     padding: 0 24px;
     font-size: 20px;
@@ -1538,6 +1546,17 @@
     justify-content: flex-start;
     align-items: center;
     transition-duration: 0.2s;
+}
+
+/* Device scroll — ensure enough height for all buttons */
+.device-scroll {
+    min-height: 280px;
+    max-height: 50%;
+    overflow: hidden;
+}
+
+.device-scroll #unity-content-container {
+    padding-bottom: 16px;
 }
 
 .device-option:hover {

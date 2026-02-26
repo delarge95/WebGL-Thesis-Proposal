@@ -45,6 +45,7 @@ namespace WebGL.UI
 
         // ── State ──
         private bool _hotspotsInitialized = false;
+        private bool _isIsolated = false;
 
         // ── Double-click detection (issue #7) ──
         private float _lastPartClickTime = 0f;
@@ -131,7 +132,9 @@ namespace WebGL.UI
             );
             AddCleanup(() => _modeController.Dispose());
 
-            // Info toggle now handled by FloatingInfoBtn wired below — no longer via UIModeController event
+            // Wire Inspect-mode info/isolate toggle events from UIModeController
+            _modeController.OnInfoToggleRequested += () => _detailsSheet.ToggleInfo();
+            _modeController.OnIsolateToggleRequested += () => ToggleIsolation();
 
             // Notify mode controller when sheet state changes
             _detailsSheet.OnSheetStateChanged += (isOpen) =>
@@ -139,13 +142,13 @@ namespace WebGL.UI
                 _modeController.SetSheetOpenState(isOpen);
             };
 
-            // ── Analyze Panel (shader cards — ShaderMenu inside AnalyzeModeContainer) ──
+            // ── Analyze Panel (shader cards — ShaderMenu inside StudioModeContainer) ──
             var shaderMenu = root.Q<VisualElement>("ShaderMenu");
             _uiAnalyzePanel = new UIAnalyzePanel(shaderMenu, null);
             AddCleanup(() => _uiAnalyzePanel.Dispose());
 
-            // ── Environment Panel (presets + sliders — EnvPanel inside StudioModeContainer) ──
-            _uiEnvironmentPanel = new UIEnvironmentPanel(root.Q<VisualElement>("EnvPanel"));
+            // ── Environment Panel (presets + sliders — StudioPanel inside StudioModeContainer) ──
+            _uiEnvironmentPanel = new UIEnvironmentPanel(root.Q<VisualElement>("StudioPanel"));
             AddCleanup(() => _uiEnvironmentPanel.Dispose());
 
             // ── Cross-Section Panel (inside AnalyzeModeContainer) ──
@@ -175,7 +178,7 @@ namespace WebGL.UI
                 floatingInfoBtn?.EnableInClassList("floating-info-btn--active", isOpen);
             };
 
-            // ── Category filter buttons (now inside ToolsModeContainer) ──
+            // ── Category filter buttons (inside AnalyzeModeContainer/FilterSubPanel) ──
             BindCat("CatBtn_All", "ALL");
             BindCat("CatBtn_Structure", "Structure");
             BindCat("CatBtn_Propulsion", "Propulsion");
@@ -285,7 +288,35 @@ namespace WebGL.UI
             }
         }
 
-        // Explode toggle no longer needed — card navigates to ExplodeSubPanel directly
+        // ═══════════════════════════════════════════════════════
+        //  Isolation helpers
+        // ═══════════════════════════════════════════════════════
+
+        private void IsolateSelectedPart()
+        {
+            var sel = SelectionManager.Instance?.CurrentSelection;
+            if (sel == null) return;
+            var part = sel.GetComponent<ExplodablePart>();
+            if (part == null) return;
+            PartVisibilityManager.Instance?.IsolatePart(part);
+            _isIsolated = true;
+            _modeController.SetIsolateState(true);
+        }
+
+        private void ClearIsolation()
+        {
+            PartVisibilityManager.Instance?.ClearIsolation();
+            _isIsolated = false;
+            _modeController.SetIsolateState(false);
+        }
+
+        private void ToggleIsolation()
+        {
+            if (_isIsolated)
+                ClearIsolation();
+            else
+                IsolateSelectedPart();
+        }
 
         // ═══════════════════════════════════════════════════════
         //  EventBus subscriptions
@@ -319,22 +350,32 @@ namespace WebGL.UI
             // Delegate data display to details sheet
             _detailsSheet.PopulatePartData(evt.PartData, evt.FromHotspot);
 
-            // Double-click / double-tap detection → open info sheet
-            if (evt.PartData != null)
+            // Double-click / double-tap detection → open info sheet + isolate
+            float now = Time.time;
+            string clickId = evt.PartData?.partName ?? "__empty__";
+            bool isDoubleClick = clickId == _lastPartClickName
+                && (now - _lastPartClickTime) < DOUBLE_CLICK_THRESHOLD;
+
+            if (isDoubleClick)
             {
-                float now = Time.time;
-                string partName = evt.PartData.partName;
-                if (partName == _lastPartClickName && (now - _lastPartClickTime) < DOUBLE_CLICK_THRESHOLD)
+                if (_isIsolated)
                 {
+                    // Already isolated → de-isolate on any double-click
+                    ClearIsolation();
+                }
+                else if (evt.PartData != null)
+                {
+                    // First double-click on a part → isolate + open info
                     _detailsSheet.OpenSheet();
-                    _lastPartClickTime = 0f;
-                    _lastPartClickName = null;
+                    IsolateSelectedPart();
                 }
-                else
-                {
-                    _lastPartClickTime = now;
-                    _lastPartClickName = partName;
-                }
+                _lastPartClickTime = 0f;
+                _lastPartClickName = null;
+            }
+            else
+            {
+                _lastPartClickTime = now;
+                _lastPartClickName = clickId;
             }
         }
 
@@ -399,6 +440,7 @@ namespace WebGL.UI
             if (ViewModeManager.Instance == null) managers.AddComponent<ViewModeManager>();
             if (EnvironmentController.Instance == null) managers.AddComponent<EnvironmentController>();
             if (CrossSectionManager.Instance == null) managers.AddComponent<CrossSectionManager>();
+            if (PartVisibilityManager.Instance == null) managers.AddComponent<PartVisibilityManager>();
         }
     }
 }
