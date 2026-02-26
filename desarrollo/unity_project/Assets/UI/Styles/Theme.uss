@@ -14,12 +14,13 @@
    Surface:        rgba(18, 18, 18, 0.92)   #121212
    Primary:        rgb(255, 255, 255)       White (matches web --accent)
    On-Surface:     rgb(255, 255, 255)       White
-   On-Surface-Dim: rgba(255, 255, 255, 0.4) Muted
+   On-Surface-Dim: rgba(255, 255, 255, 0.65) Muted (WCAG 4.5:1 on #0a0a0a)
    Border:         rgba(255, 255, 255, 0.1)
    Border-Hover:   rgba(255, 255, 255, 0.2) White
-   Radius-SM:      8px
-   Radius-MD:      12px
-   Radius-LG:      24px
+   Radius-Pill:    half of height (56px→28, 112px→56)
+   Radius-LG:      24px  (bottom sheet)
+   Radius-MD:      16px  (cards, sliders, containers)
+   Radius-SM:      12px  (glass panels, sidebar)
    ──────────────────────────────────────────────── */
 
 /* ────────────────────────────────────────────────
@@ -157,10 +158,10 @@
     background-color: transparent;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.3);
-    border-radius: 28px;
-    padding: 0 40px;
-    min-width: 420px;
-    height: 72px;
+    border-radius: 56px; /* True pill: half of 112px height — matches .btn pill language */
+    padding: 0 48px;
+    min-width: 480px;
+    height: 112px;
     
     margin-bottom: 16px;
     
@@ -208,10 +209,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100px;
-    height: 80px;
-    margin-left: 16px;
-    margin-right: 16px;
+    width: 120px;
+    height: 96px;
+    margin-left: 20px;
+    margin-right: 20px;
     
     background-color: transparent;
     border-radius: 0;
@@ -249,8 +250,8 @@
 }
 
 .mode-btn-icon {
-    width: 44px;
-    height: 44px;
+    width: 56px;
+    height: 56px;
     -unity-background-scale-mode: scale-to-fit;
     margin-bottom: 8px;
 }
@@ -433,7 +434,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
-    width: 474px;
+    width: 476px;
     align-self: center;
     margin-right: 0;
     margin-bottom: 8px;
@@ -483,7 +484,7 @@
 }
 
 .cross-section-slider {
-    width: 474px;
+    width: 476px;
     height: 56px;
     min-height: 56px;
     align-self: center;
@@ -732,7 +733,7 @@
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.5);
-    font-size: 14px;
+    font-size: 16px;
     -unity-text-align: middle-center;
     padding: 4px;
     transition-duration: 0.2s;
@@ -767,7 +768,7 @@
     background-color: rgba(10, 10, 18, 0.8);
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.06);
-    border-radius: 14px;
+    border-radius: 16px;
     padding: 16px;
     
     width: 680px;
@@ -800,7 +801,7 @@
     flex-wrap: wrap;
     justify-content: center;
     padding-left: 0;
-    width: 474px;
+    width: 476px;
     align-self: center;
 }
 
@@ -985,14 +986,14 @@
 }
 
 .glass-slider .unity-base-slider__dragger {
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background-color: rgb(255, 255, 255);
     border-width: 2px;
     border-color: rgba(255, 255, 255, 0.5);
     top: 50%;
-    margin-top: -16px;
+    margin-top: -22px;
     transition-property: scale, background-color;
     transition-duration: 0.15s;
 }
@@ -1217,7 +1218,7 @@
 
 .panel-subtitle {
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.65);
     letter-spacing: 1px;
 }
 
@@ -1300,7 +1301,7 @@
 /* Old shader-menu and env-panel styles removed (replaced by .submenu-container) */
 
 .env-slider-group {
-    width: 474px;
+    width: 476px;
     height: 56px;
     align-self: center;
     margin-top: 8px;
