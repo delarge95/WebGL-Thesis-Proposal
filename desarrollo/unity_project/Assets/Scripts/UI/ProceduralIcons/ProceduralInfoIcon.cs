@@ -30,10 +30,9 @@ namespace WebGL.UI.ProceduralIcons
 
         protected override void OnPressed()
         {
-            // Apply a massive INSTANT UPWARD IMPULSE to the dot's velocity!
-            // The underdamped spring will naturally pull it down and make it bounce.
-            // This achieves pure fluid animation principles procedurally.
-            dotVelocity += 180f; 
+            // Apply a massive INSTANT UPWARD IMPULSE
+            // Much stronger, so the jump is notorious and dynamic
+            dotVelocity += 350f; 
         }
 
         protected override void OnReleased()
@@ -50,8 +49,8 @@ namespace WebGL.UI.ProceduralIcons
 
             currentGroupScale = SpringFloat(currentGroupScale, targetGroupScale, ref groupVelocity, 25f, 0.7f, dt);
             
-            // Underdamped spring for the Dot (Damping = 0.45f causes bounces!)
-            currentDotElevation = SpringFloat(currentDotElevation, targetDotElevation, ref dotVelocity, 40f, 0.4f, dt);
+            // Underdamped spring for the Dot (Bouncier but faster!)
+            currentDotElevation = SpringFloat(currentDotElevation, targetDotElevation, ref dotVelocity, 30f, 0.35f, dt);
             
             // Prevent the dot from penetrating too deep into the "i" stem when bouncing down
             if (currentDotElevation < -4f)
@@ -106,7 +105,7 @@ namespace WebGL.UI.ProceduralIcons
 
             // 3. Draw the bouncing dot "i" (Squash / Stretch animated)
             float baseDotY = lineTopY - (ringRadius * 0.35f);
-            float dotRadius = HoveredStrokeWidth * 1.5f * currentGroupScale;
+            float dotRadius = HoveredStrokeWidth * 1.0f * currentGroupScale; // Reduced size from 1.5f
 
             float drawWidth = dotRadius * dotScaleX;
             float drawHeight = dotRadius * dotScaleY;
