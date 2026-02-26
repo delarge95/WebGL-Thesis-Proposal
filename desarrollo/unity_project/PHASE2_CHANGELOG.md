@@ -17,7 +17,7 @@
 | 5         | Cross-Section UI en Analyze Mode    | 66673f3 | 23-feb-2026 | ✅ Completada |
 | 6         | Cleanup & Integración Final         | —       | 23-feb-2026 | ✅ Completada |
 | 7         | UX Audit Fixes — Minimalist Grid UI | —       | 24-feb-2026 | ✅ Completada |
-| 8         | Cross-Section Universal + Polish     | —       | 24-feb-2026 | ✅ Completada |
+| 8         | Cross-Section Universal + Polish    | —       | 24-feb-2026 | ✅ Completada |
 
 ---
 
@@ -203,6 +203,7 @@
 #### `Theme.uss` — ~40 selectores modificados
 
 **7.1 — Bottom Bar: Botones Icon-Only**
+
 - `.mode-btn`: 100×60 → 64×64, `background-color: transparent`, `border-width: 0`
 - `.mode-btn-icon`: 22→28 px
 - `.mode-btn-label`: 10→12 px (FIX T-02)
@@ -210,26 +211,31 @@
 - `.actions-row`: padding 24→32px, `min-width: auto`
 
 **7.2 — Cards Cuadradas 80×80 con Icono Circular**
+
 - `.submenu-card`: 110×88 → 80×80, `border-width: 0`, `border-radius: 16px`
 - `.submenu-icon`: 24→40px, `border-radius: 50%`, `background-color: rgba(255,255,255,0.08)`
 - `.submenu-label`: 10→12 px (FIX T-03)
 - `.submenu-card--active`: `rgba(0,170,255,0.12)` (accent semi-transparente)
 
 **7.3 — Grid 4 Columnas (344px)**
+
 - `.submenu-grid`: `width: 344px`, `justify-content: flex-start`, `align-self: center`
 - Slots vacíos automáticos vía flex-wrap + ancho fijo
 
 **7.4 — Sliders 344×40**
+
 - `.slider-container`: `width: 344px`, `height: 40px`, `border-width: 0`, `border-radius: 16px`
 - `.slider-label`: 11→12 px, color 0.35→0.5 (FIX T-05, A-06)
 - `.env-slider-group`: 344×40px, horizontal layout con label + slider
 - `.glass-slider dragger`: 24→32 px (FIX V-FIT-02)
 
 **7.5 — Contenedores Invisibles**
+
 - `.mode-submenu`: `background: transparent`, `border-width: 0`, `padding: 8px 0`
 - `.submenu-title`: 11→12 px, color 0.3→0.5 (FIX T-04, A-05)
 
 **7.6 — Cross-Section como Grid de Cards**
+
 - `.cross-section-row`: `flex-direction: column`
 - `.cross-section-controls`: `flex-direction: column`
 - `.cross-section-axis-btn`: 34→80 px, `border-radius: 16px` (como submenu-card)
@@ -238,6 +244,7 @@
 - `.cross-section-axis-label`: 12→14 px
 
 **7.7 — Mode Action Buttons Icon-Only**
+
 - `.mode-action-bar`: `background: transparent`, `border-width: 0`
 - `.mode-action-btn`: `background: transparent`, `border-width: 0`, margin 4→12px
 - `.mode-action-icon`: 20→24 px (FIX G-26)
@@ -245,6 +252,7 @@
 - `.mode-action-btn--active`: feedback vía `tint-color` en icono
 
 **7.8 — Audit Quick Fixes**
+
 - `.icon-button-small`: 40→48 px (FIX V-FIT-04)
 - `.sheet-close-btn`: 32→40 px + padding 4px (FIX V-FIT-03)
 - `.header-title`: color 0.35→0.5 (FIX A-04)
@@ -275,26 +283,27 @@
 
 ### Solución arquitectónica
 
-Desacoplar cross-section del material swap. Todos los shaders WebGL/* ahora leen propiedades globales `_GlobalClipPlane` y `_GlobalClipEnabled` directamente, sin necesidad de cambiar materiales.
+Desacoplar cross-section del material swap. Todos los shaders WebGL/\* ahora leen propiedades globales `_GlobalClipPlane` y `_GlobalClipEnabled` directamente, sin necesidad de cambiar materiales.
 
 ### Cambios realizados:
 
 #### 8.1 — Shaders: Clip global en todos los shaders (7 archivos)
 
 Cada shader recibió:
+
 - Declaraciones globales `float4 _GlobalClipPlane; float _GlobalClipEnabled;`
 - Lógica de discard al inicio del fragment: `if (_GlobalClipEnabled > 0.5) { clip(...) }`
 - Varying `positionWS` añadido donde no existía (passes secundarios)
 
-| Shader             | Passes modificados                    |
-| ------------------ | ------------------------------------- |
-| `XRay.shader`      | Behind + Front (2 passes, +positionWS)|
-| `Blueprint.shader`  | Main + Outline (+positionWS outline)  |
-| `SolidColor.shader` | Outline + Main + ShadowCaster (3)     |
-| `Ghosted.shader`   | 1 pass                                |
-| `Thermal.shader`   | 1 pass                                |
-| `WireframeWebGL.shader` | 1 pass                           |
-| `Wireframe.shader` | Geometry pass + Fallback (+positionWS)|
+| Shader                  | Passes modificados                     |
+| ----------------------- | -------------------------------------- |
+| `XRay.shader`           | Behind + Front (2 passes, +positionWS) |
+| `Blueprint.shader`      | Main + Outline (+positionWS outline)   |
+| `SolidColor.shader`     | Outline + Main + ShadowCaster (3)      |
+| `Ghosted.shader`        | 1 pass                                 |
+| `Thermal.shader`        | 1 pass                                 |
+| `WireframeWebGL.shader` | 1 pass                                 |
+| `Wireframe.shader`      | Geometry pass + Fallback (+positionWS) |
 
 #### 8.2 — CrossSectionManager.cs: Eliminar material swap
 

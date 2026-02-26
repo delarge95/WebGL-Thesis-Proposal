@@ -108,11 +108,11 @@ The following classes all inherit from `Singleton<T>` or `PersistentSingleton<T>
 
 ---
 
-#### H-02: `GameManager` Name Suggests Central Coordinator — Actually a Minimal Debug Shell *(Downgraded from High → Low/Informational)*
+#### H-02: `GameManager` Name Suggests Central Coordinator — Actually a Minimal Debug Shell _(Downgraded from High → Low/Informational)_
 
 **File:** `Assets/Scripts/Core/Managers/GameManager.cs` (62 lines)
 
-`GameManager` is a `PersistentSingleton` that deliberately provides **only debug logging utilities**. Its XML documentation comment explicitly states: *"State management is handled by AppStateMachine — this class exists solely for debug support."* This is an intentional architectural decision: `AppStateMachine` is the true coordinator (9 states, EventBus publishing), and `GameManager` avoids duplicating that responsibility.
+`GameManager` is a `PersistentSingleton` that deliberately provides **only debug logging utilities**. Its XML documentation comment explicitly states: _"State management is handled by AppStateMachine — this class exists solely for debug support."_ This is an intentional architectural decision: `AppStateMachine` is the true coordinator (9 states, EventBus publishing), and `GameManager` avoids duplicating that responsibility.
 
 **Reassessment:** The original audit called this "nearly empty" and an "architectural red herring." Upon closer inspection, the class is **minimal by design**, not accidentally empty. The naming may cause brief confusion for new developers, but the XML doc immediately clarifies the delegation pattern.
 
@@ -176,6 +176,7 @@ The current implementation has `try-catch` per subscriber and `lock` for thread 
 **Files:** `Assets/Scripts/UI/ViewModeToolbar.cs`, `Assets/Scripts/UI/EngineerToolbar.cs`
 
 Both classes are marked `[System.Obsolete]`:
+
 - `ViewModeToolbar`: comment says "Replaced by UIModeController + UIAnalyzePanel (Phase 2 UX Redesign)". References stale APIs like `AppStateMachine.Instance.SetState()` and `PartCatalogUI.Instance?.Toggle()`.
 - `EngineerToolbar`: also deprecated, superseded by the new 3-mode system.
 
@@ -474,19 +475,19 @@ Multiple files contain commented-out fields:
 
 ## 7. Codebase Metrics Summary
 
-| Metric               | Value   | Assessment                         |
-| -------------------- | ------- | ---------------------------------- |
-| Total C# files       | 90      | Appropriate for scope              |
-| Total lines of code  | ~14,202 | Clean for a thesis MVP             |
-| Singleton count      | ~20+    | ⚠️ High (see H-01)                 |
-| Custom shaders       | 9       | Good — all WebGL-optimized         |
-| Event types (struct) | 4       | ✅ Clean, zero-allocation          |
-| UI sub-controllers   | 6       | ✅ Well-decomposed                 |
+| Metric               | Value   | Assessment                                            |
+| -------------------- | ------- | ----------------------------------------------------- |
+| Total C# files       | 90      | Appropriate for scope                                 |
+| Total lines of code  | ~14,202 | Clean for a thesis MVP                                |
+| Singleton count      | ~20+    | ⚠️ High (see H-01)                                    |
+| Custom shaders       | 9       | Good — all WebGL-optimized                            |
+| Event types (struct) | 4       | ✅ Clean, zero-allocation                             |
+| UI sub-controllers   | 6       | ✅ Well-decomposed                                    |
 | Dead/obsolete files  | 3+      | `ViewModeToolbar`, `EngineerToolbar`, `PartCatalogUI` |
-| Namespaces used      | 7       | ✅ Good organization               |
-| Unit test coverage   | 0%      | ⚠️ No tests found                  |
-| AppState count       | 9       | Matches feature set                |
-| ViewMode count       | 7       | Matches thesis requirement         |
+| Namespaces used      | 7       | ✅ Good organization                                  |
+| Unit test coverage   | 0%      | ⚠️ No tests found                                     |
+| AppState count       | 9       | Matches feature set                                   |
+| ViewMode count       | 7       | Matches thesis requirement                            |
 
 ---
 

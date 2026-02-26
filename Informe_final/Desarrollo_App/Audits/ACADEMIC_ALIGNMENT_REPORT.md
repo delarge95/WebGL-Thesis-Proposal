@@ -138,14 +138,14 @@ The thesis proposal makes **4 specific objectives** and promises **5 deliverable
 
 ### Resultado 1: Prototipo de Software WebGL Funcional
 
-| Indicator                                        | Evidence                                                                                                    | Status                                    |
-| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| Indicator                                        | Evidence                                                                                                                                                                                                                                                          | Status                                               |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
 | URL pública del prototipo                        | `docs/` folder at repo root contains complete WebGL build (`Build/Build.data.unityweb`, `.wasm.unityweb`, `.framework.js.unityweb`) + React/Vite wrapper (`vite.config.js`, `package.json`, `src/`). `.nojekyll` file present → GitHub Pages deployment prepared. | 🟡 **Build exists, deployment infrastructure ready** |
-| 65+ scripts implementados                        | 90 C# scripts found                                                                                         | 🟢 **138% of target**                     |
-| 7 modos de visualización                         | Realistic, X-Ray, Blueprint, SolidColor, Wireframe, Ghosted, Thermal                                        | 🟢 **Exact match**                        |
-| Sistema de vista explosionada                    | `ExplodedViewManager.cs` with slider control                                                                | 🟢 Implemented                            |
-| Herramientas de ensamblaje (guía, medición, BOM) | `AssemblyGuideManager.cs` (289 lines), `MeasurementTool.cs` (277 lines), `AssemblyChecklist.cs` (172 lines), **`BillOfMaterialsManager.cs` (95 lines)** with `BOMItem` data class, `GenerateBOM()`, `GetByCategory()`, weight/quantity aggregation | 🟢 **Fully Implemented** ✅ |
-| KPIs (<100K polígonos, >30 FPS)                  | Runtime monitoring exists; actual measurements not documented                                               | 🟡 Needs formal measurement report        |
+| 65+ scripts implementados                        | 90 C# scripts found                                                                                                                                                                                                                                               | 🟢 **138% of target**                                |
+| 7 modos de visualización                         | Realistic, X-Ray, Blueprint, SolidColor, Wireframe, Ghosted, Thermal                                                                                                                                                                                              | 🟢 **Exact match**                                   |
+| Sistema de vista explosionada                    | `ExplodedViewManager.cs` with slider control                                                                                                                                                                                                                      | 🟢 Implemented                                       |
+| Herramientas de ensamblaje (guía, medición, BOM) | `AssemblyGuideManager.cs` (289 lines), `MeasurementTool.cs` (277 lines), `AssemblyChecklist.cs` (172 lines), **`BillOfMaterialsManager.cs` (95 lines)** with `BOMItem` data class, `GenerateBOM()`, `GetByCategory()`, weight/quantity aggregation                | 🟢 **Fully Implemented** ✅                          |
+| KPIs (<100K polígonos, >30 FPS)                  | Runtime monitoring exists; actual measurements not documented                                                                                                                                                                                                     | 🟡 Needs formal measurement report                   |
 
 **Alignment: � STRONG**
 
@@ -235,15 +235,15 @@ The thesis proposal makes **4 specific objectives** and promises **5 deliverable
 
 ### Features Implemented Beyond Thesis Scope
 
-| Feature                      | Script                                                                                         | Lines | In Proposal?                                                                      | Justification                                            |
-| ---------------------------- | ---------------------------------------------------------------------------------------------- | ----- | --------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| **Assembly Guide System**    | `AssemblyGuideManager.cs`, `AssemblyChecklist.cs`, `AssemblyGuideData.cs`, `AssemblyStepUI.cs`, `BillOfMaterialsManager.cs` | ~641  | 🟢 **YES** — "Herramientas de ensamblaje (guía, medición, BOM)" in Resultado 1 | ✅ **Fully justified — NOT scope creep** |
-| **Modular Parts System**     | `ModularPartsSystem.cs`                                                                        | 201   | ❌ Not in proposal                                                                | **Scope creep** — part swapping not mentioned            |
-| **Screenshot System**        | `ScreenshotManager.cs`                                                                         | ~80   | ❌ Not in proposal                                                                | Minor scope creep — useful but unplanned                 |
-| **Connection Points Viewer** | `ConnectionPointsViewer.cs`                                                                    | ~170  | ❌ Not in proposal                                                                | **Scope creep** — connection visualization not mentioned |
-| **Runtime Console**          | `RuntimeConsole.cs`                                                                            | ~80   | ❌ Debug tool                                                                     | Acceptable — development tool                            |
-| **Keyboard Shortcuts**       | `KeyboardShortcuts.cs`                                                                         | ~30   | ❌ Not in proposal                                                                | Minor — good practice                                    |
-| **Annotation System**        | `AnnotationSystem.cs`                                                                          | ~200  | ❌ Not in proposal                                                                | Scope creep — labeling system not mentioned              |
+| Feature                      | Script                                                                                                                      | Lines | In Proposal?                                                                   | Justification                                            |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ----- | ------------------------------------------------------------------------------ | -------------------------------------------------------- |
+| **Assembly Guide System**    | `AssemblyGuideManager.cs`, `AssemblyChecklist.cs`, `AssemblyGuideData.cs`, `AssemblyStepUI.cs`, `BillOfMaterialsManager.cs` | ~641  | 🟢 **YES** — "Herramientas de ensamblaje (guía, medición, BOM)" in Resultado 1 | ✅ **Fully justified — NOT scope creep**                 |
+| **Modular Parts System**     | `ModularPartsSystem.cs`                                                                                                     | 201   | ❌ Not in proposal                                                             | **Scope creep** — part swapping not mentioned            |
+| **Screenshot System**        | `ScreenshotManager.cs`                                                                                                      | ~80   | ❌ Not in proposal                                                             | Minor scope creep — useful but unplanned                 |
+| **Connection Points Viewer** | `ConnectionPointsViewer.cs`                                                                                                 | ~170  | ❌ Not in proposal                                                             | **Scope creep** — connection visualization not mentioned |
+| **Runtime Console**          | `RuntimeConsole.cs`                                                                                                         | ~80   | ❌ Debug tool                                                                  | Acceptable — development tool                            |
+| **Keyboard Shortcuts**       | `KeyboardShortcuts.cs`                                                                                                      | ~30   | ❌ Not in proposal                                                             | Minor — good practice                                    |
+| **Annotation System**        | `AnnotationSystem.cs`                                                                                                       | ~200  | ❌ Not in proposal                                                             | Scope creep — labeling system not mentioned              |
 
 **Total Scope Creep:** ~761 lines (~5% of codebase) in features not promised in the thesis. (Assembly Guide System reclassified as IN-SCOPE per Resultado 1: "Herramientas de ensamblaje".)
 
@@ -257,22 +257,22 @@ The thesis proposal makes **4 specific objectives** and promises **5 deliverable
 
 ### DSR Framework Alignment
 
-| DSR Phase                 | Status              | Evidence                                                          |
-| ------------------------- | ------------------- | ----------------------------------------------------------------- |
-| 1. Problem Identification | 🟢 Complete         | `planteamiento.tex` — gap in technical visualization              |
-| 2. Objectives Definition  | 🟢 Complete         | 4 specific objectives with KPIs                                   |
-| 3. Design & Development   | 🟢 Complete         | 90 scripts, 9 shaders, full UI system                             |
-| 4. Demonstration          | 🟡 Partial          | App works locally; WebGL build exists in `docs/` with Vite wrapper + `.nojekyll`; **needs GitHub Pages activation** |
-| 5. Evaluation             | � **Pending**     | SUS/NASA-TLX instruments ready; evaluation planned post-prototype stabilization |
-| 6. Communication          | 🟡 Partial          | Manuals done; pipeline docs done; final thesis partially complete |
+| DSR Phase                 | Status        | Evidence                                                                                                            |
+| ------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------- |
+| 1. Problem Identification | 🟢 Complete   | `planteamiento.tex` — gap in technical visualization                                                                |
+| 2. Objectives Definition  | 🟢 Complete   | 4 specific objectives with KPIs                                                                                     |
+| 3. Design & Development   | 🟢 Complete   | 90 scripts, 9 shaders, full UI system                                                                               |
+| 4. Demonstration          | 🟡 Partial    | App works locally; WebGL build exists in `docs/` with Vite wrapper + `.nojekyll`; **needs GitHub Pages activation** |
+| 5. Evaluation             | � **Pending** | SUS/NASA-TLX instruments ready; evaluation planned post-prototype stabilization                                     |
+| 6. Communication          | 🟡 Partial    | Manuals done; pipeline docs done; final thesis partially complete                                                   |
 
 ### Sprint Compliance
 
-| Sprint                            | Planned                                     | Delivered                                                         | Status            |
-| --------------------------------- | ------------------------------------------- | ----------------------------------------------------------------- | ----------------- |
-| Sprint 1: Análisis (Sem 1–4)      | CAD selection, benchmarking, KPI definition | ✅ Drone model selected, KPIs defined                             | 🟢                |
-| Sprint 2: Pipeline Arte (Sem 5–8) | Retopology, PBR texturing, normal baking    | ✅ Model optimized, materials created                             | 🟢                |
-| Sprint 3: Ingeniería (Sem 9–16)   | URP setup, C# scripts, Exploded View, UI    | ✅ 90 scripts, 7 view modes, full UI                              | 🟢 **Exceeds**    |
+| Sprint                            | Planned                                     | Delivered                                                                                        | Status             |
+| --------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------ |
+| Sprint 1: Análisis (Sem 1–4)      | CAD selection, benchmarking, KPI definition | ✅ Drone model selected, KPIs defined                                                            | 🟢                 |
+| Sprint 2: Pipeline Arte (Sem 5–8) | Retopology, PBR texturing, normal baking    | ✅ Model optimized, materials created                                                            | 🟢                 |
+| Sprint 3: Ingeniería (Sem 9–16)   | URP setup, C# scripts, Exploded View, UI    | ✅ 90 scripts, 7 view modes, full UI                                                             | 🟢 **Exceeds**     |
 | Sprint 4: Validación (Sem 17–24)  | Profiling, SUS/NASA-TLX, deployment         | ⚠️ Profiling tools exist; SUS/TLX instruments ready (evaluation planned); WebGL build in `docs/` | 🟡 **In Progress** |
 
 ---
@@ -284,7 +284,7 @@ The thesis proposal makes **4 specific objectives** and promises **5 deliverable
 | #   | Artifact                             | Description                                                                                                                                   | Est. Time |
 | --- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
 | 1   | **INFORME_EVALUACION_USABILIDAD.md** | Execute SUS + NASA-TLX with N=8-12 participants. Document individual + aggregate scores, task times, error rates, Think-Aloud insights.       | 2–3 days  |
-| 2   | **Public URL**                       | Activate GitHub Pages pointing to `docs/` folder (build already exists with `.nojekyll`). Document the URL.                                                  | 30 min    |
+| 2   | **Public URL**                       | Activate GitHub Pages pointing to `docs/` folder (build already exists with `.nojekyll`). Document the URL.                                   | 30 min    |
 | 3   | **KPI Measurement Report**           | Profile the deployed app: capture polygon count, draw calls, VRAM, FPS, and load times. Include screenshots from Unity Profiler + Spector.js. | 4–6 hours |
 | 4   | **Formal Pipeline Report**           | Before/after polygon counts, texel density measurements, file size reduction evidence.                                                        | 2–3 hours |
 
@@ -308,14 +308,14 @@ The thesis proposal makes **4 specific objectives** and promises **5 deliverable
 
 ## 7. Risk Assessment for Academic Defense
 
-| Risk                                                  | Probability               | Impact              | Mitigation                              |
-| ----------------------------------------------------- | ------------------------- | ------------------- | --------------------------------------- |
-| **No SUS/NASA-TLX results** → "Objective 4 not met"   | � Medium (planned)     | 🟠 Points deducted  | Execute evaluation after prototype stabilization |
-| **No public URL** → "Demonstration phase incomplete"  | 🟡 Low (build exists)   | 🟡 Minor            | Activate GitHub Pages for `docs/` folder  |
-| **No formal KPI report** → "Claims not substantiated" | 🟠 Medium                 | 🟠 Weak defense     | Profile + document all 9 KPIs           |
-| **Scope creep questioned**                            | 🟡 Low                    | 🟡 Minor deduction  | Frame as DSR emergent requirements      |
-| **No .glb deliverables**                              | 🟡 Low                    | 🟡 Minor gap        | Export from Unity                       |
-| **Build size exceeds 50 MB**                          | 🟡 Medium                 | 🟡 KPI failure      | Apply performance audit recommendations |
+| Risk                                                  | Probability           | Impact             | Mitigation                                       |
+| ----------------------------------------------------- | --------------------- | ------------------ | ------------------------------------------------ |
+| **No SUS/NASA-TLX results** → "Objective 4 not met"   | � Medium (planned)    | 🟠 Points deducted | Execute evaluation after prototype stabilization |
+| **No public URL** → "Demonstration phase incomplete"  | 🟡 Low (build exists) | 🟡 Minor           | Activate GitHub Pages for `docs/` folder         |
+| **No formal KPI report** → "Claims not substantiated" | 🟠 Medium             | 🟠 Weak defense    | Profile + document all 9 KPIs                    |
+| **Scope creep questioned**                            | 🟡 Low                | 🟡 Minor deduction | Frame as DSR emergent requirements               |
+| **No .glb deliverables**                              | 🟡 Low                | 🟡 Minor gap       | Export from Unity                                |
+| **Build size exceeds 50 MB**                          | 🟡 Medium             | 🟡 KPI failure     | Apply performance audit recommendations          |
 
 ---
 
@@ -347,14 +347,14 @@ These points should be emphasized during the academic presentation:
 
 > **Corrección (audit-of-audit):** Obj 4 se subió de 3/10 a 5/10 porque: instrumentos completos (SUS + NASA-TLX), herramientas de profiling implementadas (FPSCounter, PerformanceMonitor, WebGLProfiler), y la evaluación está planificada — no omitida. Weighted total suno de 6.75 a 7.45.
 
-| Deliverable             | Score      | Notes                                   |
-| ----------------------- | ---------- | --------------------------------------- |
+| Deliverable             | Score      | Notes                                                  |
+| ----------------------- | ---------- | ------------------------------------------------------ |
 | D1: WebGL Prototype     | 9/10       | Working, WebGL build in `docs/`, BOM fully implemented |
-| D2: URP Shader System   | 10/10      | Exceeds requirements                    |
-| D3: Optimized 3D Models | 6/10       | Models optimized, documentation lacking |
-| D4: Thesis Document     | 7/10       | Manuals done, final doc status TBD      |
-| D5: Usability Report    | 3/10       | Instruments complete + ready; evaluation pending |
-| **Average**             | **7.0/10** | —                                       |
+| D2: URP Shader System   | 10/10      | Exceeds requirements                                   |
+| D3: Optimized 3D Models | 6/10       | Models optimized, documentation lacking                |
+| D4: Thesis Document     | 7/10       | Manuals done, final doc status TBD                     |
+| D5: Usability Report    | 3/10       | Instruments complete + ready; evaluation pending       |
+| **Average**             | **7.0/10** | —                                                      |
 
 ---
 
