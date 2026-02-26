@@ -29,21 +29,21 @@ The interface has undergone a significant Phase 2 UX Redesign that introduced a 
 
 ## 1. Cognitive Load Assessment (Miller's Law)
 
-### Miller's Law Compliance: **Strong** ✅ *(Corrected from original "Partial")*
+### Miller's Law Compliance: **Strong** ✅ _(Corrected from original "Partial")_
 
 Miller's Law states that working memory can hold 7±2 chunks of information. The interface was evaluated at each interaction level:
 
-| Level                                | Chunked Items                                                                                                           | Limit (7±2)        | Verdict    |
-| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- | ------------------ | ---------- |
-| **Top-level modes**                  | 3 (Inspect, Analyze, Studio)                                                                                            | ✅ 3 ≤ 5           | Pass       |
-| **Inspect sub-actions**              | 3 (Info, Pins, Isolate)                                                                                                 | ✅ 3 ≤ 5           | Pass       |
-| **Analyze sub-actions**              | 3 (Cut, Explode, Filter)                                                                                                | ✅ 3 ≤ 5           | Pass       |
-| **Shader mode options (Studio)**     | 3 visible (Realistic, X-Ray, Solid Color) — 4 hidden via `display: none`                                               | ✅ 3 ≤ 5           | Pass ✅    |
-| **Category filter buttons**          | 5 (All, Structure, Propulsion, Avionics, Power)                                                                         | ✅ 5 ≤ 7           | Pass       |
-| **Environment presets (Studio)**     | 3 visible (Studio, Night, Blue) — 1 hidden (Neutral)                                                                   | ✅ 3 ≤ 5           | Pass       |
-| **Part detail fields**               | 12 (Name, Category, Function, Material, Description, Weight, Dimensions, Power, Temp, Difficulty, Tools, Assembly Time) | 🔴 12 > 9          | **FAIL**   |
-| **Hero landing options**             | 3 + 3 sub-menus                                                                                                         | ✅ Progressive     | Pass       |
-| **Cross-section controls per plane** | 3 (Axis, Position slider, Invert)                                                                                       | ✅ 3 ≤ 5           | Pass       |
+| Level                                | Chunked Items                                                                                                           | Limit (7±2)    | Verdict  |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- | -------------- | -------- |
+| **Top-level modes**                  | 3 (Inspect, Analyze, Studio)                                                                                            | ✅ 3 ≤ 5       | Pass     |
+| **Inspect sub-actions**              | 3 (Info, Pins, Isolate)                                                                                                 | ✅ 3 ≤ 5       | Pass     |
+| **Analyze sub-actions**              | 3 (Cut, Explode, Filter)                                                                                                | ✅ 3 ≤ 5       | Pass     |
+| **Shader mode options (Studio)**     | 3 visible (Realistic, X-Ray, Solid Color) — 4 hidden via `display: none`                                                | ✅ 3 ≤ 5       | Pass ✅  |
+| **Category filter buttons**          | 5 (All, Structure, Propulsion, Avionics, Power)                                                                         | ✅ 5 ≤ 7       | Pass     |
+| **Environment presets (Studio)**     | 3 visible (Studio, Night, Blue) — 1 hidden (Neutral)                                                                    | ✅ 3 ≤ 5       | Pass     |
+| **Part detail fields**               | 12 (Name, Category, Function, Material, Description, Weight, Dimensions, Power, Temp, Difficulty, Tools, Assembly Time) | 🔴 12 > 9      | **FAIL** |
+| **Hero landing options**             | 3 + 3 sub-menus                                                                                                         | ✅ Progressive | Pass     |
+| **Cross-section controls per plane** | 3 (Axis, Position slider, Invert)                                                                                       | ✅ 3 ≤ 5       | Pass     |
 
 **Summary:** The mode-based navigation successfully chunks the interface into digestible groups. **8 of 9 levels pass Miller's Law.** The deliberate hiding of 4 advanced shader modes (Blueprint, Wireframe, Ghosted, Thermal) via `display: none` in MainLayout.uxml is an excellent progressive disclosure strategy. The only cognitive load violator is the **Bottom Sheet detail panel** which presents 12 fields simultaneously.
 
@@ -155,7 +155,7 @@ The 3 mode buttons (Inspect/Analyze/Studio) sit in the `actions-row` at the scre
 
 ---
 
-#### ~~UX-H02: 7 Shader Modes — Upper Bound of Miller's Law~~ *(RETRACTED — Factual Error)*
+#### ~~UX-H02: 7 Shader Modes — Upper Bound of Miller's Law~~ _(RETRACTED — Factual Error)_
 
 > **🔄 CORRECTION:** This finding was based on the incorrect assumption that all 7 shader modes are visible to users. In reality, **only 3 shader modes are shown** in the UI (Realistic, X-Ray, Solid Color). The other 4 (Blueprint, Wireframe, Ghosted, Thermal) are **intentionally hidden** via `display: none` in `MainLayout.uxml` (lines 228, 234, 238, 242) as a deliberate cognitive load reduction strategy — progressive disclosure.
 >
@@ -497,14 +497,14 @@ If the sheet content overflows (small screens), there is no visual scroll indica
 
 ### Priority 2 — Polish Pass (3–4 hours)
 
-| #   | Task                                                 | Fixes     |
-| --- | ---------------------------------------------------- | --------- |
-| 6   | Add responsive CSS class toggle for mobile/desktop   | 🔴 UX-C02 |
-| 7   | ~~Group 7 shader modes into Primary (3) + Advanced (4)~~ **Already achieved via `display: none` — 3 visible, 4 hidden** | ✅ Done |
-| 8   | Add first-run tooltip tour (3–5 steps)               | 🟠 UX-H03 |
-| 9   | Add "Back" button / Escape key navigation            | 🟡 UX-M08 |
-| 10  | Add explosion slider value label                     | 🟡 UX-M06 |
-| 11  | Add category filter count badges                     | 🟡 UX-M04 |
+| #   | Task                                                                                                                    | Fixes     |
+| --- | ----------------------------------------------------------------------------------------------------------------------- | --------- |
+| 6   | Add responsive CSS class toggle for mobile/desktop                                                                      | 🔴 UX-C02 |
+| 7   | ~~Group 7 shader modes into Primary (3) + Advanced (4)~~ **Already achieved via `display: none` — 3 visible, 4 hidden** | ✅ Done   |
+| 8   | Add first-run tooltip tour (3–5 steps)                                                                                  | 🟠 UX-H03 |
+| 9   | Add "Back" button / Escape key navigation                                                                               | 🟡 UX-M08 |
+| 10  | Add explosion slider value label                                                                                        | 🟡 UX-M06 |
+| 11  | Add category filter count badges                                                                                        | 🟡 UX-M04 |
 
 ### Priority 3 — Nice-to-Have (2–3 hours)
 

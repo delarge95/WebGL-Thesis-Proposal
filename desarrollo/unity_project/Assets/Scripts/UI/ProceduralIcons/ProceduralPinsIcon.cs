@@ -113,7 +113,7 @@ namespace WebGL.UI.ProceduralIcons
             // Start at bottom right of the circle
             painter.Arc(new Vector2(pinCX, pinCY - pinRadius * 0.5f), pinRadius, 45f * Mathf.Deg2Rad, 135f * Mathf.Deg2Rad, ArcDirection.CounterClockwise);
             // Connect to spike tip
-            painter.LineTo(new Vector2(pinCX, pinCY + baseRadius * 0.7f));
+            painter.LineTo(new Vector2(pinCX, pinCY + baseSize * 0.7f));
             painter.ClosePath();
             painter.Stroke();
 

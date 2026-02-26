@@ -100,7 +100,6 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    ```
 
 2. **Actualizar `CanTransitionTo()` para permitir transiciones:**
-
    - Desde `Exploration` → `Analyze`, `Studio` (y viceversa)
    - Desde `Analyze` → `Studio` (y viceversa) — cambio directo entre modos
    - Desde `Analyze`/`Studio` → `ExplodedView`, `FocusMode` — permitido
@@ -175,7 +174,6 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    ```
 
 4. **Agregar estilos USS para el sistema de modos:**
-
    - `.mode-btn` — estilo base para botones de modo (más anchos que `icon-button`)
    - `.mode-btn--active` — estado activo (highlight, underline o glow)
    - `.mode-container` — contenedor de modo (position: absolute, bottom)
@@ -282,7 +280,6 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 #### Tareas:
 
 1. **Eliminar referencias a botones obsoletos:**
-
    - Quitar: `shaderBtn`, `explodeBtn`, `envBtn`, `infoBtn`, `layerBtn`
    - Agregar: `modeExploreBtn`, `modeAnalyzeBtn`, `modeStudioBtn`
 
@@ -422,7 +419,6 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
    ```
 
 3. **Agregar estilos USS** para el panel de cross-section:
-
    - `.cross-section-toggle-row`, `.cross-section-axis-row`, `.cross-section-slider-row`
    - `.axis-btn` — botones pequeños para selección de eje (pill shape)
    - `.axis-btn--active` — eje seleccionado
@@ -455,29 +451,24 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 #### Tareas:
 
 1. **Evaluar `ViewModeToolbar.cs`:**
-
    - Crea un toolbar dinámico redundante con botones de cross-section, view modes, reset
    - Con el nuevo sistema de modos, sus funciones están cubiertas por `AnalyzeModeContainer`
    - **Decisión:** Evaluar si se puede desactivar/eliminar o si queda como toolbar alternativo
    - Contiene un botón de CrossSection (`OnCrossSectionClicked`) que ahora está en el panel dedicado
 
 2. **Evaluar `EngineerToolbar.cs`:**
-
    - Crea dropdown con herramientas de ingeniería
    - Evaluar si sus funciones se integran en el sistema de modos o se mantiene separado
 
 3. **Verificar que `KeyboardShortcuts.cs` sigue funcionando:**
-
    - Los atajos deben respetar el modo activo
    - Ej: E (explode) solo en Analyze mode, no en Studio
 
 4. **Verificar que `SelectionManager` sigue funcionando:**
-
    - Click en piezas debe funcionar en todos los modos interactivos
    - El `IsPointerOverUI()` guard sigue activo
 
 5. **Test completo de flujo:**
-
    - Hero → Explore → click parte → sheet → cambiar a Analyze → shaders + categories + cross-section → cambiar a Studio → env presets → volver a Explore → Home → Hero
 
 6. **Actualizar `PHASE2_CHANGELOG.md`** con resumen final y diagrama de arquitectura
@@ -572,14 +563,14 @@ STUDIO mode:  Muestra StudioModeContainer con EnvPanel (presets + sliders).
 
 ## Tracking de Progreso
 
-| Iteración | Descripción                         | Commit  | Estado         |
-| --------- | ----------------------------------- | ------- | -------------- |
-| 1         | Expandir AppStateMachine            | 2673e5a | ✅ Completada  |
-| 2         | Reestructurar MainLayout.uxml + USS | 70b2a01 | ✅ Completada  |
-| 3+4       | UIModeController + Rewire UIManager | f125f6f | ✅ Completada  |
-| 5         | Cross-Section UI en Analyze Mode    | 66673f3 | ✅ Completada  |
-| 6         | Cleanup & Integración Final         | —       | ✅ Completada  |
-| 7         | UX Audit Fixes — Minimalist Grid UI | —       | ✅ Completada  |
+| Iteración | Descripción                         | Commit  | Estado        |
+| --------- | ----------------------------------- | ------- | ------------- |
+| 1         | Expandir AppStateMachine            | 2673e5a | ✅ Completada |
+| 2         | Reestructurar MainLayout.uxml + USS | 70b2a01 | ✅ Completada |
+| 3+4       | UIModeController + Rewire UIManager | f125f6f | ✅ Completada |
+| 5         | Cross-Section UI en Analyze Mode    | 66673f3 | ✅ Completada |
+| 6         | Cleanup & Integración Final         | —       | ✅ Completada |
+| 7         | UX Audit Fixes — Minimalist Grid UI | —       | ✅ Completada |
 
 ---
 
@@ -1055,51 +1046,43 @@ Los botones de acción dentro de cada modo (INFO, EXPLODE, PINS / SHADERS, CUT) 
 #### Tareas de Implementación (checklist)
 
 1. **USS — Bottom Bar Buttons**
-
    - [x] `.mode-btn`: remover fondo, borde, border-radius → icon-only
    - [x] `.mode-btn-icon`: 22→28 px
    - [x] `.mode-btn-label`: 10→12 px
    - [x] `.mode-btn--active`: feedback solo en icono (tint) y label (color)
 
 2. **USS — Cards Cuadradas**
-
    - [x] `.submenu-card`: 110×88 → 80×80, border-width: 0, border-radius: 16
    - [x] `.submenu-icon`: hacer circular (border-radius: 50%, width/height: 40px, bg sutil)
    - [x] `.submenu-label`: 10→12 px
    - [x] `.submenu-grid`: width fijo 344px, justify-content: flex-start
 
 3. **USS — Sliders**
-
    - [x] `.slider-container`: width: 344px, height: 40px, border-width: 0
    - [x] `.env-slider-group`: mismas dimensiones que slider-container
    - [x] `.glass-slider dragger`: 24→32 px (hit area 48px)
 
 4. **USS — Contenedores Invisibles**
-
    - [x] `.mode-submenu`: background: transparent, border: 0
    - [x] `.mode-action-bar`: background: transparent, border: 0
    - [x] `.submenu-title`: 11→12 px, opacity 0.3→0.5
 
 5. **USS — Cross Section como Grid**
-
    - [x] `.cross-section-axis-btn`: 34→80 px (como cards)
    - [x] `.cross-section-axis-group`: layout como submenu-grid
    - [x] Slider de posición: 344×40 px
 
 6. **USS — Mode Action Buttons**
-
    - [x] `.mode-action-btn`: remover fondo/borde → icon-only
    - [x] `.mode-action-label`: 9→12 px
    - [x] `.mode-action-icon`: 20→24 px
 
 7. **USS — Audit Fixes**
-
    - [x] `.icon-button-small`: 40→48 px
    - [x] `.sheet-close-btn`: 32→40 px + padding 4px
    - [x] `.header-title`: opacity 0.35→0.5
 
 8. **UXML — Cross Section Restructure** (via USS only)
-
    - [x] Cross-section layout cambiado a column via `.cross-section-row`, `.cross-section-controls`
    - [x] Axis btns 80×80 en grid 344px via `.cross-section-axis-group`
    - [x] C# (`UICrossSectionPanel.cs`) sin cambios — elementos mantienen sus nombres
