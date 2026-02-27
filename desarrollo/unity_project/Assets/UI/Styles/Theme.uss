@@ -940,73 +940,64 @@
     align-items: center;
 }
 
-.glass-slider .unity-base-slider__input {
-    overflow: visible;
-    flex-grow: 1;
-    align-self: stretch;   /* fill parent height so drag-container inherits it */
-}
-
 .glass-slider #unity-drag-container {
-    /* UI Toolkit uses Yoga layout, NOT CSS.
-       In Yoga, align-items/justify-content DO affect position:absolute children
-       on axes where top/bottom/left/right are NOT explicitly set.
-       Both axes centered → dragger & tracker are centered regardless of
-       whether drag-container flex-direction is row or column. */
-    flex-grow: 1;
     height: 100%;
-    align-items: center;
     justify-content: center;
-    overflow: visible;
+    align-items: flex-start;
 }
 
 .glass-slider .unity-base-slider__tracker {
-    /* Absolute like Unity's default — out of flow, doesn't push dragger.
-       left:0 + right:0 → fills parent width.
-       NO top/margin-top — vertically centered by parent's Yoga alignment. */
-    position: absolute;
-    left: 0;
-    right: 0;
+    background-color: rgba(255, 255, 255, 0.12);
     height: 3px;
     border-radius: 2px;
     border-width: 0;
-    background-color: rgba(255, 255, 255, 0.12);
+    top: 50%;
+    margin-top: -1px;
 }
 
 .glass-slider .unity-base-slider__dragger {
-    /* Absolute like Unity's default — BaseSlider C# sets style.left to
-       position horizontally (overrides Yoga alignment on that axis).
-       NO top/margin-top — vertically centered by the parent's
-       align-items:center / justify-content:center (Yoga handles this
-       for absolute children when top/bottom are unset). */
-    position: absolute;
-    width: 28px;
-    height: 28px;
+    /* Pure absolute sizing to prevent UI Toolkit anchoring offsets */
+    width: 24px;
+    height: 24px;
+    margin-top: -12px;
+    
     border-radius: 50%;
-
-    /* Normal state: black fill + white stroke */
-    background-color: rgb(0, 0, 0);
-    border-color: rgba(255, 255, 255, 0.8);
+    
+    /* Hollow center */
+    background-color: transparent;
+    border-color: rgb(255, 255, 255);
     border-width: 2px;
-
-    transition-property: background-color, border-color, border-width, scale;
+    
+    top: 50%;
+    /* Note: scale and margin alterations often detach draggers from their real 
+       hitbox track. We only animate visual properties, keeping size stable if possible. 
+       Or expand uniformly via width/height and margin-top. */
+    transition-property: width, height, margin-top, background-color, border-color, border-width;
     transition-duration: 0.15s;
 }
 
 .glass-slider .unity-base-slider__dragger:hover {
-    /* Hover: solid white, slightly bigger via scale (no hitbox shift) */
-    scale: 1.2;
+    /* Grow physically outwards, compensating with top margin */
+    width: 32px;
+    height: 32px;
+    margin-top: -16px;
     background-color: rgb(255, 255, 255);
     border-color: rgb(255, 255, 255);
-    border-width: 0px;
+    border-width: 0px; 
 }
 
+.glass-slider .unity-base-slider__dragger:focus,
 .glass-slider .unity-base-slider__dragger:active {
-    /* Active/click held: accent blue fill (only while mouse is down) */
-    scale: 0.95;
+    /* Shrink physically */
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    
+    /* The blue you asked for. UI Toolkit sometimes applies hover OVER active,
+       so we force the color and drop the border. */
     background-color: rgba(70, 175, 255, 1);
     border-color: rgba(70, 175, 255, 1);
     border-width: 0px;
-    transition-duration: 0.05s;
 }
 
 /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
