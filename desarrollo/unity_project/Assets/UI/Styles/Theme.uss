@@ -964,10 +964,12 @@
     /* Fixed size — never change width/height to avoid hitbox desync */
     width: 28px;
     height: 28px;
+    /* Vertical centering: top:50% puts TOP edge at center,
+       margin-top:-14px shifts up by half-height to center the circle.
+       NO horizontal offset needed — Unity internally calculates
+       left = fraction * (containerWidth - draggerWidth), which
+       already centers the dragger on the value position. */
     margin-top: -14px;
-    /* translate shifts BOTH visual + hitbox horizontally so the dragger
-       CENTER aligns with the value position (left edge is the default anchor) */
-    translate: -50% 0;
     
     border-radius: 50%;
     
