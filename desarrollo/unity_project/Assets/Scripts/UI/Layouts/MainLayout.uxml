@@ -99,7 +99,7 @@
 
             <!-- ═══ INSPECT MODE ═══ Info, Pins, Isolate (all toggles) -->
             <ui:VisualElement name="ToolsModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
-                <ui:VisualElement name="ToolsCardGrid" class="mode-submenu" picking-mode="Ignore">
+                <ui:VisualElement name="ToolsCardGrid" class="mode-submenu" picking-mode="Position">
                     <ui:Label text="INSPECT" class="submenu-title" picking-mode="Ignore"/>
                     <ui:VisualElement class="submenu-grid">
                         <ui:Button name="ToolInfoBtn" class="submenu-card" tooltip="Part Info">
@@ -121,7 +121,7 @@
             <!-- ═══ ANALYZE MODE ═══ Cut, Explode, Filter -->
             <ui:VisualElement name="AnalyzeModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
                 <!-- Level 1 — Card Grid -->
-                <ui:VisualElement name="AnalyzeCardGrid" class="mode-submenu" picking-mode="Ignore">
+                <ui:VisualElement name="AnalyzeCardGrid" class="mode-submenu" picking-mode="Position">
                     <ui:Label text="ANALYZE" class="submenu-title" picking-mode="Ignore"/>
                     <ui:VisualElement class="submenu-grid">
                         <ui:Button name="AnalyzeCrossSectionBtn" class="submenu-card" tooltip="Cross Section">
@@ -140,7 +140,7 @@
                 </ui:VisualElement>
 
                 <!-- Level 2a — Cross-Section Panel -->
-                <ui:VisualElement name="CrossSectionPanel" class="mode-submenu cross-section-panel submenu--hidden" picking-mode="Ignore">
+                <ui:VisualElement name="CrossSectionPanel" class="mode-submenu cross-section-panel submenu--hidden" picking-mode="Position">
                     <ui:Label text="CROSS SECTION" class="submenu-title" picking-mode="Ignore" />
                     <ui:VisualElement class="cross-section-axis-group" picking-mode="Ignore">
                         <ui:Button name="CrossSectionAxisX" class="cross-section-axis-btn">
@@ -168,7 +168,7 @@
                 </ui:VisualElement>
 
                 <!-- Level 2b — Explode Sub-Panel -->
-                <ui:VisualElement name="ExplodeSubPanel" class="mode-submenu submenu--hidden" picking-mode="Ignore">
+                <ui:VisualElement name="ExplodeSubPanel" class="mode-submenu submenu--hidden" picking-mode="Position">
                     <ui:Label text="EXPLODED VIEW" class="submenu-title" picking-mode="Ignore"/>
                     <ui:VisualElement name="SliderContainer" class="env-slider-group" picking-mode="Ignore">
                         <ui:Label text="EXPLODE" class="env-slider-label" picking-mode="Ignore" />
@@ -177,7 +177,7 @@
                 </ui:VisualElement>
 
                 <!-- Level 2c — Filter Sub-Panel -->
-                <ui:VisualElement name="FilterSubPanel" class="mode-submenu submenu--hidden" picking-mode="Ignore">
+                <ui:VisualElement name="FilterSubPanel" class="mode-submenu submenu--hidden" picking-mode="Position">
                     <ui:Label text="FILTER CATEGORY" class="submenu-title" picking-mode="Ignore"/>
                     <ui:VisualElement class="submenu-grid">
                         <ui:Button name="CatBtn_All" class="submenu-card submenu-card--active">
@@ -206,7 +206,7 @@
 
             <!-- ═══ STUDIO MODE ═══ Shaders + Environment + Lighting (single panel) -->
             <ui:VisualElement name="StudioModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
-                <ui:VisualElement name="StudioPanel" class="mode-submenu" picking-mode="Ignore">
+                <ui:VisualElement name="StudioPanel" class="mode-submenu" picking-mode="Position">
                     <!-- Shader Section -->
                     <ui:Label text="RENDER MODE" class="submenu-title" picking-mode="Ignore" />
                     <ui:VisualElement name="ShaderMenu" class="submenu-grid">
