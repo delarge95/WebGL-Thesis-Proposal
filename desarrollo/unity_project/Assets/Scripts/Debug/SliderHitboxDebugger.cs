@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
 
-namespace WebGL.Debug
+namespace Antigravity.Diagnostics
 {
     /// <summary>
     /// Runtime debugger: press F9 to log worldBound of every .glass-slider dragger,
