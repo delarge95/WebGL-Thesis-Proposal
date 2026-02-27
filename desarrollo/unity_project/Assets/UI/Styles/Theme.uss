@@ -441,7 +441,7 @@
     height: 56px;
     margin: 0 4px;
     
-    background-color: rgba(255, 255, 255, 0.02);
+    background-color: rgba(255, 255, 255, 0.01);
     border-radius: 12px;
     border-width: 0;
     
@@ -486,7 +486,7 @@
     align-self: center;
     margin: 0;
     padding: 0 16px;
-    background-color: rgba(255, 255, 255, 0.02);
+    background-color: rgba(255, 255, 255, 0.01);
     border-radius: 16px;
     flex-grow: 0;
 }
@@ -806,7 +806,7 @@
     height: 148px;
     margin: 4px;
     
-    background-color: rgba(255, 255, 255, 0.02);
+    background-color: rgba(255, 255, 255, 0.01);
     border-radius: 16px;
     border-width: 0;
     border-color: transparent;
@@ -893,7 +893,7 @@
     height: 56px;
     align-self: center;
 
-    background-color: rgba(255, 255, 255, 0.02);
+    background-color: rgba(255, 255, 255, 0.01);
     border-radius: 16px;
     padding: 0 16px;
     border-width: 0;
@@ -964,11 +964,10 @@
     /* Fixed size — never change width/height to avoid hitbox desync */
     width: 28px;
     height: 28px;
-    /* Center the dragger on the value position:
-       margin-top: -halfHeight centers vertically on track
-       margin-left: -halfWidth centers horizontally on value */
     margin-top: -14px;
-    margin-left: -14px;
+    /* translate shifts BOTH visual + hitbox horizontally so the dragger
+       CENTER aligns with the value position (left edge is the default anchor) */
+    translate: -50% 0;
     
     border-radius: 50%;
     
@@ -990,9 +989,8 @@
     border-width: 0px;
 }
 
-.glass-slider .unity-base-slider__dragger:active,
-.glass-slider:focus .unity-base-slider__dragger {
-    /* Active/click: accent blue fill */
+.glass-slider .unity-base-slider__dragger:active {
+    /* Active/click held: accent blue fill (only while mouse is down) */
     scale: 0.95;
     background-color: rgba(70, 175, 255, 1);
     border-color: rgba(70, 175, 255, 1);
@@ -1299,7 +1297,7 @@
     margin-top: 8px;
     padding: 0 16px;
 
-    background-color: rgba(255, 255, 255, 0.04);
+    background-color: rgba(255, 255, 255, 0.01);
     border-radius: 16px;
     border-width: 0;
 

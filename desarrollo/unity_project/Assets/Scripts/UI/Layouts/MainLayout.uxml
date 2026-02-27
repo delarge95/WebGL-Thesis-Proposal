@@ -142,7 +142,7 @@
                 <!-- Level 2a — Cross-Section Panel -->
                 <ui:VisualElement name="CrossSectionPanel" class="mode-submenu cross-section-panel submenu--hidden" picking-mode="Position">
                     <ui:Label text="CROSS SECTION" class="submenu-title" picking-mode="Ignore" />
-                    <ui:VisualElement class="cross-section-axis-group" picking-mode="Ignore">
+                    <ui:VisualElement class="cross-section-axis-group" picking-mode="Position">
                         <ui:Button name="CrossSectionAxisX" class="cross-section-axis-btn">
                             <ui:Label text="X" class="cross-section-axis-label" picking-mode="Ignore"/>
                         </ui:Button>
@@ -158,7 +158,7 @@
                     </ui:VisualElement>
                     <ui:Slider name="CrossSectionPosition" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
                     <ui:VisualElement name="CrossSectionControls2" class="cross-section-controls" style="display: none;">
-                        <ui:VisualElement class="cross-section-axis-group" picking-mode="Ignore">
+                        <ui:VisualElement class="cross-section-axis-group" picking-mode="Position">
                             <ui:Button name="CrossSectionInvertBtn2" class="cross-section-axis-btn">
                                 <ui:Label text="⇅ 2" class="cross-section-axis-label" picking-mode="Ignore"/>
                             </ui:Button>
@@ -170,7 +170,7 @@
                 <!-- Level 2b — Explode Sub-Panel -->
                 <ui:VisualElement name="ExplodeSubPanel" class="mode-submenu submenu--hidden" picking-mode="Position">
                     <ui:Label text="EXPLODED VIEW" class="submenu-title" picking-mode="Ignore"/>
-                    <ui:VisualElement name="SliderContainer" class="env-slider-group" picking-mode="Ignore">
+                    <ui:VisualElement name="SliderContainer" class="env-slider-group" picking-mode="Position">
                         <ui:Label text="EXPLODE" class="env-slider-label" picking-mode="Ignore" />
                         <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider env-slider" picking-mode="Position" />
                     </ui:VisualElement>
