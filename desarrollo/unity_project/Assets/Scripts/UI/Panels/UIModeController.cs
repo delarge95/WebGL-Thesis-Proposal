@@ -140,7 +140,7 @@ namespace WebGL.UI.Panels
         private void DelayAction(System.Action action)
         {
             if (_root == null) action();
-            else _root.schedule.Execute(action).StartingIn(150);
+            else _root.schedule.Execute(action).StartingIn(250);
         }
 
         private void BindModeButtons()
@@ -384,7 +384,7 @@ namespace WebGL.UI.Panels
             // Update Info card highlight in Inspect mode
             _toolInfoBtn?.EnableInClassList("submenu-card--active", isOpen);
 
-            if (isOpen && _activeMode != ActiveMode.Tools)
+            if (isOpen)
             {
                 DeactivateAllModes();
             }
