@@ -139,6 +139,15 @@ namespace WebGL.UI
                 _modeController.SetSheetOpenState(isOpen);
             };
 
+            // Notify sheet to close if any mode activates
+            _modeController.OnAnyModeActivated += () =>
+            {
+                if (_detailsSheet.IsSheetOpen)
+                {
+                    _detailsSheet.SetSheetState(false);
+                }
+            };
+
             // ── Analyze Panel (shader cards — ShaderMenu inside StudioModeContainer) ──
             var shaderMenu = root.Q<VisualElement>("ShaderMenu");
             _uiAnalyzePanel = new UIAnalyzePanel(shaderMenu, null);

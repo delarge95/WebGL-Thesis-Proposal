@@ -1,6 +1,7 @@
 # Documento 3 — Pipeline de Renderizado y Shaders
 
-## Aplicación Web Interactiva para Visualización 3D de Drones  
+## Aplicación Web Interactiva para Visualización 3D de Drones
+
 ### Análisis Exhaustivo del Pipeline Gráfico y Shaders Personalizados
 
 **Proyecto de Grado:** Ingeniería Multimedia — UNAD  
@@ -79,14 +80,14 @@ Frame Loop (WebGL = single-threaded, ~60Hz target)
 
 ### 1.3 Integración Shader ↔ Manager
 
-| Manager | Shader(s) Usado(s) | Mecanismo |
-|---|---|---|
-| `ViewModeManager` | Todos (6 modos + Realistic) | `Shader.Find()` → `new Material(shader)` → `renderer.sharedMaterial = mat` |
-| `CrossSectionManager` | ClippableLit (modo Realistic) | `Shader.SetGlobalVector/Float` para planos globales |
-| `HighlightSystem` | Cualquiera activo | `MaterialPropertyBlock.SetColor("_BaseColor"/"_EmissionColor")` |
-| `PartVisibilityManager` | Cualquiera activo | `MaterialPropertyBlock.SetColor` con alpha (fade) |
-| `MaterialController` | XRay específicamente | `renderer.sharedMaterial = xrayMaterial` (swap directo) |
-| `EnvironmentController` | AnimatedGradientSkybox | `RenderSettings.skybox = skyboxMaterial` |
+| Manager                 | Shader(s) Usado(s)            | Mecanismo                                                                  |
+| ----------------------- | ----------------------------- | -------------------------------------------------------------------------- |
+| `ViewModeManager`       | Todos (6 modos + Realistic)   | `Shader.Find()` → `new Material(shader)` → `renderer.sharedMaterial = mat` |
+| `CrossSectionManager`   | ClippableLit (modo Realistic) | `Shader.SetGlobalVector/Float` para planos globales                        |
+| `HighlightSystem`       | Cualquiera activo             | `MaterialPropertyBlock.SetColor("_BaseColor"/"_EmissionColor")`            |
+| `PartVisibilityManager` | Cualquiera activo             | `MaterialPropertyBlock.SetColor` con alpha (fade)                          |
+| `MaterialController`    | XRay específicamente          | `renderer.sharedMaterial = xrayMaterial` (swap directo)                    |
+| `EnvironmentController` | AnimatedGradientSkybox        | `RenderSettings.skybox = skyboxMaterial`                                   |
 
 ---
 
@@ -98,12 +99,12 @@ El sistema de corte transversal permite al usuario revelar el interior del model
 
 ### 2.2 Propiedades Globales
 
-| Propiedad | Tipo | Rango | Descripción |
-|---|---|---|---|
-| `_GlobalClipPlane` | `Vector4` | — | Ecuación del plano `(nx, ny, nz, d)` donde `nx·x + ny·y + nz·z + d = 0` |
-| `_GlobalClipEnabled` | `Float` | 0 o 1 | Activa/desactiva el primer plano |
-| `_GlobalClipPlane2` | `Vector4` | — | Ecuación del segundo plano |
-| `_GlobalClipEnabled2` | `Float` | 0 o 1 | Activa/desactiva el segundo plano |
+| Propiedad             | Tipo      | Rango | Descripción                                                             |
+| --------------------- | --------- | ----- | ----------------------------------------------------------------------- |
+| `_GlobalClipPlane`    | `Vector4` | —     | Ecuación del plano `(nx, ny, nz, d)` donde `nx·x + ny·y + nz·z + d = 0` |
+| `_GlobalClipEnabled`  | `Float`   | 0 o 1 | Activa/desactiva el primer plano                                        |
+| `_GlobalClipPlane2`   | `Vector4` | —     | Ecuación del segundo plano                                              |
+| `_GlobalClipEnabled2` | `Float`   | 0 o 1 | Activa/desactiva el segundo plano                                       |
 
 ### 2.3 Código HLSL Compartido (Patrón Común)
 
@@ -225,21 +226,21 @@ Shader PBR completo compatible con URP que soporta clipping global dual. Es el r
 
 ### 4.2 Properties
 
-| Propiedad | Tipo | Default | Descripción |
-|---|---|---|---|
-| `_BaseMap` | 2D | "white" | Textura albedo |
-| `_BaseColor` | Color | (1,1,1,1) | Tint multiplicativo |
-| `_NormalMap` | 2D | "bump" | Mapa de normales |
-| `_NormalScale` | Float | 1.0 | Intensidad de normales |
-| `_MetallicMap` | 2D | "white" | Mapa de metalicidad |
-| `_Metallic` | Float [0,1] | 0 | Metalicidad base |
-| `_Smoothness` | Float [0,1] | 0.5 | Suavidad especular |
-| `_OcclusionMap` | 2D | "white" | Mapa de oclusión ambiental |
-| `_OcclusionStrength` | Float [0,1] | 1.0 | Intensidad AO |
-| `_EmissionColor` | Color [HDR] | (0,0,0,0) | Color de emisión (para highlight) |
-| `_Tiling` | Vector | (1,1,0,0) | X=tilingX, Y=tilingY |
-| `_ClipEdgeColor` | Color | Rojo | Color del borde de corte |
-| `_ClipEdgeWidth` | Float | 0.005 | Grosor del borde de corte en unidades mundo |
+| Propiedad            | Tipo        | Default   | Descripción                                 |
+| -------------------- | ----------- | --------- | ------------------------------------------- |
+| `_BaseMap`           | 2D          | "white"   | Textura albedo                              |
+| `_BaseColor`         | Color       | (1,1,1,1) | Tint multiplicativo                         |
+| `_NormalMap`         | 2D          | "bump"    | Mapa de normales                            |
+| `_NormalScale`       | Float       | 1.0       | Intensidad de normales                      |
+| `_MetallicMap`       | 2D          | "white"   | Mapa de metalicidad                         |
+| `_Metallic`          | Float [0,1] | 0         | Metalicidad base                            |
+| `_Smoothness`        | Float [0,1] | 0.5       | Suavidad especular                          |
+| `_OcclusionMap`      | 2D          | "white"   | Mapa de oclusión ambiental                  |
+| `_OcclusionStrength` | Float [0,1] | 1.0       | Intensidad AO                               |
+| `_EmissionColor`     | Color [HDR] | (0,0,0,0) | Color de emisión (para highlight)           |
+| `_Tiling`            | Vector      | (1,1,0,0) | X=tilingX, Y=tilingY                        |
+| `_ClipEdgeColor`     | Color       | Rojo      | Color del borde de corte                    |
+| `_ClipEdgeWidth`     | Float       | 0.005     | Grosor del borde de corte en unidades mundo |
 
 ### 4.3 Pass 1: UniversalForward
 
@@ -310,16 +311,16 @@ Emula un plano de ingeniería/blueprint con grillas superpuestas, efecto Fresnel
 
 ### 5.2 Properties
 
-| Propiedad | Tipo | Default | Descripción |
-|---|---|---|---|
-| `_BaseColor` | Color | (0.1, 0.2, 0.8, 1) | Color base azul |
-| `_GridColor` | Color | (0.3, 0.5, 1.0, 1) | Color de la grilla principal |
-| `_GridScale` | Float | 10 | Escala de la grilla principal |
-| `_SubGridScale` | Float | 50 | Escala de la sub-grilla (más fina) |
-| `_FresnelPower` | Float | 3 | Exponente del efecto Fresnel |
-| `_FresnelColor` | Color | (0.5, 0.7, 1.0, 1) | Color del borde Fresnel |
-| `_OutlineWidth` | Float | 0.003 | Grosor del contorno |
-| `_OutlineColor` | Color | (0.2, 0.4, 0.9, 1) | Color del contorno |
+| Propiedad       | Tipo  | Default            | Descripción                        |
+| --------------- | ----- | ------------------ | ---------------------------------- |
+| `_BaseColor`    | Color | (0.1, 0.2, 0.8, 1) | Color base azul                    |
+| `_GridColor`    | Color | (0.3, 0.5, 1.0, 1) | Color de la grilla principal       |
+| `_GridScale`    | Float | 10                 | Escala de la grilla principal      |
+| `_SubGridScale` | Float | 50                 | Escala de la sub-grilla (más fina) |
+| `_FresnelPower` | Float | 3                  | Exponente del efecto Fresnel       |
+| `_FresnelColor` | Color | (0.5, 0.7, 1.0, 1) | Color del borde Fresnel            |
+| `_OutlineWidth` | Float | 0.003              | Grosor del contorno                |
+| `_OutlineColor` | Color | (0.2, 0.4, 0.9, 1) | Color del contorno                 |
 
 ### 5.3 Pass 1: Main Pass
 
@@ -380,6 +381,7 @@ float4 frag() : SV_Target
 ```
 
 **Técnica "Inverted Hull":** Renderiza la mesh una segunda vez, pero:
+
 1. Con `Cull Front` (solo caras traseras visibles).
 2. Con vértices expandidos a lo largo de sus normales.
 3. Con color sólido.
@@ -401,14 +403,14 @@ Efecto de rayos X médico: las partes detrás de otras geometrías son visibles 
 
 ### 6.2 Properties
 
-| Propiedad | Tipo | Default | Descripción |
-|---|---|---|---|
-| `_BaseColor` | Color | (0.0, 0.8, 0.4, 0.3) | Color base + alpha de transparencia |
-| `_RimColor` | Color | (0.0, 1.0, 0.5, 1.0) | Color del borde fresnel |
-| `_RimPower` | Float | 2.5 | Exponente Fresnel |
-| `_InsideColor` | Color | (0.0, 0.3, 0.2, 0.1) | Color de las partes "ocultas" |
-| `_InsideAlpha` | Float | 0.15 | Alpha de las partes detrás |
-| `_Intensity` | Float | 1.5 | Multiplicador de brillo |
+| Propiedad      | Tipo  | Default              | Descripción                         |
+| -------------- | ----- | -------------------- | ----------------------------------- |
+| `_BaseColor`   | Color | (0.0, 0.8, 0.4, 0.3) | Color base + alpha de transparencia |
+| `_RimColor`    | Color | (0.0, 1.0, 0.5, 1.0) | Color del borde fresnel             |
+| `_RimPower`    | Float | 2.5                  | Exponente Fresnel                   |
+| `_InsideColor` | Color | (0.0, 0.3, 0.2, 0.1) | Color de las partes "ocultas"       |
+| `_InsideAlpha` | Float | 0.15                 | Alpha de las partes detrás          |
+| `_Intensity`   | Float | 1.5                  | Multiplicador de brillo             |
 
 ### 6.3 Pass 1: Behind Pass (Z-Fail)
 
@@ -464,14 +466,14 @@ Renderizado Blinn-Phong clásico con color sólido por parte + contorno. Cada pa
 
 ### 7.2 Properties
 
-| Propiedad | Tipo | Default |
-|---|---|---|
-| `_BaseColor` | Color | (0.8, 0.2, 0.2, 1) |
-| `_SpecularColor` | Color | (1, 1, 1, 1) |
-| `_Shininess` | Float | 32 |
-| `_AmbientStrength` | Float | 0.3 |
-| `_OutlineWidth` | Float | 0.002 |
-| `_OutlineColor` | Color | (0.1, 0.1, 0.1, 1) |
+| Propiedad          | Tipo  | Default            |
+| ------------------ | ----- | ------------------ |
+| `_BaseColor`       | Color | (0.8, 0.2, 0.2, 1) |
+| `_SpecularColor`   | Color | (1, 1, 1, 1)       |
+| `_Shininess`       | Float | 32                 |
+| `_AmbientStrength` | Float | 0.3                |
+| `_OutlineWidth`    | Float | 0.002              |
+| `_OutlineColor`    | Color | (0.1, 0.1, 0.1, 1) |
 
 ### 7.3 Pass 1: Blinn-Phong
 
@@ -479,28 +481,29 @@ Renderizado Blinn-Phong clásico con color sólido por parte + contorno. Cada pa
 frag(Varyings IN) : SV_Target
 {
     ClipAgainstGlobalPlanes(IN.positionWS);
-    
+
     float3 N = normalize(IN.normalWS);
     float3 L = normalize(_MainLightPosition.xyz);
     float3 V = normalize(GetWorldSpaceViewDir(IN.positionWS));
     float3 H = normalize(L + V);  // Half-vector (Blinn)
-    
+
     // Ambient (constante)
     float3 ambient = _AmbientStrength * _BaseColor.rgb;
-    
+
     // Diffuse (Lambert)
     float NdotL = max(dot(N, L), 0.0);
     float3 diffuse = NdotL * _BaseColor.rgb * _MainLightColor.rgb;
-    
+
     // Specular (Blinn-Phong)
     float NdotH = max(dot(N, H), 0.0);
     float3 specular = pow(NdotH, _Shininess) * _SpecularColor.rgb;
-    
+
     return float4(ambient + diffuse + specular, 1.0);
 }
 ```
 
 **¿Por qué iluminación "legacy" Blinn-Phong?** En modo SolidColor, el objetivo es claridad visual, no fotorrealismo. El modelo Blinn-Phong es:
+
 - Más económico que PBR (sin GGX, sin fresnel, sin energía conservada).
 - Más predecible: el highlight especular siempre es una esfera nítida.
 - Suficiente para distinguir la forma 3D con iluminación simple.
@@ -528,12 +531,12 @@ Renderiza los bordes de cada triángulo como líneas finas sobre un fondo sólid
 
 ### 8.2 Properties
 
-| Propiedad | Tipo | Default |
-|---|---|---|
-| `_BaseColor` | Color | (0.05, 0.05, 0.1, 1) |
-| `_WireColor` | Color | (0.0, 0.8, 1.0, 1) |
-| `_WireThickness` | Float | 1.5 |
-| `_WireSmoothing` | Float | 1.0 |
+| Propiedad        | Tipo  | Default              |
+| ---------------- | ----- | -------------------- |
+| `_BaseColor`     | Color | (0.05, 0.05, 0.1, 1) |
+| `_WireColor`     | Color | (0.0, 0.8, 1.0, 1)   |
+| `_WireThickness` | Float | 1.5                  |
+| `_WireSmoothing` | Float | 1.0                  |
 
 ### 8.3 SubShader 1: Con Geometry Shader (Desktop/Standalone)
 
@@ -549,19 +552,19 @@ VertexOutput vert(VertexInput v) {
 
 // GEOMETRY: por cada triángulo, calcula distancias de borde
 [maxvertexcount(3)]
-void geom(triangle VertexOutput input[3], 
+void geom(triangle VertexOutput input[3],
           inout TriangleStream<GeomOutput> stream)
 {
     // Proyectar vértices a screen space
     float2 p0 = input[0].positionCS.xy / input[0].positionCS.w * _ScreenParams.xy;
     float2 p1 = input[1].positionCS.xy / input[1].positionCS.w * _ScreenParams.xy;
     float2 p2 = input[2].positionCS.xy / input[2].positionCS.w * _ScreenParams.xy;
-    
+
     // Calcular distancia de cada vértice al borde opuesto
     float d0 = DistancePointToLine(p0, p1, p2);  // distancia de v0 al borde v1-v2
     float d1 = DistancePointToLine(p1, p0, p2);
     float d2 = DistancePointToLine(p2, p0, p1);
-    
+
     // Emitir vértices con coordenadas baricéntricas de distancia
     GeomOutput go;
     go = input[0]; go.dist = float3(d0, 0, 0); stream.Append(go);
@@ -573,10 +576,10 @@ void geom(triangle VertexOutput input[3],
 float4 frag(GeomOutput IN) : SV_Target
 {
     ClipAgainstGlobalPlanes(IN.positionWS);
-    
+
     float minDist = min(IN.dist.x, min(IN.dist.y, IN.dist.z));
-    float wireAlpha = 1.0 - smoothstep(_WireThickness - _WireSmoothing, 
-                                        _WireThickness + _WireSmoothing, 
+    float wireAlpha = 1.0 - smoothstep(_WireThickness - _WireSmoothing,
+                                        _WireThickness + _WireSmoothing,
                                         minDist);
     float3 color = lerp(_BaseColor.rgb, _WireColor.rgb, wireAlpha);
     return float4(color, 1.0);
@@ -613,13 +616,13 @@ Versión compatible con WebGL del wireframe. WebGL 2.0 (OpenGL ES 3.0) **NO sopo
 
 ### 9.2 Properties
 
-| Propiedad | Tipo | Default |
-|---|---|---|
-| `_BaseColor` | Color | (0.05, 0.05, 0.15, 1) |
-| `_WireColor` | Color | (0.0, 0.8, 1.0, 1) |
-| `_GridDensity` | Float | 10 |
-| `_WireThickness` | Float | 0.05 |
-| `_FresnelPower` | Float | 2 |
+| Propiedad        | Tipo  | Default               |
+| ---------------- | ----- | --------------------- |
+| `_BaseColor`     | Color | (0.05, 0.05, 0.15, 1) |
+| `_WireColor`     | Color | (0.0, 0.8, 1.0, 1)    |
+| `_GridDensity`   | Float | 10                    |
+| `_WireThickness` | Float | 0.05                  |
+| `_FresnelPower`  | Float | 2                     |
 
 ### 9.3 Fragment Stage
 
@@ -627,35 +630,35 @@ Versión compatible con WebGL del wireframe. WebGL 2.0 (OpenGL ES 3.0) **NO sopo
 frag(Varyings IN) : SV_Target
 {
     ClipAgainstGlobalPlanes(IN.positionWS);
-    
+
     // UV grid pattern (10x10 celdas por defecto)
     float2 gridUV = IN.uv * _GridDensity;
     float2 grid = abs(frac(gridUV) - 0.5);
     float gridLine = min(grid.x, grid.y);
     float gridAlpha = 1.0 - smoothstep(0.0, _WireThickness, gridLine);
-    
+
     // Fresnel edge enhancement
     float fresnel = pow(1.0 - saturate(dot(IN.normalWS, IN.viewDirWS)), _FresnelPower);
-    
+
     // Composición
     float3 color = _BaseColor.rgb;
     color = lerp(color, _WireColor.rgb, gridAlpha);
     color += _WireColor.rgb * fresnel * 0.3;
-    
+
     return float4(color, 1.0);
 }
 ```
 
 ### 9.4 Limitaciones vs Wireframe "Real"
 
-| Aspecto | Wireframe (Geometry Shader) | WireframeWebGL (UV Grid) |
-|---|---|---|
-| Fidelidad | Bordes reales de cada triángulo | Grilla rectangular en UV space |
-| Grosor constante | Sí (screen-space) | No (se distorsiona con UV mapping) |
-| Dependencia UV | No | Sí (requiere UVs bien mapeados) |
-| Compatibilidad WebGL | No | Sí |
-| Costo GPU | Mayor (geometry shader overhead) | Menor (solo fragment shader) |
-| Efecto visual | Técnicamente preciso | Aproximación estética |
+| Aspecto              | Wireframe (Geometry Shader)      | WireframeWebGL (UV Grid)           |
+| -------------------- | -------------------------------- | ---------------------------------- |
+| Fidelidad            | Bordes reales de cada triángulo  | Grilla rectangular en UV space     |
+| Grosor constante     | Sí (screen-space)                | No (se distorsiona con UV mapping) |
+| Dependencia UV       | No                               | Sí (requiere UVs bien mapeados)    |
+| Compatibilidad WebGL | No                               | Sí                                 |
+| Costo GPU            | Mayor (geometry shader overhead) | Menor (solo fragment shader)       |
+| Efecto visual        | Técnicamente preciso             | Aproximación estética              |
 
 ---
 
@@ -672,17 +675,17 @@ Emula una cámara térmica/infrarroja con mapa de calor procedural (sin texturas
 
 ### 10.2 Properties
 
-| Propiedad | Tipo | Default |
-|---|---|---|
-| `_ColdColor` | Color | (0, 0, 0.5, 1) — Azul oscuro |
-| `_MidColor` | Color | (0, 0.8, 0, 1) — Verde |
-| `_HotColor` | Color | (1, 0.5, 0, 1) — Naranja |
-| `_WhiteHotColor` | Color | (1, 1, 0.8, 1) — Blanco cálido |
-| `_HeatOffset` | Float | 0 | Desplazamiento de temperatura base |
-| `_NoiseScale` | Float | 5 | Escala del ruido procedural |
-| `_ScanlineIntensity` | Float | 0.1 | Intensidad de las líneas de escaneo |
-| `_ScanlineScale` | Float | 200 | Frecuencia de scanlines |
-| `_AnimSpeed` | Float | 0.5 | Velocidad de animación del ruido |
+| Propiedad            | Tipo  | Default                        |
+| -------------------- | ----- | ------------------------------ | ----------------------------------- |
+| `_ColdColor`         | Color | (0, 0, 0.5, 1) — Azul oscuro   |
+| `_MidColor`          | Color | (0, 0.8, 0, 1) — Verde         |
+| `_HotColor`          | Color | (1, 0.5, 0, 1) — Naranja       |
+| `_WhiteHotColor`     | Color | (1, 1, 0.8, 1) — Blanco cálido |
+| `_HeatOffset`        | Float | 0                              | Desplazamiento de temperatura base  |
+| `_NoiseScale`        | Float | 5                              | Escala del ruido procedural         |
+| `_ScanlineIntensity` | Float | 0.1                            | Intensidad de las líneas de escaneo |
+| `_ScanlineScale`     | Float | 200                            | Frecuencia de scanlines             |
+| `_AnimSpeed`         | Float | 0.5                            | Velocidad de animación del ruido    |
 
 ### 10.3 Función Hash Noise
 
@@ -699,17 +702,18 @@ float noise(float2 p)
     float2 i = floor(p);
     float2 f = frac(p);
     f = f * f * (3.0 - 2.0 * f);  // Smoothstep hermite
-    
+
     float a = hash(i);
     float b = hash(i + float2(1, 0));
     float c = hash(i + float2(0, 1));
     float d = hash(i + float2(1, 1));
-    
+
     return lerp(lerp(a, b, f.x), lerp(c, d, f.x), f.y);
 }
 ```
 
 **Noise procedural vs textura:** El ruido se genera algorítmicamente (hash-based) en lugar de sampling una textura de ruido. Ventajas:
+
 - Zero VRAM para la textura de ruido.
 - Infinita resolución (no pixelea al acercarse).
 - Determinístico para las mismas coordenadas.
@@ -721,12 +725,12 @@ float noise(float2 p)
 frag(Varyings IN) : SV_Target
 {
     ClipAgainstGlobalPlanes(IN.positionWS);
-    
+
     // Heat value basado en posición Y + ruido
     float heat = IN.positionWS.y * 0.5 + 0.5;  // Normalizar Y a 0-1
     heat += noise(IN.positionWS.xz * _NoiseScale + _Time.y * _AnimSpeed) * 0.3;
     heat = saturate(heat + _HeatOffset);
-    
+
     // Gradient de 4 colores
     float3 color;
     if (heat < 0.33)
@@ -735,11 +739,11 @@ frag(Varyings IN) : SV_Target
         color = lerp(_MidColor.rgb, _HotColor.rgb, (heat - 0.33) / 0.33);
     else
         color = lerp(_HotColor.rgb, _WhiteHotColor.rgb, (heat - 0.66) / 0.34);
-    
+
     // Scanlines
     float scanline = sin(IN.positionCS.y * _ScanlineScale) * 0.5 + 0.5;
     color *= 1.0 - scanline * _ScanlineIntensity;
-    
+
     return float4(color, 0.95);
 }
 ```
@@ -763,13 +767,13 @@ Efecto de transparencia tipo "fantasma": las superficies son altamente transpare
 
 ### 11.2 Properties
 
-| Propiedad | Tipo | Default |
-|---|---|---|
-| `_BaseColor` | Color | (0.5, 0.7, 1.0, 0.3) |
-| `_FresnelPower` | Float | 3 |
-| `_MinAlpha` | Float | 0.05 |
-| `_MaxAlpha` | Float | 0.4 |
-| `_DepthFade` | Float | 1.0 |
+| Propiedad       | Tipo  | Default              |
+| --------------- | ----- | -------------------- |
+| `_BaseColor`    | Color | (0.5, 0.7, 1.0, 0.3) |
+| `_FresnelPower` | Float | 3                    |
+| `_MinAlpha`     | Float | 0.05                 |
+| `_MaxAlpha`     | Float | 0.4                  |
+| `_DepthFade`    | Float | 1.0                  |
 
 ### 11.3 Fragment Stage
 
@@ -781,16 +785,16 @@ Cull Off  // Renderiza ambas caras (para ver interior)
 frag(Varyings IN) : SV_Target
 {
     ClipAgainstGlobalPlanes(IN.positionWS);
-    
+
     float fresnel = pow(1.0 - saturate(dot(IN.normalWS, IN.viewDirWS)), _FresnelPower);
     float alpha = lerp(_MinAlpha, _MaxAlpha, fresnel);
-    
+
     // Depth fade (atenua transparencia de superficies distantes)
     float sceneDepth = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, uv));
     float fragDepth = IN.positionCS.z;
     float depthDiff = saturate((sceneDepth - fragDepth) * _DepthFade);
     alpha *= depthDiff;
-    
+
     return float4(_BaseColor.rgb, alpha);
 }
 ```
@@ -818,14 +822,14 @@ Este shader usa **`CGPROGRAM`** (lenguaje CG/Cg de NVIDIA) en lugar de `HLSLPROG
 
 ### 12.3 Properties
 
-| Propiedad | Tipo | Default |
-|---|---|---|
-| `_TopColor` | Color | (0.15, 0.18, 0.25, 1) |
-| `_BottomColor` | Color | (0.08, 0.10, 0.16, 1) |
-| `_CenterColor` | Color | (0.20, 0.23, 0.32, 1) |
-| `_GradientRadius` | Float [0,2] | 0.8 |
-| `_PulseSpeed` | Float | 0.3 |
-| `_PulseAmount` | Float [0,0.5] | 0.05 |
+| Propiedad         | Tipo          | Default               |
+| ----------------- | ------------- | --------------------- |
+| `_TopColor`       | Color         | (0.15, 0.18, 0.25, 1) |
+| `_BottomColor`    | Color         | (0.08, 0.10, 0.16, 1) |
+| `_CenterColor`    | Color         | (0.20, 0.23, 0.32, 1) |
+| `_GradientRadius` | Float [0,2]   | 0.8                   |
+| `_PulseSpeed`     | Float         | 0.3                   |
+| `_PulseAmount`    | Float [0,0.5] | 0.05                  |
 
 ### 12.4 Fragment Stage
 
@@ -834,27 +838,27 @@ fixed4 frag(v2f i) : SV_Target
 {
     // Normalizar coordenadas UV a -1..1 centrado
     float2 uv = i.uv * 2.0 - 1.0;
-    
+
     // Corrección de aspecto (evita elipse en viewports no cuadrados)
     uv.x *= _ScreenParams.x / _ScreenParams.y;
-    
+
     // Distancia radial desde el centro
     float dist = length(uv);
-    
+
     // "Breathing pulse": el radio oscila suavemente
     float pulse = sin(_Time.y * _PulseSpeed) * _PulseAmount;
     float radius = _GradientRadius + pulse;
-    
+
     // Gradiente: centro → borde
     float t = saturate(dist / radius);
-    
+
     // Interpolación de 3 colores
     fixed4 color;
     if (t < 0.5)
         color = lerp(_CenterColor, _TopColor, t * 2.0);
     else
         color = lerp(_TopColor, _BottomColor, (t - 0.5) * 2.0);
-    
+
     return color;
 }
 ```
@@ -867,16 +871,16 @@ fixed4 frag(v2f i) : SV_Target
 
 ### 13.1 Limitaciones de WebGL 2.0 (OpenGL ES 3.0)
 
-| Limitación | Impacto en el Proyecto | Estrategia de Mitigación |
-|---|---|---|
-| Sin Geometry Shaders | `Wireframe.shader` no funciona | `WireframeWebGL.shader` como alternativa (UV grid + Fresnel) |
-| Sin Tessellation Shaders | No se pueden subdividir mallas en GPU | Pre-subdivisión en modelo 3D (offline) |
-| Sin Compute Shaders | No se puede usar GPU compute para partículas/simulación | Cálculos en CPU (corrutinas) |
-| Precision limitada (`mediump`) | Posibles artefactos en cálculos de iluminación | HLSL `half` donde sea aceptable, `float` en cálculos críticos (clip planes) |
-| Texturas limitadas (~16 samplers) | ClippableLit usa 4 texturas (albedo/normal/metallic/AO) — OK | Dentro del límite |
-| Sin MRT (Multiple Render Targets) | No deferred rendering | URP Forward es single-pass by design — compatible |
-| VRAM limitada (~256-512MB típico) | Texturas + meshes deben caber | `WebGLOptimizer` reduce mip levels en mobile; `QualityManager` adapta resolución |
-| Single-threaded | No hay worker threads para carga async real | `Resources.LoadAsync` + corrutinas simulan async en main thread |
+| Limitación                        | Impacto en el Proyecto                                       | Estrategia de Mitigación                                                         |
+| --------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| Sin Geometry Shaders              | `Wireframe.shader` no funciona                               | `WireframeWebGL.shader` como alternativa (UV grid + Fresnel)                     |
+| Sin Tessellation Shaders          | No se pueden subdividir mallas en GPU                        | Pre-subdivisión en modelo 3D (offline)                                           |
+| Sin Compute Shaders               | No se puede usar GPU compute para partículas/simulación      | Cálculos en CPU (corrutinas)                                                     |
+| Precision limitada (`mediump`)    | Posibles artefactos en cálculos de iluminación               | HLSL `half` donde sea aceptable, `float` en cálculos críticos (clip planes)      |
+| Texturas limitadas (~16 samplers) | ClippableLit usa 4 texturas (albedo/normal/metallic/AO) — OK | Dentro del límite                                                                |
+| Sin MRT (Multiple Render Targets) | No deferred rendering                                        | URP Forward es single-pass by design — compatible                                |
+| VRAM limitada (~256-512MB típico) | Texturas + meshes deben caber                                | `WebGLOptimizer` reduce mip levels en mobile; `QualityManager` adapta resolución |
+| Single-threaded                   | No hay worker threads para carga async real                  | `Resources.LoadAsync` + corrutinas simulan async en main thread                  |
 
 ### 13.2 Fallback de Wireframe
 
@@ -898,16 +902,16 @@ Unity selecciona automáticamente el primer SubShader compatible. En Desktop (Di
 
 ### 13.3 Consideraciones de Rendimiento
 
-| Shader | Estado de Blending | Costo Relativo GPU | Notas |
-|---|---|---|---|
-| ClippableLit | Opaque | Alto | PBR completo + 4 texturas + clipping |
-| SolidColor | Opaque | Bajo | Blinn-Phong sin texturas |
-| Blueprint | Opaque | Medio | Fresnel + 2 grids + outline pass |
-| Wireframe/WebGL | Opaque | Bajo | Sin texturas, solo matemática |
-| XRay | Transparent | Medio-Alto | 2 passes (behind + front) |
-| Ghosted | Transparent | Medio | Fresnel + depth texture read |
-| Thermal | Transparent | Medio | Procedural noise (ALU-bound) |
-| Skybox | Background | Mínimo | 1 pass, sin texturas, math trivial |
+| Shader          | Estado de Blending | Costo Relativo GPU | Notas                                |
+| --------------- | ------------------ | ------------------ | ------------------------------------ |
+| ClippableLit    | Opaque             | Alto               | PBR completo + 4 texturas + clipping |
+| SolidColor      | Opaque             | Bajo               | Blinn-Phong sin texturas             |
+| Blueprint       | Opaque             | Medio              | Fresnel + 2 grids + outline pass     |
+| Wireframe/WebGL | Opaque             | Bajo               | Sin texturas, solo matemática        |
+| XRay            | Transparent        | Medio-Alto         | 2 passes (behind + front)            |
+| Ghosted         | Transparent        | Medio              | Fresnel + depth texture read         |
+| Thermal         | Transparent        | Medio              | Procedural noise (ALU-bound)         |
+| Skybox          | Background         | Mínimo             | 1 pass, sin texturas, math trivial   |
 
 ---
 
@@ -919,13 +923,13 @@ Unity selecciona automáticamente el primer SubShader compatible. En Desktop (Di
 
 ### 14.2 Uso en la Aplicación
 
-| Sistema | Propiedad Overrideada | Propósito |
-|---|---|---|
-| `HighlightSystem.OnHoverEnter` | `_BaseColor` | Tinte de hover (amarillo translúcido) |
-| `HighlightSystem.PulseRoutine` | `_BaseColor`, `_EmissionColor` | Pulsación de emisión al seleccionar |
-| `PartVisibilityManager.FadeOut/In` | `_BaseColor` (alpha) | Animación de desvanecimiento |
-| `ViewModeManager.ApplyCategoryColor` | `_BaseColor` | Colores por categoría en modos no-texturizados |
-| `DroneStateController.SetStatusLightColor` | `_BaseColor` | Color de LEDs de estado |
+| Sistema                                    | Propiedad Overrideada          | Propósito                                      |
+| ------------------------------------------ | ------------------------------ | ---------------------------------------------- |
+| `HighlightSystem.OnHoverEnter`             | `_BaseColor`                   | Tinte de hover (amarillo translúcido)          |
+| `HighlightSystem.PulseRoutine`             | `_BaseColor`, `_EmissionColor` | Pulsación de emisión al seleccionar            |
+| `PartVisibilityManager.FadeOut/In`         | `_BaseColor` (alpha)           | Animación de desvanecimiento                   |
+| `ViewModeManager.ApplyCategoryColor`       | `_BaseColor`                   | Colores por categoría en modos no-texturizados |
+| `DroneStateController.SetStatusLightColor` | `_BaseColor`                   | Color de LEDs de estado                        |
 
 ### 14.3 ¿Por qué no `renderer.material` (instancia)?
 
@@ -950,16 +954,16 @@ renderer.SetPropertyBlock(block);
 
 ## 15. Inventario de Propiedades Shader Globales
 
-| Propiedad | Tipo | Establecida por | Leída por |
-|---|---|---|---|
-| `_GlobalClipPlane` | Vector4 | `CrossSectionManager.UpdateClipPlanes()` | Todos los 9 shaders |
-| `_GlobalClipEnabled` | Float | `CrossSectionManager.UpdateClipPlanes()` | Todos los 9 shaders |
-| `_GlobalClipPlane2` | Vector4 | `CrossSectionManager.UpdateClipPlanes()` | Todos los 9 shaders |
-| `_GlobalClipEnabled2` | Float | `CrossSectionManager.UpdateClipPlanes()` | Todos los 9 shaders |
-| `_MainLightPosition` | Vector4 | URP (automático) | SolidColor (Blinn-Phong) |
-| `_MainLightColor` | Half4 | URP (automático) | SolidColor |
-| `_ScreenParams` | Vector4 | Unity (automático) | Wireframe (screen-space edges), Skybox (aspect ratio) |
-| `_Time` | Vector4 | Unity (automático) | Thermal (noise animation), Skybox (breathing pulse), HighlightSystem (pulse emission) |
+| Propiedad             | Tipo    | Establecida por                          | Leída por                                                                             |
+| --------------------- | ------- | ---------------------------------------- | ------------------------------------------------------------------------------------- |
+| `_GlobalClipPlane`    | Vector4 | `CrossSectionManager.UpdateClipPlanes()` | Todos los 9 shaders                                                                   |
+| `_GlobalClipEnabled`  | Float   | `CrossSectionManager.UpdateClipPlanes()` | Todos los 9 shaders                                                                   |
+| `_GlobalClipPlane2`   | Vector4 | `CrossSectionManager.UpdateClipPlanes()` | Todos los 9 shaders                                                                   |
+| `_GlobalClipEnabled2` | Float   | `CrossSectionManager.UpdateClipPlanes()` | Todos los 9 shaders                                                                   |
+| `_MainLightPosition`  | Vector4 | URP (automático)                         | SolidColor (Blinn-Phong)                                                              |
+| `_MainLightColor`     | Half4   | URP (automático)                         | SolidColor                                                                            |
+| `_ScreenParams`       | Vector4 | Unity (automático)                       | Wireframe (screen-space edges), Skybox (aspect ratio)                                 |
+| `_Time`               | Vector4 | Unity (automático)                       | Thermal (noise animation), Skybox (breathing pulse), HighlightSystem (pulse emission) |
 
 ---
 
@@ -998,5 +1002,5 @@ renderer.SetPropertyBlock(block);
 
 ---
 
-*Documento generado como parte de la documentación técnica del proyecto de grado.*  
-*Rama: `feature/phase2-ux-redesign` — Febrero 2026*
+_Documento generado como parte de la documentación técnica del proyecto de grado._  
+_Rama: `feature/phase2-ux-redesign` — Febrero 2026_

@@ -1,6 +1,7 @@
 # Documento 1 — Arquitectura del Sistema
 
-## Aplicación Web Interactiva para Visualización 3D de Drones  
+## Aplicación Web Interactiva para Visualización 3D de Drones
+
 ### Documentación Técnica de Nivel de Maestría
 
 **Proyecto de Grado:** Ingeniería Multimedia — UNAD  
@@ -39,24 +40,24 @@ La aplicación es un visor interactivo 3D de drones que se ejecuta íntegramente
 
 ### Principios Arquitectónicos Fundamentales
 
-| Principio | Implementación |
-|---|---|
-| **Responsabilidad Única (SRP)** | Cada Manager maneja un único dominio (cámara, selección, vista, corte, etc.) |
-| **Inversión de Dependencias** | Los módulos no se referencian directamente entre sí; se comunican vía `EventBus` estático |
-| **Abierto/Cerrado (OCP)** | Los modos de visualización se extienden añadiendo un enum y un shader, sin modificar `ViewModeManager` |
-| **Composición sobre Herencia** | Los `ExplodablePart` son MonoBehaviours composicionales con `DronePartData` (ScriptableObject) |
-| **Manager Singleton** | Acceso global controlado a sistemas transversales (audio, notificaciones, errores) |
-| **Arquitectura por Capas** | Core → Content → UI, con comunicación ascendente vía eventos |
+| Principio                       | Implementación                                                                                         |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| **Responsabilidad Única (SRP)** | Cada Manager maneja un único dominio (cámara, selección, vista, corte, etc.)                           |
+| **Inversión de Dependencias**   | Los módulos no se referencian directamente entre sí; se comunican vía `EventBus` estático              |
+| **Abierto/Cerrado (OCP)**       | Los modos de visualización se extienden añadiendo un enum y un shader, sin modificar `ViewModeManager` |
+| **Composición sobre Herencia**  | Los `ExplodablePart` son MonoBehaviours composicionales con `DronePartData` (ScriptableObject)         |
+| **Manager Singleton**           | Acceso global controlado a sistemas transversales (audio, notificaciones, errores)                     |
+| **Arquitectura por Capas**      | Core → Content → UI, con comunicación ascendente vía eventos                                           |
 
 ### Métricas del Código Fuente
 
-| Categoría | Archivos | Líneas Aproximadas |
-|---|---:|---:|
-| C# Scripts (Core + UI) | 94 | ~12,750 |
-| Shaders HLSL/CG | 9 | ~1,544 |
-| UXML (Layout Declarativo) | 2 | ~401 |
-| USS (Estilos) | — | (referenciado pero no contabilizado) |
-| **Total** | **105** | **~14,695** |
+| Categoría                 | Archivos |                   Líneas Aproximadas |
+| ------------------------- | -------: | -----------------------------------: |
+| C# Scripts (Core + UI)    |       94 |                              ~12,750 |
+| Shaders HLSL/CG           |        9 |                               ~1,544 |
+| UXML (Layout Declarativo) |        2 |                                 ~401 |
+| USS (Estilos)             |        — | (referenciado pero no contabilizado) |
+| **Total**                 |  **105** |                          **~14,695** |
 
 ---
 
@@ -74,14 +75,14 @@ Se seleccionó Unity 6 (LTS) como motor principal por las siguientes razones té
 
 ### Compilación WebGL y Restricciones
 
-| Restricción WebGL | Impacto en la Arquitectura |
-|---|---|
-| **Sin hilos (single-threaded)** | No hay `System.Threading.Thread`; las operaciones asíncronas usan Coroutines |
-| **Sin acceso a filesystem** | Persistencia limitada a `PlayerPrefs` (que mapea a `localStorage` en el navegador) |
+| Restricción WebGL                     | Impacto en la Arquitectura                                                                                   |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Sin hilos (single-threaded)**       | No hay `System.Threading.Thread`; las operaciones asíncronas usan Coroutines                                 |
+| **Sin acceso a filesystem**           | Persistencia limitada a `PlayerPrefs` (que mapea a `localStorage` en el navegador)                           |
 | **Sin Geometry Shaders en WebGL 2.0** | `Wireframe.shader` incluye un SubShader fallback sin `#pragma geometry` para WebGL → `WireframeWebGL.shader` |
-| **Heap limitado (~2 GB max)** | `WebGLOptimizer` monitorea el heap y fuerza `GC.Collect()` cuando supera 800 MB |
-| **Sin `System.IO.File`** | `ScreenshotManager` bifurca: en Editor usa `File.WriteAllBytes`, en WebGL usa base64/JS interop |
-| **No hay `Application.Quit()`** | `UIHeroController` usa `Application.ExternalEval("window.history.back()")` como alternativa |
+| **Heap limitado (~2 GB max)**         | `WebGLOptimizer` monitorea el heap y fuerza `GC.Collect()` cuando supera 800 MB                              |
+| **Sin `System.IO.File`**              | `ScreenshotManager` bifurca: en Editor usa `File.WriteAllBytes`, en WebGL usa base64/JS interop              |
+| **No hay `Application.Quit()`**       | `UIHeroController` usa `Application.ExternalEval("window.history.back()")` como alternativa                  |
 
 ---
 
@@ -202,12 +203,12 @@ public abstract class PersistentSingleton<T> : Singleton<T> where T : MonoBehavi
 
 ### 4.4 Justificación del Patrón
 
-| Alternativa Considerada | Razón de Descarte |
-|---|---|
-| **Service Locator** | Mayor complejidad sin beneficio: la app tiene escena única, no requiere resolución dinámica de servicios |
-| **Dependency Injection (Zenject/VContainer)** | Overhead excesivo para WebGL; aumenta el tamaño del .wasm compilado |
-| **Acceso por `FindObjectOfType`** | Rendimiento inaceptable: O(n) por búsqueda vs O(1) de campo estático |
-| **Propiedades estáticas sin MonoBehaviour** | No participan del lifecycle de Unity (Awake, Update, OnDestroy); no pueden usar Coroutines |
+| Alternativa Considerada                       | Razón de Descarte                                                                                        |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Service Locator**                           | Mayor complejidad sin beneficio: la app tiene escena única, no requiere resolución dinámica de servicios |
+| **Dependency Injection (Zenject/VContainer)** | Overhead excesivo para WebGL; aumenta el tamaño del .wasm compilado                                      |
+| **Acceso por `FindObjectOfType`**             | Rendimiento inaceptable: O(n) por búsqueda vs O(1) de campo estático                                     |
+| **Propiedades estáticas sin MonoBehaviour**   | No participan del lifecycle de Unity (Awake, Update, OnDestroy); no pueden usar Coroutines               |
 
 La jerarquía de 3 niveles ofrece el equilibrio correcto entre accesibilidad global (`Instance`), seguridad de unicidad (destrucción de duplicados), y persistencia selectiva (`DontDestroyOnLoad`), todo dentro del modelo de componentes de Unity.
 
@@ -222,7 +223,7 @@ El `EventBus` (170 líneas) implementa el patrón **Publicar/Suscribir** (Publis
 ```csharp
 public static class EventBus
 {
-    private static readonly Dictionary<Type, List<Delegate>> _subscribers 
+    private static readonly Dictionary<Type, List<Delegate>> _subscribers
         = new Dictionary<Type, List<Delegate>>();
     private static readonly object _lock = new object();
 }
@@ -234,15 +235,15 @@ public static class EventBus
 
 ### 5.2 API Pública
 
-| Método | Firma | Descripción |
-|---|---|---|
-| `Subscribe` | `Subscribe<T>(Action<T> callback)` | Agrega un callback a la lista de suscriptores para el tipo `T`. Verifica no-duplicados. |
-| `Unsubscribe` | `Unsubscribe<T>(Action<T> callback)` | Remueve el callback de la lista. Limpia listas vacías. |
-| `Publish` | `Publish<T>(T eventData)` | Notifica a todos los suscriptores de `T` con los datos del evento. |
-| `Clear` | `Clear()` | Limpia todos los suscriptores de todos los tipos. |
-| `ClearEvent` | `ClearEvent<T>()` | Limpia suscriptores de un tipo específico. |
-| `HasSubscribers` | `HasSubscribers<T>() : bool` | Verifica si hay suscriptores registrados para `T`. |
-| `GetSubscriberCount` | `GetSubscriberCount<T>() : int` | Retorna la cantidad de suscriptores para `T`. |
+| Método               | Firma                                | Descripción                                                                             |
+| -------------------- | ------------------------------------ | --------------------------------------------------------------------------------------- |
+| `Subscribe`          | `Subscribe<T>(Action<T> callback)`   | Agrega un callback a la lista de suscriptores para el tipo `T`. Verifica no-duplicados. |
+| `Unsubscribe`        | `Unsubscribe<T>(Action<T> callback)` | Remueve el callback de la lista. Limpia listas vacías.                                  |
+| `Publish`            | `Publish<T>(T eventData)`            | Notifica a todos los suscriptores de `T` con los datos del evento.                      |
+| `Clear`              | `Clear()`                            | Limpia todos los suscriptores de todos los tipos.                                       |
+| `ClearEvent`         | `ClearEvent<T>()`                    | Limpia suscriptores de un tipo específico.                                              |
+| `HasSubscribers`     | `HasSubscribers<T>() : bool`         | Verifica si hay suscriptores registrados para `T`.                                      |
+| `GetSubscriberCount` | `GetSubscriberCount<T>() : int`      | Retorna la cantidad de suscriptores para `T`.                                           |
 
 ### 5.3 Mecanismo de Publicación (Detalle)
 
@@ -255,7 +256,7 @@ public static void Publish<T>(T eventData)
         if (!_subscribers.TryGetValue(typeof(T), out var subs)) return;
         snapshotList = new List<Delegate>(subs); // COPIA antes de iterar
     }
-    
+
     foreach (var subscriber in snapshotList)
     {
         try
@@ -280,21 +281,21 @@ public static void Publish<T>(T eventData)
 
 ### 5.4 Tipos de Eventos Definidos
 
-| Evento | Campos | Publicado por | Consumido por |
-|---|---|---|---|
-| `PartSelectedEvent` | `DronePartData Data`, `bool FromHotspot` | `SelectionManager`, `PartCatalogManager` | `UIManager`, `UIDetailsSheet`, `EnhancedInfoPanel`, `DetailsPanelController`, `AnalyticsManager` |
-| `AppStateChangedEvent` | `AppState NewState` | `AppStateMachine` | `UIManager`, `UIModeController`, `ExplodedViewManager` |
-| `ViewModeChangedEvent` | `bool IsExploded` | (No confirmado en uso activo) | — |
-| `StateChangedEvent` | `AppState PreviousState`, `AppState NewState` | `AppStateMachine` | (Disponible para suscripción) |
+| Evento                 | Campos                                        | Publicado por                            | Consumido por                                                                                    |
+| ---------------------- | --------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `PartSelectedEvent`    | `DronePartData Data`, `bool FromHotspot`      | `SelectionManager`, `PartCatalogManager` | `UIManager`, `UIDetailsSheet`, `EnhancedInfoPanel`, `DetailsPanelController`, `AnalyticsManager` |
+| `AppStateChangedEvent` | `AppState NewState`                           | `AppStateMachine`                        | `UIManager`, `UIModeController`, `ExplodedViewManager`                                           |
+| `ViewModeChangedEvent` | `bool IsExploded`                             | (No confirmado en uso activo)            | —                                                                                                |
+| `StateChangedEvent`    | `AppState PreviousState`, `AppState NewState` | `AppStateMachine`                        | (Disponible para suscripción)                                                                    |
 
 ### 5.5 Comparativa con Alternativas
 
-| Alternativa | Desventaja vs EventBus Implementado |
-|---|---|
-| **UnityEvent (Inspector)** | No tipado genéricamente; requiere wiring manual en el Inspector; serialize overhead |
-| **C# events directos** | Acoplan emisor y suscriptor (el suscriptor necesita referencia al emisor) |
-| **MessagePipe / UniRx** | Dependencias externas que aumentan el tamaño del build WebGL |
-| **ScriptableObject Events** | Assets en disco que complican el versionado; no ofrecen type-safety en compilación |
+| Alternativa                 | Desventaja vs EventBus Implementado                                                 |
+| --------------------------- | ----------------------------------------------------------------------------------- |
+| **UnityEvent (Inspector)**  | No tipado genéricamente; requiere wiring manual en el Inspector; serialize overhead |
+| **C# events directos**      | Acoplan emisor y suscriptor (el suscriptor necesita referencia al emisor)           |
+| **MessagePipe / UniRx**     | Dependencias externas que aumentan el tamaño del build WebGL                        |
+| **ScriptableObject Events** | Assets en disco que complican el versionado; no ofrecen type-safety en compilación  |
 
 ---
 
@@ -323,17 +324,17 @@ public enum AppState
 
 La tabla se define en un `Dictionary<AppState, AppState[]>` inicializado en el constructor. Solo las transiciones explícitamente listadas son permitidas:
 
-| Estado Origen | Transiciones Permitidas |
-|---|---|
-| `Loading` | → `Intro` |
-| `Intro` | → `Exploration` |
-| `Exploration` | → `ExplodedView`, `FocusMode`, `Settings`, `Menu`, `Analyze`, `Studio` |
-| `ExplodedView` | → `Exploration`, `FocusMode`, `Settings` |
-| `FocusMode` | → `Exploration`, `ExplodedView` |
-| `Settings` | → `Exploration`, `ExplodedView`, `Menu` |
-| `Menu` | → `Exploration`, `Settings`, `Intro` |
-| `Analyze` | → `Exploration`, `Settings` |
-| `Studio` | → `Exploration`, `Settings` |
+| Estado Origen  | Transiciones Permitidas                                                |
+| -------------- | ---------------------------------------------------------------------- |
+| `Loading`      | → `Intro`                                                              |
+| `Intro`        | → `Exploration`                                                        |
+| `Exploration`  | → `ExplodedView`, `FocusMode`, `Settings`, `Menu`, `Analyze`, `Studio` |
+| `ExplodedView` | → `Exploration`, `FocusMode`, `Settings`                               |
+| `FocusMode`    | → `Exploration`, `ExplodedView`                                        |
+| `Settings`     | → `Exploration`, `ExplodedView`, `Menu`                                |
+| `Menu`         | → `Exploration`, `Settings`, `Intro`                                   |
+| `Analyze`      | → `Exploration`, `Settings`                                            |
+| `Studio`       | → `Exploration`, `Settings`                                            |
 
 **Propiedad clave:** `IsInteractive()` retorna `true` solo si el estado actual es `Exploration`, `ExplodedView`, `FocusMode`, `Analyze` o `Studio`. El `InputManager` y los atajos de teclado consultan esta propiedad antes de procesar entrada del usuario.
 
@@ -604,13 +605,13 @@ UICrossSectionPanel → CrossSectionManager.Instance.SetPlanePosition()
      │  UIManager   │  │ExplodedView│    │UIModeController│
      └──────┬──────┘  │ Manager   │    └───────────────┘
             │          └──────────┘
-            │ PartSelectedEvent                    
-     ┌──────┴──────┐                    
-     ▼             ▼                    
-┌──────────┐ ┌──────────────┐         
-│UIDetails │ │EnhancedInfo  │         
-│Sheet     │ │Panel         │         
-└──────────┘ └──────────────┘         
+            │ PartSelectedEvent
+     ┌──────┴──────┐
+     ▼             ▼
+┌──────────┐ ┌──────────────┐
+│UIDetails │ │EnhancedInfo  │
+│Sheet     │ │Panel         │
+└──────────┘ └──────────────┘
 
     ┌────────────────┐
     │ViewModeManager │
@@ -635,7 +636,7 @@ El sistema de visualización permite alternar entre 7 modos de renderizado en ti
 ```
 ViewModeManager (global)
     │
-    ├── CacheRenderers() 
+    ├── CacheRenderers()
     │   └── Almacena originalMaterials[Renderer] = material
     │
     ├── SetMode(ViewMode) → CreateDefaultMaterials()
@@ -676,6 +677,7 @@ Unity ofrece dos formas de modificar la apariencia de un Renderer sin afectar a 
 2. **`MaterialPropertyBlock`:** Override por renderer que se inyecta en el draw call sin crear una copia del material. Cero allocations en heap.
 
 La aplicación usa `MaterialPropertyBlock` para:
+
 - Colores de categoría en `ViewModeManager` (7 categorías × N renderers)
 - Highlight de hover/select en `HighlightSystem` (emission + base color pulsante)
 - Fade de opacidad en `PartVisibilityManager` (alpha con smoothstep)
@@ -704,10 +706,10 @@ Estas variables se establecen mediante `Shader.SetGlobalVector()` y `Shader.SetG
 
 La interfaz combina dos enfoques:
 
-| Enfoque | Archivos | Uso |
-|---|---|---|
+| Enfoque                | Archivos                       | Uso                                                                                             |
+| ---------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------- |
 | **Declarativo (UXML)** | `MainLayout.uxml` (353 líneas) | Layout principal: Hero, TopBar, BottomSheet, BottomBar con 3 modos, paneles de sub-herramientas |
-| **Programático (C#)** | Múltiples managers | Notificaciones, tooltips, loading overlay, panel de errores, assembly guide UI, part catalog UI |
+| **Programático (C#)**  | Múltiples managers             | Notificaciones, tooltips, loading overlay, panel de errores, assembly guide UI, part catalog UI |
 
 ### 12.2 Estructura del MainLayout.uxml
 
@@ -758,6 +760,7 @@ _envPanel       = new UIEnvironmentPanel(root);
 ```
 
 **Responsabilidades del UIManager:**
+
 1. Obtener la referencia al `UIDocument` y al ROOT del Visual Tree.
 2. Instanciar y cablear los sub-controladores.
 3. Suscribirse a `PartSelectedEvent` y delegar a `UIDetailsSheet`.
@@ -770,11 +773,13 @@ _envPanel       = new UIEnvironmentPanel(root);
 `UIModeController` (561 líneas) implementa la navegación modal con 2 niveles:
 
 **Nivel 1 — Modos principales:**
+
 - `INSPECT` (Tools): Tarjetas toggle (Info, Pins, Isolate)
 - `ANALYZE`: Tarjetas navegación (Cut, Explode, Filter) → abren sub-paneles
 - `STUDIO`: Panel único con shaders + presets de entorno + sliders
 
 **Nivel 2 — Sub-paneles (solo ANALYZE):**
+
 - `CrossSectionPanel`: Control dual-plane
 - `ExplodeSubPanel`: Slider de explosión
 - `FilterSubPanel`: Botones de categoría
@@ -807,17 +812,17 @@ Click ModeBtn →
 
 La aplicación define 9 shaders HLSL bajo el namespace `WebGL/*`, todos compatibles con URP y WebGL 2.0:
 
-| Shader | Técnica Principal | Passes |
-|---|---|---|
-| `WebGL/ClippableLit` | PBR completo (URP `UniversalFragmentPBR`) + clip dual | Main + ShadowCaster |
-| `WebGL/Blueprint` | Fresnel edge + dual world-space grid + AO simulado | Main + Outline |
-| `WebGL/XRay` | Dual-pass: Z-fail (behind) + Z-pass (front) + fresnel | Behind + Front |
-| `WebGL/SolidColor` | Blinn-Phong (ambient + Lambert + specular) | Outline + Main + ShadowCaster |
-| `WebGL/Wireframe` | Geometry shader + screen-space distance to edge | Main (+ Fallback SubShader) |
-| `WebGL/WireframeWebGL` | Fresnel edge + UV grid (sin geometry shader) | Main |
-| `WebGL/Ghosted` | Fresnel alpha + depth fade | Main |
-| `WebGL/Thermal` | Procedural noise + 4-color gradient + scanlines | Main |
-| `Skybox/AnimatedGradientSkybox` | Radial gradient + breathing pulse | Main (CG, no HLSL) |
+| Shader                          | Técnica Principal                                     | Passes                        |
+| ------------------------------- | ----------------------------------------------------- | ----------------------------- |
+| `WebGL/ClippableLit`            | PBR completo (URP `UniversalFragmentPBR`) + clip dual | Main + ShadowCaster           |
+| `WebGL/Blueprint`               | Fresnel edge + dual world-space grid + AO simulado    | Main + Outline                |
+| `WebGL/XRay`                    | Dual-pass: Z-fail (behind) + Z-pass (front) + fresnel | Behind + Front                |
+| `WebGL/SolidColor`              | Blinn-Phong (ambient + Lambert + specular)            | Outline + Main + ShadowCaster |
+| `WebGL/Wireframe`               | Geometry shader + screen-space distance to edge       | Main (+ Fallback SubShader)   |
+| `WebGL/WireframeWebGL`          | Fresnel edge + UV grid (sin geometry shader)          | Main                          |
+| `WebGL/Ghosted`                 | Fresnel alpha + depth fade                            | Main                          |
+| `WebGL/Thermal`                 | Procedural noise + 4-color gradient + scanlines       | Main                          |
+| `Skybox/AnimatedGradientSkybox` | Radial gradient + breathing pulse                     | Main (CG, no HLSL)            |
 
 ### 13.2 Sistema de Clipping Dual-Plane
 
@@ -827,7 +832,7 @@ El sistema de corte transversal permite hasta 2 planos de corte simultáneos con
 C# (CrossSectionManager):
     Shader.SetGlobalVector("_GlobalClipPlane", planeEquation);
     Shader.SetGlobalFloat("_GlobalClipEnabled", 1.0f);
-    
+
                     ↓ (inyección global en GPU)
 
 HLSL (en CADA shader):
@@ -844,33 +849,33 @@ La ecuación del plano `(nx, ny, nz, d)` define que todo punto cuyo `dot(point, 
 
 `WebGLOptimizer` (106 líneas) aplica optimizaciones automáticas:
 
-| Optimización | Detalle |
-|---|---|
-| **Resolución adaptativa** | Reduce `QualitySettings.renderScale` en 0.1 si FPS < target−5 |
-| **Monitoreo de heap** | Cada 300 frames verifica `Profiler.GetTotalReservedMemoryLong()`; si > 800MB fuerza `GC.Collect()` + `Resources.UnloadUnusedAssets()` |
-| **Textura mip bias** | En móvil WebGL incrementa `QualitySettings.globalTextureMipmapLimit` para reducir VRAM |
-| **Sombras condicionales** | Desactiva sombras en dispositivos móviles (`SystemInfo.graphicsDeviceType`) |
-| **LOD bias** | Reduce `QualitySettings.lodBias` en plataformas limitadas |
-| **Particle budget** | Limita `QualitySettings.particleRaycastBudget` |
+| Optimización              | Detalle                                                                                                                               |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **Resolución adaptativa** | Reduce `QualitySettings.renderScale` en 0.1 si FPS < target−5                                                                         |
+| **Monitoreo de heap**     | Cada 300 frames verifica `Profiler.GetTotalReservedMemoryLong()`; si > 800MB fuerza `GC.Collect()` + `Resources.UnloadUnusedAssets()` |
+| **Textura mip bias**      | En móvil WebGL incrementa `QualitySettings.globalTextureMipmapLimit` para reducir VRAM                                                |
+| **Sombras condicionales** | Desactiva sombras en dispositivos móviles (`SystemInfo.graphicsDeviceType`)                                                           |
+| **LOD bias**              | Reduce `QualitySettings.lodBias` en plataformas limitadas                                                                             |
+| **Particle budget**       | Limita `QualitySettings.particleRaycastBudget`                                                                                        |
 
 ---
 
 ## 14. Patrones de Diseño Aplicados
 
-| Patrón (GoF/Arquitectónico) | Implementación en la Aplicación |
-|---|---|
-| **Singleton** | `Singleton<T>` / `PersistentSingleton<T>` — jerarquía de 3 niveles |
-| **Observer (Pub/Sub)** | `EventBus` con tipado genérico + eventos C# directos en managers |
-| **State (FSM)** | `AppStateMachine` con 9 estados y tabla de transiciones |
-| **Strategy** | `ViewModeManager` intercambia shader/material sin modificar la lógica de rendering |
-| **Facade** | `UIManager` coordina 6 sub-controladores sin exponer la complejidad interna |
-| **Mediator** | `UIManager` media entre eventos de Core y actualizaciones de UI |
-| **Command** | `DroneStateController` ejecuta secuencias de startup/shutdown como "comandos" corrutina |
-| **Template Method** | `Singleton<T>.Awake()` → `base.Awake()` con hooks en cada nivel |
-| **Null Object** | `SceneBootstrapper.EnsureManager()` crea managers vacíos en lugar de fallar |
-| **Object Pool** | `ObjectPooler` con reciclaje round-robin |
-| **Flyweight** | `ViewModeManager` comparte un material por modo (no por renderer); override vía `MaterialPropertyBlock` |
-| **Bridge** | `ClippableLit.shader` actúa como puente entre el modo Realistic (PBR) y el sistema de clipping |
+| Patrón (GoF/Arquitectónico) | Implementación en la Aplicación                                                                         |
+| --------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **Singleton**               | `Singleton<T>` / `PersistentSingleton<T>` — jerarquía de 3 niveles                                      |
+| **Observer (Pub/Sub)**      | `EventBus` con tipado genérico + eventos C# directos en managers                                        |
+| **State (FSM)**             | `AppStateMachine` con 9 estados y tabla de transiciones                                                 |
+| **Strategy**                | `ViewModeManager` intercambia shader/material sin modificar la lógica de rendering                      |
+| **Facade**                  | `UIManager` coordina 6 sub-controladores sin exponer la complejidad interna                             |
+| **Mediator**                | `UIManager` media entre eventos de Core y actualizaciones de UI                                         |
+| **Command**                 | `DroneStateController` ejecuta secuencias de startup/shutdown como "comandos" corrutina                 |
+| **Template Method**         | `Singleton<T>.Awake()` → `base.Awake()` con hooks en cada nivel                                         |
+| **Null Object**             | `SceneBootstrapper.EnsureManager()` crea managers vacíos en lugar de fallar                             |
+| **Object Pool**             | `ObjectPooler` con reciclaje round-robin                                                                |
+| **Flyweight**               | `ViewModeManager` comparte un material por modo (no por renderer); override vía `MaterialPropertyBlock` |
+| **Bridge**                  | `ClippableLit.shader` actúa como puente entre el modo Realistic (PBR) y el sistema de clipping          |
 
 ---
 
@@ -879,6 +884,7 @@ La ecuación del plano `(nx, ny, nz, d)` define que todo punto cuyo `dot(point, 
 ### 15.1 ¿Por qué EventBus estático y no inyección de dependencias?
 
 En una aplicación de escena única compilada a WebGL, el overhead de un contenedor DI (como Zenject) no se justifica:
+
 - Aumenta el tamaño del binario .wasm (cada KB cuenta en tiempo de descarga).
 - Añade indirección en la resolución de dependencias que complica el debugging en WebGL (donde no hay depurador paso-a-paso).
 - El EventBus estático ofrece O(1) para publicar, tipado por genéricos, y es trivial de entender.
@@ -897,6 +903,7 @@ Acceder a `renderer.material` en Unity crea una instancia del material en memori
 ### 15.4 ¿Por qué duplicar WireframeWebGL sin Geometry Shader?
 
 WebGL 2.0 (basado en OpenGL ES 3.0) **no soporta geometry shaders**. El shader `Wireframe.shader` utiliza `#pragma geometry` para calcular distancias a aristas en screen-space. Para WebGL, el fallback `WireframeWebGL.shader` aproxima el wireframe mediante:
+
 1. **Fresnel edge detection** (bordes de silueta) — detecta aristas por ángulo NdotV.
 2. **UV-based grid** — usa las coordenadas UV del mesh para dibujar una cuadrícula 10×10.
 
@@ -912,138 +919,138 @@ El skybox se renderiza en el **Background queue** antes que cualquier objeto URP
 
 ### 16.1 Core — Infraestructura (5 archivos, ~658 líneas)
 
-| Archivo | Líneas | Clase | Función |
-|---|---:|---|---|
-| `Singleton.cs` | 58 | `StaticInstance<T>`, `Singleton<T>`, `PersistentSingleton<T>` | Jerarquía genérica de singletons |
-| `EventBus.cs` | 170 | `EventBus` (static) | Pub/Sub tipado con thread-safety |
-| `CoreEvents.cs` | 29 | `PartSelectedEvent`, `AppStateChangedEvent`, `ViewModeChangedEvent` | DTOs de eventos del dominio |
-| `StateChangedEvent.cs` | 17 | `StateChangedEvent` | DTO con PreviousState + NewState |
-| `AppStateMachine.cs` | 243 | `AppStateMachine : Singleton<>` | FSM de 9 estados con transiciones validadas |
+| Archivo                | Líneas | Clase                                                               | Función                                     |
+| ---------------------- | -----: | ------------------------------------------------------------------- | ------------------------------------------- |
+| `Singleton.cs`         |     58 | `StaticInstance<T>`, `Singleton<T>`, `PersistentSingleton<T>`       | Jerarquía genérica de singletons            |
+| `EventBus.cs`          |    170 | `EventBus` (static)                                                 | Pub/Sub tipado con thread-safety            |
+| `CoreEvents.cs`        |     29 | `PartSelectedEvent`, `AppStateChangedEvent`, `ViewModeChangedEvent` | DTOs de eventos del dominio                 |
+| `StateChangedEvent.cs` |     17 | `StateChangedEvent`                                                 | DTO con PreviousState + NewState            |
+| `AppStateMachine.cs`   |    243 | `AppStateMachine : Singleton<>`                                     | FSM de 9 estados con transiciones validadas |
 
 ### 16.2 Core — Managers (20 archivos, ~5,014 líneas)
 
-| Archivo | Líneas | Singleton | Función |
-|---|---:|---|---|
-| `GameManager.cs` | 68 | Persistent | Shell de coordinación global + debug flag |
-| `SelectionManager.cs` | 308 | Singleton | Raycast hover/click, highlight, selección con swap |
-| `ViewModeManager.cs` | 327 | Singleton | 7 modos shader con cache + MaterialPropertyBlock |
-| `OrbitCameraController.cs` | 383 | Singleton | Orbit/Pan/Zoom con mouse+touch, damping, smart pivot |
-| `CrossSectionManager.cs` | 466 | Singleton | Dual-plane clipping + material swap (ClippableLit) |
-| `ExplodedViewManager.cs` | 263 | Singleton | Vista explosionada con Lerp + filtros de categoría |
-| `PartVisibilityManager.cs` | 211 | Singleton | Fade in/out + aislamiento de partes |
-| `EnvironmentController.cs` | 152 | Singleton | 5 presets de iluminación + skybox |
-| `InputManager.cs` | 145 | Persistent | Bloqueo de input unificado + IsPointerOverUI |
-| `DroneStateController.cs` | 263 | Singleton | 5 estados del dron (animación/audio) |
-| `AssemblyGuideManager.cs` | 290 | Singleton | Guía paso a paso con highlight + cámara |
-| `MeasurementTool.cs` | 278 | Singleton | Distancia/Ángulo/Radio con raycast + line renderer |
-| `AnnotationSystem.cs` | 196 | Singleton | Anotaciones 3D (esfera + línea + texto billboard) |
-| `BillOfMaterialsManager.cs` | 103 | Singleton | BOM agrupado por parte + export CSV |
-| `ModularPartsSystem.cs` | 165 | Singleton | Intercambio animado de piezas modulares |
-| `ConnectionPointsViewer.cs` | 163 | Singleton | Visualización de puntos de conexión coloreados |
-| `AssemblyChecklist.cs` | 147 | Singleton | Checklist de verificación de ensamblaje |
-| `PartCatalogManager.cs` | 155 | Singleton | Catálogo filtrable (búsqueda + categoría + material) |
-| `ScreenshotManager.cs` | 82 | Singleton | Captura PNG a base64 (WebGL) o archivo (Editor) |
-| `KeyboardShortcuts.cs` | 139 | Singleton | Atajos de teclado (1-9, E, Esc, Ctrl±, F1-F3) |
+| Archivo                     | Líneas | Singleton  | Función                                              |
+| --------------------------- | -----: | ---------- | ---------------------------------------------------- |
+| `GameManager.cs`            |     68 | Persistent | Shell de coordinación global + debug flag            |
+| `SelectionManager.cs`       |    308 | Singleton  | Raycast hover/click, highlight, selección con swap   |
+| `ViewModeManager.cs`        |    327 | Singleton  | 7 modos shader con cache + MaterialPropertyBlock     |
+| `OrbitCameraController.cs`  |    383 | Singleton  | Orbit/Pan/Zoom con mouse+touch, damping, smart pivot |
+| `CrossSectionManager.cs`    |    466 | Singleton  | Dual-plane clipping + material swap (ClippableLit)   |
+| `ExplodedViewManager.cs`    |    263 | Singleton  | Vista explosionada con Lerp + filtros de categoría   |
+| `PartVisibilityManager.cs`  |    211 | Singleton  | Fade in/out + aislamiento de partes                  |
+| `EnvironmentController.cs`  |    152 | Singleton  | 5 presets de iluminación + skybox                    |
+| `InputManager.cs`           |    145 | Persistent | Bloqueo de input unificado + IsPointerOverUI         |
+| `DroneStateController.cs`   |    263 | Singleton  | 5 estados del dron (animación/audio)                 |
+| `AssemblyGuideManager.cs`   |    290 | Singleton  | Guía paso a paso con highlight + cámara              |
+| `MeasurementTool.cs`        |    278 | Singleton  | Distancia/Ángulo/Radio con raycast + line renderer   |
+| `AnnotationSystem.cs`       |    196 | Singleton  | Anotaciones 3D (esfera + línea + texto billboard)    |
+| `BillOfMaterialsManager.cs` |    103 | Singleton  | BOM agrupado por parte + export CSV                  |
+| `ModularPartsSystem.cs`     |    165 | Singleton  | Intercambio animado de piezas modulares              |
+| `ConnectionPointsViewer.cs` |    163 | Singleton  | Visualización de puntos de conexión coloreados       |
+| `AssemblyChecklist.cs`      |    147 | Singleton  | Checklist de verificación de ensamblaje              |
+| `PartCatalogManager.cs`     |    155 | Singleton  | Catálogo filtrable (búsqueda + categoría + material) |
+| `ScreenshotManager.cs`      |     82 | Singleton  | Captura PNG a base64 (WebGL) o archivo (Editor)      |
+| `KeyboardShortcuts.cs`      |    139 | Singleton  | Atajos de teclado (1-9, E, Esc, Ctrl±, F1-F3)        |
 
 ### 16.3 Core — Managers (Secundarios) (10 archivos, ~847 líneas)
 
-| Archivo | Líneas | Singleton | Función |
-|---|---:|---|---|
-| `CameraPresets.cs` | 59 | Singleton | 6 ángulos predefinidos (Front, Back, Left, Right, Top, Iso) |
-| `AnalyticsManager.cs` | 117 | Persistent | Tracking de eventos + tiempo de vista por parte |
-| `AudioManager.cs` | 118 | Persistent | 6 SFX + música + volumen con persistencia |
-| `NotificationManager.cs` | 79 | Persistent | Toast notifications con fade in/out |
-| `AccessibilityManager.cs` | 100 | Persistent | UI Scale + High Contrast + Reduced Motion |
-| `CursorManager.cs` | 71 | Singleton | 7 tipos de cursor personalizados |
-| `ErrorHandler.cs` | 108 | Persistent | Panel de error auto-captura de excepciones |
-| `QualityManager.cs` | 54 | Singleton | Resolución adaptativa por FPS |
-| `SaveSystem.cs` | 33 | Static | PlayerPrefs wrapper (volumen + calidad) |
-| `AssetLoader.cs` | 36 | MonoBehaviour | Resources.LoadAsync placeholder |
-| `WebGLOptimizer.cs` | 106 | Persistent | Optimizaciones WebGL + monitoreo heap |
+| Archivo                   | Líneas | Singleton     | Función                                                     |
+| ------------------------- | -----: | ------------- | ----------------------------------------------------------- |
+| `CameraPresets.cs`        |     59 | Singleton     | 6 ángulos predefinidos (Front, Back, Left, Right, Top, Iso) |
+| `AnalyticsManager.cs`     |    117 | Persistent    | Tracking de eventos + tiempo de vista por parte             |
+| `AudioManager.cs`         |    118 | Persistent    | 6 SFX + música + volumen con persistencia                   |
+| `NotificationManager.cs`  |     79 | Persistent    | Toast notifications con fade in/out                         |
+| `AccessibilityManager.cs` |    100 | Persistent    | UI Scale + High Contrast + Reduced Motion                   |
+| `CursorManager.cs`        |     71 | Singleton     | 7 tipos de cursor personalizados                            |
+| `ErrorHandler.cs`         |    108 | Persistent    | Panel de error auto-captura de excepciones                  |
+| `QualityManager.cs`       |     54 | Singleton     | Resolución adaptativa por FPS                               |
+| `SaveSystem.cs`           |     33 | Static        | PlayerPrefs wrapper (volumen + calidad)                     |
+| `AssetLoader.cs`          |     36 | MonoBehaviour | Resources.LoadAsync placeholder                             |
+| `WebGLOptimizer.cs`       |    106 | Persistent    | Optimizaciones WebGL + monitoreo heap                       |
 
 ### 16.4 Core — Utilidades (7 archivos, ~667 líneas)
 
-| Archivo | Líneas | Función |
-|---|---:|---|
-| `SceneBootstrapper.cs` | 174 | Auto-creación de 18 managers + validación |
-| `TweenEngine.cs` | 154 | Animación procedural: Float, Vector3, Color + 8 easings |
-| `DroneAssembler.cs` | 187 | Creación procedural del dron con 7 tipos de parte |
-| `DronePartSetup.cs` | 108 | Utilidad de editor para setup rápido de ExplodablePart |
-| `FPSCounter.cs` | 33 | Display IMGUI de FPS con colores adaptativos |
-| `ObjectPooler.cs` | 62 | Pool genérico con reciclaje round-robin |
-| `PerformanceMonitor.cs` | 108 | Overlay IMGUI de rendimiento (FPS + memoria + quality) |
-| `RuntimeConsole.cs` | 67 | Consola in-game para debugging WebGL |
-| `WebGLProfiler.cs` | 85 | Profiler simplificado con umbrales de estado |
+| Archivo                 | Líneas | Función                                                 |
+| ----------------------- | -----: | ------------------------------------------------------- |
+| `SceneBootstrapper.cs`  |    174 | Auto-creación de 18 managers + validación               |
+| `TweenEngine.cs`        |    154 | Animación procedural: Float, Vector3, Color + 8 easings |
+| `DroneAssembler.cs`     |    187 | Creación procedural del dron con 7 tipos de parte       |
+| `DronePartSetup.cs`     |    108 | Utilidad de editor para setup rápido de ExplodablePart  |
+| `FPSCounter.cs`         |     33 | Display IMGUI de FPS con colores adaptativos            |
+| `ObjectPooler.cs`       |     62 | Pool genérico con reciclaje round-robin                 |
+| `PerformanceMonitor.cs` |    108 | Overlay IMGUI de rendimiento (FPS + memoria + quality)  |
+| `RuntimeConsole.cs`     |     67 | Consola in-game para debugging WebGL                    |
+| `WebGLProfiler.cs`      |     85 | Profiler simplificado con umbrales de estado            |
 
 ### 16.5 Content (3 archivos, ~359 líneas)
 
-| Archivo | Líneas | Función |
-|---|---:|---|
-| `ExplodablePart.cs` | 57 | MonoBehaviour: posición explosionada + referencia a DronePartData |
-| `HighlightSystem.cs` | 121 | Hover (tint) + Select (emission pulse) via MaterialPropertyBlock |
-| `MaterialController.cs` | 61 | Toggle XRay + color override per-renderer |
+| Archivo                 | Líneas | Función                                                           |
+| ----------------------- | -----: | ----------------------------------------------------------------- |
+| `ExplodablePart.cs`     |     57 | MonoBehaviour: posición explosionada + referencia a DronePartData |
+| `HighlightSystem.cs`    |    121 | Hover (tint) + Select (emission pulse) via MaterialPropertyBlock  |
+| `MaterialController.cs` |     61 | Toggle XRay + color override per-renderer                         |
 
 ### 16.6 Data (2 archivos, ~202 líneas)
 
-| Archivo | Líneas | Función |
-|---|---:|---|
-| `DronePartData.cs` | 116 | ScriptableObject: 8 grupos de campos (specs, materiales, ensamblaje) |
-| `AssemblyGuideData.cs` | 86 | ScriptableObject: pasos de ensamblaje con validación OnValidate |
+| Archivo                | Líneas | Función                                                              |
+| ---------------------- | -----: | -------------------------------------------------------------------- |
+| `DronePartData.cs`     |    116 | ScriptableObject: 8 grupos de campos (specs, materiales, ensamblaje) |
+| `AssemblyGuideData.cs` |     86 | ScriptableObject: pasos de ensamblaje con validación OnValidate      |
 
 ### 16.7 UI (14 archivos, ~2,923 líneas)
 
-| Archivo | Líneas | Función |
-|---|---:|---|
-| `UIManager.cs` | 430 | Orquestador de 6 sub-controladores |
-| `UIModeController.cs` | 561 | 3 modos (Inspect/Analyze/Studio) con cards + sub-paneles |
-| `UIDetailsSheet.cs` | 354 | Bottom sheet con drag-to-dismiss + 12 campos de datos |
-| `UIHeroController.cs` | 188 | Landing screen + 3 submenús |
-| `UIAnalyzePanel.cs` | 102 | 7 botones de modo shader |
-| `UICrossSectionPanel.cs` | 249 | Control dual-plane con FIFO deselection |
-| `UIEnvironmentPanel.cs` | 115 | Sliders de luz + presets |
-| `HotspotManager.cs` | 96 | Spawn y gestión de SmartHotspots |
-| `SmartHotspot.cs` | 160 | Hotspot 3D→2D con occlusion staggered |
-| `AssemblyStepUI.cs` | 310 | Panel lateral de guía de ensamblaje |
-| `PartCatalogUI.cs` | 243 | Panel izquierdo de catálogo filtrable |
-| `SettingsPanel.cs` | 148 | Modal de configuración (audio + accesibilidad) |
-| `LoadingController.cs` | 112 | Overlay de carga con progreso suavizado |
-| `TooltipSystem.cs` | 80 | Tooltip flotante que sigue el cursor |
-| `SceneTransitionManager.cs` | 116 | Fade in/out + crossfade |
-| `EnhancedInfoPanel.cs` | 272 | Panel de información detallada de parte |
-| `DetailsPanelController.cs` | 56 | Controller UXML-driven ligero |
-| `UIAnimator.cs` | 56 | Fade in/out por corrutina |
-| `UIConstants.cs` | 28 | Constantes de nombres UXML auto-generadas |
+| Archivo                     | Líneas | Función                                                  |
+| --------------------------- | -----: | -------------------------------------------------------- |
+| `UIManager.cs`              |    430 | Orquestador de 6 sub-controladores                       |
+| `UIModeController.cs`       |    561 | 3 modos (Inspect/Analyze/Studio) con cards + sub-paneles |
+| `UIDetailsSheet.cs`         |    354 | Bottom sheet con drag-to-dismiss + 12 campos de datos    |
+| `UIHeroController.cs`       |    188 | Landing screen + 3 submenús                              |
+| `UIAnalyzePanel.cs`         |    102 | 7 botones de modo shader                                 |
+| `UICrossSectionPanel.cs`    |    249 | Control dual-plane con FIFO deselection                  |
+| `UIEnvironmentPanel.cs`     |    115 | Sliders de luz + presets                                 |
+| `HotspotManager.cs`         |     96 | Spawn y gestión de SmartHotspots                         |
+| `SmartHotspot.cs`           |    160 | Hotspot 3D→2D con occlusion staggered                    |
+| `AssemblyStepUI.cs`         |    310 | Panel lateral de guía de ensamblaje                      |
+| `PartCatalogUI.cs`          |    243 | Panel izquierdo de catálogo filtrable                    |
+| `SettingsPanel.cs`          |    148 | Modal de configuración (audio + accesibilidad)           |
+| `LoadingController.cs`      |    112 | Overlay de carga con progreso suavizado                  |
+| `TooltipSystem.cs`          |     80 | Tooltip flotante que sigue el cursor                     |
+| `SceneTransitionManager.cs` |    116 | Fade in/out + crossfade                                  |
+| `EnhancedInfoPanel.cs`      |    272 | Panel de información detallada de parte                  |
+| `DetailsPanelController.cs` |     56 | Controller UXML-driven ligero                            |
+| `UIAnimator.cs`             |     56 | Fade in/out por corrutina                                |
+| `UIConstants.cs`            |     28 | Constantes de nombres UXML auto-generadas                |
 
 ### 16.8 Archivos Deprecados
 
-| Archivo | Líneas | Estado |
-|---|---:|---|
-| `EngineerToolbar.cs` | 171 | `[Obsolete]` — Reemplazado por sistema de 3 modos (Phase 2) |
-| `ViewModeToolbar.cs` | 182 | `[Obsolete]` — Reemplazado por `UIModeController + UIAnalyzePanel` |
+| Archivo              | Líneas | Estado                                                             |
+| -------------------- | -----: | ------------------------------------------------------------------ |
+| `EngineerToolbar.cs` |    171 | `[Obsolete]` — Reemplazado por sistema de 3 modos (Phase 2)        |
+| `ViewModeToolbar.cs` |    182 | `[Obsolete]` — Reemplazado por `UIModeController + UIAnalyzePanel` |
 
 ### 16.9 Shaders (9 archivos, ~1,544 líneas)
 
-| Archivo | Líneas | Técnica |
-|---|---:|---|
-| `ClippableLit.shader` | 253 | PBR URP + dual clip + edge color |
-| `Blueprint.shader` | 225 | Fresnel + dual grid + outline |
-| `SolidColor.shader` | 281 | Blinn-Phong + outline + shadow |
-| `Wireframe.shader` | 255 | Geometry shader + fallback SubShader |
-| `XRay.shader` | 210 | Dual-pass Z-fail/Z-pass + fresnel |
-| `Thermal.shader` | 192 | Noise + 4-gradient + scanlines |
-| `WireframeWebGL.shader` | 132 | Fresnel + UV grid (sin geometry) |
-| `Ghosted.shader` | 135 | Fresnel alpha + depth fade |
-| `AnimatedGradientSkybox.shader` | 68 | Radial gradient + pulse (CG legacy) |
+| Archivo                         | Líneas | Técnica                              |
+| ------------------------------- | -----: | ------------------------------------ |
+| `ClippableLit.shader`           |    253 | PBR URP + dual clip + edge color     |
+| `Blueprint.shader`              |    225 | Fresnel + dual grid + outline        |
+| `SolidColor.shader`             |    281 | Blinn-Phong + outline + shadow       |
+| `Wireframe.shader`              |    255 | Geometry shader + fallback SubShader |
+| `XRay.shader`                   |    210 | Dual-pass Z-fail/Z-pass + fresnel    |
+| `Thermal.shader`                |    192 | Noise + 4-gradient + scanlines       |
+| `WireframeWebGL.shader`         |    132 | Fresnel + UV grid (sin geometry)     |
+| `Ghosted.shader`                |    135 | Fresnel alpha + depth fade           |
+| `AnimatedGradientSkybox.shader` |     68 | Radial gradient + pulse (CG legacy)  |
 
 ### 16.10 UXML/CSS
 
-| Archivo | Líneas | Contenido |
-|---|---:|---|
-| `MainLayout.uxml` | 353 | Layout principal completo de la aplicación |
-| `IconGallery.uxml` | 71 | Galería de iconos procedurales (debug/editor) |
-| `Theme.uss` | — | Estilos CSS (referenciado, no contabilizado) |
+| Archivo            | Líneas | Contenido                                     |
+| ------------------ | -----: | --------------------------------------------- |
+| `MainLayout.uxml`  |    353 | Layout principal completo de la aplicación    |
+| `IconGallery.uxml` |     71 | Galería de iconos procedurales (debug/editor) |
+| `Theme.uss`        |      — | Estilos CSS (referenciado, no contabilizado)  |
 
 ---
 
-*Documento generado como parte de la documentación técnica del proyecto de grado.*  
-*Rama: `feature/phase2-ux-redesign` — Febrero 2026*
+_Documento generado como parte de la documentación técnica del proyecto de grado._  
+_Rama: `feature/phase2-ux-redesign` — Febrero 2026_
