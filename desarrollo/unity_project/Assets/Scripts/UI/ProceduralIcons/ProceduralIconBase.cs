@@ -47,8 +47,6 @@ namespace WebGL.UI.ProceduralIcons
 
         private void OnAttachedToPanel(AttachToPanelEvent evt)
         {
-            // For better UX, if this icon is inside a Button (like the 148x148 cards), 
-            // we want the icon to react when ANY part of the button is hovered/clicked.
             var parentBtn = this.GetFirstAncestorOfType<Button>();
             if (parentBtn != null)
             {
@@ -59,11 +57,29 @@ namespace WebGL.UI.ProceduralIcons
             }
             else
             {
-                // Fallback to self
                 RegisterCallback<PointerEnterEvent>(OnPointerEnter);
                 RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
                 RegisterCallback<PointerDownEvent>(OnPointerDown);
                 RegisterCallback<PointerUpEvent>(OnPointerUp);
+            }
+        }
+
+        private void OnDetachedFromPanel(DetachFromPanelEvent evt)
+        {
+            var parentBtn = this.GetFirstAncestorOfType<Button>();
+            if (parentBtn != null)
+            {
+                parentBtn.UnregisterCallback<PointerEnterEvent>(OnPointerEnter);
+                parentBtn.UnregisterCallback<PointerLeaveEvent>(OnPointerLeave);
+                parentBtn.UnregisterCallback<PointerDownEvent>(OnPointerDown);
+                parentBtn.UnregisterCallback<PointerUpEvent>(OnPointerUp);
+            }
+            else
+            {
+                UnregisterCallback<PointerEnterEvent>(OnPointerEnter);
+                UnregisterCallback<PointerLeaveEvent>(OnPointerLeave);
+                UnregisterCallback<PointerDownEvent>(OnPointerDown);
+                UnregisterCallback<PointerUpEvent>(OnPointerUp);
             }
         }
 
