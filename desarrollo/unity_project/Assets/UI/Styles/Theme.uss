@@ -942,45 +942,52 @@
 
 .glass-slider .unity-base-slider__input {
     overflow: visible;
+    flex-grow: 1;
+    align-self: stretch;   /* fill parent height so drag-container inherits it */
 }
 
 .glass-slider #unity-drag-container {
+    /* UI Toolkit uses Yoga layout, NOT CSS.
+       In Yoga, align-items/justify-content DO affect position:absolute children
+       on axes where top/bottom/left/right are NOT explicitly set.
+       Both axes centered → dragger & tracker are centered regardless of
+       whether drag-container flex-direction is row or column. */
+    flex-grow: 1;
     height: 100%;
+    align-items: center;
     justify-content: center;
-    align-items: flex-start;
     overflow: visible;
 }
 
 .glass-slider .unity-base-slider__tracker {
-    background-color: rgba(255, 255, 255, 0.12);
+    /* Absolute like Unity's default — out of flow, doesn't push dragger.
+       left:0 + right:0 → fills parent width.
+       NO top/margin-top — vertically centered by parent's Yoga alignment. */
+    position: absolute;
+    left: 0;
+    right: 0;
     height: 3px;
     border-radius: 2px;
     border-width: 0;
-    top: 50%;
-    margin-top: -1px;
+    background-color: rgba(255, 255, 255, 0.12);
 }
 
 .glass-slider .unity-base-slider__dragger {
-    /* MUST be absolute so top/left define BOTH visual AND hit-test position.
-       With position:relative (UI Toolkit default), top/left are visual-only
-       offsets — the hit-test rect stays at the flex layout origin (0,0). */
+    /* Absolute like Unity's default — BaseSlider C# sets style.left to
+       position horizontally (overrides Yoga alignment on that axis).
+       NO top/margin-top — vertically centered by the parent's
+       align-items:center / justify-content:center (Yoga handles this
+       for absolute children when top/bottom are unset). */
     position: absolute;
     width: 28px;
     height: 28px;
-    /* Vertical centering: top:50% positions top edge at parent midpoint,
-       margin-top:-14px shifts up by half-height. Both affect layout rect
-       because position is absolute. Horizontally, Unity C# sets style.left
-       which also affects layout rect with position:absolute. */
-    top: 50%;
-    margin-top: -14px;
-    
     border-radius: 50%;
-    
+
     /* Normal state: black fill + white stroke */
     background-color: rgb(0, 0, 0);
     border-color: rgba(255, 255, 255, 0.8);
     border-width: 2px;
-    
+
     transition-property: background-color, border-color, border-width, scale;
     transition-duration: 0.15s;
 }
