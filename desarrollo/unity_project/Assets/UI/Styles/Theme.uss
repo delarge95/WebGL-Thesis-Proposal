@@ -956,33 +956,32 @@
 }
 
 .glass-slider .unity-base-slider__dragger {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background-color: transparent;
+    /* BEST APPROACH: Use the built-in scale but keep hitbox large (32px box) */
+    width: 32px;
+    height: 32px;
+    margin-top: -16px;
     border-width: 2px;
-    border-color: rgb(255, 255, 255);
+    border-color: rgb(255,255,255);
+    background-color: transparent;
+    scale: 0.75; /* Visually 24px (32 * 0.75) */
+    border-radius: 50%;
     top: 50%;
-    margin-top: -12px;
-    transition-property: scale, background-color, border-color, width, height, margin-top;
+    transition-property: scale, background-color, border-color, border-width;
     transition-duration: 0.15s;
 }
 
 .glass-slider .unity-base-slider__dragger:hover {
-    width: 32px;
-    height: 32px;
-    margin-top: -16px;
+    scale: 1.0; /* Visually 32px */
     background-color: rgb(255, 255, 255);
-    border-color: rgb(255, 255, 255);
+    border-width: 0px; /* Solid circle */
 }
 
 .glass-slider .unity-base-slider__dragger:focus,
 .glass-slider .unity-base-slider__dragger:active {
-    width: 32px;
-    height: 32px;
-    margin-top: -16px;
+    scale: 0.6; /* Small solid circle visually ~19px */
     background-color: rgba(0, 170, 255, 1);
     border-color: rgba(0, 170, 255, 1);
+    border-width: 0px;
 }
 
 /* ────────────────────────────────────────────────
