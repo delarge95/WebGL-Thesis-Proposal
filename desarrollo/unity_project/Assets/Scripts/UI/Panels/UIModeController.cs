@@ -69,6 +69,7 @@ namespace WebGL.UI.Panels
         public event System.Action OnInfoToggleRequested;
         public event System.Action OnIsolateToggleRequested;
         public event System.Action OnExplodeToggleRequested;
+        public event System.Action OnAnyModeActivated; // Notifies others to close
 
         // ── Cleanup ──
         private readonly List<System.Action> _cleanupActions = new List<System.Action>();
@@ -136,25 +137,31 @@ namespace WebGL.UI.Panels
         //  Mode Button Binding (Two-Level Navigation)
         // ═══════════════════════════════════════════════════════
 
+        private void DelayAction(System.Action action)
+        {
+            if (_root == null) action();
+            else _root.schedule.Execute(action).StartingIn(150);
+        }
+
         private void BindModeButtons()
         {
             if (_modeToolsBtn != null)
             {
-                System.Action onTools = () => HandleModeBtnClick(ActiveMode.Tools);
+                System.Action onTools = () => DelayAction(() => HandleModeBtnClick(ActiveMode.Tools));
                 _modeToolsBtn.clicked += onTools;
                 AddCleanup(() => _modeToolsBtn.clicked -= onTools);
             }
 
             if (_modeAnalyzeBtn != null)
             {
-                System.Action onAnalyze = () => HandleModeBtnClick(ActiveMode.Analyze);
+                System.Action onAnalyze = () => DelayAction(() => HandleModeBtnClick(ActiveMode.Analyze));
                 _modeAnalyzeBtn.clicked += onAnalyze;
                 AddCleanup(() => _modeAnalyzeBtn.clicked -= onAnalyze);
             }
 
             if (_modeStudioBtn != null)
             {
-                System.Action onStudio = () => HandleModeBtnClick(ActiveMode.Studio);
+                System.Action onStudio = () => DelayAction(() => HandleModeBtnClick(ActiveMode.Studio));
                 _modeStudioBtn.clicked += onStudio;
                 AddCleanup(() => _modeStudioBtn.clicked -= onStudio);
             }
@@ -196,8 +203,7 @@ namespace WebGL.UI.Panels
             {
                 System.Action onInfo = () =>
                 {
-                    OnInfoToggleRequested?.Invoke();
-                    // Visual state managed by UIManager through SetSheetOpenState
+                    DelayAction(() => OnInfoToggleRequested?.Invoke());
                 };
                 _toolInfoBtn.clicked += onInfo;
                 AddCleanup(() => _toolInfoBtn.clicked -= onInfo);
@@ -207,7 +213,7 @@ namespace WebGL.UI.Panels
             if (_toolHotspotBtn != null)
             {
                 _toolHotspotBtn.EnableInClassList("submenu-card--active", _hotspotsEnabled);
-                System.Action onHotspot = () => ToggleHotspots();
+                System.Action onHotspot = () => DelayAction(() => ToggleHotspots());
                 _toolHotspotBtn.clicked += onHotspot;
                 AddCleanup(() => _toolHotspotBtn.clicked -= onHotspot);
             }
@@ -217,7 +223,7 @@ namespace WebGL.UI.Panels
             {
                 System.Action onIsolate = () =>
                 {
-                    OnIsolateToggleRequested?.Invoke();
+                    DelayAction(() => OnIsolateToggleRequested?.Invoke());
                 };
                 _toolIsolateBtn.clicked += onIsolate;
                 AddCleanup(() => _toolIsolateBtn.clicked -= onIsolate);
@@ -232,21 +238,21 @@ namespace WebGL.UI.Panels
         {
             if (_analyzeCrossSectionBtn != null)
             {
-                System.Action onCross = () => NavigateToSubPanel(ActiveMode.Analyze, "cross-section");
+                System.Action onCross = () => DelayAction(() => NavigateToSubPanel(ActiveMode.Analyze, "cross-section"));
                 _analyzeCrossSectionBtn.clicked += onCross;
                 AddCleanup(() => _analyzeCrossSectionBtn.clicked -= onCross);
             }
 
             if (_analyzeExplodeBtn != null)
             {
-                System.Action onExplode = () => NavigateToSubPanel(ActiveMode.Analyze, "explode");
+                System.Action onExplode = () => DelayAction(() => NavigateToSubPanel(ActiveMode.Analyze, "explode"));
                 _analyzeExplodeBtn.clicked += onExplode;
                 AddCleanup(() => _analyzeExplodeBtn.clicked -= onExplode);
             }
 
             if (_analyzeFilterBtn != null)
             {
-                System.Action onFilter = () => NavigateToSubPanel(ActiveMode.Analyze, "filter");
+                System.Action onFilter = () => DelayAction(() => NavigateToSubPanel(ActiveMode.Analyze, "filter"));
                 _analyzeFilterBtn.clicked += onFilter;
                 AddCleanup(() => _analyzeFilterBtn.clicked -= onFilter);
             }
@@ -263,6 +269,7 @@ namespace WebGL.UI.Panels
             UpdateContainerVisibility();
             UpdateModeButtonStates();
             SyncAppState();
+            OnAnyModeActivated?.Invoke();
 
             if (mode == ActiveMode.Analyze)
             {
@@ -376,6 +383,11 @@ namespace WebGL.UI.Panels
             _isSheetOpen = isOpen;
             // Update Info card highlight in Inspect mode
             _toolInfoBtn?.EnableInClassList("submenu-card--active", isOpen);
+
+            if (isOpen && _activeMode != ActiveMode.Tools)
+            {
+                DeactivateAllModes();
+            }
         }
 
         public void ToggleHotspots()
