@@ -940,10 +940,15 @@
     align-items: center;
 }
 
+.glass-slider .unity-base-slider__input {
+    overflow: visible;
+}
+
 .glass-slider #unity-drag-container {
     height: 100%;
     justify-content: center;
     align-items: flex-start;
+    overflow: visible;
 }
 
 .glass-slider .unity-base-slider__tracker {
@@ -959,7 +964,11 @@
     /* Fixed size — never change width/height to avoid hitbox desync */
     width: 28px;
     height: 28px;
+    /* Center the dragger on the value position:
+       margin-top: -halfHeight centers vertically on track
+       margin-left: -halfWidth centers horizontally on value */
     margin-top: -14px;
+    margin-left: -14px;
     
     border-radius: 50%;
     
@@ -981,9 +990,9 @@
     border-width: 0px;
 }
 
-.glass-slider .unity-base-slider__dragger:focus,
-.glass-slider .unity-base-slider__dragger:active {
-    /* Active/click: accent blue */
+.glass-slider .unity-base-slider__dragger:active,
+.glass-slider:focus .unity-base-slider__dragger {
+    /* Active/click: accent blue fill */
     scale: 0.95;
     background-color: rgba(70, 175, 255, 1);
     border-color: rgba(70, 175, 255, 1);
