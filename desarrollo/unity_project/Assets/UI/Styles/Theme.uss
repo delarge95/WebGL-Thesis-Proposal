@@ -956,26 +956,33 @@
 }
 
 .glass-slider .unity-base-slider__dragger {
-    width: 44px;
-    height: 44px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    background-color: rgb(255, 255, 255);
+    background-color: transparent;
     border-width: 2px;
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: rgb(255, 255, 255);
     top: 50%;
-    margin-top: -22px;
-    transition-property: scale, background-color;
+    margin-top: -12px;
+    transition-property: scale, background-color, border-color, width, height, margin-top;
     transition-duration: 0.15s;
 }
 
 .glass-slider .unity-base-slider__dragger:hover {
-    scale: 1.16;
-    background-color: rgba(255, 255, 255, 0.85);
-    border-color: white;
+    width: 32px;
+    height: 32px;
+    margin-top: -16px;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(255, 255, 255);
 }
 
-.glass-slider .unity-base-slider__dragger:focus {
-    border-color: white;
+.glass-slider .unity-base-slider__dragger:focus,
+.glass-slider .unity-base-slider__dragger:active {
+    width: 32px;
+    height: 32px;
+    margin-top: -16px;
+    background-color: rgba(0, 170, 255, 1);
+    border-color: rgba(0, 170, 255, 1);
 }
 
 /* ────────────────────────────────────────────────
