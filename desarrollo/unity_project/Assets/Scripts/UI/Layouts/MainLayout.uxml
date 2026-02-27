@@ -171,7 +171,7 @@
                 <ui:VisualElement name="ExplodeSubPanel" class="mode-submenu submenu--hidden" picking-mode="Position">
                     <ui:Label text="EXPLODED VIEW" class="submenu-title" picking-mode="Ignore"/>
                     <ui:VisualElement name="SliderContainer" class="env-slider-group" picking-mode="Position">
-                        <ui:Label text="EXPLODE" class="env-slider-label" picking-mode="Ignore" />
+                        <ui:Label text="EXPLODE" class="env-slider-label" picking-mode="Position" />
                         <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider env-slider" picking-mode="Position" />
                     </ui:VisualElement>
                 </ui:VisualElement>
@@ -262,12 +262,12 @@
                     </ui:VisualElement>
 
                     <!-- Sliders -->
-                    <ui:VisualElement class="env-slider-group">
-                        <ui:Label text="ROTATION" class="env-slider-label" picking-mode="Ignore" />
+                    <ui:VisualElement class="env-slider-group" picking-mode="Position">
+                        <ui:Label text="ROTATION" class="env-slider-label" picking-mode="Position" />
                         <ui:Slider name="EnvLightRotation" low-value="0" high-value="360" value="45" class="glass-slider env-slider" picking-mode="Position" />
                     </ui:VisualElement>
-                    <ui:VisualElement class="env-slider-group">
-                        <ui:Label text="INTENSITY" class="env-slider-label" picking-mode="Ignore" />
+                    <ui:VisualElement class="env-slider-group" picking-mode="Position">
+                        <ui:Label text="INTENSITY" class="env-slider-label" picking-mode="Position" />
                         <ui:Slider name="EnvLightIntensity" low-value="0.1" high-value="3" value="1" class="glass-slider env-slider" picking-mode="Position" />
                     </ui:VisualElement>
                 </ui:VisualElement>
