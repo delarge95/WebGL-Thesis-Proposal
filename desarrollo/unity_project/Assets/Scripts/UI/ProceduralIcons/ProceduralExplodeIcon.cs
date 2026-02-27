@@ -7,8 +7,8 @@ namespace WebGL.UI.ProceduralIcons
     public partial class ProceduralExplodeIcon : ProceduralIconBase
     {
         // Spread between layers
-        private float targetSpreadY = 4f;
-        private float currentSpreadY = 4f;
+        private float targetSpreadY = 10f;
+        private float currentSpreadY = 10f;
         private float spreadVelocity = 0f;
 
         // Overall scale squash on click
@@ -23,8 +23,8 @@ namespace WebGL.UI.ProceduralIcons
         {
             if (!isExploding)
             {
-                // Exaggerated separation on hover
-                targetSpreadY = 10f; 
+                // Layers join together on hover
+                targetSpreadY = 4f; 
             }
         }
 
@@ -32,8 +32,8 @@ namespace WebGL.UI.ProceduralIcons
         {
             if (!isExploding)
             {
-                // Noticeable base separation
-                targetSpreadY = 4f; 
+                // Normal state: layers are separated
+                targetSpreadY = 10f; 
             }
         }
 
@@ -60,7 +60,7 @@ namespace WebGL.UI.ProceduralIcons
                 if (currentSpreadY >= 17f)
                 {
                     isExploding = false;
-                    targetSpreadY = isHovered ? 10f : 4f;
+                    targetSpreadY = isHovered ? 4f : 10f;
                     targetGroupScale = 1f;
                 }
             }
