@@ -50,17 +50,19 @@ namespace WebGL.UI.ProceduralIcons
             var parentBtn = this.GetFirstAncestorOfType<Button>();
             if (parentBtn != null)
             {
-                parentBtn.RegisterCallback<PointerEnterEvent>(OnPointerEnter);
-                parentBtn.RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
-                parentBtn.RegisterCallback<PointerDownEvent>(OnPointerDown);
-                parentBtn.RegisterCallback<PointerUpEvent>(OnPointerUp);
+                // UI Toolkit Buttons consume pointer events by default.
+                // We use TrickleDown (Capture phase) to intercept the hover/click BEFORE the button eats it.
+                parentBtn.RegisterCallback<PointerEnterEvent>(OnPointerEnter, TrickleDown.TrickleDown);
+                parentBtn.RegisterCallback<PointerLeaveEvent>(OnPointerLeave, TrickleDown.TrickleDown);
+                parentBtn.RegisterCallback<PointerDownEvent>(OnPointerDown, TrickleDown.TrickleDown);
+                parentBtn.RegisterCallback<PointerUpEvent>(OnPointerUp, TrickleDown.TrickleDown);
             }
             else
             {
-                RegisterCallback<PointerEnterEvent>(OnPointerEnter);
-                RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
-                RegisterCallback<PointerDownEvent>(OnPointerDown);
-                RegisterCallback<PointerUpEvent>(OnPointerUp);
+                RegisterCallback<PointerEnterEvent>(OnPointerEnter, TrickleDown.TrickleDown);
+                RegisterCallback<PointerLeaveEvent>(OnPointerLeave, TrickleDown.TrickleDown);
+                RegisterCallback<PointerDownEvent>(OnPointerDown, TrickleDown.TrickleDown);
+                RegisterCallback<PointerUpEvent>(OnPointerUp, TrickleDown.TrickleDown);
             }
         }
 
@@ -69,17 +71,17 @@ namespace WebGL.UI.ProceduralIcons
             var parentBtn = this.GetFirstAncestorOfType<Button>();
             if (parentBtn != null)
             {
-                parentBtn.UnregisterCallback<PointerEnterEvent>(OnPointerEnter);
-                parentBtn.UnregisterCallback<PointerLeaveEvent>(OnPointerLeave);
-                parentBtn.UnregisterCallback<PointerDownEvent>(OnPointerDown);
-                parentBtn.UnregisterCallback<PointerUpEvent>(OnPointerUp);
+                parentBtn.UnregisterCallback<PointerEnterEvent>(OnPointerEnter, TrickleDown.TrickleDown);
+                parentBtn.UnregisterCallback<PointerLeaveEvent>(OnPointerLeave, TrickleDown.TrickleDown);
+                parentBtn.UnregisterCallback<PointerDownEvent>(OnPointerDown, TrickleDown.TrickleDown);
+                parentBtn.UnregisterCallback<PointerUpEvent>(OnPointerUp, TrickleDown.TrickleDown);
             }
             else
             {
-                UnregisterCallback<PointerEnterEvent>(OnPointerEnter);
-                UnregisterCallback<PointerLeaveEvent>(OnPointerLeave);
-                UnregisterCallback<PointerDownEvent>(OnPointerDown);
-                UnregisterCallback<PointerUpEvent>(OnPointerUp);
+                UnregisterCallback<PointerEnterEvent>(OnPointerEnter, TrickleDown.TrickleDown);
+                UnregisterCallback<PointerLeaveEvent>(OnPointerLeave, TrickleDown.TrickleDown);
+                UnregisterCallback<PointerDownEvent>(OnPointerDown, TrickleDown.TrickleDown);
+                UnregisterCallback<PointerUpEvent>(OnPointerUp, TrickleDown.TrickleDown);
             }
         }
 
