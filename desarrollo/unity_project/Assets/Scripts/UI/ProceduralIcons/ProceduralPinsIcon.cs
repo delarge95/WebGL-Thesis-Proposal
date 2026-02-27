@@ -67,14 +67,14 @@ namespace WebGL.UI.ProceduralIcons
 
             if (isPlanting)
             {
-                currentPinY = Mathf.Lerp(currentPinY, targetPinY, dt * 60f); // Violent slam
+                currentPinY = Mathf.Lerp(currentPinY, targetPinY, dt * 25f); // Slower slam
             }
             else
             {
-                currentPinY = SpringFloat(currentPinY, targetPinY, ref pinVelocity, 25f, 0.55f, dt); // Bouncy float
+                currentPinY = SpringFloat(currentPinY, targetPinY, ref pinVelocity, 15f, 0.6f, dt); // Slower bouncy float
             }
 
-            currentGroundW = Mathf.Lerp(currentGroundW, targetGroundW, dt * 20f);
+            currentGroundW = Mathf.Lerp(currentGroundW, targetGroundW, dt * 12f);
 
             if (Mathf.Abs(currentPinY - oldY) > 0.05f || 
                 Mathf.Abs(currentGroundW - oldGW) > 0.01f)

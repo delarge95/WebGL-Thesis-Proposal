@@ -59,7 +59,7 @@ namespace WebGL.UI.Panels
         private ActiveMode _activeMode = ActiveMode.None;
         private SubLevel _analyzeLevel = SubLevel.CardGrid;
         private string _analyzeActivePanel = null; // "cross-section" | "explode" | "filter" | null
-        private bool _hotspotsEnabled = false;
+        private bool _hotspotsEnabled = true;
         private bool _isSheetOpen = false;
         private bool _isExploded = false;
         private bool _isIsolated = false;
@@ -206,6 +206,7 @@ namespace WebGL.UI.Panels
             // Pins card — immediate toggle
             if (_toolHotspotBtn != null)
             {
+                _toolHotspotBtn.EnableInClassList("submenu-card--active", _hotspotsEnabled);
                 System.Action onHotspot = () => ToggleHotspots();
                 _toolHotspotBtn.clicked += onHotspot;
                 AddCleanup(() => _toolHotspotBtn.clicked -= onHotspot);
