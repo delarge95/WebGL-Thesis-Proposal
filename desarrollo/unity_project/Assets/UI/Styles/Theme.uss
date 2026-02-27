@@ -956,32 +956,51 @@
 }
 
 .glass-slider .unity-base-slider__dragger {
-    /* BEST APPROACH: Use the built-in scale but keep hitbox large (32px box) */
-    width: 32px;
-    height: 32px;
-    margin-top: -16px;
-    border-width: 2px;
-    border-color: rgb(255,255,255);
-    background-color: transparent;
-    scale: 0.75; /* Visually 24px (32 * 0.75) */
+    /* Pure absolute sizing to prevent UI Toolkit anchoring offsets */
+    width: 24px;
+    height: 24px;
+    margin-top: -12px;
+    
     border-radius: 50%;
+    
+    /* Hollow center */
+    background-color: transparent;
+    border-color: rgb(255, 255, 255);
+    border-width: 2px;
+    
     top: 50%;
-    transition-property: scale, background-color, border-color, border-width;
+    /* Note: scale and margin alterations often detach draggers from their real 
+       hitbox track. We only animate visual properties, keeping size stable if possible. 
+       Or expand uniformly via width/height and margin-top. */
+    transition-property: width, height, margin-top, background-color, border-color, border-width;
     transition-duration: 0.15s;
 }
 
 .glass-slider .unity-base-slider__dragger:hover {
-    scale: 1.0; /* Visually 32px */
+    /* Grow physically outwards, compensating with top margin */
+    width: 32px;
+    height: 32px;
+    margin-top: -16px;
     background-color: rgb(255, 255, 255);
-    border-width: 0px; /* Solid circle */
+    border-color: rgb(255, 255, 255);
+    border-width: 0px; 
 }
 
 .glass-slider .unity-base-slider__dragger:focus,
 .glass-slider .unity-base-slider__dragger:active {
-    scale: 0.6; /* Small solid circle visually ~19px */
+    /* Shrink physically */
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    
+    /* The blue you asked for. UI Toolkit sometimes applies hover OVER active,
+       so we force the color and drop the border. */
     background-color: rgba(0, 170, 255, 1);
     border-color: rgba(0, 170, 255, 1);
     border-width: 0px;
+    
+    /* Optional: cut transition to make the click feel instantaneous and avoid white flash */
+    transition-duration: 0.05s;
 }
 
 /* ────────────────────────────────────────────────
