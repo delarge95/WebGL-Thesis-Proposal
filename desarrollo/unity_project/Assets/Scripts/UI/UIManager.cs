@@ -79,6 +79,10 @@ namespace WebGL.UI
 
         private void OnDisable()
         {
+            // Pre-clear dynamic VisualElements before UIDocument teardown
+            // to prevent "Cannot modify hierarchy during layout" errors (Unity 6 known issue).
+            HotspotManager.Instance?.ClearHotspots();
+
             UnsubscribeFromEvents();
             UnsubscribeFromUIEvents();
         }
