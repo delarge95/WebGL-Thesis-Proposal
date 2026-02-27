@@ -52,6 +52,15 @@ public class HotspotManager : Singleton<HotspotManager>
         _activeHotspots.Add(hotspot);
     }
 
+    /// <summary>
+    /// Pre-clear dynamic VisualElements before UIDocument teardown
+    /// to prevent "Cannot modify hierarchy during layout" errors (Unity 6 known issue).
+    /// </summary>
+    private void OnDisable()
+    {
+        ClearHotspots();
+    }
+
     private void LateUpdate()
     {
         if (_container == null) return;

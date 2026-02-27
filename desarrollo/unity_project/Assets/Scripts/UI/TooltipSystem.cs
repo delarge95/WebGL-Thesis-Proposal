@@ -75,5 +75,20 @@ namespace WebGL.UI
                 tooltipContainer.style.display = DisplayStyle.None;
             }
         }
+
+        /// <summary>
+        /// Pre-remove dynamic tooltip element before UIDocument teardown
+        /// to prevent "Cannot modify hierarchy during layout" errors (Unity 6 known issue).
+        /// </summary>
+        private void OnDisable()
+        {
+            if (tooltipContainer != null)
+            {
+                try { tooltipContainer.parent?.Remove(tooltipContainer); }
+                catch (System.InvalidOperationException) { /* Safe to ignore during teardown */ }
+                tooltipContainer = null;
+                tooltipLabel = null;
+            }
+        }
     }
 }

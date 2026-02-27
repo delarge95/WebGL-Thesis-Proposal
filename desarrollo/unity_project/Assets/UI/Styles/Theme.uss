@@ -242,7 +242,7 @@
 }
 
 .mode-btn--active .mode-btn-icon {
-    -unity-background-tint-color: rgba(0, 170, 255, 1);
+    -unity-background-image-tint-color: rgba(0, 170, 255, 1);
 }
 
 .mode-btn--active:hover {
@@ -368,7 +368,7 @@
 }
 
 .mode-action-btn--active .mode-action-icon {
-    -unity-background-tint-color: rgba(0, 170, 255, 1);
+    -unity-background-image-tint-color: rgba(0, 170, 255, 1);
 }
 
 .mode-action-btn--active:hover {
@@ -1313,7 +1313,6 @@
 
 .popup-blocker--hidden {
     display: none;
-    picking-mode: ignore;
 }
 
 /* ────────────────────────────────────────────────
@@ -1357,7 +1356,6 @@
 
 .about-panel--hidden {
     display: none;
-    picking-mode: ignore;
 }
 
 .about-title {

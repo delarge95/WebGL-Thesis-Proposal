@@ -184,6 +184,9 @@ public class SmartHotspot
         _root.UnregisterCallback<PointerEnterEvent>(OnPointerEnter);
         _root.UnregisterCallback<PointerLeaveEvent>(OnPointerLeave);
         _root.UnregisterCallback<ClickEvent>(OnClick);
-        _root.parent?.Remove(_root);
+
+        // Guard against hierarchy modification during layout phase (Unity 6 known issue)
+        try { _root.parent?.Remove(_root); }
+        catch (System.InvalidOperationException) { /* Safe to ignore during teardown */ }
     }
 }
