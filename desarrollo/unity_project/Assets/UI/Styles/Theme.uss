@@ -30,7 +30,7 @@
     flex-grow: 1;
     background-color: rgb(10, 10, 10);
     color: rgb(255, 255, 255);
-    -unity-font-definition: url("/Assets/UI/Fonts/Generated/Inter-Regular SDF.asset");
+    -unity-font-definition: initial;
     -unity-font: resource("Fonts/Inter/Inter-Regular");
     font-size: 24px;
 }
@@ -71,7 +71,7 @@
 
 .hero-title {
     font-size: 64px;
-    -unity-font-definition: url("/Assets/UI/Fonts/Generated/SpaceGrotesk-Regular SDF.asset");
+    -unity-font-definition: initial;
     -unity-font: resource("Fonts/SpaceGrotesk/SpaceGrotesk-Regular");
     -unity-font-style: normal;
     color: white;
@@ -610,7 +610,7 @@
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.15);
     border-radius: 50%;
-    -unity-font-definition: url("/Assets/UI/Fonts/Generated/Inter-Regular SDF.asset");
+    -unity-font-definition: initial;
     -unity-font: resource("Fonts/Inter/Inter-Regular");
     font-size: 20px;
     color: white;
