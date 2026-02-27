@@ -1,8 +1,8 @@
-/* ────────────────────────────────────────────────
-   Smart Hotspots — Professional Polish
+﻿/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Smart Hotspots â€” Professional Polish
    Based on Sketchfab / Automotive Configurator UX
-   8pt Grid · HIG/MD3 Compliant
-   ──────────────────────────────────────────────── */
+   8pt Grid Â· HIG/MD3 Compliant
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .world-space-container {
     position: absolute;
@@ -13,7 +13,7 @@
     picking-mode: ignore;
 }
 
-/* ─── Base Dot ─── */
+/* â”€â”€â”€ Base Dot â”€â”€â”€ */
 .hotspot-dot {
     position: absolute;
     width: 24px;
@@ -40,7 +40,7 @@
     overflow: visible;
 }
 
-/* ─── Hover State ─── */
+/* â”€â”€â”€ Hover State â”€â”€â”€ */
 .hotspot-dot--hover {
     scale: 1.5 1.5;
     background-color: rgba(255, 255, 255, 0.2);
@@ -48,7 +48,7 @@
     border-width: 3px;
 }
 
-/* ─── Active/Selected ─── */
+/* â”€â”€â”€ Active/Selected â”€â”€â”€ */
 .hotspot-dot--active {
     background-color: rgba(255, 255, 255, 0.25);
     border-color: white;
@@ -56,14 +56,14 @@
     scale: 1.3 1.3;
 }
 
-/* ─── Hidden (Smooth Fade) ─── */
+/* â”€â”€â”€ Hidden (Smooth Fade) â”€â”€â”€ */
 .hotspot-dot--hidden {
     opacity: 0;
     scale: 0.3 0.3;
     picking-mode: ignore;
 }
 
-/* ─── Name Label (Tooltip) ─── */
+/* â”€â”€â”€ Name Label (Tooltip) â”€â”€â”€ */
 .hotspot-label {
     position: absolute;
     left: 24px;  /* Right of dot (8pt grid: 24px) */
@@ -71,13 +71,13 @@
     translate: 0 -50%;
 
     /* Glass pill */
-    background-color: rgba(18, 18, 18, 0.92);
+    background-color: rgba(1, 1, 1, 0.92);
     border-radius: 8px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.15);
     padding: 4px 16px;
 
-    /* Typography — 16px min per guide */
+    /* Typography â€” 16px min per guide */
     font-size: 16px;
     color: rgba(255, 255, 255, 0.9);
     -unity-font-style: bold;
@@ -95,7 +95,7 @@
     transition-timing-function: ease-out;
 }
 
-/* ─── Label Visible (on hover) ─── */
+/* â”€â”€â”€ Label Visible (on hover) â”€â”€â”€ */
 .hotspot-label--visible {
     opacity: 1;
     scale: 1 1;

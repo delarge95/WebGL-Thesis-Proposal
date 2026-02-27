@@ -1,34 +1,34 @@
-/* ============================================================
-   WebGL Drone Viewer — Main Theme Stylesheet
-   2026 Futuristic Minimalist · 8pt Grid · HIG/MD3 Compliant
+﻿/* ============================================================
+   WebGL Drone Viewer â€” Main Theme Stylesheet
+   2026 Futuristic Minimalist Â· 8pt Grid Â· HIG/MD3 Compliant
    ============================================================ */
 
 /* Import Modules */
 @import "Hotspots.uss";
 
-/* ────────────────────────────────────────────────
-   Design Tokens (Direct Values — USS has no vars)
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Design Tokens (Direct Values â€” USS has no vars)
    Aligned with web landing page (docs/src/index.css)
    
-   Background:     rgb(5, 5, 5)             #050505
-   Surface:        rgba(18, 18, 18, 0.92)   #121212
+   Background:     rgb(0, 0, 0)             #000000
+   Surface:        rgba(1, 1, 1, 0.92)   #010101
    Primary:        rgb(255, 255, 255)       White (matches web --accent)
    On-Surface:     rgb(255, 255, 255)       White
-   On-Surface-Dim: rgba(255, 255, 255, 0.65) Muted (WCAG 4.5:1 on #0a0a0a)
+   On-Surface-Dim: rgba(255, 255, 255, 0.65) Muted (WCAG 4.5:1 on #000000)
    Border:         rgba(255, 255, 255, 0.1)
    Border-Hover:   rgba(255, 255, 255, 0.2) White
-   Radius-Pill:    half of height (56px→28, 112px→56)
+   Radius-Pill:    half of height (56pxâ†’28, 112pxâ†’56)
    Radius-LG:      24px  (bottom sheet)
    Radius-MD:      16px  (cards, sliders, containers)
    Radius-SM:      12px  (glass panels, sidebar)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Base Root
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .root {
     flex-grow: 1;
-    background-color: rgb(10, 10, 10);
+    background-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
     -unity-font-definition: initial;
     -unity-font: resource("Fonts/Inter/Inter-Regular");
@@ -53,9 +53,9 @@
 
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Hero / Landing Screen
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hero-container {
     position: absolute;
     left: 0;
@@ -64,7 +64,7 @@
     bottom: 0;
     align-items: center;
     justify-content: center;
-    background-color: rgb(10, 10, 10);
+    background-color: rgb(0, 0, 0);
     transition-property: opacity;
     transition-duration: 0.5s;
 }
@@ -86,19 +86,19 @@
     letter-spacing: 0;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Root Container
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .root-container {
     flex-grow: 1;
     background-color: transparent;
     justify-content: space-between;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Top Bar (Header)
    Height: 64px (8pt grid), margin-top: 80px safe area
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .top-bar {
     height: 56px;
     flex-direction: row;
@@ -131,9 +131,9 @@
 
 /* HotspotBtn moved to Category Menu */
 
-/* ────────────────────────────────────────────────
-   Bottom Bar (Controls — Thumb Zone)
-   ──────────────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Bottom Bar (Controls â€” Thumb Zone)
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .bottom-bar {
     position: absolute;
     bottom: 0;
@@ -150,7 +150,7 @@
     transition-timing-function: ease-out;
 }
 
-/* Actions Row — The Unified Glass Pill */
+/* Actions Row â€” The Unified Glass Pill */
 .actions-row {
     flex-direction: row;
     justify-content: center;
@@ -159,7 +159,7 @@
     background-color: transparent;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.3);
-    border-radius: 56px; /* True pill: half of 112px height — matches .btn pill language */
+    border-radius: 56px; /* True pill: half of 112px height â€” matches .btn pill language */
     padding: 0 48px;
     min-width: 480px;
     height: 112px;
@@ -170,9 +170,9 @@
     transition-duration: 0.3s;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Icon Buttons (Inside Pill)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .icon-button {
     width: 64px;
     height: 64px;
@@ -203,9 +203,9 @@
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Mode Buttons (3-Mode System: Explore, Analyze, Studio)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .mode-btn {
     flex-direction: column;
     align-items: center;
@@ -242,7 +242,7 @@
 }
 
 .mode-btn--active .mode-btn-icon {
-    -unity-background-image-tint-color: rgba(0, 170, 255, 1);
+    -unity-background-image-tint-color: rgba(70, 175, 255, 1);
 }
 
 .mode-btn--active:hover {
@@ -265,7 +265,7 @@
 }
 
 .mode-btn--active .mode-btn-label {
-    color: rgba(0, 170, 255, 0.9);
+    color: rgba(70, 175, 255, 0.9);
 }
 
 /* Mode-specific icons */
@@ -274,11 +274,11 @@
 .icon-studio  { background-image: resource("UI/Icons/icon_studio"); }
 .icon-cross-section { background-image: resource("UI/Icons/icon_cross_section"); }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Mode Containers (above bottom bar, contextual tool panels)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .mode-container {
-    /* Now lives INSIDE BottomBar — no absolute positioning */
+    /* Now lives INSIDE BottomBar â€” no absolute positioning */
     flex-direction: column;
     align-items: center;
     align-self: center;
@@ -322,9 +322,9 @@
     transition-timing-function: ease-out;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Mode Action Bar (tool buttons inside each mode container)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .mode-action-bar {
     flex-direction: row;
     align-items: center;
@@ -368,7 +368,7 @@
 }
 
 .mode-action-btn--active .mode-action-icon {
-    -unity-background-image-tint-color: rgba(0, 170, 255, 1);
+    -unity-background-image-tint-color: rgba(70, 175, 255, 1);
 }
 
 .mode-action-btn--active:hover {
@@ -389,14 +389,14 @@
 }
 
 .mode-action-btn--active .mode-action-label {
-    color: rgba(0, 170, 255, 0.9);
+    color: rgba(70, 175, 255, 0.9);
 }
 
 /* Icon references for mode action buttons (removed) */
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Cross-Section Panel (inside Analyze Mode)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .cross-section-panel {
     width: 100%;
     align-items: center;
@@ -464,7 +464,7 @@
 }
 
 .cross-section-axis-btn.submenu-card--active {
-    background-color: rgba(0, 170, 255, 0.12);
+    background-color: rgba(70, 175, 255, 0.12);
     border-width: 0;
 }
 
@@ -476,7 +476,7 @@
 }
 
 .cross-section-axis-btn.submenu-card--active .cross-section-axis-label {
-    color: rgba(0, 170, 255, 0.9);
+    color: rgba(70, 175, 255, 0.9);
 }
 
 .cross-section-slider {
@@ -493,16 +493,16 @@
 
 /* .icon-cross-section handled procedurally */
 
-/* ────────────────────────────────────────────────
-   Icon Buttons (100px — exceeds 48dp minimum)
-   ──────────────────────────────────────────────── */
-/* Old .icon-button styles removed — see above */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Icon Buttons (100px â€” exceeds 48dp minimum)
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Old .icon-button styles removed â€” see above */
 
 /* Specific Buttons Icons */
 /* HomeBtn, ResetViewBtn, HotspotBtn handled procedurally */
 
 /* Phase 2 Cleanup: #ShaderBtn, #LayerBtn, #ExplodeBtn, #InfoBtn, #EnvBtn removed
-   — old 5-button toolbar replaced by 3-mode system (ModeExploreBtn/ModeAnalyzeBtn/ModeStudioBtn) */
+   â€” old 5-button toolbar replaced by 3-mode system (ModeExploreBtn/ModeAnalyzeBtn/ModeStudioBtn) */
 
 /* Hide text when icon is present, or make it minimal */
 .button-icon-text, .button-icon-text-small {
@@ -515,7 +515,7 @@
     /* In Unity 6 this might be slightly different property name depending on version, generic is safe */
 }
 
-/* Small Icon Button (Top Bar — Reset, Home, Hotspot) */
+/* Small Icon Button (Top Bar â€” Reset, Home, Hotspot) */
 .icon-button-small {
     width: 64px;
     height: 64px;
@@ -545,9 +545,9 @@
     color: white;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Selection Label (Below Buttons)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .info-row {
     flex-direction: row;
     justify-content: center;
@@ -562,13 +562,13 @@
     -unity-font-style: bold;
     letter-spacing: 1px;
 
-    background-color: rgba(10, 10, 18, 0.6);
+    background-color: rgba(0, 0, 1, 0.6);
     padding: 8px 16px;
     border-radius: 16px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.06);
 
-    /* Smooth fade — NO display:none */
+    /* Smooth fade â€” NO display:none */
     opacity: 1;
     transition-property: opacity;
     transition-duration: 0.3s;
@@ -580,12 +580,12 @@
 
 }
 
-/* ── Hero Submenus (Full Screen Overlays) ── */
+/* â”€â”€ Hero Submenus (Full Screen Overlays) â”€â”€ */
 .hero-submenu {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: #0a0a0a;
+    background-color: #000000;
     display: none;
     align-items: center;
     justify-content: center;
@@ -631,10 +631,10 @@
     margin-top: 24px;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Bottom Sheet (Details Panel)
    Slides up from bottom. Buttons sit above via z-order.
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .details-sheet {
     position: absolute;
     bottom: 0;
@@ -643,7 +643,7 @@
     min-height: 200px;
     max-height: 55%;
 
-    background-color: rgba(10, 10, 10, 0.96);
+    background-color: rgba(0, 0, 0, 0.96);
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
     border-top-width: 1px;
@@ -745,22 +745,22 @@
     margin-top: 8px;
 }
 
-/* UI Shift on Sheet Expand — moves bottom bar up above the sheet */
+/* UI Shift on Sheet Expand â€” moves bottom bar up above the sheet */
 .ui-shifted {
     bottom: 46%; /* Buttons just above info panel top edge */
     /* No translate needed, we animate bottom property on .bottom-bar */
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Unified Grid Submenus (Shader, Category, etc.)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .submenu-container {
     position: absolute;
     bottom: 300px;
     left: 50%;
     translate: -50% 0;
     
-    background-color: rgba(10, 10, 18, 0.8);
+    background-color: rgba(0, 0, 1, 0.8);
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.06);
     border-radius: 16px;
@@ -831,7 +831,7 @@
 }
 
 .submenu-card--active {
-    background-color: rgba(0, 170, 255, 0.12);
+    background-color: rgba(70, 175, 255, 0.12);
     border-width: 0;
 }
 
@@ -857,7 +857,7 @@
 }
 
 .submenu-card--active .submenu-icon {
-    background-color: rgba(0, 170, 255, 0.2);
+    background-color: rgba(70, 175, 255, 0.2);
     opacity: 1;
 }
 
@@ -876,12 +876,12 @@
 .btn-tag--active {
     background-color: rgb(255, 255, 255);
     border-color: rgb(255, 255, 255);
-    color: rgb(10, 10, 10);
+    color: rgb(0, 0, 0);
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Explosion Slider
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .slider-container {
     position: relative;
     bottom: auto;
@@ -918,7 +918,7 @@
 
 
 
-/* slider-container--shifted-up removed — menus inside BottomBar now */
+/* slider-container--shifted-up removed â€” menus inside BottomBar now */
 
 .slider-label {
     font-size: 18px;
@@ -995,17 +995,17 @@
     
     /* The blue you asked for. UI Toolkit sometimes applies hover OVER active,
        so we force the color and drop the border. */
-    background-color: rgba(0, 170, 255, 1);
-    border-color: rgba(0, 170, 255, 1);
+    background-color: rgba(70, 175, 255, 1);
+    border-color: rgba(70, 175, 255, 1);
     border-width: 0px;
     
     /* Optional: cut transition to make the click feel instantaneous and avoid white flash */
     transition-duration: 0.05s;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Data Grid (Sheet Content)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .data-row {
     flex-direction: row;
     justify-content: space-between;
@@ -1037,11 +1037,11 @@
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Glassmorphic Panel (Reusable)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .glass-panel {
-    background-color: rgba(18, 18, 18, 0.88);
+    background-color: rgba(1, 1, 1, 0.88);
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
     border-radius: 12px;
@@ -1051,13 +1051,13 @@
 }
 
 .glass-panel:hover {
-    background-color: rgba(24, 24, 24, 0.92);
+    background-color: rgba(1, 1, 1, 0.92);
     border-color: rgba(255, 255, 255, 0.15);
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Buttons (Generic)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .btn {
     border-width: 1px;
     border-radius: 28px; /* Pill Radius (Half of Height: 56/2 = 28) - CHANGE CURVATURE HERE */
@@ -1125,9 +1125,9 @@
     width: 100%;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Utility / Tag Dots
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .tag-dot {
     width: 8px;
     height: 8px;
@@ -1139,22 +1139,22 @@
 }
 
 .tag-dot-energy {
-    background-color: rgb(100, 230, 255);
+    background-color: rgb(33, 203, 255);
 }
 
 .tag-dot-mechanical {
     background-color: rgba(255, 255, 255, 0.4);
 }
 
-/* ────────────────────────────────────────────────
-   Sidebar (Desktop — Left Edge)
-   ──────────────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Sidebar (Desktop â€” Left Edge)
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .sidebar {
     position: absolute;
     left: 24px;
     top: 50%;
     translate: 0 -50%;
-    background-color: rgba(18, 18, 18, 0.88);
+    background-color: rgba(1, 1, 1, 0.88);
     border-color: rgba(255, 255, 255, 0.08);
     border-width: 1px;
     border-radius: 12px;
@@ -1173,16 +1173,16 @@
     height: 24px;
 }
 
-/* ────────────────────────────────────────────────
-   Details Panel (Desktop — Right Side)
-   ──────────────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Details Panel (Desktop â€” Right Side)
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .details-panel {
     position: absolute;
     right: 24px;
     top: 152px;
     bottom: 200px;
     width: 600px;
-    background-color: rgba(10, 10, 10, 0.95);
+    background-color: rgba(0, 0, 0, 0.95);
     border-color: rgba(255, 255, 255, 0.08);
     border-width: 1px;
     border-radius: 12px;
@@ -1221,9 +1221,9 @@
     flex-grow: 1;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    HUD Bars
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hud-bar {
     position: absolute;
     left: 0;
@@ -1243,7 +1243,7 @@
 .hud-bottom {
     bottom: 0;
     justify-content: center;
-    background-color: rgba(10, 10, 10, 0.6);
+    background-color: rgba(0, 0, 0, 0.6);
     padding-bottom: 24px;
 }
 
@@ -1254,9 +1254,9 @@
     letter-spacing: 3px;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Misc Text
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .reset-icon-label {
     color: rgba(255, 255, 255, 0.65);
 }
@@ -1268,9 +1268,9 @@
     font-size: 16px;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Assembly Section (Inside Sheet)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .assembly-section {
     margin-top: 16px;
     padding-top: 16px;
@@ -1287,12 +1287,12 @@
 }
 
 .data-value-stars {
-    color: rgb(255, 200, 50);
+    color: rgb(255, 149, 7);
 }
 
-/* ────────────────────────────────────────────────
-   Shader Menu (Phase 1 — Long Press Popup)
-   ──────────────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Shader Menu (Phase 1 â€” Long Press Popup)
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 /* Old shader-menu and env-panel styles removed (replaced by .submenu-container) */
 
 .env-slider-group {
@@ -1340,9 +1340,9 @@
     display: none;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Hero Menu (Phase 4)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hero-menu {
     flex-direction: column;
     align-items: center;
@@ -1359,16 +1359,16 @@
     transition-duration: 0.5s;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    About Panel (Phase 4)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .about-panel {
     position: absolute;
     left: 50%;
     top: 50%;
     translate: -50% -50%;
     width: 500px;
-    background-color: rgba(10, 10, 10, 0.96);
+    background-color: rgba(0, 0, 0, 0.96);
     border-radius: 12px;
     padding: 40px;
     border-width: 1px;
@@ -1409,13 +1409,13 @@
     right: 16px;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Device Selector (Hero submenu)
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .device-selector {
     margin-top: 24px;
     width: 400px;
-    background-color: rgba(18, 18, 18, 0.92);
+    background-color: rgba(1, 1, 1, 0.92);
     border-radius: 12px;
     padding: 12px;
     border-width: 1px;
@@ -1433,9 +1433,9 @@
 }
 
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Global Scrollbar Hiding
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .unity-scroller {
     display: none;
     width: 0;
@@ -1443,9 +1443,9 @@
     opacity: 0;
 }
 
-/* ────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Submenu Content Styles
-   ──────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .submenu-scroll {
     width: 100%;
     max-width: 400px;
@@ -1496,7 +1496,7 @@
     transition-duration: 0.2s;
 }
 
-/* Device scroll — ensure enough height for all buttons */
+/* Device scroll â€” ensure enough height for all buttons */
 .device-scroll {
     min-height: 280px;
     max-height: 50%;
