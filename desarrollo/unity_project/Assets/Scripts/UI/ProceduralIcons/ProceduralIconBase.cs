@@ -130,13 +130,13 @@ namespace WebGL.UI.ProceduralIcons
 
             if (Mathf.Abs(currentStrokeWidth - targetStroke) > 0.01f)
             {
-                currentStrokeWidth = Mathf.Lerp(currentStrokeWidth, targetStroke, Time.unscaledDeltaTime * 15f);
+                currentStrokeWidth = Mathf.Lerp(currentStrokeWidth, targetStroke, Time.unscaledDeltaTime * 8f);
                 needsRepaint = true;
             }
 
             if (currentColor != targetColor)
             {
-                currentColor = Color.Lerp(currentColor, targetColor, Time.unscaledDeltaTime * 15f);
+                currentColor = Color.Lerp(currentColor, targetColor, Time.unscaledDeltaTime * 8f);
                 needsRepaint = true;
             }
 

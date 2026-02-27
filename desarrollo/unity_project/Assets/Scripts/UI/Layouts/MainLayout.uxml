@@ -9,14 +9,13 @@
         <!-- World Space UI Container (hotspots) -->
         <ui:VisualElement name="WorldSpaceContainer" class="world-space-container" picking-mode="Ignore" />
 
-        <!-- Top Bar (Header) -->
         <ui:VisualElement name="TopBar" class="top-bar" picking-mode="Ignore">
             <ui:Button name="HomeBtn" class="icon-button-small" tooltip="Return to Menu">
-                <pi:ProceduralHomeIcon style="width: 24px; height: 24px;" picking-mode="Ignore"/>
+                <pi:ProceduralHomeIcon style="width: 36px; height: 36px;" picking-mode="Ignore"/>
             </ui:Button>
             <ui:Label text="SELECT A PART" name="TopContextLabel" class="header-title" picking-mode="Ignore" />
             <ui:Button name="ResetViewBtn" class="icon-button-small" tooltip="Reset Camera">
-                <pi:ProceduralResetIcon style="width: 24px; height: 24px;" picking-mode="Ignore"/>
+                <pi:ProceduralResetIcon style="width: 36px; height: 36px;" picking-mode="Ignore"/>
             </ui:Button>
         </ui:VisualElement>
 
