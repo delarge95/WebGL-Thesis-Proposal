@@ -1,4 +1,4 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns:pi="WebGL.UI.ProceduralIcons" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Styles/Theme.uss" />
     
     <!-- ═══════════════════════════════════════════════
@@ -12,11 +12,11 @@
         <!-- Top Bar (Header) -->
         <ui:VisualElement name="TopBar" class="top-bar" picking-mode="Ignore">
             <ui:Button name="HomeBtn" class="icon-button-small" tooltip="Return to Menu">
-                <ui:Label text="⌂" class="button-icon-text-small" picking-mode="Ignore"/>
+                <pi:ProceduralHomeIcon style="width: 24px; height: 24px;" picking-mode="Ignore"/>
             </ui:Button>
             <ui:Label text="SELECT A PART" name="TopContextLabel" class="header-title" picking-mode="Ignore" />
             <ui:Button name="ResetViewBtn" class="icon-button-small" tooltip="Reset Camera">
-                <ui:Label text="RST" class="button-icon-text-small" picking-mode="Ignore"/>
+                <pi:ProceduralResetIcon style="width: 24px; height: 24px;" picking-mode="Ignore"/>
             </ui:Button>
         </ui:VisualElement>
 
@@ -104,15 +104,15 @@
                     <ui:Label text="INSPECT" class="submenu-title" picking-mode="Ignore"/>
                     <ui:VisualElement class="submenu-grid">
                         <ui:Button name="ToolInfoBtn" class="submenu-card" tooltip="Part Info">
-                            <ui:VisualElement class="submenu-icon icon-info" picking-mode="Ignore"/>
+                            <pi:ProceduralInfoIcon class="submenu-icon" picking-mode="Ignore"/>
                             <ui:Label text="INFO" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="ToolHotspotBtn" class="submenu-card" tooltip="Toggle Hotspots">
-                            <ui:VisualElement class="submenu-icon icon-pin" picking-mode="Ignore"/>
+                            <pi:ProceduralPinsIcon class="submenu-icon" picking-mode="Ignore"/>
                             <ui:Label text="PINS" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="ToolIsolateBtn" class="submenu-card" tooltip="Isolate Selected Part">
-                            <ui:VisualElement class="submenu-icon icon-isolate" picking-mode="Ignore"/>
+                            <pi:ProceduralIsolateIcon class="submenu-icon" picking-mode="Ignore"/>
                             <ui:Label text="ISOLATE" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                     </ui:VisualElement>
@@ -126,15 +126,15 @@
                     <ui:Label text="ANALYZE" class="submenu-title" picking-mode="Ignore"/>
                     <ui:VisualElement class="submenu-grid">
                         <ui:Button name="AnalyzeCrossSectionBtn" class="submenu-card" tooltip="Cross Section">
-                            <ui:VisualElement class="submenu-icon icon-cross-section" picking-mode="Ignore"/>
+                            <pi:ProceduralCutIcon class="submenu-icon" picking-mode="Ignore"/>
                             <ui:Label text="CUT" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="AnalyzeExplodeBtn" class="submenu-card" tooltip="Exploded View">
-                            <ui:VisualElement class="submenu-icon icon-explode" picking-mode="Ignore"/>
+                            <pi:ProceduralExplodeIcon class="submenu-icon" picking-mode="Ignore"/>
                             <ui:Label text="EXPLODE" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="AnalyzeFilterBtn" class="submenu-card" tooltip="Filter Categories">
-                            <ui:VisualElement class="submenu-icon icon-all" picking-mode="Ignore"/>
+                            <pi:ProceduralFilterIcon class="submenu-icon" picking-mode="Ignore"/>
                             <ui:Label text="FILTER" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                     </ui:VisualElement>
@@ -212,7 +212,7 @@
                     <ui:Label text="RENDER MODE" class="submenu-title" picking-mode="Ignore" />
                     <ui:VisualElement name="ShaderMenu" class="submenu-grid">
                         <ui:Button name="ShaderMode_Realistic" class="submenu-card submenu-card--active">
-                            <ui:VisualElement class="submenu-icon icon-realistic" picking-mode="Ignore"/>
+                            <pi:ProceduralShadersIcon class="submenu-icon" picking-mode="Ignore"/>
                             <ui:Label text="REALISTIC" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="ShaderMode_XRay" class="submenu-card">
@@ -277,15 +277,15 @@
             <!-- Mode Buttons Row — 3 master modes -->
             <ui:VisualElement class="actions-row" picking-mode="Ignore">
                 <ui:Button name="ModeToolsBtn" class="mode-btn" tooltip="Inspect — Info, Pins, Isolate">
-                    <ui:VisualElement class="mode-btn-icon icon-tools" picking-mode="Ignore"/>
+                    <pi:ProceduralInspectIcon class="mode-btn-icon" picking-mode="Ignore"/>
                     <ui:Label text="INSPECT" class="mode-btn-label" picking-mode="Ignore"/>
                 </ui:Button>
                 <ui:Button name="ModeAnalyzeBtn" class="mode-btn" tooltip="Analyze — Cut, Explode, Filter">
-                    <ui:VisualElement class="mode-btn-icon icon-analyze" picking-mode="Ignore"/>
+                    <pi:ProceduralAnalyzeIcon class="mode-btn-icon" picking-mode="Ignore"/>
                     <ui:Label text="ANALYZE" class="mode-btn-label" picking-mode="Ignore"/>
                 </ui:Button>
                 <ui:Button name="ModeStudioBtn" class="mode-btn" tooltip="Studio — Shaders, Environment &amp; Lighting">
-                    <ui:VisualElement class="mode-btn-icon icon-studio" picking-mode="Ignore"/>
+                    <pi:ProceduralStudioIcon class="mode-btn-icon" picking-mode="Ignore"/>
                     <ui:Label text="STUDIO" class="mode-btn-label" picking-mode="Ignore"/>
                 </ui:Button>
             </ui:VisualElement>

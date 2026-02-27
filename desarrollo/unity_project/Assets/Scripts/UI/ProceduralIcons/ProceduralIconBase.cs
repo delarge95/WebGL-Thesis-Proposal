@@ -30,11 +30,8 @@ namespace WebGL.UI.ProceduralIcons
         // Base constructor
         public ProceduralIconBase()
         {
-            // Register callbacks
-            RegisterCallback<PointerEnterEvent>(OnPointerEnter);
-            RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
-            RegisterCallback<PointerDownEvent>(OnPointerDown);
-            RegisterCallback<PointerUpEvent>(OnPointerUp);
+            // Register callback to hook events when attached to the visual tree
+            RegisterCallback<AttachToPanelEvent>(OnAttachedToPanel);
 
             // Subscribe to the generateVisualContent event (Where the 2D magic happens)
             generateVisualContent += OnGenerateVisualContent;
@@ -46,6 +43,28 @@ namespace WebGL.UI.ProceduralIcons
             // Schedule a continuous update loop to perform math interpolations
             // Updating every 16ms roughly equals 60fps
             animationTask = schedule.Execute(UpdatePhysics).Every(16);
+        }
+
+        private void OnAttachedToPanel(AttachToPanelEvent evt)
+        {
+            // For better UX, if this icon is inside a Button (like the 148x148 cards), 
+            // we want the icon to react when ANY part of the button is hovered/clicked.
+            var parentBtn = this.GetFirstAncestorOfType<Button>();
+            if (parentBtn != null)
+            {
+                parentBtn.RegisterCallback<PointerEnterEvent>(OnPointerEnter);
+                parentBtn.RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
+                parentBtn.RegisterCallback<PointerDownEvent>(OnPointerDown);
+                parentBtn.RegisterCallback<PointerUpEvent>(OnPointerUp);
+            }
+            else
+            {
+                // Fallback to self
+                RegisterCallback<PointerEnterEvent>(OnPointerEnter);
+                RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
+                RegisterCallback<PointerDownEvent>(OnPointerDown);
+                RegisterCallback<PointerUpEvent>(OnPointerUp);
+            }
         }
 
         private void OnPointerEnter(PointerEnterEvent evt)
