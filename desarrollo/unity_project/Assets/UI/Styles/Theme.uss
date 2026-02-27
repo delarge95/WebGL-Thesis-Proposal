@@ -441,7 +441,7 @@
     height: 56px;
     margin: 0 4px;
     
-    background-color: rgba(255, 255, 255, 0.04);
+    background-color: rgba(255, 255, 255, 0.02);
     border-radius: 12px;
     border-width: 0;
     
@@ -486,7 +486,7 @@
     align-self: center;
     margin: 0;
     padding: 0 16px;
-    background-color: rgba(255, 255, 255, 0.04);
+    background-color: rgba(255, 255, 255, 0.02);
     border-radius: 16px;
     flex-grow: 0;
 }
@@ -806,7 +806,7 @@
     height: 148px;
     margin: 4px;
     
-    background-color: rgba(255, 255, 255, 0.04);
+    background-color: rgba(255, 255, 255, 0.02);
     border-radius: 16px;
     border-width: 0;
     border-color: transparent;
@@ -893,7 +893,7 @@
     height: 56px;
     align-self: center;
 
-    background-color: rgba(255, 255, 255, 0.04);
+    background-color: rgba(255, 255, 255, 0.02);
     border-radius: 16px;
     padding: 0 16px;
     border-width: 0;
@@ -956,50 +956,38 @@
 }
 
 .glass-slider .unity-base-slider__dragger {
-    /* Pure absolute sizing to prevent UI Toolkit anchoring offsets */
-    width: 24px;
-    height: 24px;
-    margin-top: -12px;
+    /* Fixed size — never change width/height to avoid hitbox desync */
+    width: 28px;
+    height: 28px;
+    margin-top: -14px;
     
     border-radius: 50%;
     
-    /* Hollow center */
-    background-color: transparent;
-    border-color: rgb(255, 255, 255);
+    /* Normal state: black fill + white stroke */
+    background-color: rgb(0, 0, 0);
+    border-color: rgba(255, 255, 255, 0.8);
     border-width: 2px;
     
     top: 50%;
-    /* Note: scale and margin alterations often detach draggers from their real 
-       hitbox track. We only animate visual properties, keeping size stable if possible. 
-       Or expand uniformly via width/height and margin-top. */
-    transition-property: width, height, margin-top, background-color, border-color, border-width;
+    transition-property: background-color, border-color, border-width, scale;
     transition-duration: 0.15s;
 }
 
 .glass-slider .unity-base-slider__dragger:hover {
-    /* Grow physically outwards, compensating with top margin */
-    width: 32px;
-    height: 32px;
-    margin-top: -16px;
+    /* Hover: solid white, slightly bigger via scale (no hitbox shift) */
+    scale: 1.2;
     background-color: rgb(255, 255, 255);
     border-color: rgb(255, 255, 255);
-    border-width: 0px; 
+    border-width: 0px;
 }
 
 .glass-slider .unity-base-slider__dragger:focus,
 .glass-slider .unity-base-slider__dragger:active {
-    /* Shrink physically */
-    width: 20px;
-    height: 20px;
-    margin-top: -10px;
-    
-    /* The blue you asked for. UI Toolkit sometimes applies hover OVER active,
-       so we force the color and drop the border. */
+    /* Active/click: accent blue */
+    scale: 0.95;
     background-color: rgba(70, 175, 255, 1);
     border-color: rgba(70, 175, 255, 1);
     border-width: 0px;
-    
-    /* Optional: cut transition to make the click feel instantaneous and avoid white flash */
     transition-duration: 0.05s;
 }
 
