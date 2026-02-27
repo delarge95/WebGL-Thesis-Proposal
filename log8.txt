@@ -1,0 +1,15 @@
+﻿177caf9 fix(input): remove dangling code and syntax errors from previous InputManager refactoring
+520959a fix(ui): apply explicit container hover observation to solve gap click deselection bug, and enforce Position picking mode on underlying UXML menus to create solid raycast shields
+0f85d26 fix(ui): discard broken HitTesting mathematical APIs, implement perfect DOM CSS-box model global hover tracking in InputManager to guarantee robust interaction on scaled canvases
+12e6887 fix(input): replace all hit-testing workarounds with official Unity6 EventSystem.current.IsPointerOverGameObject for UI Toolkit
+f940375 fix(input): implement pure TrickleDown UI Toolkit event capturing for IsPointerOverUI, completely bypassing panel.Pick DPI scaling vectors
+b2ad72b fix(ui): implement triple-check coordinate fallback in InputManager.IsPointerOverUI to resolve DPI scaling hit-test failures on anchored UI panels
+f7556cd fix(ui): remove obsolete GlobalInputBlocked references causing compilation errors
+2672806 refactor: centralize UI hit testing in InputManager to decouple SelectionManager and OrbitCameraController
+487072a fix(ui): restore missing hotspotBtn initialization binding that broke the pins toggle
+8a949ce refactor: dismantle UIManager God Class by extracting UIEnvironmentPanel and UIAnalyzePanel
+a1a60ae refactor: implement comprehensive UI Toolkit event cleanup in UIManager to prevent memory leaks
+1ee65f1 Final Polish: UI Layout, Spacing, and Interaction Fixes Complete
+3bf55a4 Fix: SelectionManager bg click and Layout height (Phase 8)
+65b05b2 Fix: Aggressive layout adjustments for 4-card rows
+cf49b8b fix(ui): update UIManager to support new grid submenu classes (Phase 3.3)
