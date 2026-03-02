@@ -35,8 +35,9 @@
             <!-- Content Container: DETAILS (Part Info) -->
             <ui:VisualElement name="SheetContent_Details" class="sheet-content sheet-content--active" picking-mode="Ignore">
                 <ui:ScrollView class="sheet-scroll" mode="Vertical" touch-scroll-type="Elastic" picking-mode="Position">
-                    <!-- Data Grid -->
-                    <ui:VisualElement class="data-grid">
+
+                    <!-- Section 1: Identification -->
+                    <ui:Foldout text="IDENTIFICATION" name="FoldoutIdentification" value="true" class="sheet-foldout">
                         <ui:VisualElement class="data-row">
                             <ui:Label text="CATEGORY" class="data-label" />
                             <ui:Label name="PartCategory" class="data-value" />
@@ -45,6 +46,10 @@
                             <ui:Label text="FUNCTION" class="data-label" />
                             <ui:Label name="PartFunction" class="data-value" />
                         </ui:VisualElement>
+                    </ui:Foldout>
+
+                    <!-- Section 2: Specifications -->
+                    <ui:Foldout text="SPECIFICATIONS" name="FoldoutSpecifications" value="true" class="sheet-foldout">
                         <ui:VisualElement class="data-row">
                             <ui:Label text="MATERIAL" class="data-label" />
                             <ui:Label name="PartMaterial" class="data-value" />
@@ -65,11 +70,10 @@
                             <ui:Label text="TEMP" class="data-label" />
                             <ui:Label name="PartTemp" class="data-value" />
                         </ui:VisualElement>
-                    </ui:VisualElement>
+                    </ui:Foldout>
 
-                    <!-- Assembly Section -->
-                    <ui:VisualElement class="assembly-section">
-                        <ui:Label text="ASSEMBLY" class="section-title" />
+                    <!-- Section 3: Assembly -->
+                    <ui:Foldout text="ASSEMBLY" name="FoldoutAssembly" value="true" class="sheet-foldout">
                         <ui:VisualElement class="data-row">
                             <ui:Label text="DIFFICULTY" class="data-label" />
                             <ui:Label name="PartDifficulty" class="data-value data-value-stars" />
@@ -82,7 +86,7 @@
                             <ui:Label text="TIME" class="data-label" />
                             <ui:Label name="PartAssemblyTime" class="data-value" />
                         </ui:VisualElement>
-                    </ui:VisualElement>
+                    </ui:Foldout>
 
                     <!-- Description -->
                     <ui:Label name="PartDescription" class="part-description" />
