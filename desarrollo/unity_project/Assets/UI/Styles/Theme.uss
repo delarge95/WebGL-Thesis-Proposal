@@ -441,21 +441,22 @@
     height: 56px;
     margin: 0 4px;
     
-    background-color: rgba(255, 255, 255, 0.01);
+    background-color: transparent;
     border-radius: 12px;
-    border-width: 0;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
     
     flex-direction: column;
     justify-content: center;
     align-items: center;
     
-    transition-property: background-color, scale;
+    transition-property: border-color, scale;
     transition-duration: 0.2s;
     transition-timing-function: ease-out;
 }
 
 .cross-section-axis-btn:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
     scale: 1.04;
 }
 
@@ -464,8 +465,7 @@
 }
 
 .cross-section-axis-btn.submenu-card--active {
-    background-color: rgba(70, 175, 255, 0.12);
-    border-width: 0;
+    border-color: rgba(70, 175, 255, 1);
 }
 
 .cross-section-axis-label {
@@ -476,7 +476,7 @@
 }
 
 .cross-section-axis-btn.submenu-card--active .cross-section-axis-label {
-    color: rgba(70, 175, 255, 0.9);
+    color: rgba(70, 175, 255, 1);
 }
 
 .cross-section-slider {
@@ -806,42 +806,39 @@
     height: 148px;
     margin: 4px;
     
-    background-color: rgba(255, 255, 255, 0.01);
+    background-color: transparent;
     border-radius: 16px;
-    border-width: 0;
-    border-color: transparent;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
     
     flex-direction: column;
     align-items: center;
     justify-content: center;
     
-    transition-property: background-color, scale;
+    transition-property: border-color, scale;
     transition-duration: 0.15s;
 }
 
 .submenu-card:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-    border-width: 0;
+    border-color: rgba(255, 255, 255, 0.2);
     scale: 1.04;
 }
 
 .submenu-card:active {
-    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
     scale: 0.98;
 }
 
 .submenu-card--active {
-    background-color: rgba(70, 175, 255, 0.12);
-    border-width: 0;
+    border-color: rgba(70, 175, 255, 1);
 }
 
 .submenu-icon {
     width: 56px;
     height: 56px;
     margin-bottom: 8px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.08);
-    opacity: 0.7;
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.65);
 }
 
 .submenu-label {
@@ -852,13 +849,12 @@
 }
 
 .submenu-card--active .submenu-label {
-    color: white;
+    color: rgba(70, 175, 255, 1);
     -unity-font-style: bold;
 }
 
 .submenu-card--active .submenu-icon {
-    background-color: rgba(70, 175, 255, 0.2);
-    opacity: 1;
+    -unity-background-image-tint-color: rgba(70, 175, 255, 1);
 }
 
 /* Specific Icons handled procedurally */

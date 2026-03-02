@@ -11,12 +11,12 @@
 
 ## Leyenda
 
-| Icono | Significado |
-|-------|-------------|
-| ✅ | Configurado manualmente en el Inspector / código |
-| 🤖 | Automatizado por `WebGLBuildFixer` (editor tool) |
-| 🔲 | Pendiente — bloqueado por prototipo incompleto |
-| ⚠️ | Configuración crítica — no modificar sin entender el impacto |
+| Icono | Significado                                                  |
+| ----- | ------------------------------------------------------------ |
+| ✅    | Configurado manualmente en el Inspector / código             |
+| 🤖    | Automatizado por `WebGLBuildFixer` (editor tool)             |
+| 🔲    | Pendiente — bloqueado por prototipo incompleto               |
+| ⚠️    | Configuración crítica — no modificar sin entender el impacto |
 
 ---
 
@@ -44,8 +44,8 @@
 
 ### Cambio realizado ✅
 
-| Parámetro | Antes | Después |
-|-----------|-------|---------|
+| Parámetro                                                           | Antes | Después    |
+| ------------------------------------------------------------------- | ----- | ---------- |
 | **Edit → Project Settings → Player → Other Settings → Color Space** | Gamma | **Linear** |
 
 ### Por qué se hizo
@@ -72,46 +72,46 @@ $$C_{linear} = \left(\frac{C_{gamma}}{255}\right)^{2.2}$$
 
 ### 2.1 Resolución y Presentación ✅
 
-| Opción | Valor configurado | Motivo |
-|--------|-------------------|--------|
-| Default Screen Width | `1920` | Resolución estándar de escritorio |
-| Default Screen Height | `1080` | 16:9 landscape, target para tesis |
-| Run In Background | `true` | Evitar que el viewport se pause al perder foco |
+| Opción                | Valor configurado | Motivo                                         |
+| --------------------- | ----------------- | ---------------------------------------------- |
+| Default Screen Width  | `1920`            | Resolución estándar de escritorio              |
+| Default Screen Height | `1080`            | 16:9 landscape, target para tesis              |
+| Run In Background     | `true`            | Evitar que el viewport se pause al perder foco |
 
 ### 2.2 Rendering ✅
 
-| Opción | Valor configurado | Motivo |
-|--------|-------------------|--------|
-| **Color Space** | **Linear** | PBR correcto (ver §1) |
-| Auto Graphics API | `Disabled` | Control explícito de APIs |
-| Graphics APIs | **WebGL 2.0 únicamente** | Eliminado WebGL 1.0 — WebGL 2.0 es universal en browsers modernos y soporta características URP como MSAA y shadow maps |
-| Multithreaded Rendering | `Disabled` | WebGL no soporta multi-threading real; esta opción causaba overhead |
+| Opción                  | Valor configurado        | Motivo                                                                                                                  |
+| ----------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| **Color Space**         | **Linear**               | PBR correcto (ver §1)                                                                                                   |
+| Auto Graphics API       | `Disabled`               | Control explícito de APIs                                                                                               |
+| Graphics APIs           | **WebGL 2.0 únicamente** | Eliminado WebGL 1.0 — WebGL 2.0 es universal en browsers modernos y soporta características URP como MSAA y shadow maps |
+| Multithreaded Rendering | `Disabled`               | WebGL no soporta multi-threading real; esta opción causaba overhead                                                     |
 
 ### 2.3 Configuración ✅
 
-| Opción | Valor configurado | Motivo |
-|--------|-------------------|--------|
-| .NET Standard | **2.1** | Mayor compatibilidad y tree-shaking vs .NET 4.x |
-| Managed Stripping Level | **High** | Reduce tamaño del build eliminando código IL no referenciado |
-| Exception Support | **Explicitly Thrown Only** | Elimina overhead de try/catch para excepciones nativas — crítico para rendimiento WebGL |
+| Opción                  | Valor configurado          | Motivo                                                                                  |
+| ----------------------- | -------------------------- | --------------------------------------------------------------------------------------- |
+| .NET Standard           | **2.1**                    | Mayor compatibilidad y tree-shaking vs .NET 4.x                                         |
+| Managed Stripping Level | **High**                   | Reduce tamaño del build eliminando código IL no referenciado                            |
+| Exception Support       | **Explicitly Thrown Only** | Elimina overhead de try/catch para excepciones nativas — crítico para rendimiento WebGL |
 
 ### 2.4 Publicación WebGL ✅
 
-| Opción | Valor configurado | Motivo |
-|--------|-------------------|--------|
-| Compression Format | **Brotli** (prod) / Gzip (dev) | Brotli ≈ 15–25% más pequeño que Gzip; browsers modernos lo soportan |
-| Decompression Fallback | `Enabled` | Fallback a descarga sin comprimir si el servidor no envía headers correctos |
-| Data Caching | `Enabled` | El browser cachea el archivo `.data` — carga ≈ 0 ms en visitas subsecuentes |
-| Memory Size (Heap) | **512 MB** | Balance entre capacidad para el modelo 3D y límite de memoria del browser |
+| Opción                 | Valor configurado              | Motivo                                                                      |
+| ---------------------- | ------------------------------ | --------------------------------------------------------------------------- |
+| Compression Format     | **Brotli** (prod) / Gzip (dev) | Brotli ≈ 15–25% más pequeño que Gzip; browsers modernos lo soportan         |
+| Decompression Fallback | `Enabled`                      | Fallback a descarga sin comprimir si el servidor no envía headers correctos |
+| Data Caching           | `Enabled`                      | El browser cachea el archivo `.data` — carga ≈ 0 ms en visitas subsecuentes |
+| Memory Size (Heap)     | **512 MB**                     | Balance entre capacidad para el modelo 3D y límite de memoria del browser   |
 
 ### Estimado de tamaño de build
 
-| Componente | Tamaño estimado |
-|------------|----------------|
-| `Build.wasm.br` | ~5–8 MB |
-| `Build.data.br` | ~20–40 MB (depende de texturas) |
-| `Build.framework.js.br` | ~0.3 MB |
-| **Total descarga** | **~25–50 MB** |
+| Componente              | Tamaño estimado                 |
+| ----------------------- | ------------------------------- |
+| `Build.wasm.br`         | ~5–8 MB                         |
+| `Build.data.br`         | ~20–40 MB (depende de texturas) |
+| `Build.framework.js.br` | ~0.3 MB                         |
+| **Total descarga**      | **~25–50 MB**                   |
 
 ---
 
@@ -122,17 +122,17 @@ $$C_{linear} = \left(\frac{C_{gamma}}{255}\right)^{2.2}$$
 
 ### Configuración completa ✅
 
-| Opción | Valor | Motivo |
-|--------|-------|--------|
-| Pixel Light Count | `2` | Máximo 2 luces por pixel en tiempo real — WebGL tiene presupuesto limitado de fragment shader |
-| Anti-Aliasing | **2x MSAA** | Equilibrio calidad/rendimiento; 4x dobla el fill rate |
-| Soft Particles | `Disabled` | Requiere depth buffer sampling — overhead innecesario sin partículas complejas en la escena |
-| Realtime Reflection Probes | `Disabled` | Los reflection probes en tiempo real son costosos; se usan baked probes |
-| Shadow Distance | `50` (unidades) | Sombras visibles solo en radio de 50m desde la cámara |
-| Shadow Resolution | `Medium (512)` | Compromise 512×512 vs 1024 para reducir ~75% el uso de memoria de shadow map |
-| Shadow Cascades | `2` | Cascades mejoran la distribución de shadow maps; 4 cascades duplicaría el costo |
-| VSynch Count | `Don't Sync` | Permite que WebGL corra al ritmo del `requestAnimationFrame` del browser |
-| LOD Bias | `1.0` | Sin reducción agresiva de LOD — el modelo requiere alta calidad en zoom cercano |
+| Opción                     | Valor           | Motivo                                                                                        |
+| -------------------------- | --------------- | --------------------------------------------------------------------------------------------- |
+| Pixel Light Count          | `2`             | Máximo 2 luces por pixel en tiempo real — WebGL tiene presupuesto limitado de fragment shader |
+| Anti-Aliasing              | **2x MSAA**     | Equilibrio calidad/rendimiento; 4x dobla el fill rate                                         |
+| Soft Particles             | `Disabled`      | Requiere depth buffer sampling — overhead innecesario sin partículas complejas en la escena   |
+| Realtime Reflection Probes | `Disabled`      | Los reflection probes en tiempo real son costosos; se usan baked probes                       |
+| Shadow Distance            | `50` (unidades) | Sombras visibles solo en radio de 50m desde la cámara                                         |
+| Shadow Resolution          | `Medium (512)`  | Compromise 512×512 vs 1024 para reducir ~75% el uso de memoria de shadow map                  |
+| Shadow Cascades            | `2`             | Cascades mejoran la distribución de shadow maps; 4 cascades duplicaría el costo               |
+| VSynch Count               | `Don't Sync`    | Permite que WebGL corra al ritmo del `requestAnimationFrame` del browser                      |
+| LOD Bias                   | `1.0`           | Sin reducción agresiva de LOD — el modelo requiere alta calidad en zoom cercano               |
 
 ---
 
@@ -148,21 +148,21 @@ El URP Asset se asigna tanto en **Scriptable Render Pipeline Settings** como en 
 
 Estos 8 shaders se agregan programáticamente via `ShaderInclusionFixer.cs` para garantizar que estén disponibles en el WebGL build (sin esta configuración, los shaders pueden ser stripped por el stripping automático):
 
-| # | Shader | Motivo |
-|---|--------|--------|
-| 1 | `Antigravity/Wireframe` | Modo wireframe personalizado |
-| 2 | `Antigravity/XRay` | Modo X-Ray personalizado |
-| 3 | `Antigravity/Outline` | Outline de selección |
-| 4 | `Antigravity/CrossSection` | Plano de corte |
-| 5 | `Universal Render Pipeline/Lit` | Shader PBR base de URP |
-| 6 | `Universal Render Pipeline/Unlit` | Shader sin iluminación |
-| 7 | `Universal Render Pipeline/Simple Lit` | Shader para objetos secundarios |
-| 8 | `Sprites/Default` | Sprites UI |
+| #   | Shader                                 | Motivo                          |
+| --- | -------------------------------------- | ------------------------------- |
+| 1   | `Antigravity/Wireframe`                | Modo wireframe personalizado    |
+| 2   | `Antigravity/XRay`                     | Modo X-Ray personalizado        |
+| 3   | `Antigravity/Outline`                  | Outline de selección            |
+| 4   | `Antigravity/CrossSection`             | Plano de corte                  |
+| 5   | `Universal Render Pipeline/Lit`        | Shader PBR base de URP          |
+| 6   | `Universal Render Pipeline/Unlit`      | Shader sin iluminación          |
+| 7   | `Universal Render Pipeline/Simple Lit` | Shader para objetos secundarios |
+| 8   | `Sprites/Default`                      | Sprites UI                      |
 
 ### 4.3 Transparency Sort Mode ✅
 
-| Opción | Valor | Motivo |
-|--------|-------|--------|
+| Opción                 | Valor           | Motivo                                                                                                                      |
+| ---------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | Transparency Sort Mode | **Perspective** | Ordenamiento de objetos transparentes desde el punto de vista de la cámara — necesario para el plano de sección transversal |
 
 ---
@@ -174,37 +174,37 @@ Estos 8 shaders se agregan programáticamente via `ShaderInclusionFixer.cs` para
 
 ### 5.1 Lighting ✅
 
-| Parámetro | Valor | Motivo |
-|-----------|-------|--------|
-| Main Light | **Per Pixel** | Render correcto de la luz direccional principal |
-| Main Light Cast Shadows | `Enabled` | Sombras visibles para la luz principal |
-| Main Light Shadow Resolution | **1024×1024** | Balance calidad/memoria. 2048 cuadruplicaría el VRAM |
-| Additional Lights | **Per Pixel, Max 4** | Máximo 4 luces adicionales en pixel mode |
-| Additional Lights Cast Shadows | `Disabled` | ⚠️ Las sombras de luces adicionales en WebGL tienen costo prohibitivo |
+| Parámetro                      | Valor                | Motivo                                                                |
+| ------------------------------ | -------------------- | --------------------------------------------------------------------- |
+| Main Light                     | **Per Pixel**        | Render correcto de la luz direccional principal                       |
+| Main Light Cast Shadows        | `Enabled`            | Sombras visibles para la luz principal                                |
+| Main Light Shadow Resolution   | **1024×1024**        | Balance calidad/memoria. 2048 cuadruplicaría el VRAM                  |
+| Additional Lights              | **Per Pixel, Max 4** | Máximo 4 luces adicionales en pixel mode                              |
+| Additional Lights Cast Shadows | `Disabled`           | ⚠️ Las sombras de luces adicionales en WebGL tienen costo prohibitivo |
 
 ### 5.2 Shadows ✅
 
-| Parámetro | Valor configurado | Motivo |
-|-----------|------------------|--------|
+| Parámetro           | Valor configurado  | Motivo                                              |
+| ------------------- | ------------------ | --------------------------------------------------- |
 | Shadow Max Distance | `30–50` (unidades) | Correlacionado con Quality Settings shadow distance |
-| Shadow Depth Bias | `1.0` | Reduce shadow acne en superficies de bajo detalle |
-| Shadow Normal Bias | `1.0` | Reduce peter-panning en geometría fina |
+| Shadow Depth Bias   | `1.0`              | Reduce shadow acne en superficies de bajo detalle   |
+| Shadow Normal Bias  | `1.0`              | Reduce peter-panning en geometría fina              |
 
 ### 5.3 Post Processing ✅
 
-| Parámetro | Valor | Motivo |
-|-----------|-------|--------|
-| Post Processing | `Enabled` | Habilitado para efectos de presentación |
-| HDR | **`Disabled`** | HDR requiere render targets de 16-bit float — impracticable en WebGL para el modelo de dron |
-| MSAA | **2x** | Mismo que Quality Settings (código: `m_MSAA = 1`) |
+| Parámetro       | Valor          | Motivo                                                                                      |
+| --------------- | -------------- | ------------------------------------------------------------------------------------------- |
+| Post Processing | `Enabled`      | Habilitado para efectos de presentación                                                     |
+| HDR             | **`Disabled`** | HDR requiere render targets de 16-bit float — impracticable en WebGL para el modelo de dron |
+| MSAA            | **2x**         | Mismo que Quality Settings (código: `m_MSAA = 1`)                                           |
 
 ### 5.4 Optimizaciones Core ✅
 
-| Parámetro | Valor | Motivo |
-|-----------|-------|--------|
-| **SRP Batcher** | **`Enabled`** | ⚠️ Crítico — reduce drasticamente las draw calls agrupando objetos con el mismo shader. Reportado como la optimización de rendimiento más impactante en URP |
-| Dynamic Batching | `Disabled` | El SRP Batcher ya maneja el batching de forma más eficiente |
-| GPU Instancing | `Enabled` | Para geometría repetitiva |
+| Parámetro        | Valor         | Motivo                                                                                                                                                      |
+| ---------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **SRP Batcher**  | **`Enabled`** | ⚠️ Crítico — reduce drasticamente las draw calls agrupando objetos con el mismo shader. Reportado como la optimización de rendimiento más impactante en URP |
+| Dynamic Batching | `Disabled`    | El SRP Batcher ya maneja el batching de forma más eficiente                                                                                                 |
+| GPU Instancing   | `Enabled`     | Para geometría repetitiva                                                                                                                                   |
 
 ---
 
@@ -214,16 +214,16 @@ Estos 8 shaders se agregan programáticamente via `ShaderInclusionFixer.cs` para
 
 ### Renderer Features revisados ✅
 
-| Feature | Estado | Motivo |
-|---------|--------|--------|
+| Feature                               | Estado          | Motivo                                                                                                                          |
+| ------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | Screen Space Ambient Occlusion (SSAO) | **Desactivado** | SSAO genera un render pass adicional costoso — en WebGL con geometría de dron técnico el beneficio visual no justifica el costo |
-| Decals | N/A | No usado en la escena |
-| Screen Space Shadows | **Desactivado** | Se usan shadow maps convencionales |
+| Decals                                | N/A             | No usado en la escena                                                                                                           |
+| Screen Space Shadows                  | **Desactivado** | Se usan shadow maps convencionales                                                                                              |
 
 ### Rendering Path ✅
 
-| Opción | Valor | Motivo |
-|--------|-------|--------|
+| Opción         | Valor       | Motivo                                                                                                                   |
+| -------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------ |
 | Rendering Path | **Forward** | Menor overhead de memoria vs Deferred — WebGL no tiene ventajas suficientes con Deferred para una escena de objeto único |
 
 ---
@@ -233,13 +233,13 @@ Estos 8 shaders se agregan programáticamente via `ShaderInclusionFixer.cs` para
 > **Archivo:** `Assets/UI/MainPanelSettings.asset`  
 > Configurado por `PanelSettingsFixer.cs`
 
-| Parámetro | Valor | Motivo |
-|-----------|-------|--------|
-| **Scale Mode** | `Scale With Screen Size` | La UI escala proporcionalmente a `1920×1080` como resolución de referencia |
-| Reference Resolution | `1920 × 1080` | Target landscape desktop |
-| Clear Color | **`Disabled`** | El panel de UI no limpia el color buffer — la escena 3D es el fondo |
-| Text Settings | `MainTextSettings` (asignado) | Configuración de fuente global para todos los elementos de texto |
-| Sort Order | `0` | El panel se renderiza encima de la cámara 3D por orden de cámara |
+| Parámetro            | Valor                         | Motivo                                                                     |
+| -------------------- | ----------------------------- | -------------------------------------------------------------------------- |
+| **Scale Mode**       | `Scale With Screen Size`      | La UI escala proporcionalmente a `1920×1080` como resolución de referencia |
+| Reference Resolution | `1920 × 1080`                 | Target landscape desktop                                                   |
+| Clear Color          | **`Disabled`**                | El panel de UI no limpia el color buffer — la escena 3D es el fondo        |
+| Text Settings        | `MainTextSettings` (asignado) | Configuración de fuente global para todos los elementos de texto           |
+| Sort Order           | `0`                           | El panel se renderiza encima de la cámara 3D por orden de cámara           |
 
 ---
 
@@ -247,16 +247,17 @@ Estos 8 shaders se agregan programáticamente via `ShaderInclusionFixer.cs` para
 
 ### 8.1 Tipografía seleccionada ✅
 
-| Parámetro | Valor | Motivo |
-|-----------|-------|--------|
-| Font Primary | **Inter-Regular.otf** | Fuente de alta legibilidad, optimizada para pantallas digitales. Sans-serif geométrica moderna |
-| Font Path | `Assets/UI/Fonts/Inter/Inter-Regular.otf` | Copiado por `FontSetupFixer.cs` |
+| Parámetro    | Valor                                     | Motivo                                                                                         |
+| ------------ | ----------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Font Primary | **Inter-Regular.otf**                     | Fuente de alta legibilidad, optimizada para pantallas digitales. Sans-serif geométrica moderna |
+| Font Path    | `Assets/UI/Fonts/Inter/Inter-Regular.otf` | Copiado por `FontSetupFixer.cs`                                                                |
 
 ### 8.2 Revert SDF → Legacy Rendering ✅
 
 > **Archivo afectado:** `Assets/UI/Styles/Theme.uss`
 
 Unity UI Toolkit por defecto usa **SDF (Signed Distance Field)** rendering para texto. Esto generaba > 30 warnings en consola del tipo:
+
 ```
 Font asset 'Inter-Regular' has no SDF atlas. Falling back to legacy rendering.
 ```
@@ -280,22 +281,23 @@ $$C_{linear} = \left(\frac{C_{gamma}}{255}\right)^{2.2} \times 255$$
 
 **Ejemplo representativo:**
 
-| Color | Gamma (original) | Linear (resultado) |
-|-------|-----------------|-------------------|
-| Fondo oscuro principal | `rgba(12, 12, 12, 1)` | `rgba(3, 3, 3, 1)` |
-| Superficie glass | `rgba(255, 255, 255, 0.08)` | `rgba(255, 255, 255, 0.04)` |
-| Texto primario | `rgba(240, 240, 240, 1)` | `rgba(228, 228, 228, 1)` |
+| Color                  | Gamma (original)            | Linear (resultado)          |
+| ---------------------- | --------------------------- | --------------------------- |
+| Fondo oscuro principal | `rgba(12, 12, 12, 1)`       | `rgba(3, 3, 3, 1)`          |
+| Superficie glass       | `rgba(255, 255, 255, 0.08)` | `rgba(255, 255, 255, 0.04)` |
+| Texto primario         | `rgba(240, 240, 240, 1)`    | `rgba(228, 228, 228, 1)`    |
 
 ### 9.2 Ajuste del Azul de Acento ✅
 
 El color de acento de la interfaz (botones activos, sliders, highlights) fue recalibrado:
 
-| Estado | Valor |
-|--------|-------|
-| **Original (Gamma)** | `rgba(0, 105, 255, 1.0)` — azul saturado |
-| **Final (Linear)** | `rgba(70, 175, 255, ...)` — azul más claro, legible en pantalla |
+| Estado               | Valor                                                           |
+| -------------------- | --------------------------------------------------------------- |
+| **Original (Gamma)** | `rgba(0, 105, 255, 1.0)` — azul saturado                        |
+| **Final (Linear)**   | `rgba(70, 175, 255, ...)` — azul más claro, legible en pantalla |
 
 **Motivo:** En espacio lineal, colores de alta saturación como `rgba(0,105,255)` se perciben más oscuros y con menos contraste contra fondos oscuros. El nuevo valor `rgba(70, 175, 255)` mantiene la identidad de color azul pero con:
+
 - Mayor contraste sobre fondos oscuros (ratio WCAG mejorado)
 - Mejor visibilidad del estado activo de controles
 - Consistencia con la paleta de interfaz oscura
@@ -318,10 +320,10 @@ El color de acento de la interfaz (botones activos, sliders, highlights) fue rec
 [SerializeField] private Color planeColor = new Color(0.4f, 0.7f, 1f, 0.006f);
 ```
 
-| Parámetro | Antes | Después |
-|-----------|-------|---------|
-| Alpha | `0.02` (2%) | **`0.006` (0.6%)** |
-| R, G, B | `0.4, 0.7, 1.0` | Sin cambio |
+| Parámetro | Antes           | Después            |
+| --------- | --------------- | ------------------ |
+| Alpha     | `0.02` (2%)     | **`0.006` (0.6%)** |
+| R, G, B   | `0.4, 0.7, 1.0` | Sin cambio         |
 
 **Motivo:** El plano de corte azul translúcido era visualmente intrusivo — al cortar el modelo se veía claramente el plano como una superficie sólida semi-transparente. Con alpha `0.006` el plano es prácticamente invisible, actuando como un marcador de posición sin distraer de la geometría cortada.
 
@@ -333,9 +335,9 @@ El color de acento de la interfaz (botones activos, sliders, highlights) fue rec
 
 ### 11.1 Skybox — Gradiente Procedural ✅
 
-| Decisión | Detalle |
-|----------|---------|
-| **No se usa HDRI** | Los skyboxes HDRI estándar son archivos de 2–10 MB que se suman al build size. Se descartó completamente |
+| Decisión              | Detalle                                                                                                                                      |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **No se usa HDRI**    | Los skyboxes HDRI estándar son archivos de 2–10 MB que se suman al build size. Se descartó completamente                                     |
 | **Skybox procedural** | Se usa el componente `Gradient Skybox` de Unity que genera el fondo mediante gradientes de color en CPU — costo de runtime: ~0 MB de textura |
 
 **Motivo:** Para la visualización técnica del dron, el entorno es secundario. El foco es el modelo 3D. Un fondo oscuro y limpio (Studio preset) mejora la legibilidad del modelo sin cost de assets.
@@ -344,23 +346,23 @@ El color de acento de la interfaz (botones activos, sliders, highlights) fue rec
 
 Cuatro presets predefinidos que el usuario puede seleccionar desde el modo Studio:
 
-| Preset | Background | Iluminación | Propósito |
-|--------|-----------|-------------|-----------|
-| **Studio** | `#050505` (5,5,5 — negro casi puro) | Luz direccional alta, ambient bajo | Visualización técnica de precisión |
-| **Sunset** | Gradiente naranja-azul | Luz cálida lateral | Presentación visual |
-| **Night** | `#000000` profundo | Luz fría+accent azul | Contraste máximo |
-| **Blueprint** | `#0a1628` (azul oscuro) | Luz técnica uniforme | Plano técnico |
-| **Neutral** | `#141414` gris medio | Iluminación equilibrada | General |
+| Preset        | Background                          | Iluminación                        | Propósito                          |
+| ------------- | ----------------------------------- | ---------------------------------- | ---------------------------------- |
+| **Studio**    | `#050505` (5,5,5 — negro casi puro) | Luz direccional alta, ambient bajo | Visualización técnica de precisión |
+| **Sunset**    | Gradiente naranja-azul              | Luz cálida lateral                 | Presentación visual                |
+| **Night**     | `#000000` profundo                  | Luz fría+accent azul               | Contraste máximo                   |
+| **Blueprint** | `#0a1628` (azul oscuro)             | Luz técnica uniforme               | Plano técnico                      |
+| **Neutral**   | `#141414` gris medio                | Iluminación equilibrada            | General                            |
 
 **Motivo del preset Studio `#050505`:** Este valor `(5/255, 5/255, 5/255)` en espacio lineal corresponde a un negro que en el browser renderiza como un fondo oscuro profundo sin ser pure black, evitando artefactos de LCD y manteniendo la coherencia con la paleta CSS de la interfaz.
 
 ### 11.3 Costos evitados ✅
 
-| Elemento descartado | Ahorro estimado |
-|--------------------|----------------|
-| HDRI skybox texture | ~2–8 MB por preset |
-| Realtime reflection probes | 2 draw passes por frame |
-| Baked GI lightmaps | ~10–50 MB de texturas baked |
+| Elemento descartado        | Ahorro estimado             |
+| -------------------------- | --------------------------- |
+| HDRI skybox texture        | ~2–8 MB por preset          |
+| Realtime reflection probes | 2 draw passes por frame     |
+| Baked GI lightmaps         | ~10–50 MB de texturas baked |
 
 ---
 
@@ -386,15 +388,15 @@ Los 4 shaders URP se incluyen como seguro ante posibles edge cases en WebGL buil
 
 La herramienta original era un monolito de 683 líneas refactorizado en 7 clases especializadas:
 
-| Clase | FIX # | Responsabilidad |
-|-------|-------|-----------------|
-| `URPAssetFixer.cs` | FIX 1 | Crea o recrea el URP Asset con todos los parámetros optimizados |
-| `URPPipelineFixer.cs` | FIX 2 | Asigna el URP Asset a Graphics Settings y Quality Settings |
-| `QualityLevelFixer.cs` | FIX 3 | Propaga el URP Asset a **todos** los Quality Levels |
-| `ShaderInclusionFixer.cs` | FIX 4 | Agrega los 8 shaders a Always Included Shaders |
-| `FontSetupFixer.cs` | FIX 5a | Copia Inter-Regular.otf a la ruta correcta |
-| `PanelSettingsFixer.cs` | FIX 5b/c | Asigna TextSettings y deshabilita ClearColor en PanelSettings |
-| `WebGLDiagnostics.cs` | — | Herramienta de diagnóstico (read-only, sin cambios) |
+| Clase                     | FIX #    | Responsabilidad                                                 |
+| ------------------------- | -------- | --------------------------------------------------------------- |
+| `URPAssetFixer.cs`        | FIX 1    | Crea o recrea el URP Asset con todos los parámetros optimizados |
+| `URPPipelineFixer.cs`     | FIX 2    | Asigna el URP Asset a Graphics Settings y Quality Settings      |
+| `QualityLevelFixer.cs`    | FIX 3    | Propaga el URP Asset a **todos** los Quality Levels             |
+| `ShaderInclusionFixer.cs` | FIX 4    | Agrega los 8 shaders a Always Included Shaders                  |
+| `FontSetupFixer.cs`       | FIX 5a   | Copia Inter-Regular.otf a la ruta correcta                      |
+| `PanelSettingsFixer.cs`   | FIX 5b/c | Asigna TextSettings y deshabilita ClearColor en PanelSettings   |
+| `WebGLDiagnostics.cs`     | —        | Herramienta de diagnóstico (read-only, sin cambios)             |
 
 **Uso:** `Tools → WebGL Build Fixer → Run All Fixes`
 
@@ -411,6 +413,7 @@ La herramienta original era un monolito de 683 líneas refactorizado en 7 clases
 **Problema:** Los labels de texto sobre los sliders ("EXPLODE", "ROTATION", "INTENSITY") tenían `picking-mode="Position"` que hacía que clicks en su área cerraran el panel de UI.
 
 **Solución en `MainLayout.uxml`:**
+
 ```xml
 <!-- Sliders de herramientas -->
 <Label text="EXPLODE" picking-mode="Position" />
@@ -426,6 +429,7 @@ La herramienta original era un monolito de 683 líneas refactorizado en 7 clases
 **Problema:** Clicks en el panel "EXPLODE" (y otros sub-paneles de Analyze) burbujeaban hasta `SelectionManager.HandleClick()` → `Deselect()` → `NavigateToCardGrid()`, navegando involuntariamente de vuelta al grid.
 
 **Solución aplicada — patrón para cada panel:**
+
 ```csharp
 var explodePanel = root.Q<VisualElement>("ExplodeSubPanel");
 if (explodePanel != null)
@@ -456,79 +460,79 @@ if (explodePanel != null)
 
 ### 15.1 Materiales PBR por Parte 🔲
 
-| Tarea | Descripción | Impacto |
-|-------|-------------|---------|
-| **Asignar URP/Lit a todas las partes** | Actualmente varias partes usan materiales Standard de Unity o Unlit temporales. Deben migrarse a `Universal Render Pipeline/Lit` | Sin materiales correctos, el SRP Batcher no puede agrupar draw calls |
-| **Mapas de textura** | Cada material necesita: Albedo (color), Normal Map, Metallic Map, Roughness/Smoothness Map, AO Map | Sin texturas, se pierde la legibilidad técnica del material (metal, carbono, etc.) |
-| **Configuración Metallic/Roughness** | Los metales (aluminio, titanio, acero) necesitan `Metallic ≈ 0.9–1.0`, `Roughness ≈ 0.1–0.3`. Plásticos: `Metallic = 0`, `Roughness ≈ 0.5–0.8` | Apariencia realista correlacionada con el tipo de componente |
+| Tarea                                  | Descripción                                                                                                                                    | Impacto                                                                            |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Asignar URP/Lit a todas las partes** | Actualmente varias partes usan materiales Standard de Unity o Unlit temporales. Deben migrarse a `Universal Render Pipeline/Lit`               | Sin materiales correctos, el SRP Batcher no puede agrupar draw calls               |
+| **Mapas de textura**                   | Cada material necesita: Albedo (color), Normal Map, Metallic Map, Roughness/Smoothness Map, AO Map                                             | Sin texturas, se pierde la legibilidad técnica del material (metal, carbono, etc.) |
+| **Configuración Metallic/Roughness**   | Los metales (aluminio, titanio, acero) necesitan `Metallic ≈ 0.9–1.0`, `Roughness ≈ 0.1–0.3`. Plásticos: `Metallic = 0`, `Roughness ≈ 0.5–0.8` | Apariencia realista correlacionada con el tipo de componente                       |
 
 ### 15.2 Texture Compression 🔲
 
-| Tarea | Descripción | Impacto en Build |
-|-------|-------------|-----------------|
-| **DXT5 / BC7 para albedo+normal** | Comprimir todas las texturas con DXT5 (transparencia) o DXT1 (opaco) | Reducción ~75% en tamaño de texturas |
-| **Resolución por LOD** | Texturas de alta resolución (2K, 4K) solo para partes primarias; 512px para partes pequeñas/internas | Reducción ~60% en tiempo de descarga inicial |
-| **Crunch Compression** | Habilitar Crunch compression en textura Import Settings para el build WebGL | Reducción adicional ~40–60% en tamaño del archivo `.data` |
-| **Texture Atlas** | Agrupar texturas de partes similares en atlas compartidos | Reducción dramática de draw calls (de N por parte única a 1 por atlas) |
+| Tarea                             | Descripción                                                                                          | Impacto en Build                                                       |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **DXT5 / BC7 para albedo+normal** | Comprimir todas las texturas con DXT5 (transparencia) o DXT1 (opaco)                                 | Reducción ~75% en tamaño de texturas                                   |
+| **Resolución por LOD**            | Texturas de alta resolución (2K, 4K) solo para partes primarias; 512px para partes pequeñas/internas | Reducción ~60% en tiempo de descarga inicial                           |
+| **Crunch Compression**            | Habilitar Crunch compression en textura Import Settings para el build WebGL                          | Reducción adicional ~40–60% en tamaño del archivo `.data`              |
+| **Texture Atlas**                 | Agrupar texturas de partes similares en atlas compartidos                                            | Reducción dramática de draw calls (de N por parte única a 1 por atlas) |
 
 ### 15.3 LOD Groups 🔲
 
-| Tarea | Descripción |
-|-------|-------------|
+| Tarea                         | Descripción                                                                                                                                                           |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Crear LOD Group por parte** | Cada componente del dron debe tener: LOD0 (full res, cámara cerca), LOD1 (50% polígonos, cámara mediana), LOD2 (25% polígonos, cámara lejos), CULLED (fuera de rango) |
-| **LOD Bias** | Ajustar `Quality Settings → LOD Bias` en base al modelo final para evitar pop-in visual |
-| **Occlusion Culling** | Bake occlusion culling para partes internas del dron que quedan ocultas cuando la cámara está en posición exterior |
+| **LOD Bias**                  | Ajustar `Quality Settings → LOD Bias` en base al modelo final para evitar pop-in visual                                                                               |
+| **Occlusion Culling**         | Bake occlusion culling para partes internas del dron que quedan ocultas cuando la cámara está en posición exterior                                                    |
 
 ### 15.4 Shader Variants 🔲
 
-| Tarea | Descripción |
-|-------|-------------|
+| Tarea                         | Descripción                                                                                                                                                                                       |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Shader Variant Collection** | Una vez que los materiales definitivos estén asignados, generar una `ShaderVariantCollection` que pre-compile exactamente las variantes usadas, eliminando el shader compilation stutter en WebGL |
-| **Strip Unused Keywords** | Con los materiales finales, revisar en `Graphics → Shader Stripping` qué keywords de shader pueden desactivarse globalmente (instancing, lightmaps, fog, etc.) |
+| **Strip Unused Keywords**     | Con los materiales finales, revisar en `Graphics → Shader Stripping` qué keywords de shader pueden desactivarse globalmente (instancing, lightmaps, fog, etc.)                                    |
 
 ### 15.5 Lighting — Baked GI 🔲
 
-| Tarea | Descripción |
-|-------|-------------|
-| **Lightmap baking** | Bake Global Illumination para la iluminación del entorno Studio. Esto elimina el costo de cálculo en runtime. Actualmente imposible sin los materiales definitivos — los lightmaps serían inválidos |
-| **Reflection Probes Baked** | Agregar 1–2 reflection probes baked en posición del dron para capturar reflecciones de entorno sin costo en runtime |
-| **Light Probes** | Para partes pequeñas del dron que se mueven (alas, hélices en animación), agregar light probes |
+| Tarea                       | Descripción                                                                                                                                                                                         |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Lightmap baking**         | Bake Global Illumination para la iluminación del entorno Studio. Esto elimina el costo de cálculo en runtime. Actualmente imposible sin los materiales definitivos — los lightmaps serían inválidos |
+| **Reflection Probes Baked** | Agregar 1–2 reflection probes baked en posición del dron para capturar reflecciones de entorno sin costo en runtime                                                                                 |
+| **Light Probes**            | Para partes pequeñas del dron que se mueven (alas, hélices en animación), agregar light probes                                                                                                      |
 
 ### 15.6 Optimización de Audio 🔲
 
-| Tarea | Descripción |
-|-------|-------------|
+| Tarea                     | Descripción                                                                              |
+| ------------------------- | ---------------------------------------------------------------------------------------- |
 | **Formato de compresión** | Todos los clips de audio deben estar en formato **Vorbis** en calidad `70–80` para WebGL |
-| **Load Type** | Clips de ambient: `Streaming`. Clips de click/UI: `Decompress On Load` |
-| **Sample Rate** | UI sounds: 22050 Hz es suficiente. No usar 44100/48000 Hz en clips secundarios |
+| **Load Type**             | Clips de ambient: `Streaming`. Clips de click/UI: `Decompress On Load`                   |
+| **Sample Rate**           | UI sounds: 22050 Hz es suficiente. No usar 44100/48000 Hz en clips secundarios           |
 
 ---
 
 ## Resumen de Estado
 
-| Área | Estado | Commit/Referencia |
-|------|--------|------------------|
-| Color Space Linear | ✅ Completado | `d341e58` |
-| Player Settings WebGL | ✅ Completado | Manual Inspector |
-| Quality Settings | ✅ Completado | Manual Inspector |
-| URP Asset (automated) | ✅ Completado | `URPAssetFixer.cs` |
-| URP Renderer Data | ✅ Revisado | Manual Inspector |
-| Graphics Settings | ✅ Completado | `ShaderInclusionFixer.cs` |
-| PanelSettings UI | ✅ Completado | `PanelSettingsFixer.cs` |
-| Sistema de fuentes (Inter) | ✅ Completado | `FontSetupFixer.cs` |
-| Theme.uss Gamma→Linear | ✅ Completado (133 expr) | `d341e58` |
-| Accent blue ajustado | ✅ Completado | `d341e58` |
-| Cross-section alpha | ✅ Completado | `CrossSectionManager.cs` |
-| EnvironmentController presets | ✅ Completado | Manual code |
-| Event propagation (sliders) | ✅ Completado | `cb9b737` |
-| Event propagation (sub-panels) | ✅ Completado | UIManager.cs (pendiente commit) |
-| Materiales PBR definitivos | 🔲 Pendiente prototipo | — |
-| Texture compression/atlas | 🔲 Pendiente prototipo | — |
-| LOD Groups | 🔲 Pendiente prototipo | — |
-| Shader Variant Collection | 🔲 Pendiente prototipo | — |
-| Lightmap baking | 🔲 Pendiente prototipo | — |
-| Audio compression | 🔲 Pendiente prototipo | — |
+| Área                           | Estado                   | Commit/Referencia               |
+| ------------------------------ | ------------------------ | ------------------------------- |
+| Color Space Linear             | ✅ Completado            | `d341e58`                       |
+| Player Settings WebGL          | ✅ Completado            | Manual Inspector                |
+| Quality Settings               | ✅ Completado            | Manual Inspector                |
+| URP Asset (automated)          | ✅ Completado            | `URPAssetFixer.cs`              |
+| URP Renderer Data              | ✅ Revisado              | Manual Inspector                |
+| Graphics Settings              | ✅ Completado            | `ShaderInclusionFixer.cs`       |
+| PanelSettings UI               | ✅ Completado            | `PanelSettingsFixer.cs`         |
+| Sistema de fuentes (Inter)     | ✅ Completado            | `FontSetupFixer.cs`             |
+| Theme.uss Gamma→Linear         | ✅ Completado (133 expr) | `d341e58`                       |
+| Accent blue ajustado           | ✅ Completado            | `d341e58`                       |
+| Cross-section alpha            | ✅ Completado            | `CrossSectionManager.cs`        |
+| EnvironmentController presets  | ✅ Completado            | Manual code                     |
+| Event propagation (sliders)    | ✅ Completado            | `cb9b737`                       |
+| Event propagation (sub-panels) | ✅ Completado            | UIManager.cs (pendiente commit) |
+| Materiales PBR definitivos     | 🔲 Pendiente prototipo   | —                               |
+| Texture compression/atlas      | 🔲 Pendiente prototipo   | —                               |
+| LOD Groups                     | 🔲 Pendiente prototipo   | —                               |
+| Shader Variant Collection      | 🔲 Pendiente prototipo   | —                               |
+| Lightmap baking                | 🔲 Pendiente prototipo   | —                               |
+| Audio compression              | 🔲 Pendiente prototipo   | —                               |
 
 ---
 
-*Documento generado a partir del historial de commits `d341e58` → `cb9b737` y análisis de código fuente. Actualizar cada vez que se completen las secciones pendientes de materiales.*
+_Documento generado a partir del historial de commits `d341e58` → `cb9b737` y análisis de código fuente. Actualizar cada vez que se completen las secciones pendientes de materiales._
