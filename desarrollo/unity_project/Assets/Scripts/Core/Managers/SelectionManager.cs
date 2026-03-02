@@ -165,12 +165,12 @@ namespace WebGL.Core.Managers
         /// <param name="cursorType">The cursor type to set.</param>
         private void UpdateCursor(CursorType cursorType)
         {
-            if (CursorManager.Instance != null)
+            if (ServiceLocator.TryGet<CursorManager>(out var cursor))
             {
                 if (cursorType == CursorType.Default)
-                    CursorManager.Instance.ResetCursor();
+                    cursor.ResetCursor();
                 else
-                    CursorManager.Instance.SetCursor(cursorType);
+                    cursor.SetCursor(cursorType);
             }
         }
 
@@ -245,9 +245,9 @@ namespace WebGL.Core.Managers
                 EventBus.Publish(new PartSelectedEvent(explodable.Data, fromHotspot));
                 
                 // Track analytics
-                if (AnalyticsManager.Instance != null)
+                if (ServiceLocator.TryGet<AnalyticsManager>(out var analytics))
                 {
-                    AnalyticsManager.Instance.TrackPartSelected(explodable.Data.PartName);
+                    analytics.TrackPartSelected(explodable.Data.PartName);
                 }
             }
 
