@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 using WebGL.Core.Utils;
@@ -22,6 +23,7 @@ namespace WebGL.UI
         private float _currentProgress;
         private float _targetProgress;
         private const float SmoothSpeed = 3f;
+        private Coroutine _progressCoroutine;
 
         protected override void Awake()
         {
@@ -54,13 +56,16 @@ namespace WebGL.UI
             root.Add(_loadingPanel);
         }
 
-        private void Update()
+        private IEnumerator SmoothProgress()
         {
-            if (_loadingPanel != null && _loadingPanel.style.display == DisplayStyle.Flex)
+            while (true)
             {
                 _currentProgress = Mathf.Lerp(_currentProgress, _targetProgress, Time.deltaTime * SmoothSpeed);
-                _progressFill.style.width = Length.Percent(_currentProgress * 100);
-                _percentageLabel.text = $"{Mathf.RoundToInt(_currentProgress * 100)}%";
+                if (_progressFill != null)
+                    _progressFill.style.width = Length.Percent(_currentProgress * 100);
+                if (_percentageLabel != null)
+                    _percentageLabel.text = $"{Mathf.RoundToInt(_currentProgress * 100)}%";
+                yield return null;
             }
         }
 
@@ -71,11 +76,14 @@ namespace WebGL.UI
                 _loadingPanel.style.display = DisplayStyle.Flex;
                 _currentProgress = 0f;
                 _targetProgress = 0f;
+                if (_progressCoroutine != null) StopCoroutine(_progressCoroutine);
+                _progressCoroutine = StartCoroutine(SmoothProgress());
             }
         }
 
         public void Hide()
         {
+            if (_progressCoroutine != null) { StopCoroutine(_progressCoroutine); _progressCoroutine = null; }
             if (_loadingPanel != null)
             {
                 _loadingPanel.style.display = DisplayStyle.None;

@@ -14,30 +14,27 @@ namespace WebGL.Core.Managers
         [SerializeField] private float maxScale = 1.0f;
 
         private float currentScale = 1.0f;
-        // private float timeSinceLastCheck = 0f;
-        private float frameCount = 0f;
-        private float dt = 0f;
+        private int _lastFrameCount;
+        private float _lastCheckTime;
 
         private void Start()
         {
-            // Initial setting
-            // ScalableBufferManager.ResizeBuffers(maxScale, maxScale);
+            _lastFrameCount = Time.frameCount;
+            _lastCheckTime = Time.realtimeSinceStartup;
+            InvokeRepeating(nameof(CheckPerformance), checkInterval, checkInterval);
         }
 
-        private void Update()
+        private void CheckPerformance()
         {
-            // Calculate FPS
-            frameCount++;
-            dt += Time.unscaledDeltaTime;
+            int frames = Time.frameCount - _lastFrameCount;
+            float elapsed = Time.realtimeSinceStartup - _lastCheckTime;
+            if (elapsed <= 0f) return;
 
-            if (dt > checkInterval)
-            {
-                float fps = frameCount / dt;
-                AdjustQuality(fps);
+            float fps = frames / elapsed;
+            AdjustQuality(fps);
 
-                frameCount = 0;
-                dt = 0;
-            }
+            _lastFrameCount = Time.frameCount;
+            _lastCheckTime = Time.realtimeSinceStartup;
         }
 
         private void AdjustQuality(float fps)

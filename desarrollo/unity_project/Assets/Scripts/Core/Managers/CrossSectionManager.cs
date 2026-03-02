@@ -138,14 +138,6 @@ namespace WebGL.Core.Managers
             visual.SetActive(false);
         }
 
-        private void Update()
-        {
-            if (isEnabled)
-            {
-                UpdateAndApply();
-            }
-        }
-
         // ═══════════════════════════════════════════════════════
         //  Public API
         // ═══════════════════════════════════════════════════════

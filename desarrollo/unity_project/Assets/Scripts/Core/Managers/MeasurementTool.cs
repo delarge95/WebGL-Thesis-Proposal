@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WebGL.Core.Content;
@@ -28,6 +29,7 @@ namespace WebGL.Core.Managers
         private List<LineRenderer> lineRenderers = new List<LineRenderer>();
         private List<GameObject> pointMarkers = new List<GameObject>();
         private float lastMeasurement = 0f;
+        private Coroutine _inputCoroutine;
 
         public bool IsActive => isActive;
         public MeasurementMode Mode => mode;
@@ -35,19 +37,17 @@ namespace WebGL.Core.Managers
 
         public event System.Action<float, string> OnMeasurementComplete;
 
-        private void Update()
+        private IEnumerator InputPolling()
         {
-            if (!isActive) return;
-
-            if (Input.GetMouseButtonDown(0))
+            while (isActive)
             {
-                AddMeasurePoint();
+                if (Input.GetMouseButtonDown(0))
+                    AddMeasurePoint();
+                if (Input.GetKeyDown(KeyCode.Escape))
+                    ClearMeasurement();
+                yield return null;
             }
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                ClearMeasurement();
-            }
+            _inputCoroutine = null;
         }
 
         public void Activate(MeasurementMode measureMode = MeasurementMode.Distance)
@@ -55,6 +55,9 @@ namespace WebGL.Core.Managers
             isActive = true;
             mode = measureMode;
             ClearMeasurement();
+
+            if (_inputCoroutine != null) StopCoroutine(_inputCoroutine);
+            _inputCoroutine = StartCoroutine(InputPolling());
 
             if (ServiceLocator.TryGet<CursorManager>(out var cursor))
             {
@@ -72,6 +75,7 @@ namespace WebGL.Core.Managers
         public void Deactivate()
         {
             isActive = false;
+            if (_inputCoroutine != null) { StopCoroutine(_inputCoroutine); _inputCoroutine = null; }
             ClearMeasurement();
 
             if (ServiceLocator.TryGet<CursorManager>(out var cursorMgr))

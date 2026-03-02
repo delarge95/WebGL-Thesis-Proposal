@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WebGL.Core.Managers;
@@ -17,7 +18,7 @@ namespace WebGL.Core.Content
         private List<ExplodablePart> parts = new List<ExplodablePart>();
         private float currentFactor = 0f;
         private float targetFactor = 0f;
-        // private bool isAnimating = false;
+        private Coroutine _animCoroutine;
 
         protected override void Awake()
         {
@@ -42,55 +43,31 @@ namespace WebGL.Core.Content
         {
             if (evt.NewState == AppState.ExplodedView)
             {
-                // Auto-expand to default
                 SetExplosionFactor(0.5f);
                 AudioManager.Instance?.PlayExplosionSound();
             }
             else
             {
-                // Collapse
                 SetExplosionFactor(0f);
             }
         }
 
-        private void Update()
+        private IEnumerator AnimateExplosion()
         {
-            // Get current state
-            AppState currentState = AppStateMachine.Instance != null 
-                ? AppStateMachine.Instance.CurrentState 
-                : AppState.Exploration;
-
-            // Calculate target
-            if (currentState == AppState.ExplodedView)
-            {
-                targetFactor = explosionFactor;
-            }
-            else
-            {
-                targetFactor = 0f;
-            }
-
-            // Smoothly interpolate
-            if (Mathf.Abs(currentFactor - targetFactor) > 0.001f)
+            while (Mathf.Abs(currentFactor - targetFactor) > 0.001f)
             {
                 if (useEasing)
-                {
-                    // Smooth easing
                     currentFactor = Mathf.Lerp(currentFactor, targetFactor, Time.deltaTime * animationSpeed);
-                }
                 else
-                {
-                    // Linear
                     currentFactor = Mathf.MoveTowards(currentFactor, targetFactor, Time.deltaTime * animationSpeed * 0.5f);
-                }
 
                 UpdateAllParts();
+                yield return null;
             }
-            else if (currentFactor != targetFactor)
-            {
-                currentFactor = targetFactor;
-                UpdateAllParts();
-            }
+
+            currentFactor = targetFactor;
+            UpdateAllParts();
+            _animCoroutine = null;
         }
 
         private void UpdateAllParts()
@@ -107,6 +84,11 @@ namespace WebGL.Core.Content
         public void SetExplosionFactor(float value)
         {
             explosionFactor = Mathf.Clamp01(value);
+            targetFactor = explosionFactor;
+
+            // Start animation coroutine if not running
+            if (_animCoroutine != null) StopCoroutine(_animCoroutine);
+            _animCoroutine = StartCoroutine(AnimateExplosion());
             
             // Notify about change
             EventBus.Publish(new ViewModeChangedEvent(explosionFactor > 0.1f));
