@@ -208,6 +208,10 @@
                             <ui:VisualElement class="submenu-icon icon-power" picking-mode="Ignore"/>
                             <ui:Label text="POWER" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
+                        <ui:Button name="CatBtn_Payload" class="submenu-card">
+                            <ui:VisualElement class="submenu-icon icon-payload" picking-mode="Ignore"/>
+                            <ui:Label text="PAYLOAD" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>

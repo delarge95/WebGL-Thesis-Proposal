@@ -186,6 +186,7 @@ namespace WebGL.UI
             BindCat("CatBtn_Propulsion", "Propulsion");
             BindCat("CatBtn_Avionics", "Avionics");
             BindCat("CatBtn_Power", "Power");
+            BindCat("CatBtn_Payload", "Payload");
 
             // ── Explosion slider ──
             if (explosionSlider != null)
