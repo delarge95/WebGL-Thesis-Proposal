@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    WebGL Drone Viewer â€” Main Theme Stylesheet
    2026 Futuristic Minimalist Â· 8pt Grid Â· HIG/MD3 Compliant
    ============================================================ */
@@ -142,7 +142,7 @@
     flex-direction: column;
     align-items: center;
     background-color: transparent;
-    padding-bottom: 16px;
+    padding-bottom: 0;
 
     /* Smooth shift for sheet */
     transition-property: bottom, translate;
@@ -164,7 +164,7 @@
     min-width: 480px;
     height: 112px;
     
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     
     transition-property: width, opacity, translate;
     transition-duration: 0.3s;
@@ -212,8 +212,8 @@
     justify-content: center;
     width: 120px;
     height: 96px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 12px;
+    margin-right: 12px;
     
     background-color: transparent;
     border-radius: 0;
