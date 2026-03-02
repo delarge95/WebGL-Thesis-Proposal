@@ -180,7 +180,7 @@ namespace WebGL.UI.Panels
                 if (_sheetAssemblyTime != null)
                     _sheetAssemblyTime.text = data.installationTimeMinutes > 0 ? $"~{data.installationTimeMinutes:F0} min" : "N/A";
 
-                if (fromHotspot) OpenSheet();
+                if (fromHotspot && !IsSheetOpen) OpenSheet();
             }
             else
             {
