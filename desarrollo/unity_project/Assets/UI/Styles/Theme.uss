@@ -1360,6 +1360,16 @@
    â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 /* Old shader-menu and env-panel styles removed (replaced by .submenu-container) */
 
+/* Inline slider row (shown below card grid for Explode) */
+.explode-inline-slider {
+    width: 100%;
+    margin-top: 8px;
+    padding: 0 16px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
 .env-slider-group {
     width: 476px;
     height: 56px;

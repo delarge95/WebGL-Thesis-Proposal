@@ -43,7 +43,6 @@ namespace WebGL.UI
         private Button _fabInfoBtn;
         // ── Slider (explosion) ──
         private Slider explosionSlider;
-        private VisualElement sliderContainer;
 
         // ── State ──
         private bool _hotspotsInitialized = false;
@@ -120,7 +119,6 @@ namespace WebGL.UI
 
             // ── Query shared elements ──
             resetBtn = root.Q<Button>("ResetViewBtn");
-            sliderContainer = root.Q<VisualElement>("SliderContainer");
             explosionSlider = root.Q<Slider>("ExplosionSlider");
 
             // ── Details Sheet (info toggle handled via UIModeController event, not direct button binding) ──
@@ -216,19 +214,18 @@ namespace WebGL.UI
                 AddCleanup(() => { explosionSlider.UnregisterCallback(esEn); explosionSlider.UnregisterCallback(esLe); explosionSlider.UnregisterCallback(esDo); });
             }
 
-            // ── ExplodeSubPanel container — block pointer events from bubbling
-            //    past the panel so clicks on the label / empty space don't reach
-            //    parent handlers that would navigate back to the card grid. ──
-            var explodePanel = root.Q<VisualElement>("ExplodeSubPanel");
-            if (explodePanel != null)
+            // ── ExplodeInlineSlider container — block pointer events from bubbling
+            //    past the slider so clicks don't reach parent handlers. ──
+            var explodeInline = root.Q<VisualElement>("ExplodeInlineSlider");
+            if (explodeInline != null)
             {
                 EventCallback<PointerEnterEvent> epEn = evt => InputManager.InputBlocked = true;
                 EventCallback<PointerLeaveEvent> epLe = evt => InputManager.InputBlocked = false;
                 EventCallback<PointerDownEvent> epDo = evt => evt.StopPropagation();
-                explodePanel.RegisterCallback(epEn);
-                explodePanel.RegisterCallback(epLe);
-                explodePanel.RegisterCallback(epDo);
-                AddCleanup(() => { explodePanel.UnregisterCallback(epEn); explodePanel.UnregisterCallback(epLe); explodePanel.UnregisterCallback(epDo); });
+                explodeInline.RegisterCallback(epEn);
+                explodeInline.RegisterCallback(epLe);
+                explodeInline.RegisterCallback(epDo);
+                AddCleanup(() => { explodeInline.UnregisterCallback(epEn); explodeInline.UnregisterCallback(epLe); explodeInline.UnregisterCallback(epDo); });
             }
 
             // ── CrossSectionPanel & FilterSubPanel — same protection ──

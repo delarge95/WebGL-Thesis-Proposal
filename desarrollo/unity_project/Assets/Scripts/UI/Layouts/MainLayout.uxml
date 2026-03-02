@@ -138,6 +138,11 @@
                             <ui:Label text="FILTER" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                     </ui:VisualElement>
+
+                    <!-- Inline slider for Explode (toggled by Explode card) -->
+                    <ui:VisualElement name="ExplodeInlineSlider" class="explode-inline-slider submenu--hidden" picking-mode="Position">
+                        <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider env-slider" picking-mode="Position" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
 
                 <!-- Level 2a — Cross-Section Panel -->
@@ -168,15 +173,6 @@
                             </ui:Button>
                         </ui:VisualElement>
                         <ui:Slider name="CrossSectionPosition2" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-
-                <!-- Level 2b — Explode Sub-Panel -->
-                <ui:VisualElement name="ExplodeSubPanel" class="mode-submenu submenu--hidden" picking-mode="Position">
-                    <ui:Label text="EXPLODED VIEW" class="submenu-title" picking-mode="Ignore"/>
-                    <ui:VisualElement name="SliderContainer" class="env-slider-group" picking-mode="Position">
-                        <ui:Label text="EXPLODE" class="env-slider-label" picking-mode="Position" />
-                        <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider env-slider" picking-mode="Position" />
                     </ui:VisualElement>
                 </ui:VisualElement>
 

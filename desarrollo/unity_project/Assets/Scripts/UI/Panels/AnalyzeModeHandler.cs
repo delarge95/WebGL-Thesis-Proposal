@@ -17,7 +17,7 @@ namespace WebGL.UI.Panels
         private readonly Button _explodeBtn;
         private readonly Button _filterBtn;
         private readonly VisualElement _crossSectionPanel;
-        private readonly VisualElement _explodeSubPanel;
+        private readonly VisualElement _explodeInlineSlider;
         private readonly VisualElement _filterSubPanel;
 
         private enum SubLevel { CardGrid, SubPanel }
@@ -41,7 +41,7 @@ namespace WebGL.UI.Panels
             _explodeBtn = container.Q<Button>("AnalyzeExplodeBtn");
             _filterBtn = container.Q<Button>("AnalyzeFilterBtn");
             _crossSectionPanel = container.Q<VisualElement>("CrossSectionPanel");
-            _explodeSubPanel = container.Q<VisualElement>("ExplodeSubPanel");
+            _explodeInlineSlider = container.Q<VisualElement>("ExplodeInlineSlider");
             _filterSubPanel = container.Q<VisualElement>("FilterSubPanel");
 
             BindCards();
@@ -58,7 +58,7 @@ namespace WebGL.UI.Panels
 
             if (_explodeBtn != null)
             {
-                Action onExplode = () => DelayAction(() => NavigateToSubPanel("explode"));
+                Action onExplode = () => DelayAction(ToggleExplodeInline);
                 _explodeBtn.clicked += onExplode;
                 AddCleanup(() => _explodeBtn.clicked -= onExplode);
             }
@@ -76,11 +76,19 @@ namespace WebGL.UI.Panels
             _level = SubLevel.CardGrid;
             _activePanel = null;
             ShowLevel();
+
+            // Restore inline slider if explode is active
+            if (_isExploded)
+            {
+                _explodeInlineSlider?.RemoveFromClassList("submenu--hidden");
+                _explodeBtn?.EnableInClassList("submenu-card--active", true);
+            }
         }
 
         public override void Deactivate()
         {
             CloseAllSubPanels();
+            _explodeInlineSlider?.AddToClassList("submenu--hidden");
         }
 
         /// <summary>Navigate from card grid to a sub-panel.</summary>
@@ -90,8 +98,11 @@ namespace WebGL.UI.Panels
             _activePanel = panelId;
             ShowLevel();
 
+            // Hide inline explode slider when navigating to a sub-panel
+            _explodeInlineSlider?.AddToClassList("submenu--hidden");
+
             _crossSectionBtn?.EnableInClassList("submenu-card--active", panelId == "cross-section");
-            _explodeBtn?.EnableInClassList("submenu-card--active", panelId == "explode");
+            _explodeBtn?.EnableInClassList("submenu-card--active", _isExploded);
             _filterBtn?.EnableInClassList("submenu-card--active", panelId == "filter");
 
             if (panelId == "cross-section")
@@ -109,8 +120,12 @@ namespace WebGL.UI.Panels
             ShowLevel();
 
             _crossSectionBtn?.RemoveFromClassList("submenu-card--active");
-            _explodeBtn?.RemoveFromClassList("submenu-card--active");
+            _explodeBtn?.EnableInClassList("submenu-card--active", _isExploded);
             _filterBtn?.RemoveFromClassList("submenu-card--active");
+
+            // Restore inline slider if explode is active
+            if (_isExploded)
+                _explodeInlineSlider?.RemoveFromClassList("submenu--hidden");
         }
 
         private void ShowLevel()
@@ -120,8 +135,6 @@ namespace WebGL.UI.Panels
 
             _crossSectionPanel?.EnableInClassList("submenu--hidden", !(
                 !showGrid && _activePanel == "cross-section"));
-            _explodeSubPanel?.EnableInClassList("submenu--hidden", !(
-                !showGrid && _activePanel == "explode"));
             _filterSubPanel?.EnableInClassList("submenu--hidden", !(
                 !showGrid && _activePanel == "filter"));
         }
@@ -135,10 +148,9 @@ namespace WebGL.UI.Panels
             _activePanel = null;
             _cardGrid?.RemoveFromClassList("submenu--hidden");
             _crossSectionPanel?.AddToClassList("submenu--hidden");
-            _explodeSubPanel?.AddToClassList("submenu--hidden");
             _filterSubPanel?.AddToClassList("submenu--hidden");
             _crossSectionBtn?.RemoveFromClassList("submenu-card--active");
-            _explodeBtn?.RemoveFromClassList("submenu-card--active");
+            _explodeBtn?.EnableInClassList("submenu-card--active", _isExploded);
             _filterBtn?.RemoveFromClassList("submenu-card--active");
         }
 
@@ -148,6 +160,7 @@ namespace WebGL.UI.Panels
         {
             _isExploded = exploded;
             _explodeBtn?.EnableInClassList("submenu-card--active", exploded);
+            _explodeInlineSlider?.EnableInClassList("submenu--hidden", !exploded);
         }
 
         public bool IsExploded => _isExploded;
@@ -215,12 +228,34 @@ namespace WebGL.UI.Panels
                 NavigateToSubPanel("filter");
         }
 
-        public void ToggleExplodePanel()
+        public void ToggleExplodePanel() => ToggleExplodeInline();
+
+        /// <summary>Toggle the inline explode slider below the card grid.</summary>
+        private void ToggleExplodeInline()
         {
-            if (_level == SubLevel.SubPanel && _activePanel == "explode")
+            // If a sub-panel is open, go back to card grid first
+            if (_level == SubLevel.SubPanel)
                 NavigateToCardGrid();
+
+            bool sliderVisible = _explodeInlineSlider != null
+                && !_explodeInlineSlider.ClassListContains("submenu--hidden");
+
+            if (sliderVisible)
+            {
+                // Hide slider
+                _explodeInlineSlider?.AddToClassList("submenu--hidden");
+                _explodeBtn?.RemoveFromClassList("submenu-card--active");
+                _isExploded = false;
+                OnExplodeToggleRequested?.Invoke();
+            }
             else
-                NavigateToSubPanel("explode");
+            {
+                // Show slider
+                _explodeInlineSlider?.RemoveFromClassList("submenu--hidden");
+                _explodeBtn?.EnableInClassList("submenu-card--active", true);
+                _isExploded = true;
+                OnExplodeToggleRequested?.Invoke();
+            }
         }
 
         public override void Dispose()
