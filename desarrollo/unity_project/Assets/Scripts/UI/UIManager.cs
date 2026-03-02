@@ -196,6 +196,35 @@ namespace WebGL.UI
                 AddCleanup(() => { explosionSlider.UnregisterCallback(esEn); explosionSlider.UnregisterCallback(esLe); explosionSlider.UnregisterCallback(esDo); });
             }
 
+            // ── ExplodeSubPanel container — block pointer events from bubbling
+            //    past the panel so clicks on the label / empty space don't reach
+            //    parent handlers that would navigate back to the card grid. ──
+            var explodePanel = root.Q<VisualElement>("ExplodeSubPanel");
+            if (explodePanel != null)
+            {
+                EventCallback<PointerEnterEvent> epEn = evt => InputManager.InputBlocked = true;
+                EventCallback<PointerLeaveEvent> epLe = evt => InputManager.InputBlocked = false;
+                EventCallback<PointerDownEvent> epDo = evt => evt.StopPropagation();
+                explodePanel.RegisterCallback(epEn);
+                explodePanel.RegisterCallback(epLe);
+                explodePanel.RegisterCallback(epDo);
+                AddCleanup(() => { explodePanel.UnregisterCallback(epEn); explodePanel.UnregisterCallback(epLe); explodePanel.UnregisterCallback(epDo); });
+            }
+
+            // ── CrossSectionPanel & FilterSubPanel — same protection ──
+            foreach (var panelName in new[] { "CrossSectionPanel", "FilterSubPanel" })
+            {
+                var panel = root.Q<VisualElement>(panelName);
+                if (panel == null) continue;
+                EventCallback<PointerEnterEvent> pEn = evt => InputManager.InputBlocked = true;
+                EventCallback<PointerLeaveEvent> pLe = evt => InputManager.InputBlocked = false;
+                EventCallback<PointerDownEvent> pDo = evt => evt.StopPropagation();
+                panel.RegisterCallback(pEn);
+                panel.RegisterCallback(pLe);
+                panel.RegisterCallback(pDo);
+                AddCleanup(() => { panel.UnregisterCallback(pEn); panel.UnregisterCallback(pLe); panel.UnregisterCallback(pDo); });
+            }
+
             // ── Initial state ──
             _detailsSheet.UpdatePartIndicator(null);
             // Slider is inside ExplodeSubPanel (starts hidden via submenu--hidden)
