@@ -60,6 +60,9 @@ namespace WebGL.Core.Utils
             EnsureManager<BillOfMaterialsManager>("BillOfMaterialsManager");
             EnsureManager<AnnotationSystem>("AnnotationSystem");
             EnsureManager<AssemblyChecklist>("AssemblyChecklist");
+
+            // Performance
+            EnsureManager<QualityManager>("QualityManager");
         }
 
         private void EnsureManager<T>(string name) where T : Component

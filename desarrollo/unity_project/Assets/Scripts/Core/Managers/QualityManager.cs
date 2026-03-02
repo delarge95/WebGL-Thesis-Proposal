@@ -1,10 +1,16 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 using WebGL.Core.Utils;
 
 namespace WebGL.Core.Managers
 {
+    /// <summary>
+    /// Adaptive resolution scaling for WebGL.
+    /// Monitors FPS and adjusts URP renderScale to maintain target framerate.
+    /// ScalableBufferManager is NOT supported in WebGL — uses URP asset directly.
+    /// </summary>
     public class QualityManager : Singleton<QualityManager>
     {
         [Header("Settings")]
@@ -16,9 +22,21 @@ namespace WebGL.Core.Managers
         private float currentScale = 1.0f;
         private int _lastFrameCount;
         private float _lastCheckTime;
+        private UniversalRenderPipelineAsset _urpAsset;
+
+        public float CurrentScale => currentScale;
 
         private void Start()
         {
+            _urpAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+            if (_urpAsset == null)
+            {
+                Debug.LogWarning("[QualityManager] No URP asset found — adaptive resolution disabled.");
+                enabled = false;
+                return;
+            }
+
+            currentScale = _urpAsset.renderScale;
             _lastFrameCount = Time.frameCount;
             _lastCheckTime = Time.realtimeSinceStartup;
             InvokeRepeating(nameof(CheckPerformance), checkInterval, checkInterval);
@@ -39,19 +57,21 @@ namespace WebGL.Core.Managers
 
         private void AdjustQuality(float fps)
         {
+            float prevScale = currentScale;
+
             if (fps < targetFPS - 5)
             {
-                // Decrease resolution
                 currentScale = Mathf.Max(minScale, currentScale - 0.1f);
-                // ScalableBufferManager.ResizeBuffers(currentScale, currentScale);
-                Debug.Log($"[QualityManager] Low FPS ({fps:0.0}). Reducing scale to {currentScale}");
             }
             else if (fps > targetFPS + 10 && currentScale < maxScale)
             {
-                // Increase resolution
                 currentScale = Mathf.Min(maxScale, currentScale + 0.05f);
-                // ScalableBufferManager.ResizeBuffers(currentScale, currentScale);
-                Debug.Log($"[QualityManager] Good FPS ({fps:0.0}). Increasing scale to {currentScale}");
+            }
+
+            if (!Mathf.Approximately(prevScale, currentScale))
+            {
+                _urpAsset.renderScale = currentScale;
+                Debug.Log($"[QualityManager] FPS: {fps:0.0} → renderScale: {currentScale:0.00}");
             }
         }
     }
