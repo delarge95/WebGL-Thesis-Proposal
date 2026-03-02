@@ -194,6 +194,7 @@ namespace WebGL.UI.Panels
             UpdateBtn("CatBtn_Propulsion", "Propulsion");
             UpdateBtn("CatBtn_Avionics", "Avionics");
             UpdateBtn("CatBtn_Power", "Power");
+            UpdateBtn("CatBtn_Payload", "Payload");
         }
 
         // ── Legacy API ──
