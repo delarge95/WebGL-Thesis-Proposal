@@ -30,15 +30,15 @@ namespace WebGL.Core.Content
             parts.AddRange(FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None));
             
             // Subscribe to state changes
-            EventBus.Subscribe<AppStateChangedEvent>(OnStateChanged);
+            EventBus.Subscribe<StateChangedEvent>(OnStateChanged);
         }
 
         private void OnDestroy()
         {
-            EventBus.Unsubscribe<AppStateChangedEvent>(OnStateChanged);
+            EventBus.Unsubscribe<StateChangedEvent>(OnStateChanged);
         }
 
-        private void OnStateChanged(AppStateChangedEvent evt)
+        private void OnStateChanged(StateChangedEvent evt)
         {
             if (evt.NewState == AppState.ExplodedView)
             {

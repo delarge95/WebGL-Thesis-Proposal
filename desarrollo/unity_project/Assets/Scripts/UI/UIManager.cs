@@ -350,7 +350,7 @@ namespace WebGL.UI
         private void SubscribeToEvents()
         {
             EventBus.Subscribe<PartSelectedEvent>(OnPartSelected);
-            EventBus.Subscribe<AppStateChangedEvent>(OnAppStateChanged);
+            EventBus.Subscribe<StateChangedEvent>(OnAppStateChanged);
             if (ViewModeManager.Instance != null)
                 ViewModeManager.Instance.OnModeChanged += OnViewModeChanged;
         }
@@ -358,7 +358,7 @@ namespace WebGL.UI
         private void UnsubscribeFromEvents()
         {
             EventBus.Unsubscribe<PartSelectedEvent>(OnPartSelected);
-            EventBus.Unsubscribe<AppStateChangedEvent>(OnAppStateChanged);
+            EventBus.Unsubscribe<StateChangedEvent>(OnAppStateChanged);
             if (ViewModeManager.Instance != null)
                 ViewModeManager.Instance.OnModeChanged -= OnViewModeChanged;
         }
@@ -404,7 +404,7 @@ namespace WebGL.UI
             }
         }
 
-        private void OnAppStateChanged(AppStateChangedEvent evt)
+        private void OnAppStateChanged(StateChangedEvent evt)
         {
             bool isExploded = evt.NewState == AppState.ExplodedView;
             bool isInteractive = AppStateMachine.Instance?.IsInteractive() ?? false;
