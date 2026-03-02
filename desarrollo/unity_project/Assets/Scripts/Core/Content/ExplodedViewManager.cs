@@ -151,14 +151,13 @@ namespace WebGL.Core.Content
             {
                 parts.Add(part);
                 
-                // Sync State immediately
-                if (currentMode != VisualMode.Normal)
+                // Sync visual mode state via the canonical ViewModeManager
+                if (ViewModeManager.Instance != null &&
+                    ViewModeManager.Instance.CurrentMode != ViewMode.Realistic)
                 {
-                    Material mat = GetMaterialForMode(currentMode);
-                    if (mat != null)
-                    {
-                        part.SetXRay(true, mat);
-                    }
+                    // ViewModeManager already handles material application —
+                    // trigger a re-apply so the new part gets the current shader.
+                    ViewModeManager.Instance.SetViewMode(ViewModeManager.Instance.CurrentMode);
                 }
             }
         }
@@ -167,96 +166,5 @@ namespace WebGL.Core.Content
         {
             parts.Remove(part);
         }
-
-        // Shader Modes
-        public enum VisualMode
-        {
-            Normal = 0,
-            XRay = 1,
-            Blueprint = 2,
-            Thermal = 3,
-            Wireframe = 4,
-            SolidColor = 5,
-            Ghosted = 6
-        }
-
-        private VisualMode currentMode = VisualMode.Normal;
-        private Dictionary<VisualMode, Material> materials = new Dictionary<VisualMode, Material>();
-
-        public VisualMode CurrentMode => currentMode;
-
-        public void CycleVisualMode()
-        {
-            int next = (int)currentMode + 1;
-            if (next > 6) next = 0; // Wrap around
-            SetVisualMode((VisualMode)next);
-        }
-
-        public void SetVisualMode(VisualMode mode)
-        {
-            currentMode = mode;
-            
-            // Lazy Load Material
-            Material targetMat = GetMaterialForMode(mode);
-
-            foreach (var part in parts)
-            {
-                if (part != null)
-                {
-                    // If Normal, disable override (pass null or handle in SetXRay)
-                    // We reuse SetXRay but it should probably be renamed SetOverrideMaterial in future, 
-                    // but for now SetXRay(false, ...) resets to original.
-                    // SetXRay(true, mat) sets the override.
-
-                    if (mode == VisualMode.Normal)
-                    {
-                        part.SetXRay(false, null);
-                    }
-                    else
-                    {
-                        part.SetXRay(true, targetMat);
-                    }
-                }
-            }
-            
-            // Notify UI or others if needed
-            Debug.Log($"[ExplodedViewManager] Visual Mode: {mode}");
-        }
-
-        private Material GetMaterialForMode(VisualMode mode)
-        {
-            if (mode == VisualMode.Normal) return null;
-            if (materials.ContainsKey(mode)) return materials[mode];
-
-            string shaderName = "";
-            switch (mode)
-            {
-                case VisualMode.XRay: shaderName = "WebGL/XRay"; break;
-                case VisualMode.Blueprint: shaderName = "WebGL/Blueprint"; break;
-                case VisualMode.Thermal: shaderName = "WebGL/Thermal"; break;
-                case VisualMode.Wireframe: shaderName = "WebGL/WireframeWebGL"; break; // Use WebGL optimized version
-                case VisualMode.SolidColor: shaderName = "WebGL/SolidColor"; break;
-                case VisualMode.Ghosted: shaderName = "WebGL/Ghosted"; break;
-            }
-
-            if (string.IsNullOrEmpty(shaderName)) return null;
-
-            Shader s = Shader.Find(shaderName);
-            if (s == null) 
-            {
-                Debug.LogWarning($"Shader {shaderName} not found!");
-                return null;
-            }
-
-            Material mat = new Material(s);
-            materials[mode] = mat;
-            return mat;
-        }
-
-        // Backward compatibility for UIManager if needed, or update UIManager
-        public bool IsXRayEnabled => currentMode != VisualMode.Normal;
-        
-        // This is now legacy or can be mapped to SetVisualMode(XRay)
-        // usage in RegisterPart needs update
     }
 }
