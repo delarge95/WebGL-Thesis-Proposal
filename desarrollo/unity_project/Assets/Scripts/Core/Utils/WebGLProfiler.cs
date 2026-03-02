@@ -14,7 +14,7 @@ namespace WebGL.Core.Utils
         [SerializeField] private bool logToConsole = true;
         [SerializeField] private bool showOnScreen = false;
         
-        private int _frames = 0;
+        private int _lastFrameCount = 0;
         private float _lastTime = 0f;
         private float _currentFps = 0f;
         private float _currentMs = 0f;
@@ -24,26 +24,31 @@ namespace WebGL.Core.Utils
         private const float WarningFps = 30f;
         private const float CriticalFps = 20f;
 
-        private void Update()
+        private void Start()
         {
-            _frames++;
+            _lastTime = Time.realtimeSinceStartup;
+            _lastFrameCount = Time.frameCount;
+            InvokeRepeating(nameof(SamplePerformance), updateInterval, updateInterval);
+        }
+
+        private void SamplePerformance()
+        {
+            int frames = Time.frameCount - _lastFrameCount;
+            float elapsed = Time.realtimeSinceStartup - _lastTime;
+            if (elapsed <= 0f) return;
+
+            _currentFps = frames / elapsed;
+            _currentMs = 1000f / _currentFps;
+            _heapMB = System.GC.GetTotalMemory(false) / (1024 * 1024);
             
-            if (Time.time - _lastTime >= updateInterval)
+            if (logToConsole)
             {
-                float elapsed = Time.time - _lastTime;
-                _currentFps = _frames / elapsed;
-                _currentMs = 1000f / _currentFps;
-                _heapMB = System.GC.GetTotalMemory(false) / (1024 * 1024);
-                
-                if (logToConsole)
-                {
-                    string status = GetPerformanceStatus();
-                    Debug.Log($"[Profiler] FPS: {_currentFps:F1} | Frame: {_currentMs:F2}ms | Heap: {_heapMB}MB | {status}");
-                }
-                
-                _frames = 0;
-                _lastTime = Time.time;
+                string status = GetPerformanceStatus();
+                Debug.Log($"[Profiler] FPS: {_currentFps:F1} | Frame: {_currentMs:F2}ms | Heap: {_heapMB}MB | {status}");
             }
+            
+            _lastFrameCount = Time.frameCount;
+            _lastTime = Time.realtimeSinceStartup;
         }
 
         private string GetPerformanceStatus()
