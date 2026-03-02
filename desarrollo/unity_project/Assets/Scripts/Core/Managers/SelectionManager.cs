@@ -192,9 +192,8 @@ namespace WebGL.Core.Managers
             
             if (hoveredObject == null)
             {
-                // Background click no longer deselects.
-                // Deselection happens only via explicit UI actions
-                // (sheet close button, drag-to-dismiss, Escape key, etc.).
+                // Background click → deselect current selection
+                Deselect();
                 return;
             }
 

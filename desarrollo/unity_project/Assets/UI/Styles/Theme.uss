@@ -1731,8 +1731,14 @@
     position: absolute;
     bottom: 120px;
     right: 24px;
-    transition-property: opacity;
-    transition-duration: 0.2s;
+    transition-property: opacity, bottom, translate;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.fab-container.ui-shifted {
+    bottom: 55%;
+    translate: 0 64px;
 }
 
 .fab-button {
@@ -1767,8 +1773,8 @@
 }
 
 .fab-icon {
-    width: 28px;
-    height: 28px;
+    width: 56px;
+    height: 56px;
     -unity-background-image-tint-color: rgba(255, 255, 255, 0.85);
 }
 
