@@ -86,10 +86,14 @@ namespace WebGL.Core.Content
             explosionFactor = Mathf.Clamp01(value);
             targetFactor = explosionFactor;
 
-            // Start animation coroutine if not running
-            if (_animCoroutine != null) StopCoroutine(_animCoroutine);
-            _animCoroutine = StartCoroutine(AnimateExplosion());
-            
+            // Only animate if there is an actual change to avoid
+            // resetting parts to zero before ExplodablePart.Start() initializes them
+            if (Mathf.Abs(currentFactor - targetFactor) > 0.001f)
+            {
+                if (_animCoroutine != null) StopCoroutine(_animCoroutine);
+                _animCoroutine = StartCoroutine(AnimateExplosion());
+            }
+
             // Notify about change
             EventBus.Publish(new ViewModeChangedEvent(explosionFactor > 0.1f));
         }
