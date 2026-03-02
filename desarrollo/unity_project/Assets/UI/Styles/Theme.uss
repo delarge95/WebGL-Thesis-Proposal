@@ -487,9 +487,7 @@
     margin: 0;
     padding: 0 16px;
     background-color: transparent;
-    border-radius: 16px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
+    border-width: 0;
     flex-grow: 0;
 }
 
@@ -892,10 +890,8 @@
     align-self: center;
 
     background-color: transparent;
-    border-radius: 16px;
     padding: 0 16px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
+    border-width: 0;
 
     flex-direction: row;
     align-items: center;
@@ -962,16 +958,15 @@
     
     border-radius: 50%;
     
-    /* Hollow center */
-    background-color: transparent;
-    border-color: rgb(255, 255, 255);
-    border-width: 2px;
+    /* Solid White center, No border */
+    background-color: rgb(255, 255, 255);
+    border-width: 0px;
     
     top: 50%;
     /* Note: scale and margin alterations often detach draggers from their real 
        hitbox track. We only animate visual properties, keeping size stable if possible. 
        Or expand uniformly via width/height and margin-top. */
-    transition-property: width, height, margin-top, background-color, border-color, border-width;
+    transition-property: width, height, margin-top, background-color, border-width;
     transition-duration: 0.15s;
 }
 
@@ -981,7 +976,6 @@
     height: 32px;
     margin-top: -16px;
     background-color: rgb(255, 255, 255);
-    border-color: rgb(255, 255, 255);
     border-width: 0px; 
 }
 
@@ -995,7 +989,6 @@
     /* The blue you asked for. UI Toolkit sometimes applies hover OVER active,
        so we force the color and drop the border. */
     background-color: rgba(70, 175, 255, 1);
-    border-color: rgba(70, 175, 255, 1);
     border-width: 0px;
 }
 
@@ -1299,9 +1292,7 @@
     padding: 0 16px;
 
     background-color: transparent;
-    border-radius: 16px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
+    border-width: 0;
 
     flex-direction: row;
     align-items: center;
