@@ -40,7 +40,7 @@
                     <ui:Label name="PartDescription" class="sheet-description" picking-mode="Ignore" />
 
                     <!-- Section 1: Identification -->
-                    <ui:Foldout text="IDENTIFICATION" name="FoldoutIdentification" value="true" class="sheet-foldout sheet-foldout--first">
+                    <ui:Foldout text="IDENTIFICATION" name="FoldoutIdentification" value="false" class="sheet-foldout sheet-foldout--first">
                         <ui:VisualElement class="data-row">
                             <ui:Label text="CATEGORY" class="data-label" />
                             <ui:Label name="PartCategory" class="data-value" />
@@ -52,7 +52,7 @@
                     </ui:Foldout>
 
                     <!-- Section 2: Specifications -->
-                    <ui:Foldout text="SPECIFICATIONS" name="FoldoutSpecifications" value="true" class="sheet-foldout">
+                    <ui:Foldout text="SPECIFICATIONS" name="FoldoutSpecifications" value="false" class="sheet-foldout">
                         <ui:VisualElement class="data-row">
                             <ui:Label text="MATERIAL" class="data-label" />
                             <ui:Label name="PartMaterial" class="data-value" />
@@ -76,7 +76,7 @@
                     </ui:Foldout>
 
                     <!-- Section 3: Assembly -->
-                    <ui:Foldout text="ASSEMBLY" name="FoldoutAssembly" value="true" class="sheet-foldout">
+                    <ui:Foldout text="ASSEMBLY" name="FoldoutAssembly" value="false" class="sheet-foldout">
                         <ui:VisualElement class="data-row">
                             <ui:Label text="DIFFICULTY" class="data-label" />
                             <ui:Label name="PartDifficulty" class="data-value data-value-stars" />
