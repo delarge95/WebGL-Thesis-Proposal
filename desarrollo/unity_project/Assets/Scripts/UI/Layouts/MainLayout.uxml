@@ -107,10 +107,6 @@
                 <ui:VisualElement name="ToolsCardGrid" class="mode-submenu" picking-mode="Position">
                     <ui:Label text="INSPECT" class="submenu-title" picking-mode="Ignore"/>
                     <ui:VisualElement class="submenu-grid">
-                        <ui:Button name="ToolInfoBtn" class="submenu-card" tooltip="Part Info">
-                            <pi:ProceduralInfoIcon class="submenu-icon" picking-mode="Ignore"/>
-                            <ui:Label text="INFO" class="submenu-label" picking-mode="Ignore"/>
-                        </ui:Button>
                         <ui:Button name="ToolHotspotBtn" class="submenu-card" tooltip="Toggle Hotspots">
                             <pi:ProceduralPinsIcon class="submenu-icon" picking-mode="Ignore"/>
                             <ui:Label text="PINS" class="submenu-label" picking-mode="Ignore"/>
@@ -300,6 +296,13 @@
                     <ui:Label text="STUDIO" class="mode-btn-label" picking-mode="Ignore"/>
                 </ui:Button>
             </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ═══ FAB — Global Info Button (visible when a part is selected) ═══ -->
+        <ui:VisualElement name="GlobalActionContainer" class="fab-container fab-button--hidden" picking-mode="Ignore">
+            <ui:Button name="ToolInfoBtn" class="fab-button" tooltip="Part Info">
+                <pi:ProceduralInfoIcon class="fab-icon" picking-mode="Ignore"/>
+            </ui:Button>
         </ui:VisualElement>
 
     </ui:VisualElement>

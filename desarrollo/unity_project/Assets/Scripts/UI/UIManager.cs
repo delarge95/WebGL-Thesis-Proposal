@@ -38,6 +38,9 @@ namespace WebGL.UI
 
         // ── Buttons (wired here, logic delegated) ──
         private Button resetBtn;
+        // ── FAB (global info button) ──
+        private VisualElement _fabContainer;
+        private Button _fabInfoBtn;
         // ── Slider (explosion) ──
         private Slider explosionSlider;
         private VisualElement sliderContainer;
@@ -134,14 +137,14 @@ namespace WebGL.UI
             );
             AddCleanup(() => _modeController.Dispose());
 
-            // Wire Inspect-mode info/isolate toggle events from UIModeController
-            _modeController.OnInfoToggleRequested += () => _detailsSheet.ToggleInfo();
+            // Wire Inspect-mode isolate toggle event from UIModeController
             _modeController.OnIsolateToggleRequested += () => ToggleIsolation();
 
-            // Notify mode controller when sheet state changes
+            // Notify mode controller when sheet state changes + sync FAB active state
             _detailsSheet.OnSheetStateChanged += (isOpen) =>
             {
                 _modeController.SetSheetOpenState(isOpen);
+                _fabInfoBtn?.EnableInClassList("fab-button--active", isOpen);
             };
 
             // Notify sheet to close if any mode activates
@@ -187,6 +190,16 @@ namespace WebGL.UI
             BindCat("CatBtn_Avionics", "Avionics");
             BindCat("CatBtn_Power", "Power");
             BindCat("CatBtn_Payload", "Payload");
+
+            // ── FAB (global info button) ──
+            _fabContainer = root.Q<VisualElement>("GlobalActionContainer");
+            _fabInfoBtn = root.Q<Button>("ToolInfoBtn");
+            if (_fabInfoBtn != null)
+            {
+                System.Action fabClick = () => _detailsSheet.ToggleInfo();
+                _fabInfoBtn.clicked += fabClick;
+                AddCleanup(() => _fabInfoBtn.clicked -= fabClick);
+            }
 
             // ── Explosion slider ──
             if (explosionSlider != null)
@@ -251,6 +264,11 @@ namespace WebGL.UI
             System.Action a = () => _modeController.SetCategoryFilter(category, btn);
             btn.clicked += a;
             AddCleanup(() => btn.clicked -= a);
+        }
+
+        private void SetFabVisible(bool visible)
+        {
+            _fabContainer?.EnableInClassList("fab-button--hidden", !visible);
         }
 
         // ═══════════════════════════════════════════════════════
@@ -386,6 +404,9 @@ namespace WebGL.UI
 
             // Delegate data display to details sheet
             _detailsSheet.PopulatePartData(evt.PartData, evt.FromHotspot);
+
+            // Show/hide FAB based on whether a part is selected
+            SetFabVisible(evt.PartData != null);
 
             // Double-click / double-tap detection → open info sheet + isolate
             float now = Time.time;

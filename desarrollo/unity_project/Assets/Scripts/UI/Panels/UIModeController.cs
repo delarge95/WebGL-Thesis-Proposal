@@ -35,11 +35,6 @@ namespace WebGL.UI.Panels
         private ActiveMode _activeMode = ActiveMode.None;
 
         // ── Events (wired by UIManager) ──
-        public event Action OnInfoToggleRequested
-        {
-            add => _inspect.OnInfoToggleRequested += value;
-            remove => _inspect.OnInfoToggleRequested -= value;
-        }
         public event Action OnIsolateToggleRequested
         {
             add => _inspect.OnIsolateToggleRequested += value;
@@ -201,7 +196,6 @@ namespace WebGL.UI.Panels
 
         public void SetSheetOpenState(bool isOpen)
         {
-            _inspect.SetInfoState(isOpen);
             if (isOpen) DeactivateAllModes();
         }
 

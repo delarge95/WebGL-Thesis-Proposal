@@ -11,7 +11,6 @@ namespace WebGL.UI.Panels
     public class InspectModeHandler : BaseModeHandler
     {
         private readonly VisualElement _cardGrid;
-        private readonly Button _infoBtn;
         private readonly Button _hotspotBtn;
         private readonly Button _isolateBtn;
 
@@ -19,7 +18,6 @@ namespace WebGL.UI.Panels
         private bool _isIsolated;
 
         // ── Events forwarded to orchestrator ──
-        public event Action OnInfoToggleRequested;
         public event Action OnIsolateToggleRequested;
 
         public InspectModeHandler(VisualElement root, VisualElement container) : base(root, container)
@@ -27,7 +25,6 @@ namespace WebGL.UI.Panels
             if (container == null) return;
 
             _cardGrid = container.Q<VisualElement>("ToolsCardGrid");
-            _infoBtn = container.Q<Button>("ToolInfoBtn");
             _hotspotBtn = container.Q<Button>("ToolHotspotBtn");
             _isolateBtn = container.Q<Button>("ToolIsolateBtn");
 
@@ -36,13 +33,6 @@ namespace WebGL.UI.Panels
 
         private void BindCards()
         {
-            if (_infoBtn != null)
-            {
-                Action onInfo = () => DelayAction(() => OnInfoToggleRequested?.Invoke());
-                _infoBtn.clicked += onInfo;
-                AddCleanup(() => _infoBtn.clicked -= onInfo);
-            }
-
             if (_hotspotBtn != null)
             {
                 _hotspotBtn.EnableInClassList("submenu-card--active", _hotspotsEnabled);
@@ -70,11 +60,6 @@ namespace WebGL.UI.Panels
             _hotspotBtn?.EnableInClassList("submenu-card--active", _hotspotsEnabled);
         }
 
-        public void SetInfoState(bool isOpen)
-        {
-            _infoBtn?.EnableInClassList("submenu-card--active", isOpen);
-        }
-
         public void SetIsolateState(bool isolated)
         {
             _isIsolated = isolated;
@@ -83,7 +68,6 @@ namespace WebGL.UI.Panels
 
         public override void Dispose()
         {
-            OnInfoToggleRequested = null;
             OnIsolateToggleRequested = null;
             base.Dispose();
         }
