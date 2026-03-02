@@ -14,12 +14,6 @@ namespace WebGL.Core.Events
         }
     }
 
-    public struct AppStateChangedEvent
-    {
-        public AppState NewState;
-        public AppStateChangedEvent(AppState state) { NewState = state; }
-    }
-
     public struct ViewModeChangedEvent
     {
         public bool IsExploded;

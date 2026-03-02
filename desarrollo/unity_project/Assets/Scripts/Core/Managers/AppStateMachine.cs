@@ -44,15 +44,6 @@ namespace WebGL.Core.Managers
 
         #endregion
 
-        #region Events
-
-        /// <summary>
-        /// Fired when the application state changes.
-        /// </summary>
-        public event System.Action<AppState, AppState> OnStateChanged;
-
-        #endregion
-
         #region Unity Lifecycle
 
         protected override void Awake()
@@ -65,7 +56,6 @@ namespace WebGL.Core.Managers
         {
             // Publish initial state
             EventBus.Publish(new StateChangedEvent(currentState, currentState));
-            EventBus.Publish(new AppStateChangedEvent(currentState));
             
             if (debugLogging)
             {
@@ -98,11 +88,8 @@ namespace WebGL.Core.Managers
             previousState = currentState;
             currentState = newState;
 
-            // Fire events
-            OnStateChanged?.Invoke(previousState, currentState);
+            // Fire canonical state-changed event (single channel)
             EventBus.Publish(new StateChangedEvent(previousState, currentState));
-            // Compatibility Fix: Publish AppStateChangedEvent for UI/ExplodedViewManager
-            EventBus.Publish(new AppStateChangedEvent(currentState));
 
             if (debugLogging)
             {
