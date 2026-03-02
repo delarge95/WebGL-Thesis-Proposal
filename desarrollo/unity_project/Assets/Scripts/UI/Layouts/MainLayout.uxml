@@ -218,7 +218,7 @@
                     <!-- Shader Section -->
                     <ui:Label text="RENDER MODE" class="submenu-title" picking-mode="Ignore" />
                     <ui:VisualElement name="ShaderMenu" class="submenu-grid">
-                        <ui:Button name="ShaderMode_Realistic" class="submenu-card submenu-card--active">
+                        <ui:Button name="ShaderMode_Realistic" class="submenu-card submenu-card--active" style="display: none;">
                             <pi:ProceduralShadersIcon class="submenu-icon" picking-mode="Ignore"/>
                             <ui:Label text="REALISTIC" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
@@ -242,7 +242,7 @@
                             <ui:VisualElement class="submenu-icon icon-ghost" picking-mode="Ignore"/>
                             <ui:Label text="GHOST" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
-                        <ui:Button name="ShaderMode_Thermal" class="submenu-card" style="display: none;">
+                        <ui:Button name="ShaderMode_Thermal" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-thermal" picking-mode="Ignore"/>
                             <ui:Label text="THERMAL" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
