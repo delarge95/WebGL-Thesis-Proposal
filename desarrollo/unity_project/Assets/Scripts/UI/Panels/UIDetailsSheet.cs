@@ -18,6 +18,7 @@ namespace WebGL.UI.Panels
         private readonly VisualElement _root;
         private readonly VisualElement _detailsSheet;
         private readonly VisualElement _bottomBar;
+        private readonly VisualElement _fabContainer;
         private readonly VisualElement _contentDetails;
         private readonly Label _partNameLabel;
         private readonly Label _sheetTitle;
@@ -59,6 +60,7 @@ namespace WebGL.UI.Panels
 
             _detailsSheet = root.Q<VisualElement>("BottomSheet");
             _bottomBar = root.Q<VisualElement>("BottomBar");
+            _fabContainer = root.Q<VisualElement>("GlobalActionContainer");
             _contentDetails = root.Q<VisualElement>("SheetContent_Details");
             _partNameLabel = root.Q<Label>("SelectionIndicator");
 
@@ -116,6 +118,7 @@ namespace WebGL.UI.Panels
             }
 
             if (_bottomBar != null) _bottomBar.EnableInClassList("ui-shifted", isOpen);
+            if (_fabContainer != null) _fabContainer.EnableInClassList("ui-shifted", isOpen);
             if (_actionsRow != null) _actionsRow.EnableInClassList("actions-row--sheet-open", isOpen);
             if (_partNameLabel != null) _partNameLabel.EnableInClassList("selection-label--hidden", isOpen);
 

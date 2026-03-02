@@ -408,20 +408,25 @@ namespace WebGL.UI
             // Show/hide FAB based on whether a part is selected
             SetFabVisible(evt.PartData != null);
 
-            // Double-click / double-tap detection → open info sheet + isolate
+            // Double-click / double-tap detection
             float now = Time.time;
-            string clickId = evt.PartData?.partName ?? "__empty__";
+            string clickId = evt.PartData?.partName ?? "__bg__";
             bool isDoubleClick = clickId == _lastPartClickName
                 && (now - _lastPartClickTime) < DOUBLE_CLICK_THRESHOLD;
 
             if (isDoubleClick)
             {
-                if (_isIsolated)
+                if (evt.PartData == null)
                 {
-                    // Already isolated → de-isolate on any double-click
+                    // Double-click on background → exit isolate if active
+                    if (_isIsolated) ClearIsolation();
+                }
+                else if (_isIsolated)
+                {
+                    // Already isolated + double-click on part → de-isolate
                     ClearIsolation();
                 }
-                else if (evt.PartData != null)
+                else
                 {
                     // First double-click on a part → isolate + open info
                     _detailsSheet.OpenSheet();
