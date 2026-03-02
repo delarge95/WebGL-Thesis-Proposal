@@ -314,7 +314,6 @@
                 <ui:Button name="HeroExploreBtn" class="btn btn-primary btn-wide" text="EXPLORE" />
                 <ui:Button name="HeroDeviceBtn" class="btn btn-ghost btn-wide" text="SELECT DEVICE" />
                 <ui:Button name="HeroAboutBtn" class="btn btn-ghost btn-wide" text="ABOUT" />
-                <ui:Button name="HeroHelpBtn" class="btn btn-ghost btn-wide" text="HELP" />
                 <ui:Button name="HeroExitBtn" class="btn btn-ghost btn-wide" text="EXIT" />
             </ui:VisualElement>
         </ui:VisualElement>
@@ -322,7 +321,7 @@
         <!-- Submenu: DEVICES -->
         <ui:VisualElement name="HeroSubmenu_Devices" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
             <ui:Button name="SubmenuBackBtn_Devices" class="btn-back" text="&lt;" />
-            <ui:Label text="SELECT DEVICE" class="hero-title" />
+            <ui:Label text="Select device" class="hero-title" />
             <ui:ScrollView class="submenu-scroll device-scroll" mode="Vertical" touch-scroll-type="Elastic">
                 <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="🛸  DJI Phantom 4 Pro" />
                 <ui:Button name="DeviceBtn_Robot" class="device-option" text="🤖  Boston Dynamics Spot" enabled="false" />
@@ -333,18 +332,20 @@
         <!-- Submenu: ABOUT -->
         <ui:VisualElement name="HeroSubmenu_About" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
             <ui:Button name="SubmenuBackBtn_About" class="btn-back" text="&lt;" />
-            <ui:Label text="ABOUT" class="hero-title" />
+            <ui:Label text="About" class="hero-title" />
             <ui:ScrollView class="submenu-scroll" mode="Vertical" touch-scroll-type="Elastic">
                 <ui:Label text="Interactive 3D drone visualization for engineering education. Built with Unity WebGL." class="about-desc" />
                 <ui:Label text="Thesis Project — 2026" class="about-credit" />
                 <ui:Button text="VIEW PROJECT ON GITHUB" class="btn btn-ghost btn-wide" />
+                <ui:VisualElement class="about-separator" />
+                <ui:Button name="HeroHelpBtn" text="VIEW TUTORIAL" class="btn btn-ghost btn-wide" />
             </ui:ScrollView>
         </ui:VisualElement>
 
         <!-- Submenu: EXIT -->
         <ui:VisualElement name="HeroSubmenu_Exit" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
             <ui:Button name="SubmenuBackBtn_Exit" class="btn-back" text="&lt;" />
-            <ui:Label text="EXIT APP" class="hero-title" />
+            <ui:Label text="Exit app" class="hero-title" />
             <ui:Label text="Are you sure you want to stop the experience?" class="about-desc" />
             <ui:VisualElement class="actions-row-centered">
                 <ui:Button name="ExitConfirmBtn" text="EXIT APP" class="btn btn-primary btn-wide" />
