@@ -89,7 +89,7 @@
 .hero-title {
     font-size: 64px;
     -unity-font-definition: initial;
-    -unity-font: resource("Fonts/SpaceGrotesk/SpaceGrotesk-SemiBold");
+    -unity-font: resource("Fonts/SpaceGrotesk/SpaceGrotesk-Light");
     -unity-font-style: bold;
     color: white;
     margin-bottom: 16px;
@@ -983,44 +983,41 @@
 
 .glass-slider .unity-base-slider__dragger {
     /* Pure absolute sizing to prevent UI Toolkit anchoring offsets */
-    width: 24px;
-    height: 24px;
-    margin-top: -12px;
-    
-    border-radius: 50%;
-    
-    /* Solid White center, No border */
-    background-color: rgb(255, 255, 255);
-    border-width: 0px;
-    
-    top: 50%;
-    /* Note: scale and margin alterations often detach draggers from their real 
-       hitbox track. We only animate visual properties, keeping size stable if possible. 
-       Or expand uniformly via width/height and margin-top. */
-    transition-property: width, height, margin-top, background-color, border-width;
-    transition-duration: 0.15s;
-}
-
-.glass-slider .unity-base-slider__dragger:hover {
-    /* Grow physically outwards, compensating with top margin */
-    width: 32px;
-    height: 32px;
-    margin-top: -16px;
-    background-color: rgb(255, 255, 255);
-    border-width: 0px; 
-}
-
-.glass-slider .unity-base-slider__dragger:focus,
-.glass-slider .unity-base-slider__dragger:active {
-    /* Shrink physically */
     width: 20px;
     height: 20px;
     margin-top: -10px;
     
-    /* The blue you asked for. UI Toolkit sometimes applies hover OVER active,
-       so we force the color and drop the border. */
+    border-radius: 50%;
+    
+    /* Stroke-only with black fill (outline style) */
+    background-color: rgb(0, 0, 0);
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.6);
+    
+    top: 50%;
+    transition-property: width, height, margin-top, background-color, border-width, border-color;
+    transition-duration: 0.15s;
+}
+
+.glass-slider .unity-base-slider__dragger:hover {
+    /* Grow + solid white fill */
+    width: 28px;
+    height: 28px;
+    margin-top: -14px;
+    background-color: rgb(255, 255, 255);
+    border-width: 0px;
+    border-color: rgba(255, 255, 255, 0);
+}
+
+.glass-slider .unity-base-slider__dragger:focus,
+.glass-slider .unity-base-slider__dragger:active {
+    /* Accent blue, slightly larger than base */
+    width: 22px;
+    height: 22px;
+    margin-top: -11px;
     background-color: rgba(70, 175, 255, 1);
     border-width: 0px;
+    border-color: rgba(70, 175, 255, 0);
 }
 
 /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€

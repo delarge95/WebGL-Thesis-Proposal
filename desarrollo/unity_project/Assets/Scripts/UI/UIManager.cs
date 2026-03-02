@@ -379,7 +379,9 @@ namespace WebGL.UI
         private void OnPartSelected(PartSelectedEvent evt)
         {
             // Close sub-menus within current mode when a part is selected
-            _modeController.CloseAllMenus();
+            // Skip when selection comes from a hotspot to avoid flashing/re-opening the sheet
+            if (!evt.FromHotspot)
+                _modeController.CloseAllMenus();
 
             // Delegate data display to details sheet
             _detailsSheet.PopulatePartData(evt.PartData, evt.FromHotspot);
