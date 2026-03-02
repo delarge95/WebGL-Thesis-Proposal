@@ -72,6 +72,7 @@ namespace WebGL.Core.Content
         private void StartPulse()
         {
             StopPulse();
+            if (!gameObject.activeInHierarchy) return;
             pulseCoroutine = StartCoroutine(PulseRoutine());
         }
 

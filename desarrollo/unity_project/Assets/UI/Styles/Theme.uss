@@ -145,7 +145,7 @@
     padding-bottom: 16px;
 
     /* Smooth shift for sheet */
-    transition-property: bottom;
+    transition-property: bottom, translate;
     transition-duration: 0.3s;
     transition-timing-function: ease-out;
 }
@@ -748,7 +748,9 @@
 
 /* UI Shift on Sheet Expand â€” moves bottom bar up above the sheet */
 .ui-shifted {
-    bottom: 47%; /* Pill center aligns with panel top edge (55% panel) */
+    bottom: 55%;      /* Match panel height so bar bottom = panel top */
+    translate: 0 88px; /* Compensate pill offset (16 pad + 16 margin + 56 half-height) */
+    /* Net result: pill center sits exactly at 55% — responsive to any viewport */
 }
 
 /* Pill bar becomes opaque when sheet is open to prevent content bleeding through */
