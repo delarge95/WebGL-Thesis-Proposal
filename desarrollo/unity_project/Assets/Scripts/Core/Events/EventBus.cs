@@ -164,6 +164,86 @@ namespace WebGL.Core.Events
             }
         }
 
+        /// <summary>
+        /// Gets the total number of active subscriptions across all event types.
+        /// </summary>
+        public static int TotalSubscriberCount
+        {
+            get
+            {
+                lock (LockObject)
+                {
+                    int count = 0;
+                    foreach (var kvp in Subscribers) count += kvp.Value.Count;
+                    return count;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Logs all active subscribers grouped by event type.
+        /// Useful for detecting forgotten unsubscribes (zombie subscribers).
+        /// </summary>
+        [System.Diagnostics.Conditional("UNITY_EDITOR")]
+        public static void LogActiveSubscribers()
+        {
+            lock (LockObject)
+            {
+                if (Subscribers.Count == 0)
+                {
+                    Debug.Log("[EventBus] No active subscribers.");
+                    return;
+                }
+
+                var sb = new System.Text.StringBuilder();
+                sb.AppendLine($"[EventBus] Active subscribers ({TotalSubscriberCount} total):");
+
+                foreach (var kvp in Subscribers)
+                {
+                    if (kvp.Value.Count == 0) continue;
+                    sb.AppendLine($"  {kvp.Key.Name}: {kvp.Value.Count} subscriber(s)");
+
+                    foreach (var del in kvp.Value)
+                    {
+                        var target = del.Target;
+                        string targetInfo = target == null
+                            ? "static method"
+                            : target.ToString();
+
+                        // Detect destroyed MonoBehaviours (zombie references)
+                        bool isZombie = target is UnityEngine.Object obj && obj == null;
+                        string zombie = isZombie ? " [ZOMBIE - LEAK!]" : "";
+
+                        sb.AppendLine($"    → {del.Method.DeclaringType?.Name}.{del.Method.Name} (target: {targetInfo}){zombie}");
+                    }
+                }
+
+                Debug.Log(sb.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Detects and removes zombie subscribers (delegates pointing to destroyed objects).
+        /// Returns the number of zombies removed.
+        /// </summary>
+        public static int PurgeZombieSubscribers()
+        {
+            int removed = 0;
+            lock (LockObject)
+            {
+                foreach (var kvp in Subscribers)
+                {
+                    removed += kvp.Value.RemoveAll(del =>
+                        del.Target is UnityEngine.Object obj && obj == null);
+                }
+            }
+
+            if (removed > 0)
+                Debug.LogWarning($"[EventBus] Purged {removed} zombie subscriber(s) — check OnDisable/OnDestroy cleanup.");
+
+            return removed;
+        }
+
         #endregion
     }
 }
