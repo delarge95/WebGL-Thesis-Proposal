@@ -34,6 +34,7 @@ namespace WebGL.UI
         private UIAnalyzePanel _uiAnalyzePanel;
         private UIEnvironmentPanel _uiEnvironmentPanel;
         private UICrossSectionPanel _uiCrossSectionPanel;
+        private OnboardingController _onboardingController;
 
         // ── Buttons (wired here, logic delegated) ──
         private Button resetBtn;
@@ -171,6 +172,11 @@ namespace WebGL.UI
             _heroController.OnHeroReturned += OnHeroReturned;
             AddCleanup(() => _heroController.Dispose());
 
+            // ── Onboarding Controller ──
+            _onboardingController = new OnboardingController(root);
+            _heroController.OnHelpRequested += () => _onboardingController.Show();
+            AddCleanup(() => _onboardingController.Dispose());
+
             // ── Wire remaining toolbar buttons (mode buttons handled by UIModeController) ──
             if (resetBtn != null) { resetBtn.clicked += OnResetClicked; AddCleanup(() => resetBtn.clicked -= OnResetClicked); }
 
@@ -259,6 +265,9 @@ namespace WebGL.UI
                 HotspotManager.Instance.Initialize(root);
             }
             HotspotManager.Instance?.SetVisible(true);
+
+            // Show onboarding overlay the first time the user enters the 3D view
+            _onboardingController?.ShowIfFirstTime();
         }
 
         private void OnHeroReturned()

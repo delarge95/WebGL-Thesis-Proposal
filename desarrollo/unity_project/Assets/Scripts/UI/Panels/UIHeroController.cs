@@ -31,6 +31,7 @@ namespace WebGL.UI.Panels
         // ── Callbacks that UIManager can hook into ──
         public event System.Action OnHeroDismissed;
         public event System.Action OnHeroReturned;
+        public event System.Action OnHelpRequested;
 
         public UIHeroController(VisualElement root)
         {
@@ -53,6 +54,7 @@ namespace WebGL.UI.Panels
         {
             OnHeroDismissed = null;
             OnHeroReturned = null;
+            OnHelpRequested = null;
             foreach (var action in _cleanupActions) action?.Invoke();
             _cleanupActions.Clear();
         }
@@ -149,6 +151,15 @@ namespace WebGL.UI.Panels
             if (heroDeviceBtn != null) { heroDeviceBtn.clicked += onDevices; AddCleanup(() => heroDeviceBtn.clicked -= onDevices); }
             if (heroAboutBtn != null) { heroAboutBtn.clicked += onAbout; AddCleanup(() => heroAboutBtn.clicked -= onAbout); }
             if (heroExitBtn != null) { heroExitBtn.clicked += onExit; AddCleanup(() => heroExitBtn.clicked -= onExit); }
+
+            // Help
+            var heroHelpBtn = _root.Q<Button>("HeroHelpBtn");
+            if (heroHelpBtn != null)
+            {
+                System.Action onHelp = () => OnHelpRequested?.Invoke();
+                heroHelpBtn.clicked += onHelp;
+                AddCleanup(() => heroHelpBtn.clicked -= onHelp);
+            }
 
             // Back buttons
             var backDevices = _root.Q<Button>("SubmenuBackBtn_Devices");
