@@ -926,7 +926,7 @@
 
 /* Slider Track/Dragger */
 .glass-slider {
-    min-height: 36px;
+    min-height: 44px;
     margin: 0;
     padding: 0;
     flex-grow: 1;
@@ -1001,7 +1001,7 @@
     padding: 8px 0;
     border-bottom-width: 1px;
     border-bottom-color: rgba(255, 255, 255, 0.04);
-    min-height: 32px;
+    min-height: 44px;
 }
 
 .data-label {
@@ -1351,7 +1351,7 @@
 
 .env-slider {
     flex-grow: 1;
-    min-height: 32px;
+    min-height: 44px;
 }
 
 /* Popup Blocker */
