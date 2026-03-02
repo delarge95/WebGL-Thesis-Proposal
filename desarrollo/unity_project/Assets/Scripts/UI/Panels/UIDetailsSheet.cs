@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 using WebGL.Core.Managers;
 using WebGL.Core.Data;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace WebGL.UI.Panels
 {
@@ -32,6 +33,7 @@ namespace WebGL.UI.Panels
         private readonly Label _sheetTools;
         private readonly Label _sheetAssemblyTime;
         private readonly Button _infoBtn;
+        private readonly VisualElement _actionsRow;
 
         // ── State ──
         public bool IsSheetOpen { get; private set; } = false;
@@ -74,6 +76,7 @@ namespace WebGL.UI.Panels
             _sheetAssemblyTime = root.Q<Label>("PartAssemblyTime");
 
             _topContextLabel = root.Q<Label>("TopContextLabel");
+            _actionsRow = root.Q<VisualElement>(className: "actions-row");
 
             BindInteractions();
         }
@@ -113,6 +116,7 @@ namespace WebGL.UI.Panels
             }
 
             if (_bottomBar != null) _bottomBar.EnableInClassList("ui-shifted", isOpen);
+            if (_actionsRow != null) _actionsRow.EnableInClassList("actions-row--sheet-open", isOpen);
             if (_partNameLabel != null) _partNameLabel.EnableInClassList("selection-label--hidden", isOpen);
 
             OrbitCameraController.Instance?.SetViewportShift(isOpen ? 0.15f : 0f);
@@ -150,7 +154,9 @@ namespace WebGL.UI.Panels
             {
                 if (_infoBtn != null) _infoBtn.SetEnabled(true);
 
-                if (_sheetTitle != null) _sheetTitle.text = data.PartName.ToUpper();
+                // Title Case for editorial hierarchy (not ALL CAPS)
+                if (_sheetTitle != null)
+                    _sheetTitle.text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(data.PartName.ToLower());
                 if (_sheetCategory != null) _sheetCategory.text = data.Category;
                 if (_sheetFunction != null) _sheetFunction.text = data.Function;
                 if (_sheetMaterial != null) _sheetMaterial.text = data.MaterialType;

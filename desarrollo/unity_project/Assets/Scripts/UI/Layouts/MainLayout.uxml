@@ -36,8 +36,11 @@
             <ui:VisualElement name="SheetContent_Details" class="sheet-content sheet-content--active" picking-mode="Ignore">
                 <ui:ScrollView class="sheet-scroll" mode="Vertical" touch-scroll-type="Elastic" picking-mode="Position">
 
+                    <!-- Part Description — editorial subtitle directly below title -->
+                    <ui:Label name="PartDescription" class="sheet-description" picking-mode="Ignore" />
+
                     <!-- Section 1: Identification -->
-                    <ui:Foldout text="IDENTIFICATION" name="FoldoutIdentification" value="true" class="sheet-foldout">
+                    <ui:Foldout text="IDENTIFICATION" name="FoldoutIdentification" value="true" class="sheet-foldout sheet-foldout--first">
                         <ui:VisualElement class="data-row">
                             <ui:Label text="CATEGORY" class="data-label" />
                             <ui:Label name="PartCategory" class="data-value" />
@@ -88,8 +91,6 @@
                         </ui:VisualElement>
                     </ui:Foldout>
 
-                    <!-- Description -->
-                    <ui:Label name="PartDescription" class="part-description" />
                 </ui:ScrollView>
             </ui:VisualElement>
         </ui:VisualElement>
