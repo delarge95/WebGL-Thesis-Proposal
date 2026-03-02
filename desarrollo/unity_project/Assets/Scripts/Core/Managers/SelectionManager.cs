@@ -231,6 +231,12 @@ namespace WebGL.Core.Managers
         {
             if (selection == null) return;
 
+            // Clean up previous selection highlight before applying new one
+            if (currentHighlight != null && currentSelection != selection)
+            {
+                currentHighlight.OnDeselect();
+            }
+
             currentSelection = selection;
             currentHighlight = selection.GetComponent<HighlightSystem>();
 
