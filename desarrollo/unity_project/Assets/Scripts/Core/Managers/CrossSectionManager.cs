@@ -26,11 +26,13 @@ namespace WebGL.Core.Managers
         [SerializeField] private bool isEnabled = false;
 
         [Header("Plane 1")]
+        [SerializeField] private bool plane1Active = true;
         [SerializeField] private CrossSectionAxis axis1 = CrossSectionAxis.Y;
         [SerializeField] private float position1 = 0f;
         [SerializeField] private bool invertDirection1 = false;
 
         [Header("Plane 2")]
+        [SerializeField] private bool combinePlanes = false;
         [SerializeField] private bool plane2Active = false;
         [SerializeField] private CrossSectionAxis axis2 = CrossSectionAxis.X;
         [SerializeField] private float position2 = 0f;
@@ -155,9 +157,9 @@ namespace WebGL.Core.Managers
             isEnabled = true;
             UpdateAndApply();
 
-            if (planeVisual1 != null && showPlane)
+            if (planeVisual1 != null && showPlane && plane1Active)
                 planeVisual1.SetActive(true);
-            if (planeVisual2 != null && showPlane && plane2Active)
+            if (planeVisual2 != null && showPlane && plane2Active && !combinePlanes)
                 planeVisual2.SetActive(true);
 
             // Swap materials for Realistic mode
@@ -191,6 +193,28 @@ namespace WebGL.Core.Managers
         }
 
         // ── Plane 1 controls ──
+
+        public void SetPlane1Active(bool active)
+        {
+            plane1Active = active;
+            if (planeVisual1 != null)
+                planeVisual1.SetActive(active && isEnabled && showPlane);
+
+            if (!active)
+            {
+                Shader.SetGlobalFloat(GlobalClipEnabledId, 0f);
+            }
+            else if (isEnabled)
+            {
+                UpdateAndApply();
+            }
+        }
+
+        public void SetCombinePlanes(bool combine)
+        {
+            combinePlanes = combine;
+            UpdateAndApply();
+        }
 
         public void SetAxis1(CrossSectionAxis newAxis)
         {
@@ -261,35 +285,77 @@ namespace WebGL.Core.Managers
         {
             Vector3 worldCenter = targetObject != null ? targetObject.position : Vector3.zero;
 
-            // Plane 1
-            clipPlane1 = CalculateClipPlane(axis1, position1, invertDirection1, worldCenter);
-            Shader.SetGlobalVector(GlobalClipPlaneId, clipPlane1);
-            Shader.SetGlobalFloat(GlobalClipEnabledId, 1f);
-
-            if (planeVisual1 != null)
+            if (combinePlanes && plane1Active && plane2Active)
             {
-                Vector3 pos1 = worldCenter + GetAxisVector(axis1) * position1;
-                planeVisual1.transform.position = pos1;
-                planeVisual1.transform.rotation = Quaternion.LookRotation(GetNormal(axis1, invertDirection1));
-            }
+                // COMBINED DIAGONAL PLANE
+                Vector3 n1 = GetNormal(axis1, invertDirection1);
+                Vector3 n2 = GetNormal(axis2, invertDirection2);
+                Vector3 combinedNormal = (n1 + n2).normalized;
 
-            // Plane 2
-            if (plane2Active)
-            {
-                clipPlane2 = CalculateClipPlane(axis2, position2, invertDirection2, worldCenter);
-                Shader.SetGlobalVector(GlobalClipPlane2Id, clipPlane2);
-                Shader.SetGlobalFloat(GlobalClipEnabled2Id, 1f);
+                Vector3 v1 = GetAxisVector(axis1);
+                Vector3 v2 = GetAxisVector(axis2);
+                Vector3 combinedAxisVector = (v1 + v2).normalized;
 
-                if (planeVisual2 != null)
+                Vector3 point = worldCenter + combinedAxisVector * position1;
+                
+                clipPlane1 = new Vector4(combinedNormal.x, combinedNormal.y, combinedNormal.z, -Vector3.Dot(combinedNormal, point));
+                Shader.SetGlobalVector(GlobalClipPlaneId, clipPlane1);
+                Shader.SetGlobalFloat(GlobalClipEnabledId, 1f);
+
+                if (planeVisual1 != null)
                 {
-                    Vector3 pos2 = worldCenter + GetAxisVector(axis2) * position2;
-                    planeVisual2.transform.position = pos2;
-                    planeVisual2.transform.rotation = Quaternion.LookRotation(GetNormal(axis2, invertDirection2));
+                    planeVisual1.transform.position = point;
+                    planeVisual1.transform.rotation = Quaternion.LookRotation(combinedNormal);
+                    planeVisual1.SetActive(showPlane);
                 }
+
+                // Disable Plane 2 representation
+                Shader.SetGlobalFloat(GlobalClipEnabled2Id, 0f);
+                if (planeVisual2 != null) planeVisual2.SetActive(false);
             }
             else
             {
-                Shader.SetGlobalFloat(GlobalClipEnabled2Id, 0f);
+                // NORMAL SEPARATE PLANES
+                if (plane1Active)
+                {
+                    clipPlane1 = CalculateClipPlane(axis1, position1, invertDirection1, worldCenter);
+                    Shader.SetGlobalVector(GlobalClipPlaneId, clipPlane1);
+                    Shader.SetGlobalFloat(GlobalClipEnabledId, 1f);
+
+                    if (planeVisual1 != null)
+                    {
+                        Vector3 pos1 = worldCenter + GetAxisVector(axis1) * position1;
+                        planeVisual1.transform.position = pos1;
+                        planeVisual1.transform.rotation = Quaternion.LookRotation(GetNormal(axis1, invertDirection1));
+                        planeVisual1.SetActive(showPlane);
+                    }
+                }
+                else
+                {
+                    Shader.SetGlobalFloat(GlobalClipEnabledId, 0f);
+                    if (planeVisual1 != null) planeVisual1.SetActive(false);
+                }
+
+                // Plane 2
+                if (plane2Active)
+                {
+                    clipPlane2 = CalculateClipPlane(axis2, position2, invertDirection2, worldCenter);
+                    Shader.SetGlobalVector(GlobalClipPlane2Id, clipPlane2);
+                    Shader.SetGlobalFloat(GlobalClipEnabled2Id, 1f);
+
+                    if (planeVisual2 != null)
+                    {
+                        Vector3 pos2 = worldCenter + GetAxisVector(axis2) * position2;
+                        planeVisual2.transform.position = pos2;
+                        planeVisual2.transform.rotation = Quaternion.LookRotation(GetNormal(axis2, invertDirection2));
+                        planeVisual2.SetActive(showPlane);
+                    }
+                }
+                else
+                {
+                    Shader.SetGlobalFloat(GlobalClipEnabled2Id, 0f);
+                    if (planeVisual2 != null) planeVisual2.SetActive(false);
+                }
             }
         }
 

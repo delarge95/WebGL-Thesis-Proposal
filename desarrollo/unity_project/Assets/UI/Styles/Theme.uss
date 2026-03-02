@@ -562,11 +562,11 @@
     -unity-font-style: bold;
     letter-spacing: 1px;
 
-    background-color: rgba(0, 0, 1, 0.6);
+    background-color: rgba(255, 255, 255, 0.10);
     padding: 8px 16px;
     border-radius: 16px;
     border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15);
 
     /* Smooth fade â€” NO display:none */
     opacity: 1;
@@ -760,9 +760,9 @@
     left: 50%;
     translate: -50% 0;
     
-    background-color: rgba(0, 0, 1, 0.8);
+    background-color: rgba(255, 255, 255, 0.08);
     border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
     border-radius: 16px;
     padding: 16px;
     
@@ -889,10 +889,11 @@
     height: 56px;
     align-self: center;
 
-    background-color: rgba(255, 255, 255, 0.01);
+    background-color: transparent;
     border-radius: 16px;
     padding: 0 16px;
-    border-width: 0;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
 
     flex-direction: row;
     align-items: center;

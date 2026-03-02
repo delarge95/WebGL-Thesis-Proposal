@@ -155,6 +155,9 @@
                         <ui:Button name="CrossSectionInvertBtn" class="cross-section-axis-btn">
                             <ui:Label text="⇅" class="cross-section-axis-label" picking-mode="Ignore"/>
                         </ui:Button>
+                        <ui:Button name="CrossSectionCombineBtn" class="cross-section-axis-btn" style="display: none;">
+                            <ui:Label text="∠" class="cross-section-axis-label" picking-mode="Ignore"/>
+                        </ui:Button>
                     </ui:VisualElement>
                     <ui:Slider name="CrossSectionPosition" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
                     <ui:VisualElement name="CrossSectionControls2" class="cross-section-controls" style="display: none;">
