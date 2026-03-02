@@ -749,7 +749,7 @@
 /* UI Shift on Sheet Expand â€” moves bottom bar up above the sheet */
 .ui-shifted {
     bottom: 55%;      /* Match panel height so bar bottom = panel top */
-    translate: 0 88px; /* Compensate pill offset (16 pad + 16 margin + 56 half-height) */
+    translate: 0 64px; /* Compensate pill offset (0 pad + 8 margin + 56 half-height) */
     /* Net result: pill center sits exactly at 55% — responsive to any viewport */
 }
 
