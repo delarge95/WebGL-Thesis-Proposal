@@ -1009,9 +1009,9 @@
     border-color: rgba(255, 255, 255, 0);
 }
 
-.glass-slider .unity-base-slider__dragger:focus,
+/* Blue accent only while pointer is pressed on slider (not on focus alone) */
+.glass-slider:active .unity-base-slider__dragger,
 .glass-slider .unity-base-slider__dragger:active {
-    /* Accent blue, slightly larger than base */
     width: 22px;
     height: 22px;
     margin-top: -11px;
