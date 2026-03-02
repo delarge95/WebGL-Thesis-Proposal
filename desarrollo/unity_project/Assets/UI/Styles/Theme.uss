@@ -1256,6 +1256,47 @@
     font-size: 16px;
 }
 
+
+/* ----------------------------------------------------------------
+   Collapsible Sheet Sections (Foldout)
+   ---------------------------------------------------------------- */
+.sheet-foldout {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.sheet-foldout > .unity-foldout__toggle {
+    margin: 0;
+    padding: 0;
+    min-height: 44px;
+}
+
+.sheet-foldout > .unity-foldout__toggle > .unity-toggle__input {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.sheet-foldout > .unity-foldout__toggle > .unity-toggle__input > .unity-foldout__text {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 3px;
+    -unity-font-style: bold;
+}
+
+.sheet-foldout > .unity-foldout__toggle > .unity-toggle__input > .unity-toggle__checkmark {
+    background-color: transparent;
+    border-width: 0;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.4);
+    width: 20px;
+    height: 20px;
+}
+
+.sheet-foldout > .unity-foldout__content {
+    margin-left: 0;
+    padding-left: 0;
+}
 /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Assembly Section (Inside Sheet)
    â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
