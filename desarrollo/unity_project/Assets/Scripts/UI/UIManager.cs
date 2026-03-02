@@ -463,7 +463,7 @@ namespace WebGL.UI
 
             if (HotspotManager.Instance == null) managers.AddComponent<HotspotManager>();
             if (ViewModeManager.Instance == null) managers.AddComponent<ViewModeManager>();
-            if (EnvironmentController.Instance == null) managers.AddComponent<EnvironmentController>();
+            if (!ServiceLocator.Has<EnvironmentController>()) managers.AddComponent<EnvironmentController>();
             if (CrossSectionManager.Instance == null) managers.AddComponent<CrossSectionManager>();
             if (PartVisibilityManager.Instance == null) managers.AddComponent<PartVisibilityManager>();
         }

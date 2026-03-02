@@ -1,4 +1,5 @@
 using UnityEngine;
+using WebGL.Core.Managers;
 using UnityEngine.UIElements;
 using WebGL.Core.Utils;
 
@@ -54,9 +55,9 @@ namespace WebGL.Core.Managers
                 if (lastMemory > peakMemory) peakMemory = lastMemory;
 
                 // Auto quality adjustment
-                if (QualityManager.Instance != null)
+                if (ServiceLocator.TryGet<QualityManager>(out _))
                 {
-                    // QualityManager handles its own adjustment
+                    // QualityManager handles its own adjustment via ServiceLocator
                 }
             }
         }

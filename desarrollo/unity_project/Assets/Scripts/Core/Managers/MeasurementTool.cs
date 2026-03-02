@@ -56,9 +56,9 @@ namespace WebGL.Core.Managers
             mode = measureMode;
             ClearMeasurement();
 
-            if (CursorManager.Instance != null)
+            if (ServiceLocator.TryGet<CursorManager>(out var cursor))
             {
-                CursorManager.Instance.SetCursor(CursorType.Pointer);
+                cursor.SetCursor(CursorType.Pointer);
             }
 
             if (NotificationManager.Instance != null)
@@ -74,9 +74,9 @@ namespace WebGL.Core.Managers
             isActive = false;
             ClearMeasurement();
 
-            if (CursorManager.Instance != null)
+            if (ServiceLocator.TryGet<CursorManager>(out var cursorMgr))
             {
-                CursorManager.Instance.ResetCursor();
+                cursorMgr.ResetCursor();
             }
         }
 
