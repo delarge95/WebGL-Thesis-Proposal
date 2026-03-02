@@ -1570,3 +1570,131 @@
     opacity: 0.25;
     color: rgba(255, 255, 255, 0.3);
 }
+
+/* ═══════════════════════════════════════════════════
+   Onboarding Help Overlay
+   ═══════════════════════════════════════════════════ */
+
+.onboard-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.72);
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.onboard-overlay--hidden {
+    opacity: 0;
+}
+
+.onboard-card {
+    background-color: rgba(28, 28, 32, 0.92);
+    border-radius: 20px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    padding: 36px 40px 28px 40px;
+    width: 380px;
+    align-items: center;
+}
+
+/* Step counter ─────────────────────────────── */
+
+.onboard-counter {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 2px;
+    -unity-text-align: upper-center;
+    margin-bottom: 20px;
+    -unity-font-style: bold;
+}
+
+/* Icon area ────────────────────────────────── */
+
+.onboard-icon-area {
+    width: 88px;
+    height: 88px;
+    border-radius: 44px;
+    background-color: rgba(255, 255, 255, 0.06);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.06);
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.onboard-icon {
+    font-size: 36px;
+    -unity-text-align: middle-center;
+    color: white;
+}
+
+/* Text ─────────────────────────────────────── */
+
+.onboard-title {
+    font-size: 18px;
+    color: white;
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+    -unity-text-align: upper-center;
+    margin-bottom: 8px;
+}
+
+.onboard-desc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    -unity-text-align: upper-center;
+    white-space: normal;
+    margin-bottom: 24px;
+    max-width: 300px;
+}
+
+/* Progress dots ────────────────────────────── */
+
+.onboard-dots {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.onboard-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.15);
+    margin-left: 4px;
+    margin-right: 4px;
+    transition: background-color 0.25s ease, scale 0.25s ease;
+}
+
+.onboard-dot--active {
+    background-color: white;
+    scale: 1.25 1.25;
+}
+
+/* Actions row ──────────────────────────────── */
+
+.onboard-actions {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.onboard-skip-btn {
+    min-width: 100px;
+    height: 44px;
+    margin-right: 12px;
+    font-size: 13px;
+}
+
+.onboard-next-btn {
+    min-width: 140px;
+    height: 44px;
+    font-size: 13px;
+}

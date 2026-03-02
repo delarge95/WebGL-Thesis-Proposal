@@ -314,6 +314,7 @@
                 <ui:Button name="HeroExploreBtn" class="btn btn-primary btn-wide" text="EXPLORE" />
                 <ui:Button name="HeroDeviceBtn" class="btn btn-ghost btn-wide" text="SELECT DEVICE" />
                 <ui:Button name="HeroAboutBtn" class="btn btn-ghost btn-wide" text="ABOUT" />
+                <ui:Button name="HeroHelpBtn" class="btn btn-ghost btn-wide" text="HELP" />
                 <ui:Button name="HeroExitBtn" class="btn btn-ghost btn-wide" text="EXIT" />
             </ui:VisualElement>
         </ui:VisualElement>
@@ -354,6 +355,32 @@
         <!-- Device Selector removed / moved to BottomSheet -->
     </ui:VisualElement>
 
-    <!-- About Panel removed / moved to BottomSheet -->
+    <!-- ═══════════════════════════════════════════════
+         Onboarding Overlay (first-visit help — LAST so it's on top of everything)
+         ═══════════════════════════════════════════════ -->
+    <ui:VisualElement name="OnboardingOverlay" class="onboard-overlay" style="display: none;">
+        <ui:VisualElement class="onboard-card">
+            <!-- Step counter -->
+            <ui:Label name="OnboardStepCounter" text="1 / 5" class="onboard-counter" picking-mode="Ignore" />
+
+            <!-- Icon area -->
+            <ui:VisualElement name="OnboardStepIcon" class="onboard-icon-area" picking-mode="Ignore">
+                <ui:Label name="OnboardIconLabel" text="🖱" class="onboard-icon" picking-mode="Ignore" />
+            </ui:VisualElement>
+
+            <!-- Title + Description -->
+            <ui:Label name="OnboardStepTitle" text="ORBIT &amp; ZOOM" class="onboard-title" picking-mode="Ignore" />
+            <ui:Label name="OnboardStepDesc" text="Click and drag to rotate the model." class="onboard-desc" picking-mode="Ignore" />
+
+            <!-- Progress dots -->
+            <ui:VisualElement name="OnboardDots" class="onboard-dots" picking-mode="Ignore" />
+
+            <!-- Actions -->
+            <ui:VisualElement class="onboard-actions">
+                <ui:Button name="OnboardSkipBtn" text="SKIP" class="btn btn-ghost onboard-skip-btn" />
+                <ui:Button name="OnboardNextBtn" text="NEXT" class="btn btn-primary onboard-next-btn" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
 
 </ui:UXML>
