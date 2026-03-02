@@ -242,10 +242,15 @@ namespace WebGL.UI.Panels
 
             if (sliderVisible)
             {
-                // Hide slider
+                // Hide slider and reset explosion
                 _explodeInlineSlider?.AddToClassList("submenu--hidden");
                 _explodeBtn?.RemoveFromClassList("submenu-card--active");
                 _isExploded = false;
+
+                // Reset slider value to 0 so ExplodedViewManager animates back
+                var slider = _explodeInlineSlider?.Q<UnityEngine.UIElements.Slider>("ExplosionSlider");
+                if (slider != null) slider.value = 0f;
+
                 OnExplodeToggleRequested?.Invoke();
             }
             else

@@ -187,10 +187,10 @@ namespace WebGL.UI.Panels
             }
             else
             {
-                // Deselection
+                // Deselection — clear indicators but keep sheet open
+                // (sheet closes only via FAB info button or mode change)
                 if (_partNameLabel != null) _partNameLabel.AddToClassList("selection-label--hidden");
                 if (_infoBtn != null) _infoBtn.SetEnabled(false);
-                SetSheetState(false);
             }
         }
 
@@ -299,18 +299,7 @@ namespace WebGL.UI.Panels
                 AddCleanup(() => { sheetScroll.UnregisterCallback(scrollEnter); sheetScroll.UnregisterCallback(scrollLeave); });
             }
 
-            // Sheet close button
-            var sheetCloseBtn = _root.Q<Button>("SheetCloseBtn");
-            if (sheetCloseBtn != null)
-            {
-                EventCallback<ClickEvent> onSheetClose = evt =>
-                {
-                    evt.StopPropagation();
-                    SetSheetState(false);
-                };
-                sheetCloseBtn.RegisterCallback(onSheetClose);
-                AddCleanup(() => sheetCloseBtn.UnregisterCallback(onSheetClose));
-            }
+            // (SheetCloseBtn removed — FAB info button handles close)
 
             // Info button
             if (_infoBtn != null)

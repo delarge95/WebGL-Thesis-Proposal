@@ -29,7 +29,6 @@
             <!-- Header (Always visible in sheet) -->
             <ui:VisualElement class="sheet-header">
                 <ui:Label text="SELECT A PART" name="SheetTitle" class="sheet-title" picking-mode="Ignore" />
-                <ui:Button name="SheetCloseBtn" text="✕" class="sheet-close-btn" />
             </ui:VisualElement>
             
             <!-- Content Container: DETAILS (Part Info) -->
