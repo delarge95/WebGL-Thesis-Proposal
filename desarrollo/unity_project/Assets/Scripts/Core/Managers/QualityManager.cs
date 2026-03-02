@@ -1,6 +1,6 @@
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
 using WebGL.Core.Utils;
 
@@ -9,7 +9,7 @@ namespace WebGL.Core.Managers
     /// <summary>
     /// Adaptive resolution scaling for WebGL.
     /// Monitors FPS and adjusts URP renderScale to maintain target framerate.
-    /// ScalableBufferManager is NOT supported in WebGL — uses URP asset directly.
+    /// Uses reflection to avoid hard dependency on URP assembly (Core.asmdef has no URP ref).
     /// </summary>
     public class QualityManager : Singleton<QualityManager>
     {
@@ -22,24 +22,39 @@ namespace WebGL.Core.Managers
         private float currentScale = 1.0f;
         private int _lastFrameCount;
         private float _lastCheckTime;
-        private UniversalRenderPipelineAsset _urpAsset;
+
+        // Reflection-based access to URP renderScale (avoids assembly dependency)
+        private RenderPipelineAsset _pipelineAsset;
+        private PropertyInfo _renderScaleProp;
 
         public float CurrentScale => currentScale;
 
         private void Start()
         {
-            _urpAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
-            if (_urpAsset == null)
+            _pipelineAsset = GraphicsSettings.currentRenderPipeline;
+            if (_pipelineAsset == null)
             {
-                Debug.LogWarning("[QualityManager] No URP asset found — adaptive resolution disabled.");
+                Debug.LogWarning("[QualityManager] No render pipeline asset — adaptive resolution disabled.");
                 enabled = false;
                 return;
             }
 
-            currentScale = _urpAsset.renderScale;
+            // Find renderScale property via reflection (works with URP without compile-time dependency)
+            _renderScaleProp = _pipelineAsset.GetType().GetProperty("renderScale",
+                BindingFlags.Public | BindingFlags.Instance);
+
+            if (_renderScaleProp == null)
+            {
+                Debug.LogWarning("[QualityManager] Pipeline asset has no renderScale property — disabled.");
+                enabled = false;
+                return;
+            }
+
+            currentScale = (float)_renderScaleProp.GetValue(_pipelineAsset);
             _lastFrameCount = Time.frameCount;
             _lastCheckTime = Time.realtimeSinceStartup;
             InvokeRepeating(nameof(CheckPerformance), checkInterval, checkInterval);
+            Debug.Log($"[QualityManager] Started — initial renderScale: {currentScale:0.00}");
         }
 
         private void CheckPerformance()
@@ -70,7 +85,7 @@ namespace WebGL.Core.Managers
 
             if (!Mathf.Approximately(prevScale, currentScale))
             {
-                _urpAsset.renderScale = currentScale;
+                _renderScaleProp.SetValue(_pipelineAsset, currentScale);
                 Debug.Log($"[QualityManager] FPS: {fps:0.0} → renderScale: {currentScale:0.00}");
             }
         }
