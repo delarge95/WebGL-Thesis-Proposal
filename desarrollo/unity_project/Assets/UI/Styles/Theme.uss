@@ -639,16 +639,15 @@
     bottom: 0;
     left: 0;
     right: 0;
-    min-height: 200px;
-    max-height: 55%;
+    height: 45%;
 
     background-color: rgba(0, 0, 0, 0.96);
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
     border-top-width: 1px;
     border-top-color: rgba(255, 255, 255, 0.08);
-    padding: 32px;
-    padding-bottom: 40px;
+    padding: 32px 24px 40px 24px;
+    overflow: hidden;
 
     translate: 0 0;
     transition-property: translate;
@@ -667,21 +666,24 @@
     background-color: rgba(255, 255, 255, 0.16);
     border-radius: 2px;
     align-self: center;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
 .sheet-header {
-    margin-bottom: 8px;
-    flex-direction: row; /* User Req 6: X on same line */
+    margin-bottom: 4px;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
 .sheet-title {
-    font-size: 22px;
-    -unity-font-style: bold;
+    font-size: 24px;
+    -unity-font-definition: initial;
+    -unity-font: resource("Fonts/SpaceGrotesk/SpaceGrotesk-Regular");
+    -unity-font-style: normal;
     color: white;
     margin-bottom: 0;
+    letter-spacing: -0.5px;
 }
 
 .sheet-hint {
@@ -746,8 +748,15 @@
 
 /* UI Shift on Sheet Expand â€” moves bottom bar up above the sheet */
 .ui-shifted {
-    bottom: 46%; /* Buttons just above info panel top edge */
-    /* No translate needed, we animate bottom property on .bottom-bar */
+    bottom: 37%; /* Pill center aligns with panel top edge */
+}
+
+/* Pill bar becomes opaque when sheet is open to prevent content bleeding through */
+.actions-row--sheet-open {
+    background-color: rgba(0, 0, 0, 0.96);
+    border-color: rgba(255, 255, 255, 0.08);
+    transition-property: background-color, border-color;
+    transition-duration: 0.3s;
 }
 
 /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -998,23 +1007,21 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 8px 0;
-    border-bottom-width: 1px;
-    border-bottom-color: rgba(255, 255, 255, 0.04);
+    padding: 6px 0;
     min-height: 44px;
 }
 
 .data-label {
-    color: rgba(255, 255, 255, 0.65);
-    font-size: 17px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
     letter-spacing: 1px;
     flex-shrink: 0;
-    min-width: 120px;
+    min-width: 100px;
 }
 
 .data-value {
     color: rgba(255, 255, 255, 0.8);
-    font-size: 17px;
+    font-size: 13px;
     -unity-font-style: bold;
     flex: 1;
     -unity-text-align: upper-right;
@@ -1249,11 +1256,14 @@
     color: rgba(255, 255, 255, 0.65);
 }
 
-.part-description {
-    color: rgba(255, 255, 255, 0.65);
-    margin-bottom: 24px;
+/* Sheet description — editorial subtitle below part name */
+.sheet-description {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 14px;
     white-space: normal;
-    font-size: 16px;
+    margin-bottom: 20px;
+    padding-right: 48px;
+    line-height: 20px;
 }
 
 
@@ -1261,10 +1271,16 @@
    Collapsible Sheet Sections (Foldout)
    ---------------------------------------------------------------- */
 .sheet-foldout {
-    margin-top: 12px;
-    padding-top: 12px;
+    margin-top: 8px;
+    padding-top: 8px;
     border-top-width: 1px;
     border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.sheet-foldout--first {
+    border-top-width: 0;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 .sheet-foldout > .unity-foldout__toggle {
@@ -1279,8 +1295,8 @@
 }
 
 .sheet-foldout > .unity-foldout__toggle > .unity-toggle__input > .unity-foldout__text {
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.65);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.35);
     letter-spacing: 3px;
     -unity-font-style: bold;
 }
