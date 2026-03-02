@@ -1724,3 +1724,59 @@
     height: 44px;
     font-size: 13px;
 }
+
+/* ═══ FAB — Global Action Button ═══ */
+
+.fab-container {
+    position: absolute;
+    bottom: 120px;
+    right: 24px;
+    transition-property: opacity;
+    transition-duration: 0.2s;
+}
+
+.fab-button {
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    background-color: rgba(30, 30, 30, 0.75);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    -unity-font-style: normal;
+    transition-property: scale, border-color, background-color;
+    transition-duration: 0.15s;
+}
+
+.fab-button:hover {
+    scale: 1.08;
+    border-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(40, 40, 40, 0.85);
+}
+
+.fab-button:active {
+    scale: 0.95;
+}
+
+.fab-button.fab-button--active {
+    border-color: rgba(70, 175, 255, 0.6);
+    background-color: rgba(70, 175, 255, 0.15);
+}
+
+.fab-icon {
+    width: 28px;
+    height: 28px;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.85);
+}
+
+.fab-button.fab-button--active .fab-icon {
+    -unity-background-image-tint-color: rgba(70, 175, 255, 1);
+}
+
+.fab-button--hidden {
+    opacity: 0;
+    pointer-events: none;
+}
