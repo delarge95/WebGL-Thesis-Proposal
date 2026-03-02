@@ -257,11 +257,11 @@
                         </ui:Button>
                         <ui:Button name="EnvPreset_Night" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-env-night" picking-mode="Ignore"/>
-                            <ui:Label text="NIGHT" class="submenu-label" picking-mode="Ignore"/>
+                            <ui:Label text="TIME" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="EnvPreset_Blueprint" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-env-blue" picking-mode="Ignore"/>
-                            <ui:Label text="BLUE" class="submenu-label" picking-mode="Ignore"/>
+                            <ui:Label text="COLOR" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="EnvPreset_Neutral" class="submenu-card" style="display: none;">
                             <ui:VisualElement class="submenu-icon icon-env-neutral" picking-mode="Ignore"/>

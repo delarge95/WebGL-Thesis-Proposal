@@ -72,6 +72,14 @@ namespace WebGL.Core.Managers
                     lightPitch = 50f;
                     break;
 
+                case "Day":
+                    bgColor = new Color(0.55f, 0.72f, 0.90f);
+                    lightColor = new Color(1f, 0.98f, 0.92f);
+                    lightIntensity = 1.6f;
+                    lightRotY = 120f;
+                    lightPitch = 55f;
+                    break;
+
                 case "Sunset":
                     bgColor = new Color(0.12f, 0.05f, 0.02f);
                     lightColor = new Color(1f, 0.65f, 0.3f);
@@ -94,6 +102,71 @@ namespace WebGL.Core.Managers
                     lightIntensity = 0.8f;
                     lightRotY = 90f;
                     lightPitch = 45f;
+                    break;
+
+                // ── Solid background colors (COLOR cycle) ──
+                case "White":
+                    bgColor = new Color(0.92f, 0.92f, 0.92f);
+                    lightColor = new Color(1f, 0.98f, 0.95f);
+                    lightIntensity = 1.0f;
+                    lightRotY = 45f;
+                    lightPitch = 50f;
+                    break;
+                case "Grey":
+                    bgColor = new Color(0.35f, 0.35f, 0.36f);
+                    lightColor = Color.white;
+                    lightIntensity = 1.0f;
+                    lightRotY = 45f;
+                    lightPitch = 50f;
+                    break;
+                case "Black":
+                    bgColor = new Color(0.02f, 0.02f, 0.02f);
+                    lightColor = Color.white;
+                    lightIntensity = 1.2f;
+                    lightRotY = 45f;
+                    lightPitch = 50f;
+                    break;
+                case "Yellow":
+                    bgColor = new Color(0.85f, 0.75f, 0.15f);
+                    lightColor = new Color(1f, 0.98f, 0.92f);
+                    lightIntensity = 1.0f;
+                    lightRotY = 45f;
+                    lightPitch = 50f;
+                    break;
+                case "Orange":
+                    bgColor = new Color(0.85f, 0.45f, 0.10f);
+                    lightColor = new Color(1f, 0.95f, 0.90f);
+                    lightIntensity = 1.0f;
+                    lightRotY = 45f;
+                    lightPitch = 50f;
+                    break;
+                case "Green":
+                    bgColor = new Color(0.15f, 0.55f, 0.30f);
+                    lightColor = new Color(0.95f, 1f, 0.95f);
+                    lightIntensity = 1.0f;
+                    lightRotY = 45f;
+                    lightPitch = 50f;
+                    break;
+                case "Blue":
+                    bgColor = new Color(0.10f, 0.30f, 0.75f);
+                    lightColor = new Color(0.85f, 0.90f, 1f);
+                    lightIntensity = 1.0f;
+                    lightRotY = 45f;
+                    lightPitch = 50f;
+                    break;
+                case "Purple":
+                    bgColor = new Color(0.35f, 0.15f, 0.60f);
+                    lightColor = new Color(0.92f, 0.88f, 1f);
+                    lightIntensity = 1.0f;
+                    lightRotY = 45f;
+                    lightPitch = 50f;
+                    break;
+                case "Red":
+                    bgColor = new Color(0.70f, 0.12f, 0.12f);
+                    lightColor = new Color(1f, 0.92f, 0.90f);
+                    lightIntensity = 1.0f;
+                    lightRotY = 45f;
+                    lightPitch = 50f;
                     break;
 
                 case "Neutral":

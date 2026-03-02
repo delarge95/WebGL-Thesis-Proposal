@@ -13,6 +13,13 @@ namespace WebGL.UI.Panels
         private Slider _envLightIntSlider;
         private List<System.Action> _cleanupActions = new List<System.Action>();
 
+        // ── Cycle state for TIME and COLOR buttons ──
+        private static readonly string[] TimeCycle = { "Day", "Night", "Sunset" };
+        private static readonly string[] ColorCycle = { "White", "Grey", "Black", "Yellow", "Orange", "Green", "Blue", "Purple", "Red" };
+        private int _timeIndex = 0;
+        private int _colorIndex = 0;
+        private string _activePreset = "Studio";
+
         public UIEnvironmentPanel(VisualElement envPanel)
         {
             _envPanel = envPanel;
@@ -85,27 +92,85 @@ namespace WebGL.UI.Panels
                 });
             }
 
-            var presets = new[] { "Studio", "Night", "Blueprint", "Neutral" };
-            foreach (var preset in presets)
+            // ── Studio button (simple preset) ──
+            BindSimplePreset("Studio");
+
+            // ── TIME button — cycles Day / Night / Sunset ──
+            var nightBtn = _envPanel.Q<Button>("EnvPreset_Night");
+            if (nightBtn != null)
             {
-                var btn = _envPanel.Q<Button>($"EnvPreset_{preset}");
-                if (btn == null) continue;
-                var p = preset; 
-                System.Action onClick = () =>
+                System.Action onTimeClick = () =>
                 {
-                    if (ServiceLocator.TryGet<EnvironmentController>(out var env)) env.ApplyPreset(p);
-                    UpdateEnvPresetActiveState(p);
+                    string preset = TimeCycle[_timeIndex];
+                    _timeIndex = (_timeIndex + 1) % TimeCycle.Length;
+                    ApplyAndHighlight(preset, "Night");
+
+                    // Update label to show current preset name
+                    var label = nightBtn.Q<Label>(className: "submenu-label");
+                    if (label != null) label.text = preset.ToUpper();
                 };
-                btn.clicked += onClick;
-                AddCleanup(() => btn.clicked -= onClick);
+                nightBtn.clicked += onTimeClick;
+                AddCleanup(() => nightBtn.clicked -= onTimeClick);
             }
+
+            // ── COLOR button — cycles 9 background colors ──
+            var blueBtn = _envPanel.Q<Button>("EnvPreset_Blueprint");
+            if (blueBtn != null)
+            {
+                System.Action onColorClick = () =>
+                {
+                    string preset = ColorCycle[_colorIndex];
+                    _colorIndex = (_colorIndex + 1) % ColorCycle.Length;
+                    ApplyAndHighlight(preset, "Blueprint");
+
+                    // Update label to show current color name
+                    var label = blueBtn.Q<Label>(className: "submenu-label");
+                    if (label != null) label.text = preset.ToUpper();
+                };
+                blueBtn.clicked += onColorClick;
+                AddCleanup(() => blueBtn.clicked -= onColorClick);
+            }
+        }
+
+        private void BindSimplePreset(string presetName)
+        {
+            var btn = _envPanel.Q<Button>($"EnvPreset_{presetName}");
+            if (btn == null) return;
+            System.Action onClick = () =>
+            {
+                ApplyAndHighlight(presetName, presetName);
+                // Reset cycle labels when returning to Studio
+                ResetCycleLabels();
+            };
+            btn.clicked += onClick;
+            AddCleanup(() => btn.clicked -= onClick);
+        }
+
+        private void ApplyAndHighlight(string presetName, string buttonKey)
+        {
+            if (ServiceLocator.TryGet<EnvironmentController>(out var env))
+                env.ApplyPreset(presetName);
+            _activePreset = buttonKey;
+            UpdateEnvPresetActiveState(buttonKey);
+        }
+
+        private void ResetCycleLabels()
+        {
+            _timeIndex = 0;
+            _colorIndex = 0;
+
+            var nightLabel = _envPanel.Q<Button>("EnvPreset_Night")?.Q<Label>(className: "submenu-label");
+            if (nightLabel != null) nightLabel.text = "TIME";
+
+            var blueLabel = _envPanel.Q<Button>("EnvPreset_Blueprint")?.Q<Label>(className: "submenu-label");
+            if (blueLabel != null) blueLabel.text = "COLOR";
         }
 
         public void UpdateEnvPresetActiveState(string activePreset)
         {
             if (_envPanel == null) return;
-            var presets = new[] { "Studio", "Night", "Blueprint", "Neutral" };
-            foreach (var p in presets)
+            var buttons = new[] { "Studio", "Night", "Blueprint" };
+            foreach (var p in buttons)
             {
                 var btn = _envPanel.Q<Button>($"EnvPreset_{p}");
                 if (btn != null) btn.EnableInClassList("submenu-card--active", p == activePreset);
