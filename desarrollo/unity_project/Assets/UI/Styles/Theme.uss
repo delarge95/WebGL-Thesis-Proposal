@@ -1748,7 +1748,7 @@
 
 .fab-container.ui-shifted {
     bottom: 55%;
-    translate: 0 64px;
+    translate: 0 84px;
 }
 
 .fab-button {
