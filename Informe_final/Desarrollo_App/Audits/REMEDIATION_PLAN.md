@@ -129,7 +129,7 @@
 - **Esfuerzo:** 2–3 horas
 - **Archivos:** Múltiples managers y controllers
 
-### 2.7 🟠 PERF-H02*: `StripUnusedMeshComponents` Desactivado
+### 2.7 🟠 PERF-H02\*: `StripUnusedMeshComponents` Desactivado
 
 - **Pilar:** Performance
 - **Problema:** `StripUnusedMeshComponents: 0` — tangentes, UV2/UV3, colores de vértice se incluyen aunque los shaders no los usan. ~2–5 MB de mesh data desperdiciada.
@@ -137,7 +137,7 @@
 - **Esfuerzo:** 15 min + testing
 - **Archivos:** `ProjectSettings/ProjectSettings.asset`
 
-### 2.8 🟠 PERF-H03*: IL2CPP Compiler Configuration = Debug
+### 2.8 🟠 PERF-H03\*: IL2CPP Compiler Configuration = Debug
 
 - **Pilar:** Performance
 - **Problema:** `il2cppCompilerConfiguration: {}` (vacío = Debug por defecto). Build ~20% más lento y ~10% más grande que `Master`.
@@ -145,7 +145,7 @@
 - **Esfuerzo:** 10 min + testing
 - **Archivos:** `ProjectSettings/ProjectSettings.asset`
 
-### 2.9 🟠 PERF-H07*: QualityManager Es Un No-Op
+### 2.9 🟠 PERF-H07\*: QualityManager Es Un No-Op
 
 - **Pilar:** Performance / Arquitectura
 - **Problema:** `QualityManager.Update()` corre cada frame calculando FPS pero `ResizeBuffers()` está comentado. Desperdicia 1 `Update()` sin beneficio.
@@ -153,7 +153,7 @@
 - **Esfuerzo:** 30 min
 - **Archivos:** `QualityManager.cs`
 
-### 2.10 🟠 UX-H01*: Fitts's Law — Bottom Pill Gap
+### 2.10 🟠 UX-H01\*: Fitts's Law — Bottom Pill Gap
 
 - **Pilar:** UX/UI
 - **Problema:** Los mode buttons dentro del pill tienen padding que crea gap con el borde inferior de pantalla, aumentando ~20% el tiempo de adquisición por Fitts's Law.
@@ -161,7 +161,7 @@
 - **Esfuerzo:** 30 min
 - **Archivos:** `Theme.uss`, posiblemente `UIManager.cs`
 
-### 2.11 🟠 UX-H03*: Sin Onboarding / Ayuda Contextual
+### 2.11 🟠 UX-H03\*: Sin Onboarding / Ayuda Contextual
 
 - **Pilar:** UX/UI
 - **Problema:** Sin tutorial de primer uso, sin tooltips `?`, sin leyenda de shortcuts. Crítico para lograr SUS > 68 en evaluación.
@@ -225,91 +225,91 @@
 - **Fix:** Establecer type ramp de 3–4 tamaños (16, 20, 28, 36).
 - **Esfuerzo:** 45 min
 
-### 3.11 🟡 ARCH-M01*: Patrones de Desuscripción Inconsistentes
+### 3.11 🟡 ARCH-M01\*: Patrones de Desuscripción Inconsistentes
 
 - **Problema:** Múltiples patrones de cleanup (`_cleanupActions` vs `OnDestroy()` vs `OnDisable()`).
 - **Fix:** Estandarizar en un solo patrón (preferir `_cleanupActions` + `OnDestroy`).
 - **Esfuerzo:** 1 hora
 
-### 3.12 🟡 ARCH-M04*: OrbitCameraController Input Duplicado
+### 3.12 🟡 ARCH-M04\*: OrbitCameraController Input Duplicado
 
 - **Problema:** Lógica orbit/pan/zoom duplicada entre mouse y touch con magic numbers.
 - **Fix:** Extraer `IInputProvider` o unificar la lógica de input.
 - **Esfuerzo:** 1–2 horas
 
-### 3.13 🟡 ARCH-M05*: Double-Click Split entre SelectionManager y UIManager
+### 3.13 🟡 ARCH-M05\*: Double-Click Split entre SelectionManager y UIManager
 
 - **Problema:** Detección de doble-click vive en `UIManager` pero la selección se origina en `SelectionManager`.
 - **Fix:** Consolidar lógica de detección en `SelectionManager`.
 - **Esfuerzo:** 45 min
 
-### 3.14 🟡 ARCH-M06*: Magic Numbers en Todo el Codebase
+### 3.14 🟡 ARCH-M06\*: Magic Numbers en Todo el Codebase
 
 - **Problema:** `targetY = 20f`, `DOUBLE_CLICK_THRESHOLD = 0.35f`, `Time.frameCount % 300`, etc. sin constantes nombradas.
 - **Fix:** Extraer a constantes con nombre descriptivo o `[SerializeField]`.
 - **Esfuerzo:** 1 hora
 
-### 3.15 🟡 ARCH-M07*: DronePartData Propiedades Redundantes
+### 3.15 🟡 ARCH-M07\*: DronePartData Propiedades Redundantes
 
 - **Problema:** Campos públicos + properties C# que devuelven lo mismo → API confusa.
 - **Fix:** Mantener solo properties con backing fields privados, o solo campos `[SerializeField]` públicos.
 - **Esfuerzo:** 45 min
 
-### 3.16 🟡 ARCH-M08*: QualityManager.AdjustQuality() No-Op
+### 3.16 🟡 ARCH-M08\*: QualityManager.AdjustQuality() No-Op
 
 - **Problema:** Sistema de resolución adaptativa comentado; la clase solo calcula FPS sin actuar.
-- **Fix:** Implementar o eliminar el sistema. Relacionado con PERF-H07*.
+- **Fix:** Implementar o eliminar el sistema. Relacionado con PERF-H07\*.
 - **Esfuerzo:** 30 min (si se elimina)
 
-### 3.17 🟡 PERF-M02*: Texture Compression DXT vs ASTC
+### 3.17 🟡 PERF-M02\*: Texture Compression DXT vs ASTC
 
 - **Problema:** DXT no soportado en todos los GPUs móviles. ASTC tiene mejor soporte WebGL.
 - **Fix:** Evaluar multi-formato o ASTC como default para WebGL.
 - **Esfuerzo:** 30 min (config) + testing visual
 
-### 3.18 🟡 PERF-M03*: Mip Stripping Desactivado
+### 3.18 🟡 PERF-M03\*: Mip Stripping Desactivado
 
 - **Problema:** `mipStripping: 0` — mips no usados se envían al build. 5–15% ahorro potencial.
 - **Fix:** Activar `mipStripping` en Player Settings.
 - **Esfuerzo:** 5 min + testing
 
-### 3.19 🟡 PERF-M04*: Sin Hash File Naming para CDN
+### 3.19 🟡 PERF-M04\*: Sin Hash File Naming para CDN
 
 - **Problema:** `webGLNameFilesAsHashes: 0` — sin cache busting automático para CDN.
 - **Fix:** Activar `webGLNameFilesAsHashes` en Player Settings.
 - **Esfuerzo:** 5 min
 
-### 3.20 🟡 UX-H05*: Sin Feedback Visual en Transiciones de Estado
+### 3.20 🟡 UX-H05\*: Sin Feedback Visual en Transiciones de Estado
 
 - **Problema:** Sin toast/notificación ni animación al cambiar de modo. El usuario no sabe si su acción fue registrada.
 - **Fix:** Agregar transición visual (fade, scale) y/o toast efímero al cambiar modo.
 - **Esfuerzo:** 1–2 horas
 
-### 3.21 🟡 UX-M02*: Sin Dark/Light Theme Toggle
+### 3.21 🟡 UX-M02\*: Sin Dark/Light Theme Toggle
 
 - **Problema:** Sin tema claro ni modo alto contraste. Relevante para accesibilidad académica.
 - **Fix:** Evaluar viabilidad. Si no se implementa, documentar razón (viewer técnico = dark by design).
 - **Esfuerzo:** 2–3 horas (si se implementa) / 15 min (si se documenta como decisión de diseño)
 
-### 3.22 🟡 UX-M03*: Hero Sub-Menus Navigation Mismatch
+### 3.22 🟡 UX-M03\*: Hero Sub-Menus Navigation Mismatch
 
 - **Problema:** Dos paradigmas de navegación: Hero (slide horizontal) vs App (bottom pill + panel vertical).
 - **Fix:** Unificar paradigma o documentar como decisión de diseño dual-mode.
 - **Esfuerzo:** 1 hora
 
-### 3.23 🟡 UX-M05*: Cross-Section Dual-Plane Sin Guía
+### 3.23 🟡 UX-M05\*: Cross-Section Dual-Plane Sin Guía
 
 - **Problema:** Sin label explicando "1-2 ejes" ni feedback cuando se activa dual-plane FIFO.
 - **Fix:** Agregar tooltip o label contextual.
 - **Esfuerzo:** 30 min
 
-### 3.24 🟡 UX-M07*: Selection Indicator Oculto con Sheet Abierto
+### 3.24 🟡 UX-M07\*: Selection Indicator Oculto con Sheet Abierto
 
 - **Problema:** Al abrir el bottom sheet, se oculta el indicador de qué parte está seleccionada.
 - **Fix:** Mantener indicador visible (en el header del sheet o como badge).
 - **Esfuerzo:** 30 min
 
-### 3.25 🟡 PERF-M05*: Sin LOD Groups
+### 3.25 🟡 PERF-M05\*: Sin LOD Groups
 
 - **Problema:** Sin LODGroup ni fallback para cámara lejana o dispositivos bajos.
 - **Fix:** Bloqueado por materiales pendientes (§15.3 de WEBGL_OPTIMIZATION_MANUAL.md).
@@ -353,61 +353,61 @@
 - **Esfuerzo:** 2 horas
 - **Nota:** Unity UI Toolkit no soporta media queries nativas; requiere C# listener de resolución.
 
-### 4.7 🔵 ARCH-L01*: UIManager.EnsureManagers() Auto-Create Silencioso
+### 4.7 🔵 ARCH-L01\*: UIManager.EnsureManagers() Auto-Create Silencioso
 
 - **Problema:** Auto-crea Singletons faltantes sin warning, enmascarando errores de escena.
 - **Fix:** Agregar `Debug.LogWarning` cuando se auto-crea un manager.
 - **Esfuerzo:** 15 min
 
-### 4.8 🔵 ARCH-L02*: StaticInstance OnApplicationQuit No Confiable en WebGL
+### 4.8 🔵 ARCH-L02\*: StaticInstance OnApplicationQuit No Confiable en WebGL
 
 - **Problema:** `OnApplicationQuit()` no se llama confiablemente en WebGL (cierre de tab del browser).
 - **Fix:** Agregar cleanup alternativo via `Application.wantsToQuit` o `window.onbeforeunload` via jslib.
 - **Esfuerzo:** 30 min
 
-### 4.9 🔵 ARCH-L04*: Namespace Inconsistente
+### 4.9 🔵 ARCH-L04\*: Namespace Inconsistente
 
 - **Problema:** `HotspotManager` y `SmartHotspot` en namespace global en vez de `WebGL.UI`.
 - **Fix:** Mover a namespace correcto. Actualizar `using` statements.
 - **Esfuerzo:** 20 min
 
-### 4.10 🔵 ARCH-L05*: ExplodablePart.Start() Weak Guard Logic
+### 4.10 🔵 ARCH-L05\*: ExplodablePart.Start() Weak Guard Logic
 
 - **Problema:** Comparación con `Vector3.zero` falla si la parte está intencionalmente en el origen.
 - **Fix:** Usar flag booleano `_isInitialized` en vez de comparación posicional.
 - **Esfuerzo:** 15 min
 
-### 4.11 🔵 ARCH-L06*: Dead Code — Campos Comentados
+### 4.11 🔵 ARCH-L06\*: Dead Code — Campos Comentados
 
 - **Problema:** Campos comentados en `QualityManager`, `ExplodedViewManager`, `HighlightSystem`.
 - **Fix:** Eliminar código muerto comentado.
 - **Esfuerzo:** 15 min
 
-### 4.12 🔵 PERF-L02*: asyncUploadTimeSlice Demasiado Bajo (2ms)
+### 4.12 🔵 PERF-L02\*: asyncUploadTimeSlice Demasiado Bajo (2ms)
 
 - **Problema:** `asyncUploadTimeSlice: 2` — carga de texturas/meshes muy lenta (2ms/frame).
 - **Fix:** Aumentar a 4–8ms en QualitySettings.
 - **Esfuerzo:** 5 min
 
-### 4.13 🔵 PERF-L04*: Sin Application.targetFrameRate Explícito
+### 4.13 🔵 PERF-L04\*: Sin Application.targetFrameRate Explícito
 
 - **Problema:** Sin `targetFrameRate = 60` explícito; depende solo del browser `requestAnimationFrame`.
 - **Fix:** Agregar `Application.targetFrameRate = 60` en `GameManager.Awake()`.
 - **Esfuerzo:** 5 min
 
-### 4.14 🔵 UX-L01*: TopContextLabel Sin Animación
+### 4.14 🔵 UX-L01\*: TopContextLabel Sin Animación
 
 - **Problema:** Cambio de texto instantáneo. Un fade mejoraría calidad percibida.
 - **Fix:** Agregar transición de opacidad al cambiar texto.
 - **Esfuerzo:** 20 min
 
-### 4.15 🔵 UX-L02*: Shader Mode Names Demasiado Técnicos
+### 4.15 🔵 UX-L02\*: Shader Mode Names Demasiado Técnicos
 
 - **Problema:** "SolidColor", "Ghosted", "Thermal" → nombres técnicos poco accesibles.
 - **Fix:** Renombrar a "Flat Color", "See-Through", "Heat Map" o equivalentes más claros.
 - **Esfuerzo:** 15 min
 
-### 4.16 🔵 UX-L03*: Sin Haptic Feedback en Touch
+### 4.16 🔵 UX-L03\*: Sin Haptic Feedback en Touch
 
 - **Problema:** Sin `navigator.vibrate()` para feedback táctil en móviles.
 - **Fix:** Agregar vibración breve (10ms) en selección de parte via `.jslib`.
