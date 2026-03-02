@@ -519,10 +519,10 @@
 .icon-button-small {
     width: 64px;
     height: 64px;
-    background-color: rgba(255, 255, 255, 0.04);
+    background-color: transparent;
     border-radius: 50%;
     border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.1);
     justify-content: center;
     align-items: center;
     transition-property: border-color, background-color, scale;
@@ -532,12 +532,11 @@
 
 .icon-button-small:hover {
     border-color: rgba(255, 255, 255, 0.2);
-    background-color: rgba(255, 255, 255, 0.08);
 }
 
 .icon-button-small:active {
     scale: 0.94;
-    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .button-icon-text-small {
