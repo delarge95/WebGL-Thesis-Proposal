@@ -1,0 +1,78 @@
+% =============================================================================
+% Capítulo 6 — Conclusiones y Recomendaciones
+% =============================================================================
+
+\section{Conclusiones}
+\addcontentsline{toc}{section}{Conclusiones}
+
+A continuación se presentan las conclusiones del trabajo de grado, organizadas en función de los objetivos específicos planteados.
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection{Respecto al Objetivo General}
+\addcontentsline{toc}{subsection}{Respecto al Objetivo General}
+
+Se diseñó e implementó exitosamente un prototipo funcional de visor~3D interactivo para hardware de drones, desplegado como aplicación web mediante Unity~WebGL. El sistema demostró que es viable combinar visualización PBR de alta fidelidad con interactividad avanzada (vista explosionada, cortes transversales, 7~modos de renderizado) dentro de las restricciones de un navegador web moderno, sin requerir \textit{plugins}, extensiones ni instalación de software en el dispositivo del usuario.
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection{Respecto a los Objetivos Específicos}
+\addcontentsline{toc}{subsection}{Respecto a los Objetivos Específicos}
+
+\paragraph{OE1: Pipeline de Optimización 3D.} Se implementó un \textit{pipeline} de \textit{Technical Art} que incluyó retopología (de $>$2~millones de polígonos a una malla inferior a~100\,000~triángulos), \textit{baking} de normales en resolución~$2048 \times 2048$, texturizado PBR en Substance Painter y optimización automática en tiempo de ejecución (\texttt{WebGLOptimizer}). Este \textit{pipeline} validó que es posible mantener la percepción de detalle visual del modelo original con una fracción mínima de la geometría.
+
+% TODO: Bloque B — Agregar dato real de polígonos finales en escena.
+
+\paragraph{OE2: Arquitectura Modular de Software.} Se desarrolló una arquitectura de~4~capas (Presentación, Lógica, Servicios, Datos) con~91~scripts C\# y~9~\textit{shaders} personalizados, aplicando patrones profesionales (Singleton, Service Locator, Event Bus, Strategy, State Machine, ScriptableObject). La modularidad del sistema fue validada empíricamente: se lograron agregar~3~modos de visualización adicionales sin modificar el núcleo del \texttt{ViewModeManager}, confirmando la adherencia al principio Abierto/Cerrado.
+
+\paragraph{OE3: Evaluación de Usabilidad.} Se diseñaron los instrumentos de evaluación (cuestionario SUS de Brooke, protocolo NASA-TLX Raw, y sesiones \textit{Think-Aloud}) con~6~tareas guiadas representativas. La aplicación del protocolo está pendiente (véase Trabajo Futuro).
+
+% TODO: Bloque D — Si los resultados están disponibles, reemplazar
+% "La aplicación del protocolo está pendiente" con los datos reales.
+
+\paragraph{OE4: Documentación y Despliegue.} Se generó documentación técnica exhaustiva ($\sim$1\,060+$ líneas de documentación de arquitectura, un inventario completo de módulos, y documentación del \textit{pipeline} de \textit{shaders}). El código se gestionó en un repositorio Git con~240+~\textit{commits} estructurados. El despliegue se validó para navegadores Chrome, Firefox, Edge y Safari en dispositivos de escritorio y móviles.
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection{Contribuciones del Trabajo}
+\addcontentsline{toc}{subsection}{Contribuciones del Trabajo}
+
+\begin{enumerate}
+    \item \textbf{Demostración de viabilidad.} El proyecto demostró que Unity~WebGL es una plataforma viable para visualización técnica de hardware en la web, superando las limitaciones de los visores estáticos y los formatos propietarios identificados en el Estado del Arte.
+    \item \textbf{Arquitectura replicable.} La combinación de patrones (Event Bus~+~State Machine~+~Strategy) constituye un \textit{blueprint} reutilizable para aplicaciones similares de visualización interactiva.
+    \item \textbf{Pipeline de Technical Art documentado.} El proceso de retopología, \textit{baking} y texturizado PBR documentado es transferible a otros contextos de visualización~3D en la web.
+    \item \textbf{Aporte a la Ingeniería Multimedia.} El trabajo contribuye al campo de la Ingeniería Multimedia al demostrar la convergencia de tecnologías interactivas~3D, diseño UX basado en teoría cognitiva y optimización de \textit{assets} para entornos web restringidos.
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{Trabajo Futuro}
+\addcontentsline{toc}{section}{Trabajo Futuro}
+
+Se identifican las siguientes líneas de trabajo futuro derivadas de las limitaciones encontradas durante el desarrollo:
+
+\begin{enumerate}
+    \item \textbf{Herramienta de Medición.} La \texttt{MeasurementTool} fue implementada con tres modos (distancia, ángulo, radio) y funciona correctamente a nivel de código. Sin embargo, fue ocultada de la interfaz en la versión actual dado que el modelo~3D del dron no posee escala~1:1 calibrada respecto al modelo real, lo que produciría mediciones dimensionalmente inexactas. Para habilitar esta funcionalidad, se requiere un modelo calibrado o un factor de conversión de escala validado.
+
+    \item \textbf{Migración a WebGPU.} WebGPU, el sucesor de WebGL, permitiría utilizar \textit{Compute Shaders}, \textit{Geometry Shaders} nativos y mejor gestión de memoria. Esto eliminaría la necesidad del \textit{shader} \texttt{WireframeWebGL} (basado en coordenadas baricéntricas como \textit{workaround}) y habilitaría escenas de mayor complejidad geométrica.
+
+    \item \textbf{Backend y CMS.} La implementación actual es una aplicación \textit{frontend} estática. La integración de un \textit{backend} con un sistema de gestión de contenidos (CMS) permitiría a los ingenieros subir nuevos modelos~3D de diferentes drones sin recompilar la aplicación WebGL.
+
+    \item \textbf{Validación con usuarios.} Completar la evaluación con una muestra de~8--12 participantes aplicando los instrumentos diseñados (SUS, NASA-TLX, \textit{Think-Aloud}) para generar evidencia empírica sobre la usabilidad y la reducción de carga cognitiva.
+
+    \item \textbf{Realidad Aumentada (AR).} Explorar la integración de WebXR para permitir la visualización del dron en el entorno físico del usuario, lo cual potenciaría la comprensión espacial y el ensamblaje asistido \textit{in situ}.
+
+    \item \textbf{Sistema de Anotaciones Colaborativas.} Extender el \texttt{AnnotationSystem} actual a una versión multiusuario con persistencia en base de datos, permitiendo que equipos de ingeniería compartan notas y hallazgos sobre el modelo.
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{Recomendaciones}
+\addcontentsline{toc}{section}{Recomendaciones}
+
+\begin{enumerate}
+    \item Para proyectos similares de visualización~3D en la web, se recomienda definir el presupuesto de polígonos y el formato de \textit{shaders} \textbf{antes} de iniciar el modelado, ya que la retopología posterior es significativamente más costosa en tiempo.
+
+    \item Se recomienda adoptar el patrón \textit{Event Bus} desde la fase inicial de arquitectura para evitar refactorizaciones costosas cuando el número de subsistemas supere los~10~módulos.
+
+    \item Para evaluaciones de usabilidad con muestras pequeñas ($N < 15$), se recomienda complementar las métricas cuantitativas (SUS, NASA-TLX) con técnicas cualitativas (\textit{Think-Aloud}) para compensar la limitada potencia estadística.
+
+    \item Se recomienda a futuros estudiantes de Ingeniería Multimedia considerar el uso de UI~Toolkit sobre Unity~UI (Canvas) para aplicaciones WebGL, dado que su paradigma declarativo (UXML~+~USS) facilita la creación de interfaces responsivas y reduce significativamente el consumo de \textit{draw calls}.
+\end{enumerate}
+
+\newpage

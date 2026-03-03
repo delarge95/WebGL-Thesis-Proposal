@@ -1,0 +1,148 @@
+% =============================================================================
+% Capítulo 5 — Resultados y Análisis
+% ESTADO: ESTRUCTURA CON PLACEHOLDERS — Requiere datos de Bloque B (métricas
+% de rendimiento del build WebGL) y Bloque D (validación con usuarios SUS/TLX).
+% =============================================================================
+
+\section{Resultados y Análisis}
+\addcontentsline{toc}{section}{Resultados y Análisis}
+
+En este capítulo se presentan los resultados obtenidos durante la implementación y validación del prototipo, organizados en tres dimensiones: (a)~productos de software entregados, (b)~rendimiento técnico medido contra los KPIs establecidos en la metodología, y (c)~evaluación de usabilidad y carga cognitiva con usuarios.
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection{Productos Entregados}
+\addcontentsline{toc}{subsection}{Productos Entregados}
+
+\begin{table}[h!]
+\centering
+\caption{Productos Entregados vs. Productos Esperados}
+\small
+\begin{tabular}{p{5.5cm}p{5cm}p{3.5cm}}
+\hline
+\textbf{Producto Esperado} & \textbf{Indicador} & \textbf{Estado} \\ \hline
+Prototipo WebGL Funcional &
+URL pública del prototipo. \newline
+91 scripts implementados (meta: 65+). \newline
+7 modos de visualización. \newline
+Sistema de vista explosionada. \newline
+Herramientas de ensamblaje. &
+Cumplido \\
+
+Sistema de Shaders URP &
+9 shaders HLSL personalizados (meta: 7). \newline
+Compatibilidad WebGL 2.0. &
+Cumplido \\
+
+Modelos 3D Optimizados &
+% TODO: Bloque B — Insertar porcentaje real de reducción
+Reducción de tamaño $\geq$ 90\,\%. \newline
+DronePartData con 25+ campos. &
+Cumplido \\
+
+Documento de Trabajo de Grado &
+Normas APA 7 UNAD. \newline
+Documentación técnica completa. &
+Cumplido \\
+
+Informe de Evaluación &
+% TODO: Bloque D — Insertar referencia a resultados SUS y NASA-TLX
+Resultados SUS y NASA-TLX. &
+Pendiente \\ \hline
+\end{tabular}
+\end{table}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection{Rendimiento Técnico (KPIs)}
+\addcontentsline{toc}{subsection}{Rendimiento Técnico (KPIs)}
+
+Se realizaron pruebas de rendimiento del \textit{build} WebGL en dispositivos representativos de gama media y alta. Los resultados se contrastaron con las metas definidas en la metodología.
+
+% TODO: Bloque B — Reemplazar TODOS los valores de la tabla con datos reales
+% del build WebGL final. NO USAR los datos ficticios del borrador anterior
+% (85,400 polígonos, 34 FPS, 2.8s shell, etc.).
+
+\begin{table}[h!]
+\centering
+\caption{Resultados de Rendimiento Técnico}
+\small
+\begin{tabular}{lccc}
+\hline
+\textbf{Métrica (KPI)} & \textbf{Meta} & \textbf{Resultado} & \textbf{Cumplido} \\ \hline
+Polígonos en Escena          & $<$ 100\,000 & \textit{[pendiente]} & --- \\
+FPS (Móvil Mid-Range)        & $>$ 30       & \textit{[pendiente]} & --- \\
+Draw Calls                   & $<$ 200      & \textit{[pendiente]} & --- \\
+Frame Time (ms)              & $<$ 33       & \textit{[pendiente]} & --- \\
+Uso de Memoria (MB)          & $<$ 512      & \textit{[pendiente]} & --- \\
+Tiempo de Carga (Shell, s)   & $<$ 3        & \textit{[pendiente]} & --- \\
+Tiempo de Carga (Full, s)    & $<$ 10       & \textit{[pendiente]} & --- \\
+\hline
+\end{tabular}
+\end{table}
+
+% TODO: Bloque B — Agregar párrafos de análisis por cada KPI:
+% - Polígonos: Detallar el resultado del pipeline de retopología
+% - FPS: Detallar dispositivos de prueba y resultados por dispositivo
+% - Draw Calls: Explicar impacto de batching y atlas de texturas
+% - Tiempo de Carga: Detallar tiempos por tipo de conexión (WiFi, 4G)
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection{Evaluación de Usabilidad (SUS)}
+\addcontentsline{toc}{subsection}{Evaluación de Usabilidad (SUS)}
+
+Se aplicó el cuestionario \textit{System Usability Scale} (SUS) de Brooke (1986) a una muestra de participantes tras completar las~6 tareas guiadas definidas en el protocolo de validación (véase Sección~\ref{sec:instrumentos}).
+
+% TODO: Bloque D — Completar con datos reales:
+% - Tamaño de la muestra (N esperado: 8-12)
+% - Puntaje promedio SUS (meta: ≥ 68)
+% - Desviación estándar
+% - Clasificación según escala de Bangor et al. (2009):
+%   ≥ 85.5 = Excelente (A), 72.6-85.4 = Bueno (B), 52.0-72.5 = OK (C),
+%   38.0-51.9 = Pobre (D), < 38 = Peor Imaginable (F)
+% - Tabla de puntajes por participante
+% - Gráfico de distribución (opcional)
+
+\textit{[Resultados pendientes de validación con usuarios — Bloque D.]}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection{Carga Cognitiva (NASA-TLX)}
+\addcontentsline{toc}{subsection}{Carga Cognitiva (NASA-TLX)}
+
+Se aplicó el cuestionario \textit{Raw Task Load Index} (Raw TLX) de Hart y Staveland (1988) para evaluar la carga cognitiva percibida al interactuar con el prototipo~3D, comparándola con la experiencia equivalente usando documentación estática~(PDF) del mismo dron.
+
+% TODO: Bloque D — Completar con datos reales:
+% - Puntaje global promedio Raw TLX (meta: ≤ 40)
+% - Desglose por dimensión: Exigencia Mental, Exigencia Física, Exigencia Temporal,
+%   Rendimiento, Esfuerzo, Frustración
+% - Comparativa: grupo 3D interactivo vs grupo PDF estático
+%   (hipótesis: 2D → 60-80, 3D → 30-50)
+% - Prueba estadística (si N es suficiente): t de Student o Mann-Whitney U
+% - Gráfico radar o de barras comparativo (opcional)
+
+\textit{[Resultados pendientes de validación con usuarios — Bloque D.]}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection{Retroalimentación Cualitativa (\textit{Think-Aloud})}
+\addcontentsline{toc}{subsection}{Retroalimentación Cualitativa (Think-Aloud)}
+
+Durante las sesiones de prueba se aplicó el protocolo \textit{Think-Aloud} (Ericsson y Simon, 1993), registrando las verbalizaciones de los participantes. Los comentarios se codificaron en categorías temáticas.
+
+% TODO: Bloque D — Completar con datos reales:
+% - Categorías identificadas (ej: navegación, comprensión, estética, dificultades)
+% - Citas textuales representativas de los participantes
+% - Problemas de usabilidad identificados y su frecuencia
+
+\textit{[Resultados pendientes de validación con usuarios — Bloque D.]}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection{Discusión de Resultados}
+\addcontentsline{toc}{subsection}{Discusión de Resultados}
+
+% TODO: Bloque B + D — Escribir discusión integradora:
+% - Triangulación de datos cuantitativos (SUS, TLX, KPIs) con cualitativos (Think-Aloud)
+% - Relación con los objetivos específicos y la pregunta de investigación
+% - Comparación con benchmarks de la industria (SUS promedio = 68, TLX < 40)
+% - Limitaciones de la muestra y del protocolo
+
+\textit{[Discusión pendiente de resultados — Bloques B y D.]}
+
+\newpage

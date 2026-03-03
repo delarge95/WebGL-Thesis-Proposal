@@ -1,0 +1,107 @@
+% =============================================================================
+% Capítulo 8 — Apéndices
+% =============================================================================
+
+\newpage
+\section*{Apéndices}
+\addcontentsline{toc}{section}{Apéndices}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice A: Repositorio de Código Fuente}
+\addcontentsline{toc}{subsection}{Apéndice A: Repositorio de Código Fuente}
+
+El código fuente completo del proyecto se encuentra disponible en el siguiente repositorio público de GitHub:
+
+\begin{center}
+\url{https://github.com/delarge95/WebGL-Thesis-Proposal}
+\end{center}
+
+\noindent El repositorio contiene:
+\begin{itemize}
+    \item 91 scripts C\# ($\sim$14\,778 líneas)
+    \item 9 \textit{shaders} HLSL/CG ($\sim$1\,749 líneas)
+    \item 5 hojas de estilo USS + 4 plantillas UXML ($\sim$4\,063 líneas)
+    \item 240+ \textit{commits} con mensajes semánticos (\textit{Conventional Commits})
+    \item Rama principal de desarrollo: \texttt{feature/phase2-ux-redesign}
+\end{itemize}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice B: Cuestionario SUS}
+\addcontentsline{toc}{subsection}{Apéndice B: Cuestionario SUS}
+
+Instrumento de evaluación de usabilidad \textit{System Usability Scale} (Brooke, 1986) adaptado al prototipo. Escala Likert de~5 puntos (1~=~Totalmente en desacuerdo, 5~=~Totalmente de acuerdo).
+
+\begin{enumerate}
+    \item Creo que me gustaría utilizar este visor 3D con frecuencia.
+    \item Encontré el visor innecesariamente complejo.
+    \item Pensé que el visor era fácil de usar.
+    \item Creo que necesitaría el apoyo de un experto para poder utilizar este visor.
+    \item Encontré que las diversas funciones del visor estaban bien integradas.
+    \item Pensé que había demasiada inconsistencia en el visor.
+    \item Imagino que la mayoría de las personas aprenderían a usar este visor muy rápidamente.
+    \item Encontré el visor muy engorroso de usar.
+    \item Me sentí muy confiado usando el visor.
+    \item Necesité aprender muchas cosas antes de poder empezar a usar este visor.
+\end{enumerate}
+
+\noindent \textbf{Tareas guiadas previas al cuestionario:}
+\begin{enumerate}
+    \item Navegar libremente por el modelo del dron (órbita, zoom, pan).
+    \item Seleccionar la pieza ``Motor Brushless'' y leer su información técnica.
+    \item Activar la vista explosionada y explorar la estructura interna.
+    \item Cambiar al modo de visualización ``X-Ray'' y observar los componentes internos.
+    \item Utilizar el corte transversal en el eje~Y para ver una sección del dron.
+    \item Buscar una pieza específica en el catálogo de partes.
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice C: Cuestionario NASA-TLX (Raw)}
+\addcontentsline{toc}{subsection}{Apéndice C: Cuestionario NASA-TLX (Raw)}
+
+Instrumento \textit{Raw Task Load Index} (Hart y Staveland, 1988) sin ponderación. Escala de~21 puntos (0--100 en incrementos de~5).
+
+\begin{enumerate}
+    \item \textbf{Exigencia Mental.} ¿Qué tan mentalmente exigente fue la tarea? (Muy baja -- Muy alta)
+    \item \textbf{Exigencia Física.} ¿Qué tan físicamente exigente fue la tarea? (Muy baja -- Muy alta)
+    \item \textbf{Exigencia Temporal.} ¿Qué tanta presión de tiempo sintió? (Muy baja -- Muy alta)
+    \item \textbf{Rendimiento.} ¿Qué tan exitoso fue en lograr el objetivo? (Perfecto -- Fallido)
+    \item \textbf{Esfuerzo.} ¿Qué tan duro tuvo que trabajar para lograr su nivel de rendimiento? (Muy bajo -- Muy alto)
+    \item \textbf{Frustración.} ¿Qué tan inseguro, desalentado, irritado o estresado se sintió? (Muy baja -- Muy alta)
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice D: Inventario de Módulos del Sistema}
+\addcontentsline{toc}{subsection}{Apéndice D: Inventario de Módulos del Sistema}
+
+\begin{table}[h!]
+\centering
+\caption{Inventario Completo de Scripts C\#}
+\small
+\begin{tabular}{llc}
+\hline
+\textbf{Categoría} & \textbf{Módulos Representativos} & \textbf{Cant.} \\ \hline
+Core Managers & GameManager, AppStateMachine, EventBus, SelectionManager & 30 \\
+UI Components & UIManager, UIDetailsSheet, UIAnalyzePanel, UIHeroController & 19 \\
+Data / Events & DronePartData, AssemblyGuideData, StateChangedEvent & 5 \\
+Utilities & TweenEngine, WebGLOptimizer, ScreenshotManager & 10 \\
+Content & DroneStateController, AnnotationSystem, ConnectionPointsViewer & 3 \\
+\hline
+\textbf{Total} & & \textbf{91} \\
+\hline
+\end{tabular}
+\end{table}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice E: Demo Funcional}
+\addcontentsline{toc}{subsection}{Apéndice E: Demo Funcional}
+
+% TODO: Bloque B — Insertar URL del deploy WebGL final
+\textit{[URL del demo pendiente de despliegue final.]}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice F: Bitácora de Desarrollo}
+\addcontentsline{toc}{subsection}{Apéndice F: Bitácora de Desarrollo}
+
+La bitácora completa de desarrollo se encuentra en el archivo \texttt{BITACORA.md} del repositorio. Registra cronológicamente las~11 fases de desarrollo (H01--H11), las~5 correcciones del Sprint~4 (C01--C05) y las~13 tareas de la Fase~3 (F3-00 a F3-13).
+
+\newpage
