@@ -29,7 +29,7 @@
 
 \title{\textbf{Manual Técnico}\\Prototipo Web 3D Interactivo para Visualización Técnica de Drones}
 \author{Alexander Woodcock Salomón}
-\date{Diciembre 2025}
+\date{Marzo 2026}
 
 \begin{document}
 
@@ -38,7 +38,7 @@
 \newpage
 
 \section{Introducción}
-Este documento técnico detalla la arquitectura, componentes y procedimientos de mantenimiento del prototipo Web 3D para visualización técnica de drones. El sistema implementa más de 65 scripts con arquitectura modular, patrones de diseño profesionales y optimizaciones específicas para WebGL.
+Este documento técnico detalla la arquitectura, componentes y procedimientos de mantenimiento del prototipo Web 3D para visualización técnica de drones. El sistema implementa 91 scripts C\# (~14,778 líneas), 9 shaders personalizados (~1,749 líneas), 5 hojas de estilo USS (~3,561 líneas) y 4 layouts UXML (~502 líneas), con arquitectura modular, patrones de diseño profesionales y optimizaciones específicas para WebGL.
 
 \subsection{Alcance del Documento}
 \begin{itemize}
@@ -52,7 +52,7 @@ Este documento técnico detalla la arquitectura, componentes y procedimientos de
 
 \subsection{Stack Tecnológico}
 \begin{itemize}
-    \item \textbf{Motor:} Unity 6.3 LTS
+    \item \textbf{Motor:} Unity 6000.0.62f1 (Unity 6)
     \item \textbf{Lenguaje:} C\# 11 (Scripting) / HLSL (Shaders)
     \item \textbf{Plataforma:} WebGL 2.0
     \item \textbf{Compilador:} IL2CPP $\rightarrow$ WebAssembly (WASM)
@@ -63,10 +63,11 @@ Este documento técnico detalla la arquitectura, componentes y procedimientos de
 \subsection{Patrones de Diseño Implementados}
 \begin{itemize}
     \item \textbf{Singleton/PersistentSingleton:} Para managers globales
-    \item \textbf{Event Bus:} Comunicación desacoplada entre sistemas
-    \item \textbf{State Machine:} Control de estados de la aplicación
+    \item \textbf{Service Locator (H01):} Resolución de dependencias en tiempo de ejecución
+    \item \textbf{Event Bus:} Comunicación desacoplada con detección de leaks y purga de zombies (H03)
+    \item \textbf{Strategy (BaseModeHandler, H02):} 3 handlers concretos (InspectHandler, AnalyzeHandler, StudioHandler)
+    \item \textbf{State Machine:} Control de estados de la aplicación (9 estados)
     \item \textbf{ScriptableObjects:} Configuración de datos (DronePartData, AssemblyGuideData)
-    \item \textbf{Object Pooling:} Reutilización de objetos para rendimiento
 \end{itemize}
 
 \subsection{Diagrama de Arquitectura}
@@ -275,38 +276,65 @@ Content-Encoding: br (si usa Brotli)
 \textbf{Script} & \textbf{Función} \\
 \hline
 \endhead
-AppStateMachine & Máquina de estados principal \\
-EventBus & Sistema de eventos \\
-SelectionManager & Selección de piezas \\
-ViewModeManager & Modos de visualización (7) \\
+AppStateMachine & Máquina de estados principal (9 estados) \\
+EventBus & Sistema de eventos con detección de leaks (H03) \\
+ServiceLocator & Resolución de dependencias en runtime (H01) \\
+SelectionManager & Selección de piezas con raycast \\
+ViewModeManager & 7 modos de visualización con cache \\
 PartCatalogManager & Búsqueda y filtrado \\
-PartVisibilityManager & Ocultar/mostrar piezas \\
-CrossSectionManager & Cortes transversales \\
-DroneStateController & On/Off del dron \\
+PartVisibilityManager & Ocultar/mostrar piezas con fade \\
+CrossSectionManager & Cortes transversales dual-plane \\
+DroneStateController & 5 estados del dron (animación/audio) \\
 ModularPartsSystem & Intercambio de piezas \\
-AssemblyGuideManager & Guía de ensamblaje \\
-MeasurementTool & Mediciones 3D \\
-ConnectionPointsViewer & Puntos de conexión \\
-BillOfMaterialsManager & Lista de materiales \\
-AnnotationSystem & Notas 3D \\
+AssemblyGuideManager & Guía de ensamblaje paso a paso \\
+MeasurementTool & Mediciones 3D (distancia/ángulo/radio) \\
+ConnectionPointsViewer & Puntos de conexión coloreados \\
+BillOfMaterialsManager & Lista de materiales + CSV \\
+AnnotationSystem & Notas 3D billboard \\
 AssemblyChecklist & Verificación de piezas \\
 AudioManager & Control de audio \\
-TweenEngine & Motor de animaciones \\
-OrbitCameraController & Cámara orbital \\
-CameraPresets & Vistas predefinidas \\
-HighlightSystem & Resaltado visual \\
-CursorManager & Cursores dinámicos \\
+TweenEngine & Motor de animaciones (8 easings) \\
+OrbitCameraController & Cámara orbital (mouse+touch) \\
+CameraPresets & 6 vistas predefinidas \\
+ExplodedViewManager & Vista explosionada con filtros \\
+HighlightSystem & Resaltado hover/select \\
+MaterialController & Toggle XRay + color override \\
+CursorManager & 7 tipos de cursor \\
 LoadingController & Pantalla de carga \\
 AnalyticsManager & Métricas de uso \\
-AccessibilityManager & Opciones de accesibilidad \\
-ErrorHandler & Manejo de errores \\
-ScreenshotManager & Captura de pantalla \\
+AccessibilityManager & UI Scale + High Contrast \\
+ErrorHandler & Captura de excepciones \\
+ScreenshotManager & Captura PNG a base64 \\
 KeyboardShortcuts & Atajos de teclado \\
-PerformanceMonitor & Métricas de rendimiento \\
-WebGLOptimizer & Optimizaciones WebGL \\
+PerformanceMonitor & Overlay de rendimiento \\
+WebGLOptimizer & Optimizaciones WebGL + heap \\
+UIManager & Orquestador de 6 sub-controladores \\
+UIModeController & 3 modos (Inspect/Analyze/Studio) \\
+UIDetailsSheet & Bottom sheet con drag-to-dismiss \\
+UIHeroController & Landing screen + submenús \\
+UIAnalyzePanel & 7 botones de modo shader \\
+UICrossSectionPanel & Control dual-plane \\
+UIEnvironmentPanel & Sliders de luz + presets \\
+HotspotManager & Spawn de SmartHotspots \\
+SmartHotspot & Hotspot 3D→2D con occlusion \\
+AssemblyStepUI & Panel de guía de ensamblaje \\
+PartCatalogUI & Catálogo filtrable \\
+SettingsPanel & Modal de configuración \\
+TooltipSystem & Tooltip flotante \\
+EnhancedInfoPanel & Panel info detallada de pieza \\
+DetailsPanelController & Controller UXML-driven \\
+SceneTransitionManager & Fade in/out \\
+SceneBootstrapper & Auto-creación de 18 managers \\
+EnvironmentController & 5 presets de iluminación \\
+InputManager & Bloqueo de input + IsPointerOverUI \\
+NotificationManager & Toast notifications \\
+QualityManager & Resolución adaptativa por FPS \\
+SaveSystem & PlayerPrefs wrapper \\
+DroneAssembler & Creación procedural del dron \\
+ExplodablePart & Posición explosionada + DronePartData \\
 \hline
 \end{longtable}
 
-\textbf{Total: 65+ scripts, 9,000+ líneas de código}
+\textbf{Total: 91 scripts C\# (~14,778 líneas), 9 shaders (~1,749 líneas), 5 USS (~3,561 líneas), 4 UXML (~502 líneas)}
 
 \end{document}

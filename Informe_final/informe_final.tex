@@ -305,15 +305,17 @@ High-performance hardware design (drones, robotic systems) faces a critical chal
 
 \newpage
 \section{Desarrollo e Implementación}
-El desarrollo del prototipo siguió una metodología iterativa en fases (DSR Sprints), resultando en más de 65 scripts con aproximadamente 9,000 líneas de código C\#. La implementación abarca sistemas de interacción, visualización, audio, y herramientas especializadas para ingenieros.
+El desarrollo del prototipo siguió una metodología iterativa en fases (DSR Sprints), resultando en 91 scripts con aproximadamente 14,778 líneas de código C\#, 9 shaders personalizados (~1,749 líneas HLSL/CG) y un design system basado en UI Toolkit (5 USS + 4 UXML). La implementación abarca sistemas de interacción, visualización, audio, y herramientas especializadas para ingenieros.
 
 \subsection{Arquitectura del Sistema}
 El sistema se implementó siguiendo patrones de diseño profesionales para garantizar modularidad, extensibilidad y mantenimiento:
 
 \begin{itemize}
     \item \textbf{Singleton/PersistentSingleton:} Managers globales persisten entre escenas
-    \item \textbf{Event Bus (Pub/Sub):} Comunicación desacoplada entre sistemas
-    \item \textbf{State Machine:} Control de estados de la aplicación (Loading, Exploration, ExplodedView, PartFocus)
+    \item \textbf{Service Locator (H01):} Resolución de dependencias en runtime
+    \item \textbf{Event Bus (Pub/Sub):} Comunicación desacoplada con detección de leaks y purga de zombies (H03)
+    \item \textbf{Strategy (BaseModeHandler, H02):} 3 handlers concretos para modos Inspect/Analyze/Studio
+    \item \textbf{State Machine:} Control de estados de la aplicación (9 estados con transiciones validadas)
     \item \textbf{ScriptableObjects:} Configuración de datos (DronePartData, AssemblyGuideData)
 \end{itemize}
 
@@ -457,14 +459,18 @@ Implementación liviana alternativa a DOTween con 8 tipos de easing (Linear, Eas
 \begin{tabular}{lc}
 \hline
 \textbf{Categoría} & \textbf{Cantidad} \\ \hline
-Core Managers & 25+ \\
-UI Components & 12+ \\
-Data/Events & 8+ \\
-Utilities & 10+ \\
-Graphics/Shaders & 5+ \\
+Core Managers & 30 \\
+UI Components & 19 \\
+Data/Events & 5 \\
+Utilities & 10 \\
+Content & 3 \\
+Shaders & 9 \\
+USS/UXML & 9 \\
 \hline
-\textbf{Total Scripts} & \textbf{65+} \\
-\textbf{Líneas de Código} & \textbf{$\sim$9,000} \\
+\textbf{Total C\# Scripts} & \textbf{91} \\
+\textbf{Total Shaders} & \textbf{9} \\
+\textbf{Líneas C\#} & \textbf{$\sim$14,778} \\
+\textbf{Líneas HLSL/CG} & \textbf{$\sim$1,749} \\
 \hline
 \end{tabular}
 \end{table}
