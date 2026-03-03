@@ -1,0 +1,232 @@
+% =============================================================================
+% Capítulo 2 — Marco de Referencia
+% Combina: Estado del Arte, Marco Teórico y Marco Conceptual
+% Fuentes: Propuesta/sections/estado_del_arte.tex, marco_teorico.tex,
+%          marco_conceptual.tex  (adaptados para informe final)
+% =============================================================================
+
+\section{Marco de Referencia}
+\addcontentsline{toc}{section}{Marco de Referencia}
+
+El diseño, desarrollo y evaluación del prototipo web 3D se fundamentó en un marco de referencia multidisciplinario que integró conocimientos de la ingeniería de software, la computación gráfica, la psicología cognitiva y la interacción humano-computador. Este capítulo presenta primero el estado del arte de las soluciones existentes, luego el sustento teórico y, finalmente, el glosario de conceptos técnicos.
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection{Estado del Arte}
+\addcontentsline{toc}{subsection}{Estado del Arte}
+
+Se analizaron las tecnologías actuales de visualización 3D en la web, evaluando sus capacidades, limitaciones y pertinencia para la visualización técnica de hardware de alto rendimiento. Se examinaron bibliotecas nativas (JavaScript), motores de juego, plataformas \textit{SaaS} y soluciones de \textit{streaming} para identificar la herramienta óptima que equilibrara fidelidad visual y rendimiento en navegadores.
+
+\subsubsection{Benchmarking de Soluciones Web~3D}
+\addcontentsline{toc}{subsubsection}{Benchmarking de Soluciones Web~3D}
+
+La visualización 3D en la web ha evolucionado significativamente desde la introducción de WebGL en 2011 (Khronos Group). Yu et al. (2023) identifican WebGL como la tecnología dominante para renderizado 3D en navegadores, con creciente competencia de WebGPU. A continuación se presentan las ocho tecnologías evaluadas.
+
+\paragraph{Three.js.} Biblioteca de renderizado~3D ligera construida sobre WebGL. Según el repositorio oficial de Cabello (2024), cuenta con más de 110\,000 estrellas en GitHub, lo que indica amplia adopción en la comunidad de desarrolladores web. Ofrece curva de aprendizaje accesible, tamaño de \textit{bundle} reducido ($\sim$600\,KB minificado+gzip) y documentación exhaustiva. Sin embargo, requiere implementación manual del \textit{pipeline} de assets (cargadores GLTF/OBJ personalizados), gestión de memoria explícita y carece de editor visual para artistas no-programadores.
+
+\paragraph{Babylon.js.} Motor WebGL/WebGPU completo diseñado con enfoque \textit{enterprise}, con abstracciones de alto nivel para física, GUI y animación. Fransson et al. (2024), en la IEEE Conference on Games, demostraron que WebGPU como \textit{backend} muestra tiempos de cuadro consistentemente mejores que WebGL, validando la estrategia de migración temprana de Babylon.js. Su tamaño de \textit{bundle} ($\sim$2\,MB minificado) es mayor, y el rendimiento en escenas ligeras es ligeramente inferior al de Three.js, aunque versiones recientes han reducido esta brecha.
+
+\paragraph{Unity WebGL.} Unity Technologies ofrece compilación a WebGL desde Unity~5.0 (2015), con mejoras significativas mediante IL2CPP y WebAssembly. El ecosistema completo incluye Asset Store ($>$500\,000 activos), Profiler integrado y Shader Graph visual. Asset Bundles permiten gestión granular de memoria. Su principal desventaja es el tamaño de \textit{build} inicial (5--15\,MB según configuración de compresión) y el tiempo de carga mayor en primera ejecución ($\sim$5--7\,s en redes~4G).
+
+\paragraph{Unreal Engine Pixel Streaming.} Introducido en Unreal Engine~4.21 (2018), transmite contenido de alta fidelidad desde servidores GPU a clientes web ligeros. Permite calidad gráfica máxima (\textit{Ray Tracing}, Lumen Global Illumination) y escenas extremadamente complejas ($>$10\,M polígonos). Sin embargo, la latencia de red típica ($>$100\,ms en redes~4G latinoamericanas) y el costo de infraestructura \textit{cloud} (\$0.50--\$2.00/hora por sesión GPU) restringen su viabilidad para aplicaciones de acceso masivo.
+
+\paragraph{Spline.} Editor 3D \textit{web-first} (2021), enfocado en colaboración en tiempo real con UX similar a Figma para 3D. Limitado a $<$100\,000 polígonos y orientado a \textit{motion graphics}, sin soporte para lógica \textit{custom} en~C\# o JavaScript.
+
+\paragraph{Marmoset Viewer.} Visor WebGL especializado en presentación PBR de alta calidad, integrado con ArtStation. Orientado exclusivamente a visualización estática (\textit{turntables}~360°), sin permitir \textit{scripting} de lógica personalizada.
+
+\paragraph{Sketchfab.} Plataforma de hosting con visor WebGL embebible (adquirida por Epic Games en 2021), con más de 5~millones de modelos. Ofrece soporte WebXR y anotaciones técnicas, pero presenta control limitado sobre la lógica de interacción y dependencia de plataforma externa (\textit{vendor lock-in}).
+
+\paragraph{PlayCanvas.} Plataforma de desarrollo web con motor WebGL integrado y editor colaborativo en la nube. Su \textit{runtime} es ligero ($\sim$500\,KB gzip), pero posee un ecosistema de assets menor al de Unity, documentación menos exhaustiva para casos técnicos avanzados y dependencia de plataforma~\textit{cloud}.
+
+\begin{table}[h!]
+\centering
+\caption{Comparativa de Soluciones Web~3D}
+\small
+\begin{tabular}{lcccccc}
+\hline
+\textbf{Tecnología} & \textbf{Build} & \textbf{Load} & \textbf{PBR} & \textbf{Lenguaje} & \textbf{Interact.} & \textbf{Costo} \\ \hline
+Three.js & 600\,KB & $<$2\,s & Manual & JS & Total & Gratis \\
+Babylon.js & 2\,MB & $\sim$3\,s & Built-in & TS/JS & Total & Gratis \\
+Unity & 5--15\,MB & 5--7\,s & URP & C\# (WASM) & Total & Gratis$^*$ \\
+UE Pixel & 5\,MB & $\sim$2\,s & Photoreal & C++/BP & Latencia & Cloud \\
+Spline & 1\,MB & $\sim$2\,s & Basic & Visual & Limitada & Gratis/Pro \\
+Marmoset & 800\,KB & $\sim$3\,s & Advanced & Visual & Rotación & Licencia \\
+Sketchfab & 3\,MB & $\sim$4\,s & Good & N/A & Media & Gratis/Pro \\
+PlayCanvas & 500\,KB & $<$2\,s & Built-in & JS & Total & Gratis/Pro \\ \hline
+\end{tabular}
+\par\vspace{0.5\baselineskip}
+\textit{Nota}. $^*$Unity gratuito para ingresos $<$\,\$100\,K/año. \textit{Load Time} medido en red~4G (10\,Mbps downstream). UE Pixel Streaming requiere infraestructura \textit{cloud} (AWS EC2 G4). \textit{Build Size} incluye compresión Brotli. \textit{Fuente.} Elaboración propia basada en documentación oficial y \textit{benchmarks} de comunidad (Three.js Forum, Unity Forums, Babylon.js Documentation).
+\end{table}
+
+\subsubsection{Gap Analysis y Selección de Unity WebGL}
+\addcontentsline{toc}{subsubsection}{Gap Analysis y Selección de Unity WebGL}
+
+La evaluación técnica identificó limitaciones críticas que descartaron tres categorías de soluciones:
+
+\begin{itemize}
+    \item \textbf{Pixel Streaming.} Latencia de red inaceptable ($>$100\,ms típica en redes 4G latinoamericanas) para interacción precisa en \textit{hotspots} técnicos y animación de despiece paramétrico, que requiere respuesta~$<$16\,ms para fluidez perceptual.
+    \item \textbf{Spline/Marmoset/Sketchfab.} Imposibilidad de \textit{scripting} de despiece paramétrico en C\# con control fino de interpolación.
+    \item \textbf{Three.js/Babylon.js/PlayCanvas.} Tiempo de desarrollo excesivo ($>$200~horas adicionales estimadas) para implementar desde cero un \textit{pipeline} de optimización completo (Occlusion Culling automático, LOD de~3 niveles, Asset Bundles con carga asíncrona).
+\end{itemize}
+
+Unity WebGL fue seleccionado por el equilibrio óptimo entre cuatro factores: (a)~balance fidelidad-tamaño mediante \textit{Progressive Loading} (shell de~3\,MB + Asset Bundles bajo demanda), (b)~herramientas visuales (Shader Graph, Timeline, Cinemachine) para artistas técnicos, (c)~rendimiento predecible (C\# $\rightarrow$ IL2CPP $\rightarrow$ WASM sin pausas de GC de JavaScript), y (d)~ecosistema maduro con más de 15~años de desarrollo.
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection{Marco Teórico}
+\addcontentsline{toc}{subsection}{Marco Teórico}
+
+El marco teórico integró tres pilares disciplinarios: teoría de carga cognitiva e interacción, computación gráfica en tiempo real, y fundamentos matemáticos de optimización.
+
+% — Carga Cognitiva —
+\subsubsection{Teoría de la Carga Cognitiva (Sweller, 1988; Sweller et al., 2019)}
+\addcontentsline{toc}{subsubsection}{Teoría de la Carga Cognitiva}
+
+La Teoría de la Carga Cognitiva, desarrollada por Sweller (1988) y refinada durante más de 30~años, postula que la memoria de trabajo tiene capacidad limitada ---aproximadamente~4 elementos simultáneos según Cowan (2001)--- y que el diseño instruccional debe minimizar la carga impuesta sobre dicha capacidad. Sweller, van Merriënboer y Paas (2019), en su revisión publicada en \textit{Educational Psychology Review}, identificaron tres tipos de carga cognitiva:
+
+\paragraph{Carga Intrínseca (\textit{Intrinsic Load}).} Complejidad inherente del material, determinada por la interactividad de elementos. En este proyecto, la complejidad intrínseca fue alta: un dron contiene docenas de componentes con relaciones espaciales jerárquicas (rotor $\rightarrow$ motor $\rightarrow$ ESC $\rightarrow$ batería). Esta carga es irreducible porque representa la naturaleza del dominio técnico.
+
+\paragraph{Carga Extrínseca (\textit{Extraneous Load}).} Carga innecesaria impuesta por diseño instruccional deficiente. Las imágenes~2D estáticas generan alta carga extrínseca al requerir rotación mental (el usuario debe imaginar vistas no mostradas). Hegarty y Waller (2004) demostraron que la rotación mental consume recursos visuoespaciales finitos de la memoria de trabajo. En este proyecto, la interfaz~3D orbital externalizó la rotación mental al sistema: el usuario manipula directamente el objeto, convirtiendo carga extrínseca en interacción productiva.
+
+\paragraph{Carga Germana (\textit{Germane Load}).} Esfuerzo cognitivo dedicado a la construcción de esquemas mentales permanentes (aprendizaje profundo). Sweller et al. (2019) enfatizan que el diseño instruccional debe maximizar esta carga liberando recursos de memoria de trabajo. En el prototipo, la interacción directa con \textit{hotspots} técnicos (clic $\rightarrow$ información contextual) dirigió recursos cognitivos hacia la integración de información estructural (ubicación + función + relaciones), facilitando la construcción de un modelo mental cohesivo.
+
+% — Navegación Espacial —
+\subsubsection{Navegación Espacial e Interacción~3D}
+\addcontentsline{toc}{subsubsection}{Navegación Espacial e Interacción~3D}
+
+Bowman et al. (2004) en \textit{3D User Interfaces: Theory and Practice} definen interacción~3D como ``interacción humano-computador en la cual las tareas del usuario son ejecutadas directamente en un contexto espacial tridimensional''. Los controles orbitales (\textit{arcball rotation}) del prototipo siguieron principios de Darken y Sibert (1996) para prevenir desorientación:
+
+\begin{itemize}
+    \item \textbf{Rotación Constrained.} Restringida a ejes~$Y$ (\textit{yaw}) y~$X$ (\textit{pitch}), eliminando \textit{roll} no intuitivo.
+    \item \textbf{Punto de Enfoque Fijo.} El centro del objeto permaneció anclado al origen del mundo, evitando deriva orbital.
+    \item \textbf{Punto de Pivote Dinámico.} Recentrado automático de la cámara al hacer doble clic en un componente, facilitando la inspección local detallada sin perder el contexto global.
+    \item \textbf{Suavizado de Movimiento.} Interpolación \textit{ease-out} que redujo la incidencia de mareo cibernético.
+\end{itemize}
+
+\paragraph{Cognición Distribuida (Hutchins, 1995).} Hutchins postuló que la cognición no reside únicamente en la mente, sino que se distribuye entre el agente (usuario), los artefactos (interfaz~3D) y el entorno. En el prototipo, la cámara orbital funcionó como extensión cognitiva que externalizó la rotación mental, y los \textit{hotspots} actuaron como memoria externa que redujo la necesidad de memorizar nombres técnicos y ubicaciones.
+
+% — Heurísticas —
+\subsubsection{Heurísticas de Usabilidad (Nielsen, 1994)}
+\addcontentsline{toc}{subsubsection}{Heurísticas de Usabilidad}
+
+Las heurísticas de usabilidad de Nielsen (1994) orientaron las decisiones de diseño de la interfaz. Se priorizaron cuatro principios:
+\begin{enumerate}
+    \item \textbf{Visibilidad del Estado.} \textit{Feedback} inmediato mediante cambio de cursor y resaltado en \textit{hover}.
+    \item \textbf{Correspondencia Sistema--Mundo Real.} Terminología técnica coincidente con la nomenclatura de ingeniería de hardware.
+    \item \textbf{Control y Libertad.} Botón de reinicio de cámara para revertir interacciones no deseadas.
+    \item \textbf{Reconocimiento vs.\ Memoria.} \textit{Hotspots} permanentemente visibles (sin necesidad de memorizar ubicaciones de componentes).
+\end{enumerate}
+
+% — Rotación Mental —
+\subsubsection{Rotación Mental y Visualización Espacial}
+\addcontentsline{toc}{subsubsection}{Rotación Mental y Visualización Espacial}
+
+Hegarty y Waller (2004) demostraron que individuos con alta habilidad espacial usan estrategias holísticas (rotan el objeto completo mentalmente), mientras que individuos con baja habilidad usan estrategias fragmentarias (\textit{piecemeal}). Los controles orbitales del prototipo democratizaron esta capacidad al externalizar la rotación al sistema.
+
+Investigación reciente de Bartlett y Dorribo Camba (2023), publicada en \textit{Spatial Cognition \& Computation}, confirmó que la visualización espacial con modelos~3D interactivos facilita la interpretación gráfica de estructuras complejas, reduciendo la dependencia de habilidades espaciales innatas. Este hallazgo validó el uso de interfaces~3D manipulables para audiencias técnicas heterogéneas.
+
+% — Percepción Visual —
+\subsubsection{Percepción Visual: Principios de Gestalt}
+\addcontentsline{toc}{subsubsection}{Percepción Visual: Principios de Gestalt}
+
+Los principios de Gestalt (Wertheimer, 1923) informaron la disposición visual de los elementos interactivos:
+
+\begin{itemize}
+    \item \textbf{Proximidad.} \textit{Hotspots} cercanos se agruparon visualmente para facilitar la identificación de subsistemas.
+    \item \textbf{Similitud.} El color de cada \textit{hotspot} indicó su categoría funcional (azul~=~estructura, naranja~=~energía, gris~=~mecánica).
+    \item \textbf{Figura--Fondo.} El hardware (figura) se dispuso contra un fondo de gradiente neutral no competitivo.
+\end{itemize}
+
+Complementariamente, la paleta de colores respetó el límite de~$7 \pm 2$ categorías distinguibles (Miller, 1956; Ware, 2012) y evitó combinaciones rojo-verde por accesibilidad (deuteranopía, que afecta al~$\sim$8\,\% de la población masculina).
+
+% — Fundamentos Matemáticos —
+\subsubsection{Fundamentos Matemáticos de Optimización Gráfica}
+\addcontentsline{toc}{subsubsection}{Fundamentos Matemáticos de Optimización Gráfica}
+
+\paragraph{Presupuesto Poligonal.}
+$$P_{\text{total}} = \sum_{i=1}^{n} P_i \leq 100{,}000 \text{ triángulos}$$
+donde $P_i$ es el conteo de polígonos del modelo~$i$ tras retopología (Akenine-Möller et al., 2018, Cap.~18).
+
+\paragraph{Densidad de Texel Consistente.}
+$$\rho = \frac{R_{\text{texture}}}{A_{\text{UV}}} = 10.24 \; \frac{\text{px}}{\text{cm}}$$
+
+\paragraph{Reducción de \textit{Draw Calls} (GPU Instancing).}
+$$D_{\text{optimizado}} = \frac{D_{\text{original}}}{N_{\text{instances}}}$$
+
+\paragraph{\textit{Frame Time Budget}.}
+$$T_{\text{frame}} = T_{\text{CPU}} + T_{\text{GPU}} < 33.33 \; \text{ms}$$
+
+% — PBR —
+\subsubsection{Modelo Matemático de Renderizado Físicamente Basado (PBR)}
+\addcontentsline{toc}{subsubsection}{Modelo Matemático de Renderizado Físicamente Basado}
+
+\paragraph{BRDF de Cook-Torrance (1982).}
+$$f_{\text{spec}} = \frac{D \cdot F \cdot G}{4(\mathbf{n} \cdot \mathbf{l})(\mathbf{n} \cdot \mathbf{v})}$$
+donde $D$ es la función de distribución de normales (GGX), $F$ el término de Fresnel (aproximación de Schlick) y $G$ el término de oclusión geométrica.
+
+\paragraph{Aproximación de Fresnel (Schlick, 1994).}
+$$F = F_0 + (1 - F_0)(1 - \cos\theta)^5$$
+
+\paragraph{Distribución GGX (Walter et al., 2007).}
+$$D_{\text{GGX}} = \frac{\alpha^2}{\pi\bigl((\mathbf{n} \cdot \mathbf{h})^2(\alpha^2 - 1) + 1\bigr)^2}$$
+donde $\alpha = \text{roughness}^2$.
+
+\paragraph{Modelo Disney (Burley, 2012).} Modelo orientado a artistas con parámetros intuitivos: \textit{Metallic} (0--1), que interpola entre dieléctrico y conductor, y \textit{Roughness} (0--1), que controla directamente~$\alpha$ en GGX. Garantiza conservación de energía: $E_{\text{reflected}} + E_{\text{absorbed}} = E_{\text{incident}}$.
+
+\paragraph{Iluminación Basada en Imágenes (IBL).} Para lograr realismo fotográfico en tiempo real sin el costo computacional del \textit{Ray Tracing}, se utilizó IBL (Karis, 2013). Esta técnica aproxima la integral de iluminación ambiental convolucionando un mapa de entorno HDR en dos componentes pre-calculados: un \textit{Irradiance Map} para la componente difusa (baja frecuencia) y un \textit{Pre-filtered Environment Map} para la componente especular (variable según \textit{roughness}). Esto permitió reflejos complejos y luz ambiental coherente con un costo de rendimiento constante~$O(1)$ por píxel, independiente de la complejidad de la iluminación.
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection{Marco Conceptual}
+\addcontentsline{toc}{subsection}{Marco Conceptual}
+
+Los siguientes conceptos técnicos fundamentaron el desarrollo del proyecto (orden alfabético):
+
+\textit{Albedo.} Mapa de textura que define el color base de un material sin información de iluminación; \textit{input} primario en flujos de trabajo PBR.
+
+\textit{Asset Bundle.} Sistema de empaquetado de Unity que agrupa activos~3D en archivos comprimidos para carga dinámica, optimizando el uso de memoria.
+
+\textit{Baking.} Proceso de pre-calcular información compleja (iluminación, geometría de alta resolución) y almacenarla en mapas de textura para reducir el costo computacional en tiempo real.
+
+\textit{BRDF (Bidirectional Reflectance Distribution Function).} Función matemática que describe cómo la luz es reflejada por una superficie en función del ángulo de incidencia y observación; fundamental para PBR.
+
+\textit{Diffuse.} Componente de reflexión mate o dispersa de un material, sin dirección preferente.
+
+\textit{Draw Call.} Comando enviado desde la CPU a la GPU para renderizar un conjunto de geometría; principal cuello de botella en aplicaciones con muchos objetos únicos.
+
+\textit{Fragment Shader (Pixel Shader).} Programa ejecutado por la GPU para cada píxel visible, determinando su color final mediante ecuaciones de iluminación.
+
+\textit{Frame Time.} Tiempo total requerido para renderizar un cuadro ($T_{\text{frame}} = T_{\text{CPU}} + T_{\text{GPU}}$), inversamente proporcional a FPS.
+
+\textit{GPU Instancing.} Técnica que renderiza múltiples copias de la misma malla con una sola llamada de dibujo, reduciendo la sobrecarga de CPU.
+
+\textit{IL2CPP (Intermediate Language to C++).} \textit{Backend} de compilación de Unity que transpila \textit{bytecode} de C\# a C++, luego a código nativo (WASM para WebGL).
+
+\textit{LOD (Level of Detail).} Sistema que intercambia entre versiones de diferente complejidad poligonal según la distancia a la cámara.
+
+\textit{Metallic Map.} Textura que define qué partes de un material son metálicas ($1.0$) versus dieléctricas ($0.0$), controlando la reflectancia a incidencia normal ($F_0$).
+
+\textit{MVP (Producto Mínimo Viable).} Versión de un producto con características mínimas suficientes para validar hipótesis mediante aprendizaje validado con usuarios reales.
+
+\textit{Normal Map.} Textura que almacena información de normales de superficie para simular detalles geométricos sin aumentar el conteo de polígonos; esencial para \textit{baking} de alta frecuencia.
+
+\textit{Occlusion Culling.} Técnica que evita renderizar objetos no visibles porque están bloqueados por otros desde la perspectiva de la cámara.
+
+\textit{PBR (Physically-Based Rendering).} Modelo de iluminación que simula la interacción física de la luz con materiales usando conservación de energía y teoría de microfacetas.
+
+\textit{Retopología.} Proceso de reconstruir la topología de una malla~3D para optimizar su estructura poligonal, típicamente pasando de NURBS a \textit{quads} optimizados.
+
+\textit{Roughness Map.} Textura que define la microsuperficie de un material ($0.0$ = espejo perfecto, $1.0$ = mate total).
+
+\textit{Shader.} Programa ejecutado en la GPU que determina el aspecto visual de vértices o píxeles, implementando el modelo de iluminación.
+
+\textit{Specular.} Componente de reflexión directa de un material, con dirección preferente hacia el ángulo de reflexión perfecta.
+
+\textit{Texel Density.} Relación entre resolución de textura y área de superficie~3D ($\rho = R_{\text{texture}} / A_{\text{UV}}$), medida en píxeles por centímetro.
+
+\textit{UV Unwrapping.} Proceso de proyectar la superficie~3D de un modelo en un espacio~2D (UV) para aplicar texturas, minimizando distorsión.
+
+\textit{Vertex Shader.} Programa ejecutado por la GPU para cada vértice de la malla, responsable de la transformación de coordenadas (modelo $\rightarrow$ mundo $\rightarrow$ vista $\rightarrow$ clip).
+
+\textit{WebAssembly (WASM).} Formato binario de bajo nivel ejecutable en navegadores a velocidad cercana a la nativa, utilizado por Unity mediante IL2CPP para compilar la lógica C\# del prototipo.
+
+\textit{WebGL.} API de JavaScript para renderizado gráfico~2D y~3D acelerado por hardware en navegadores web, basada en OpenGL~ES~2.0/3.0.
+
+\newpage
