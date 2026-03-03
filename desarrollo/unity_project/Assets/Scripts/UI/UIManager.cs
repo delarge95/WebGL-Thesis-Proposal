@@ -53,6 +53,29 @@ namespace WebGL.UI
         private string _lastPartClickName = null;
         private const float DOUBLE_CLICK_THRESHOLD = 0.35f;
 
+        private void Update()
+        {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
+                HandleEscapeKey();
+        }
+
+        /// <summary>
+        /// Escape key priority: sheet → sub-panel / active mode → nothing.
+        /// </summary>
+        private void HandleEscapeKey()
+        {
+            // 1. Close bottom sheet if open
+            if (_detailsSheet != null && _detailsSheet.IsSheetOpen)
+            {
+                _detailsSheet.SetSheetState(false);
+                return;
+            }
+
+            // 2. Close sub-panel or deactivate mode
+            if (_modeController != null && _modeController.HandleEscapeKey())
+                return;
+        }
+
         // ── Memory Leak Prevention (Phase 3 Step 1) ──
         private System.Collections.Generic.List<System.Action> _uiCleanupActions = new System.Collections.Generic.List<System.Action>();
 
