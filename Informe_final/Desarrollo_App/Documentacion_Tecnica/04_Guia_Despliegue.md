@@ -11,14 +11,14 @@
 
 ### 1.1 Software
 
-| Herramienta | Versión | Propósito |
-|---|---|---|
-| Unity Hub | 3.x+ | Gestión de instalaciones Unity |
-| Unity Editor | 6000.0.62f1 | Compilación del proyecto |
-| Git | 2.40+ | Clonación del repositorio |
-| Git LFS | 3.x+ | Assets binarios (texturas, modelos) |
-| Node.js (opcional) | 18+ | Servidor local de pruebas |
-| Navegador moderno | Chrome 110+ / Firefox 113+ / Edge 110+ | Pruebas WebGL |
+| Herramienta        | Versión                                | Propósito                           |
+| ------------------ | -------------------------------------- | ----------------------------------- |
+| Unity Hub          | 3.x+                                   | Gestión de instalaciones Unity      |
+| Unity Editor       | 6000.0.62f1                            | Compilación del proyecto            |
+| Git                | 2.40+                                  | Clonación del repositorio           |
+| Git LFS            | 3.x+                                   | Assets binarios (texturas, modelos) |
+| Node.js (opcional) | 18+                                    | Servidor local de pruebas           |
+| Navegador moderno  | Chrome 110+ / Firefox 113+ / Edge 110+ | Pruebas WebGL                       |
 
 ### 1.2 Hardware mínimo (máquina de compilación)
 
@@ -65,33 +65,33 @@ Menú: WebGL > 🔧 Fix ALL WebGL Issues
 
 Este comando ejecuta secuencialmente:
 
-| # | Fixer | Función |
-|---|---|---|
-| 1 | URP Fixer | Configura URP Asset para WebGL (sombras, post-procesado) |
-| 2 | Quality Fixer | Ajusta niveles de calidad para plataforma web |
-| 3 | Shader Fixer | Pre-compila shaders, limpia variantes no utilizadas |
-| 4 | Font Fixer | Asegura fuentes TMP para soporte multilínea |
-| 5 | PanelSettings Fixer | Configura PanelSettings de UI Toolkit para resolución WebGL |
+| #   | Fixer               | Función                                                     |
+| --- | ------------------- | ----------------------------------------------------------- |
+| 1   | URP Fixer           | Configura URP Asset para WebGL (sombras, post-procesado)    |
+| 2   | Quality Fixer       | Ajusta niveles de calidad para plataforma web               |
+| 3   | Shader Fixer        | Pre-compila shaders, limpia variantes no utilizadas         |
+| 4   | Font Fixer          | Asegura fuentes TMP para soporte multilínea                 |
+| 5   | PanelSettings Fixer | Configura PanelSettings de UI Toolkit para resolución WebGL |
 
 ### 4.2 Player Settings (verificación manual)
 
-| Parámetro | Valor Requerido |
-|---|---|
-| Product Name | `WebGL Drone Viewer` |
-| Company Name | `AntigravityLabs` |
-| Compression Format | Gzip (cambiar a Brotli para producción óptima) |
-| WebGL Template | `PROJECT:Custom` |
-| Initial Memory Size | 32 MB |
-| Maximum Memory Size | 256 MB |
-| Memory Growth Mode | Geometric (20%) |
-| Linker Target | WASM |
-| Name Files As Hashes | ✅ Enabled |
-| Data Caching | ✅ Enabled |
-| Exception Support | Explicitly Thrown Only |
-| Strip Engine Code | ✅ Enabled |
-| Managed Stripping Level | High |
-| IL2CPP Configuration | Master |
-| Power Preference | High Performance |
+| Parámetro               | Valor Requerido                                |
+| ----------------------- | ---------------------------------------------- |
+| Product Name            | `WebGL Drone Viewer`                           |
+| Company Name            | `AntigravityLabs`                              |
+| Compression Format      | Gzip (cambiar a Brotli para producción óptima) |
+| WebGL Template          | `PROJECT:Custom`                               |
+| Initial Memory Size     | 32 MB                                          |
+| Maximum Memory Size     | 256 MB                                         |
+| Memory Growth Mode      | Geometric (20%)                                |
+| Linker Target           | WASM                                           |
+| Name Files As Hashes    | ✅ Enabled                                     |
+| Data Caching            | ✅ Enabled                                     |
+| Exception Support       | Explicitly Thrown Only                         |
+| Strip Engine Code       | ✅ Enabled                                     |
+| Managed Stripping Level | High                                           |
+| IL2CPP Configuration    | Master                                         |
+| Power Preference        | High Performance                               |
 
 ---
 
@@ -104,6 +104,7 @@ Menú: WebGL > 🚀 Fix & Build WebGL
 ```
 
 Este comando:
+
 1. Ejecuta todos los fixers (paso 4.1)
 2. Compila el proyecto WebGL
 3. Genera output en `../../docs/Build` (relativo al proyecto Unity → carpeta `docs/Build` en la raíz del repositorio)
@@ -118,11 +119,11 @@ Este comando:
 
 ### 5.3 Tiempos de Compilación Aproximados
 
-| Máquina | Tiempo |
-|---|---|
-| i7-10700K / 48 GB / SSD | ~8-12 minutos |
-| i5-8400 / 16 GB / HDD | ~20-30 minutos |
-| Primera compilación | +5-10 min adicionales (caché IL2CPP) |
+| Máquina                 | Tiempo                               |
+| ----------------------- | ------------------------------------ |
+| i7-10700K / 48 GB / SSD | ~8-12 minutos                        |
+| i5-8400 / 16 GB / HDD   | ~20-30 minutos                       |
+| Primera compilación     | +5-10 min adicionales (caché IL2CPP) |
 
 ### 5.4 Archivos Generados
 
@@ -140,11 +141,11 @@ docs/Build/
 
 ### 5.5 Tamaños Objetivo
 
-| Archivo | Objetivo (comprimido) |
-|---|---|
-| `.wasm.gz` / `.wasm.br` | < 15 MB |
-| `.data.gz` / `.data.br` | < 20 MB |
-| **Total** | **< 40 MB** |
+| Archivo                 | Objetivo (comprimido) |
+| ----------------------- | --------------------- |
+| `.wasm.gz` / `.wasm.br` | < 15 MB               |
+| `.data.gz` / `.data.br` | < 20 MB               |
+| **Total**               | **< 40 MB**           |
 
 ---
 
@@ -177,12 +178,12 @@ https://delarge95.github.io/WebGL-Thesis-Proposal/Build/
 
 GitHub Pages sirve automáticamente los headers correctos para archivos `.gz`. Si se usa **Brotli** (`.br`), se requiere configuración adicional del servidor o usar un hosting que soporte `Content-Encoding: br`.
 
-| Extensión | Content-Type | Content-Encoding |
-|---|---|---|
-| `.wasm.gz` | `application/wasm` | `gzip` |
-| `.data.gz` | `application/octet-stream` | `gzip` |
-| `.js.gz` | `application/javascript` | `gzip` |
-| `.wasm.br` | `application/wasm` | `br` |
+| Extensión  | Content-Type               | Content-Encoding |
+| ---------- | -------------------------- | ---------------- |
+| `.wasm.gz` | `application/wasm`         | `gzip`           |
+| `.data.gz` | `application/octet-stream` | `gzip`           |
+| `.js.gz`   | `application/javascript`   | `gzip`           |
+| `.wasm.br` | `application/wasm`         | `br`             |
 
 ---
 
@@ -219,42 +220,43 @@ npx serve docs/Build -l 8080
 
 ### 7.3 Navegadores Soportados
 
-| Navegador | Versión Mín. | WebGL 2.0 | Estado |
-|---|---|---|---|
-| Google Chrome | 110+ | ✅ | Principal |
-| Mozilla Firefox | 113+ | ✅ | Soportado |
-| Microsoft Edge | 110+ | ✅ | Soportado |
-| Safari | 16.4+ | ⚠️ | Limitado (WebGL 2.0 parcial) |
-| Safari iOS | 16.4+ | ⚠️ | Requiere pruebas adicionales |
-| Chrome Android | 110+ | ✅ | Compatible (touch) |
+| Navegador       | Versión Mín. | WebGL 2.0 | Estado                       |
+| --------------- | ------------ | --------- | ---------------------------- |
+| Google Chrome   | 110+         | ✅        | Principal                    |
+| Mozilla Firefox | 113+         | ✅        | Soportado                    |
+| Microsoft Edge  | 110+         | ✅        | Soportado                    |
+| Safari          | 16.4+        | ⚠️        | Limitado (WebGL 2.0 parcial) |
+| Safari iOS      | 16.4+        | ⚠️        | Requiere pruebas adicionales |
+| Chrome Android  | 110+         | ✅        | Compatible (touch)           |
 
 ---
 
 ## 8. Solución de Problemas
 
-| Problema | Causa | Solución |
-|---|---|---|
-| Pantalla negra al cargar | CORS / archivos no servidos | Usar servidor HTTP, no `file://` |
-| Error "Out of Memory" | Memory limit bajo | Aumentar `WebGL Maximum Memory Size` a 512 MB |
-| Shaders no compilan | Variantes faltantes | Ejecutar `WebGL > Fix ALL WebGL Issues` y recompilar |
-| Build muy grande (>50 MB) | Texturas sin comprimir | Verificar texture import settings, usar Crunch compression |
-| FPS bajo (<20) | GPU integrada | WebGLOptimizer ajustará automáticamente; verificar `Power Preference: High Performance` |
-| Caché corrupta | Build anterior roto | Limpiar `Library/` y `docs/Build/`, recompilar |
-| Fuentes no se ven | TMP assets faltantes | Ejecutar Font Fixer o importar TMP Essentials |
+| Problema                  | Causa                       | Solución                                                                                |
+| ------------------------- | --------------------------- | --------------------------------------------------------------------------------------- |
+| Pantalla negra al cargar  | CORS / archivos no servidos | Usar servidor HTTP, no `file://`                                                        |
+| Error "Out of Memory"     | Memory limit bajo           | Aumentar `WebGL Maximum Memory Size` a 512 MB                                           |
+| Shaders no compilan       | Variantes faltantes         | Ejecutar `WebGL > Fix ALL WebGL Issues` y recompilar                                    |
+| Build muy grande (>50 MB) | Texturas sin comprimir      | Verificar texture import settings, usar Crunch compression                              |
+| FPS bajo (<20)            | GPU integrada               | WebGLOptimizer ajustará automáticamente; verificar `Power Preference: High Performance` |
+| Caché corrupta            | Build anterior roto         | Limpiar `Library/` y `docs/Build/`, recompilar                                          |
+| Fuentes no se ven         | TMP assets faltantes        | Ejecutar Font Fixer o importar TMP Essentials                                           |
 
 ---
 
 ## 9. Compresión: Gzip vs. Brotli
 
-| Característica | Gzip | Brotli |
-|---|---|---|
-| Compresión | ~70% | ~80-85% |
-| Velocidad de compresión | Rápida | Lenta |
-| Soporte servidor | Universal | Requiere configuración |
-| GitHub Pages | ✅ Automático | ⚠️ Requiere workaround |
-| **Recomendación** | **Desarrollo / GitHub Pages** | **Producción con servidor propio** |
+| Característica          | Gzip                          | Brotli                             |
+| ----------------------- | ----------------------------- | ---------------------------------- |
+| Compresión              | ~70%                          | ~80-85%                            |
+| Velocidad de compresión | Rápida                        | Lenta                              |
+| Soporte servidor        | Universal                     | Requiere configuración             |
+| GitHub Pages            | ✅ Automático                 | ⚠️ Requiere workaround             |
+| **Recomendación**       | **Desarrollo / GitHub Pages** | **Producción con servidor propio** |
 
 Para cambiar a Brotli:
+
 1. **Edit** → **Project Settings** → **Player** → **WebGL** → **Publishing Settings**
 2. Compression Format: `Brotli`
 3. Decompression Fallback: `Enabled` (si el hosting no soporta `Content-Encoding: br`)
