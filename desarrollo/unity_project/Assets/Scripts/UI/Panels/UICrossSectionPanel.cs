@@ -183,6 +183,12 @@ namespace WebGL.UI.Panels
                 _activeAxes.Add(axis);
             }
 
+            // If all axes deselected → disable cross-section entirely
+            if (_activeAxes.Count == 0)
+            {
+                CrossSectionManager.Instance?.DisableCrossSection();
+            }
+
             ApplyAxesToManager();
             UpdateAxisButtons();
             UpdatePlane2Visibility();

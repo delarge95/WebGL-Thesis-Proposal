@@ -113,14 +113,15 @@ namespace WebGL.UI.Panels
         /// <summary>Navigate from sub-panel back to card grid.</summary>
         public void NavigateToCardGrid()
         {
-            if (_activePanel == "cross-section")
-                CrossSectionManager.Instance?.DisableCrossSection();
+            // Cross-section is NOT disabled on back-navigation.
+            // It persists until all axes are deselected or Reset View.
 
             _level = SubLevel.CardGrid;
             _activePanel = null;
             ShowLevel();
 
-            _crossSectionBtn?.RemoveFromClassList("submenu-card--active");
+            bool csActive = CrossSectionManager.Instance != null && CrossSectionManager.Instance.IsEnabled;
+            _crossSectionBtn?.EnableInClassList("submenu-card--active", csActive);
             _explodeBtn?.EnableInClassList("submenu-card--active", _isExploded);
             _filterBtn?.RemoveFromClassList("submenu-card--active");
 
@@ -142,15 +143,19 @@ namespace WebGL.UI.Panels
 
         private void CloseAllSubPanels()
         {
-            if (_activePanel == "cross-section")
-                CrossSectionManager.Instance?.DisableCrossSection();
+            // NOTE: Cross-section is intentionally NOT disabled here.
+            // It persists across mode switches / part selections.
+            // Only disabled via: all axes deselected, or Reset View.
 
             _level = SubLevel.CardGrid;
             _activePanel = null;
             _cardGrid?.RemoveFromClassList("submenu--hidden");
             _crossSectionPanel?.AddToClassList("submenu--hidden");
             _filterSubPanel?.AddToClassList("submenu--hidden");
-            _crossSectionBtn?.RemoveFromClassList("submenu-card--active");
+
+            // Keep cross-section card highlighted if cross-section is active
+            bool csActive = CrossSectionManager.Instance != null && CrossSectionManager.Instance.IsEnabled;
+            _crossSectionBtn?.EnableInClassList("submenu-card--active", csActive);
             _explodeBtn?.EnableInClassList("submenu-card--active", _isExploded);
             _filterBtn?.RemoveFromClassList("submenu-card--active");
         }
