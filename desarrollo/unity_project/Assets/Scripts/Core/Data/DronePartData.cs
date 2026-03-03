@@ -57,20 +57,8 @@ namespace WebGL.Core.Data
         public int screwCount;
         public string screwSize; // M2, M3, etc.
 
-        // Properties for UI binding
-        public string category; // Added for compatibility
-        public float weight { get => weightKg; set => weightKg = value; } // Added for compatibility
-        public string material { get => materialType; set => materialType = value; } // Added for compatibility
-
-        public string PartName => partName;
-        public string PartType => partType;
-        public string Description => description;
-        public float Weight => weightKg;
-        public string Dimensions => dimensions;
-        public string Function => function;
-        public string MaterialType => materialType;
-        public string MaterialProperties => materialProperties;
-        public string Category => category;
+        // UI category field
+        public string category;
 
         public string GetFullDescription()
         {

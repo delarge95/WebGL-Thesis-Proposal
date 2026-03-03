@@ -17,9 +17,9 @@ namespace WebGL.Tests.Editor
             data.partName = "Test Part";
             data.category = "Testing";
             data.description = "A test part for unit testing.";
-            data.weight = 100f;
+            data.weightKg = 100f;
             data.dimensions = "10 x 10 x 10 cm";
-            data.material = "Test Material";
+            data.materialType = "Test Material";
             data.requiredTools = new[] { "Tool A", "Tool B" };
             data.safetyWarnings = new[] { "Warning 1" };
             data.installationTimeMinutes = 5f;
@@ -38,7 +38,7 @@ namespace WebGL.Tests.Editor
 
             // Assert
             Assert.IsNotNull(data, "DronePartData instance should not be null");
-            Assert.AreEqual(0f, data.weight, "Default weight should be 0");
+            Assert.AreEqual(0f, data.weightKg, "Default weight should be 0");
             Assert.AreEqual(0, data.difficultyLevel, "Default difficulty should be 0");
         }
 
@@ -52,7 +52,7 @@ namespace WebGL.Tests.Editor
             Assert.AreEqual("test-001", data.id);
             Assert.AreEqual("Test Part", data.partName);
             Assert.AreEqual("Testing", data.category);
-            Assert.AreEqual(100f, data.weight);
+            Assert.AreEqual(100f, data.weightKg);
             Assert.AreEqual(2, data.difficultyLevel);
             Assert.AreEqual(4, data.screwCount);
         }

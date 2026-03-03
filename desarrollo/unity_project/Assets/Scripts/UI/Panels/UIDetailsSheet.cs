@@ -153,19 +153,19 @@ namespace WebGL.UI.Panels
         {
             UpdatePartIndicator(data);
 
-            if (data != null && !string.IsNullOrEmpty(data.PartName) && data.PartName != "NULL")
+            if (data != null && !string.IsNullOrEmpty(data.partName) && data.partName != "NULL")
             {
                 if (_infoBtn != null) _infoBtn.SetEnabled(true);
 
                 // Title Case for editorial hierarchy (not ALL CAPS)
                 if (_sheetTitle != null)
-                    _sheetTitle.text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(data.PartName.ToLower());
-                if (_sheetCategory != null) _sheetCategory.text = data.Category;
-                if (_sheetFunction != null) _sheetFunction.text = data.Function;
-                if (_sheetMaterial != null) _sheetMaterial.text = data.MaterialType;
-                if (_sheetDesc != null) _sheetDesc.text = data.Description;
-                if (_sheetWeight != null) _sheetWeight.text = $"{data.Weight:F2} kg";
-                if (_sheetDimensions != null) _sheetDimensions.text = data.Dimensions;
+                    _sheetTitle.text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(data.partName.ToLower());
+                if (_sheetCategory != null) _sheetCategory.text = data.category;
+                if (_sheetFunction != null) _sheetFunction.text = data.function;
+                if (_sheetMaterial != null) _sheetMaterial.text = data.materialType;
+                if (_sheetDesc != null) _sheetDesc.text = data.description;
+                if (_sheetWeight != null) _sheetWeight.text = $"{data.weightKg:F2} kg";
+                if (_sheetDimensions != null) _sheetDimensions.text = data.dimensions;
                 if (_sheetPower != null) _sheetPower.text = data.powerConsumption > 0 ? $"{data.powerConsumption:F1} W" : "N/A";
                 if (_sheetTemp != null) _sheetTemp.text = data.operatingTemp > 0 ? $"{data.operatingTemp:F0}°C" : "N/A";
 
@@ -198,7 +198,7 @@ namespace WebGL.UI.Panels
         {
             if (data != null)
             {
-                string upperName = data.PartName.ToUpper();
+                string upperName = data.partName.ToUpper();
 
                 // Bottom selection indicator — show part name
                 if (_partNameLabel != null)

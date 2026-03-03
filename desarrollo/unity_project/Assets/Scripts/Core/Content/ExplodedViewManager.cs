@@ -119,7 +119,7 @@ namespace WebGL.Core.Content
                     {
                         foreach (var cat in activeCategories)
                         {
-                            if (part.Data.Category.Equals(cat, System.StringComparison.OrdinalIgnoreCase))
+                            if (part.Data.category.Equals(cat, System.StringComparison.OrdinalIgnoreCase))
                             {
                                 match = true;
                                 break;

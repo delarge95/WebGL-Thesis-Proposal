@@ -261,14 +261,14 @@ namespace WebGL.UI
             currentPart = part;
 
             // Update labels
-            titleLabel.text = data.PartName;
-            subtitleLabel.text = data.PartType;
-            descriptionLabel.text = data.Description;
-            weightLabel.text = $"{data.Weight:F2} kg";
-            dimensionsLabel.text = data.Dimensions;
-            functionLabel.text = data.Function;
-            materialTypeLabel.text = data.MaterialType;
-            materialPropsLabel.text = data.MaterialProperties;
+            titleLabel.text = data.partName;
+            subtitleLabel.text = data.partType;
+            descriptionLabel.text = data.description;
+            weightLabel.text = $"{data.weightKg:F2} kg";
+            dimensionsLabel.text = data.dimensions;
+            functionLabel.text = data.function;
+            materialTypeLabel.text = data.materialType;
+            materialPropsLabel.text = data.materialProperties;
 
             Show();
         }
