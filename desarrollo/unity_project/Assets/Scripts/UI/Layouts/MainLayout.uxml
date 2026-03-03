@@ -114,6 +114,10 @@
                             <pi:ProceduralIsolateIcon class="submenu-icon" picking-mode="Ignore"/>
                             <ui:Label text="ISOLATE" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
+                        <ui:Button name="ToolMeasureBtn" class="submenu-card" tooltip="Measure Distance">
+                            <pi:ProceduralMeasureIcon class="submenu-icon" picking-mode="Ignore"/>
+                            <ui:Label text="MEASURE" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
@@ -278,7 +282,7 @@
 
             <!-- Mode Buttons Row — 3 master modes -->
             <ui:VisualElement class="actions-row" picking-mode="Ignore">
-                <ui:Button name="ModeToolsBtn" class="mode-btn" tooltip="Inspect — Info, Pins, Isolate">
+                <ui:Button name="ModeToolsBtn" class="mode-btn" tooltip="Inspect — Pins, Isolate, Measure">
                     <pi:ProceduralInspectIcon class="mode-btn-icon" picking-mode="Ignore"/>
                     <ui:Label text="INSPECT" class="mode-btn-label" picking-mode="Ignore"/>
                 </ui:Button>
