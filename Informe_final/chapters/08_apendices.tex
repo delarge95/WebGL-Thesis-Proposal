@@ -319,4 +319,78 @@ El historial de cambios completo del proyecto se encuentra en:
 
 \noindent Este documento registra todas las versiones del sistema con sus respectivas adiciones, correcciones y cambios, siguiendo el formato \textit{Keep a Changelog} y versionamiento semántico.
 
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice P: Catálogo de Piezas del Holybro X500~V2}
+\addcontentsline{toc}{subsection}{Apéndice P: Catálogo de Piezas del Holybro X500 V2}
+
+El catálogo exhaustivo de piezas del dron Holybro X500~V2 (746~líneas, formato Markdown) se encuentra en:
+
+\begin{center}
+\texttt{docs/investigacion/09\_catalogo\_exhaustivo\_piezas\_x500v2.md}
+\end{center}
+
+\noindent Contiene la especificación completa de las~16 piezas del gemelo digital, cada una con más de~32 campos técnicos mapeados 1:1 al \texttt{ScriptableObject DronePartData.cs}. Las piezas se organizan en cuatro categorías:
+
+\begin{itemize}
+    \item \textbf{Estructurales (5):} Placas superior e inferior de fibra de carbono, tubos de brazo~×4, tren de aterrizaje, placa de plataforma, sistema de rieles y soporte de batería.
+    \item \textbf{Electrónica (7):} PDB, módulo de potencia PM02~V3, Pixhawk~6C, GPS M10, radio SiK~V3, batería LiPo~4S, receptor RC.
+    \item \textbf{Propulsión (3):} Motores brushless 2216 KV920~×4, ESC BLHeli-S 20A~×4, hélices 1045~×4.
+    \item \textbf{Otros (1):} Kit de herrajes y tornillería.
+\end{itemize}
+
+\subsubsection*{Mapa Térmico para \textit{Shader} Thermal}
+
+El perfil térmico de cada componente fue documentado a partir de datos del fabricante y referencias técnicas. Los valores alimentan el \textit{shader} \texttt{Thermal} del visor:
+
+\begin{table}[h!]
+\centering
+\caption{Mapa Térmico de Componentes para el \textit{Shader} Thermal}
+\small
+\begin{tabular}{lccl}
+\hline
+\textbf{Pieza} & \textbf{Hover (°C)} & \textbf{Pico (°C)} & \textbf{Color \textit{Shader}} \\ \hline
+Motores 2216 & 50--65 & $\sim$95 & Rojo intenso \\
+ESCs BLHeli-S & 45--65 & $\sim$90 & Rojo-naranja \\
+PDB & 35--45 & $\sim$60 & Naranja \\
+Power Module & 30--40 & $\sim$55 & Amarillo-verde \\
+Pixhawk 6C & 35--45 & $\sim$60 & Naranja leve \\
+Batería 4S & 30--45 & $\sim$55 & Amarillo \\
+Radio SiK & 25--35 & $\sim$45 & Verde-azul \\
+GPS M10 & 20--30 & $\sim$40 & Azul \\
+RC Receiver & 20--25 & $\sim$35 & Azul oscuro \\
+Chasis/Placas & Ambiente & $\sim$35 & Azul oscuro \\
+Brazos (gradiente) & Amb. & $\sim$45 & Azul $\rightarrow$ Verde \\
+Tren/Rieles & Ambiente & Amb. & Azul oscuro \\
+Hélices & Ambiente & Amb. & Azul (convección) \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection*{Secuencia de Ensamblaje}
+
+El orden de montaje oficial guía tanto la \texttt{AssemblyGuideManager} como la animación de la vista explosionada:
+
+\begin{enumerate}
+    \item Placa inferior (\textit{Bottom Plate}) --- raíz del frame.
+    \item PDB + Módulo de Potencia + Brazos~×4 (con ESC + Motor preinstalados) --- sobre placa inferior.
+    \item Tren de aterrizaje --- sobre placa inferior (4~tornillos M3).
+    \item Placa superior (\textit{Top Plate}) --- cierra el sándwich estructural.
+    \item Pixhawk~6C --- centrado sobre placa superior con pad anti-vibración.
+    \item Receptor RC + Radio SiK --- junto al Pixhawk.
+    \item Placa de plataforma + GPS M10 --- elevada sobre \textit{standoffs}.
+    \item Sistema de rieles + soporte de batería --- bajo placa inferior.
+    \item Batería LiPo --- sobre soporte con correas de velcro.
+    \item Hélices~×4 --- \textbf{último paso}; 2~CW (FL/BR) + 2~CCW (FR/BL).
+\end{enumerate}
+
+\subsubsection*{Fuentes Verificadas del Catálogo}
+
+\begin{enumerate}
+    \item Holybro --- Documentación oficial del PX4 Dev Kit X500~V2
+    \item PX4 User Guide --- Guías de ensamblaje X500~V2 con Pixhawk~5X y 6C
+    \item Holybro --- Ficha técnica del GPS M10
+    \item Holybro Store --- Especificaciones del kit y componentes individuales
+    \item Diversas tiendas autorizadas (BalticDrones, DroneDynamics, FlyingTech) --- verificación cruzada de datos
+\end{enumerate}
+
 \newpage

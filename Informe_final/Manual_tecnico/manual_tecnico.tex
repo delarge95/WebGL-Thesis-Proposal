@@ -199,14 +199,46 @@ Sistema de notificaciones toast animadas.
 \section{ScriptableObjects}
 
 \subsection{DronePartData}
-Configuración completa de cada pieza:
+Configuración completa de cada pieza del Holybro X500~V2 (16 piezas con 32+ campos cada una):
 \begin{itemize}
-    \item Info General: nombre, ID, tipo, descripción
-    \item Specs Técnicos: peso, dimensiones, función
-    \item Materiales: tipo, propiedades, fabricante
-    \item Vista Explosionada: dirección, distancia, prioridad
-    \item Info de Ensamblaje: herramientas, torque, tornillos, dificultad
+    \item Info General: nombre, ID (\texttt{x500v2\_*}), tipo (\texttt{PartType}), descripción
+    \item Specs Técnicos: peso (kg), dimensiones (mm), función, potencia (W), temp. operativa (°C)
+    \item Materiales: tipo (CF, Al, PCB FR4, nylon, LiPo), propiedades, fabricante, part number
+    \item Vista Explosionada: dirección (\texttt{Vector3}), distancia (0.3--2.5), prioridad (1--10)
+    \item Info de Ensamblaje: herramientas, torque (Nm), tornillos, dificultad (1--5), tiempo (min), prerequisitos
+    \item Perfil Térmico: color de highlight para shader Thermal (azul\,=\,frío a rojo\,=\,caliente)
 \end{itemize}
+
+\noindent \textbf{Piezas del catálogo (16):}
+
+\begin{longtable}{|p{0.5cm}|p{4.2cm}|p{1.3cm}|p{1.5cm}|p{4cm}|}
+\hline
+\textbf{\#} & \textbf{Pieza} & \textbf{Peso} & \textbf{Categoría} & \textbf{ID en Sistema} \\
+\hline
+\endfirsthead
+\hline
+\textbf{\#} & \textbf{Pieza} & \textbf{Peso} & \textbf{Categoría} & \textbf{ID en Sistema} \\
+\hline
+\endhead
+01 & Placas Sup/Inf CF & 150\,g & Structural & \texttt{x500v2\_plates} \\
+02 & Tubos de Brazo ×4 & 120\,g & Structural & \texttt{x500v2\_arm\_FL/FR/BL/BR} \\
+03 & Tren de Aterrizaje & 80\,g & Structural & \texttt{x500v2\_landing\_gear} \\
+04 & Platform Board & 15\,g & Structural & \texttt{x500v2\_platform\_board} \\
+05 & Rieles + Battery Mount & 25\,g & Structural & \texttt{x500v2\_rails\_battery} \\
+06 & PDB & 20\,g & Electronics & \texttt{x500v2\_pdb} \\
+07 & Power Module PM02 V3 & 28\,g & Electronics & \texttt{x500v2\_power\_module} \\
+08 & Pixhawk 6C & 35\,g & Electronics & \texttt{x500v2\_pixhawk6c} \\
+09 & GPS M10 & 32\,g & Electronics & \texttt{x500v2\_gps\_m10} \\
+10 & Telemetry Radio SiK V3 & 15\,g & Electronics & \texttt{x500v2\_telemetry\_radio} \\
+11 & Motor 2216 KV920 ×4 & 252\,g & Propulsion & \texttt{x500v2\_motor\_*} \\
+12 & ESC BLHeli-S 20A ×4 & 28\,g & Propulsion & \texttt{x500v2\_esc\_*} \\
+13 & Hélices 1045 ×4 & 32\,g & Propulsion & \texttt{x500v2\_prop\_*} \\
+14 & Batería LiPo 4S (*) & 520\,g & Electronics & \texttt{x500v2\_battery} \\
+15 & Receptor RC R81 (*) & 5\,g & Electronics & \texttt{x500v2\_rc\_receiver} \\
+16 & Kit de Herrajes & 20\,g & Other & \texttt{x500v2\_hardware\_kit} \\
+\hline
+\multicolumn{5}{l}{\footnotesize (*) No incluido en el kit.} \\
+\end{longtable}
 
 \subsection{AssemblyGuideData}
 Definición de guías de ensamblaje con lista de pasos configurables.
