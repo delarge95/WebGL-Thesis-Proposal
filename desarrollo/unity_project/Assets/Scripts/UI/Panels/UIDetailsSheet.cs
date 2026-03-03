@@ -18,7 +18,8 @@ namespace WebGL.UI.Panels
         private readonly VisualElement _root;
         private readonly VisualElement _detailsSheet;
         private readonly VisualElement _bottomBar;
-        private readonly VisualElement _fabContainer;
+        private readonly Button _infoBarPeek;
+        private readonly Button _sheetCloseBtn;
         private readonly VisualElement _contentDetails;
         private readonly Label _partNameLabel;
         private readonly Label _sheetTitle;
@@ -60,7 +61,8 @@ namespace WebGL.UI.Panels
 
             _detailsSheet = root.Q<VisualElement>("BottomSheet");
             _bottomBar = root.Q<VisualElement>("BottomBar");
-            _fabContainer = root.Q<VisualElement>("GlobalActionContainer");
+            _infoBarPeek = root.Q<Button>("InfoBarPeek");
+            _sheetCloseBtn = root.Q<Button>("SheetCloseBtn");
             _contentDetails = root.Q<VisualElement>("SheetContent_Details");
             _partNameLabel = root.Q<Label>("SelectionIndicator");
 
@@ -79,6 +81,24 @@ namespace WebGL.UI.Panels
 
             _topContextLabel = root.Q<Label>("TopContextLabel");
             _actionsRow = root.Q<VisualElement>(className: "actions-row");
+
+            if (_infoBarPeek != null)
+            {
+                _infoBarPeek.clicked += ToggleInfo;
+                AddCleanup(() => _infoBarPeek.clicked -= ToggleInfo);
+            }
+
+            if (_sheetCloseBtn != null)
+            {
+                System.Action onClose = () => SetSheetState(false);
+                _sheetCloseBtn.clicked += onClose;
+                AddCleanup(() => _sheetCloseBtn.clicked -= onClose);
+
+                // Stop click from bubbling to header toggle
+                EventCallback<ClickEvent> stopClick = evt => evt.StopPropagation();
+                _sheetCloseBtn.RegisterCallback(stopClick);
+                AddCleanup(() => _sheetCloseBtn.UnregisterCallback(stopClick));
+            }
 
             BindInteractions();
         }
@@ -118,7 +138,24 @@ namespace WebGL.UI.Panels
             }
 
             if (_bottomBar != null) _bottomBar.EnableInClassList("ui-shifted", isOpen);
-            if (_fabContainer != null) _fabContainer.EnableInClassList("ui-shifted", isOpen);
+            if (_bottomBar != null)
+            {
+                _bottomBar.EnableInClassList("ui-shifted", isOpen);
+                
+                // If the sheet is open, we don't need soft shift. 
+                // We re-enable soft shift only if a part is selected AND the sheet is closed.
+                if (isOpen) 
+                {
+                    _bottomBar.RemoveFromClassList("ui-shifted-soft");
+                }
+                else
+                {
+                    bool hasSelection = (SelectionManager.Instance?.HasSelection == true);
+                    _bottomBar.EnableInClassList("ui-shifted-soft", hasSelection);
+                }
+            }
+
+            if (_infoBarPeek != null) _infoBarPeek.EnableInClassList("info-bar-peek--sheet-open", isOpen);
             if (_actionsRow != null) _actionsRow.EnableInClassList("actions-row--sheet-open", isOpen);
             if (_partNameLabel != null) _partNameLabel.EnableInClassList("selection-label--hidden", isOpen);
 
@@ -184,6 +221,16 @@ namespace WebGL.UI.Panels
                     _sheetAssemblyTime.text = data.installationTimeMinutes > 0 ? $"~{data.installationTimeMinutes:F0} min" : "N/A";
 
                 if (fromHotspot && !IsSheetOpen) OpenSheet();
+
+                // PRE-PEEK INFO BAR LOGIC: Show when part is selected
+                if (_infoBarPeek != null && !IsSheetOpen)
+                {
+                    _infoBarPeek.RemoveFromClassList("info-bar-peek--hidden");
+                    _infoBarPeek.AddToClassList("info-bar-peek--visible");
+                    
+                    // Nudge bottom bar soft up
+                    if (_bottomBar != null) _bottomBar.AddToClassList("ui-shifted-soft");
+                }
             }
             else
             {
@@ -191,6 +238,16 @@ namespace WebGL.UI.Panels
                 // (sheet closes only via FAB info button or mode change)
                 if (_partNameLabel != null) _partNameLabel.AddToClassList("selection-label--hidden");
                 if (_infoBtn != null) _infoBtn.SetEnabled(false);
+
+                // PRE-PEEK INFO BAR LOGIC: Hide when nothing is selected
+                if (_infoBarPeek != null)
+                {
+                    _infoBarPeek.RemoveFromClassList("info-bar-peek--visible");
+                    _infoBarPeek.AddToClassList("info-bar-peek--hidden");
+                    
+                    // Drop bottom bar back down if the sheet isn't open
+                    if (_bottomBar != null && !IsSheetOpen) _bottomBar.RemoveFromClassList("ui-shifted-soft");
+                }
             }
         }
 
@@ -299,7 +356,13 @@ namespace WebGL.UI.Panels
                 AddCleanup(() => { sheetScroll.UnregisterCallback(scrollEnter); sheetScroll.UnregisterCallback(scrollLeave); });
             }
 
-            // (SheetCloseBtn removed — FAB info button handles close)
+            // Close button
+            if (_sheetCloseBtn != null)
+            {
+                EventCallback<PointerDownEvent> closePd = evt => evt.StopPropagation();
+                _sheetCloseBtn.RegisterCallback(closePd);
+                AddCleanup(() => _sheetCloseBtn.UnregisterCallback(closePd));
+            }
 
             // Info button
             if (_infoBtn != null)

@@ -30,6 +30,9 @@
             <ui:VisualElement class="sheet-header">
                 <ui:Label text="SELECT A PART" name="SheetTitle" class="sheet-title" picking-mode="Ignore" />
             </ui:VisualElement>
+
+            <!-- Close button — absolute top-right of sheet, above header -->
+            <ui:Button name="SheetCloseBtn" text="✕" class="sheet-close-btn" tooltip="Close panel" />
             
             <!-- Content Container: DETAILS (Part Info) -->
             <ui:VisualElement name="SheetContent_Details" class="sheet-content sheet-content--active" picking-mode="Ignore">
@@ -298,12 +301,12 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- ═══ FAB — Global Info Button (visible when a part is selected) ═══ -->
-        <ui:VisualElement name="GlobalActionContainer" class="fab-container fab-button--hidden" picking-mode="Ignore">
-            <ui:Button name="ToolInfoBtn" class="fab-button" tooltip="Part Info">
-                <pi:ProceduralInfoIcon class="fab-icon" picking-mode="Ignore"/>
-            </ui:Button>
-        </ui:VisualElement>
+        <!-- ═══ PRE-PEEK INFO BAR (Option 1) ═══
+             Appears at the very bottom when a part is selected. -->
+        <ui:Button name="InfoBarPeek" class="info-bar-peek info-bar-peek--hidden" picking-mode="Position">
+            <ui:VisualElement class="peek-handle" picking-mode="Ignore" />
+            <ui:Label name="PeekLabel" text="PART INFO" class="peek-label" picking-mode="Ignore" />
+        </ui:Button>
 
     </ui:VisualElement>
 
