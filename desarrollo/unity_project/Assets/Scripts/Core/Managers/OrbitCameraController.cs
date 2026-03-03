@@ -5,6 +5,17 @@ namespace WebGL.Core.Managers
 {
     public class OrbitCameraController : Singleton<OrbitCameraController>
     {
+        // ── Constants ────────────────────────────────────────────
+        private const float DEFAULT_VERTICAL_ANGLE  = 20f;
+        private const float TOUCH_ORBIT_SCALE       = 0.2f;
+        private const float TOUCH_PINCH_SCALE       = 0.01f;
+        private const float TOUCH_PAN_SCALE         = 0.5f;
+        private const float TOUCH_ZOOM_MULTIPLIER   = 5f;
+        private const float MOUSE_SCROLL_SCALE      = 2f;
+        private const float RAYCAST_MAX_DISTANCE    = 100f;
+        private const float FOCUS_SNAP_DISTANCE     = 5f;
+        private const float FOCUS_ORBIT_DISTANCE    = 6f;
+
         [Header("Target")]
         [SerializeField] private Transform target;
         [SerializeField] private Vector3 targetOffset = Vector3.zero;
@@ -38,9 +49,9 @@ namespace WebGL.Core.Managers
         private float targetDistance;
         
         private float currentX = 0f;
-        private float currentY = 20f;
+        private float currentY = DEFAULT_VERTICAL_ANGLE;
         private float targetX = 0f;
-        private float targetY = 20f;
+        private float targetY = DEFAULT_VERTICAL_ANGLE;
 
         private Vector3 currentFocusPoint;
         private Vector3 targetFocusPoint;
@@ -131,7 +142,7 @@ namespace WebGL.Core.Managers
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             if (Mathf.Abs(scroll) > 0.001f)
             {
-                ApplyZoom(scroll * 2f);
+                ApplyZoom(scroll * MOUSE_SCROLL_SCALE);
             }
         }
 
@@ -144,8 +155,8 @@ namespace WebGL.Core.Managers
 
                 if (touch.phase == TouchPhase.Moved)
                 {
-                    float touchX = touch.deltaPosition.x * rotationSpeed * 0.2f; // Scale down for touch
-                    float touchY = touch.deltaPosition.y * rotationSpeed * 0.2f;
+                    float touchX = touch.deltaPosition.x * rotationSpeed * TOUCH_ORBIT_SCALE;
+                    float touchY = touch.deltaPosition.y * rotationSpeed * TOUCH_ORBIT_SCALE;
                     ApplyOrbit(touchX, touchY);
                 }
             }
@@ -164,17 +175,17 @@ namespace WebGL.Core.Managers
                 // Zoom Logic (Pinch distance change)
                 float curDist = Vector2.Distance(t0.position, t1.position);
                 float prevDist = Vector2.Distance(t0.position - t0.deltaPosition, t1.position - t1.deltaPosition);
-                float zoomDelta = (curDist - prevDist) * 0.01f; // Scale factor
+                float zoomDelta = (curDist - prevDist) * TOUCH_PINCH_SCALE;
 
                 // Apply
                 if (panDelta.magnitude > 0.1f)
                 {
-                     ApplyPan(panDelta.x * panSpeed * 0.5f, panDelta.y * panSpeed * 0.5f);
+                     ApplyPan(panDelta.x * panSpeed * TOUCH_PAN_SCALE, panDelta.y * panSpeed * TOUCH_PAN_SCALE);
                 }
                 
                 if (Mathf.Abs(zoomDelta) > 0.001f)
                 {
-                    ApplyZoom(zoomDelta * 5f);
+                    ApplyZoom(zoomDelta * TOUCH_ZOOM_MULTIPLIER);
                 }
             }
         }
@@ -225,7 +236,7 @@ namespace WebGL.Core.Managers
         {
             Ray ray = Camera.main.ScreenPointToRay(screenPos);
             
-            if (Physics.Raycast(ray, out RaycastHit hit, 100f)) // Max distance 100
+            if (Physics.Raycast(ray, out RaycastHit hit, RAYCAST_MAX_DISTANCE))
             {
                 Vector3 newFocus = hit.point;
                 float newDist = Vector3.Distance(transform.position, newFocus);
@@ -312,7 +323,7 @@ namespace WebGL.Core.Managers
                 if (snap)
                 {
                     currentFocusPoint = targetFocusPoint;
-                    targetDistance = 5f; // Reset zoom on focus
+                    targetDistance = FOCUS_SNAP_DISTANCE;
                 }
             }
         }
@@ -330,12 +341,12 @@ namespace WebGL.Core.Managers
 
             // Keep current rotation angles
             targetX = currentX; 
-            targetY = 20f;      
+            targetY = DEFAULT_VERTICAL_ANGLE;
             
             SetTarget(objTransform, false);
             targetOffset = centerOffset; 
             
-            targetDistance = 6f; // Standard zoom
+            targetDistance = FOCUS_ORBIT_DISTANCE;
         }
 
         public void SetViewportShift(float shiftRatio)
@@ -347,8 +358,8 @@ namespace WebGL.Core.Managers
         {
             // Reset Orbit & Zoom
             targetX = 0f;
-            targetY = 20f;
-            targetDistance = 10f; // Could also capture initial distance if desired
+            targetY = DEFAULT_VERTICAL_ANGLE;
+            targetDistance = distance;
 
             // Reset Pan / Focus
             targetFocusPoint = initialFocusPoint;
