@@ -1,13 +1,15 @@
 ﻿/*
    TYPE RAMP  (UX-H06)
    ----------------------------------------
-   Display : 64px  - Hero title (SpaceGrotesk-SemiBold)
-   H1      : 28px  - Section titles, about title
-   H2      : 20px  - Panel headings, hero subtitle
-   Body-lg : 18px  - Card titles, sub-headings
-   Body    : 16px  - Buttons, body text
-   Body-sm : 14px  - Descriptions, secondary text
-   Caption : 12px  - Counters, foldout labels
+   Display    : 64px  - Hero title (SpaceGrotesk-SemiBold)
+   Panel-title: 36px  - Panel / mode headings
+   H1         : 28px  - Section titles, about title
+   Sheet-title: 24px  - Sheet header, app logo
+   H2         : 20px  - Panel headings, hero subtitle
+   Body-lg    : 18px  - Card titles, sub-headings
+   Body       : 16px  - Buttons, body text
+   Body-sm    : 14px  - Descriptions, secondary text, data rows
+   Caption    : 12px  - Counters, foldout labels
 
    FONTS:
    SpaceGrotesk-SemiBold  - Display, hero titles
@@ -683,7 +685,7 @@
 
 .sheet-handle {
     width: 40px;
-    height: 3px;
+    height: 4px;
     background-color: rgba(255, 255, 255, 0.16);
     border-radius: 2px;
     align-self: center;
@@ -974,7 +976,7 @@
 
 .glass-slider .unity-base-slider__tracker {
     background-color: rgba(255, 255, 255, 0.12);
-    height: 3px;
+    height: 4px;
     border-radius: 2px;
     border-width: 0;
     top: 50%;
@@ -1027,13 +1029,13 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 6px 0;
+    padding: 8px 0;
     min-height: 44px;
 }
 
 .data-label {
     color: rgba(255, 255, 255, 0.4);
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 1px;
     flex-shrink: 0;
     min-width: 100px;
@@ -1041,7 +1043,7 @@
 
 .data-value {
     color: rgba(255, 255, 255, 0.8);
-    font-size: 13px;
+    font-size: 14px;
     -unity-font-style: bold;
     flex: 1;
     -unity-text-align: upper-right;
@@ -1266,7 +1268,7 @@
     font-size: 24px;
     -unity-font-style: bold;
     color: rgba(255, 255, 255, 0.6);
-    letter-spacing: 3px;
+    letter-spacing: 4px;
 }
 
 /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -1317,7 +1319,7 @@
 .sheet-foldout > .unity-foldout__toggle > .unity-toggle__input > .unity-foldout__text {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.35);
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     -unity-font-style: bold;
 }
 
@@ -1346,7 +1348,7 @@
 .section-title {
     font-size: 16px;
     color: rgba(255, 255, 255, 0.65);
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     -unity-font-style: bold;
     margin-bottom: 8px;
 }
@@ -1726,13 +1728,13 @@
     min-width: 100px;
     height: 44px;
     margin-right: 12px;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .onboard-next-btn {
     min-width: 140px;
     height: 44px;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 /* ═══ FAB — Global Action Button ═══ */
