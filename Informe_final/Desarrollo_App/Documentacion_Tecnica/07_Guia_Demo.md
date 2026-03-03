@@ -26,14 +26,15 @@
 
 **Objetivo:** Familiarizarse con los controles de cámara.
 
-| Acción | Control (Mouse) | Control (Touch) |
-|---|---|---|
-| Orbitar | Clic izquierdo + arrastrar | Un dedo + arrastrar |
-| Zoom | Scroll rueda | Pinch (dos dedos) |
-| Pan (desplazar) | Clic central + arrastrar | Dos dedos + arrastrar |
-| Reset cámara | Doble clic en fondo | Doble tap en fondo |
+| Acción          | Control (Mouse)            | Control (Touch)       |
+| --------------- | -------------------------- | --------------------- |
+| Orbitar         | Clic izquierdo + arrastrar | Un dedo + arrastrar   |
+| Zoom            | Scroll rueda               | Pinch (dos dedos)     |
+| Pan (desplazar) | Clic central + arrastrar   | Dos dedos + arrastrar |
+| Reset cámara    | Doble clic en fondo        | Doble tap en fondo    |
 
 **Demostrar:**
+
 1. Orbitar alrededor del dron en 360°
 2. Acercarse a una hélice con zoom
 3. Desplazar la vista lateralmente con pan
@@ -54,6 +55,7 @@
 4. **Hacer clic en el fondo** para deseleccionar
 
 **Puntos clave a destacar:**
+
 - Cada pieza contiene datos técnicos reales del dron
 - Los datos provienen de `ScriptableObject` (DronePartData)
 - La información es extensible sin modificar código
@@ -66,15 +68,15 @@
 
 Ubicar los botones de modo en la barra lateral izquierda y activar cada uno:
 
-| # | Modo | Qué muestra | Uso educativo |
-|---|---|---|---|
-| 1 | **Standard** | Renderizado PBR realista | Vista por defecto |
-| 2 | **X-Ray** | Transparencia para ver interior | Componentes internos |
-| 3 | **Wireframe** | Malla poligonal | Estructura geométrica |
-| 4 | **Blueprint** | Estilo plano técnico azul | Documentación técnica |
-| 5 | **Thermal** | Mapa de calor falso | Análisis térmico |
-| 6 | **Ghosted** | Semi-transparente | Relación espacial |
-| 7 | **Solid Color** | Color uniforme sólido | Silueta y forma |
+| #   | Modo            | Qué muestra                     | Uso educativo         |
+| --- | --------------- | ------------------------------- | --------------------- |
+| 1   | **Standard**    | Renderizado PBR realista        | Vista por defecto     |
+| 2   | **X-Ray**       | Transparencia para ver interior | Componentes internos  |
+| 3   | **Wireframe**   | Malla poligonal                 | Estructura geométrica |
+| 4   | **Blueprint**   | Estilo plano técnico azul       | Documentación técnica |
+| 5   | **Thermal**     | Mapa de calor falso             | Análisis térmico      |
+| 6   | **Ghosted**     | Semi-transparente               | Relación espacial     |
+| 7   | **Solid Color** | Color uniforme sólido           | Silueta y forma       |
 
 **Demostrar:** Cambiar entre al menos 3-4 modos para mostrar la versatilidad. Destacar que cada modo usa shaders HLSL personalizados optimizados para WebGL 2.0.
 
@@ -92,6 +94,7 @@ Ubicar los botones de modo en la barra lateral izquierda y activar cada uno:
 4. Desactivar la vista explosionada para ver la animación de regreso
 
 **Puntos clave:**
+
 - Las piezas se separan a lo largo de vectores predefinidos
 - La animación usa el sistema de tweening personalizado
 - La interactividad se mantiene durante la explosión
@@ -110,6 +113,7 @@ Ubicar los botones de modo en la barra lateral izquierda y activar cada uno:
 6. Desactivar el corte
 
 **Puntos clave:**
+
 - Funciona en tiempo real gracias a shader clipping (`ClippableLit`)
 - Los cortes se persisten al cambiar de modo de visualización
 - Útil para inspección de componentes internos no accesibles visualmente
@@ -127,6 +131,7 @@ Ubicar los botones de modo en la barra lateral izquierda y activar cada uno:
 5. Observar cómo la pieza se selecciona automáticamente
 
 **Puntos clave:**
+
 - Búsqueda por nombre con filtrado en tiempo real
 - Navegación bidireccional: catálogo ↔ modelo 3D
 - Muestra la cantidad total de piezas del ensamblaje
@@ -144,6 +149,7 @@ Ubicar los botones de modo en la barra lateral izquierda y activar cada uno:
 5. **Checklist de Ensamblaje:** Verificar la presencia de piezas
 
 **Puntos clave:**
+
 - Herramientas orientadas al uso profesional/educativo
 - Datos estructurados como ScriptableObjects extensibles
 - Interfaz consistente con el design system via UI Toolkit
@@ -165,17 +171,17 @@ Ubicar los botones de modo en la barra lateral izquierda y activar cada uno:
 
 ## 3. Puntos Técnicos Destacados (para Jurados)
 
-| Aspecto | Detalle |
-|---|---|
-| **Arquitectura** | 4 capas (Core, Features, UI, Data) con 6 patrones de diseño |
-| **Rendimiento** | ~100K polígonos, target 60 FPS, optimización runtime automática |
-| **Portabilidad** | WebGL 2.0 — accesible desde cualquier navegador moderno |
-| **Sin instalación** | No requiere plugins, extensiones ni software adicional |
-| **Responsivo** | Se adapta a diferentes tamaños de pantalla |
-| **UI Toolkit** | Sistema de interfaz basado en componentes estilizados con USS |
-| **Shaders** | 9 shaders HLSL/CG personalizados para los 7 modos de visualización |
-| **Persistencia** | Preferencias y estado se guardan entre sesiones (PlayerPrefs) |
-| **Pipeline 3D** | Modelos CAD → Retopología → Baking → PBR → WebGL |
+| Aspecto             | Detalle                                                            |
+| ------------------- | ------------------------------------------------------------------ |
+| **Arquitectura**    | 4 capas (Core, Features, UI, Data) con 6 patrones de diseño        |
+| **Rendimiento**     | ~100K polígonos, target 60 FPS, optimización runtime automática    |
+| **Portabilidad**    | WebGL 2.0 — accesible desde cualquier navegador moderno            |
+| **Sin instalación** | No requiere plugins, extensiones ni software adicional             |
+| **Responsivo**      | Se adapta a diferentes tamaños de pantalla                         |
+| **UI Toolkit**      | Sistema de interfaz basado en componentes estilizados con USS      |
+| **Shaders**         | 9 shaders HLSL/CG personalizados para los 7 modos de visualización |
+| **Persistencia**    | Preferencias y estado se guardan entre sesiones (PlayerPrefs)      |
+| **Pipeline 3D**     | Modelos CAD → Retopología → Baking → PBR → WebGL                   |
 
 ---
 
@@ -202,10 +208,10 @@ Una vez cargada, la aplicación funciona sin conexión gracias al Data Caching e
 
 <!-- TODO: Actualizar con valores reales después del Bloque B -->
 
-| Métrica | Target | Cómo Verificar |
-|---|---|---|
-| Tiempo de carga | < 10 s (conexión 50 Mbps) | Cronómetro desde URL hasta modelo visible |
-| FPS promedio | ≥ 30 desktop / ≥ 24 mobile | `WebGLProfiler` overlay o DevTools |
-| Tamaño build | < 40 MB comprimido | Verificar `docs/Build/` |
-| Interacción fluida | Sin stuttering visible | Prueba de órbita continua |
-| Cambio de modo | < 500 ms | Tiempo de transición visual |
+| Métrica            | Target                     | Cómo Verificar                            |
+| ------------------ | -------------------------- | ----------------------------------------- |
+| Tiempo de carga    | < 10 s (conexión 50 Mbps)  | Cronómetro desde URL hasta modelo visible |
+| FPS promedio       | ≥ 30 desktop / ≥ 24 mobile | `WebGLProfiler` overlay o DevTools        |
+| Tamaño build       | < 40 MB comprimido         | Verificar `docs/Build/`                   |
+| Interacción fluida | Sin stuttering visible     | Prueba de órbita continua                 |
+| Cambio de modo     | < 500 ms                   | Tiempo de transición visual               |
