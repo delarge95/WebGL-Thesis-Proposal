@@ -145,6 +145,7 @@
                     <!-- Inline slider for Explode (toggled by Explode card) -->
                     <ui:VisualElement name="ExplodeInlineSlider" class="explode-inline-slider submenu--hidden" picking-mode="Position">
                         <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider env-slider" picking-mode="Position" />
+                        <ui:Label name="ExplosionValue" text="0%" class="explosion-value-label" picking-mode="Ignore" />
                     </ui:VisualElement>
                 </ui:VisualElement>
 

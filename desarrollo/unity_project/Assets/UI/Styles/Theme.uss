@@ -1372,6 +1372,14 @@
     justify-content: center;
 }
 
+.explosion-value-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    min-width: 40px;
+    -unity-text-align: middle-right;
+    margin-left: 8px;
+}
+
 .env-slider-group {
     width: 476px;
     height: 56px;
