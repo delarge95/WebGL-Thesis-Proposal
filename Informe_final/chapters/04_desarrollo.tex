@@ -133,13 +133,81 @@ Se definió un sistema de diseño (\textit{design system}) coherente documentado
 \subsection{Catálogo y Gestión de Piezas}
 \addcontentsline{toc}{subsection}{Catálogo y Gestión de Piezas}
 
-Se implementó un sistema completo de catálogo de componentes del dron:
+Se implementó un sistema completo de catálogo de componentes del dron Holybro X500~V2 que permite la exploración interactiva de las~16 piezas del gemelo digital.
+
+\subsubsection{Modelo de Referencia: Holybro X500~V2}
+\addcontentsline{toc}{subsubsection}{Modelo de Referencia: Holybro X500 V2}
+
+El modelo seleccionado para el gemelo digital es el kit de desarrollo \textbf{Holybro PX4 Development Kit X500~V2}, un \textit{quadcopter} de categoría educativa y de desarrollo con las siguientes especificaciones globales:
+
+\begin{table}[h!]
+\centering
+\caption{Especificaciones Globales del Holybro X500~V2}
+\small
+\begin{tabular}{lp{9cm}}
+\hline
+\textbf{Parámetro} & \textbf{Valor} \\ \hline
+Distancia entre ejes (\textit{wheelbase}) & 500\,mm \\
+Dimensiones del fuselaje & 144\,×\,144\,mm (plates) \\
+Altura del tren de aterrizaje & 215\,mm \\
+Separación entre placas & 28\,mm \\
+Peso total (sin batería) & 610\,g (frame+electrónica) \\
+Peso del frame kit & $\sim$365\,g \\
+Tiempo de vuelo (hover) & $\sim$18\,min (LiPo 4S 5000\,mAh) \\
+Carga útil máxima & $\sim$1\,kg (estimada) \\
+Batería compatible & LiPo 4S (14.8\,V), 2000--5000\,mAh \\
+Firmware soportado & PX4 / ArduPilot \\
+Tiempo de ensamblaje & $\sim$30\,min \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Inventario de Piezas del Gemelo Digital}
+\addcontentsline{toc}{subsubsection}{Inventario de Piezas del Gemelo Digital}
+
+El catálogo comprende~16 piezas organizadas en~4 categorías funcionales. Cada pieza cuenta con un \texttt{ScriptableObject DronePartData} con más de~32 campos técnicos (véase Sección~``Configuración de DronePartData''). La Tabla~\ref{tab:inventario-piezas} resume el inventario completo.
+
+\begin{longtable}{clp{4.5cm}cp{2.5cm}}
+\caption{Inventario Completo de Piezas del Holybro X500~V2}\label{tab:inventario-piezas} \\
+\hline
+\textbf{\#} & \textbf{Categ.} & \textbf{Pieza} & \textbf{Peso (g)} & \textbf{Material} \\ \hline
+\endfirsthead
+\hline
+\textbf{\#} & \textbf{Categ.} & \textbf{Pieza} & \textbf{Peso (g)} & \textbf{Material} \\ \hline
+\endhead
+01 & Estruct. & Placas Sup.\ e Inf.\ de Fibra de Carbono & 150 & CF twill 2\,mm \\
+02 & Estruct. & Tubos de Brazo CF~×\,4 (con Motor + ESC) & 120 & CF ⌀16\,mm \\
+03 & Estruct. & Tren de Aterrizaje CF & 80 & CF ⌀16+⌀10\,mm \\
+04 & Estruct. & Placa de Plataforma (\textit{Platform Board}) & 15 & Nylon/PA12 \\
+05 & Estruct. & Sistema de Rieles + Soporte de Batería & 25 & Aluminio ⌀10\,mm \\
+\hline
+06 & Electr. & PDB (\textit{Power Distribution Board}) & 20 & PCB FR4 \\
+07 & Electr. & Módulo de Potencia PM02~V3 & 28 & PCB FR4 \\
+08 & Electr. & Pixhawk 6C Autopilot & 35 & PCB + Al anodizado \\
+09 & Electr. & GPS M10 con Brújula & 32 & Antena cerámica + CF \\
+10 & Electr. & Radio de Telemetría SiK~V3 & 15 & PCB + plástico \\
+14 & Electr. & Batería LiPo 4S 5000\,mAh (*) & 520 & Polímero de litio \\
+15 & Electr. & Receptor RC RadioMaster R81 (*) & 5 & PCB miniatura \\
+\hline
+11 & Propuls. & Motor Brushless 2216 KV920~×\,4 & 252 & Al CNC + Cu \\
+12 & Propuls. & ESC BLHeli-S 20A~×\,4 & 28 & PCB FR4 + MOSFET \\
+13 & Propuls. & Hélices 1045~×\,4 (+2 repuesto) & 32 & Nylon/ABS \\
+\hline
+16 & Otros & Kit de Herrajes y Tornillería & 20 & Acero/nylon/Al \\
+\hline
+\multicolumn{5}{l}{\footnotesize (*) No incluidos en el kit; recomendados por el fabricante.} \\
+\end{longtable}
+
+\subsubsection{Funcionalidades del Catálogo Interactivo}
+\addcontentsline{toc}{subsubsection}{Funcionalidades del Catálogo Interactivo}
+
+El sistema de catálogo se implementó con los siguientes módulos:
 
 \begin{itemize}
-    \item \textbf{PartCatalogManager.} Búsqueda por nombre, descripción y tipo de componente.
-    \item \textbf{PartCatalogUI.} Interfaz con \textit{scroll} virtual, filtros por categoría (estructura, motor, electrónica, batería, propulsión, otros) y filtros por material.
+    \item \textbf{PartCatalogManager.} Búsqueda por nombre, descripción y tipo de componente, con soporte para consultas parciales.
+    \item \textbf{PartCatalogUI.} Interfaz con \textit{scroll} virtual, filtros por categoría (Structural, Electronics, Propulsion, Other) y filtros por material.
     \item \textbf{PartVisibilityManager.} Control de visibilidad con animaciones \textit{fade-in/out} para ocultar y mostrar piezas sin corte abrupto.
-    \item \textbf{EnhancedInfoPanel.} Panel detallado que muestra peso, dimensiones, función, material, fabricante y número de parte.
+    \item \textbf{EnhancedInfoPanel.} Panel detallado que muestra peso, dimensiones, función, material, fabricante y número de parte, extraído directamente del \texttt{DronePartData} de cada pieza.
 \end{itemize}
 
 % ═══════════════════════════════════════════════════════════════════════════════
@@ -260,15 +328,16 @@ Todos los \textit{shaders} PBR implementaron el modelo Cook-Torrance con distrib
 \subsection{Configuración de DronePartData}
 \addcontentsline{toc}{subsection}{Configuración de DronePartData}
 
-El \texttt{ScriptableObject DronePartData} almacena más de~25 campos por pieza, organizados en bloques funcionales:
+El \texttt{ScriptableObject DronePartData} almacena más de~32 campos por pieza, organizados en bloques funcionales. Los 16~\texttt{ScriptableObjects} del catálogo fueron configurados con datos técnicos verificados de la documentación oficial de Holybro, PX4, y fichas de dato de los fabricantes de cada componente (véase Apéndice~P):
 
 \begin{itemize}
-    \item \textbf{Información General.} Nombre, ID único, tipo de componente, descripción.
-    \item \textbf{Especificaciones Técnicas.} Peso, dimensiones, función, potencia nominal.
-    \item \textbf{Materiales.} Tipo de material, propiedades mecánicas, fabricante, número de parte.
-    \item \textbf{Vista Explosionada.} Dirección de explosión, distancia, prioridad de animación.
-    \item \textbf{Ensamblaje.} Herramientas requeridas, torque de tornillos, cantidad de sujetadores, dificultad (1--5), prerrequisitos.
-    \item \textbf{Conexiones.} Tipos de conexión, cantidad de tornillos, tamaño de sujetadores.
+    \item \textbf{Información General.} Nombre, ID único (\texttt{x500v2\_*}), tipo de componente (\texttt{PartType}: Frame, Motor, ESC, FlightController, GPS, Radio, etc.), descripción técnica detallada.
+    \item \textbf{Especificaciones Técnicas.} Peso (kg), dimensiones (mm), función operativa, potencia nominal (W), temperatura operativa máxima (°C), carga máxima (A o kg según tipo).
+    \item \textbf{Materiales.} Tipo de material (CF twill, aluminio CNC, PCB FR4, nylon, LiPo), propiedades mecánicas/térmicas, fabricante y número de parte (\textit{SKU}).
+    \item \textbf{Vista Explosionada.} Dirección de explosión (\texttt{Vector3}), distancia de separación (0.3--2.5), prioridad de animación (1--10).
+    \item \textbf{Ensamblaje.} Herramientas requeridas (\texttt{string[]}), especificación de torque (Nm), cantidad y tamaño de tornillos, dificultad (1--5), tiempo de instalación (min), prerrequisitos, orden de montaje.
+    \item \textbf{Conexiones y Seguridad.} Tipos de conexión (\texttt{string[]}), advertencias de seguridad, consejos de instalación.
+    \item \textbf{Perfil Térmico.} Color de \textit{highlight} (\texttt{Color}) utilizado por el \textit{shader} \texttt{Thermal} para representar la temperatura de operación: desde azul oscuro (piezas pasivas, $\sim$20\,°C) hasta rojo intenso (motores a plena carga, $\sim$95\,°C).
 \end{itemize}
 
 % ═══════════════════════════════════════════════════════════════════════════════
