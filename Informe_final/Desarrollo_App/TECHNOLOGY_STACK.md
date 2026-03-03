@@ -7,9 +7,9 @@
 ## 1. Motor de Desarrollo
 
 ### Unity 6 LTS
-- **Versión**: Unity 6.3 (6000.3.x)
-- **Render Pipeline**: Universal Render Pipeline (URP)
-- **Target Platform**: WebGL 2.0 (WebAssembly)
+- **Versión**: Unity 6000.0.62f1
+- **Render Pipeline**: Universal Render Pipeline (URP) 17.0.3
+- **Target Platform**: WebGL 2.0 (IL2CPP → WebAssembly)
 - **UI Framework**: UI Toolkit (USS + UXML)
 - **Paquetes Unity**:
   - `com.unity.render-pipelines.universal` — URP rendering
@@ -23,10 +23,10 @@
 
 | Lenguaje | Uso | Archivos |
 |----------|-----|----------|
-| **C#** | Core logic, managers, UI controllers | ~50+ scripts |
-| **HLSL** | Custom shaders (URP compatible) | 7 shaders |
-| **USS** | Styles (Unity Style Sheets, CSS-like) | 2 stylesheets |
-| **UXML** | UI layout (XML-based, HTML-like) | 1+ layouts |
+| **C#** | Core logic, managers, UI controllers | 91 scripts (~14,778 líneas) |
+| **HLSL** | Custom shaders (URP compatible) | 9 shaders (1,749 líneas) |
+| **USS** | Styles (Unity Style Sheets, CSS-like) | 5 stylesheets (3,561 líneas) |
+| **UXML** | UI layout (XML-based, HTML-like) | 4 layouts (502 líneas) |
 | **HTML/CSS/JS** | Landing page web | `docs/` folder |
 | **JSX** | React components (Framer Motion cards) | `docs/src/` |
 
@@ -139,9 +139,9 @@ MCPs disponibles para ampliar el contexto del agente:
 ### Git + GitHub
 
 - **Repositorio**: `delarge95/WebGL-Thesis-Proposal`
-- **Branch**: `master`
+- **Branch**: `feature/phase2-ux-redesign`
 - **Hosting**: GitHub Pages (`/docs`)
-- **Commits totales**: 88+
+- **Commits totales**: 232+ (verificado Mar 3, 2026)
 - **Git LFS**: Configurado para assets binarios (modelos, texturas, audio)
 
 ### CI/CD
@@ -182,9 +182,11 @@ MCPs disponibles para ampliar el contexto del agente:
 | `XRay` | Fresnel + dual pass | Transparencia técnica |
 | `Blueprint` | Grid + outline overlay | Vista de planos |
 | `Thermal` | Gradiente animado de calor | Mapa térmico |
-| `Wireframe` | Geometry shader | Malla visible |
+| `WireframeWebGL` | Barycentric coords (WebGL compat) | Malla visible (WebGL) |
+| `Wireframe` | Geometry shader | Malla visible (editor) |
 | `SolidColor` | Flat + outline | Vista sólida |
 | `Ghosted` | Fresnel + depth fade | Transparencia fantasma |
+| `AnimatedGradientSkybox` | Gradient lerp animado | Cielo dinámico |
 
 ---
 
@@ -192,9 +194,11 @@ MCPs disponibles para ampliar el contexto del agente:
 
 ### UI Toolkit (Unity)
 
-- **Theme.uss**: Stylesheet principal (~1200 líneas)
-- **MainTheme.uss**: Tema base
-- **MainLayout.uxml**: Layout principal con ~200 elementos
+- **Theme.uss**: Stylesheet principal (~1,808 líneas)
+- **MainTheme.uss**: Tema base (376 líneas)
+- **Hotspots.uss**: Estilos de hotspots (102 líneas)
+- **Overlays.uss**: Overlays y loading (116 líneas)
+- **MainLayout.uxml**: Layout principal (~394 líneas)
 - **Design Tokens**: Documentados en `DESIGN_TOKENS.md`
   - Colores: Monochrome (`#050505` bg, `#ffffff` accent)
   - Tipografía: Inter 14–20px, Space Grotesk 24–40px

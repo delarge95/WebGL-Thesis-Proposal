@@ -7,6 +7,8 @@
 **Principio:** Foundations first → Surface last. Crítico → Alto → Medio → Bajo.  
 **Nota:** Este plan se genera tras el "audit-of-audit" que corrigió errores factuales en los 4 reportes originales. Los hallazgos aquí reflejados son los **validados**.
 
+> **⚠️ STALE (Mar 3, 2026):** Este plan fue creado contra el estado del proyecto al Feb 19. Desde entonces, la mayoría de ítems de severidad CRITICAL y HIGH han sido implementados: ServiceLocator (H01), mode handler extraction (H02), EventBus leak detection (H03), dead code removal (H04), Update() elimination (H08), 44px touch targets (C04), WCAG audit, y 14 feature tickets (F3-00 a F3-13). Ver `CHANGELOG.md` secciones Feb 23 – Mar 3 para el estado actual.
+
 ---
 
 ## Resumen Ejecutivo

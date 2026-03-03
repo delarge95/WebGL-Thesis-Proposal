@@ -8,6 +8,8 @@
 **Scope:** All C# scripts inside `Assets/Scripts/` (90 files, ~14,202 lines)  
 **Engine:** Unity 6.0 LTS · URP · UI Toolkit · WebGL/IL2CPP → WASM
 
+> **⚠️ STALE (Mar 3, 2026):** Este reporte fue generado contra commit `1efb9fc` (Feb 19). Desde entonces se implementaron H01 (ServiceLocator), H02 (BaseModeHandler extraction), H03 (EventBus leak detection), H04 (10 archivos muertos eliminados), H08 (Update→coroutines), y C01–C05 (code quality). Múltiples hallazgos de este reporte ya están resueltos. Ver `CHANGELOG.md` secciones Feb 23 – Mar 3.
+
 ---
 
 ## Executive Summary
