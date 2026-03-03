@@ -14,6 +14,12 @@ namespace WebGL.Core.Events
         }
     }
 
+    public struct PartDoubleClickedEvent
+    {
+        public DronePartData PartData;
+        public PartDoubleClickedEvent(DronePartData data) { PartData = data; }
+    }
+
     public struct ViewModeChangedEvent
     {
         public bool IsExploded;
