@@ -255,7 +255,10 @@ namespace WebGL.UI.Panels
             }
             else
             {
-                // Show slider
+                // Show slider — ensure it starts at 0
+                var slider = _explodeInlineSlider?.Q<UnityEngine.UIElements.Slider>("ExplosionSlider");
+                if (slider != null) slider.value = 0f;
+
                 _explodeInlineSlider?.RemoveFromClassList("submenu--hidden");
                 _explodeBtn?.EnableInClassList("submenu-card--active", true);
                 _isExploded = true;
