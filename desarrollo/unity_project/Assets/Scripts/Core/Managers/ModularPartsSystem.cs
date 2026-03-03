@@ -39,7 +39,7 @@ namespace WebGL.Core.Managers
 
             foreach (var compatibleType in slot.compatibleTypes)
             {
-                if (partData.PartType == compatibleType)
+                if (partData.partType == compatibleType)
                 {
                     return true;
                 }

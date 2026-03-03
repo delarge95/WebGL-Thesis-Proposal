@@ -37,8 +37,8 @@ namespace WebGL.Editor.Antigravity
                 data.category = "Structure"; // Note: lowercase field, PROPERTY is capitalized
                 data.description = "A standard issue testing cube. Material is unknown but highly reflective. Handle with care.";
                 data.partType = "Generic";
-                data.weight = 1.5f;
-                data.material = "Poly-Alloy";
+                data.weightKg = 1.5f;
+                data.materialType = "Poly-Alloy";
                 
                 AssetDatabase.CreateAsset(data, path);
                 AssetDatabase.SaveAssets();

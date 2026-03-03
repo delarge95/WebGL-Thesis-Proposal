@@ -288,7 +288,7 @@ namespace WebGL.Core.Managers
                 // Track analytics
                 if (ServiceLocator.TryGet<AnalyticsManager>(out var analytics))
                 {
-                    analytics.TrackPartSelected(explodable.Data.PartName);
+                    analytics.TrackPartSelected(explodable.Data.partName);
                 }
             }
 
@@ -340,7 +340,7 @@ namespace WebGL.Core.Managers
                 }
             }
 
-            Debug.LogWarning($"[SelectionManager] Part not found: {partData.PartName}");
+            Debug.LogWarning($"[SelectionManager] Part not found: {partData.partName}");
         }
 
         #endregion

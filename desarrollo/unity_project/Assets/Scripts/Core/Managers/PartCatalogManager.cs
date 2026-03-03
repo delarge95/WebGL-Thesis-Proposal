@@ -97,9 +97,9 @@ namespace WebGL.Core.Managers
                 if (!string.IsNullOrEmpty(currentSearchQuery))
                 {
                     bool matchesSearch = 
-                        part.Data.PartName.ToLower().Contains(currentSearchQuery) ||
-                        part.Data.Description.ToLower().Contains(currentSearchQuery) ||
-                        part.Data.PartType.ToLower().Contains(currentSearchQuery);
+                        part.Data.partName.ToLower().Contains(currentSearchQuery) ||
+                        part.Data.description.ToLower().Contains(currentSearchQuery) ||
+                        part.Data.partType.ToLower().Contains(currentSearchQuery);
                     
                     if (!matchesSearch) return false;
                 }
@@ -108,7 +108,7 @@ namespace WebGL.Core.Managers
                 if (!string.IsNullOrEmpty(currentCategoryFilter))
                 {
                     var category = categories.FirstOrDefault(c => c.name == currentCategoryFilter);
-                    if (category != null && !category.partTypes.Contains(part.Data.PartType))
+                    if (category != null && !category.partTypes.Contains(part.Data.partType))
                     {
                         return false;
                     }
@@ -117,7 +117,7 @@ namespace WebGL.Core.Managers
                 // Material filter
                 if (!string.IsNullOrEmpty(currentMaterialFilter))
                 {
-                    if (part.Data.MaterialType != currentMaterialFilter)
+                    if (part.Data.materialType != currentMaterialFilter)
                     {
                         return false;
                     }
@@ -162,7 +162,7 @@ namespace WebGL.Core.Managers
         {
             return allParts
                 .Where(p => p != null && p.Data != null)
-                .Select(p => p.Data.MaterialType)
+                .Select(p => p.Data.materialType)
                 .Distinct()
                 .OrderBy(m => m)
                 .ToList();
@@ -172,7 +172,7 @@ namespace WebGL.Core.Managers
         {
             return allParts
                 .Where(p => p != null && p.Data != null)
-                .Select(p => p.Data.PartType)
+                .Select(p => p.Data.partType)
                 .Distinct()
                 .OrderBy(t => t)
                 .ToList();
@@ -180,7 +180,7 @@ namespace WebGL.Core.Managers
 
         public ExplodablePart GetPartByName(string name)
         {
-            return allParts.FirstOrDefault(p => p.Data != null && p.Data.PartName == name);
+            return allParts.FirstOrDefault(p => p.Data != null && p.Data.partName == name);
         }
     }
 }

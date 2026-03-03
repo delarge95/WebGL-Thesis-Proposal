@@ -227,12 +227,12 @@ namespace WebGL.UI
             var textContainer = new VisualElement();
             textContainer.style.flexGrow = 1;
 
-            var name = new Label(part.Data.PartName);
+            var name = new Label(part.Data.partName);
             name.style.fontSize = 13;
             name.style.color = Color.white;
             textContainer.Add(name);
 
-            var type = new Label(part.Data.PartType);
+            var type = new Label(part.Data.partType);
             type.style.fontSize = 10;
             type.style.color = new Color(1, 1, 1, 0.5f);
             textContainer.Add(type);
