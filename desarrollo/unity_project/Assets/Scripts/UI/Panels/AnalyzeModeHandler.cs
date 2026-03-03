@@ -25,6 +25,7 @@ namespace WebGL.UI.Panels
         private SubLevel _level = SubLevel.CardGrid;
         private string _activePanel; // "cross-section" | "explode" | "filter" | null
         private bool _isExploded;
+        private float _lastExplodeValue = 0.5f; // remember last non-zero slider value (default 50%)
         private readonly List<string> _activeCategories = new() { "ALL" };
 
         /// <summary>True when a sub-panel is open (for back-navigation detection).</summary>
@@ -242,26 +243,32 @@ namespace WebGL.UI.Panels
 
             if (sliderVisible)
             {
+                // Save current value before hiding (only if non-zero)
+                var slider = _explodeInlineSlider?.Q<UnityEngine.UIElements.Slider>("ExplosionSlider");
+                if (slider != null && slider.value > 0.001f)
+                    _lastExplodeValue = slider.value;
+
                 // Hide slider and reset explosion
                 _explodeInlineSlider?.AddToClassList("submenu--hidden");
                 _explodeBtn?.RemoveFromClassList("submenu-card--active");
                 _isExploded = false;
 
                 // Reset slider value to 0 so ExplodedViewManager animates back
-                var slider = _explodeInlineSlider?.Q<UnityEngine.UIElements.Slider>("ExplosionSlider");
                 if (slider != null) slider.value = 0f;
 
                 OnExplodeToggleRequested?.Invoke();
             }
             else
             {
-                // Show slider — ensure it starts at 0
-                var slider = _explodeInlineSlider?.Q<UnityEngine.UIElements.Slider>("ExplosionSlider");
-                if (slider != null) slider.value = 0f;
-
+                // Show slider — restore last value (or default 50%)
                 _explodeInlineSlider?.RemoveFromClassList("submenu--hidden");
                 _explodeBtn?.EnableInClassList("submenu-card--active", true);
                 _isExploded = true;
+
+                var slider = _explodeInlineSlider?.Q<UnityEngine.UIElements.Slider>("ExplosionSlider");
+                if (slider != null)
+                    slider.value = _lastExplodeValue;
+
                 OnExplodeToggleRequested?.Invoke();
             }
         }
