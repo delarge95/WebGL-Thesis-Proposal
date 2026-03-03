@@ -695,6 +695,7 @@
 .sheet-header {
     margin-bottom: 4px;
     flex-direction: row;
+    position: relative;
     justify-content: space-between;
     align-items: center;
 }
@@ -743,37 +744,23 @@
     -unity-text-align: middle-right;
 }
 
-/* Sheet Close Button */
-.sheet-close-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 16px;
-    -unity-text-align: middle-center;
-    padding: 4px;
-    transition-duration: 0.2s;
-}
-
-.sheet-close-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.3);
-    color: white;
-}
+/* Sheet Close Button — see canonical definition at bottom of file */
 
 .sheet-scroll {
     flex-grow: 1;
     margin-top: 8px;
 }
 
-/* UI Shift on Sheet Expand â€” moves bottom bar up above the sheet */
+/* UI Shift on Sheet Expand (Full Height) â€” moves bottom bar up above the sheet */
 .ui-shifted {
     bottom: 55%;      /* Match panel height so bar bottom = panel top */
     translate: 0 64px; /* Compensate pill offset (0 pad + 8 margin + 56 half-height) */
-    /* Net result: pill center sits exactly at 55% — responsive to any viewport */
+}
+
+/* UI Soft Shift (When Peek Bar spawns) â€” nudges bottom bar slightly up */
+.ui-shifted-soft {
+    bottom: 40px;
+    translate: 0 -12px; /* Push up just 12px for perfect Gestalt grouping without Fitts violation */
 }
 
 /* Pill bar becomes opaque when sheet is open to prevent content bleeding through */
@@ -1745,64 +1732,103 @@
     font-size: 14px;
 }
 
-/* ═══ FAB — Global Action Button ═══ */
+/* ═══ Info Bar Peek (Bottom Sheet Pre-peek) ═══ */
 
-.fab-container {
+.info-bar-peek {
     position: absolute;
-    bottom: 120px;
-    right: 24px;
-    transition-property: opacity, bottom, translate;
+    bottom: 0;
+    left: 50%;
+    translate: -50% 100%; /* Hidden off-screen bottom by default */
+    width: 240px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.96);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 8px;
+    transition-property: translate, background-color, width, border-color;
     transition-duration: 0.3s;
     transition-timing-function: ease-out;
 }
 
-.fab-container.ui-shifted {
-    bottom: 55%;
-    translate: 0 84px;
+.info-bar-peek:hover {
+    background-color: rgba(20, 20, 20, 0.98);
+    border-color: rgba(255, 255, 255, 0.15);
+    height: 44px;
 }
 
-.fab-button {
-    width: 56px;
-    height: 56px;
-    border-radius: 28px;
-    background-color: rgba(30, 30, 30, 0.75);
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.12);
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
-    -unity-font-style: normal;
-    transition-property: scale, border-color, background-color;
-    transition-duration: 0.15s;
+.info-bar-peek:active {
+    background-color: rgba(30, 30, 30, 1);
+    height: 48px;
 }
 
-.fab-button:hover {
-    scale: 1.08;
-    border-color: rgba(255, 255, 255, 0.3);
-    background-color: rgba(40, 40, 40, 0.85);
+.info-bar-peek--visible {
+    translate: -50% 0; /* Slide up, fully visible against bottom edge */
 }
 
-.fab-button:active {
-    scale: 0.95;
-}
-
-.fab-button.fab-button--active {
-    border-color: rgba(70, 175, 255, 0.6);
-    background-color: rgba(70, 175, 255, 0.15);
-}
-
-.fab-icon {
-    width: 56px;
-    height: 56px;
-    -unity-background-image-tint-color: rgba(255, 255, 255, 0.85);
-}
-
-.fab-button.fab-button--active .fab-icon {
-    -unity-background-image-tint-color: rgba(70, 175, 255, 1);
-}
-
-.fab-button--hidden {
+.info-bar-peek--hidden {
+    translate: -50% 100%;
     opacity: 0;
     pointer-events: none;
+}
+
+/* When sheet is fully open, peek slides up behind the pill bar (hidden under it) */
+.info-bar-peek--sheet-open {
+    translate: -50% -100%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.peek-handle {
+    width: 32px;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    margin-bottom: 4px;
+}
+
+.peek-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 2px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+/* =======================================================
+   Sheet Close Button ("X") - Apple HIG / Material 3
+   Placed absolute right within the relative header.
+   ======================================================= */
+.sheet-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 18px;
+    -unity-text-align: middle-center;
+    padding: 0;
+    margin: 0;
+    transition-property: background-color, scale, color;
+    transition-duration: 0.2s;
+}
+
+.sheet-close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: rgb(255, 255, 255);
+}
+
+.sheet-close-btn:active {
+    scale: 0.92;
+    background-color: rgba(255, 255, 255, 0.25);
 }
