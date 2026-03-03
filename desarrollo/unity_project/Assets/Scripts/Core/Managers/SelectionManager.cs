@@ -9,10 +9,17 @@ namespace WebGL.Core.Managers
     /// <summary>
     /// Manages object selection via raycasting.
     /// Handles hover highlighting and click selection.
-    /// Publishes PartSelectedEvent when selection changes.
+    /// Publishes PartSelectedEvent on selection changes and
+    /// PartDoubleClickedEvent on double-click / double-tap.
     /// </summary>
     public class SelectionManager : Singleton<SelectionManager>
     {
+        #region Constants
+
+        private const float DOUBLE_CLICK_THRESHOLD = 0.35f;
+
+        #endregion
+
         #region Serialized Fields
 
         [Header("Raycast Settings")]
@@ -32,6 +39,10 @@ namespace WebGL.Core.Managers
         private Transform hoveredObject;
         private HighlightSystem currentHighlight;
         private HighlightSystem hoveredHighlight;
+
+        // Double-click tracking
+        private float _lastClickTime;
+        private string _lastClickId;
 
         #endregion
 
@@ -189,7 +200,33 @@ namespace WebGL.Core.Managers
             {
                 return;
             }
-            
+
+            // ── Double-click / double-tap detection ──
+            float now = Time.time;
+            DronePartData clickedData = null;
+            if (hoveredObject != null)
+            {
+                var exp = hoveredObject.GetComponent<ExplodablePart>();
+                clickedData = exp != null ? exp.Data : null;
+            }
+
+            string clickId = clickedData?.partName ?? "__bg__";
+            bool isDoubleClick = clickId == _lastClickId
+                && (now - _lastClickTime) < DOUBLE_CLICK_THRESHOLD;
+
+            if (isDoubleClick)
+            {
+                EventBus.Publish(new PartDoubleClickedEvent(clickedData));
+                _lastClickTime = 0f;
+                _lastClickId = null;
+                return; // Skip normal selection on double-click
+            }
+
+            // Track for next potential double-click
+            _lastClickTime = now;
+            _lastClickId = clickId;
+
+            // ── Normal selection logic ──
             if (hoveredObject == null)
             {
                 // Background click → deselect current selection
@@ -199,10 +236,7 @@ namespace WebGL.Core.Managers
 
             if (hoveredObject == currentSelection)
             {
-                // Re-fire selection event so UI can detect double-click/double-tap
-                var explodable = hoveredObject.GetComponent<ExplodablePart>();
-                if (explodable != null && explodable.Data != null)
-                    EventBus.Publish(new PartSelectedEvent(explodable.Data, false));
+                // Re-click on already-selected part — no-op (first click already populated UI)
                 return;
             }
 

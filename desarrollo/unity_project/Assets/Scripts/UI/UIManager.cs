@@ -48,10 +48,7 @@ namespace WebGL.UI
         private bool _hotspotsInitialized = false;
         private bool _isIsolated = false;
 
-        // ── Double-click detection (issue #7) ──
-        private float _lastPartClickTime = 0f;
-        private string _lastPartClickName = null;
-        private const float DOUBLE_CLICK_THRESHOLD = 0.35f;
+
 
         private void Update()
         {
@@ -403,6 +400,7 @@ namespace WebGL.UI
         private void SubscribeToEvents()
         {
             EventBus.Subscribe<PartSelectedEvent>(OnPartSelected);
+            EventBus.Subscribe<PartDoubleClickedEvent>(OnPartDoubleClicked);
             EventBus.Subscribe<StateChangedEvent>(OnAppStateChanged);
             if (ViewModeManager.Instance != null)
                 ViewModeManager.Instance.OnModeChanged += OnViewModeChanged;
@@ -411,6 +409,7 @@ namespace WebGL.UI
         private void UnsubscribeFromEvents()
         {
             EventBus.Unsubscribe<PartSelectedEvent>(OnPartSelected);
+            EventBus.Unsubscribe<PartDoubleClickedEvent>(OnPartDoubleClicked);
             EventBus.Unsubscribe<StateChangedEvent>(OnAppStateChanged);
             if (ViewModeManager.Instance != null)
                 ViewModeManager.Instance.OnModeChanged -= OnViewModeChanged;
@@ -432,38 +431,28 @@ namespace WebGL.UI
 
             // Show/hide FAB based on whether a part is selected
             SetFabVisible(evt.PartData != null);
+        }
 
-            // Double-click / double-tap detection
-            float now = Time.time;
-            string clickId = evt.PartData?.partName ?? "__bg__";
-            bool isDoubleClick = clickId == _lastPartClickName
-                && (now - _lastPartClickTime) < DOUBLE_CLICK_THRESHOLD;
-
-            if (isDoubleClick)
+        /// <summary>
+        /// Handles double-click events published by SelectionManager.
+        /// </summary>
+        private void OnPartDoubleClicked(PartDoubleClickedEvent evt)
+        {
+            if (evt.PartData == null)
             {
-                if (evt.PartData == null)
-                {
-                    // Double-click on background → exit isolate if active
-                    if (_isIsolated) ClearIsolation();
-                }
-                else if (_isIsolated)
-                {
-                    // Already isolated + double-click on part → de-isolate
-                    ClearIsolation();
-                }
-                else
-                {
-                    // First double-click on a part → isolate + open info
-                    _detailsSheet.OpenSheet();
-                    IsolateSelectedPart();
-                }
-                _lastPartClickTime = 0f;
-                _lastPartClickName = null;
+                // Double-click on background → exit isolate if active
+                if (_isIsolated) ClearIsolation();
+            }
+            else if (_isIsolated)
+            {
+                // Already isolated + double-click on part → de-isolate
+                ClearIsolation();
             }
             else
             {
-                _lastPartClickTime = now;
-                _lastPartClickName = clickId;
+                // First double-click on a part → isolate + open info
+                _detailsSheet.OpenSheet();
+                IsolateSelectedPart();
             }
         }
 
