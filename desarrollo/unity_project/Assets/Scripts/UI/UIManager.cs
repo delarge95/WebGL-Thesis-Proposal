@@ -429,8 +429,10 @@ namespace WebGL.UI
             // Delegate data display to details sheet
             _detailsSheet.PopulatePartData(evt.PartData, evt.FromHotspot);
 
-            // Show/hide FAB based on whether a part is selected
-            SetFabVisible(evt.PartData != null);
+            // Show/hide FAB: visible when a part is selected OR the sheet is still open
+            bool fabVisible = evt.PartData != null
+                || (_detailsSheet != null && _detailsSheet.IsSheetOpen);
+            SetFabVisible(fabVisible);
         }
 
         /// <summary>
