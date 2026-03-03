@@ -9,6 +9,8 @@
 **Design References:** Thesis proposal (Sweller Cognitive Load Theory, Fitts's Law, Miller's Law, Gestalt)  
 **Framework:** Unity 6.0 UI Toolkit (USS + UXML + C#)
 
+> **⚠️ STALE (Mar 3, 2026):** Este reporte fue generado contra commit `1efb9fc` (Feb 19). Desde entonces se implementaron C03 (foldout sections), C04 (44px touch targets), H10 (Fitts' Law), F3-07 (4pt grid + type ramp), F3-09 (Escape cascading dismiss), iconos procedurales (8 iconos con SpringFloat physics), y auditoría WCAG 2.1 AA completa. Múltiples hallazgos ya están resueltos. Ver `CHANGELOG.md` secciones Feb 23 – Mar 3.
+
 ---
 
 ## Executive Summary

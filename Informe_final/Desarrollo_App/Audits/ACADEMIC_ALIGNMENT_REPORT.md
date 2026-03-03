@@ -9,6 +9,8 @@
 **Thesis Title:** _"Diseño y Desarrollo de un Prototipo Web 3D Interactivo para la Visualización Técnica y Análisis Estructural de Hardware de Alto Rendimiento"_  
 **Methodology:** Design Science Research (DSR) + Scrum Adaptado (4 Sprints / 6 meses)
 
+> **⚠️ STALE (Mar 3, 2026):** Este reporte fue generado contra commit `1efb9fc` (Feb 19). Desde entonces se completaron FASE 1 (C01–C05), FASE 2 (H01–H11) y FASE 3 (F3-00 a F3-13), abordando la mayoría de brechas identificadas (ServiceLocator, EventBus, code quality, WCAG compliance, 14 feature tickets). Las pruebas de usabilidad (SUS/NASA-TLX) y el informe LaTeX final siguen pendientes. Ver `CHANGELOG.md` secciones Feb 23 – Mar 3.
+
 ---
 
 ## Executive Summary

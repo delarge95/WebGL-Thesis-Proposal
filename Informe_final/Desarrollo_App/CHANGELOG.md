@@ -373,10 +373,51 @@
 | `1a95185` | docs: Phase 4 - Create Desarrollo_App folder with CHANGELOG, DESIGN_TOKENS |
 | `0d6754a` | fix(ui): remove invalid USS syntax (~combinator, overflow:visible) |
 | `cfd7ee1` | fix(ui): studio bg #050505, slider centered, text wrap, close btn fix |
+| `55c26cf` | docs: comprehensive CHANGELOG + TECHNOLOGY_STACK (all tools, AI, MCPs, skills, RAG) |
+| `f25d557` | fix(ui): data-value text wrapping (flex:1 + white-space) + slider drag-container centering |
+| `6ff1ba2` | fix(uss): remove all picking-mode from USS (not valid USS property) |
+| `1399a4f` | fix(ui): text clip, slider horizontal fix, device cyan→white, submenu padding |
+| `ab598c5` | fix(ui): TextFieldLabel text clip, slider flex-start, device scroll overflow |
+| `e257066` | feat(visual): animated gradient skybox for Studio preset |
+| `cd33225` | feat(visual): update skybox to radial gradient with pulse animation |
+| `6ecbd7c` | docs: add BITACORA.md formal project log |
+| `5514ad1` | fix(ui): resolve device menu clipping + docs: align Bitácora to Cronograma |
+| `3325d4b` | style(ui): force device menu width to 396.5px (scrollbar fix) |
+| `b0f9ef5` | docs: enhance BITACORA.md with detailed technical rationale |
 
 ---
 
-## 2026-02-20 — Phase 3: Technical Architecture Refactoring
+## 2026-02-19 — Phase 3: Grid Submenus + Icon System
+
+### Trabajo Realizado
+
+**Grid Navigation System (Phase 3.1–3.3):**
+- Migración de Pins al CategoryMenu; Home/Reset restaurados al TopBar
+- Implementación de sistema de iconos placeholder para botones
+- Grid de 4 columnas para submenús (shader, category, environment)
+- UIManager actualizado para soportar clases de grid submenu
+
+**Polish & Bug Fixes:**
+- Ajustes agresivos de layout para card rows
+- Fix de SelectionManager background click y altura del layout
+- Polish final de UI Layout, Spacing e interacciones
+
+### Git Commits (2026-02-19)
+
+| Hash | Mensaje |
+|------|---------|
+| `472eb99` | feat(ui): move Pins to CategoryMenu, restore Home/Reset to TopBar (Phase 3.1) |
+| `d2a60fa` | feat(ui): implement icon system for buttons (Phase 3.2) |
+| `1f00e51` | feat(ui): implement 4-column grid system for submenus (Phase 3.3) |
+| `46f03d8` | feat(ui): implemented grid submenus for shader, category, and env panels |
+| `cf49b8b` | fix(ui): update UIManager to support new grid submenu classes |
+| `65b05b2` | Fix: Aggressive layout adjustments for 4-card rows |
+| `3bf55a4` | Fix: SelectionManager bg click and Layout height (Phase 8) |
+| `1ee65f1` | Final Polish: UI Layout, Spacing, and Interaction Fixes Complete |
+
+---
+
+## 2026-02-20 — Architecture Refactoring: Memory Leaks + God Class
 
 ### Trabajo Realizado
 
@@ -384,33 +425,366 @@
 
 **Step 1: UI Toolkit Memory Leaks Resolvidos:**
 - Implementación de patrón `AddCleanup` con cola de `System.Action` en `UIManager.cs`.
-- Conversión de +50 lambdas anónimas estáticas (`detailsSheet.RegisterCallback`, `explosionSlider.RegisterValueChangedCallback`, `btn.clicked +=`) a instancias cacheadas.
+- Conversión de +50 lambdas anónimos a instancias cacheadas.
 - Llamada obligatoria a `UnsubscribeFromUIEvents()` dentro de `OnDisable()`.
-- Eliminación total del vector de fuga de memoria que multiplicaba listeners cada vez que se recargaba el HUD del drone.
+- Eliminación total del vector de fuga de memoria en listeners.
 
 **Step 2: Desacoplamiento de UIManager (God Class):**
-- Creación de carpeta y namespace `WebGL.UI.Panels` para lógica local de interfaz.
-- Extracción de lógica de Environment (Sliders, Presets) al nuevo `UIEnvironmentPanel.cs`.
-- Extracción de lógica de Shaders/Filtros (ViewModes) al nuevo `UIAnalyzePanel.cs`.
-- Reducción de más de 120 líneas y limpieza masiva de `#region` obsoletos en `UIManager`.
+- Carpeta y namespace `WebGL.UI.Panels` para lógica local de interfaz.
+- Extracción de `UIEnvironmentPanel.cs` y `UIAnalyzePanel.cs`.
+- Reducción de más de 120 líneas en `UIManager`.
+
+**Fix: Hotspot Binding:**
+- Restauración de `hotspotBtn` initialization binding roto durante el refactor.
 
 ### Git Commits (2026-02-20)
 
 | Hash | Mensaje |
 |------|---------|
-| (pre) | refactor: implement comprehensive UI Toolkit event cleanup in UIManager to prevent memory leaks |
-| (pre) | refactor: dismantle UIManager God Class by extracting UIEnvironmentPanel and UIAnalyzePanel |
+| `a1a60ae` | refactor: implement comprehensive UI Toolkit event cleanup in UIManager to prevent memory leaks |
+| `8a949ce` | refactor: dismantle UIManager God Class by extracting UIEnvironmentPanel and UIAnalyzePanel |
+| `487072a` | fix(ui): restore missing hotspotBtn initialization binding that broke the pins toggle |
+
+---
+
+## 2026-02-23 — FASE 1: Arquitectura Limpia + Iteraciones UX 1–6
+
+### Trabajo Realizado
+
+> Plan documentado en `PHASE3_CHANGELOG.md` y `UX_UI_AUDIT_REPORT.md`
+
+**Architecture Refactoring (C01–C05):**
+- Refactoring completo de arquitectura: memory leaks, god class dismantling, input decoupling
+- Centralización de input blocking en `InputManager` con UI-awareness
+- Cleanup de dead code: `ApplyDefaultRenderSettings`, `GlobalInputBlocked`, `GameManager` state duplication
+- Estandarización de null-safety patterns
+- Revert de `RegisterButtonInputBlockers` (su eliminación rompió submenús)
+
+**UX Redesign — Iteraciones 1–6 (Sistema de 3 Modos):**
+- Expansión de `AppStateMachine` con modos Analyze y Studio
+- Reestructuración de `MainLayout.uxml` con sistema de 3 modos
+- Creación de `UIModeController` + rewire de `UIManager`
+- Panel de Cross-Section en modo Analyze
+- Integración final: eliminación de `UIPopupController`, limpieza de CSS
+- Restauración de funciones vía Action Bars (Tools/Analyze/Studio)
+
+**Polish:**
+- Aesthetic pass: compact UI, glassmorphic panels, tighter spacing
+- Fix de info panel, CUT tool, slider persistence, category menu auto-open
+- Fix de accesibilidad (`CS0051 ActivateMode`)
+
+### Git Commits (2026-02-23)
+
+| Hash | Mensaje |
+|------|---------|
+| `04df7a1` | refactor(phase3): complete architecture refactoring — memory leaks, god class dismantling, input decoupling |
+| `9e24ed5` | refactor(phase4): centralize input blocking in InputManager, add UI-awareness to camera and keyboard |
+| `b40e9aa` | docs: update changelog with Phase 4 documentation |
+| `1607733` | refactor(phase5): cleanup dead code — remove ApplyDefaultRenderSettings, GlobalInputBlocked bridge |
+| `4b80bd5` | refactor: remove InputBlocked + RegisterButtonInputBlockers — sole UI guard is now IsPointerOverUI() |
+| `acea37a` | fix: remove duplicate closing brace in SelectionManager.HandleHover() |
+| `e7f79d8` | fix: restore StopPropagation on all buttons — fixes broken submenu clicks |
+| `b89e2f7` | revert: restore RegisterButtonInputBlockers — removal broke all submenu clicks |
+| `e86ff95` | refactor: standardize null-safety patterns (Task 3) |
+| `7515117` | docs: update PHASE3_CHANGELOG with Phase 5, Audit Tasks 1–3, and commit history |
+| `22dd3af` | docs: add Phase 2 UX Redesign plan and changelog scaffold |
+| `2673e5a` | feat(phase2-iter1): expand AppStateMachine with Analyze and Studio modes |
+| `70b2a01` | feat(phase2-iter2): restructure MainLayout.uxml with 3-mode system + USS styles |
+| `f125f6f` | feat(phase2-iter3+4): create UIModeController + rewire UIManager for 3-mode system |
+| `66673f3` | feat(phase2-iter5): add Cross-Section UI panel in Analyze mode |
+| `50dc291` | feat(phase2-iter6): cleanup & integration final — delete UIPopupController, deprecate toolbars |
+| `9f737a0` | fix(ui): restore all functions via Tools/Analyze/Studio action bars |
+| `ef7c6a4` | fix: CS0051 ActivateMode accessibility + escape & in UXML tooltip |
+| `4b5e08a` | fix: resolve 4 functional issues — info panel, CUT tool, slider, category menu |
+| `d54e541` | fix: CUT cross-section, slider persistence, category menu auto-open |
+| `463df98` | style: aesthetic pass — compact UI, glassmorphic panels, tighter spacing |
+| `40686f5` | chore: clean up duplicate comments in Theme.uss |
+| `8421b0b` | docs(ux): add UX/UI audit report and plan Iteration 7 |
+
+---
+
+## 2026-02-24 — FASE 1: Iteraciones UX 7–11 (Grid Minimalista)
+
+### Trabajo Realizado
+
+- **Iter 7**: Implementación de grid UI minimalista: icon-only buttons, 4-col card grid, sliders alineados, containers invisibles
+- **Iter 8**: Clipping universal de cross-section + fix slider + axis btn sizing
+- **Iter 9**: Fix z-order bottom bar + overhaul de tamaños + cross-section blue
+- **Iter 10**: Navegación card-grid unificada, dual-plane cross-section, UX overhaul
+- **Iter 11**: Fix 7 quejas de UX — sizes, layout, gestures, filter
+
+### Git Commits (2026-02-24)
+
+| Hash | Mensaje |
+|------|---------|
+| `b96132d` | style(ux): implement Iteration 7 — minimalist grid UI system |
+| `59f80d9` | iter8: universal cross-section clipping + slider fix + axis btn sizing |
+| `7396b96` | iter9: fix bottom bar z-order + sizes overhaul + cross-section blue |
+| `e483d70` | Iteration 10: Unified card-grid navigation, dual-plane cross-section, UX overhaul |
+| `800f4d0` | iter11: fix 7 UX complaints — sizes, layout, gestures, filter |
+
+---
+
+## 2026-02-25 — FASE 2: Iteraciones 12–14 (Modos Inspect/Analyze/Studio)
+
+### Trabajo Realizado
+
+- **Iter 12**: Fix cross-section en Realistic, floating (i) info btn, 3-col grids, hide shaders/env
+- **Iter 13**: Major mode restructure → Inspect/Analyze/Studio + isolate + larger cards + true pill
+- **Iter 14**: Fix pill bar style, 3-card fit, isolate SetActive, remove FloatingInfoBtn, device scroll
+- **Iter 14-fix**: Actions-row `border-radius: 36px` para pill shape real
+
+### Git Commits (2026-02-25)
+
+| Hash | Mensaje |
+|------|---------|
+| `079ba8c` | iter12: fix cross-section in Realistic, floating (i) info btn, 3-col grids, hide shaders/env |
+| `beb8e36` | iter13: Major mode restructure — Inspect/Analyze/Studio + isolate + larger cards + true pill |
+| `345df4d` | iter14: fix pill bar style, 3-card fit, isolate SetActive, remove FloatingInfoBtn, device scroll |
+| `d5fda52` | iter14-fix: actions-row border-radius 36px (half of 72px height) for true pill shape |
+
+---
+
+## 2026-02-26 — FASE 2: Auditoría WCAG + Iconos Procedurales
+
+### Trabajo Realizado
+
+**Auditoría de Accesibilidad (WCAG 2.1 AA):**
+- Fix de contraste, touch targets, font sizes, grid, dead CSS, border-radius
+- Bottom pill más grande (112px, iconos de 56px) + re-auditoría completa
+- Fix de device-option hover scale (prevención de clipping)
+
+**Sistema de Iconos Procedurales:**
+- `ProceduralCutIcon`: Microinteracción de slice diagonal con SpringFloat recovery
+- Diseño completo de 8 iconos procedurales: Info, Filter, Studio, Pins, Inspect, Analyze, Explode, Home
+- Integración en `MainLayout.uxml` con routing de PointerEvents al Button padre
+- Fix de CSS background-images y TrickleDown phase para pointer events
+- Documentación matemática y física de la arquitectura de iconos
+
+**Documentación Técnica:**
+- Corrección de errores factuales en 4 reportes de auditoría + plan de remediación
+- Documentación comprensiva técnica para tesis (`01_Arquitectura`, `02_Manual_Tecnico`, etc.)
+
+### Git Commits (2026-02-26)
+
+| Hash | Mensaje |
+|------|---------|
+| `e9a73de` | audit: fix WCAG contrast, touch targets, font sizes, grid, dead CSS, border-radius |
+| `70fed05` | fix: restore actions-row height to 72px (mode-btn 80px overflow) |
+| `a6841b9` | feat: bigger bottom pill (112px, 56px icons) + full re-audit pass |
+| `1efb9fc` | fix: remove device-option hover scale to prevent clipping |
+| `e027474` | Refactor ProceduralCutIcon: One-click precise diagonal slice microinteraction |
+| `b15d9ee` | Refactor ProceduralCutIcon: Replace linear return sweep with SpringFloat recovery |
+| `eeb7bb3` | audit: correct factual errors across all 4 audit reports + add remediation plan |
+| `8bd87aa` | UI: Overhauled procedural icons — Info, Filter, Studio, Pins, Inspect, Analyze |
+| `4da6e37` | Fix compiler error in ProceduralPinsIcon |
+| `e5781ab` | UI: Add procedural icons to IconGallery test scene UXML |
+| `74d3f21` | UI: Complete redesign of Inspect, Pins, Analyze, Studio icons + fixes for Explode, Info, Filter |
+| `33cfb21` | UI: Refine Home, Info, Pins, Analyze and completely redesign InspectIcon |
+| `3f35dc3` | Docs: Comprehensive mathematical & physical architecture documentation for Procedural UI Icons |
+| `59e027c` | UI: Integrate procedural icons into MainLayout.uxml and route PointerEvents to Button |
+| `a35302f` | UI Fix: Safely remove CSS background-images preventing syntax errors |
+| `fd098b3` | UI Fix: Use TrickleDown phase in ProceduralIconBase for PointerEvents |
+| `eb5e918` | docs: add comprehensive technical documentation for thesis |
+| `dbf7616` | UI Fix: Inverse Pins button initial Active State, slow down procedural physics ×2 |
+
+---
+
+## 2026-02-27 — FASE 2: Slider UX + Font Rendering + WebGL Config
+
+### Trabajo Realizado
+
+**Interacciones UI:**
+- Delayed scheduling para button click actions (apreciar animaciones)
+- Mutual exclusion entre Info Sheet y Card Menus
+- Inversión de estados normal/hover para ProceduralExplodeIcon
+
+**Font Rendering (5 iteraciones):**
+- Asignación de PanelSettings + auto-generación de SDF Font Assets → fracaso
+- Revert a legacy font rendering (`-unity-font-definition: initial`)
+- Corrección de USS warnings y WebGLBuildFixer
+
+**Slider Hitbox Debugging (11 iteraciones):**
+- Rediseño de Slider Draggers: hollow rings → solid hover → blue active
+- Investigación de Yoga layout vs CSS en UI Toolkit
+- Root cause: `position:relative` en UI Toolkit no mueve hit-test rect
+- Múltiples intentos con `position:absolute`, scale, physical dimensions
+- Creación y eliminación de `SliderHitboxDebugger.cs` (namespace collision)
+- Revert final a styles de `d341e58`
+- Fix de `picking-mode=Position` en slider labels
+
+**WebGL Optimization:**
+- Configuración de WebGL optimization + conversión de colores Gamma→Linear en USS
+
+### Git Commits (2026-02-27)
+
+| Hash | Mensaje |
+|------|---------|
+| `e54c006` | UI Fix: Delayed scheduling for button clicks, scale header buttons to 64px |
+| `0b905d3` | UI Fix: Card menus instantly hide when Info Sheet is toggled active |
+| `76cebcf` | fix: assign PanelSettings to UIDocument + auto-generate SDF Font Assets |
+| `b58cd92` | fix: remove -unity-font-definition:initial that blocks SDF font preview |
+| `52e55f0` | fix: add -unity-font-definition with SDF font asset URLs |
+| `df28a7a` | fix(fonts): revert to legacy font rendering, remove SDF pipeline |
+| `de8b660` | fix: resolve USS warnings, refactor WebGLBuildFixer, mitigate layout errors |
+| `6e89d72` | UI Fix: Invert normal and hover states for ProceduralExplodeIcon |
+| `9b188f2` | UI Fix: Redesign Slider Draggers — hollow 24px rings, solid white 32px hover, blue active |
+| `b615611` | UI Toolkit & Manager Bugfixes: font-definition initial, USS tint vars |
+| `2f7358b` | chore: Record manual user modifications to UI styles and UIManager lifecycle |
+| `423cc74` | UI Fix: Scale 0.75 on large 32px hitbox for Slider Dragger |
+| `8a6bf1c` | UI Fix: Physical width/height instead of scale for Slider Dragger hitbox |
+| `d341e58` | feat: WebGL optimization config + Gamma-to-Linear USS color conversion |
+| `b5f5443` | fix: slider UX overhaul + prevent container close on miss-click |
+| `6bf60e3` | fix: slider dragger hitbox centering + blue click state |
+| `a04f097` | fix: slider hitbox centering + active-only blue + container transparency |
+| `0de1faa` | fix: remove translate:-50% that caused slider hitbox offset |
+| `80ac231` | fix(slider): add position:absolute to dragger — fixes hitbox misalignment |
+| `2344495` | fix(slider): use Yoga flex centering instead of top/margin-top offsets |
+| `664c41a` | fix: rename SliderHitboxDebugger namespace to avoid WebGL.Debug collision |
+| `36fc49f` | revert: restore slider USS styles to d341e58 original state |
+| `cb9b737` | fix: set picking-mode=Position on slider labels and Studio env-slider-groups |
+
+---
+
+## 2026-03-02 — FASE 3: Implementación Completa (C01–C05 + H01–H11 + F3-00 a F3-13)
+
+### Trabajo Realizado
+
+> Jornada más productiva del proyecto: **48 commits** en un solo día.
+
+**UI Optimization (Pre-Fase):**
+- Prevención de event bubbling en sub-panels
+- Reemplazo de fondos semi-transparentes por outlines transparentes (WebGL perf)
+- Modo Diagonal Cut en herramienta de Cross-Section
+- Eliminación de fondos translúcidos en topbar buttons
+
+**FASE 1 — Code Quality (C01–C05):**
+- **C01**: Eliminación de sistema duplicado `VisualMode` de `ExplodedViewManager`
+- **C02**: Consolidación de triple publicación de eventos → canal único `StateChangedEvent`
+- **C03**: Agrupación de campos del Bottom Sheet en 3 secciones Foldout colapsables
+- **C04**: Enforcement de touch targets mínimos de 44px (WCAG/HIG compliance)
+- **C05**: Extracción de Loading/Error UI de C# procedural a UXML+USS declarativo
+
+**Design Sheet:**
+- Jerarquía visual editorial, altura fija, dividers limpios
+- Panel más alto, pill centrado, foldouts colapsados
+
+**FASE 2 — Architecture Hardening (H01–H11):**
+- **H01**: `ServiceLocator` + migración de 4 singletons
+- **H02**: Extracción de `BaseModeHandler` desde `UIModeController` (InspectHandler, AnalyzeHandler, StudioHandler)
+- **H03**: `EventBus` con leak detection + zombie purge automático
+- **H04**: Eliminación de 10 archivos de código muerto (ViewModeToolbar, EngineerToolbar, ScreenshotManager, etc.)
+- **H06+H07**: Optimización de ProjectSettings WebGL (StripUnusedMeshComponents, IL2CPP Master, mipStripping)
+- **H08**: Eliminación de `Update()` innecesarios → coroutines/InvokeRepeating
+- **H09**: `QualityManager` resolución adaptativa vía URP renderScale (reflection-based)
+- **H10**: Fitts' Law — reducción de gap en pill inferior
+- **H11**: Onboarding help overlay con botón HELP en hero menu
+
+**FASE 3 — Feature Tickets (F3-00 a F3-13):**
+- **F3-00**: Hotspot swap fix + slider dragger restyle + disable bg-click deselect
+- **F3-01**: Studio render mode — toggle behavior + card visibility
+- **F3-02**: Environment cycling — TIME + COLOR buttons
+- **F3-03**: Filter — 6ª categoría PAYLOAD (completa grid 3×2)
+- **F3-04**: Info → FAB global (floating action button, visible on selection)
+- **F3-05**: Inspect — add MEASURE card + ProceduralMeasureIcon
+- **F3-06**: PERF-M02 — reducción de `webGLMaximumMemorySize` 512→256 MB
+- **F3-07**: Grid 4pt + type ramp normalization
+- **F3-08**: Explosion slider — dynamic percentage label
+- **F3-09**: Escape key global — cascading dismiss
+- **F3-10**: Camera magic numbers → named constants
+- **F3-11**: Double-click unificado — detección movida a `SelectionManager`
+- **F3-12**: `DronePartData` limpieza — remove redundant property wrappers
+- **F3-13**: WebGL template custom (basado en build existente)
+
+**Bug Fixes:**
+- FAB icon full-size, FAB rises con sheet, bg-click deselect, dbl-click exits isolate
+- Explode slider inline below cards; toggle resets a 0; bg click keeps sheet
+- QualityManager: reflection en lugar de dependencia directa a URP
+- ExplodedViewManager: race condition en `Start()` (partes en 0,0,0)
+- Ajuste de translate `.ui-shifted` tras cambios de H10
+
+### Git Commits (2026-03-02)
+
+| Hash | Mensaje |
+|------|---------|
+| `df66b30` | fix: prevent sub-panel clicks from bubbling; add optimization manual doc |
+| `85b48a0` | UI Opt: Replace submenu backgrounds with transparent outlines |
+| `84883ab` | Feature: Added Diagonal Cut mode to Cross Section tool |
+| `71ecf79` | UI Opt: Fix remaining slider containers background to outline styles |
+| `0d4fd64` | Feature: Clean UI styles — remove slider inner borders, neutralize tool button backgrounds |
+| `de759c6` | UI Opt: Remove translucent background from global topbar buttons |
+| `12baf4b` | fix(C01): remove duplicate VisualMode system from ExplodedViewManager |
+| `47a1600` | fix(C02): consolidate triple event publishing to single StateChangedEvent channel |
+| `9603d46` | fix(C03): group Bottom Sheet fields into 3 collapsible Foldout sections |
+| `a5d81a0` | fix(C04): enforce 44px minimum touch targets (WCAG/HIG compliance) |
+| `b2f6be2` | refactor(C05): extract Loading/Error UI from procedural C# to UXML+USS |
+| `19d040e` | design(sheet): editorial visual hierarchy, fixed height, clean dividers |
+| `ec329ea` | design(sheet): taller panel, centered pill, collapsed foldouts |
+| `19919e9` | fix(sheet): responsive pill centering + guard inactive coroutine |
+| `8f6b11e` | docs(plan): add 30 missing findings from cross-audit analysis |
+| `5944d01` | refactor(arch): add ServiceLocator + migrate 4 singletons (H01) |
+| `1438817` | refactor(arch): extract mode handlers from UIModeController (H02) |
+| `0af9ac6` | feat(arch): add EventBus leak detection + zombie purge (H03) |
+| `6fb1bc1` | H04: Eliminar 10 archivos de código muerto |
+| `7ed48d5` | H06+H07: Optimizar ProjectSettings WebGL — StripUnusedMeshComponents, IL2CPP Master |
+| `98842da` | H08: Eliminar Update() innecesarios — CrossSectionManager, LoadingController, ExplodedViewManager |
+| `6314c86` | H09: QualityManager resolución adaptativa vía URP renderScale (reflection-based) |
+| `5efda91` | H10: Fitts' Law — reducir gap pill inferior |
+| `55b66f3` | FIX: QualityManager — usar reflection en lugar de dependencia directa a URP |
+| `62aec7c` | FIX: ExplodedViewManager — race condition en Start() causaba partes en (0,0,0) |
+| `f3d119d` | FIX: Ajustar translate de .ui-shifted tras cambios de H10 |
+| `671a0a8` | H11: Add first-visit onboarding help overlay with HELP button in hero menu |
+| `5f32379` | UX: Group HELP into ABOUT submenu, hero typography hierarchy, type ramp |
+| `f1cf034` | UX: Hero title SemiBold, about-desc lighter gray |
+| `8b543e2` | F3-00: hotspot swap fix + slider dragger restyle + workplan |
+| `9134668` | F3-00b: disable background-click deselect + fix slider active blue |
+| `433b83d` | F3-00c: fix hotspot highlight stacking + slider active blue |
+| `fb9453e` | F3-01: Studio render mode — toggle behavior + card visibility |
+| `6484975` | F3-02: Environment cycling — TIME + COLOR buttons |
+| `663ebca` | F3-03: Filter — add 6th category PAYLOAD (completes 3×2 grid) |
+| `cd6a464` | F3-04: Info → FAB global — extract ToolInfoBtn to floating action button |
+| `3e91a3d` | fix: FAB icon full-size, FAB rises with sheet, bg-click deselect |
+| `83f0278` | refactor: explode slider inline below cards instead of sub-panel |
+| `9bb5bb3` | fix: explode toggle resets to 0, bg click keeps sheet, remove X close btn |
+| `752d81b` | F3-05: Inspect — add MEASURE card + ProceduralMeasureIcon |
+| `da8908c` | F3-06: PERF-M02 — reduce webGLMaximumMemorySize 512→256 |
+| `3945e18` | F3-07: Grid 4pt + type ramp normalization |
+| `40a2d40` | F3-08: Explosion slider — dynamic percentage label |
+| `b1683ba` | F3-09: Escape key global — cascading dismiss |
+| `a959c03` | F3-10: Camera magic numbers → named constants |
+| `b32b2b5` | F3-11: Double-click unificado — move detection to SelectionManager |
+| `8a4808e` | F3-12: DronePartData limpieza — remove redundant property wrappers |
+| `8ba3b50` | F3-13: WebGL template custom (basado en build existente) |
+
+---
+
+## 2026-03-03 — Fixes Finales + Documentación
+
+### Trabajo Realizado
+
+- FAB info visible con Bottom Sheet abierto + explode slider reset a 0
+- Explode slider restaura último valor (o 50% por defecto)
+- Plan de trabajo final — auditoría completa + plan 4 días
+- Checkpoint pre-refactor: Info Bar UI redesign
+
+### Git Commits (2026-03-03)
+
+| Hash | Mensaje |
+|------|---------|
+| `f5cd7c9` | fix: FAB info visible con sheet abierto + explode slider reset a 0 |
+| `1dcf472` | fix: explode slider restaura último valor (o 50% por defecto) |
+| `d378d23` | docs: plan de trabajo final — auditoría completa + plan 4 días |
+| `78645a9` | chore: checkpoint before Info Bar UI refactor |
 
 ---
 
 ## Pendiente
 
-- **Phase 2.2**: Animated gradient background (como web hero)
-- **Phase 3**: Grid submenus con Freepik icons, bottom bar container unificado
-- **Phase 5**: RAG / Knowledge Graph updates
-- **Modelado 3D**: High-poly drone en Blender (pendiente desde Fase 3)
-- **Pruebas de usabilidad**: SUS, NASA-TLX
+- **Informe Final LaTeX**: Redacción APA 7 UNAD (Introducción, Marco Teórico, Resultados, Conclusiones)
+- **Pruebas de usabilidad**: SUS (System Usability Scale), NASA-TLX
 - **Video demostración**: Showreel final
+- **Build WebGL final**: Deploy verificado
+- **Exportar GLBs**: 11 partes individuales + drone completo
 
 ---
 
@@ -418,12 +792,12 @@
 
 | Métrica | Valor |
 |---------|-------|
-| Total commits | 88 |
-| Período | Dec 4, 2025 – Feb 18, 2026 (76 días) |
-| C# Scripts | ~50+ |
-| Custom Shaders | 7 (X-Ray, Blueprint, Thermal, Wireframe, SolidColor, Ghosted, ClippableLit) |
-| Managers/Singletons | ~30+ |
-| USS Stylesheets | 2 (Theme.uss, MainTheme.uss) |
-| UXML Layouts | 1+ (MainLayout.uxml) |
-| Custom Skills | 10 (Antigravity) |
-| Antigravity Sessions | 6+ |
+| Total commits | 234 |
+| Período | Dec 4, 2025 – Mar 3, 2026 (90 días) |
+| Días activos | 16 |
+| C# Scripts | 91 (~14,778 líneas) |
+| Custom Shaders | 9 (X-Ray, Blueprint, Thermal, Wireframe, WireframeWebGL, SolidColor, Ghosted, ClippableLit, AnimatedGradientSkybox) |
+| USS Stylesheets | 5 (3,561 líneas) |
+| UXML Layouts | 4 (502 líneas) |
+| ScriptableObjects | 11 (DronePartData) |
+| Escenas Unity | 3 |
