@@ -26,8 +26,184 @@ El código fuente completo del proyecto se encuentra disponible en el siguiente 
 \end{itemize}
 
 % ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice B: Cuestionario SUS}
-\addcontentsline{toc}{subsection}{Apéndice B: Cuestionario SUS}
+\subsection*{Apéndice B: Manual de Usuario}
+\addcontentsline{toc}{subsection}{Apéndice B: Manual de Usuario}
+
+El manual de usuario completo (268~líneas, formato \LaTeX{} compilado a PDF) se encuentra en:
+
+\begin{center}
+\texttt{Informe\_final/Manual\_de\_usuario/manual\_usuario.pdf}
+\end{center}
+
+\noindent Este documento guía al usuario final en el uso del visor e incluye las siguientes secciones:
+
+\begin{enumerate}
+    \item Introducción y público objetivo
+    \item Requisitos del sistema (hardware y software)
+    \item Acceso al sistema
+    \item Navegación básica (controles de cámara, atajos de teclado)
+    \item Modos de visualización (7~modos con \textit{shaders} personalizados)
+    \item Exploración de piezas (selección, panel de información, catálogo)
+    \item Vista explosionada
+    \item Cortes transversales
+    \item Simulación de encendido del dron
+    \item Herramientas de ingeniero (medición, conexiones, anotaciones, guía de ensamblaje, BOM, \textit{checklist})
+    \item Configuración y accesibilidad
+    \item Solución de problemas
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice C: Manual Técnico}
+\addcontentsline{toc}{subsection}{Apéndice C: Manual Técnico}
+
+El manual técnico completo (341~líneas, formato \LaTeX{} compilado a PDF) se encuentra en:
+
+\begin{center}
+\texttt{Informe\_final/Manual\_tecnico/manual\_tecnico.pdf}
+\end{center}
+
+\noindent Dirigido a desarrolladores que deseen mantener o extender el sistema, incluye:
+
+\begin{enumerate}
+    \item Arquitectura del sistema (\textit{stack} tecnológico, patrones de diseño)
+    \item Estructura del proyecto Unity
+    \item Sistemas principales (25+ \textit{managers} detallados)
+    \item \textit{ScriptableObjects} (\texttt{DronePartData}, \texttt{AssemblyGuideData})
+    \item Compilación y despliegue WebGL
+    \item Extensión del sistema (nueva pieza, nuevo modo, nuevo \textit{manager})
+    \item Resumen de scripts (inventario de 91~archivos C\#)
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice D: Documento de Arquitectura del Sistema}
+\addcontentsline{toc}{subsection}{Apéndice D: Documento de Arquitectura del Sistema}
+
+La documentación de arquitectura detallada ($\sim$1\,060~líneas, formato Markdown) se encuentra en:
+
+\begin{center}
+\texttt{Documentacion\_Tecnica/01\_Arquitectura\_del\_Sistema.md}
+\end{center}
+
+\noindent Describe en profundidad:
+
+\begin{itemize}
+    \item Arquitectura de 4~capas (Core, Features, UI, Data)
+    \item 6~patrones de diseño implementados: State Machine, Observer/EventBus, Singleton, Strategy, Command, Component
+    \item Flujo de estados de la aplicación
+    \item Diagrama de dependencias entre módulos
+    \item Integración con \textit{Universal Render Pipeline} (URP~17.0.3)
+    \item Sistema de optimización WebGL (\texttt{WebGLOptimizer}, \texttt{WebGLProfiler})
+\end{itemize}
+
+\noindent Documentos complementarios en la misma carpeta:
+\begin{itemize}
+    \item \texttt{02\_Referencia\_Tecnica\_Modulos.md} --- Referencia detallada de cada módulo
+    \item \texttt{03\_Pipeline\_Renderizado\_Shaders.md} --- Pipeline de \textit{rendering} y 9~\textit{shaders}
+\end{itemize}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice E: Guía de Despliegue}
+\addcontentsline{toc}{subsection}{Apéndice E: Guía de Despliegue}
+
+La guía de despliegue completa se encuentra en:
+
+\begin{center}
+\texttt{Documentacion\_Tecnica/04\_Guia\_Despliegue.md}
+\end{center}
+
+\noindent Cubre el proceso completo \textit{end-to-end}:
+
+\begin{enumerate}
+    \item Requisitos previos (software y hardware)
+    \item Clonación del repositorio (incluido Git~LFS)
+    \item Apertura del proyecto en Unity~6000.0.62f1
+    \item Configuración pre-\textit{build} (fixers automáticos, Player Settings)
+    \item Compilación: menú automatizado (\texttt{WebGL > Fix \& Build}) o build manual
+    \item Despliegue en GitHub Pages (configuración de rama y carpeta \texttt{/docs})
+    \item Pruebas post-despliegue (\textit{checklist} de verificación)
+    \item Solución de problemas comunes
+    \item Comparación Gzip vs.\ Brotli
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice F: Configuración WebGL}
+\addcontentsline{toc}{subsection}{Apéndice F: Configuración WebGL}
+
+La referencia completa de configuración WebGL se encuentra en:
+
+\begin{center}
+\texttt{Documentacion\_Tecnica/05\_Configuracion\_WebGL.md}
+\end{center}
+
+\noindent Documenta todos los parámetros de la plataforma WebGL~2.0:
+
+\begin{itemize}
+    \item \textit{Player Settings}: memoria WASM (32--256\,MB), IL2CPP Master, \textit{stripping} High
+    \item URP~Asset: escalas de render, sombras, post-procesado, anti-aliasing
+    \item \textit{Template} personalizado (loader, barra de progreso, detección WebGL)
+    \item \texttt{WebGLOptimizer}: detección de dispositivo y ajustes automáticos de calidad
+    \item \texttt{WebGLProfiler}: umbrales de rendimiento (FPS, \textit{frame time}, \textit{heap})
+    \item Importación de texturas (formatos, compresión, presupuesto)
+    \item Limitaciones de \textit{shaders} en WebGL~2.0
+    \item Configuración de audio WebGL
+    \item Compatibilidad con navegadores y APIs web utilizadas
+\end{itemize}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice G: Assets de Audio}
+\addcontentsline{toc}{subsection}{Apéndice G: Assets de Audio}
+
+% TODO: Actualizar este apéndice cuando los assets de audio sean creados/adquiridos.
+El inventario de assets de audio se encuentra en:
+
+\begin{center}
+\texttt{Documentacion\_Tecnica/06\_Assets\_Audio.md}
+\end{center}
+
+\noindent \textit{[Sección pendiente de completar --- los archivos de audio aún no han sido creados.]} El documento define la estructura requerida:
+
+\begin{itemize}
+    \item 16~clips de audio distribuidos en 4~categorías:
+    \begin{itemize}
+        \item Sonidos de interfaz (7~clips): \textit{hover}, \textit{click}, éxito, error, \textit{toggle}, panel, \textit{tooltip}
+        \item Transiciones y animaciones (4~clips): explosionado, transición, \textit{whoosh}, \textit{snap}
+        \item Simulación del dron (4~clips): \textit{motor idle}, aceleración, apagado, \textit{boot beep}
+        \item Ambiente (1~clip): música de fondo en \textit{loop}
+    \end{itemize}
+    \item Formato: OGG Vorbis, mono (SFX) / estéreo (ambiente)
+    \item Presupuesto total: $<$~1.5\,MB
+    \item Gestión via \texttt{AudioManager} (\textit{PersistentSingleton})
+\end{itemize}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice H: Guía de Demostración}
+\addcontentsline{toc}{subsection}{Apéndice H: Guía de Demostración}
+
+La guía de demostración para evaluadores se encuentra en:
+
+\begin{center}
+\texttt{Documentacion\_Tecnica/07\_Guia\_Demo.md}
+\end{center}
+
+\noindent Recorrido guiado de~15--20~minutos que cubre:
+
+\begin{enumerate}
+    \item Acceso al visor (URL y requisitos de navegador)
+    \item Navegación básica (órbita, zoom, pan)
+    \item Selección e información de piezas
+    \item 7~modos de visualización
+    \item Vista explosionada
+    \item Cortes transversales
+    \item Catálogo de partes
+    \item Herramientas de ensamblaje
+    \item Configuración y personalización
+\end{enumerate}
+
+\noindent Incluye preguntas frecuentes de evaluadores y métricas a observar durante la demostración.
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice I: Cuestionario SUS}
+\addcontentsline{toc}{subsection}{Apéndice I: Cuestionario SUS}
 
 Instrumento de evaluación de usabilidad \textit{System Usability Scale} (Brooke, 1986) adaptado al prototipo. Escala Likert de~5 puntos (1~=~Totalmente en desacuerdo, 5~=~Totalmente de acuerdo).
 
@@ -55,8 +231,8 @@ Instrumento de evaluación de usabilidad \textit{System Usability Scale} (Brooke
 \end{enumerate}
 
 % ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice C: Cuestionario NASA-TLX (Raw)}
-\addcontentsline{toc}{subsection}{Apéndice C: Cuestionario NASA-TLX (Raw)}
+\subsection*{Apéndice J: Cuestionario NASA-TLX (Raw)}
+\addcontentsline{toc}{subsection}{Apéndice J: Cuestionario NASA-TLX (Raw)}
 
 Instrumento \textit{Raw Task Load Index} (Hart y Staveland, 1988) sin ponderación. Escala de~21 puntos (0--100 en incrementos de~5).
 
@@ -70,8 +246,8 @@ Instrumento \textit{Raw Task Load Index} (Hart y Staveland, 1988) sin ponderaci�
 \end{enumerate}
 
 % ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice D: Inventario de Módulos del Sistema}
-\addcontentsline{toc}{subsection}{Apéndice D: Inventario de Módulos del Sistema}
+\subsection*{Apéndice K: Inventario de Módulos del Sistema}
+\addcontentsline{toc}{subsection}{Apéndice K: Inventario de Módulos del Sistema}
 
 \begin{table}[h!]
 \centering
@@ -92,16 +268,55 @@ Content & DroneStateController, AnnotationSystem, ConnectionPointsViewer & 3 \\
 \end{table}
 
 % ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice E: Demo Funcional}
-\addcontentsline{toc}{subsection}{Apéndice E: Demo Funcional}
+\subsection*{Apéndice L: Demo Funcional}
+\addcontentsline{toc}{subsection}{Apéndice L: Demo Funcional}
 
 % TODO: Bloque B — Insertar URL del deploy WebGL final
 \textit{[URL del demo pendiente de despliegue final.]}
 
 % ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice F: Bitácora de Desarrollo}
-\addcontentsline{toc}{subsection}{Apéndice F: Bitácora de Desarrollo}
+\subsection*{Apéndice M: Bitácora de Desarrollo}
+\addcontentsline{toc}{subsection}{Apéndice M: Bitácora de Desarrollo}
 
 La bitácora completa de desarrollo se encuentra en el archivo \texttt{BITACORA.md} del repositorio. Registra cronológicamente las~11 fases de desarrollo (H01--H11), las~5 correcciones del Sprint~4 (C01--C05) y las~13 tareas de la Fase~3 (F3-00 a F3-13).
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice N: \textit{Pipeline} de Optimización de Assets~3D}
+\addcontentsline{toc}{subsection}{Apéndice N: Pipeline de Optimización de Assets 3D}
+
+% TODO: Completar cuando se finalice el pipeline con Houdini (LODs / retopología procedural).
+% Actualizar también la Sección 4.5 del Capítulo 4 con los detalles definitivos.
+
+El flujo de trabajo de \textit{Technical Art} para la optimización de los modelos~3D del dron comprende las siguientes herramientas y etapas:
+
+\begin{table}[h!]
+\centering
+\caption{Herramientas del \textit{Pipeline} de Optimización 3D}
+\small
+\begin{tabular}{clll}
+\hline
+\textbf{\#} & \textbf{Etapa} & \textbf{Herramienta} & \textbf{Estado} \\ \hline
+0 & Procesamiento procedural & SideFX Houdini & \textit{[Pendiente]} \\
+1 & Retopología & Blender~4.x & Completada \\
+2 & \textit{Baking} de normales & Blender~4.x & Completada \\
+3 & Texturizado PBR & Adobe Substance Painter & Completada \\
+4 & Optimización \textit{runtime} & WebGLOptimizer (Unity) & Completada \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent \textit{[Sección pendiente de completar una vez se finalice la integración de Houdini en el pipeline para generación de LODs y/o retopología procedural. Véase el Capítulo~4, Sección ``Pipeline de Optimización de Assets~3D'' para la descripción técnica detallada.]}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+\subsection*{Apéndice O: \textit{Changelog} de Versiones}
+\addcontentsline{toc}{subsection}{Apéndice O: Changelog de Versiones}
+
+El historial de cambios completo del proyecto se encuentra en:
+
+\begin{center}
+\texttt{Desarrollo\_App/CHANGELOG.md}
+\end{center}
+
+\noindent Este documento registra todas las versiones del sistema con sus respectivas adiciones, correcciones y cambios, siguiendo el formato \textit{Keep a Changelog} y versionamiento semántico.
 
 \newpage

@@ -5,7 +5,7 @@
 **Auditor Role:** Senior Graphics Programmer & WebGL Optimization Expert  
 **Date:** 2025-07-15  
 **Branch:** `feature/phase2-ux-redesign` (commit `1efb9fc`)  
-**Scope:** `ProjectSettings/`, `QualitySettings.asset`, `Assets/Shaders/`, all C# scripts with Update() loops, WebGL build config  
+**Scope:** `ProjectSettings/`, `QualitySettings.asset`, `Assets/Shaders/`, all C# scripts with Update() loops, WebGL build config
 
 > **⚠️ STALE (Mar 3, 2026):** Este reporte fue generado contra commit `1efb9fc` (Feb 19). Desde entonces se implementaron H06+H07 (ProjectSettings WebGL optimization), H08 (eliminación de Update() innecesarios → coroutines), H09 (QualityManager resolución adaptativa vía URP renderScale), F3-06 (memoria 512→256MB). Múltiples hallazgos ya están resueltos. Ver `CHANGELOG.md` secciones Feb 23 – Mar 3.
 

@@ -7,6 +7,7 @@
 ## 1. Motor de Desarrollo
 
 ### Unity 6 LTS
+
 - **Versión**: Unity 6000.0.62f1
 - **Render Pipeline**: Universal Render Pipeline (URP) 17.0.3
 - **Target Platform**: WebGL 2.0 (IL2CPP → WebAssembly)
@@ -21,14 +22,14 @@
 
 ## 2. Lenguajes de Programación
 
-| Lenguaje | Uso | Archivos |
-|----------|-----|----------|
-| **C#** | Core logic, managers, UI controllers | 91 scripts (~14,778 líneas) |
-| **HLSL** | Custom shaders (URP compatible) | 9 shaders (1,749 líneas) |
-| **USS** | Styles (Unity Style Sheets, CSS-like) | 5 stylesheets (3,561 líneas) |
-| **UXML** | UI layout (XML-based, HTML-like) | 4 layouts (502 líneas) |
-| **HTML/CSS/JS** | Landing page web | `docs/` folder |
-| **JSX** | React components (Framer Motion cards) | `docs/src/` |
+| Lenguaje        | Uso                                    | Archivos                     |
+| --------------- | -------------------------------------- | ---------------------------- |
+| **C#**          | Core logic, managers, UI controllers   | 91 scripts (~14,778 líneas)  |
+| **HLSL**        | Custom shaders (URP compatible)        | 9 shaders (1,749 líneas)     |
+| **USS**         | Styles (Unity Style Sheets, CSS-like)  | 5 stylesheets (3,561 líneas) |
+| **UXML**        | UI layout (XML-based, HTML-like)       | 4 layouts (502 líneas)       |
+| **HTML/CSS/JS** | Landing page web                       | `docs/` folder               |
+| **JSX**         | React components (Framer Motion cards) | `docs/src/`                  |
 
 ---
 
@@ -75,18 +76,18 @@
 
 > 10 skills personalizadas creadas en `.agent/skills/` para extender las capacidades de Antigravity dentro del contexto del proyecto.
 
-| Skill | Descripción |
-|-------|-------------|
-| **arch_guard** | Roslyn Analyzer para enforcer reglas de arquitectura (God Classes, Coupling) |
-| **graph_builder** | Construye Knowledge Graph estructural del proyecto Unity para prevenir alucinaciones |
-| **scene_architect** | Construcción programática de Unity Scene para configuración perfecta |
-| **ui_validator** | Valida assets de UI Toolkit y genera bindings C# seguros |
-| **unity_asset_auditor** | Escanea el proyecto por assets faltantes (fuentes, settings, paquetes) |
-| **unity_observer** | Monitorea el estado del Unity Editor y errores en tiempo real |
-| **unity_ui_pro** | Diseño de interfaces siguiendo Apple HIG y Material Design |
-| **uss_linter** | Escanea USS y UXML para compatibilidad Unity 6 |
-| **webgl_optimizer** | Valida y optimiza settings para builds WebGL de alto rendimiento |
-| **webgl_scanner** | Scanner avanzado para compatibilidad WebGL 2.0 (Shaders, Texturas, Audio) |
+| Skill                   | Descripción                                                                          |
+| ----------------------- | ------------------------------------------------------------------------------------ |
+| **arch_guard**          | Roslyn Analyzer para enforcer reglas de arquitectura (God Classes, Coupling)         |
+| **graph_builder**       | Construye Knowledge Graph estructural del proyecto Unity para prevenir alucinaciones |
+| **scene_architect**     | Construcción programática de Unity Scene para configuración perfecta                 |
+| **ui_validator**        | Valida assets de UI Toolkit y genera bindings C# seguros                             |
+| **unity_asset_auditor** | Escanea el proyecto por assets faltantes (fuentes, settings, paquetes)               |
+| **unity_observer**      | Monitorea el estado del Unity Editor y errores en tiempo real                        |
+| **unity_ui_pro**        | Diseño de interfaces siguiendo Apple HIG y Material Design                           |
+| **uss_linter**          | Escanea USS y UXML para compatibilidad Unity 6                                       |
+| **webgl_optimizer**     | Valida y optimiza settings para builds WebGL de alto rendimiento                     |
+| **webgl_scanner**       | Scanner avanzado para compatibilidad WebGL 2.0 (Shaders, Texturas, Audio)            |
 
 ---
 
@@ -155,18 +156,19 @@ MCPs disponibles para ampliar el contexto del agente:
 
 ### Stack Principal
 
-| Tecnología | Versión | Uso |
-|------------|---------|-----|
-| **HTML5** | — | Estructura semántica |
-| **CSS3** | — | Estilos, animaciones, responsive |
-| **JavaScript** | ES6+ | Lógica de interacción |
-| **GSAP** | 3.x | Scrollytelling, animaciones avanzadas |
-| **React** | 18.x | Componentes (migración en progreso) |
-| **Framer Motion** | 10.x | Micro-interacciones temáticas |
-| **Vite** | 5.x | Build tool y dev server |
-| **Mermaid** | — | Diagramas en documentación |
+| Tecnología        | Versión | Uso                                   |
+| ----------------- | ------- | ------------------------------------- |
+| **HTML5**         | —       | Estructura semántica                  |
+| **CSS3**          | —       | Estilos, animaciones, responsive      |
+| **JavaScript**    | ES6+    | Lógica de interacción                 |
+| **GSAP**          | 3.x     | Scrollytelling, animaciones avanzadas |
+| **React**         | 18.x    | Componentes (migración en progreso)   |
+| **Framer Motion** | 10.x    | Micro-interacciones temáticas         |
+| **Vite**          | 5.x     | Build tool y dev server               |
+| **Mermaid**       | —       | Diagramas en documentación            |
 
 ### Fonts
+
 - **Inter** — Tipografía global (UI body text)
 - **Space Grotesk** — Títulos y headings
 
@@ -176,17 +178,17 @@ MCPs disponibles para ampliar el contexto del agente:
 
 ### Custom Shaders (HLSL / URP)
 
-| Shader | Técnica | Uso |
-|--------|---------|-----|
-| `ClippableLit` | Clip plane con stencil | Corte transversal |
-| `XRay` | Fresnel + dual pass | Transparencia técnica |
-| `Blueprint` | Grid + outline overlay | Vista de planos |
-| `Thermal` | Gradiente animado de calor | Mapa térmico |
-| `WireframeWebGL` | Barycentric coords (WebGL compat) | Malla visible (WebGL) |
-| `Wireframe` | Geometry shader | Malla visible (editor) |
-| `SolidColor` | Flat + outline | Vista sólida |
-| `Ghosted` | Fresnel + depth fade | Transparencia fantasma |
-| `AnimatedGradientSkybox` | Gradient lerp animado | Cielo dinámico |
+| Shader                   | Técnica                           | Uso                    |
+| ------------------------ | --------------------------------- | ---------------------- |
+| `ClippableLit`           | Clip plane con stencil            | Corte transversal      |
+| `XRay`                   | Fresnel + dual pass               | Transparencia técnica  |
+| `Blueprint`              | Grid + outline overlay            | Vista de planos        |
+| `Thermal`                | Gradiente animado de calor        | Mapa térmico           |
+| `WireframeWebGL`         | Barycentric coords (WebGL compat) | Malla visible (WebGL)  |
+| `Wireframe`              | Geometry shader                   | Malla visible (editor) |
+| `SolidColor`             | Flat + outline                    | Vista sólida           |
+| `Ghosted`                | Fresnel + depth fade              | Transparencia fantasma |
+| `AnimatedGradientSkybox` | Gradient lerp animado             | Cielo dinámico         |
 
 ---
 
@@ -212,25 +214,25 @@ MCPs disponibles para ampliar el contexto del agente:
 
 ### Herramientas de Planificación
 
-| Herramienta | Uso |
-|-------------|-----|
-| **Antigravity task.md** | Checklists por sesión |
-| **implementation_plan.md** | Planes técnicos detallados con review |
-| **walkthrough.md** | Documentación post-ejecución |
-| **HOJA_DE_RUTA.md** | Roadmap general del proyecto |
-| **MICROINTERACTIONS_PLAN.md** | Plan de micro-interacciones (web) |
-| **PLAN_MODELADO_DRON.md** | Plan de modelado 3D |
+| Herramienta                   | Uso                                   |
+| ----------------------------- | ------------------------------------- |
+| **Antigravity task.md**       | Checklists por sesión                 |
+| **implementation_plan.md**    | Planes técnicos detallados con review |
+| **walkthrough.md**            | Documentación post-ejecución          |
+| **HOJA_DE_RUTA.md**           | Roadmap general del proyecto          |
+| **MICROINTERACTIONS_PLAN.md** | Plan de micro-interacciones (web)     |
+| **PLAN_MODELADO_DRON.md**     | Plan de modelado 3D                   |
 
 ---
 
 ## 13. Hardware de Desarrollo
 
-| Componente | Especificación |
-|------------|----------------|
-| **GPU** | NVIDIA GTX 980 Ti |
-| **RAM** | 48 GB |
-| **OS** | Windows |
-| **IDE** | JetBrains Rider / Visual Studio |
+| Componente | Especificación                  |
+| ---------- | ------------------------------- |
+| **GPU**    | NVIDIA GTX 980 Ti               |
+| **RAM**    | 48 GB                           |
+| **OS**     | Windows                         |
+| **IDE**    | JetBrains Rider / Visual Studio |
 
 ---
 

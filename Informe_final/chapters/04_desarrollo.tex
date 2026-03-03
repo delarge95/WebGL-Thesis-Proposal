@@ -174,23 +174,48 @@ Se implementaron herramientas especializadas orientadas a ingenieros y técnicos
 \subsection{\textit{Pipeline} de Optimización de Assets~3D}
 \addcontentsline{toc}{subsection}{Pipeline de Optimización de Assets 3D}
 
-Se diseñó y ejecutó un \textit{pipeline} de \textit{Technical Art} riguroso para cumplir con el presupuesto de~100\,000 polígonos establecido en los KPIs.
+Se diseñó y ejecutó un \textit{pipeline} de \textit{Technical Art} riguroso para cumplir con el presupuesto de~100\,000 polígonos establecido en los KPIs. El flujo de trabajo completo se compone de las etapas descritas a continuación y se resume en la Figura~\ref{fig:pipeline-3d}.
 
+% TODO: Insertar diagrama del pipeline 3D cuando esté disponible.
+% Flujo propuesto: CAD (STEP/IGES) → [Houdini: conversión/simplificación procedural]
+%   → Blender (retopología/baking) → Substance Painter (PBR) → Unity (WebGLOptimizer)
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.95\textwidth]{figures/pipeline_3d_workflow.png}
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}\textit{[Diagrama del pipeline pendiente de inclusión]}\vspace{2cm}}}
+    \caption{Flujo de trabajo del \textit{pipeline} de optimización de assets~3D: desde modelos CAD hasta WebGL.}
+    \label{fig:pipeline-3d}
+\end{figure}
+
+% --- Etapa 0 (condicional): Procesamiento procedural en Houdini ---
+\subsubsection{Procesamiento Procedural (Houdini)}
+\addcontentsline{toc}{subsubsection}{Procesamiento Procedural (Houdini)}
+
+% TODO: Completar esta sección cuando se defina el rol final de Houdini en el pipeline.
+% Posibles usos: conversión CAD→mesh, retopología procedural (PolyReduce/Remesh),
+% generación de LODs, limpieza de geometría, exportación batch.
+Los modelos CAD originales en formato STEP/IGES presentaron superficies NURBS de alta complejidad ($>$2~millones de polígonos). Se evaluó el uso de SideFX Houdini como herramienta de procesamiento procedural para la conversión, simplificación y/o generación de niveles de detalle (LODs) de manera automatizada. \textit{[Sección pendiente de completar una vez se finalice la definición del rol de Houdini en el pipeline.]}
+
+% --- Etapa 1: Retopología ---
 \subsubsection{Retopología}
 \addcontentsline{toc}{subsubsection}{Retopología}
 
-Los modelos CAD originales de alta densidad ($>$2~millones de polígonos con superficies NURBS) fueron simplificados en Blender mediante dos estrategias: (a)~modificador Decimate para reducción automática de~95\,\% en áreas uniformes, y (b)~retopología manual en áreas de deformación crítica y \textit{edge loops} funcionales (bordes de tornillos, interfaces de ensamblaje). El resultado fue una malla \textit{low-poly} inferior a~100\,000~triángulos.
+% TODO: Actualizar si la retopología se realiza finalmente en Houdini en lugar de Blender.
+Los modelos de alta densidad fueron simplificados en Blender mediante dos estrategias: (a)~modificador Decimate para reducción automática de~95\,\% en áreas uniformes, y (b)~retopología manual en áreas de deformación crítica y \textit{edge loops} funcionales (bordes de tornillos, interfaces de ensamblaje). El resultado fue una malla \textit{low-poly} inferior a~100\,000~triángulos.
 
+% --- Etapa 2: Baking ---
 \subsubsection{\textit{Baking} de Normales}
 \addcontentsline{toc}{subsubsection}{Baking de Normales}
 
 Los detalles de alta frecuencia del modelo \textit{high-poly} se proyectaron en mapas de normales (\textit{Normal Maps}) de resolución $2048 \times 2048$, permitiendo que la geometría de bajo poligonaje retuviera la apariencia visual del modelo original. El proceso se realizó en Blender con jaulas de proyección (\textit{cage baking}) para minimizar artefactos.
 
+% --- Etapa 3: Texturizado PBR ---
 \subsubsection{Texturizado PBR}
 \addcontentsline{toc}{subsubsection}{Texturizado PBR}
 
 Los materiales se crearon en Adobe Substance Painter siguiendo el flujo \textit{Metallic/Roughness}, produciendo los siguientes mapas por material: Albedo, Normal, Metallic, Roughness, Ambient Occlusion y Emission (para LEDs). Los materiales representaron los componentes reales del dron: fibra de carbono, aluminio anodizado, plásticos ABS y PCBs.
 
+% --- Etapa 4: Optimización runtime ---
 \subsubsection{Optimización WebGL (WebGLOptimizer)}
 \addcontentsline{toc}{subsubsection}{Optimización WebGL}
 
