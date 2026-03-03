@@ -325,6 +325,11 @@ namespace WebGL.UI
         {
             ExplodedViewManager.Instance?.SetExplosionFactor(evt.newValue);
 
+            // Update dynamic percentage label
+            var label = root.Q<Label>("ExplosionValue");
+            if (label != null)
+                label.text = $"{(evt.newValue * 100):F0}%";
+
             if (AppStateMachine.Instance == null) return;
 
             // Moving slider > 0 enters ExplodedView, moving to 0 exits
