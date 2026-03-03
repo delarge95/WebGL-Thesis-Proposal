@@ -338,6 +338,9 @@ namespace WebGL.UI
             if (ViewModeManager.Instance?.CurrentMode != null && ViewModeManager.Instance.CurrentMode != ViewMode.Realistic)
                 ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
 
+            // Explicitly disable cross-section on reset (one of only two valid triggers)
+            CrossSectionManager.Instance?.DisableCrossSection();
+
             EventBus.Publish(new PartSelectedEvent(null));
         }
 
@@ -466,14 +469,16 @@ namespace WebGL.UI
             // Sync mode controller with external state changes
             _modeController.SyncWithAppState(evt.NewState);
 
-            // Hotspots: only after hero is dismissed
+            // Hotspots: initialize once after hero is dismissed, but do NOT
+            // auto-set visibility — that is controlled only by the Pins toggle button.
             bool heroDismissed = _heroController != null && _heroController.HeroDismissed;
             if (heroDismissed && isInteractive && !_hotspotsInitialized)
             {
                 _hotspotsInitialized = true;
                 HotspotManager.Instance?.Initialize(root);
+                // Show hotspots on first init (default state)
+                HotspotManager.Instance?.SetVisible(true);
             }
-            HotspotManager.Instance?.SetVisible(heroDismissed && isInteractive);
 
             // Slider visibility now controlled by Explode button toggle, not by state changes
         }
