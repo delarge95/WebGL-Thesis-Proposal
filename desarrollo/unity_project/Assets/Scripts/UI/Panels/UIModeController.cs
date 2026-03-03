@@ -47,6 +47,31 @@ namespace WebGL.UI.Panels
         }
         public event Action OnAnyModeActivated;
 
+        /// <summary>True when any mode (Inspect/Analyze/Studio) is active.</summary>
+        public bool HasActiveMode => _activeMode != ActiveMode.None;
+
+        /// <summary>
+        /// Handles Escape key: closes sub-panel first, then deactivates mode.
+        /// Returns true if something was closed.
+        /// </summary>
+        public bool HandleEscapeKey()
+        {
+            if (_activeMode == ActiveMode.Analyze && _analyze.IsSubPanelOpen)
+            {
+                _analyze.Deactivate(); // returns to card grid
+                _analyze.Activate();   // re-show card grid
+                return true;
+            }
+
+            if (_activeMode != ActiveMode.None)
+            {
+                DeactivateAllModes();
+                return true;
+            }
+
+            return false;
+        }
+
         // ── Cleanup ──
         private readonly System.Collections.Generic.List<Action> _cleanupActions = new();
 
