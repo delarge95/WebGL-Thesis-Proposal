@@ -40,25 +40,25 @@ La aplicación es un visor interactivo 3D de drones que se ejecuta íntegramente
 
 ### Principios Arquitectónicos Fundamentales
 
-| Principio                       | Implementación                                                                                         |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| **Responsabilidad Única (SRP)** | Cada Manager maneja un único dominio (cámara, selección, vista, corte, etc.)                           |
-| **Inversión de Dependencias**   | Los módulos no se referencian directamente entre sí; se comunican vía `EventBus` estático              |
-| **Abierto/Cerrado (OCP)**       | Los modos de visualización se extienden añadiendo un enum y un shader, sin modificar `ViewModeManager` |
-| **Composición sobre Herencia**  | Los `ExplodablePart` son MonoBehaviours composicionales con `DronePartData` (ScriptableObject)         |
-| **Service Locator**             | `ServiceLocator` centraliza el acceso a servicios; 4 singletons migrados (H01)                         |
-| **Strategy Pattern**            | `BaseModeHandler` con handlers concretos (Inspect/Analyze/Studio) extraídos de `UIModeController` (H02)|
-| **Arquitectura por Capas**      | Core → Content → UI, con comunicación ascendente vía eventos                                           |
+| Principio                       | Implementación                                                                                          |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **Responsabilidad Única (SRP)** | Cada Manager maneja un único dominio (cámara, selección, vista, corte, etc.)                            |
+| **Inversión de Dependencias**   | Los módulos no se referencian directamente entre sí; se comunican vía `EventBus` estático               |
+| **Abierto/Cerrado (OCP)**       | Los modos de visualización se extienden añadiendo un enum y un shader, sin modificar `ViewModeManager`  |
+| **Composición sobre Herencia**  | Los `ExplodablePart` son MonoBehaviours composicionales con `DronePartData` (ScriptableObject)          |
+| **Service Locator**             | `ServiceLocator` centraliza el acceso a servicios; 4 singletons migrados (H01)                          |
+| **Strategy Pattern**            | `BaseModeHandler` con handlers concretos (Inspect/Analyze/Studio) extraídos de `UIModeController` (H02) |
+| **Arquitectura por Capas**      | Core → Content → UI, con comunicación ascendente vía eventos                                            |
 
 ### Métricas del Código Fuente
 
-| Categoría                 | Archivos |   Líneas Aproximadas |
-| ------------------------- | -------: | -------------------: |
-| C# Scripts (Core + UI)    |       91 |              ~14,778 |
-| Shaders HLSL/CG           |        9 |               ~1,749 |
-| UXML (Layout Declarativo) |        4 |                 ~502 |
-| USS (Estilos)             |        5 |               ~3,561 |
-| **Total**                 |  **109** |           **~20,590** |
+| Categoría                 | Archivos | Líneas Aproximadas |
+| ------------------------- | -------: | -----------------: |
+| C# Scripts (Core + UI)    |       91 |            ~14,778 |
+| Shaders HLSL/CG           |        9 |             ~1,749 |
+| UXML (Layout Declarativo) |        4 |               ~502 |
+| USS (Estilos)             |        5 |             ~3,561 |
+| **Total**                 |  **109** |        **~20,590** |
 
 > **Nota (Mar 3, 2026):** Métricas verificadas contra el codebase real. La reducción de scripts (94→91) se debe a la eliminación de 10 archivos de código muerto (H04) y la extracción de paneles UI. El aumento en líneas refleja la implementación completa de FASE 1–3.
 
@@ -865,20 +865,20 @@ La ecuación del plano `(nx, ny, nz, d)` define que todo punto cuyo `dot(point, 
 
 ## 14. Patrones de Diseño Aplicados
 
-| Patrón (GoF/Arquitectónico) | Implementación en la Aplicación                                                                         |
-| --------------------------- | ------------------------------------------------------------------------------------------------------- |
-| **Singleton**               | `Singleton<T>` / `PersistentSingleton<T>` — jerarquía de 3 niveles                                      |
-| **Service Locator**         | `ServiceLocator` centraliza registro/resolución de servicios; 4 singletons migrados (H01)               |
-| **Observer (Pub/Sub)**      | `EventBus` con tipado genérico, leak detection y zombie purge automático (H03)                          |
-| **State (FSM)**             | `AppStateMachine` con 9 estados y tabla de transiciones                                                 |
+| Patrón (GoF/Arquitectónico) | Implementación en la Aplicación                                                                                                               |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Singleton**               | `Singleton<T>` / `PersistentSingleton<T>` — jerarquía de 3 niveles                                                                            |
+| **Service Locator**         | `ServiceLocator` centraliza registro/resolución de servicios; 4 singletons migrados (H01)                                                     |
+| **Observer (Pub/Sub)**      | `EventBus` con tipado genérico, leak detection y zombie purge automático (H03)                                                                |
+| **State (FSM)**             | `AppStateMachine` con 9 estados y tabla de transiciones                                                                                       |
 | **Strategy**                | `BaseModeHandler` con handlers concretos (InspectHandler, AnalyzeHandler, StudioHandler) (H02); `ViewModeManager` intercambia shader/material |
-| **Facade**                  | `UIManager` coordina sub-controladores sin exponer la complejidad interna                               |
-| **Mediator**                | `UIManager` media entre eventos de Core y actualizaciones de UI                                         |
-| **Command**                 | `DroneStateController` ejecuta secuencias de startup/shutdown como "comandos" corrutina                 |
-| **Template Method**         | `Singleton<T>.Awake()` → `base.Awake()` con hooks en cada nivel                                         |
-| **Null Object**             | `SceneBootstrapper.EnsureManager()` crea managers vacíos en lugar de fallar                             |
-| **Flyweight**               | `ViewModeManager` comparte un material por modo (no por renderer); override vía `MaterialPropertyBlock` |
-| **Bridge**                  | `ClippableLit.shader` actúa como puente entre el modo Realistic (PBR) y el sistema de clipping          |
+| **Facade**                  | `UIManager` coordina sub-controladores sin exponer la complejidad interna                                                                     |
+| **Mediator**                | `UIManager` media entre eventos de Core y actualizaciones de UI                                                                               |
+| **Command**                 | `DroneStateController` ejecuta secuencias de startup/shutdown como "comandos" corrutina                                                       |
+| **Template Method**         | `Singleton<T>.Awake()` → `base.Awake()` con hooks en cada nivel                                                                               |
+| **Null Object**             | `SceneBootstrapper.EnsureManager()` crea managers vacíos en lugar de fallar                                                                   |
+| **Flyweight**               | `ViewModeManager` comparte un material por modo (no por renderer); override vía `MaterialPropertyBlock`                                       |
+| **Bridge**                  | `ClippableLit.shader` actúa como puente entre el modo Realistic (PBR) y el sistema de clipping                                                |
 
 ---
 
