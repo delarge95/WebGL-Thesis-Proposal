@@ -7,7 +7,7 @@
 \section{Introducción}
 \addcontentsline{toc}{section}{Introducción}
 
-En la industria de hardware de alto rendimiento ---drones, sistemas robóticos, dispositivos electrónicos complejos--- la documentación técnica permanece anclada en paradigmas estáticos: hojas de datos en PDF, fotografías bidimensionales y planos de ingeniería convencionales (Mayer, 2005). Estos medios, aunque funcionales para la transmisión de especificaciones individuales, disocian la información visual de su contexto espacial tridimensional, generando una \textbf{fricción cognitiva crítica} que obliga a ingenieros y técnicos a realizar procesos mentales de reconstrucción volumétrica ---tarea documentada como altamente exigente en recursos de memoria de trabajo (Sweller, 1988; Hegarty \& Waller, 2004).
+En la industria de hardware de alto rendimiento ---drones, sistemas robóticos, dispositivos electrónicos complejos--- la documentación técnica permanece anclada en paradigmas estáticos: hojas de datos en PDF, fotografías bidimensionales y planos de ingeniería convencionales (Mayer, 2005, 2021). Estos medios, aunque funcionales para la transmisión de especificaciones individuales, disocian la información visual de su contexto espacial tridimensional, generando una \textbf{fricción cognitiva crítica} que obliga a ingenieros y técnicos a realizar procesos mentales de reconstrucción volumétrica ---tarea documentada como altamente exigente en recursos de memoria de trabajo (Sweller, 1988; Hegarty \& Waller, 2004).
 
 La convergencia reciente de tecnologías web de bajo nivel ---WebAssembly (WASM), WebGL 2.0 y \textit{pipelines} de renderizado físicamente basado (PBR)--- abrió una ventana de oportunidad para abordar esta brecha (Yu et al., 2023). Este proyecto se propuso explotar dicha convergencia mediante el diseño, desarrollo y evaluación de un prototipo web 3D interactivo que permitiera la exploración técnica de hardware de alto rendimiento directamente en el navegador, sin instalaciones ni plugins, optimizado para dispositivos móviles de gama media.
 
@@ -15,7 +15,7 @@ La convergencia reciente de tecnologías web de bajo nivel ---WebAssembly (WASM)
 \subsection{Planteamiento del Problema}
 \addcontentsline{toc}{subsection}{Planteamiento del Problema}
 
-La migración de la documentación técnica a entornos 3D interactivos en la web enfrentaba una barrera técnica fundamental: la \textbf{incompatibilidad de formatos}. Los modelos CAD de ingeniería, basados en superficies NURBS con archivos que superan los 2\,GB, resultaban matemática y computacionalmente inviables para el ecosistema web móvil, restringido por anchos de banda limitados y presupuestos de memoria estrictos ($<$\,150\,MB de Heap) (Unity Technologies, 2024).
+La migración de la documentación técnica a entornos 3D interactivos en la web enfrentaba una barrera técnica fundamental: la \textbf{incompatibilidad de formatos}. Los modelos CAD de ingeniería, basados en superficies NURBS con archivos que superan los 2\,GB, resultaban matemática y computacionalmente inviables para el ecosistema web móvil, restringido por anchos de banda limitados y presupuestos de memoria estrictos ($<$\,150\,MB de Heap) (Unity Technologies, 2024a).
 
 No existía un \textit{pipeline} estandarizado de \textit{Technical Art} que permitiera cerrar la brecha de fidelidad versus rendimiento sin sacrificar la precisión técnica funcional necesaria para aplicaciones de ingeniería. El problema técnico se articuló en tres dimensiones:
 
@@ -36,7 +36,7 @@ La selección de Unity WebGL como plataforma de desarrollo respondió a requisit
 \subsubsection{Rendimiento de CPU: WASM frente a JavaScript}
 \addcontentsline{toc}{subsubsection}{Rendimiento de CPU: WASM frente a JavaScript}
 
-Unity utiliza el \textit{backend} IL2CPP para transpilar código C\# a C++ y, posteriormente, a WebAssembly. Esto permite que la lógica de interacción y los algoritmos de renderizado se ejecuten a velocidad casi nativa, evitando la sobrecarga del \textit{Garbage Collector} de JavaScript, que puede introducir pausas superiores a 16\,ms ---provocando caídas por debajo de 60\,FPS en aplicaciones complejas (Unity Technologies, 2024).
+Unity utiliza el \textit{backend} IL2CPP para transpilar código C\# a C++ y, posteriormente, a WebAssembly. Esto permite que la lógica de interacción y los algoritmos de renderizado se ejecuten a velocidad casi nativa, evitando la sobrecarga del \textit{Garbage Collector} de JavaScript, que puede introducir pausas superiores a 16\,ms ---provocando caídas por debajo de 60\,FPS en aplicaciones complejas (Unity Technologies, 2024a).
 
 \subsubsection{\textit{Pipeline} de Assets Integrado}
 \addcontentsline{toc}{subsubsection}{\textit{Pipeline} de Assets Integrado}
@@ -91,12 +91,12 @@ Desarrollar un prototipo de visualización Web~3D interactiva basado en Unity We
 \subsection{Alcance y Limitaciones}
 \addcontentsline{toc}{subsection}{Alcance y Limitaciones}
 
-El alcance del presente trabajo se circunscribió al desarrollo de un \textbf{Producto Mínimo Viable (MVP) científico} que demostrara la factibilidad técnica de la visualización web 3D interactiva para hardware de alto rendimiento. El modelo de referencia seleccionado fue un dron de tipo cuadricóptero, representativo de la complejidad estructural, la diversidad de materiales y las relaciones de ensamblaje propias de este dominio.
+El alcance del presente trabajo se circunscribió al desarrollo de un \textbf{Producto Mínimo Viable} (MVP; Ries, 2011) científico que demostrara la factibilidad técnica de la visualización web 3D interactiva para hardware de alto rendimiento. El modelo de referencia seleccionado fue un dron de tipo cuadricóptero, representativo de la complejidad estructural, la diversidad de materiales y las relaciones de ensamblaje propias de este dominio.
 
 Las principales delimitaciones fueron las siguientes:
 
 \begin{itemize}
-    \item \textbf{Modelo único.} El prototipo se desarrolló con un solo modelo de hardware (dron Antigravity). La arquitectura, sin embargo, se diseñó para ser extensible a múltiples modelos mediante el sistema de \textit{Asset Bundles} y \texttt{ScriptableObjects}.
+    \item \textbf{Modelo único.} El prototipo se desarrolló con un solo modelo de hardware (Holybro X500~V2). La arquitectura, sin embargo, se diseñó para ser extensible a múltiples modelos mediante el sistema de \textit{Asset Bundles} y \texttt{ScriptableObjects}.
     \item \textbf{Plataforma web.} El \textit{build} se compiló exclusivamente para WebGL~2.0 con WebAssembly. No se incluyeron versiones nativas de escritorio ni móviles.
     \item \textbf{Muestra de validación.} La evaluación de usabilidad se orientó a un grupo reducido ($N=8$--$12$) de ingenieros o técnicos, suficiente para un estudio exploratorio pero sin alcanzar significancia estadística generalizable.
     \item \textbf{Herramienta de medición.} Si bien se implementó una herramienta de medición (distancia, ángulo, radio) con soporte para tres modos de \textit{raycast}, su funcionalidad se limitó a medición relativa dentro de la escena, dado que el modelo 3D no posee escala~1:1 calibrada respecto a dimensiones reales. Esta funcionalidad fue ocultada en la versión actual y se incluye como trabajo futuro (véase Sección Conclusiones y Trabajo Futuro).

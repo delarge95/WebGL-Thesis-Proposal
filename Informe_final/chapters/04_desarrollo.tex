@@ -103,7 +103,7 @@ Se implementaron~7 modos de visualización que intercambian los materiales de la
 \subsection{Sistema de Interfaz de Usuario}
 \addcontentsline{toc}{subsection}{Sistema de Interfaz de Usuario}
 
-La interfaz se desarrolló íntegramente con \textbf{UI~Toolkit} (UIElements), el sistema declarativo de Unity basado en UXML (estructura) + USS (estilos), conceptualmente análogo a HTML~+~CSS. Esta elección se debió a tres factores: (a)~desacoplamiento de la interfaz respecto al espacio~3D, (b)~responsividad nativa para diferentes resoluciones, y (c)~facilidad de tematización mediante variables~USS.
+La interfaz se desarrolló íntegramente con \textbf{UI~Toolkit} (UIElements; Unity Technologies, 2024b), el sistema declarativo de Unity basado en UXML (estructura) + USS (estilos), conceptualmente análogo a HTML~+~CSS. Esta elección se debió a tres factores: (a)~desacoplamiento de la interfaz respecto al espacio~3D, (b)~responsividad nativa para diferentes resoluciones, y (c)~facilidad de tematización mediante variables~USS.
 
 \subsubsection{Componentes Principales}
 \addcontentsline{toc}{subsubsection}{Componentes Principales}
@@ -299,7 +299,7 @@ Se implementó un sistema de ajuste de calidad en tiempo de ejecución distribui
 \subsection{\textit{Shaders} Personalizados}
 \addcontentsline{toc}{subsection}{Shaders Personalizados}
 
-Se desarrollaron~9 \textit{shaders} HLSL/CG optimizados para WebGL~2.0:
+Se desarrollaron~9 \textit{shaders} HLSL/CG optimizados para WebGL~2.0 bajo Universal Render Pipeline (Unity Technologies, 2024c):
 
 \begin{table}[h!]
 \centering
@@ -353,7 +353,7 @@ El \texttt{ScriptableObject DronePartData} almacena más de~32 campos por pieza,
 \subsection{Restricciones de WebGL y Soluciones}
 \addcontentsline{toc}{subsection}{Restricciones de WebGL y Soluciones}
 
-La compilación a WebGL impuso restricciones técnicas significativas que requirieron soluciones de ingeniería específicas:
+La compilación a WebGL impuso restricciones técnicas significativas (Unity Technologies, 2024d) que requirieron soluciones de ingeniería específicas:
 
 \begin{table}[h!]
 \centering
