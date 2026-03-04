@@ -149,12 +149,14 @@ Control de visibilidad: ocultar, mostrar, aislar piezas con animaciones de fade.
 Cortes transversales en ejes X, Y, Z con plano visual y posición configurable.
 
 \subsubsection{DroneStateController.cs}
-Control de estado del dron: Off, StartingUp, Idle, Flying, ShuttingDown. Incluye animación de propelas, luces de estado y partículas.
+Control de estado del dron: Off, StartingUp, Idle, Flying, ShuttingDown. Incluye animación de propelas, luces de estado y partículas. \textit{En fase de integración activa para la versión actual del prototipo.}
 
 \subsubsection{ModularPartsSystem.cs}
-Sistema de slots para intercambio de piezas modulares con animaciones.
+Sistema de slots para intercambio de piezas modulares con animaciones. \textit{Proyectado para futuras iteraciones; requiere configuración de datos en Inspector.}
 
-\subsection{Herramientas de Ensamblaje}
+\subsection{Herramientas de Ensamblaje (Proyectadas)}
+
+\noindent \textit{Los siguientes módulos fueron desarrollados a nivel de código pero no están integrados en la interfaz de usuario de la versión actual del prototipo. Se proyectan para futuras iteraciones.}
 
 \subsubsection{AssemblyGuideManager.cs}
 Guía paso a paso con:
@@ -316,14 +318,14 @@ ViewModeManager & 7 modos de visualización con cache \\
 PartCatalogManager & Búsqueda y filtrado \\
 PartVisibilityManager & Ocultar/mostrar piezas con fade \\
 CrossSectionManager & Cortes transversales dual-plane \\
-DroneStateController & 5 estados del dron (animación/audio) \\
-ModularPartsSystem & Intercambio de piezas \\
-AssemblyGuideManager & Guía de ensamblaje paso a paso \\
+DroneStateController & 5 estados del dron (en desarrollo) \\
+ModularPartsSystem & Intercambio de piezas (proyectado) \\
+AssemblyGuideManager & Guía de ensamblaje paso a paso (proyectado) \\
 MeasurementTool & Mediciones 3D (distancia/ángulo/radio) \\
-ConnectionPointsViewer & Puntos de conexión coloreados \\
-BillOfMaterialsManager & Lista de materiales + CSV \\
-AnnotationSystem & Notas 3D billboard \\
-AssemblyChecklist & Verificación de piezas \\
+ConnectionPointsViewer & Puntos de conexión coloreados (proyectado) \\
+BillOfMaterialsManager & Lista de materiales + CSV (proyectado) \\
+AnnotationSystem & Notas 3D billboard (proyectado) \\
+AssemblyChecklist & Verificación de piezas (proyectado) \\
 AudioManager & Control de audio \\
 TweenEngine & Motor de animaciones (8 easings) \\
 OrbitCameraController & Cámara orbital (mouse+touch) \\
@@ -336,10 +338,10 @@ LoadingController & Pantalla de carga \\
 AnalyticsManager & Métricas de uso \\
 AccessibilityManager & UI Scale + High Contrast \\
 ErrorHandler & Captura de excepciones \\
-ScreenshotManager & Captura PNG a base64 \\
+ScreenshotManager & Captura PNG a base64 (proyectado) \\
 KeyboardShortcuts & Atajos de teclado \\
 PerformanceMonitor & Overlay de rendimiento \\
-WebGLOptimizer & Optimizaciones WebGL + heap \\
+WebGLProfiler & Monitoreo de métricas de rendimiento WebGL \\
 UIManager & Orquestador de 6 sub-controladores \\
 UIModeController & 3 modos (Inspect/Analyze/Studio) \\
 UIDetailsSheet & Bottom sheet con drag-to-dismiss \\
@@ -349,7 +351,7 @@ UICrossSectionPanel & Control dual-plane \\
 UIEnvironmentPanel & Sliders de luz + presets \\
 HotspotManager & Spawn de SmartHotspots \\
 SmartHotspot & Hotspot 3D→2D con occlusion \\
-AssemblyStepUI & Panel de guía de ensamblaje \\
+AssemblyStepUI & Panel de guía de ensamblaje (proyectado) \\
 PartCatalogUI & Catálogo filtrable \\
 SettingsPanel & Modal de configuración \\
 TooltipSystem & Tooltip flotante \\
