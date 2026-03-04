@@ -46,8 +46,8 @@ El manual de usuario completo (268~líneas, formato \LaTeX{} compilado a PDF) se
     \item Exploración de piezas (selección, panel de información, catálogo)
     \item Vista explosionada
     \item Cortes transversales
-    \item Simulación de encendido del dron
-    \item Herramientas de ingeniero (medición, conexiones, anotaciones, guía de ensamblaje, BOM, \textit{checklist})
+    \item Simulación de encendido del dron (en desarrollo)
+    \item Herramientas de ingeniero (proyectadas para futuras iteraciones)
     \item Configuración y accesibilidad
     \item Solución de problemas
 \end{enumerate}
@@ -92,7 +92,7 @@ La documentación de arquitectura detallada ($\sim$1\,060~líneas, formato Markd
     \item Flujo de estados de la aplicación
     \item Diagrama de dependencias entre módulos
     \item Integración con \textit{Universal Render Pipeline} (URP~17.0.3)
-    \item Sistema de optimización WebGL (\texttt{WebGLOptimizer}, \texttt{WebGLProfiler})
+    \item Sistema de optimización WebGL (\texttt{QualityManager}, \texttt{WebGLProfiler})
 \end{itemize}
 
 \noindent Documentos complementarios en la misma carpeta:
@@ -141,7 +141,7 @@ La referencia completa de configuración WebGL se encuentra en:
     \item \textit{Player Settings}: memoria WASM (32--256\,MB), IL2CPP Master, \textit{stripping} High
     \item URP~Asset: escalas de render, sombras, post-procesado, anti-aliasing
     \item \textit{Template} personalizado (loader, barra de progreso, detección WebGL)
-    \item \texttt{WebGLOptimizer}: detección de dispositivo y ajustes automáticos de calidad
+    \item \texttt{QualityManager}: detección de dispositivo y ajustes automáticos de calidad
     \item \texttt{WebGLProfiler}: umbrales de rendimiento (FPS, \textit{frame time}, \textit{heap})
     \item Importación de texturas (formatos, compresión, presupuesto)
     \item Limitaciones de \textit{shaders} en WebGL~2.0
@@ -195,7 +195,7 @@ La guía de demostración para evaluadores se encuentra en:
     \item Vista explosionada
     \item Cortes transversales
     \item Catálogo de partes
-    \item Herramientas de ensamblaje
+    \item Herramientas de ensamblaje (proyectadas; véase Cap.~6)
     \item Configuración y personalización
 \end{enumerate}
 
@@ -259,7 +259,7 @@ Instrumento \textit{Raw Task Load Index} (Hart y Staveland, 1988) sin ponderaci�
 Core Managers & GameManager, AppStateMachine, EventBus, SelectionManager & 30 \\
 UI Components & UIManager, UIDetailsSheet, UIAnalyzePanel, UIHeroController & 19 \\
 Data / Events & DronePartData, AssemblyGuideData, StateChangedEvent & 5 \\
-Utilities & TweenEngine, WebGLOptimizer, ScreenshotManager & 10 \\
+Utilities & TweenEngine, QualityManager, WebGLProfiler & 10 \\
 Content & DroneStateController, AnnotationSystem, ConnectionPointsViewer & 3 \\
 \hline
 \textbf{Total} & & \textbf{91} \\
@@ -300,7 +300,7 @@ El flujo de trabajo de \textit{Technical Art} para la optimización de los model
 1 & Retopología & Blender~4.x & Completada \\
 2 & \textit{Baking} de normales & Blender~4.x & Completada \\
 3 & Texturizado PBR & Adobe Substance Painter & Completada \\
-4 & Optimización \textit{runtime} & WebGLOptimizer (Unity) & Completada \\
+4 & Optimización \textit{runtime} & QualityManager + WebGLProfiler (Unity) & Completada \\
 \hline
 \end{tabular}
 \end{table}
