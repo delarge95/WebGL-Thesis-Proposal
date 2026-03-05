@@ -759,8 +759,8 @@
 
 /* UI Soft Shift (When Peek Bar spawns) â€” nudges bottom bar slightly up */
 .ui-shifted-soft {
-    bottom: 40px;
-    translate: 0 -12px; /* Push up just 12px for perfect Gestalt grouping without Fitts violation */
+    bottom: 48px;
+    translate: 0 -16px; /* 16px gap above InfoBarPeek — Material 2× base-unit breathing room */
 }
 
 /* Pill bar becomes opaque when sheet is open to prevent content bleeding through */
