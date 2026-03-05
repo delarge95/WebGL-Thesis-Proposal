@@ -379,6 +379,9 @@ namespace WebGL.UI
             PartVisibilityManager.Instance?.IsolatePart(part);
             _isIsolated = true;
             _modeController.SetIsolateState(true);
+
+            // Center camera on the isolated part
+            OrbitCameraController.Instance?.FocusOnObject(sel.transform);
         }
 
         private void ClearIsolation()
