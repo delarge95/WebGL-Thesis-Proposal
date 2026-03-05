@@ -167,7 +167,7 @@ namespace WebGL.Core.Managers
                         lightIntensity = 0.8f,
                         lightRotY = 90f, lightPitch = 45f,
                         pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.0f,
-                        ditherStrength = 0.6f
+                        ditherStrength = 0.15f
                     };
 
                 // ── Solid color presets (COLOR cycle) — now with gradients ──
