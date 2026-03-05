@@ -58,6 +58,12 @@ namespace WebGL.Core.Managers
 
         public ViewMode CurrentMode => currentMode;
 
+        /// <summary>
+        /// The fallback mode to return to when a temporary shader override is toggled off.
+        /// Set by UIEnvironmentPanel when Blueprint env is active.
+        /// </summary>
+        public ViewMode BaseMode { get; set; } = ViewMode.Realistic;
+
         public event Action<ViewMode> OnModeChanged;
 
         protected override void Awake()

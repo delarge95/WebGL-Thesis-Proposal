@@ -103,15 +103,23 @@ namespace WebGL.UI.Panels
                     if (_isBlueprintMode)
                     {
                         ApplyAndHighlight("Blueprint", "Studio");
-                        ViewModeManager.Instance?.SetViewMode(ViewMode.Blueprint);
+                        if (ViewModeManager.Instance != null)
+                        {
+                            ViewModeManager.Instance.BaseMode = ViewMode.Blueprint;
+                            ViewModeManager.Instance.SetViewMode(ViewMode.Blueprint);
+                        }
                         var label = studioBtn.Q<Label>(className: "submenu-label");
                         if (label != null) label.text = "BLUEPRINT";
                     }
                     else
                     {
                         ApplyAndHighlight("Studio", "Studio");
-                        if (ViewModeManager.Instance != null && ViewModeManager.Instance.CurrentMode == ViewMode.Blueprint)
-                            ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
+                        if (ViewModeManager.Instance != null)
+                        {
+                            ViewModeManager.Instance.BaseMode = ViewMode.Realistic;
+                            if (ViewModeManager.Instance.CurrentMode == ViewMode.Blueprint)
+                                ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
+                        }
                         var label = studioBtn.Q<Label>(className: "submenu-label");
                         if (label != null) label.text = "STUDIO";
                     }
@@ -188,9 +196,13 @@ namespace WebGL.UI.Panels
             var studioLabel = _envPanel.Q<Button>("EnvPreset_Studio")?.Q<Label>(className: "submenu-label");
             if (studioLabel != null) studioLabel.text = "STUDIO";
 
-            // Restore Realistic view if Blueprint was active
-            if (ViewModeManager.Instance != null && ViewModeManager.Instance.CurrentMode == ViewMode.Blueprint)
-                ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
+            // Restore Realistic base mode and view if Blueprint was active
+            if (ViewModeManager.Instance != null)
+            {
+                ViewModeManager.Instance.BaseMode = ViewMode.Realistic;
+                if (ViewModeManager.Instance.CurrentMode == ViewMode.Blueprint)
+                    ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
+            }
 
             var nightLabel = _envPanel.Q<Button>("EnvPreset_Night")?.Q<Label>(className: "submenu-label");
             if (nightLabel != null) nightLabel.text = "TIME";
