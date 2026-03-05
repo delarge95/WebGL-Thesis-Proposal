@@ -118,7 +118,7 @@ namespace WebGL.Core.Managers
                 // ── Atmosphere presets (TIME cycle) ──
                 case "Studio":
                     return new PresetData {
-                        topColor       = new Color(0.02f, 0.02f, 0.04f),    // near-black with hint of blue
+                        topColor       = new Color(0.08f, 0.08f, 0.10f),    // dark gray center — visible gradient against black edge
                         bottomColor    = Color.black,
                         lightColor     = new Color(1f, 0.98f, 0.95f),
                         lightIntensity = 1.2f,
