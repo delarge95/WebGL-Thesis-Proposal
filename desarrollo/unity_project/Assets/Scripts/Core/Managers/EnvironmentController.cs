@@ -23,6 +23,7 @@ namespace WebGL.Core.Managers
             public float pulseSpeed;
             public float gradientScale;
             public float ditherStrength;  // 0 = subtle anti-banding, 1 = visible grain (Blueprint)
+            public bool  gridEnabled;     // true = show screen-space blueprint grid on skybox
         }
 
         [Header("References")]
@@ -46,6 +47,7 @@ namespace WebGL.Core.Managers
         private static readonly int ScaleId       = Shader.PropertyToID("_Scale");
         private static readonly int PulseEnabledId = Shader.PropertyToID("_PulseEnabled");
         private static readonly int DitherStrengthId = Shader.PropertyToID("_DitherStrength");
+        private static readonly int GridEnabledId = Shader.PropertyToID("_GridEnabled");
 
         protected override void Awake()
         {
@@ -170,7 +172,8 @@ namespace WebGL.Core.Managers
                         lightIntensity = 0.8f,
                         lightRotY = 90f, lightPitch = 45f,
                         pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.0f,
-                        ditherStrength = 0.12f
+                        ditherStrength = 0.12f,
+                        gridEnabled = true
                     };
 
                 // ── Solid color presets (COLOR cycle) — now with gradients ──
@@ -308,6 +311,7 @@ namespace WebGL.Core.Managers
             Vector3 fromEuler = directionalLight != null ? directionalLight.transform.eulerAngles : Vector3.zero;
             float fromScale  = _gradientSkybox != null ? _gradientSkybox.GetFloat(ScaleId) : 0.8f;
             float fromDither = _gradientSkybox != null ? _gradientSkybox.GetFloat(DitherStrengthId) : 0f;
+            float fromGrid = _gradientSkybox != null ? _gradientSkybox.GetFloat(GridEnabledId) : 0f;
 
             Vector3 targetEuler = new Vector3(target.lightPitch, target.lightRotY, 0f);
 
@@ -324,6 +328,7 @@ namespace WebGL.Core.Managers
                     _gradientSkybox.SetColor(BottomColorId, Color.Lerp(fromBottom, target.bottomColor, t));
                     _gradientSkybox.SetFloat(ScaleId, Mathf.Lerp(fromScale, target.gradientScale, t));
                     _gradientSkybox.SetFloat(DitherStrengthId, Mathf.Lerp(fromDither, target.ditherStrength, t));
+                    _gradientSkybox.SetFloat(GridEnabledId, Mathf.Lerp(fromGrid, target.gridEnabled ? 1f : 0f, t));
                 }
 
                 if (directionalLight != null)
@@ -343,6 +348,7 @@ namespace WebGL.Core.Managers
                 _gradientSkybox.SetColor(BottomColorId, target.bottomColor);
                 _gradientSkybox.SetFloat(ScaleId,       target.gradientScale);
                 _gradientSkybox.SetFloat(DitherStrengthId, target.ditherStrength);
+                _gradientSkybox.SetFloat(GridEnabledId, target.gridEnabled ? 1f : 0f);
                 _gradientSkybox.SetFloat(PulseEnabledId, target.pulseEnabled ? 1f : 0f);
                 _gradientSkybox.SetFloat(SpeedId,       target.pulseSpeed);
             }

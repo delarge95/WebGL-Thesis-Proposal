@@ -11,7 +11,7 @@ Shader "WebGL/Blueprint"
         
         [Header(Grid)]
         _GridScale("Grid Scale", Range(1, 100)) = 20
-        _GridWidth("Grid Line Width", Range(0.01, 0.1)) = 0.02
+        _GridWidth("Grid Line Width", Range(0.005, 0.05)) = 0.015
         
         [Header(Technical Lines)]
         _FresnelPower("Edge Detection Power", Range(0.1, 5)) = 2.0
@@ -42,6 +42,7 @@ Shader "WebGL/Blueprint"
             #pragma multi_compile_fog
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
             struct Attributes
             {
@@ -108,29 +109,35 @@ Shader "WebGL/Blueprint"
                 half3 normalWS = normalize(IN.normalWS);
                 half3 viewDirWS = normalize(IN.viewDirWS);
                 
+                // Main light for diffuse shading
+                Light mainLight = GetMainLight();
+                half ndotl = saturate(dot(normalWS, mainLight.direction));
+                
                 // Edge detection using fresnel
                 half ndotv = saturate(dot(normalWS, viewDirWS));
                 half edge = pow(1.0 - ndotv, _FresnelPower);
                 
-                // Grid pattern on surface (world space)
-                float2 gridUV = IN.positionWS.xz * _GridScale;
-                float2 gridFrac = frac(gridUV);
+                // Combine: dark blue base with matte diffuse shading
+                half3 color = _BackgroundColor.rgb;
+                
+                // Rough diffuse — responds to light direction & intensity
+                half diffuse = lerp(0.4, 1.0, ndotl);
+                half lightMul = clamp(dot(mainLight.color.rgb, half3(0.299, 0.587, 0.114)) * 1.5, 0.3, 1.5);
+                color *= diffuse * lightMul;
+                
+                // Screen-space grid (unified with background)
+                float2 screenUV = IN.positionCS.xy / _ScreenParams.xy;
+                float aspect = _ScreenParams.x / _ScreenParams.y;
+                float2 gridBase = float2(screenUV.x * aspect, screenUV.y) * _GridScale;
+                
+                float2 gridFrac = frac(gridBase);
                 float gridLine = step(gridFrac.x, _GridWidth) + step(gridFrac.y, _GridWidth);
                 gridLine = saturate(gridLine);
                 
-                // Secondary grid (finer)
-                float2 gridUV2 = IN.positionWS.xz * _GridScale * 5;
-                float2 gridFrac2 = frac(gridUV2);
+                float2 gridFrac2 = frac(gridBase * 5.0);
                 float gridLine2 = step(gridFrac2.x, _GridWidth * 0.5) + step(gridFrac2.y, _GridWidth * 0.5);
                 gridLine2 = saturate(gridLine2) * 0.3;
                 
-                // Combine: dark blue base with flat matte shading
-                half3 color = _BackgroundColor.rgb;
-                
-                // Very flat face shading — minimal reflectance
-                color *= lerp(0.85, 1.0, ndotv);
-                
-                // Add grid (subtle)
                 half gridAlpha = (gridLine + gridLine2) * _GridColor.a * 0.4;
                 color = lerp(color, _GridColor.rgb, gridAlpha);
                 
@@ -139,9 +146,9 @@ Shader "WebGL/Blueprint"
                 color = lerp(color, _LineColor.rgb, edgeMask);
                 
                 // Blueprint paper grain — unified with skybox dither
-                float2 screenUV = IN.positionCS.xy;
-                float gn1 = frac(sin(dot(screenUV, float2(12.9898, 78.233))) * 43758.5453);
-                float gn2 = frac(sin(dot(screenUV, float2(39.346, 11.135))) * 23421.6312);
+                float2 grainSeed = IN.positionCS.xy;
+                float gn1 = frac(sin(dot(grainSeed, float2(12.9898, 78.233))) * 43758.5453);
+                float gn2 = frac(sin(dot(grainSeed, float2(39.346, 11.135))) * 23421.6312);
                 float grain = (gn1 + gn2 - 1.0) * 0.003;
                 color += grain;
                 

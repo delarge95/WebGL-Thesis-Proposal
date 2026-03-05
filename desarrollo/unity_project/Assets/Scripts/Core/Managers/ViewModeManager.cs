@@ -135,7 +135,7 @@ namespace WebGL.Core.Managers
                     blueprintMaterial.name = "Blueprint";
                     blueprintMaterial.SetColor("_LineColor", blueprintLineColor);
                     blueprintMaterial.SetColor("_BackgroundColor", blueprintBgColor);
-                    blueprintMaterial.SetFloat("_GridScale", blueprintGridSize * 100f);
+                    blueprintMaterial.SetFloat("_GridScale", 20f);
                 }
                 else
                 {
