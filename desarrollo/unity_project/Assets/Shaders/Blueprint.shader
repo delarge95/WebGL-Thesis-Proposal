@@ -124,11 +124,11 @@ Shader "WebGL/Blueprint"
                 float gridLine2 = step(gridFrac2.x, _GridWidth * 0.5) + step(gridFrac2.y, _GridWidth * 0.5);
                 gridLine2 = saturate(gridLine2) * 0.3;
                 
-                // Combine: dark blue base tinted slightly by surface angle
+                // Combine: dark blue base with flat matte shading
                 half3 color = _BackgroundColor.rgb;
                 
-                // Subtle face shading — lighter faces facing camera, darker at glancing
-                color *= lerp(0.75, 1.05, ndotv);
+                // Very flat face shading — minimal reflectance
+                color *= lerp(0.85, 1.0, ndotv);
                 
                 // Add grid (subtle)
                 half gridAlpha = (gridLine + gridLine2) * _GridColor.a * 0.4;
@@ -137,6 +137,13 @@ Shader "WebGL/Blueprint"
                 // Edge lines — smooth blend for cleaner look
                 half edgeMask = smoothstep(_EdgeThreshold, _EdgeThreshold + 0.15, edge);
                 color = lerp(color, _LineColor.rgb, edgeMask);
+                
+                // Blueprint paper grain — screen-space noise
+                float2 screenUV = IN.positionCS.xy;
+                float gn1 = frac(sin(dot(screenUV, float2(12.9898, 78.233))) * 43758.5453);
+                float gn2 = frac(sin(dot(screenUV, float2(39.346, 11.135))) * 23421.6312);
+                float grain = (gn1 + gn2 - 1.0) * 0.06;
+                color += grain;
                 
                 color = MixFog(color, IN.fogFactor);
                 

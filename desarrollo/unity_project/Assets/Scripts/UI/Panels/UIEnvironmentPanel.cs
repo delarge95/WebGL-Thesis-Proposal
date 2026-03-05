@@ -137,6 +137,7 @@ namespace WebGL.UI.Panels
                     string preset = TimeCycle[_timeIndex];
                     _timeIndex = (_timeIndex + 1) % TimeCycle.Length;
                     ApplyAndHighlight(preset, "Night");
+                    DeactivateBlueprintIfNeeded();
 
                     // Update label to show current preset name
                     var label = nightBtn.Q<Label>(className: "submenu-label");
@@ -155,6 +156,7 @@ namespace WebGL.UI.Panels
                     string preset = ColorCycle[_colorIndex];
                     _colorIndex = (_colorIndex + 1) % ColorCycle.Length;
                     ApplyAndHighlight(preset, "Blueprint");
+                    DeactivateBlueprintIfNeeded();
 
                     // Update label to show current color name
                     var label = blueBtn.Q<Label>(className: "submenu-label");
@@ -219,6 +221,22 @@ namespace WebGL.UI.Panels
             {
                 var btn = _envPanel.Q<Button>($"EnvPreset_{p}");
                 if (btn != null) btn.EnableInClassList("submenu-card--active", p == activePreset);
+            }
+        }
+
+        private void DeactivateBlueprintIfNeeded()
+        {
+            if (!_isBlueprintMode) return;
+            _isBlueprintMode = false;
+
+            var studioLabel = _envPanel.Q<Button>("EnvPreset_Studio")?.Q<Label>(className: "submenu-label");
+            if (studioLabel != null) studioLabel.text = "STUDIO";
+
+            if (ViewModeManager.Instance != null)
+            {
+                ViewModeManager.Instance.BaseMode = ViewMode.Realistic;
+                if (ViewModeManager.Instance.CurrentMode == ViewMode.Blueprint)
+                    ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
             }
         }
     }
