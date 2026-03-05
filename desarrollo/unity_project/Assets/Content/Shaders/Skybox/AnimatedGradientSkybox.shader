@@ -54,16 +54,25 @@ Shader "Skybox/AnimatedGradientSkybox"
                 
                 float dist = length(centeredUV);
                 
+                // Max distance from center to screen corner (aspect-corrected)
+                float maxDist = length(float2(0.5 * aspect, 0.5));
+                
                 // Breathing pulse (toggleable)
                 float pulse = _PulseEnabled > 0.5
-                    ? sin(_Time.y * _Speed) * 0.06
+                    ? sin(_Time.y * _Speed) * 0.04
                     : 0.0;
-                float radius = _Scale + pulse;
                 
-                float t = smoothstep(0.0, radius, dist);
-                t = t * t;  // quadratic falloff for a stronger, more progressive gradient
+                // Normalize to [0,1] where 1 = screen corners.
+                // _Scale controls how far center color extends:
+                // >1 spreads center beyond corners, <1 compresses.
+                float nd = saturate(dist / (maxDist * (_Scale + pulse)));
+                
+                // smoothstep S-curve (zero-derivative at both ends = no visible edge)
+                // then squared for stronger center emphasis
+                float t = smoothstep(0.0, 1.0, nd);
+                t = t * t;
+                
                 fixed4 col = lerp(_TopColor, _BottomColor, t);
-                
                 return col;
             }
             ENDCG

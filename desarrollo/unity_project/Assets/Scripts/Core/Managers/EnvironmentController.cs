@@ -91,10 +91,10 @@ namespace WebGL.Core.Managers
             _currentPreset = presetName;
             var data = GetPresetData(presetName);
 
-            // Adaptive UI contrast — determine if background is light or dark
-            float topLum  = 0.299f * data.topColor.r + 0.587f * data.topColor.g + 0.114f * data.topColor.b;
-            float botLum  = 0.299f * data.bottomColor.r + 0.587f * data.bottomColor.g + 0.114f * data.bottomColor.b;
-            bool newIsLight = (topLum + botLum) * 0.5f > 0.45f;
+            // Adaptive UI contrast — use center (topColor) luminance only,
+            // because UI elements overlap the center region of the gradient.
+            float topLum = 0.299f * data.topColor.r + 0.587f * data.topColor.g + 0.114f * data.topColor.b;
+            bool newIsLight = topLum > 0.35f;
             if (newIsLight != IsLightBackground)
             {
                 IsLightBackground = newIsLight;
@@ -123,7 +123,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(1f, 0.98f, 0.95f),
                         lightIntensity = 1.2f,
                         lightRotY = 45f, lightPitch = 50f,
-                        pulseEnabled = true, pulseSpeed = 0.5f, gradientScale = 0.9f
+                        pulseEnabled = true, pulseSpeed = 0.5f, gradientScale = 1.2f
                     };
 
                 case "Day":
@@ -179,8 +179,8 @@ namespace WebGL.Core.Managers
 
                 case "Grey":
                     return new PresetData {
-                        topColor       = new Color(0.40f, 0.40f, 0.42f),
-                        bottomColor    = new Color(0.15f, 0.15f, 0.16f),
+                        topColor       = new Color(0.30f, 0.30f, 0.32f),    // darkened for WCAG AA contrast with light icons
+                        bottomColor    = new Color(0.10f, 0.10f, 0.11f),
                         lightColor     = Color.white,
                         lightIntensity = 1.0f,
                         lightRotY = 45f, lightPitch = 50f,
@@ -239,7 +239,7 @@ namespace WebGL.Core.Managers
 
                 case "Purple":
                     return new PresetData {
-                        topColor       = new Color(0.55f, 0.38f, 0.78f),    // soft lavender
+                        topColor       = new Color(0.65f, 0.48f, 0.82f),    // brighter lavender (WCAG AA with dark icons)
                         bottomColor    = new Color(0.12f, 0.05f, 0.22f),    // deep plum
                         lightColor     = new Color(0.90f, 0.82f, 1f),       // purple tint
                         lightIntensity = 1.0f,
@@ -249,7 +249,7 @@ namespace WebGL.Core.Managers
 
                 case "Red":
                     return new PresetData {
-                        topColor       = new Color(0.82f, 0.32f, 0.30f),    // soft terracotta
+                        topColor       = new Color(0.88f, 0.42f, 0.38f),    // brighter terracotta (WCAG AA with dark icons)
                         bottomColor    = new Color(0.22f, 0.04f, 0.04f),    // deep maroon
                         lightColor     = new Color(1f, 0.85f, 0.82f),       // warm red tint
                         lightIntensity = 1.0f,
