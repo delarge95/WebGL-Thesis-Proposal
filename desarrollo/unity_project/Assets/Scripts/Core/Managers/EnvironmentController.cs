@@ -34,6 +34,10 @@ namespace WebGL.Core.Managers
         private Material _gradientSkybox;
         private Coroutine _transitionRoutine;
 
+        // Adaptive UI — light/dark background notification
+        public event System.Action<bool> OnLightBackgroundChanged;
+        public bool IsLightBackground { get; private set; }
+
         // Shader property IDs (cached)
         private static readonly int TopColorId    = Shader.PropertyToID("_TopColor");
         private static readonly int BottomColorId = Shader.PropertyToID("_BottomColor");
@@ -86,6 +90,16 @@ namespace WebGL.Core.Managers
         {
             _currentPreset = presetName;
             var data = GetPresetData(presetName);
+
+            // Adaptive UI contrast — determine if background is light or dark
+            float topLum  = 0.299f * data.topColor.r + 0.587f * data.topColor.g + 0.114f * data.topColor.b;
+            float botLum  = 0.299f * data.bottomColor.r + 0.587f * data.bottomColor.g + 0.114f * data.bottomColor.b;
+            bool newIsLight = (topLum + botLum) * 0.5f > 0.45f;
+            if (newIsLight != IsLightBackground)
+            {
+                IsLightBackground = newIsLight;
+                OnLightBackgroundChanged?.Invoke(newIsLight);
+            }
 
             if (_transitionRoutine != null)
                 StopCoroutine(_transitionRoutine);

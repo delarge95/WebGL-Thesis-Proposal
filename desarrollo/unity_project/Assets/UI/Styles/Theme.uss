@@ -1833,3 +1833,165 @@
     scale: 0.92;
     background-color: rgba(255, 255, 255, 0.25);
 }
+
+/* ══════════════════════════════════════════════════════
+   Light Background Overrides — Adaptive UI Contrast
+   Toggled via .ui-light-bg on root when the environment
+   preset produces a bright gradient (White, Day, Yellow…)
+   ══════════════════════════════════════════════════════ */
+
+/* ── Top Bar ── */
+.ui-light-bg .header-title {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+/* ── Mode Buttons ── */
+.ui-light-bg .mode-btn-label {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+/* ── Selection Indicator ── */
+.ui-light-bg .selection-label {
+    color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* ── Icon Buttons ── */
+.ui-light-bg .icon-button {
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.7);
+}
+
+.ui-light-bg .icon-button:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.ui-light-bg .icon-button:active {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+/* ── Small Icon Buttons ── */
+.ui-light-bg .icon-button-small {
+    border-color: rgba(0, 0, 0, 0.1);
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.7);
+}
+
+.ui-light-bg .icon-button-small:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.ui-light-bg .icon-button-small:active {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ── Actions Row (Bottom Bar Pill) ── */
+.ui-light-bg .actions-row {
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+/* ── Glassmorphic Panel ── */
+.ui-light-bg .glass-panel {
+    background-color: rgba(255, 255, 255, 0.88);
+    border-color: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.ui-light-bg .glass-panel:hover {
+    background-color: rgba(255, 255, 255, 0.92);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* ── Sheet Content ── */
+.ui-light-bg .sheet-title {
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.ui-light-bg .sheet-hint {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.ui-light-bg .data-label {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.ui-light-bg .data-value {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+/* ── Peek Bar ── */
+.ui-light-bg .peek-handle {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.ui-light-bg .peek-label {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+/* ── Sheet Close Button ── */
+.ui-light-bg .sheet-close-btn {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.ui-light-bg .sheet-close-btn:hover {
+    background-color: rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.ui-light-bg .sheet-close-btn:active {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* ── Submenu Cards ── */
+.ui-light-bg .submenu-card {
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.ui-light-bg .submenu-card:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.ui-light-bg .submenu-card:active {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.ui-light-bg .submenu-label {
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.ui-light-bg .submenu-icon {
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.65);
+}
+
+/* ── Buttons ── */
+.ui-light-bg .btn-primary {
+    border-color: rgba(0, 0, 0, 0.3);
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.ui-light-bg .btn-primary:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.8);
+}
+
+.ui-light-bg .btn-ghost {
+    border-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.ui-light-bg .btn-ghost:hover {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ── Tag Buttons ── */
+.ui-light-bg .btn-tag:hover {
+    border-color: rgba(0, 0, 0, 0.3);
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.ui-light-bg .btn-tag--active {
+    background-color: rgb(0, 0, 0);
+    border-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
