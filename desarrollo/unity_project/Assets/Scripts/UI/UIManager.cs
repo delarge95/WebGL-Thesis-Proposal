@@ -266,6 +266,15 @@ namespace WebGL.UI
             _detailsSheet.UpdatePartIndicator(null);
             // Slider is inside ExplodeSubPanel (starts hidden via submenu--hidden)
 
+            // ── Adaptive UI contrast based on environment luminance ──
+            var envCtrl = EnvironmentController.Instance;
+            if (envCtrl != null)
+            {
+                envCtrl.OnLightBackgroundChanged += OnLightBgChanged;
+                AddCleanup(() => envCtrl.OnLightBackgroundChanged -= OnLightBgChanged);
+                root.EnableInClassList("ui-light-bg", envCtrl.IsLightBackground);
+            }
+
             // ── All buttons block 3D input ──
             RegisterButtonInputBlockers();
         }
@@ -500,6 +509,11 @@ namespace WebGL.UI
         private void OnViewModeChanged(ViewMode newMode)
         {
             if (_uiAnalyzePanel != null) _uiAnalyzePanel.OnViewModeChanged(newMode);
+        }
+
+        private void OnLightBgChanged(bool isLight)
+        {
+            root?.EnableInClassList("ui-light-bg", isLight);
         }
 
         // ═══════════════════════════════════════════════════════
