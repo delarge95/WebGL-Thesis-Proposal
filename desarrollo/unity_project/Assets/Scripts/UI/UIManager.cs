@@ -5,6 +5,7 @@ using WebGL.Core.Utils;
 using WebGL.Core.Events;
 using WebGL.Core.Content;
 using WebGL.UI.Panels;
+using WebGL.UI.ProceduralIcons;
 
 namespace WebGL.UI
 {
@@ -273,6 +274,7 @@ namespace WebGL.UI
                 envCtrl.OnLightBackgroundChanged += OnLightBgChanged;
                 AddCleanup(() => envCtrl.OnLightBackgroundChanged -= OnLightBgChanged);
                 root.EnableInClassList("ui-light-bg", envCtrl.IsLightBackground);
+                root.Query<ProceduralIconBase>().ForEach(icon => icon.SetLightBackground(envCtrl.IsLightBackground));
             }
 
             // ── All buttons block 3D input ──
@@ -515,6 +517,7 @@ namespace WebGL.UI
         {
             root?.EnableInClassList("ui-light-bg", isLight);
             _detailsSheet?.SetLightBackground(isLight);
+            root?.Query<ProceduralIconBase>().ForEach(icon => icon.SetLightBackground(isLight));
         }
 
         // ═══════════════════════════════════════════════════════

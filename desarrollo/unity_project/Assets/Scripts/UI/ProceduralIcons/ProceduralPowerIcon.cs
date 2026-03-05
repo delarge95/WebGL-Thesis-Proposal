@@ -6,70 +6,47 @@ namespace WebGL.UI.ProceduralIcons
     [UxmlElement]
     public partial class ProceduralPowerIcon : ProceduralIconBase
     {
-        // Arc gap rotation on hover
-        private float targetGapRotation = 0f;
-        private float currentGapRotation = 0f;
-        private float gapVelocity = 0f;
-
-        // Stem pulse scale
+        // Stem length animation (grows on hover, pulses on click)
         private float targetStemScale = 1f;
         private float currentStemScale = 1f;
+        private float stemVelocity = 0f;
 
-        // Click flash
-        private bool isFlashing = false;
+        // Click punch
+        private bool isPunching = false;
 
         protected override void OnHoverEnter()
         {
-            if (!isFlashing)
-            {
-                targetGapRotation = 15f;
-                targetStemScale = 1.15f;
-            }
+            if (!isPunching)
+                targetStemScale = 1.25f;
         }
 
         protected override void OnHoverExit()
         {
-            if (!isFlashing)
-            {
-                targetGapRotation = 0f;
+            if (!isPunching)
                 targetStemScale = 1f;
-            }
         }
 
         protected override void OnPressed()
         {
-            isFlashing = true;
-            targetStemScale = 0.6f;
-            targetGapRotation = -10f;
+            isPunching = true;
+            targetStemScale = 0.5f; // shrink fast
         }
 
         protected override void OnReleased() { }
 
         protected override bool UpdateCustomPhysics(float dt)
         {
-            bool hasChanged = false;
-
-            if (isFlashing && currentStemScale <= 0.65f)
+            if (isPunching && currentStemScale <= 0.55f)
             {
-                isFlashing = false;
-                targetStemScale = isHovered ? 1.15f : 1f;
-                targetGapRotation = isHovered ? 15f : 0f;
+                isPunching = false;
+                targetStemScale = isHovered ? 1.25f : 1f;
             }
 
-            float oldRot = currentGapRotation;
             float oldStem = currentStemScale;
+            currentStemScale = SpringFloat(currentStemScale, targetStemScale,
+                ref stemVelocity, 22f, 0.6f, dt);
 
-            currentGapRotation = SpringFloat(currentGapRotation, targetGapRotation,
-                ref gapVelocity, 20f, 0.65f, dt);
-            currentStemScale = Mathf.Lerp(currentStemScale, targetStemScale, dt * 18f);
-
-            if (Mathf.Abs(currentGapRotation - oldRot) > 0.05f ||
-                Mathf.Abs(currentStemScale - oldStem) > 0.005f)
-            {
-                hasChanged = true;
-            }
-
-            return hasChanged;
+            return Mathf.Abs(currentStemScale - oldStem) > 0.003f;
         }
 
         protected override void DrawIconPath(Painter2D painter, float width, float height)
@@ -82,13 +59,12 @@ namespace WebGL.UI.ProceduralIcons
             painter.lineWidth = currentStrokeWidth;
             painter.lineCap = LineCap.Round;
 
-            // 1. Draw the open arc (power symbol circle with gap at top)
+            // 1. Static open arc (power symbol circle with gap at top)
             float radius = baseSize * 0.85f;
-            float gapHalf = 30f; // degrees of gap on each side of top
-            float startAngle = -90f + gapHalf + currentGapRotation;
-            float endAngle = -90f - gapHalf + 360f + currentGapRotation;
+            float gapHalf = 30f;
+            float startAngle = -90f + gapHalf;
+            float endAngle = -90f - gapHalf + 360f;
 
-            // Draw arc as series of line segments
             int segments = 32;
             float angleStep = (endAngle - startAngle) / segments;
             painter.BeginPath();
@@ -102,8 +78,9 @@ namespace WebGL.UI.ProceduralIcons
             }
             painter.Stroke();
 
-            // 2. Draw the vertical stem (power line)
-            float stemTop = cy - baseSize * 0.9f * currentStemScale;
+            // 2. Animated vertical stem
+            float stemLen = baseSize * 0.9f * currentStemScale;
+            float stemTop = cy - stemLen;
             float stemBottom = cy + baseSize * 0.1f;
             painter.BeginPath();
             painter.MoveTo(new Vector2(cx, stemTop));

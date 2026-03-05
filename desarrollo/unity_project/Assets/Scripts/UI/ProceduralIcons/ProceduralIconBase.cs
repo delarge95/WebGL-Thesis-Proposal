@@ -9,16 +9,26 @@ namespace WebGL.UI.ProceduralIcons
     /// </summary>
     public abstract class ProceduralIconBase : VisualElement
     {
-        // Settings
+        // Settings — dark theme (default)
+        private static readonly Color DarkNormal  = new Color(0.8f, 0.8f, 0.8f, 0.9f);
+        private static readonly Color DarkHover   = new Color(0.4f, 0.85f, 0.9f, 1.0f);
+        private static readonly Color DarkPressed = new Color(0.2f, 0.6f, 1.0f, 1.0f);
+
+        // Settings — light theme
+        private static readonly Color LightNormal  = new Color(0.12f, 0.12f, 0.14f, 0.85f);
+        private static readonly Color LightHover   = new Color(0.02f, 0.48f, 0.55f, 1.0f);
+        private static readonly Color LightPressed = new Color(0.0f, 0.35f, 0.65f, 1.0f);
+
         protected float UnhoveredStrokeWidth = 1.5f;
         protected float HoveredStrokeWidth = 2.0f;
-        protected Color NormalColor = new Color(0.8f, 0.8f, 0.8f, 0.9f);
-        protected Color HoverColor = new Color(0.4f, 0.85f, 0.9f, 1.0f);   // Cyan/Sci-fi accent
-        protected Color PressedColor = new Color(0.2f, 0.6f, 1.0f, 1.0f);
+        protected Color NormalColor  = DarkNormal;
+        protected Color HoverColor   = DarkHover;
+        protected Color PressedColor = DarkPressed;
 
         // State Machine
         protected bool isHovered = false;
         protected bool isPressed = false;
+        private bool _isLightBg = false;
 
         // Current Animated Values (Driven by math)
         protected float currentStrokeWidth;
@@ -43,6 +53,19 @@ namespace WebGL.UI.ProceduralIcons
             // Schedule a continuous update loop to perform math interpolations
             // Updating every 16ms roughly equals 60fps
             animationTask = schedule.Execute(UpdatePhysics).Every(16);
+        }
+
+        /// <summary>
+        /// Called by external code when the background theme changes.
+        /// </summary>
+        public void SetLightBackground(bool isLight)
+        {
+            if (_isLightBg == isLight) return;
+            _isLightBg = isLight;
+            NormalColor  = isLight ? LightNormal  : DarkNormal;
+            HoverColor   = isLight ? LightHover   : DarkHover;
+            PressedColor = isLight ? LightPressed  : DarkPressed;
+            MarkDirtyRepaint();
         }
 
         private void OnAttachedToPanel(AttachToPanelEvent evt)
