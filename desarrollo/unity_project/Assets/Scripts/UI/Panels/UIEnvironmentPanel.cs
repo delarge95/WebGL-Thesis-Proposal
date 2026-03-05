@@ -19,6 +19,7 @@ namespace WebGL.UI.Panels
         private int _timeIndex = 0;
         private int _colorIndex = 0;
         private string _activePreset = "Studio";
+        private bool _isBlueprintMode = false;
 
         public UIEnvironmentPanel(VisualElement envPanel)
         {
@@ -92,8 +93,32 @@ namespace WebGL.UI.Panels
                 });
             }
 
-            // ── Studio button (simple preset) ──
-            BindSimplePreset("Studio");
+            // ── Studio button — toggles Studio ↔ Blueprint ──
+            var studioBtn = _envPanel.Q<Button>("EnvPreset_Studio");
+            if (studioBtn != null)
+            {
+                System.Action onStudioClick = () =>
+                {
+                    _isBlueprintMode = !_isBlueprintMode;
+                    if (_isBlueprintMode)
+                    {
+                        ApplyAndHighlight("Blueprint", "Studio");
+                        ViewModeManager.Instance?.SetViewMode(ViewMode.Blueprint);
+                        var label = studioBtn.Q<Label>(className: "submenu-label");
+                        if (label != null) label.text = "BLUEPRINT";
+                    }
+                    else
+                    {
+                        ApplyAndHighlight("Studio", "Studio");
+                        if (ViewModeManager.Instance != null && ViewModeManager.Instance.CurrentMode == ViewMode.Blueprint)
+                            ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
+                        var label = studioBtn.Q<Label>(className: "submenu-label");
+                        if (label != null) label.text = "STUDIO";
+                    }
+                };
+                studioBtn.clicked += onStudioClick;
+                AddCleanup(() => studioBtn.clicked -= onStudioClick);
+            }
 
             // ── TIME button — cycles Day / Night / Sunset ──
             var nightBtn = _envPanel.Q<Button>("EnvPreset_Night");
@@ -158,6 +183,14 @@ namespace WebGL.UI.Panels
         {
             _timeIndex = 0;
             _colorIndex = 0;
+            _isBlueprintMode = false;
+
+            var studioLabel = _envPanel.Q<Button>("EnvPreset_Studio")?.Q<Label>(className: "submenu-label");
+            if (studioLabel != null) studioLabel.text = "STUDIO";
+
+            // Restore Realistic view if Blueprint was active
+            if (ViewModeManager.Instance != null && ViewModeManager.Instance.CurrentMode == ViewMode.Blueprint)
+                ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
 
             var nightLabel = _envPanel.Q<Button>("EnvPreset_Night")?.Q<Label>(className: "submenu-label");
             if (nightLabel != null) nightLabel.text = "TIME";
