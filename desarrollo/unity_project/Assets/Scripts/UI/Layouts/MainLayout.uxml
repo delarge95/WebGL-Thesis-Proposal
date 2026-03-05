@@ -117,6 +117,10 @@
                             <pi:ProceduralIsolateIcon class="submenu-icon" picking-mode="Ignore"/>
                             <ui:Label text="ISOLATE" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
+                        <ui:Button name="ToolPowerBtn" class="submenu-card" tooltip="Toggle Drone Power">
+                            <pi:ProceduralPowerIcon class="submenu-icon" picking-mode="Ignore"/>
+                            <ui:Label text="POWER" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
                         <!-- Measure tool hidden — planned for future release (see PLAN_TRABAJO_FINAL.md)
                         <ui:Button name="ToolMeasureBtn" class="submenu-card" tooltip="Measure Distance">
                             <pi:ProceduralMeasureIcon class="submenu-icon" picking-mode="Ignore"/>
