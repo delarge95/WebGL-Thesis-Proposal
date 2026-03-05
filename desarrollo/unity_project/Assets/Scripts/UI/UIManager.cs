@@ -514,6 +514,7 @@ namespace WebGL.UI
         private void OnLightBgChanged(bool isLight)
         {
             root?.EnableInClassList("ui-light-bg", isLight);
+            _detailsSheet?.SetLightBackground(isLight);
         }
 
         // ═══════════════════════════════════════════════════════
