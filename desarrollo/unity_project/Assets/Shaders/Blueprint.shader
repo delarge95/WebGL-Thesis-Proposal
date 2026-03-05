@@ -138,11 +138,11 @@ Shader "WebGL/Blueprint"
                 half edgeMask = smoothstep(_EdgeThreshold, _EdgeThreshold + 0.15, edge);
                 color = lerp(color, _LineColor.rgb, edgeMask);
                 
-                // Blueprint paper grain — screen-space noise
+                // Blueprint paper grain — unified with skybox dither
                 float2 screenUV = IN.positionCS.xy;
                 float gn1 = frac(sin(dot(screenUV, float2(12.9898, 78.233))) * 43758.5453);
                 float gn2 = frac(sin(dot(screenUV, float2(39.346, 11.135))) * 23421.6312);
-                float grain = (gn1 + gn2 - 1.0) * 0.06;
+                float grain = (gn1 + gn2 - 1.0) * 0.003;
                 color += grain;
                 
                 color = MixFog(color, IN.fogFactor);
