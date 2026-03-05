@@ -2,19 +2,19 @@ Shader "WebGL/Blueprint"
 {
     Properties
     {
-        _LineColor("Line Color", Color) = (0.2, 0.6, 1.0, 1.0)
-        _BackgroundColor("Background Color", Color) = (0.05, 0.1, 0.2, 1.0)
-        _GridColor("Grid Color", Color) = (0.15, 0.4, 0.8, 0.3)
+        _LineColor("Line Color", Color) = (0.85, 0.9, 1.0, 1.0)
+        _BackgroundColor("Background Color", Color) = (0.08, 0.18, 0.38, 1.0)
+        _GridColor("Grid Color", Color) = (0.4, 0.55, 0.8, 0.2)
         
-        _OutlineWidth("Outline Width", Range(0, 0.02)) = 0.005
-        _EdgeThreshold("Edge Threshold", Range(0, 1)) = 0.3
+        _OutlineWidth("Outline Width", Range(0, 0.02)) = 0.003
+        _EdgeThreshold("Edge Threshold", Range(0, 1)) = 0.15
         
         [Header(Grid)]
         _GridScale("Grid Scale", Range(1, 100)) = 20
         _GridWidth("Grid Line Width", Range(0.01, 0.1)) = 0.02
         
         [Header(Technical Lines)]
-        _FresnelPower("Edge Detection Power", Range(0.1, 5)) = 1.5
+        _FresnelPower("Edge Detection Power", Range(0.1, 5)) = 2.0
     }
 
     SubShader
@@ -124,17 +124,19 @@ Shader "WebGL/Blueprint"
                 float gridLine2 = step(gridFrac2.x, _GridWidth * 0.5) + step(gridFrac2.y, _GridWidth * 0.5);
                 gridLine2 = saturate(gridLine2) * 0.3;
                 
-                // Combine
+                // Combine: dark blue base tinted slightly by surface angle
                 half3 color = _BackgroundColor.rgb;
                 
-                // Add grid
-                color = lerp(color, _GridColor.rgb, (gridLine + gridLine2) * _GridColor.a * 0.5);
+                // Subtle face shading — lighter faces facing camera, darker at glancing
+                color *= lerp(0.75, 1.05, ndotv);
                 
-                // Add edges
-                color = lerp(color, _LineColor.rgb, edge * step(_EdgeThreshold, edge));
+                // Add grid (subtle)
+                half gridAlpha = (gridLine + gridLine2) * _GridColor.a * 0.4;
+                color = lerp(color, _GridColor.rgb, gridAlpha);
                 
-                // Add slight ambient occlusion simulation
-                color *= lerp(0.7, 1.0, ndotv);
+                // Edge lines — smooth blend for cleaner look
+                half edgeMask = smoothstep(_EdgeThreshold, _EdgeThreshold + 0.15, edge);
+                color = lerp(color, _LineColor.rgb, edgeMask);
                 
                 color = MixFog(color, IN.fogFactor);
                 
@@ -214,7 +216,7 @@ Shader "WebGL/Blueprint"
                     if (clipDist2 < 0) discard;
                 }
 
-                return _LineColor;
+                return half4(_LineColor.rgb * 0.7, 1.0);
             }
             ENDHLSL
         }
