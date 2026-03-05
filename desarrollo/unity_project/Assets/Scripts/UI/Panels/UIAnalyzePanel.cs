@@ -46,9 +46,9 @@ namespace WebGL.UI.Panels
                 
                 System.Action onClick = () =>
                 {
-                    // Toggle: re-click active mode → back to Realistic
+                    // Toggle: re-click active mode → back to base mode
                     if (ViewModeManager.Instance != null && ViewModeManager.Instance.CurrentMode == mode)
-                        ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
+                        ViewModeManager.Instance.SetViewMode(ViewModeManager.Instance.BaseMode);
                     else
                         ViewModeManager.Instance?.SetViewMode(mode);
                 };
