@@ -1,21 +1,45 @@
+using System.Collections;
 using UnityEngine;
 using WebGL.Core.Utils;
 
 namespace WebGL.Core.Managers
 {
     /// <summary>
-    /// Controls scene environment: directional light rotation/intensity and camera background.
-    /// Uses procedural gradients (zero asset cost) instead of heavy HDRI cubemaps.
+    /// Controls scene environment: directional light and procedural gradient skybox.
+    /// Every preset uses the AnimatedGradientSkybox shader — no more flat SolidColor.
     /// </summary>
     public class EnvironmentController : Singleton<EnvironmentController>
     {
+        // ── Preset definition ────────────────────────────────
+        private struct PresetData
+        {
+            public Color topColor;      // Gradient center
+            public Color bottomColor;   // Gradient edge
+            public Color lightColor;
+            public float lightIntensity;
+            public float lightRotY;
+            public float lightPitch;
+            public bool  pulseEnabled;
+            public float pulseSpeed;
+            public float gradientScale;
+        }
+
         [Header("References")]
         [SerializeField] private Light directionalLight;
 
-        [Header("Defaults")]
+        [Header("Transition")]
+        [SerializeField] private float transitionDuration = 0.5f;
 
         private string _currentPreset = "Studio";
         private Material _gradientSkybox;
+        private Coroutine _transitionRoutine;
+
+        // Shader property IDs (cached)
+        private static readonly int TopColorId    = Shader.PropertyToID("_TopColor");
+        private static readonly int BottomColorId = Shader.PropertyToID("_BottomColor");
+        private static readonly int SpeedId       = Shader.PropertyToID("_Speed");
+        private static readonly int ScaleId       = Shader.PropertyToID("_Scale");
+        private static readonly int PulseEnabledId = Shader.PropertyToID("_PulseEnabled");
 
         protected override void Awake()
         {
@@ -26,16 +50,24 @@ namespace WebGL.Core.Managers
         {
             if (directionalLight == null)
             {
-                // Auto-find
                 directionalLight = FindFirstObjectByType<Light>();
                 if (directionalLight != null && directionalLight.type != LightType.Directional)
                     directionalLight = null;
             }
 
+            EnsureSkyboxMaterial();
             ApplyPreset("Studio");
         }
 
-        /// <summary> Rotate directional light around Y axis (0-360) </summary>
+        private void EnsureSkyboxMaterial()
+        {
+            if (_gradientSkybox != null) return;
+            var shader = Shader.Find("Skybox/AnimatedGradientSkybox");
+            if (shader != null) _gradientSkybox = new Material(shader);
+        }
+
+        // ── Public API ───────────────────────────────────────
+
         public void SetLightRotation(float angleY)
         {
             if (directionalLight == null) return;
@@ -44,181 +76,251 @@ namespace WebGL.Core.Managers
             directionalLight.transform.eulerAngles = euler;
         }
 
-        /// <summary> Set directional light intensity (0.1 - 3.0) </summary>
         public void SetLightIntensity(float intensity)
         {
             if (directionalLight == null) return;
             directionalLight.intensity = Mathf.Clamp(intensity, 0.1f, 3f);
         }
 
-        /// <summary> Apply a named environment preset </summary>
         public void ApplyPreset(string presetName)
         {
             _currentPreset = presetName;
+            var data = GetPresetData(presetName);
 
-            Color bgColor;
-            Color lightColor;
-            float lightIntensity;
-            float lightRotY;
-            float lightPitch;
+            if (_transitionRoutine != null)
+                StopCoroutine(_transitionRoutine);
 
-            switch (presetName)
-            {
-                case "Studio":
-                    bgColor = new Color(5f / 255f, 5f / 255f, 5f / 255f); // #050505 — matches web
-                    lightColor = new Color(1f, 0.98f, 0.95f);
-                    lightIntensity = 1.2f;
-                    lightRotY = 45f;
-                    lightPitch = 50f;
-                    break;
-
-                case "Day":
-                    bgColor = new Color(0.55f, 0.72f, 0.90f);
-                    lightColor = new Color(1f, 0.98f, 0.92f);
-                    lightIntensity = 1.6f;
-                    lightRotY = 120f;
-                    lightPitch = 55f;
-                    break;
-
-                case "Sunset":
-                    bgColor = new Color(0.12f, 0.05f, 0.02f);
-                    lightColor = new Color(1f, 0.65f, 0.3f);
-                    lightIntensity = 1.5f;
-                    lightRotY = 220f;
-                    lightPitch = 15f;
-                    break;
-
-                case "Night":
-                    bgColor = new Color(0.01f, 0.015f, 0.04f);
-                    lightColor = new Color(0.5f, 0.6f, 1f);
-                    lightIntensity = 0.4f;
-                    lightRotY = 180f;
-                    lightPitch = 60f;
-                    break;
-
-                case "Blueprint":
-                    bgColor = new Color(0.04f, 0.08f, 0.18f);
-                    lightColor = new Color(0.7f, 0.85f, 1f);
-                    lightIntensity = 0.8f;
-                    lightRotY = 90f;
-                    lightPitch = 45f;
-                    break;
-
-                // ── Solid background colors (COLOR cycle) ──
-                case "White":
-                    bgColor = new Color(0.92f, 0.92f, 0.92f);
-                    lightColor = new Color(1f, 0.98f, 0.95f);
-                    lightIntensity = 1.0f;
-                    lightRotY = 45f;
-                    lightPitch = 50f;
-                    break;
-                case "Grey":
-                    bgColor = new Color(0.35f, 0.35f, 0.36f);
-                    lightColor = Color.white;
-                    lightIntensity = 1.0f;
-                    lightRotY = 45f;
-                    lightPitch = 50f;
-                    break;
-                case "Black":
-                    bgColor = new Color(0.02f, 0.02f, 0.02f);
-                    lightColor = Color.white;
-                    lightIntensity = 1.2f;
-                    lightRotY = 45f;
-                    lightPitch = 50f;
-                    break;
-                case "Yellow":
-                    bgColor = new Color(0.85f, 0.75f, 0.15f);
-                    lightColor = new Color(1f, 0.98f, 0.92f);
-                    lightIntensity = 1.0f;
-                    lightRotY = 45f;
-                    lightPitch = 50f;
-                    break;
-                case "Orange":
-                    bgColor = new Color(0.85f, 0.45f, 0.10f);
-                    lightColor = new Color(1f, 0.95f, 0.90f);
-                    lightIntensity = 1.0f;
-                    lightRotY = 45f;
-                    lightPitch = 50f;
-                    break;
-                case "Green":
-                    bgColor = new Color(0.15f, 0.55f, 0.30f);
-                    lightColor = new Color(0.95f, 1f, 0.95f);
-                    lightIntensity = 1.0f;
-                    lightRotY = 45f;
-                    lightPitch = 50f;
-                    break;
-                case "Blue":
-                    bgColor = new Color(0.10f, 0.30f, 0.75f);
-                    lightColor = new Color(0.85f, 0.90f, 1f);
-                    lightIntensity = 1.0f;
-                    lightRotY = 45f;
-                    lightPitch = 50f;
-                    break;
-                case "Purple":
-                    bgColor = new Color(0.35f, 0.15f, 0.60f);
-                    lightColor = new Color(0.92f, 0.88f, 1f);
-                    lightIntensity = 1.0f;
-                    lightRotY = 45f;
-                    lightPitch = 50f;
-                    break;
-                case "Red":
-                    bgColor = new Color(0.70f, 0.12f, 0.12f);
-                    lightColor = new Color(1f, 0.92f, 0.90f);
-                    lightIntensity = 1.0f;
-                    lightRotY = 45f;
-                    lightPitch = 50f;
-                    break;
-
-                case "Neutral":
-                default:
-                    bgColor = new Color(0.15f, 0.15f, 0.16f);
-                    lightColor = Color.white;
-                    lightIntensity = 1f;
-                    lightRotY = 0f;
-                    lightPitch = 50f;
-                    break;
-            }
-
-            // Apply camera background
-            if (Camera.main != null)
-            {
-                if (presetName == "Studio")
-                {
-                    if (_gradientSkybox == null)
-                    {
-                        var shader = Shader.Find("Skybox/AnimatedGradientSkybox");
-                        if (shader != null) _gradientSkybox = new Material(shader);
-                    }
-                    
-                    if (_gradientSkybox != null)
-                    {
-                        Camera.main.clearFlags = CameraClearFlags.Skybox;
-                        RenderSettings.skybox = _gradientSkybox;
-                    }
-                    else
-                    {
-                        // Fallback if shader not found
-                        Camera.main.clearFlags = CameraClearFlags.SolidColor;
-                        Camera.main.backgroundColor = bgColor;
-                    }
-                }
-                else
-                {
-                    Camera.main.clearFlags = CameraClearFlags.SolidColor;
-                    Camera.main.backgroundColor = bgColor;
-                    RenderSettings.skybox = null;
-                }
-            }
-
-            // Apply light
-            if (directionalLight != null)
-            {
-                directionalLight.color = lightColor;
-                directionalLight.intensity = lightIntensity;
-                directionalLight.transform.eulerAngles = new Vector3(lightPitch, lightRotY, 0f);
-            }
+            _transitionRoutine = StartCoroutine(TransitionToPreset(data));
         }
 
         public string CurrentPreset => _currentPreset;
+
+        // ── Preset table ─────────────────────────────────────
+
+        private PresetData GetPresetData(string name)
+        {
+            switch (name)
+            {
+                // ── Atmosphere presets (TIME cycle) ──
+                case "Studio":
+                    return new PresetData {
+                        topColor       = new Color(0.016f, 0.016f, 0.024f),  // deep blue-black center
+                        bottomColor    = Color.black,
+                        lightColor     = new Color(1f, 0.98f, 0.95f),
+                        lightIntensity = 1.2f,
+                        lightRotY = 45f, lightPitch = 50f,
+                        pulseEnabled = true, pulseSpeed = 0.5f, gradientScale = 0.8f
+                    };
+
+                case "Day":
+                    return new PresetData {
+                        topColor       = new Color(0.92f, 0.94f, 0.98f),    // warm white center
+                        bottomColor    = new Color(0.45f, 0.62f, 0.82f),    // sky blue edge
+                        lightColor     = new Color(1f, 0.98f, 0.92f),
+                        lightIntensity = 1.6f,
+                        lightRotY = 120f, lightPitch = 55f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.0f
+                    };
+
+                case "Sunset":
+                    return new PresetData {
+                        topColor       = new Color(0.95f, 0.72f, 0.35f),    // warm gold center
+                        bottomColor    = new Color(0.18f, 0.06f, 0.22f),    // deep purple edge
+                        lightColor     = new Color(1f, 0.65f, 0.3f),
+                        lightIntensity = 1.5f,
+                        lightRotY = 220f, lightPitch = 15f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.9f
+                    };
+
+                case "Night":
+                    return new PresetData {
+                        topColor       = new Color(0.04f, 0.05f, 0.14f),    // dark indigo center
+                        bottomColor    = new Color(0.005f, 0.005f, 0.02f),  // near-black edge
+                        lightColor     = new Color(0.5f, 0.6f, 1f),
+                        lightIntensity = 0.4f,
+                        lightRotY = 180f, lightPitch = 60f,
+                        pulseEnabled = true, pulseSpeed = 0.3f, gradientScale = 0.85f
+                    };
+
+                case "Blueprint":
+                    return new PresetData {
+                        topColor       = new Color(0.06f, 0.12f, 0.28f),    // blueprint blue center
+                        bottomColor    = new Color(0.02f, 0.04f, 0.10f),    // dark navy edge
+                        lightColor     = new Color(0.7f, 0.85f, 1f),
+                        lightIntensity = 0.8f,
+                        lightRotY = 90f, lightPitch = 45f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.9f
+                    };
+
+                // ── Solid color presets (COLOR cycle) — now with gradients ──
+                case "White":
+                    return new PresetData {
+                        topColor       = new Color(0.95f, 0.95f, 0.95f),
+                        bottomColor    = new Color(0.72f, 0.72f, 0.74f),
+                        lightColor     = new Color(1f, 0.98f, 0.95f),
+                        lightIntensity = 1.0f,
+                        lightRotY = 45f, lightPitch = 50f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.1f
+                    };
+
+                case "Grey":
+                    return new PresetData {
+                        topColor       = new Color(0.40f, 0.40f, 0.42f),
+                        bottomColor    = new Color(0.15f, 0.15f, 0.16f),
+                        lightColor     = Color.white,
+                        lightIntensity = 1.0f,
+                        lightRotY = 45f, lightPitch = 50f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.0f
+                    };
+
+                case "Black":
+                    return new PresetData {
+                        topColor       = new Color(0.06f, 0.06f, 0.06f),
+                        bottomColor    = new Color(0.01f, 0.01f, 0.01f),
+                        lightColor     = Color.white,
+                        lightIntensity = 1.2f,
+                        lightRotY = 45f, lightPitch = 50f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.9f
+                    };
+
+                case "Yellow":
+                    return new PresetData {
+                        topColor       = new Color(0.95f, 0.88f, 0.55f),    // soft warm yellow
+                        bottomColor    = new Color(0.35f, 0.25f, 0.05f),    // dark amber
+                        lightColor     = new Color(1f, 0.95f, 0.80f),       // warm tint on model
+                        lightIntensity = 1.1f,
+                        lightRotY = 45f, lightPitch = 50f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.95f
+                    };
+
+                case "Orange":
+                    return new PresetData {
+                        topColor       = new Color(0.95f, 0.62f, 0.35f),    // soft peach
+                        bottomColor    = new Color(0.30f, 0.10f, 0.02f),    // dark rust
+                        lightColor     = new Color(1f, 0.82f, 0.65f),       // warm orange tint
+                        lightIntensity = 1.1f,
+                        lightRotY = 45f, lightPitch = 50f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.95f
+                    };
+
+                case "Green":
+                    return new PresetData {
+                        topColor       = new Color(0.45f, 0.75f, 0.52f),    // soft sage
+                        bottomColor    = new Color(0.05f, 0.18f, 0.08f),    // deep forest
+                        lightColor     = new Color(0.85f, 1f, 0.88f),       // green tint on model
+                        lightIntensity = 1.0f,
+                        lightRotY = 45f, lightPitch = 50f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.95f
+                    };
+
+                case "Blue":
+                    return new PresetData {
+                        topColor       = new Color(0.35f, 0.55f, 0.88f),    // soft cerulean
+                        bottomColor    = new Color(0.04f, 0.08f, 0.25f),    // deep navy
+                        lightColor     = new Color(0.80f, 0.88f, 1f),       // cool blue tint
+                        lightIntensity = 1.0f,
+                        lightRotY = 45f, lightPitch = 50f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.95f
+                    };
+
+                case "Purple":
+                    return new PresetData {
+                        topColor       = new Color(0.55f, 0.38f, 0.78f),    // soft lavender
+                        bottomColor    = new Color(0.12f, 0.05f, 0.22f),    // deep plum
+                        lightColor     = new Color(0.90f, 0.82f, 1f),       // purple tint
+                        lightIntensity = 1.0f,
+                        lightRotY = 45f, lightPitch = 50f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.95f
+                    };
+
+                case "Red":
+                    return new PresetData {
+                        topColor       = new Color(0.82f, 0.32f, 0.30f),    // soft terracotta
+                        bottomColor    = new Color(0.22f, 0.04f, 0.04f),    // deep maroon
+                        lightColor     = new Color(1f, 0.85f, 0.82f),       // warm red tint
+                        lightIntensity = 1.0f,
+                        lightRotY = 45f, lightPitch = 50f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.95f
+                    };
+
+                case "Neutral":
+                default:
+                    return new PresetData {
+                        topColor       = new Color(0.18f, 0.18f, 0.20f),
+                        bottomColor    = new Color(0.05f, 0.05f, 0.06f),
+                        lightColor     = Color.white,
+                        lightIntensity = 1f,
+                        lightRotY = 0f, lightPitch = 50f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.9f
+                    };
+            }
+        }
+
+        // ── Smooth transition ────────────────────────────────
+
+        private IEnumerator TransitionToPreset(PresetData target)
+        {
+            EnsureSkyboxMaterial();
+
+            // Ensure skybox is active (no more SolidColor)
+            if (Camera.main != null && _gradientSkybox != null)
+            {
+                Camera.main.clearFlags = CameraClearFlags.Skybox;
+                RenderSettings.skybox = _gradientSkybox;
+            }
+
+            // Snapshot current values for lerp
+            Color fromTop    = _gradientSkybox != null ? _gradientSkybox.GetColor(TopColorId)    : Color.black;
+            Color fromBottom = _gradientSkybox != null ? _gradientSkybox.GetColor(BottomColorId) : Color.black;
+            Color fromLight  = directionalLight != null ? directionalLight.color : Color.white;
+            float fromIntensity = directionalLight != null ? directionalLight.intensity : 1f;
+            Vector3 fromEuler = directionalLight != null ? directionalLight.transform.eulerAngles : Vector3.zero;
+            float fromScale  = _gradientSkybox != null ? _gradientSkybox.GetFloat(ScaleId) : 0.8f;
+
+            Vector3 targetEuler = new Vector3(target.lightPitch, target.lightRotY, 0f);
+
+            float elapsed = 0f;
+
+            while (elapsed < transitionDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.SmoothStep(0f, 1f, elapsed / transitionDuration);
+
+                if (_gradientSkybox != null)
+                {
+                    _gradientSkybox.SetColor(TopColorId,    Color.Lerp(fromTop,    target.topColor,    t));
+                    _gradientSkybox.SetColor(BottomColorId, Color.Lerp(fromBottom, target.bottomColor, t));
+                    _gradientSkybox.SetFloat(ScaleId, Mathf.Lerp(fromScale, target.gradientScale, t));
+                }
+
+                if (directionalLight != null)
+                {
+                    directionalLight.color = Color.Lerp(fromLight, target.lightColor, t);
+                    directionalLight.intensity = Mathf.Lerp(fromIntensity, target.lightIntensity, t);
+                    directionalLight.transform.eulerAngles = Vector3.Lerp(fromEuler, targetEuler, t);
+                }
+
+                yield return null;
+            }
+
+            // Snap final values
+            if (_gradientSkybox != null)
+            {
+                _gradientSkybox.SetColor(TopColorId,    target.topColor);
+                _gradientSkybox.SetColor(BottomColorId, target.bottomColor);
+                _gradientSkybox.SetFloat(ScaleId,       target.gradientScale);
+                _gradientSkybox.SetFloat(PulseEnabledId, target.pulseEnabled ? 1f : 0f);
+                _gradientSkybox.SetFloat(SpeedId,       target.pulseSpeed);
+            }
+
+            if (directionalLight != null)
+            {
+                directionalLight.color = target.lightColor;
+                directionalLight.intensity = target.lightIntensity;
+                directionalLight.transform.eulerAngles = targetEuler;
+            }
+
+            _transitionRoutine = null;
+        }
     }
 }
