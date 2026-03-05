@@ -61,6 +61,7 @@ Shader "Skybox/AnimatedGradientSkybox"
                 float radius = _Scale + pulse;
                 
                 float t = smoothstep(0.0, radius, dist);
+                t = t * t;  // quadratic falloff for a stronger, more progressive gradient
                 fixed4 col = lerp(_TopColor, _BottomColor, t);
                 
                 return col;
