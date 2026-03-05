@@ -389,6 +389,13 @@ namespace WebGL.UI
             PartVisibilityManager.Instance?.ClearIsolation();
             _isIsolated = false;
             _modeController.SetIsolateState(false);
+
+            // Smoothly return camera to full drone view
+            var cam = OrbitCameraController.Instance;
+            if (cam != null)
+            {
+                cam.ResetView();
+            }
         }
 
         private void ToggleIsolation()
@@ -448,13 +455,17 @@ namespace WebGL.UI
         {
             if (evt.PartData == null)
             {
-                // Double-click on background → exit isolate if active
+                // Double-click on background → exit isolate + close sheet
                 if (_isIsolated) ClearIsolation();
+                if (_detailsSheet != null && _detailsSheet.IsSheetOpen)
+                    _detailsSheet.SetSheetState(false);
             }
             else if (_isIsolated)
             {
-                // Already isolated + double-click on part → de-isolate
+                // Already isolated + double-click on part → de-isolate + close sheet
                 ClearIsolation();
+                if (_detailsSheet != null && _detailsSheet.IsSheetOpen)
+                    _detailsSheet.SetSheetState(false);
             }
             else
             {

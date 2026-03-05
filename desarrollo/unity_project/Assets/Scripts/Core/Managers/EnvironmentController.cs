@@ -104,7 +104,7 @@ namespace WebGL.Core.Managers
                 // ── Atmosphere presets (TIME cycle) ──
                 case "Studio":
                     return new PresetData {
-                        topColor       = new Color(0.016f, 0.016f, 0.024f),  // deep blue-black center
+                        topColor       = new Color(0.03f, 0.03f, 0.06f),    // slightly lighter blue-black
                         bottomColor    = Color.black,
                         lightColor     = new Color(1f, 0.98f, 0.95f),
                         lightIntensity = 1.2f,
@@ -134,12 +134,12 @@ namespace WebGL.Core.Managers
 
                 case "Night":
                     return new PresetData {
-                        topColor       = new Color(0.04f, 0.05f, 0.14f),    // dark indigo center
-                        bottomColor    = new Color(0.005f, 0.005f, 0.02f),  // near-black edge
+                        topColor       = new Color(0.01f, 0.015f, 0.04f),   // original dark indigo
+                        bottomColor    = new Color(0.002f, 0.002f, 0.008f), // near-black edge
                         lightColor     = new Color(0.5f, 0.6f, 1f),
                         lightIntensity = 0.4f,
                         lightRotY = 180f, lightPitch = 60f,
-                        pulseEnabled = true, pulseSpeed = 0.3f, gradientScale = 1.25f
+                        pulseEnabled = true, pulseSpeed = 0.3f, gradientScale = 1.1f
                     };
 
                 case "Blueprint":
