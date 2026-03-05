@@ -161,6 +161,14 @@ namespace WebGL.UI.Panels
 
             OrbitCameraController.Instance?.SetViewportShift(isOpen ? 0.15f : 0f);
 
+            // Focus camera on the selected part when opening the sheet
+            if (isOpen)
+            {
+                var sel = SelectionManager.Instance?.CurrentSelection;
+                if (sel != null)
+                    OrbitCameraController.Instance?.FocusOnObject(sel.transform);
+            }
+
             OnSheetStateChanged?.Invoke(isOpen);
         }
 
