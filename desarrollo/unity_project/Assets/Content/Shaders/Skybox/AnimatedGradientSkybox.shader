@@ -67,10 +67,9 @@ Shader "Skybox/AnimatedGradientSkybox"
                 // >1 spreads center beyond corners, <1 compresses.
                 float nd = saturate(dist / (maxDist * (_Scale + pulse)));
                 
-                // smoothstep S-curve (zero-derivative at both ends = no visible edge)
-                // then squared for stronger center emphasis
+                // smoothstep S-curve: zero-derivative at both ends means
+                // no visible edge — color blends progressively from center to corners
                 float t = smoothstep(0.0, 1.0, nd);
-                t = t * t;
                 
                 fixed4 col = lerp(_TopColor, _BottomColor, t);
                 return col;
