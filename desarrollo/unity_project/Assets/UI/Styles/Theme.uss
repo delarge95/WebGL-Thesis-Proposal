@@ -1740,7 +1740,7 @@
     left: 50%;
     translate: -50% 100%; /* Hidden off-screen bottom by default */
     width: 280px;
-    height: 48px;
+    height: 56px;
     background-color: rgba(0, 0, 0, 0.96);
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
@@ -1760,12 +1760,12 @@
 .info-bar-peek:hover {
     background-color: rgba(20, 20, 20, 0.98);
     border-color: rgba(255, 255, 255, 0.15);
-    height: 52px;
+    height: 60px;
 }
 
 .info-bar-peek:active {
     background-color: rgba(30, 30, 30, 1);
-    height: 56px;
+    height: 64px;
 }
 
 .info-bar-peek--visible {
@@ -1794,7 +1794,7 @@
 }
 
 .peek-label {
-    font-size: 13px;
+    font-size: 18px;
     color: rgba(255, 255, 255, 0.4);
     letter-spacing: 2px;
     -unity-font-style: bold;
