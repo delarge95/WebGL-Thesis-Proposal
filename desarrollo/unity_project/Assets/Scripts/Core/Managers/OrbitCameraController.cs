@@ -7,10 +7,11 @@ namespace WebGL.Core.Managers
     {
         // ── Constants ────────────────────────────────────────────
         private const float DEFAULT_VERTICAL_ANGLE  = 20f;
-        private const float TOUCH_ORBIT_SCALE       = 0.2f;
-        private const float TOUCH_PINCH_SCALE       = 0.01f;
-        private const float TOUCH_PAN_SCALE         = 0.5f;
-        private const float TOUCH_ZOOM_MULTIPLIER   = 5f;
+        private const float TOUCH_ORBIT_SCALE       = 0.12f;
+        private const float TOUCH_PINCH_SCALE       = 0.006f;
+        private const float TOUCH_PAN_SCALE         = 0.3f;
+        private const float TOUCH_ZOOM_MULTIPLIER   = 3f;
+        private const float TOUCH_DEAD_ZONE         = 2f;   // px — ignore micro-jitter
         private const float MOUSE_SCROLL_SCALE      = 2f;
         private const float RAYCAST_MAX_DISTANCE    = 100f;
         private const float FOCUS_SNAP_DISTANCE     = 5f;
@@ -40,6 +41,7 @@ namespace WebGL.Core.Managers
 
         [Header("Damping")]
         [SerializeField] private float dampingFactor = 5f; // Smoother transitions
+        [SerializeField] private float touchDampingFactor = 8f; // Extra smoothing for touch
 
         // View Shift for UI
         private float currentViewShiftRatio = 0f; // 0 to 1 (percentage of screen height)
@@ -55,6 +57,8 @@ namespace WebGL.Core.Managers
 
         private Vector3 currentFocusPoint;
         private Vector3 targetFocusPoint;
+
+        private bool _isTouchInput;
 
         // Reset Logic
         private Vector3 initialFocusPoint;
@@ -106,10 +110,12 @@ namespace WebGL.Core.Managers
 
             if (Input.touchCount > 0)
             {
+                _isTouchInput = true;
                 HandleTouchInput();
             }
             else
             {
+                _isTouchInput = false;
                 HandleMouseInput();
             }
         }
@@ -155,6 +161,7 @@ namespace WebGL.Core.Managers
 
                 if (touch.phase == TouchPhase.Moved)
                 {
+                    if (touch.deltaPosition.magnitude < TOUCH_DEAD_ZONE) return;
                     float touchX = touch.deltaPosition.x * rotationSpeed * TOUCH_ORBIT_SCALE;
                     float touchY = touch.deltaPosition.y * rotationSpeed * TOUCH_ORBIT_SCALE;
                     ApplyOrbit(touchX, touchY);
@@ -263,10 +270,11 @@ namespace WebGL.Core.Managers
         private void UpdateCamera()
         {
             float dt = Time.deltaTime;
+            float damp = _isTouchInput ? touchDampingFactor : dampingFactor;
 
             // Smooth Orbit Angles
-            currentX = Mathf.Lerp(currentX, targetX, dt * dampingFactor);
-            currentY = Mathf.Lerp(currentY, targetY, dt * dampingFactor);
+            currentX = Mathf.Lerp(currentX, targetX, dt * damp);
+            currentY = Mathf.Lerp(currentY, targetY, dt * damp);
 
             // Smooth Distance
             currentDistance = Mathf.Lerp(currentDistance, targetDistance, dt * zoomDamping);
@@ -275,7 +283,7 @@ namespace WebGL.Core.Managers
             if (target != null)
                 targetFocusPoint = target.position + targetOffset;
             
-            currentFocusPoint = Vector3.Lerp(currentFocusPoint, targetFocusPoint, dt * dampingFactor);
+            currentFocusPoint = Vector3.Lerp(currentFocusPoint, targetFocusPoint, dt * damp);
 
             // Calculate Position & Rotation
             Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
