@@ -109,7 +109,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(1f, 0.98f, 0.95f),
                         lightIntensity = 1.2f,
                         lightRotY = 45f, lightPitch = 50f,
-                        pulseEnabled = true, pulseSpeed = 0.5f, gradientScale = 0.8f
+                        pulseEnabled = true, pulseSpeed = 0.5f, gradientScale = 1.5f
                     };
 
                 case "Day":
@@ -119,7 +119,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(1f, 0.98f, 0.92f),
                         lightIntensity = 1.6f,
                         lightRotY = 120f, lightPitch = 55f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.0f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.35f
                     };
 
                 case "Sunset":
@@ -129,7 +129,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(1f, 0.65f, 0.3f),
                         lightIntensity = 1.5f,
                         lightRotY = 220f, lightPitch = 15f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.9f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.25f
                     };
 
                 case "Night":
@@ -139,7 +139,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(0.5f, 0.6f, 1f),
                         lightIntensity = 0.4f,
                         lightRotY = 180f, lightPitch = 60f,
-                        pulseEnabled = true, pulseSpeed = 0.3f, gradientScale = 0.85f
+                        pulseEnabled = true, pulseSpeed = 0.3f, gradientScale = 1.25f
                     };
 
                 case "Blueprint":
@@ -149,7 +149,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(0.7f, 0.85f, 1f),
                         lightIntensity = 0.8f,
                         lightRotY = 90f, lightPitch = 45f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.9f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.25f
                     };
 
                 // ── Solid color presets (COLOR cycle) — now with gradients ──
@@ -160,7 +160,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(1f, 0.98f, 0.95f),
                         lightIntensity = 1.0f,
                         lightRotY = 45f, lightPitch = 50f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.1f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.45f
                     };
 
                 case "Grey":
@@ -170,7 +170,7 @@ namespace WebGL.Core.Managers
                         lightColor     = Color.white,
                         lightIntensity = 1.0f,
                         lightRotY = 45f, lightPitch = 50f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.0f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.35f
                     };
 
                 case "Black":
@@ -180,7 +180,7 @@ namespace WebGL.Core.Managers
                         lightColor     = Color.white,
                         lightIntensity = 1.2f,
                         lightRotY = 45f, lightPitch = 50f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.9f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.25f
                     };
 
                 case "Yellow":
@@ -190,7 +190,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(1f, 0.95f, 0.80f),       // warm tint on model
                         lightIntensity = 1.1f,
                         lightRotY = 45f, lightPitch = 50f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.95f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.3f
                     };
 
                 case "Orange":
@@ -200,7 +200,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(1f, 0.82f, 0.65f),       // warm orange tint
                         lightIntensity = 1.1f,
                         lightRotY = 45f, lightPitch = 50f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.95f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.3f
                     };
 
                 case "Green":
@@ -210,7 +210,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(0.85f, 1f, 0.88f),       // green tint on model
                         lightIntensity = 1.0f,
                         lightRotY = 45f, lightPitch = 50f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.95f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.3f
                     };
 
                 case "Blue":
@@ -220,7 +220,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(0.80f, 0.88f, 1f),       // cool blue tint
                         lightIntensity = 1.0f,
                         lightRotY = 45f, lightPitch = 50f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.95f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.3f
                     };
 
                 case "Purple":
@@ -230,7 +230,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(0.90f, 0.82f, 1f),       // purple tint
                         lightIntensity = 1.0f,
                         lightRotY = 45f, lightPitch = 50f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.95f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.3f
                     };
 
                 case "Red":
@@ -240,7 +240,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(1f, 0.85f, 0.82f),       // warm red tint
                         lightIntensity = 1.0f,
                         lightRotY = 45f, lightPitch = 50f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.95f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.3f
                     };
 
                 case "Neutral":
@@ -251,7 +251,7 @@ namespace WebGL.Core.Managers
                         lightColor     = Color.white,
                         lightIntensity = 1f,
                         lightRotY = 0f, lightPitch = 50f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 0.9f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.25f
                     };
             }
         }
