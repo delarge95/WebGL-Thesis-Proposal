@@ -161,13 +161,13 @@ namespace WebGL.Core.Managers
 
                 case "Blueprint":
                     return new PresetData {
-                        topColor       = new Color(0.06f, 0.12f, 0.28f),
-                        bottomColor    = new Color(0.02f, 0.04f, 0.10f),
+                        topColor       = new Color(0.12f, 0.22f, 0.45f),   // blueprint blue center
+                        bottomColor    = new Color(0.04f, 0.08f, 0.18f),   // dark navy edge
                         lightColor     = new Color(0.7f, 0.85f, 1f),
                         lightIntensity = 0.8f,
                         lightRotY = 90f, lightPitch = 45f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.25f,
-                        ditherStrength = 1f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.0f,
+                        ditherStrength = 0.6f
                     };
 
                 // ── Solid color presets (COLOR cycle) — now with gradients ──

@@ -81,7 +81,7 @@ Shader "Skybox/AnimatedGradientSkybox"
                 float2 seed = uv * _ScreenParams.xy;
                 float n1 = frac(sin(dot(seed, float2(12.9898, 78.233))) * 43758.5453);
                 float n2 = frac(sin(dot(seed, float2(39.346, 11.135))) * 23421.6312);
-                float dither = (n1 + n2 - 1.0) / 255.0 * (_DitherStrength * 80.0 + 1.0);
+                float dither = (n1 + n2 - 1.0) / 255.0 * (_DitherStrength * 15.0 + 1.0);
                 col.rgb += dither;
                 
                 return col;
