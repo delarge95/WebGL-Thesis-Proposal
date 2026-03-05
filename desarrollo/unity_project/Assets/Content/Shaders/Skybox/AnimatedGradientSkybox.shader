@@ -8,6 +8,12 @@ Shader "Skybox/AnimatedGradientSkybox"
         _Scale ("Radius", Range(0.1, 3.0)) = 1.2
         [Toggle] _PulseEnabled ("Enable Pulse", Float) = 1
         _DitherStrength ("Dither Strength", Range(0, 1)) = 0.1
+
+        [Header(Blueprint Grid)]
+        [Toggle] _GridEnabled ("Enable Grid", Float) = 0
+        _GridScale ("Grid Scale", Range(5, 80)) = 20
+        _GridLineWidth ("Grid Line Width", Range(0.005, 0.05)) = 0.015
+        _GridColor ("Grid Line Color", Color) = (0.4, 0.55, 0.8, 0.15)
     }
     SubShader
     {
@@ -38,6 +44,11 @@ Shader "Skybox/AnimatedGradientSkybox"
             half _Scale;
             half _PulseEnabled;
             half _DitherStrength;
+
+            half _GridEnabled;
+            half _GridScale;
+            half _GridLineWidth;
+            fixed4 _GridColor;
 
             v2f vert (appdata_t v)
             {
@@ -83,6 +94,24 @@ Shader "Skybox/AnimatedGradientSkybox"
                 float n2 = frac(sin(dot(seed, float2(39.346, 11.135))) * 23421.6312);
                 float dither = (n1 + n2 - 1.0) / 255.0 * _DitherStrength * 6.0;
                 col.rgb += dither;
+                
+                // Blueprint grid overlay (screen-space)
+                if (_GridEnabled > 0.5)
+                {
+                    float gridAspect = _ScreenParams.x / _ScreenParams.y;
+                    float2 gridBase = float2(uv.x * gridAspect, uv.y) * _GridScale;
+                    
+                    float2 gridFrac = frac(gridBase);
+                    float gLine = step(gridFrac.x, _GridLineWidth) + step(gridFrac.y, _GridLineWidth);
+                    gLine = saturate(gLine);
+                    
+                    float2 gridFrac2 = frac(gridBase * 5.0);
+                    float gLine2 = step(gridFrac2.x, _GridLineWidth * 0.5) + step(gridFrac2.y, _GridLineWidth * 0.5);
+                    gLine2 = saturate(gLine2) * 0.3;
+                    
+                    float gAlpha = (gLine + gLine2) * _GridColor.a;
+                    col.rgb = lerp(col.rgb, _GridColor.rgb, gAlpha);
+                }
                 
                 return col;
             }
