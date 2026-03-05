@@ -67,9 +67,11 @@ Shader "Skybox/AnimatedGradientSkybox"
                 // >1 spreads center beyond corners, <1 compresses.
                 float nd = saturate(dist / (maxDist * (_Scale + pulse)));
                 
-                // smoothstep S-curve: zero-derivative at both ends means
-                // no visible edge — color blends progressively from center to corners
+                // Soft gradient: smoothstep for zero-derivative boundaries,
+                // then sqrt to stretch the mid-tones wider (opposite of squaring).
+                // This makes the transition ultra-gradual — no visible edge anywhere.
                 float t = smoothstep(0.0, 1.0, nd);
+                t = sqrt(t);
                 
                 fixed4 col = lerp(_TopColor, _BottomColor, t);
                 return col;

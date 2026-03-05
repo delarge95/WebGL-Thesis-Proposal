@@ -123,7 +123,7 @@ namespace WebGL.Core.Managers
                         lightColor     = new Color(1f, 0.98f, 0.95f),
                         lightIntensity = 1.2f,
                         lightRotY = 45f, lightPitch = 50f,
-                        pulseEnabled = true, pulseSpeed = 0.5f, gradientScale = 1.8f
+                        pulseEnabled = true, pulseSpeed = 0.5f, gradientScale = 0.8f
                     };
 
                 case "Day":
