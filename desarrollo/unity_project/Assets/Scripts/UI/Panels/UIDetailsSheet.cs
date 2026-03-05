@@ -37,6 +37,13 @@ namespace WebGL.UI.Panels
         private readonly Button _infoBtn;
         private readonly VisualElement _actionsRow;
 
+        // ── Accent colors (adaptive) ──
+        private static readonly Color AccentDark  = new Color(0.06f, 0.73f, 0.5f);   // teal on dark bg
+        private static readonly Color AccentLight = new Color(0.02f, 0.48f, 0.35f);   // deeper teal on light bg
+        private static readonly Color MutedDark   = new Color(0.6f, 0.6f, 0.7f);      // placeholder on dark bg
+        private static readonly Color MutedLight  = new Color(0.35f, 0.35f, 0.4f);    // placeholder on light bg
+        private bool _isLightBg;
+
         // ── State ──
         public bool IsSheetOpen { get; private set; } = false;
         private float _dragStartY;
@@ -113,6 +120,26 @@ namespace WebGL.UI.Panels
             OnSheetStateChanged = null;
             foreach (var action in _cleanupActions) action?.Invoke();
             _cleanupActions.Clear();
+        }
+
+        /// <summary>
+        /// Called by UIManager when the environment changes between light/dark.
+        /// Re-applies inline accent colors so they match the new background.
+        /// </summary>
+        public void SetLightBackground(bool isLight)
+        {
+            _isLightBg = isLight;
+
+            // Re-apply accent on labels that use inline style.color
+            if (_partNameLabel != null && !_partNameLabel.ClassListContains("selection-label--hidden"))
+                _partNameLabel.style.color = new StyleColor(isLight ? AccentLight : AccentDark);
+
+            if (_topContextLabel != null)
+            {
+                bool hasSelection = SelectionManager.Instance?.HasSelection == true;
+                _topContextLabel.style.color = new StyleColor(
+                    hasSelection ? (isLight ? AccentLight : AccentDark) : (isLight ? MutedLight : MutedDark));
+            }
         }
 
         // ═══════════════════════════════════════════════════════
@@ -269,7 +296,7 @@ namespace WebGL.UI.Panels
                 if (_partNameLabel != null)
                 {
                     _partNameLabel.text = upperName;
-                    _partNameLabel.style.color = new StyleColor(new Color(0.06f, 0.73f, 0.5f));
+                    _partNameLabel.style.color = new StyleColor(_isLightBg ? AccentLight : AccentDark);
                     _partNameLabel.RemoveFromClassList("selection-label--hidden");
                 }
 
@@ -277,7 +304,7 @@ namespace WebGL.UI.Panels
                 if (_topContextLabel != null)
                 {
                     _topContextLabel.text = upperName;
-                    _topContextLabel.style.color = new StyleColor(new Color(0.06f, 0.73f, 0.5f));
+                    _topContextLabel.style.color = new StyleColor(_isLightBg ? AccentLight : AccentDark);
                 }
             }
             else
@@ -289,7 +316,7 @@ namespace WebGL.UI.Panels
                 if (_topContextLabel != null)
                 {
                     _topContextLabel.text = "SELECT A PART";
-                    _topContextLabel.style.color = new StyleColor(new Color(0.6f, 0.6f, 0.7f));
+                    _topContextLabel.style.color = new StyleColor(_isLightBg ? MutedLight : MutedDark);
                 }
             }
         }

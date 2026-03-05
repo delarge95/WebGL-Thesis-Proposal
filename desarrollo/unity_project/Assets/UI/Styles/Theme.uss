@@ -1995,3 +1995,82 @@
     border-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
 }
+
+/* ── Mode Button Icons ── */
+.ui-light-bg .mode-btn-icon {
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.6);
+}
+
+/* ── Sheet Handle ── */
+.ui-light-bg .sheet-handle {
+    background-color: rgba(0, 0, 0, 0.16);
+}
+
+/* ── Details Sheet (light frosted glass instead of dark) ── */
+.ui-light-bg .details-sheet {
+    background-color: rgba(255, 255, 255, 0.96);
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ── Info Bar Peek ── */
+.ui-light-bg .info-bar-peek {
+    background-color: rgba(255, 255, 255, 0.96);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.ui-light-bg .info-bar-peek:hover {
+    background-color: rgba(245, 245, 245, 0.98);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.ui-light-bg .info-bar-peek:active {
+    background-color: rgba(235, 235, 235, 1);
+}
+
+/* ── Actions Row — opaque pill when sheet is open ── */
+.ui-light-bg .actions-row--sheet-open {
+    background-color: rgba(255, 255, 255, 0.96);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ── Back Button ── */
+.ui-light-bg .btn-back {
+    border-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.ui-light-bg .btn-back:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.ui-light-bg .btn-back:active {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ── Read-Only Text (Description) ── */
+.ui-light-bg .read-only-text {
+    color: rgba(0, 0, 0, 0.65);
+}
+
+/* ── Foldout Headers (Identification / Specifications / Assembly) ── */
+.ui-light-bg .unity-foldout__toggle {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.ui-light-bg .unity-foldout__toggle .unity-toggle__checkmark {
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.5);
+}
+
+/* ── Slider on light bg ── */
+.ui-light-bg .glass-slider .unity-base-slider__tracker {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.ui-light-bg .glass-slider .unity-base-slider__dragger {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.ui-light-bg .glass-slider .unity-base-slider__dragger:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
