@@ -5,7 +5,7 @@ Shader "Skybox/AnimatedGradientSkybox"
         _TopColor ("Center Color", Color) = (0.04, 0.04, 0.06, 1)
         _BottomColor ("Edge Color", Color) = (0, 0, 0, 1)
         _Speed ("Pulse Speed", Range(0, 10)) = 0.5
-        _Scale ("Radius", Range(0.1, 2.0)) = 0.8
+        _Scale ("Radius", Range(0.1, 3.0)) = 1.2
         [Toggle] _PulseEnabled ("Enable Pulse", Float) = 1
     }
     SubShader
