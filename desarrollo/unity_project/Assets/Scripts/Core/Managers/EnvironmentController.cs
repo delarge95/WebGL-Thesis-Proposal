@@ -22,6 +22,7 @@ namespace WebGL.Core.Managers
             public bool  pulseEnabled;
             public float pulseSpeed;
             public float gradientScale;
+            public float ditherStrength;  // 0 = subtle anti-banding, 1 = visible grain (Blueprint)
         }
 
         [Header("References")]
@@ -44,6 +45,7 @@ namespace WebGL.Core.Managers
         private static readonly int SpeedId       = Shader.PropertyToID("_Speed");
         private static readonly int ScaleId       = Shader.PropertyToID("_Scale");
         private static readonly int PulseEnabledId = Shader.PropertyToID("_PulseEnabled");
+        private static readonly int DitherStrengthId = Shader.PropertyToID("_DitherStrength");
 
         protected override void Awake()
         {
@@ -118,12 +120,13 @@ namespace WebGL.Core.Managers
                 // ── Atmosphere presets (TIME cycle) ──
                 case "Studio":
                     return new PresetData {
-                        topColor       = new Color(0.10f, 0.10f, 0.12f),    // dark gray center — visible gradient against black edge
+                        topColor       = new Color(0.10f, 0.10f, 0.12f),
                         bottomColor    = Color.black,
                         lightColor     = new Color(1f, 0.98f, 0.95f),
                         lightIntensity = 1.2f,
                         lightRotY = 45f, lightPitch = 50f,
-                        pulseEnabled = true, pulseSpeed = 0.5f, gradientScale = 0.8f
+                        pulseEnabled = true, pulseSpeed = 0.5f, gradientScale = 0.8f,
+                        ditherStrength = 0f
                     };
 
                 case "Day":
@@ -158,12 +161,13 @@ namespace WebGL.Core.Managers
 
                 case "Blueprint":
                     return new PresetData {
-                        topColor       = new Color(0.06f, 0.12f, 0.28f),    // blueprint blue center
-                        bottomColor    = new Color(0.02f, 0.04f, 0.10f),    // dark navy edge
+                        topColor       = new Color(0.06f, 0.12f, 0.28f),
+                        bottomColor    = new Color(0.02f, 0.04f, 0.10f),
                         lightColor     = new Color(0.7f, 0.85f, 1f),
                         lightIntensity = 0.8f,
                         lightRotY = 90f, lightPitch = 45f,
-                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.25f
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.25f,
+                        ditherStrength = 1f
                     };
 
                 // ── Solid color presets (COLOR cycle) — now with gradients ──
@@ -290,6 +294,7 @@ namespace WebGL.Core.Managers
             float fromIntensity = directionalLight != null ? directionalLight.intensity : 1f;
             Vector3 fromEuler = directionalLight != null ? directionalLight.transform.eulerAngles : Vector3.zero;
             float fromScale  = _gradientSkybox != null ? _gradientSkybox.GetFloat(ScaleId) : 0.8f;
+            float fromDither = _gradientSkybox != null ? _gradientSkybox.GetFloat(DitherStrengthId) : 0f;
 
             Vector3 targetEuler = new Vector3(target.lightPitch, target.lightRotY, 0f);
 
@@ -305,6 +310,7 @@ namespace WebGL.Core.Managers
                     _gradientSkybox.SetColor(TopColorId,    Color.Lerp(fromTop,    target.topColor,    t));
                     _gradientSkybox.SetColor(BottomColorId, Color.Lerp(fromBottom, target.bottomColor, t));
                     _gradientSkybox.SetFloat(ScaleId, Mathf.Lerp(fromScale, target.gradientScale, t));
+                    _gradientSkybox.SetFloat(DitherStrengthId, Mathf.Lerp(fromDither, target.ditherStrength, t));
                 }
 
                 if (directionalLight != null)
@@ -323,6 +329,7 @@ namespace WebGL.Core.Managers
                 _gradientSkybox.SetColor(TopColorId,    target.topColor);
                 _gradientSkybox.SetColor(BottomColorId, target.bottomColor);
                 _gradientSkybox.SetFloat(ScaleId,       target.gradientScale);
+                _gradientSkybox.SetFloat(DitherStrengthId, target.ditherStrength);
                 _gradientSkybox.SetFloat(PulseEnabledId, target.pulseEnabled ? 1f : 0f);
                 _gradientSkybox.SetFloat(SpeedId,       target.pulseSpeed);
             }
