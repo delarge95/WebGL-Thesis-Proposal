@@ -101,20 +101,20 @@ Shader "Skybox/AnimatedGradientSkybox"
                     float gridAspect = _ScreenParams.x / _ScreenParams.y;
                     float2 gridBase = float2(uv.x * gridAspect, uv.y) * _GridScale;
                     
+                    // Distance to nearest grid line center (continuous, no wrap discontinuity)
                     float2 fw = fwidth(gridBase);
-                    float2 gridFrac = frac(gridBase);
-                    float gLineX = smoothstep(fw.x, 0.0, gridFrac.x - _GridLineWidth);
-                    float gLineY = smoothstep(fw.y, 0.0, gridFrac.y - _GridLineWidth);
-                    float gLine = saturate(gLineX + gLineY);
+                    float2 d = abs(frac(gridBase - 0.5) - 0.5);
+                    float2 aa = smoothstep(fw * 1.5, fw * 0.5, d);
+                    float gLine = max(aa.x, aa.y);
                     
+                    // Sub-grid (5x finer)
                     float2 gridBase2 = gridBase * 5.0;
                     float2 fw2 = fwidth(gridBase2);
-                    float2 gridFrac2 = frac(gridBase2);
-                    float gLineX2 = smoothstep(fw2.x, 0.0, gridFrac2.x - _GridLineWidth * 0.5);
-                    float gLineY2 = smoothstep(fw2.y, 0.0, gridFrac2.y - _GridLineWidth * 0.5);
-                    float gLine2 = saturate(gLineX2 + gLineY2) * 0.3;
+                    float2 d2 = abs(frac(gridBase2 - 0.5) - 0.5);
+                    float2 aa2 = smoothstep(fw2 * 1.5, fw2 * 0.5, d2);
+                    float gLine2 = max(aa2.x, aa2.y) * 0.3;
                     
-                    float gAlpha = (gLine + gLine2) * _GridColor.a;
+                    float gAlpha = saturate(gLine + gLine2) * _GridColor.a;
                     col.rgb = lerp(col.rgb, _GridColor.rgb, gAlpha);
                 }
                 
