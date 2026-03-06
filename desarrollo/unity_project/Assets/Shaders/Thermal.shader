@@ -19,6 +19,9 @@ Shader "WebGL/Thermal"
         _NoiseScale("Noise Scale", Range(1, 50)) = 10
         _NoiseSpeed("Noise Speed", Range(0, 2)) = 0.5
         _EdgeGlow("Edge Glow", Range(0, 2)) = 0.5
+        
+        [HideInInspector] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
+        [HideInInspector] _EmissionColor("Emission Color", Color) = (0, 0, 0, 0)
     }
 
     SubShader
@@ -78,6 +81,8 @@ Shader "WebGL/Thermal"
                 half _NoiseScale;
                 half _NoiseSpeed;
                 half _EdgeGlow;
+                half4 _BaseColor;
+                half4 _EmissionColor;
             CBUFFER_END
 
             // Global clipping (set by CrossSectionManager)
@@ -178,6 +183,11 @@ Shader "WebGL/Thermal"
                 // Add some scanline effect
                 float scanline = sin(IN.positionCS.y * 2.0) * 0.02 + 0.98;
                 color.rgb *= scanline;
+                
+                // Selection/hover highlight (driven by HighlightSystem)
+                half highlightBlend = saturate(1.0 - _BaseColor.a);
+                color.rgb = lerp(color.rgb, _BaseColor.rgb, highlightBlend * 0.5);
+                color.rgb += _EmissionColor.rgb * 0.3;
                 
                 color.rgb = MixFog(color.rgb, IN.fogFactor);
                 

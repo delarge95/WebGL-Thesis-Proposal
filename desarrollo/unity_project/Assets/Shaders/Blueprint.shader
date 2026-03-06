@@ -15,6 +15,9 @@ Shader "WebGL/Blueprint"
         
         [Header(Technical Lines)]
         _FresnelPower("Edge Detection Power", Range(0.1, 5)) = 2.0
+        
+        [HideInInspector] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
+        [HideInInspector] _EmissionColor("Emission Color", Color) = (0, 0, 0, 0)
     }
 
     SubShader
@@ -42,7 +45,6 @@ Shader "WebGL/Blueprint"
             #pragma multi_compile_fog
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
             struct Attributes
             {
@@ -65,6 +67,8 @@ Shader "WebGL/Blueprint"
                 half4 _LineColor;
                 half4 _BackgroundColor;
                 half4 _GridColor;
+                half4 _BaseColor;
+                half4 _EmissionColor;
                 half _OutlineWidth;
                 half _EdgeThreshold;
                 half _GridScale;
@@ -109,21 +113,12 @@ Shader "WebGL/Blueprint"
                 half3 normalWS = normalize(IN.normalWS);
                 half3 viewDirWS = normalize(IN.viewDirWS);
                 
-                // Main light for diffuse shading
-                Light mainLight = GetMainLight();
-                half ndotl = saturate(dot(normalWS, mainLight.direction));
-                
-                // Edge detection using fresnel
-                half ndotv = saturate(dot(normalWS, viewDirWS));
-                half edge = pow(1.0 - ndotv, _FresnelPower);
-                
-                // Combine: dark blue base with flat matte shading
+                // Fully unlit base — no light response for authentic blueprint look
                 half3 color = _BackgroundColor.rgb;
                 
-                // Ultra-flat diffuse — barely perceptible light response, no gloss
-                half diffuse = lerp(0.92, 1.0, ndotl);
-                half lightMul = clamp(dot(mainLight.color.rgb, half3(0.299, 0.587, 0.114)), 0.8, 1.1);
-                color *= diffuse * lightMul;
+                // Subtle depth shading: edge-facing surfaces slightly darker (not brighter)
+                half ndotv = saturate(dot(normalWS, viewDirWS));
+                color *= lerp(0.92, 1.0, ndotv);
                 
                 // Screen-space grid (unified with background, anti-aliased)
                 float2 screenUV = IN.positionCS.xy / _ScreenParams.xy;
@@ -146,8 +141,9 @@ Shader "WebGL/Blueprint"
                 half gridAlpha = saturate(gridLine + gridLine2) * _GridColor.a * 0.4;
                 color = lerp(color, _GridColor.rgb, gridAlpha);
                 
-                // Edge lines — smooth blend for cleaner look
-                half edgeMask = smoothstep(_EdgeThreshold, _EdgeThreshold + 0.15, edge);
+                // Edge detection using normal discontinuity (view-independent)
+                half normalDisc = length(fwidth(normalWS));
+                half edgeMask = smoothstep(0.0, _EdgeThreshold, normalDisc);
                 color = lerp(color, _LineColor.rgb, edgeMask);
                 
                 // Blueprint paper grain — unified with skybox dither
@@ -156,6 +152,11 @@ Shader "WebGL/Blueprint"
                 float gn2 = frac(sin(dot(grainSeed, float2(39.346, 11.135))) * 23421.6312);
                 float grain = (gn1 + gn2 - 1.0) * 0.003;
                 color += grain;
+                
+                // Selection/hover highlight (driven by HighlightSystem)
+                half highlightBlend = saturate(1.0 - _BaseColor.a);
+                color = lerp(color, _BaseColor.rgb, highlightBlend * 0.5);
+                color += _EmissionColor.rgb * 0.3;
                 
                 color = MixFog(color, IN.fogFactor);
                 
@@ -196,6 +197,8 @@ Shader "WebGL/Blueprint"
                 half4 _LineColor;
                 half4 _BackgroundColor;
                 half4 _GridColor;
+                half4 _BaseColor;
+                half4 _EmissionColor;
                 half _OutlineWidth;
                 half _EdgeThreshold;
                 half _GridScale;
@@ -235,7 +238,9 @@ Shader "WebGL/Blueprint"
                     if (clipDist2 < 0) discard;
                 }
 
-                return half4(_LineColor.rgb, 1.0);
+                // Selection-aware outline
+                half3 outlineColor = lerp(_LineColor.rgb, _BaseColor.rgb, saturate(1.0 - _BaseColor.a) * 0.6);
+                return half4(outlineColor + _EmissionColor.rgb * 0.2, 1.0);
             }
             ENDHLSL
         }
