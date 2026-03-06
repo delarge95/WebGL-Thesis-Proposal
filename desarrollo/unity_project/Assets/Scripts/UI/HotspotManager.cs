@@ -95,6 +95,11 @@ public class HotspotManager : Singleton<HotspotManager>
 
         _container.style.opacity = visible ? 1f : 0f;
         _container.pickingMode = PickingMode.Ignore; // Always ignore container, children handle clicks
+
+        foreach (var hotspot in _activeHotspots)
+        {
+            hotspot.SetEnabled(visible);
+        }
     }
 
     public void ToggleVisibility()

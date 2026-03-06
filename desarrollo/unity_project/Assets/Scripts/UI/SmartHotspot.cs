@@ -24,6 +24,7 @@ public class SmartHotspot
 
     // ─── State ───
     private bool _isVisible = true;
+    private bool _isEnabled = true;
     private bool _isOccluded = false;
     private Vector2 _smoothedPos;
     private bool _hasPreviousPos = false;
@@ -69,6 +70,7 @@ public class SmartHotspot
     public void Update()
     {
         if (_target == null || _camera == null || _root.panel == null) return;
+        if (!_isEnabled) return;
 
         Vector3 worldPos = _target.position + Vector3.up * Y_OFFSET_WORLD;
 
@@ -152,14 +154,43 @@ public class SmartHotspot
     {
         if (!_isVisible) return;
         _root.AddToClassList("hotspot-dot--hidden");
+        _root.pickingMode = PickingMode.Ignore;
         _isVisible = false;
     }
 
     private void Show()
     {
-        if (_isVisible) return;
+        if (_isVisible || !_isEnabled) return;
         _root.RemoveFromClassList("hotspot-dot--hidden");
+        _root.pickingMode = PickingMode.Position;
         _isVisible = true;
+    }
+
+    public void SetEnabled(bool enabled)
+    {
+        if (_isEnabled == enabled) return;
+
+        _isEnabled = enabled;
+
+        if (!enabled)
+        {
+            _root.AddToClassList("hotspot-dot--hidden");
+            _root.pickingMode = PickingMode.Ignore;
+            _nameLabel.RemoveFromClassList("hotspot-label--visible");
+            _root.RemoveFromClassList("hotspot-dot--hover");
+            _highlight?.OnHoverExit();
+            _isVisible = false;
+            return;
+        }
+
+        _hasPreviousPos = false;
+
+        if (!_isOccluded)
+        {
+            _root.RemoveFromClassList("hotspot-dot--hidden");
+            _root.pickingMode = PickingMode.Position;
+            _isVisible = true;
+        }
     }
 
     // ═══════════════════════════════════════════════
