@@ -346,8 +346,7 @@ namespace WebGL.UI
 
             OrbitCameraController.Instance?.ResetView();
 
-            if (ViewModeManager.Instance?.CurrentMode != null && ViewModeManager.Instance.CurrentMode != ViewMode.Realistic)
-                ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
+            // Preserve current view mode (Blueprint, Thermal, etc.) — only reset geometry state
 
             // Explicitly disable cross-section on reset (one of only two valid triggers)
             CrossSectionManager.Instance?.DisableCrossSection();
