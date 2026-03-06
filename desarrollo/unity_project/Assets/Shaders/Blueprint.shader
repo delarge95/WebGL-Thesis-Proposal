@@ -130,20 +130,20 @@ Shader "WebGL/Blueprint"
                 float aspect = _ScreenParams.x / _ScreenParams.y;
                 float2 gridBase = float2(screenUV.x * aspect, screenUV.y) * _GridScale;
                 
+                // Distance to nearest grid line center (continuous, no wrap discontinuity)
                 float2 fw = fwidth(gridBase);
-                float2 gridFrac = frac(gridBase);
-                float lineX = smoothstep(fw.x, 0.0, gridFrac.x - _GridWidth);
-                float lineY = smoothstep(fw.y, 0.0, gridFrac.y - _GridWidth);
-                float gridLine = saturate(lineX + lineY);
+                float2 d = abs(frac(gridBase - 0.5) - 0.5);
+                float2 aa = smoothstep(fw * 1.5, fw * 0.5, d);
+                float gridLine = max(aa.x, aa.y);
                 
+                // Sub-grid (5x finer)
                 float2 gridBase2 = gridBase * 5.0;
                 float2 fw2 = fwidth(gridBase2);
-                float2 gridFrac2 = frac(gridBase2);
-                float lineX2 = smoothstep(fw2.x, 0.0, gridFrac2.x - _GridWidth * 0.5);
-                float lineY2 = smoothstep(fw2.y, 0.0, gridFrac2.y - _GridWidth * 0.5);
-                float gridLine2 = saturate(lineX2 + lineY2) * 0.3;
+                float2 d2 = abs(frac(gridBase2 - 0.5) - 0.5);
+                float2 aa2 = smoothstep(fw2 * 1.5, fw2 * 0.5, d2);
+                float gridLine2 = max(aa2.x, aa2.y) * 0.3;
                 
-                half gridAlpha = (gridLine + gridLine2) * _GridColor.a * 0.4;
+                half gridAlpha = saturate(gridLine + gridLine2) * _GridColor.a * 0.4;
                 color = lerp(color, _GridColor.rgb, gridAlpha);
                 
                 // Edge lines — smooth blend for cleaner look
