@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using WebGL.Core.Utils;
 using WebGL.Core.Events;
-using WebGL.Rendering;
+using WebGL.Core.Rendering;
 
 namespace WebGL.Core.Managers
 {
