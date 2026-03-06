@@ -185,9 +185,13 @@ Shader "WebGL/Thermal"
                 color.rgb *= scanline;
                 
                 // Selection/hover highlight (driven by HighlightSystem)
+                // Use inverted luminance to guarantee contrast on hot/white areas
+                half thermalLum = dot(color.rgb, half3(0.299, 0.587, 0.114));
+                half3 contrastTint = lerp(_BaseColor.rgb, half3(0,0,0), thermalLum);
                 half highlightBlend = saturate(1.0 - _BaseColor.a);
-                color.rgb = lerp(color.rgb, _BaseColor.rgb, highlightBlend * 0.5);
-                color.rgb += _EmissionColor.rgb * 0.3;
+                // Overlay selection color with strong contrast
+                color.rgb = lerp(color.rgb, contrastTint, highlightBlend * 0.65);
+                color.rgb += _EmissionColor.rgb * (0.3 + highlightBlend * 0.4);
                 
                 color.rgb = MixFog(color.rgb, IN.fogFactor);
                 
