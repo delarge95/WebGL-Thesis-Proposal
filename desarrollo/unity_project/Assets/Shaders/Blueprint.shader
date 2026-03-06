@@ -6,7 +6,7 @@ Shader "WebGL/Blueprint"
         _BackgroundColor("Background Color", Color) = (0.08, 0.18, 0.38, 1.0)
         _GridColor("Grid Color", Color) = (0.4, 0.55, 0.8, 0.2)
         
-        _OutlineWidth("Outline Width", Range(0, 0.02)) = 0.003
+        _OutlineWidth("Outline Width", Range(0, 0.05)) = 0.012
         _EdgeThreshold("Edge Threshold", Range(0, 1)) = 0.15
         
         [Header(Grid)]
@@ -117,12 +117,12 @@ Shader "WebGL/Blueprint"
                 half ndotv = saturate(dot(normalWS, viewDirWS));
                 half edge = pow(1.0 - ndotv, _FresnelPower);
                 
-                // Combine: dark blue base with matte diffuse shading
+                // Combine: dark blue base with flat matte shading
                 half3 color = _BackgroundColor.rgb;
                 
-                // Rough diffuse — responds to light direction & intensity
-                half diffuse = lerp(0.4, 1.0, ndotl);
-                half lightMul = clamp(dot(mainLight.color.rgb, half3(0.299, 0.587, 0.114)) * 1.5, 0.3, 1.5);
+                // Very subtle diffuse — responds to light direction without specular sheen
+                half diffuse = lerp(0.7, 1.0, ndotl);
+                half lightMul = clamp(dot(mainLight.color.rgb, half3(0.299, 0.587, 0.114)), 0.6, 1.2);
                 color *= diffuse * lightMul;
                 
                 // Screen-space grid (unified with background, anti-aliased)
@@ -235,7 +235,7 @@ Shader "WebGL/Blueprint"
                     if (clipDist2 < 0) discard;
                 }
 
-                return half4(_LineColor.rgb * 0.7, 1.0);
+                return half4(_LineColor.rgb, 1.0);
             }
             ENDHLSL
         }
