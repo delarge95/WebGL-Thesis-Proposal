@@ -125,18 +125,23 @@ Shader "WebGL/Blueprint"
                 half lightMul = clamp(dot(mainLight.color.rgb, half3(0.299, 0.587, 0.114)) * 1.5, 0.3, 1.5);
                 color *= diffuse * lightMul;
                 
-                // Screen-space grid (unified with background)
+                // Screen-space grid (unified with background, anti-aliased)
                 float2 screenUV = IN.positionCS.xy / _ScreenParams.xy;
                 float aspect = _ScreenParams.x / _ScreenParams.y;
                 float2 gridBase = float2(screenUV.x * aspect, screenUV.y) * _GridScale;
                 
+                float2 fw = fwidth(gridBase);
                 float2 gridFrac = frac(gridBase);
-                float gridLine = step(gridFrac.x, _GridWidth) + step(gridFrac.y, _GridWidth);
-                gridLine = saturate(gridLine);
+                float lineX = smoothstep(fw.x, 0.0, gridFrac.x - _GridWidth);
+                float lineY = smoothstep(fw.y, 0.0, gridFrac.y - _GridWidth);
+                float gridLine = saturate(lineX + lineY);
                 
-                float2 gridFrac2 = frac(gridBase * 5.0);
-                float gridLine2 = step(gridFrac2.x, _GridWidth * 0.5) + step(gridFrac2.y, _GridWidth * 0.5);
-                gridLine2 = saturate(gridLine2) * 0.3;
+                float2 gridBase2 = gridBase * 5.0;
+                float2 fw2 = fwidth(gridBase2);
+                float2 gridFrac2 = frac(gridBase2);
+                float lineX2 = smoothstep(fw2.x, 0.0, gridFrac2.x - _GridWidth * 0.5);
+                float lineY2 = smoothstep(fw2.y, 0.0, gridFrac2.y - _GridWidth * 0.5);
+                float gridLine2 = saturate(lineX2 + lineY2) * 0.3;
                 
                 half gridAlpha = (gridLine + gridLine2) * _GridColor.a * 0.4;
                 color = lerp(color, _GridColor.rgb, gridAlpha);
