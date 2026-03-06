@@ -241,6 +241,79 @@ Shader "WebGL/Blueprint"
             }
             ENDHLSL
         }
+
+        // Depth-only pass for edge detection prepass
+        Pass
+        {
+            Name "DepthOnly"
+            Tags { "LightMode" = "DepthOnly" }
+
+            ZWrite On
+            ColorMask 0
+
+            HLSLPROGRAM
+            #pragma target 3.0
+            #pragma vertex vert
+            #pragma fragment frag
+
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+
+            struct Attributes { float4 positionOS : POSITION; };
+            struct Varyings { float4 positionCS : SV_POSITION; };
+
+            Varyings vert(Attributes IN)
+            {
+                Varyings OUT;
+                OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+                return OUT;
+            }
+
+            half4 frag(Varyings IN) : SV_Target { return 0; }
+            ENDHLSL
+        }
+
+        // DepthNormals pass for normal-based edge detection
+        Pass
+        {
+            Name "DepthNormals"
+            Tags { "LightMode" = "DepthNormalsOnly" }
+
+            ZWrite On
+
+            HLSLPROGRAM
+            #pragma target 3.0
+            #pragma vertex vert
+            #pragma fragment frag
+
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+                float3 normalOS : NORMAL;
+            };
+
+            struct Varyings
+            {
+                float4 positionCS : SV_POSITION;
+                float3 normalWS : TEXCOORD0;
+            };
+
+            Varyings vert(Attributes IN)
+            {
+                Varyings OUT;
+                OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+                OUT.normalWS = TransformObjectToWorldNormal(IN.normalOS);
+                return OUT;
+            }
+
+            half4 frag(Varyings IN) : SV_Target
+            {
+                float3 normal = normalize(IN.normalWS);
+                return half4(normal * 0.5 + 0.5, 1.0);
+            }
+            ENDHLSL
+        }
     }
 
     FallBack "Universal Render Pipeline/Unlit"
