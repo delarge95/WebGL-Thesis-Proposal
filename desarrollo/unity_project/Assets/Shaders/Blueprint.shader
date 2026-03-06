@@ -7,14 +7,14 @@ Shader "WebGL/Blueprint"
         _GridColor("Grid Color", Color) = (0.4, 0.55, 0.8, 0.2)
         
         _OutlineWidth("Outline Width", Range(0, 0.05)) = 0.012
-        _EdgeThreshold("Edge Threshold", Range(0, 1)) = 0.15
+        _EdgeThreshold("Edge Threshold", Range(0, 1)) = 0.3
         
         [Header(Grid)]
         _GridScale("Grid Scale", Range(1, 100)) = 20
         _GridWidth("Grid Line Width", Range(0.005, 0.05)) = 0.015
         
         [Header(Technical Lines)]
-        _FresnelPower("Edge Detection Power", Range(0.1, 5)) = 2.0
+        _FresnelPower("Edge Detection Power", Range(0.1, 8)) = 3.5
         
         [HideInInspector] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
         [HideInInspector] _EmissionColor("Emission Color", Color) = (0, 0, 0, 0)
@@ -113,12 +113,8 @@ Shader "WebGL/Blueprint"
                 half3 normalWS = normalize(IN.normalWS);
                 half3 viewDirWS = normalize(IN.viewDirWS);
                 
-                // Fully unlit base — no light response for authentic blueprint look
+                // Fully unlit flat base — no light response at all
                 half3 color = _BackgroundColor.rgb;
-                
-                // Subtle depth shading: edge-facing surfaces slightly darker (not brighter)
-                half ndotv = saturate(dot(normalWS, viewDirWS));
-                color *= lerp(0.92, 1.0, ndotv);
                 
                 // Screen-space grid (unified with background, anti-aliased)
                 float2 screenUV = IN.positionCS.xy / _ScreenParams.xy;
@@ -141,9 +137,10 @@ Shader "WebGL/Blueprint"
                 half gridAlpha = saturate(gridLine + gridLine2) * _GridColor.a * 0.4;
                 color = lerp(color, _GridColor.rgb, gridAlpha);
                 
-                // Edge detection using normal discontinuity (view-independent)
-                half normalDisc = length(fwidth(normalWS));
-                half edgeMask = smoothstep(0.0, _EdgeThreshold, normalDisc);
+                // Silhouette edge detection (Fresnel, unlit — no light dependency)
+                half ndotv = saturate(dot(normalWS, viewDirWS));
+                half edge = pow(1.0 - ndotv, _FresnelPower);
+                half edgeMask = smoothstep(_EdgeThreshold, _EdgeThreshold + 0.1, edge);
                 color = lerp(color, _LineColor.rgb, edgeMask);
                 
                 // Blueprint paper grain — unified with skybox dither
