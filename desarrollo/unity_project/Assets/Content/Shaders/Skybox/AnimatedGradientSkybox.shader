@@ -101,13 +101,18 @@ Shader "Skybox/AnimatedGradientSkybox"
                     float gridAspect = _ScreenParams.x / _ScreenParams.y;
                     float2 gridBase = float2(uv.x * gridAspect, uv.y) * _GridScale;
                     
+                    float2 fw = fwidth(gridBase);
                     float2 gridFrac = frac(gridBase);
-                    float gLine = step(gridFrac.x, _GridLineWidth) + step(gridFrac.y, _GridLineWidth);
-                    gLine = saturate(gLine);
+                    float gLineX = smoothstep(fw.x, 0.0, gridFrac.x - _GridLineWidth);
+                    float gLineY = smoothstep(fw.y, 0.0, gridFrac.y - _GridLineWidth);
+                    float gLine = saturate(gLineX + gLineY);
                     
-                    float2 gridFrac2 = frac(gridBase * 5.0);
-                    float gLine2 = step(gridFrac2.x, _GridLineWidth * 0.5) + step(gridFrac2.y, _GridLineWidth * 0.5);
-                    gLine2 = saturate(gLine2) * 0.3;
+                    float2 gridBase2 = gridBase * 5.0;
+                    float2 fw2 = fwidth(gridBase2);
+                    float2 gridFrac2 = frac(gridBase2);
+                    float gLineX2 = smoothstep(fw2.x, 0.0, gridFrac2.x - _GridLineWidth * 0.5);
+                    float gLineY2 = smoothstep(fw2.y, 0.0, gridFrac2.y - _GridLineWidth * 0.5);
+                    float gLine2 = saturate(gLineX2 + gLineY2) * 0.3;
                     
                     float gAlpha = (gLine + gLine2) * _GridColor.a;
                     col.rgb = lerp(col.rgb, _GridColor.rgb, gAlpha);
