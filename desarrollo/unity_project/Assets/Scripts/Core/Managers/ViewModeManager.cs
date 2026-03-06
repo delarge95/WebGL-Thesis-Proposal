@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using WebGL.Core.Utils;
 using WebGL.Core.Events;
+using WebGL.Rendering;
 
 namespace WebGL.Core.Managers
 {
@@ -218,6 +219,12 @@ namespace WebGL.Core.Managers
             currentMode = mode;
 
             StartCoroutine(TransitionToMode(mode));
+
+            // Toggle screen-space edge detection for Blueprint mode
+            bool needsEdges = mode == ViewMode.Blueprint;
+            EdgeDetectionFeature.GlobalEnabled = needsEdges;
+            if (needsEdges)
+                EdgeDetectionFeature.OverrideEdgeColor = blueprintLineColor;
 
             OnModeChanged?.Invoke(mode);
             EventBus.Publish(new ViewModeChangedEvent(mode != ViewMode.Realistic));
