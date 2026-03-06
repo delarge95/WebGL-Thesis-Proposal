@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering.RenderGraphModule;
+using UnityEngine.Rendering.RenderGraphModule.Util;
 
-namespace WebGL.Rendering
+namespace WebGL.Core.Rendering
 {
     public class EdgeDetectionFeature : ScriptableRendererFeature
     {
@@ -44,7 +45,6 @@ namespace WebGL.Rendering
         private class EdgeDetectionPass : ScriptableRenderPass
         {
             private Settings settings;
-            private RTHandle tempRT;
 
             private static readonly int EdgeColorId = Shader.PropertyToID("_EdgeColor");
             private static readonly int ThicknessId = Shader.PropertyToID("_Thickness");
@@ -58,28 +58,13 @@ namespace WebGL.Rendering
                 ConfigureInput(ScriptableRenderPassInput.Depth | ScriptableRenderPassInput.Normal);
             }
 
-            public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
+            private void SetMaterialProperties(Material mat)
             {
-                var desc = renderingData.cameraData.cameraTargetDescriptor;
-                desc.depthBufferBits = 0;
-                desc.msaaSamples = 1;
-                RenderingUtils.ReAllocateHandleIfNeeded(ref tempRT, desc, FilterMode.Bilinear, name: "_EdgeDetectionTemp");
-            }
-
-            public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
-            {
-                var mat = settings.edgeDetectionMaterial;
-                if (mat == null) return;
-
-                var cmd = CommandBufferPool.Get("Edge Detection");
-
-                // Use override color from ViewModeManager
                 mat.SetColor(EdgeColorId, OverrideEdgeColor);
                 mat.SetFloat(ThicknessId, settings.edgeThickness);
                 mat.SetFloat(DepthThresholdId, settings.depthThreshold);
                 mat.SetFloat(NormalThresholdId, settings.normalThreshold);
 
-                // Toggle keywords
                 if (settings.useDepthEdges)
                     mat.EnableKeyword("_DEPTHEDGES_ON");
                 else
@@ -89,18 +74,66 @@ namespace WebGL.Rendering
                     mat.EnableKeyword("_NORMALEDGES_ON");
                 else
                     mat.DisableKeyword("_NORMALEDGES_ON");
-
-                var source = renderingData.cameraData.renderer.cameraColorTargetHandle;
-                Blitter.BlitCameraTexture(cmd, source, tempRT, mat, 0);
-                Blitter.BlitCameraTexture(cmd, tempRT, source);
-
-                context.ExecuteCommandBuffer(cmd);
-                CommandBufferPool.Release(cmd);
             }
 
-            public void Dispose()
+            // ── RenderGraph path (Unity 6 default) ──
+            private class PassData
             {
-                tempRT?.Release();
+                public Material material;
+                public TextureHandle source;
+            }
+
+            public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+            {
+                var mat = settings.edgeDetectionMaterial;
+                if (mat == null) return;
+
+                SetMaterialProperties(mat);
+
+                var resourceData = frameData.Get<UniversalResourceData>();
+                var cameraColorHandle = resourceData.activeColorTexture;
+
+                if (!cameraColorHandle.IsValid()) return;
+
+                var descriptor = renderGraph.GetTextureDesc(cameraColorHandle);
+                descriptor.name = "_EdgeDetectionTemp";
+                descriptor.clearBuffer = false;
+                var tempTexture = renderGraph.CreateTexture(descriptor);
+
+                // Blit source → temp with edge detection material
+                RenderGraphUtils.BlitMaterialParameters blitToTemp =
+                    new(cameraColorHandle, tempTexture, mat, 0);
+                renderGraph.AddBlitPass(blitToTemp, "Edge Detection Blit");
+
+                // Blit temp → source (copy back)
+                RenderGraphUtils.BlitMaterialParameters blitBack =
+                    new(tempTexture, cameraColorHandle, Blitter.GetBlitMaterial(TextureDimension.Tex2D), 0);
+                renderGraph.AddBlitPass(blitBack, "Edge Detection Copy Back");
+            }
+
+            // ── Legacy path (Compatibility Mode fallback) ──
+            [System.Obsolete("Kept for Compatibility Mode only")]
+            public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
+            {
+                var mat = settings.edgeDetectionMaterial;
+                if (mat == null) return;
+
+                var cmd = CommandBufferPool.Get("Edge Detection");
+                SetMaterialProperties(mat);
+
+                var source = renderingData.cameraData.renderer.cameraColorTargetHandle;
+                var desc = renderingData.cameraData.cameraTargetDescriptor;
+                desc.depthBufferBits = 0;
+                desc.msaaSamples = 1;
+                var tempId = Shader.PropertyToID("_EdgeDetectionTemp");
+                cmd.GetTemporaryRT(tempId, desc, FilterMode.Bilinear);
+
+                cmd.Blit(source, tempId, mat, 0);
+                cmd.Blit(tempId, source);
+
+                cmd.ReleaseTemporaryRT(tempId);
+                context.ExecuteCommandBuffer(cmd);
+                CommandBufferPool.Release(cmd);
             }
         }
     }

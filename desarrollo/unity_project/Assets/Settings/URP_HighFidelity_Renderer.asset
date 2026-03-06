@@ -62,7 +62,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 461bd216deea11940b1834cf3a8a5102, type: 3}
   m_Name: EdgeDetectionFeature
-  m_EditorClassIdentifier: Assembly-CSharp::WebGL.Rendering.EdgeDetectionFeature
+  m_EditorClassIdentifier: Core::WebGL.Core.Rendering.EdgeDetectionFeature
   m_Active: 1
   settings:
     renderPassEvent: 500
