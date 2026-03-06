@@ -120,9 +120,9 @@ Shader "WebGL/Blueprint"
                 // Combine: dark blue base with flat matte shading
                 half3 color = _BackgroundColor.rgb;
                 
-                // Very subtle diffuse — responds to light direction without specular sheen
-                half diffuse = lerp(0.7, 1.0, ndotl);
-                half lightMul = clamp(dot(mainLight.color.rgb, half3(0.299, 0.587, 0.114)), 0.6, 1.2);
+                // Ultra-flat diffuse — barely perceptible light response, no gloss
+                half diffuse = lerp(0.92, 1.0, ndotl);
+                half lightMul = clamp(dot(mainLight.color.rgb, half3(0.299, 0.587, 0.114)), 0.8, 1.1);
                 color *= diffuse * lightMul;
                 
                 // Screen-space grid (unified with background, anti-aliased)
