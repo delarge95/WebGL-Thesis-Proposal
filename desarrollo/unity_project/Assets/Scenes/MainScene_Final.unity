@@ -2221,6 +2221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   assembleOnStart: 0
+  applyRealisticMaterials: 1
 --- !u!4 &886104624
 Transform:
   m_ObjectHideFlags: 0
@@ -3751,6 +3752,7 @@ MonoBehaviour:
   zoomSpeed: 5
   zoomDamping: 10
   dampingFactor: 5
+  touchDampingFactor: 8
 --- !u!81 &1742239072
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3848,7 +3850,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
