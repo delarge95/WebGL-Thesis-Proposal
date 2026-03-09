@@ -8,10 +8,8 @@ namespace WebGL.Core.Managers
         // ── Constants ────────────────────────────────────────────
         private const float DEFAULT_VERTICAL_ANGLE  = 20f;
         private const float TOUCH_ORBIT_SCALE       = 0.12f;
-        private const float TOUCH_PINCH_SCALE       = 0.006f;
-        private const float TOUCH_PAN_SCALE         = 0.3f;
-        private const float TOUCH_ZOOM_MULTIPLIER   = 3f;
-        private const float TOUCH_DEAD_ZONE         = 2f;   // px — ignore micro-jitter
+        private const float TOUCH_DEAD_ZONE         = 2f;   // px — ignore micro-jitter on orbit
+        private const float TOUCH_TWO_FINGER_DEAD   = 4f;   // px — larger dead zone for 2-finger gestures
         private const float MOUSE_SCROLL_SCALE      = 2f;
         private const float RAYCAST_MAX_DISTANCE    = 100f;
         private const float FOCUS_SNAP_DISTANCE     = 5f;
@@ -32,12 +30,13 @@ namespace WebGL.Core.Managers
         [SerializeField] private float maxVerticalAngle = 89f;
 
         [Header("Panning Settings")]
-        [SerializeField] private float panSpeed = 0.25f; // Slower for precision
+        [SerializeField] private float panSpeed = 0.25f; // Slower for precision (mouse only)
         [SerializeField] private Vector2 panLimit = new Vector2(10f, 10f); // Limit X/Z panning
 
         [Header("Zoom Settings")]
         [SerializeField] private float zoomSpeed = 5f;
         [SerializeField] private float zoomDamping = 10f;
+        [SerializeField] private float touchZoomSpeed = 0.008f; // Pinch zoom — much gentler than mouse
 
         [Header("Damping")]
         [SerializeField] private float dampingFactor = 5f; // Smoother transitions
@@ -168,31 +167,48 @@ namespace WebGL.Core.Managers
                 }
             }
 
-            // 2 Fingers: Pan & Zoom
+            // 2 Fingers: Pan & Zoom — "Paper Drag" projection
             if (Input.touchCount == 2)
             {
                 Touch t0 = Input.GetTouch(0);
                 Touch t1 = Input.GetTouch(1);
 
-                // Pan Logic (Movement of center point)
-                Vector2 curCenter = (t0.position + t1.position) / 2f;
-                Vector2 prevCenter = (t0.position - t0.deltaPosition + t1.position - t1.deltaPosition) / 2f;
-                Vector2 panDelta = curCenter - prevCenter;
+                // ── Pan: Project screen-pixel delta into world units ──
+                // This gives a 1:1 "drag the paper" feel at any zoom level.
+                Vector2 curCenter  = (t0.position + t1.position) * 0.5f;
+                Vector2 prevCenter = ((t0.position - t0.deltaPosition) + (t1.position - t1.deltaPosition)) * 0.5f;
+                Vector2 panDelta   = curCenter - prevCenter;
 
-                // Zoom Logic (Pinch distance change)
-                float curDist = Vector2.Distance(t0.position, t1.position);
-                float prevDist = Vector2.Distance(t0.position - t0.deltaPosition, t1.position - t1.deltaPosition);
-                float zoomDelta = (curDist - prevDist) * TOUCH_PINCH_SCALE;
-
-                // Apply
-                if (panDelta.magnitude > 0.1f)
+                if (panDelta.magnitude > TOUCH_TWO_FINGER_DEAD)
                 {
-                     ApplyPan(panDelta.x * panSpeed * TOUCH_PAN_SCALE, panDelta.y * panSpeed * TOUCH_PAN_SCALE);
+                    Camera cam = GetComponent<Camera>();
+                    if (cam != null)
+                    {
+                        // Frustum dimensions at the current orbit distance
+                        float frustumHeight = 2f * currentDistance * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+                        float frustumWidth  = frustumHeight * cam.aspect;
+
+                        // Convert pixel delta → world delta (proportional)
+                        float worldX = (panDelta.x / Screen.width)  * frustumWidth;
+                        float worldY = (panDelta.y / Screen.height) * frustumHeight;
+
+                        ApplyPan(worldX, worldY);
+                    }
                 }
-                
-                if (Mathf.Abs(zoomDelta) > 0.001f)
+
+                // ── Zoom: Pinch distance change ──
+                float curDist  = Vector2.Distance(t0.position, t1.position);
+                float prevDist = Vector2.Distance(
+                    t0.position - t0.deltaPosition,
+                    t1.position - t1.deltaPosition);
+                float pinchDelta = curDist - prevDist;
+
+                if (Mathf.Abs(pinchDelta) > TOUCH_TWO_FINGER_DEAD)
                 {
-                    ApplyZoom(zoomDelta * TOUCH_ZOOM_MULTIPLIER);
+                    // Normalize by screen height so the gesture feels the same
+                    // on any device resolution
+                    float normalizedPinch = pinchDelta / Screen.height;
+                    ApplyZoom(normalizedPinch * zoomSpeed * (currentDistance * touchZoomSpeed / 0.008f));
                 }
             }
         }
