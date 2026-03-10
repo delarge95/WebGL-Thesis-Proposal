@@ -1,0 +1,55 @@
+\subsection{Marco Conceptual}
+
+Los siguientes conceptos técnicos fundamentan el proyecto (orden alfabético):
+
+\textit{Albedo.} Mapa de textura que define el color base de un material sin información de iluminación, input primario en workflows PBR.
+
+\textit{Asset Bundle.} Sistema de empaquetado de Unity que agrupa activos 3D en archivos comprimidos para carga dinámica, optimizando memoria.
+
+\textit{Baking.} Proceso de pre-calcular información compleja (iluminación, geometría de alta resolución) y almacenarla en mapas de textura para reducir costo computacional en tiempo real.
+
+\textit{BRDF (Bidirectional Reflectance Distribution Function).} Función matemática que describe cómo la luz es reflejada por una superficie en función del ángulo de incidencia y observación, fundamental para PBR.
+
+\textit{Diffuse.} Componente de reflexión mate o dispersa de un material, sin dirección preferente.
+
+\textit{Draw Call.} Comando enviado desde la CPU a la GPU para renderizar un conjunto de geometría, constituyendo el principal cuello de botella en aplicaciones con muchos objetos únicos.
+
+\textit{Fragment Shader (Pixel Shader).} Programa ejecutado por la GPU para cada píxel visible, determinando su color final mediante ecuaciones de iluminación.
+
+\textit{Frame Time.} Tiempo total requerido para renderizar un cuadro de imagen, compuesto por tiempo de CPU y GPU ($T_{frame} = T_{CPU} + T_{GPU}$), inversamente proporcional a FPS.
+
+\textit{GPU Instancing.} Técnica de optimización que renderiza múltiples copias de la misma malla con una sola llamada de dibujo, reduciendo sobrecarga de CPU en 99\% para objetos repetidos.
+
+\textit{IL2CPP (Intermediate Language to C++).} Backend de compilación de Unity que transpila bytecode de C\# a código C++, luego a código nativo (WASM para WebGL).
+
+\textit{LOD (Level of Detail).} Sistema que intercambia entre versiones de diferente complejidad poligonal según distancia a la cámara, manteniendo calidad visual mientras reduce costo computacional.
+
+\textit{Metallic Map.} Textura que define qué partes de un material son metálicas (1.0) vs dieléctricas (0.0), controlando la reflectancia a incidencia normal ($F_0$).
+
+\textit{MVP (Producto Mínimo Viable).} Versión de un producto con características mínimas suficientes para validar hipótesis mediante aprendizaje validado con usuarios reales (Ries, 2011).
+
+\textit{Normal Map (Bump Map).} Textura que almacena información de normales de superficie para simular detalles geométricos sin aumentar conteo de polígonos, esencial para baking de alta frecuencia.
+
+\textit{Occlusion Culling.} Técnica que evita renderizar objetos no visibles porque están bloqueados por otros objetos desde la perspectiva de la cámara.
+
+\textit{PBR (Physically-Based Rendering).} Modelo de iluminación que simula la interacción física de la luz con materiales usando conservación de energía y teoría de microfacetas.
+
+\textit{Retopology.} Proceso de reconstruir la topología de una malla 3D para optimizar estructura poligonal, típicamente pasando de NURBS/subdivisión a quads optimizados.
+
+\textit{Roughness Map.} Textura que define la microsuperficie de un material, controlando dispersión del lóbulo especular (0.0 = espejo perfecto, 1.0 = mate total).
+
+\textit{Shader.} Programa ejecutado en la GPU que determina el aspecto visual de vértices o píxeles, implementando el modelo de iluminación.
+
+\textit{Specular.} Componente de reflexión directa de un material, con dirección preferente hacia el ángulo de reflexión perfecto (Ley de Snell).
+
+\textit{Texel Density.} Relación entre resolución de textura y área de superficie 3D que cubre ($\rho = R_{texture} / A_{UV}$), medida en píxeles por centímetro, crucial para mantener nitidez uniforme.
+
+\textit{UV Unwrapping.} Proceso de proyectar la superficie 3D de un modelo en un espacio 2D (UV) para aplicar texturas, minimizando distorsión y maximizando aprovechamiento de resolución.
+
+\textit{Vertex Shader.} Programa ejecutado por la GPU para cada vértice de una malla, transformando su posición tridimensional a espacio de proyección.
+
+\textit{WebAssembly (WASM).} Formato binario de bajo nivel para código ejecutable diseñado para ejecución rápida en navegadores web, sirviendo como target de compilación para lenguajes como C++ y C\#.
+
+\textit{WebGL (Web Graphics Library).} API de JavaScript basada en OpenGL ES que expone funcionalidad de aceleración gráfica por hardware directamente en el navegador web sin necesidad de plugins.
+
+\newpage

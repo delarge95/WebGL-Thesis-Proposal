@@ -1813,26 +1813,23 @@
     width: 44px;
     height: 44px;
     border-radius: 22px;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
+    background-color: transparent;
+    border-width: 0;
     color: rgba(255, 255, 255, 0.6);
     font-size: 18px;
     -unity-text-align: middle-center;
     padding: 0;
     margin: 0;
-    transition-property: background-color, scale, color;
+    transition-property: color, scale;
     transition-duration: 0.2s;
 }
 
 .sheet-close-btn:hover {
-    background-color: rgba(255, 255, 255, 0.15);
     color: rgb(255, 255, 255);
 }
 
 .sheet-close-btn:active {
     scale: 0.92;
-    background-color: rgba(255, 255, 255, 0.25);
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1930,18 +1927,15 @@
 
 /* ── Sheet Close Button ── */
 .ui-light-bg .sheet-close-btn {
-    background-color: rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.1);
     color: rgba(0, 0, 0, 0.6);
 }
 
 .ui-light-bg .sheet-close-btn:hover {
-    background-color: rgba(0, 0, 0, 0.12);
     color: rgba(0, 0, 0, 0.9);
 }
 
 .ui-light-bg .sheet-close-btn:active {
-    background-color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.7);
 }
 
 /* ── Submenu Cards ── */

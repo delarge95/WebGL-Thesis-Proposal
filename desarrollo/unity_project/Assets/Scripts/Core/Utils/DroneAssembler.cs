@@ -218,8 +218,8 @@ namespace WebGL.Core.Utils
             switch (category)
             {
                 case "Structure":
-                    // Carbon fiber composite — dark matte plastic look
-                    mat.color = new Color(0.08f, 0.08f, 0.1f, 1f);
+                    // Carbon fiber composite — lighter charcoal for better visibility
+                    mat.color = new Color(0.32f, 0.32f, 0.35f, 1f);
                     mat.SetFloat("_Metallic", 0.15f);
                     mat.SetFloat("_Smoothness", 0.75f);
                     break;
@@ -232,8 +232,8 @@ namespace WebGL.Core.Utils
                     break;
 
                 case "Power":
-                    // Battery — matte black plastic with subtle label area
-                    mat.color = new Color(0.12f, 0.12f, 0.14f, 1f);
+                    // Battery — dark grey plastic (lighter than before)
+                    mat.color = new Color(0.22f, 0.22f, 0.25f, 1f);
                     mat.SetFloat("_Metallic", 0f);
                     mat.SetFloat("_Smoothness", 0.35f);
                     break;
@@ -241,11 +241,10 @@ namespace WebGL.Core.Utils
                 case "Avionics":
                     if (partName.Contains("Gimbal") || partName.Contains("Camera"))
                     {
-                        // Camera lens housing — polycarbonate (glossy translucent look)
-                        mat.color = new Color(0.18f, 0.2f, 0.22f, 1f);
+                        // Camera lens housing — polycarbonate (glossy, lighter)
+                        mat.color = new Color(0.35f, 0.37f, 0.40f, 1f);
                         mat.SetFloat("_Metallic", 0.05f);
                         mat.SetFloat("_Smoothness", 0.92f);
-                        // Subtle specular highlight simulates polycarbonate
                         mat.SetColor("_SpecColor", new Color(0.6f, 0.6f, 0.65f, 1f));
                     }
                     else
@@ -258,7 +257,7 @@ namespace WebGL.Core.Utils
                     break;
 
                 default:
-                    mat.color = Color.gray;
+                    mat.color = new Color(0.6f, 0.6f, 0.62f, 1f);
                     mat.SetFloat("_Metallic", 0f);
                     mat.SetFloat("_Smoothness", 0.5f);
                     break;
