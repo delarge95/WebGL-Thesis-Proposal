@@ -84,10 +84,34 @@ namespace WebGL.Core.Managers
             directionalLight.transform.eulerAngles = euler;
         }
 
+        // Base skybox colors captured when a preset is applied (for intensity scaling)
+        private Color _baseTopColor;
+        private Color _baseBottomColor;
+        private float _baseIntensity = 1f;
+
         public void SetLightIntensity(float intensity)
         {
-            if (directionalLight == null) return;
-            directionalLight.intensity = Mathf.Clamp(intensity, 0.1f, 3f);
+            intensity = Mathf.Clamp(intensity, 0.1f, 3f);
+
+            if (directionalLight != null)
+                directionalLight.intensity = intensity;
+
+            // Scale skybox brightness proportionally to intensity change
+            if (_gradientSkybox != null && _baseIntensity > 0.01f)
+            {
+                float ratio = intensity / _baseIntensity;
+                // Clamp ratio so we don't blow out or go fully black
+                ratio = Mathf.Clamp(ratio, 0.1f, 2.5f);
+
+                Color scaledTop    = _baseTopColor * ratio;
+                Color scaledBottom = _baseBottomColor * ratio;
+                // Keep alpha at 1
+                scaledTop.a = 1f;
+                scaledBottom.a = 1f;
+
+                _gradientSkybox.SetColor(TopColorId, scaledTop);
+                _gradientSkybox.SetColor(BottomColorId, scaledBottom);
+            }
         }
 
         public void ApplyPreset(string presetName)
@@ -129,6 +153,17 @@ namespace WebGL.Core.Managers
                         lightRotY = 45f, lightPitch = 50f,
                         pulseEnabled = true, pulseSpeed = 0.5f, gradientScale = 0.8f,
                         ditherStrength = 0.05f
+                    };
+
+                case "Studio Light":
+                    return new PresetData {
+                        topColor       = new Color(0.82f, 0.82f, 0.84f),  // soft light grey
+                        bottomColor    = new Color(0.55f, 0.55f, 0.58f),  // mid grey edge
+                        lightColor     = new Color(1f, 0.98f, 0.95f),     // warm white
+                        lightIntensity = 1.8f,
+                        lightRotY = 30f, lightPitch = 45f,
+                        pulseEnabled = false, pulseSpeed = 0f, gradientScale = 1.4f,
+                        ditherStrength = 0.03f
                     };
 
                 case "Day":
@@ -359,6 +394,11 @@ namespace WebGL.Core.Managers
                 directionalLight.intensity = target.lightIntensity;
                 directionalLight.transform.eulerAngles = targetEuler;
             }
+
+            // Capture base values so SetLightIntensity can scale proportionally
+            _baseTopColor    = target.topColor;
+            _baseBottomColor = target.bottomColor;
+            _baseIntensity   = target.lightIntensity;
 
             _transitionRoutine = null;
         }

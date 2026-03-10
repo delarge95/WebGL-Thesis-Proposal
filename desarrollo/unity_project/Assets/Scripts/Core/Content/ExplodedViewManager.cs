@@ -79,6 +79,9 @@ namespace WebGL.Core.Content
                     part.UpdateExplosion(currentFactor);
                 }
             }
+            // Force physics broadphase to recognize new collider positions.
+            // Parts are static (no Rigidbody), so Unity won't auto-sync transforms.
+            Physics.SyncTransforms();
         }
 
         public void SetExplosionFactor(float value)

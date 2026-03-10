@@ -1,0 +1,16 @@
+\section{Planteamiento del Problema}
+
+En la industria de hardware de alto rendimiento, la documentación técnica sigue anclada en paradigmas estáticos (PDFs, planos 2D) que disocian la información visual de su contexto espacial. Esta desconexión genera una \textbf{fricción cognitiva crítica}: ingenieros y técnicos deben realizar procesos mentales de reconstrucción tridimensional que son propensos a errores y consumen recursos de memoria de trabajo (Sweller, 1988).
+
+Sin embargo, la migración a entornos 3D interactivos enfrenta una barrera técnica monumental: la \textbf{incompatibilidad de formatos}. Los modelos CAD de ingeniería (NURBS, $>$2GB) son matemáticamente y computacionalmente inviables para el ecosistema web móvil, restringido por anchos de banda limitados y presupuestos de memoria estrictos ($<$150MB Heap). Actualmente, no existe un \textit{pipeline} estandarizado de ``Technical Art'' que permita cerrar esta brecha de fidelidad vs. rendimiento sin sacrificar la precisión técnica funcional necesaria para la ingeniería.
+
+El problema técnico radica en la ``Brecha de Fidelidad vs. Rendimiento'':
+\begin{itemize}
+    \item Tamaño de archivo. Modelos CAD originales (STEP, IGES) con millones de superficies NURBS son incompatibles con limitaciones de bandwidth web (target: $<$ 50MB build inicial).
+    \item Rendimiento en tiempo real. Mantener $>$ 30 FPS (33.33ms frame time) en dispositivos móviles mid-range (e.g., Snapdragon 7 series) requiere optimización extrema.
+    \item Latencia de interacción. Soluciones de \textit{Pixel Streaming} introducen latencia de red inaceptable ($>$ 100ms) para interacción precisa en hotspots técnicos.
+\end{itemize}
+
+Existe, por tanto, la necesidad de un \textit{pipeline} de \textit{Technical Art} que permita desplegar estos modelos con alta fidelidad perceptual y bajo costo computacional, validando la viabilidad de WebGL/WebAssembly para aplicaciones de ingeniería.
+
+\newpage
