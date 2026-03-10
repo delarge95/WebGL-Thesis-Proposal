@@ -124,7 +124,7 @@
     justify-content: center;
     align-items: center;
     background-color: transparent;
-    margin-top: 24px;
+    margin-top: 42px;
 }
 
 .header-title {
@@ -664,23 +664,24 @@
     right: 0;
     height: 55%;
 
-    background-color: rgba(0, 0, 0, 0.96);
+    background-color: rgba(0, 0, 0, 0.82);
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
     border-top-width: 1px;
-    border-top-color: rgba(255, 255, 255, 0.08);
+    border-top-color: rgba(255, 255, 255, 0.10);
     padding: 80px 24px 40px 24px;
     overflow: hidden;
 
     translate: 0 0;
-    transition-property: translate;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-out;
+    opacity: 1;
+    transition-property: translate, opacity;
+    transition-duration: 0.4s, 0.3s;
+    transition-timing-function: ease-out, ease-out;
 }
 
 .details-sheet--hidden {
-    translate: 0 100%;
-    opacity: 1;
+    translate: 0 105%;
+    opacity: 0;
 }
 
 .sheet-handle {
@@ -701,7 +702,7 @@
 }
 
 .sheet-title {
-    font-size: 24px;
+    font-size: 28px;
     -unity-font-definition: initial;
     -unity-font: resource("Fonts/SpaceGrotesk/SpaceGrotesk-Regular");
     -unity-font-style: normal;
@@ -759,8 +760,8 @@
 
 /* UI Soft Shift (When Peek Bar spawns) â€” nudges bottom bar slightly up */
 .ui-shifted-soft {
-    bottom: 40px;
-    translate: 0 -12px; /* Push up just 12px for perfect Gestalt grouping without Fitts violation */
+    bottom: 48px;
+    translate: 0 -16px; /* 16px gap above InfoBarPeek — Material 2× base-unit breathing room */
 }
 
 /* Pill bar becomes opaque when sheet is open to prevent content bleeding through */
@@ -1030,7 +1031,7 @@
 
 .data-value {
     color: rgba(255, 255, 255, 0.8);
-    font-size: 14px;
+    font-size: 16px;
     -unity-font-style: bold;
     flex: 1;
     -unity-text-align: upper-right;
@@ -1268,11 +1269,11 @@
 /* Sheet description — editorial subtitle below part name */
 .sheet-description {
     color: rgba(255, 255, 255, 0.45);
-    font-size: 14px;
+    font-size: 16px;
     white-space: normal;
     margin-bottom: 20px;
     padding-right: 48px;
-    line-height: 20px;
+    line-height: 22px;
 }
 
 
@@ -1739,18 +1740,19 @@
     bottom: 0;
     left: 50%;
     translate: -50% 100%; /* Hidden off-screen bottom by default */
-    width: 240px;
-    height: 40px;
+    width: 280px;
+    height: 56px;
     background-color: rgba(0, 0, 0, 0.96);
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
     border-top-width: 1px;
     border-left-width: 1px;
     border-right-width: 1px;
+    border-bottom-width: 0;
     border-color: rgba(255, 255, 255, 0.08);
     align-items: center;
     justify-content: flex-start;
-    padding-top: 8px;
+    padding-top: 10px;
     transition-property: translate, background-color, width, border-color;
     transition-duration: 0.3s;
     transition-timing-function: ease-out;
@@ -1759,12 +1761,12 @@
 .info-bar-peek:hover {
     background-color: rgba(20, 20, 20, 0.98);
     border-color: rgba(255, 255, 255, 0.15);
-    height: 44px;
+    height: 60px;
 }
 
 .info-bar-peek:active {
     background-color: rgba(30, 30, 30, 1);
-    height: 48px;
+    height: 64px;
 }
 
 .info-bar-peek--visible {
@@ -1793,7 +1795,7 @@
 }
 
 .peek-label {
-    font-size: 11px;
+    font-size: 18px;
     color: rgba(255, 255, 255, 0.4);
     letter-spacing: 2px;
     -unity-font-style: bold;
@@ -1811,24 +1813,259 @@
     width: 44px;
     height: 44px;
     border-radius: 22px;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
+    background-color: transparent;
+    border-width: 0;
     color: rgba(255, 255, 255, 0.6);
     font-size: 18px;
     -unity-text-align: middle-center;
     padding: 0;
     margin: 0;
-    transition-property: background-color, scale, color;
+    transition-property: color, scale;
     transition-duration: 0.2s;
 }
 
 .sheet-close-btn:hover {
-    background-color: rgba(255, 255, 255, 0.15);
     color: rgb(255, 255, 255);
 }
 
 .sheet-close-btn:active {
     scale: 0.92;
-    background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ══════════════════════════════════════════════════════
+   Light Background Overrides — Adaptive UI Contrast
+   Toggled via .ui-light-bg on root when the environment
+   preset produces a bright gradient (White, Day, Yellow…)
+   ══════════════════════════════════════════════════════ */
+
+/* ── Top Bar ── */
+.ui-light-bg .header-title {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+/* ── Mode Buttons ── */
+.ui-light-bg .mode-btn-label {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+/* ── Selection Indicator ── */
+.ui-light-bg .selection-label {
+    color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* ── Icon Buttons ── */
+.ui-light-bg .icon-button {
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.7);
+}
+
+.ui-light-bg .icon-button:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.ui-light-bg .icon-button:active {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+/* ── Small Icon Buttons ── */
+.ui-light-bg .icon-button-small {
+    border-color: rgba(0, 0, 0, 0.1);
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.7);
+}
+
+.ui-light-bg .icon-button-small:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.ui-light-bg .icon-button-small:active {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ── Actions Row (Bottom Bar Pill) ── */
+.ui-light-bg .actions-row {
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+/* ── Glassmorphic Panel ── */
+.ui-light-bg .glass-panel {
+    background-color: rgba(255, 255, 255, 0.88);
+    border-color: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.ui-light-bg .glass-panel:hover {
+    background-color: rgba(255, 255, 255, 0.92);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* ── Sheet Content ── */
+.ui-light-bg .sheet-title {
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.ui-light-bg .sheet-hint {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.ui-light-bg .data-label {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.ui-light-bg .data-value {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+/* ── Peek Bar ── */
+.ui-light-bg .peek-handle {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.ui-light-bg .peek-label {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+/* ── Sheet Close Button ── */
+.ui-light-bg .sheet-close-btn {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.ui-light-bg .sheet-close-btn:hover {
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.ui-light-bg .sheet-close-btn:active {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+/* ── Submenu Cards ── */
+.ui-light-bg .submenu-card {
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.ui-light-bg .submenu-card:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.ui-light-bg .submenu-card:active {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.ui-light-bg .submenu-label {
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.ui-light-bg .submenu-icon {
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.65);
+}
+
+/* ── Buttons ── */
+.ui-light-bg .btn-primary {
+    border-color: rgba(0, 0, 0, 0.3);
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.ui-light-bg .btn-primary:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.8);
+}
+
+.ui-light-bg .btn-ghost {
+    border-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.ui-light-bg .btn-ghost:hover {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ── Tag Buttons ── */
+.ui-light-bg .btn-tag:hover {
+    border-color: rgba(0, 0, 0, 0.3);
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.ui-light-bg .btn-tag--active {
+    background-color: rgb(0, 0, 0);
+    border-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+
+/* ── Mode Button Icons ── */
+.ui-light-bg .mode-btn-icon {
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.6);
+}
+
+/* ── Sheet Handle ── */
+.ui-light-bg .sheet-handle {
+    background-color: rgba(0, 0, 0, 0.16);
+}
+
+/* ── Details Sheet (light frosted glass instead of dark) ── */
+.ui-light-bg .details-sheet {
+    background-color: rgba(255, 255, 255, 0.85);
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ── Info Bar Peek ── */
+.ui-light-bg .info-bar-peek {
+    background-color: rgba(255, 255, 255, 0.96);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.ui-light-bg .info-bar-peek:hover {
+    background-color: rgba(245, 245, 245, 0.98);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.ui-light-bg .info-bar-peek:active {
+    background-color: rgba(235, 235, 235, 1);
+}
+
+/* ── Actions Row — opaque pill when sheet is open ── */
+.ui-light-bg .actions-row--sheet-open {
+    background-color: rgba(255, 255, 255, 0.96);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ── Back Button ── */
+.ui-light-bg .btn-back {
+    border-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.ui-light-bg .btn-back:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.ui-light-bg .btn-back:active {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ── Read-Only Text (Description) ── */
+.ui-light-bg .read-only-text {
+    color: rgba(0, 0, 0, 0.65);
+}
+
+/* ── Foldout Headers (Identification / Specifications / Assembly) ── */
+.ui-light-bg .unity-foldout__toggle {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.ui-light-bg .unity-foldout__toggle .unity-toggle__checkmark {
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.5);
+}
+
+/* ── Slider on light bg ── */
+.ui-light-bg .glass-slider .unity-base-slider__tracker {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.ui-light-bg .glass-slider .unity-base-slider__dragger {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.ui-light-bg .glass-slider .unity-base-slider__dragger:hover {
+    background-color: rgba(0, 0, 0, 0.5);
 }

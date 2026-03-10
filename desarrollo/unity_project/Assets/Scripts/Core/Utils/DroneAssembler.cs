@@ -8,12 +8,38 @@ namespace WebGL.Core.Utils
     {
         [Header("Settings")]
         [SerializeField] private bool assembleOnStart = false;
+        [SerializeField] private bool applyRealisticMaterials = true;
         
         private void Start()
         {
             if (assembleOnStart)
             {
                 AssembleDrone();
+            }
+
+            if (applyRealisticMaterials)
+            {
+                ApplyRealisticMaterialsToExisting();
+            }
+        }
+
+        /// <summary>
+        /// Re-applies realistic PBR materials to already-serialized parts.
+        /// </summary>
+        private void ApplyRealisticMaterialsToExisting()
+        {
+            var parts = GetComponentsInChildren<ExplodablePart>();
+            foreach (var part in parts)
+            {
+                var rend = part.GetComponent<Renderer>();
+                if (rend == null) continue;
+
+                string category = part.Data != null ? part.Data.category : "";
+                string partName = part.gameObject.name;
+
+                Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+                ConfigureRealisticMaterial(mat, category, partName);
+                rend.material = mat;
             }
         }
 
@@ -145,13 +171,10 @@ namespace WebGL.Core.Utils
             obj.transform.localScale = scale;
             if (rotation != default) obj.transform.localRotation = rotation;
 
-            // 2. Setup Material
+            // 2. Setup Material — realistic PBR per category
             Renderer rend = obj.GetComponent<Renderer>();
             Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            if (category == "Structure") mat.color = Color.gray;
-            if (category == "Propulsion") mat.color = new Color(0.2f, 0.2f, 0.8f);
-            if (category == "Power") mat.color = new Color(1f, 0.5f, 0f);
-            if (category == "Avionics") mat.color = new Color(0f, 0.8f, 0.2f);
+            ConfigureRealisticMaterial(mat, category, name);
             rend.material = mat;
 
             // 3. Create Rich Data
@@ -181,6 +204,64 @@ namespace WebGL.Core.Utils
             explodable.Initialize();
             
             ExplodedViewManager.Instance?.RegisterPart(explodable);
+        }
+
+        /// <summary>
+        /// Configures realistic PBR material properties per part category.
+        /// These are temporary test materials to showcase different surface types.
+        /// </summary>
+        private void ConfigureRealisticMaterial(Material mat, string category, string partName)
+        {
+            // Enable smoothness from albedo alpha (SurfaceType Opaque is default)
+            mat.SetFloat("_WorkflowMode", 1f); // Metallic workflow
+
+            switch (category)
+            {
+                case "Structure":
+                    // Carbon fiber composite — lighter charcoal for better visibility
+                    mat.color = new Color(0.32f, 0.32f, 0.35f, 1f);
+                    mat.SetFloat("_Metallic", 0.15f);
+                    mat.SetFloat("_Smoothness", 0.75f);
+                    break;
+
+                case "Propulsion":
+                    // Brushed aluminum alloy — metallic
+                    mat.color = new Color(0.7f, 0.72f, 0.74f, 1f);
+                    mat.SetFloat("_Metallic", 0.9f);
+                    mat.SetFloat("_Smoothness", 0.55f);
+                    break;
+
+                case "Power":
+                    // Battery — dark grey plastic (lighter than before)
+                    mat.color = new Color(0.22f, 0.22f, 0.25f, 1f);
+                    mat.SetFloat("_Metallic", 0f);
+                    mat.SetFloat("_Smoothness", 0.35f);
+                    break;
+
+                case "Avionics":
+                    if (partName.Contains("Gimbal") || partName.Contains("Camera"))
+                    {
+                        // Camera lens housing — polycarbonate (glossy, lighter)
+                        mat.color = new Color(0.35f, 0.37f, 0.40f, 1f);
+                        mat.SetFloat("_Metallic", 0.05f);
+                        mat.SetFloat("_Smoothness", 0.92f);
+                        mat.SetColor("_SpecColor", new Color(0.6f, 0.6f, 0.65f, 1f));
+                    }
+                    else
+                    {
+                        // Flight controller PCB — green FR-4 fiberglass
+                        mat.color = new Color(0.05f, 0.28f, 0.08f, 1f);
+                        mat.SetFloat("_Metallic", 0.1f);
+                        mat.SetFloat("_Smoothness", 0.6f);
+                    }
+                    break;
+
+                default:
+                    mat.color = new Color(0.6f, 0.6f, 0.62f, 1f);
+                    mat.SetFloat("_Metallic", 0f);
+                    mat.SetFloat("_Smoothness", 0.5f);
+                    break;
+            }
         }
     }
 }
