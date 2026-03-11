@@ -144,6 +144,12 @@ Elevar la calidad visual y la experiencia de usuario (UX) para cumplir estándar
     - _Archivo_: `desarrollo/docs/investigacion/14_analisis_problemas_app_2026-03-10.md`.
     - _Por qué_: Dejar una base verificable para implementar las siguientes fases sin depender de memoria de sesión.
 
+4.  **Restauración visual del cierre del info panel**:
+    - _Problema_: La X del panel de información era funcional pero visualmente inestable al depender de un glyph de texto.
+    - _Solución Técnica_: Se creó `ProceduralCloseIcon` dentro del sistema de iconos procedurales y se reemplazó el texto del botón por dicho icono en `MainLayout.uxml`.
+    - _Refinamiento UX_: El botón de cierre se escaló a 64x64, con icono central mayor y offsets simétricos de 24px desde el borde superior y derecho del panel para alinearlo con el lenguaje visual de `Home` y `Reset`.
+    - _Resultado_: El cierre del panel ahora usa el mismo sistema visual del resto de controles premium y mantiene una alineación más limpia en la esquina.
+
 ### Registro de Cambios (Febrero 18, 2026)
 
 1.  **Rediseño de Interfaz (UI Toolkit)**:
