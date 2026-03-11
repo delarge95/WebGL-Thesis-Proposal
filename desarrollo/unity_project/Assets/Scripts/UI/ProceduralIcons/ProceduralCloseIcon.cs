@@ -8,6 +8,12 @@ namespace WebGL.UI.ProceduralIcons
     {
         private const float BaseRotation = 45f;
 
+        public override void SetLightBackground(bool isLight)
+        {
+            // The close icon sits on the tinted sheet surface, which stays dark in both themes.
+            base.SetLightBackground(false);
+        }
+
         private float targetScale = 1f;
         private float currentScale = 1f;
         private float scaleVelocity = 0f;

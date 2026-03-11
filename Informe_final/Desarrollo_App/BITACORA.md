@@ -176,6 +176,11 @@ Elevar la calidad visual y la experiencia de usuario (UX) para cumplir estándar
     - _Solución Técnica_: `OrbitCameraController.HandleTouchInput()` ahora clasifica la intención del gesto por magnitud dominante entre `panDelta` y `pinchDelta`, aplicando sólo uno de los dos movimientos por frame.
     - _Resultado_: El paneo touch deja de arrastrar zoom espurio y el pinch deja de contaminar el desplazamiento del foco.
 
+10. **Rebalanceo de contraste UI para fondos claros**:
+    - _Problema_: En presets claros (`Studio Light`, `White`, `Yellow`, `Day`) la UI entraba en un estado de bajo contraste: el sheet inferior se volvía casi blanco, los foldouts perdían legibilidad y la pill/barra inferior quedaba demasiado lavada sobre el fondo.
+    - _Solución Técnica_: Se rehizo el bloque `ui-light-bg` de `Theme.uss` usando superficies translúcidas oscurecidas para `details-sheet`, `actions-row` e `info-bar-peek`, con jerarquía tipográfica más fuerte, bordes más visibles y sliders/foldouts reajustados para lectura real. Además, `ProceduralIconBase` pasó a permitir paletas por icono y `ProceduralCloseIcon` quedó fijado a una paleta clara para conservar contraste dentro del sheet tintado.
+    - _Resultado_: La UI clara deja de sentirse "blanca sobre blanco" y pasa a leerse como un sistema tonal coherente, donde el panel inferior oscurece el color del environment en vez de desentonar con un bloque blanco opaco.
+
 ### Registro de Cambios (Febrero 18, 2026)
 
 1.  **Rediseño de Interfaz (UI Toolkit)**:

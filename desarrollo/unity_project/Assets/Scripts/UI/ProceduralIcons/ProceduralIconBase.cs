@@ -58,7 +58,7 @@ namespace WebGL.UI.ProceduralIcons
         /// <summary>
         /// Called by external code when the background theme changes.
         /// </summary>
-        public void SetLightBackground(bool isLight)
+        public virtual void SetLightBackground(bool isLight)
         {
             if (_isLightBg == isLight) return;
             _isLightBg = isLight;
