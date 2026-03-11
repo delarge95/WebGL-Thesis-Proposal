@@ -1808,28 +1808,39 @@
    ======================================================= */
 .sheet-close-btn {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 44px;
-    height: 44px;
-    border-radius: 22px;
+    top: 24px;
+    right: 24px;
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
     background-color: transparent;
-    border-width: 0;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.6);
-    font-size: 18px;
     -unity-text-align: middle-center;
     padding: 0;
     margin: 0;
-    transition-property: color, scale;
+    justify-content: center;
+    align-items: center;
+    transition-property: border-color, color, scale;
     transition-duration: 0.2s;
 }
 
 .sheet-close-btn:hover {
+    border-color: rgba(255, 255, 255, 0.2);
     color: rgb(255, 255, 255);
 }
 
 .sheet-close-btn:active {
-    scale: 0.92;
+    scale: 0.94;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.sheet-close-icon {
+    width: 32px;
+    height: 32px;
+    transition-property: color, scale;
+    transition-duration: 0.2s;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1927,14 +1938,17 @@
 
 /* ── Sheet Close Button ── */
 .ui-light-bg .sheet-close-btn {
+    border-color: rgba(0, 0, 0, 0.1);
     color: rgba(0, 0, 0, 0.6);
 }
 
 .ui-light-bg .sheet-close-btn:hover {
+    border-color: rgba(0, 0, 0, 0.2);
     color: rgba(0, 0, 0, 0.9);
 }
 
 .ui-light-bg .sheet-close-btn:active {
+    border-color: rgba(0, 0, 0, 0.3);
     color: rgba(0, 0, 0, 0.7);
 }
 

@@ -101,7 +101,7 @@ namespace WebGL.UI.Panels
                 _sheetCloseBtn.clicked += onClose;
                 AddCleanup(() => _sheetCloseBtn.clicked -= onClose);
 
-                // Stop click from bubbling to header toggle
+                // Stop click from bubbling to parent containers
                 EventCallback<ClickEvent> stopClick = evt => evt.StopPropagation();
                 _sheetCloseBtn.RegisterCallback(stopClick);
                 AddCleanup(() => _sheetCloseBtn.UnregisterCallback(stopClick));
@@ -341,15 +341,6 @@ namespace WebGL.UI.Panels
                 _detailsSheet.RegisterCallback(pe);
                 _detailsSheet.RegisterCallback(pl);
                 AddCleanup(() => { _detailsSheet.UnregisterCallback(pe); _detailsSheet.UnregisterCallback(pl); });
-            }
-
-            // Header click to toggle
-            var header = _root.Q(className: "sheet-header");
-            if (header != null)
-            {
-                EventCallback<ClickEvent> headerClick = evt => SetSheetState(!IsSheetOpen);
-                header.RegisterCallback(headerClick);
-                AddCleanup(() => header.UnregisterCallback(headerClick));
             }
 
             // Drag-to-dismiss handle
