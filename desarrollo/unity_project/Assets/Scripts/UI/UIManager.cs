@@ -215,7 +215,7 @@ namespace WebGL.UI
             _fabInfoBtn = root.Q<Button>("ToolInfoBtn");
             if (_fabInfoBtn != null)
             {
-                System.Action fabClick = () => _detailsSheet.ToggleInfo();
+                System.Action fabClick = () => _detailsSheet.ShowInfo();
                 _fabInfoBtn.clicked += fabClick;
                 AddCleanup(() => _fabInfoBtn.clicked -= fabClick);
             }

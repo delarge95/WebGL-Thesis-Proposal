@@ -8,8 +8,7 @@ using System.Globalization;
 namespace WebGL.UI.Panels
 {
     /// <summary>
-    /// Manages the bottom details sheet: open/close, drag-to-dismiss,
-    /// and populating part data fields.
+    /// Manages the bottom details sheet: open/close and populating part data fields.
     /// Extracted from UIManager (Phase 3 Step 2: God Class Dismantling).
     /// </summary>
     public class UIDetailsSheet
@@ -46,8 +45,6 @@ namespace WebGL.UI.Panels
 
         // ── State ──
         public bool IsSheetOpen { get; private set; } = false;
-        private float _dragStartY;
-        private bool _isDraggingSheet;
         private float _swipeStartY;
         private bool _isSwipingUp;
 
@@ -91,8 +88,8 @@ namespace WebGL.UI.Panels
 
             if (_infoBarPeek != null)
             {
-                _infoBarPeek.clicked += ToggleInfo;
-                AddCleanup(() => _infoBarPeek.clicked -= ToggleInfo);
+                _infoBarPeek.clicked += ShowInfo;
+                AddCleanup(() => _infoBarPeek.clicked -= ShowInfo);
             }
 
             if (_sheetCloseBtn != null)
@@ -212,6 +209,12 @@ namespace WebGL.UI.Panels
 
             if (_sheetTitle != null) _sheetTitle.text = titleText;
             SetSheetState(true);
+        }
+
+        public void ShowInfo()
+        {
+            if (!IsSheetOpen)
+                OpenSheet();
         }
 
         public void ToggleInfo()
@@ -341,34 +344,6 @@ namespace WebGL.UI.Panels
                 _detailsSheet.RegisterCallback(pe);
                 _detailsSheet.RegisterCallback(pl);
                 AddCleanup(() => { _detailsSheet.UnregisterCallback(pe); _detailsSheet.UnregisterCallback(pl); });
-            }
-
-            // Drag-to-dismiss handle
-            var handle = _root.Q(className: "sheet-handle");
-            if (handle != null)
-            {
-                EventCallback<PointerDownEvent> handleDown = evt => { _dragStartY = evt.position.y; _isDraggingSheet = true; };
-                EventCallback<PointerUpEvent> handleUp = evt => _isDraggingSheet = false;
-                EventCallback<PointerLeaveEvent> handleLeave = evt => _isDraggingSheet = false;
-                EventCallback<PointerMoveEvent> handleMove = evt =>
-                {
-                    if (_isDraggingSheet && (evt.position.y - _dragStartY > 50))
-                    {
-                        SetSheetState(false);
-                        _isDraggingSheet = false;
-                    }
-                };
-                handle.RegisterCallback(handleDown);
-                handle.RegisterCallback(handleUp);
-                handle.RegisterCallback(handleLeave);
-                handle.RegisterCallback(handleMove);
-                AddCleanup(() =>
-                {
-                    handle.UnregisterCallback(handleDown);
-                    handle.UnregisterCallback(handleUp);
-                    handle.UnregisterCallback(handleLeave);
-                    handle.UnregisterCallback(handleMove);
-                });
             }
 
             // ScrollView blocks camera zoom
