@@ -31,6 +31,7 @@
 - `fix(camera)`: Se corrigió el paneo para usar los ejes locales de la cámara en lugar de una mezcla de ejes globales.
 - `fix(ui)`: Se alineó el onboarding con los controles reales de cámara (`right-click` orbit, `middle-click` pan).
 - `fix(shader)`: Se aplicó clipping global también en los passes `DepthOnly` y `DepthNormals` de `Blueprint.shader` para que `Cut` respete el postproceso.
+- `fix(camera)`: Se separó la intención de `pan` y `pinch` en touch para evitar zoom espurio durante gestos de desplazamiento con dos dedos.
 - `docs`: Se añadió un documento técnico con diagnóstico completo y plan de implementación por fases para los siguientes problemas de la app.
 
 ### Archivos Afectados
@@ -57,6 +58,7 @@
 - La `X` recupera una lectura visual correcta en reposo y la detección de UI queda mejor preparada para bloquear input 3D sólo sobre controles interactivos reales.
 - El paneo vuelve a seguir el plano local de la cámara y el onboarding ya no instruye un gesto de pan incorrecto.
 - El modo `Blueprint` ahora entrega profundidad y normales ya recortadas al postproceso, evitando que el contorno reconstruya partes fuera del plano de corte.
+- En touch, los gestos de dos dedos ya no aplican pan y zoom a la vez salvo ruido residual mínimo, priorizando la intención dominante del usuario.
 - La desactivación de `Explode` queda restringida a las dos acciones esperadas por UX:
   - volver a pulsar el botón `Explode`
   - llevar el slider a `0`
