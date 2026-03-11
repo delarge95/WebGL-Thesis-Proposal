@@ -18,6 +18,31 @@
 
 ---
 
+## 2026-03-11 — Ajustes UX: Analyze persistente + Explode desacoplado
+
+### Trabajo Realizado
+
+- `fix(ui)`: Se eliminó el cierre automático de submenús Analyze al seleccionar piezas o al hacer click en el fondo 3D.
+- `fix(explode)`: Se desacopló el estado de `Explode` del `AppState` global para que no se apague al cambiar entre Analyze y Studio.
+- `docs`: Se añadió un documento técnico con diagnóstico completo y plan de implementación por fases para los siguientes problemas de la app.
+
+### Archivos Afectados
+
+- `desarrollo/unity_project/Assets/Scripts/UI/UIManager.cs`
+- `desarrollo/unity_project/Assets/Scripts/Core/Content/ExplodedViewManager.cs`
+- `desarrollo/unity_project/Assets/Scripts/UI/Panels/UIModeController.cs`
+- `desarrollo/docs/investigacion/14_analisis_problemas_app_2026-03-10.md`
+
+### Resultado Validado
+
+- `Cut`, `Filter` y `Explode` ya no se cierran al clickear el background.
+- La vista explosionada permanece activa al abrir otros submenús de Analyze y al alternar entre Analyze y Studio.
+- La desactivación de `Explode` queda restringida a las dos acciones esperadas por UX:
+  - volver a pulsar el botón `Explode`
+  - llevar el slider a `0`
+
+---
+
 ## Fase 0 — Investigación y Selección Técnica _(Pre-Git)_
 
 > Trabajo documentado en sesiones de Antigravity (conversación `c5f61e42`)

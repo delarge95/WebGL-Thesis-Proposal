@@ -43,12 +43,7 @@ namespace WebGL.Core.Content
         {
             if (evt.NewState == AppState.ExplodedView)
             {
-                SetExplosionFactor(0.5f);
                 AudioManager.Instance?.PlayExplosionSound();
-            }
-            else
-            {
-                SetExplosionFactor(0f);
             }
         }
 
