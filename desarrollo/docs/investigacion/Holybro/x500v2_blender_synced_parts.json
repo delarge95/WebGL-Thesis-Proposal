@@ -1,0 +1,1212 @@
+[
+  {
+    "partName": "JST GH 6-Pin Connector",
+    "id": "x500v2_blend_bm06b_wo",
+    "blenderName": "BM06B-WO",
+    "category": "Electronics",
+    "description": "Puerto telemétrico interno/externo. Pieza modelada en base al CAD BM06B-WO.",
+    "function": "Puerto telemétrico interno/externo",
+    "weightKg": 0.001,
+    "dimensions": "Miniatura",
+    "materialType": "Plástico/Cobre",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 25,
+      "thermalPeak": 30,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Pixhawk 6C Top Cover",
+    "id": "x500v2_blend_dike_pixhawk6c_lv_c1",
+    "blenderName": "DIKE-PIXHAWK6C-LV-C1",
+    "category": "Electronics",
+    "description": "Carcasa superior del controlador. Pieza modelada en base al CAD DIKE-PIXHAWK6C-LV-C1.",
+    "function": "Carcasa superior del controlador",
+    "weightKg": 0.015,
+    "dimensions": "85×44 mm",
+    "materialType": "Aluminio CNC",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 42,
+      "thermalPeak": 60,
+      "heatingIndex": 6.0
+    },
+    "ui": {
+      "isHotspotTarget": true,
+      "hotspotLabel": "Flight Controller"
+    }
+  },
+  {
+    "partName": "Holybro M10 GPS Antenna",
+    "id": "x500v2_blend_gan_gpsv5_zhijia",
+    "blenderName": "GAN-GPSV5-ZHIJIA",
+    "category": "Electronics",
+    "description": "Posicionamiento GNSS Multiconstelación. Pieza modelada en base al CAD GAN-GPSV5-ZHIJIA.",
+    "function": "Posicionamiento GNSS Multiconstelación",
+    "weightKg": 0.032,
+    "dimensions": "⌀50×14 mm",
+    "materialType": "Cerámica y PCB",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 28,
+      "thermalPeak": 40,
+      "heatingIndex": 2.0
+    },
+    "ui": {
+      "isHotspotTarget": true,
+      "hotspotLabel": "GNSS & Compass"
+    }
+  },
+  {
+    "partName": "Pixhawk 6C IMU Module",
+    "id": "x500v2_blend_imu_pixhawk6c",
+    "blenderName": "IMU-PIXHAWK6C",
+    "category": "Electronics",
+    "description": "Sensores inerciales ICM-42688. Pieza modelada en base al CAD IMU-PIXHAWK6C.",
+    "function": "Sensores inerciales ICM-42688",
+    "weightKg": 0.005,
+    "dimensions": "Interno",
+    "materialType": "PCB montada en silicona",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 42,
+      "thermalPeak": 60,
+      "heatingIndex": 6.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Pixhawk 6C Base Shell",
+    "id": "x500v2_blend_mianke_pixhawk6c_lv_c1",
+    "blenderName": "MIANKE-PIXHAWK6C-LV-C1",
+    "category": "Electronics",
+    "description": "Carcasa inferior del controlador. Pieza modelada en base al CAD MIANKE-PIXHAWK6C-LV-C1.",
+    "function": "Carcasa inferior del controlador",
+    "weightKg": 0.02,
+    "dimensions": "85×44 mm",
+    "materialType": "Aluminio / Plástico",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 42,
+      "thermalPeak": 60,
+      "heatingIndex": 6.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Pixhawk 6C Main PCB",
+    "id": "x500v2_blend_pcb_pixhawk6c_f1",
+    "blenderName": "PCB-PIXHAWK6C-F1",
+    "category": "Electronics",
+    "description": "Circuito integrado STM32H743. Pieza modelada en base al CAD PCB-PIXHAWK6C-F1.",
+    "function": "Circuito integrado STM32H743",
+    "weightKg": 0.01,
+    "dimensions": "Interno",
+    "materialType": "PCB FR4",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 45,
+      "thermalPeak": 65,
+      "heatingIndex": 5.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Power Module PM02/PM06 Board",
+    "id": "x500v2_blend_pcb_pm06",
+    "blenderName": "PCB-PM06",
+    "category": "Electronics",
+    "description": "Distribuye 5V al Pixhawk y sensa V/I. Pieza modelada en base al CAD PCB-PM06.",
+    "function": "Distribuye 5V al Pixhawk y sensa V/I",
+    "weightKg": 0.02,
+    "dimensions": "55×17 mm",
+    "materialType": "PCB FR4",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 35,
+      "thermalPeak": 55,
+      "heatingIndex": 3.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Motor Mount Base Plate",
+    "id": "x500v2_blend_ban_dj_dian_f2",
+    "blenderName": "BAN-DJ-DIAN-F2",
+    "category": "Propulsion",
+    "description": "Montura disipadora inferior p/Motor. Pieza modelada en base al CAD BAN-DJ-DIAN-F2.",
+    "function": "Montura disipadora inferior p/Motor",
+    "weightKg": 0.005,
+    "dimensions": "16×19 mm base",
+    "materialType": "Aluminio/Fibra",
+    "manufacturer": "Holybro",
+    "quantityInScene": 4,
+    "physics": {
+      "thermalHover": 40,
+      "thermalPeak": 70,
+      "heatingIndex": 8.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Holybro 2216 KV880 Motor",
+    "id": "x500v2_blend_dj_2216_kv880",
+    "blenderName": "DJ-2216-KV880",
+    "category": "Propulsion",
+    "description": "Generación del empuje aerodinámico. Pieza modelada en base al CAD DJ-2216-KV880.",
+    "function": "Generación del empuje aerodinámico",
+    "weightKg": 0.063,
+    "dimensions": "⌀28×32 mm",
+    "materialType": "Aleación de Aluminio / Acero",
+    "manufacturer": "Holybro",
+    "quantityInScene": 4,
+    "physics": {
+      "thermalHover": 55,
+      "thermalPeak": 95,
+      "heatingIndex": 10.0
+    },
+    "ui": {
+      "isHotspotTarget": true,
+      "hotspotLabel": "Propulsion System"
+    }
+  },
+  {
+    "partName": "Battery Mounting Board",
+    "id": "x500v2_blend_battery_mounting_plat",
+    "blenderName": "BATTERY-MOUNTING-PLAT",
+    "category": "Structure",
+    "description": "Placa ajustable p/correas de batería. Pieza modelada en base al CAD BATTERY-MOUNTING-PLAT.",
+    "function": "Placa ajustable p/correas de batería",
+    "weightKg": 0.025,
+    "dimensions": "Variable",
+    "materialType": "Fibra / Plástico",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 35,
+      "thermalPeak": 55,
+      "heatingIndex": 15.0
+    },
+    "ui": {
+      "isHotspotTarget": true,
+      "hotspotLabel": "Battery (LiPo 4S)"
+    }
+  },
+  {
+    "partName": "Battery Silicone Pad",
+    "id": "x500v2_blend_battery_pad",
+    "blenderName": "BATTERY-PAD",
+    "category": "Structure",
+    "description": "Superficie antideslizante para batería 4S. Pieza modelada en base al CAD BATTERY-PAD.",
+    "function": "Superficie antideslizante para batería 4S",
+    "weightKg": 0.008,
+    "dimensions": "Universal",
+    "materialType": "Silicona adherente",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 30,
+      "thermalPeak": 45,
+      "heatingIndex": 10.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Carbon Fiber Bottom Plate",
+    "id": "x500v2_blend_bottom_plate_x500_v5",
+    "blenderName": "BOTTOM-PLATE-X500-V5",
+    "category": "Structure",
+    "description": "Interfase de tren, brazos y PDB. Pieza modelada en base al CAD BOTTOM-PLATE-X500-V5.",
+    "function": "Interfase de tren, brazos y PDB",
+    "weightKg": 0.075,
+    "dimensions": "144×144 mm",
+    "materialType": "Fibra Carbono Twill 2mm",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 23,
+      "thermalPeak": 28,
+      "heatingIndex": 1.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Landing Gear 16mm Carbon Tube",
+    "id": "x500v2_blend_carbon_fiber_tube",
+    "blenderName": "CARBON-FIBER-TUBE",
+    "category": "Structure",
+    "description": "Patín o pata vertical principal. Pieza modelada en base al CAD CARBON-FIBER-TUBE.",
+    "function": "Patín o pata vertical principal",
+    "weightKg": 0.02,
+    "dimensions": "⌀16 mm",
+    "materialType": "Fibra de carbono",
+    "manufacturer": "Holybro",
+    "quantityInScene": 2,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 24,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Arm 16mm Carbon Tube (Long)",
+    "id": "x500v2_blend_carbon_fiber_tube300",
+    "blenderName": "CARBON-FIBER-TUBE300",
+    "category": "Structure",
+    "description": "Brazo extendido diagonal de empuje. Pieza modelada en base al CAD CARBON-FIBER-TUBE300.",
+    "function": "Brazo extendido diagonal de empuje",
+    "weightKg": 0.03,
+    "dimensions": "⌀16×300 mm",
+    "materialType": "Fibra de carbono",
+    "manufacturer": "Holybro",
+    "quantityInScene": 2,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 27,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Optical Flow Bottom Cover",
+    "id": "x500v2_blend_gai_guangliu",
+    "blenderName": "GAI-GUANGLIU",
+    "category": "Structure",
+    "description": "Cubierta protectora de sensor. Pieza modelada en base al CAD GAI-GUANGLIU.",
+    "function": "Cubierta protectora de sensor",
+    "weightKg": 0.003,
+    "dimensions": "Pequeño",
+    "materialType": "ABS",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Socket Head Cap Screw",
+    "id": "x500v2_blend_gb70_m25_10",
+    "blenderName": "GB70-M25-10",
+    "category": "Structure",
+    "description": "Fijación y apriete del chasis. Pieza modelada en base al CAD GB70-M25-10.",
+    "function": "Fijación y apriete del chasis",
+    "weightKg": 0.001,
+    "dimensions": "Milimétrico",
+    "materialType": "Acero Inox",
+    "manufacturer": "Holybro",
+    "quantityInScene": 8,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 26,
+      "heatingIndex": 1.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Socket Head Cap Screw",
+    "id": "x500v2_blend_gb70_m25_12",
+    "blenderName": "GB70-M25-12",
+    "category": "Structure",
+    "description": "Fijación y apriete del chasis. Pieza modelada en base al CAD GB70-M25-12.",
+    "function": "Fijación y apriete del chasis",
+    "weightKg": 0.001,
+    "dimensions": "Milimétrico",
+    "materialType": "Acero Inox",
+    "manufacturer": "Holybro",
+    "quantityInScene": 12,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 26,
+      "heatingIndex": 1.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Socket Head Cap Screw",
+    "id": "x500v2_blend_gb70_m25_6",
+    "blenderName": "GB70-M25-6",
+    "category": "Structure",
+    "description": "Fijación y apriete del chasis. Pieza modelada en base al CAD GB70-M25-6.",
+    "function": "Fijación y apriete del chasis",
+    "weightKg": 0.001,
+    "dimensions": "Milimétrico",
+    "materialType": "Acero Inox",
+    "manufacturer": "Holybro",
+    "quantityInScene": 24,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 26,
+      "heatingIndex": 1.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Socket Head Cap Screw",
+    "id": "x500v2_blend_gb70_m3_21_ding",
+    "blenderName": "GB70-M3-21-DING",
+    "category": "Structure",
+    "description": "Fijación y apriete del chasis. Pieza modelada en base al CAD GB70-M3-21-DING.",
+    "function": "Fijación y apriete del chasis",
+    "weightKg": 0.001,
+    "dimensions": "Milimétrico",
+    "materialType": "Acero Inox",
+    "manufacturer": "Holybro",
+    "quantityInScene": 2,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 26,
+      "heatingIndex": 1.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Socket Head Cap Screw",
+    "id": "x500v2_blend_gb70_m3_25_ding",
+    "blenderName": "GB70-M3-25-DING",
+    "category": "Structure",
+    "description": "Fijación y apriete del chasis. Pieza modelada en base al CAD GB70-M3-25-DING.",
+    "function": "Fijación y apriete del chasis",
+    "weightKg": 0.001,
+    "dimensions": "Milimétrico",
+    "materialType": "Acero Inox",
+    "manufacturer": "Holybro",
+    "quantityInScene": 2,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 26,
+      "heatingIndex": 1.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Socket Head Cap Screw",
+    "id": "x500v2_blend_gb70_m3_38",
+    "blenderName": "GB70-M3-38",
+    "category": "Structure",
+    "description": "Fijación y apriete del chasis. Pieza modelada en base al CAD GB70-M3-38.",
+    "function": "Fijación y apriete del chasis",
+    "weightKg": 0.001,
+    "dimensions": "Milimétrico",
+    "materialType": "Acero Inox",
+    "manufacturer": "Holybro",
+    "quantityInScene": 16,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 26,
+      "heatingIndex": 1.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Socket Head Cap Screw",
+    "id": "x500v2_blend_gb70_m3_6",
+    "blenderName": "GB70-M3-6",
+    "category": "Structure",
+    "description": "Fijación y apriete del chasis. Pieza modelada en base al CAD GB70-M3-6.",
+    "function": "Fijación y apriete del chasis",
+    "weightKg": 0.001,
+    "dimensions": "Milimétrico",
+    "materialType": "Acero Inox",
+    "manufacturer": "Holybro",
+    "quantityInScene": 16,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 26,
+      "heatingIndex": 1.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Socket Head Cap Screw",
+    "id": "x500v2_blend_gb70_m3_8_ding",
+    "blenderName": "GB70-M3-8-DING",
+    "category": "Structure",
+    "description": "Fijación y apriete del chasis. Pieza modelada en base al CAD GB70-M3-8-DING.",
+    "function": "Fijación y apriete del chasis",
+    "weightKg": 0.001,
+    "dimensions": "Milimétrico",
+    "materialType": "Acero Inox",
+    "manufacturer": "Holybro",
+    "quantityInScene": 12,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 26,
+      "heatingIndex": 1.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "GPS Folding Mast Joint",
+    "id": "x500v2_blend_gps_zhijia_zhuanjietou",
+    "blenderName": "GPS-ZHIJIA-ZHUANJIETOU",
+    "category": "Structure",
+    "description": "Articulación del mástil abatible del GPS. Pieza modelada en base al CAD GPS-ZHIJIA-ZHUANJIETOU.",
+    "function": "Articulación del mástil abatible del GPS",
+    "weightKg": 0.005,
+    "dimensions": "Mástil M3",
+    "materialType": "Nylon Reforzado",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "GPS Mast Base Bracket",
+    "id": "x500v2_blend_gps_zhijia_zuo",
+    "blenderName": "GPS-ZHIJIA-ZUO",
+    "category": "Structure",
+    "description": "Soporte atornillable del mástil del GPS. Pieza modelada en base al CAD GPS-ZHIJIA-ZUO.",
+    "function": "Soporte atornillable del mástil del GPS",
+    "weightKg": 0.005,
+    "dimensions": "Mástil M3",
+    "materialType": "Nylon Reforzado",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "GPS Mast Securing Nut",
+    "id": "x500v2_blend_gpsv5_zhijia_luomao",
+    "blenderName": "GPSV5-ZHIJIA-LUOMAO",
+    "category": "Structure",
+    "description": "Tuerca o pieza enroscable del mástil. Pieza modelada en base al CAD GPSV5-ZHIJIA-LUOMAO.",
+    "function": "Tuerca o pieza enroscable del mástil",
+    "weightKg": 0.002,
+    "dimensions": "Manual",
+    "materialType": "Nylon Reforzado",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "GPS Top Mounting Tray",
+    "id": "x500v2_blend_gpsv5_zhijia_tuopan",
+    "blenderName": "GPSV5-ZHIJIA-TUOPAN",
+    "category": "Structure",
+    "description": "Bandeja circular superior del GPS. Pieza modelada en base al CAD GPSV5-ZHIJIA-TUOPAN.",
+    "function": "Bandeja circular superior del GPS",
+    "weightKg": 0.005,
+    "dimensions": "⌀50 mm",
+    "materialType": "Plástico ABS",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Payload Rail Clip Holder",
+    "id": "x500v2_blend_guan_cheng",
+    "blenderName": "GUAN-CHENG",
+    "category": "Structure",
+    "description": "Soporte colgante de tubos 10mm. Pieza modelada en base al CAD GUAN-CHENG.",
+    "function": "Soporte colgante de tubos 10mm",
+    "weightKg": 0.005,
+    "dimensions": "P/ Tubo 10mm",
+    "materialType": "Plástico",
+    "manufacturer": "Holybro",
+    "quantityInScene": 2,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 24,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Arm Tube Motor Mount (Bottom)",
+    "id": "x500v2_blend_hmx5v_digai_dianjizuo_muju",
+    "blenderName": "HMX5V-DIGAI-DIANJIZUO-MUJU",
+    "category": "Structure",
+    "description": "Soporte plástico del motor a tubo. Pieza modelada en base al CAD HMX5V-DIGAI-DIANJIZUO-MUJU.",
+    "function": "Soporte plástico del motor a tubo",
+    "weightKg": 0.012,
+    "dimensions": "P/ Tubo 16mm",
+    "materialType": "Nylon",
+    "manufacturer": "Holybro",
+    "quantityInScene": 4,
+    "physics": {
+      "thermalHover": 25,
+      "thermalPeak": 35,
+      "heatingIndex": 2.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Tube Positioning Stopper",
+    "id": "x500v2_blend_hmx5v_guan_dingwei",
+    "blenderName": "HMX5V-GUAN-DINGWEI",
+    "category": "Structure",
+    "description": "Tope interior para la abrazadera central. Pieza modelada en base al CAD HMX5V-GUAN-DINGWEI.",
+    "function": "Tope interior para la abrazadera central",
+    "weightKg": 0.002,
+    "dimensions": "Interno 16mm",
+    "materialType": "Nylon",
+    "manufacturer": "Holybro",
+    "quantityInScene": 4,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Tube Frame Clamp Connector",
+    "id": "x500v2_blend_hmx5v_jibi_jia_muju",
+    "blenderName": "HMX5V-JIBI-JIA-MUJU",
+    "category": "Structure",
+    "description": "Abrazadera brazo a chasis. Pieza modelada en base al CAD HMX5V-JIBI-JIA-MUJU.",
+    "function": "Abrazadera brazo a chasis",
+    "weightKg": 0.015,
+    "dimensions": "P/ Tubo 16mm",
+    "materialType": "Nylon",
+    "manufacturer": "Holybro",
+    "quantityInScene": 8,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Arm Tube Motor Mount (Top Hub)",
+    "id": "x500v2_blend_hmx5v_zuo_dj_muju",
+    "blenderName": "HMX5V-ZUO-DJ-MUJU",
+    "category": "Structure",
+    "description": "Abrazadera superior del motor. Pieza modelada en base al CAD HMX5V-ZUO-DJ-MUJU.",
+    "function": "Abrazadera superior del motor",
+    "weightKg": 0.008,
+    "dimensions": "P/ Tubo 16mm",
+    "materialType": "Nylon",
+    "manufacturer": "Holybro",
+    "quantityInScene": 4,
+    "physics": {
+      "thermalHover": 25,
+      "thermalPeak": 35,
+      "heatingIndex": 2.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Silicone Mount Dampener",
+    "id": "x500v2_blend_huan_guijiao",
+    "blenderName": "HUAN-GUIJIAO",
+    "category": "Structure",
+    "description": "Aislante anti-vibración para hardware. Pieza modelada en base al CAD HUAN-GUIJIAO.",
+    "function": "Aislante anti-vibración para hardware",
+    "weightKg": 0.001,
+    "dimensions": "M3-M4",
+    "materialType": "Silicona",
+    "manufacturer": "Holybro",
+    "quantityInScene": 8,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Cable Routing Clamp",
+    "id": "x500v2_blend_jia_guan",
+    "blenderName": "JIA-GUAN",
+    "category": "Structure",
+    "description": "Sujeción de cables agrupados. Pieza modelada en base al CAD JIA-GUAN.",
+    "function": "Sujeción de cables agrupados",
+    "weightKg": 0.001,
+    "dimensions": "Miniatura",
+    "materialType": "Abrazadera",
+    "manufacturer": "Holybro",
+    "quantityInScene": 8,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Miscellaneous Frame Clip",
+    "id": "x500v2_blend_jia_lianjie",
+    "blenderName": "JIA-LIANJIE",
+    "category": "Structure",
+    "description": "Clip conectivo estructural. Pieza modelada en base al CAD JIA-LIANJIE.",
+    "function": "Clip conectivo estructural",
+    "weightKg": 0.002,
+    "dimensions": "Miniatura",
+    "materialType": "Plástico",
+    "manufacturer": "Holybro",
+    "quantityInScene": 2,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Landing Gear Foam Pad",
+    "id": "x500v2_blend_jiao_eva",
+    "blenderName": "JIAO-EVA",
+    "category": "Structure",
+    "description": "Almohadilla amortiguadora inferior. Pieza modelada en base al CAD JIAO-EVA.",
+    "function": "Almohadilla amortiguadora inferior",
+    "weightKg": 0.002,
+    "dimensions": "⌀10 Ext",
+    "materialType": "Espuma EVA",
+    "manufacturer": "Holybro",
+    "quantityInScene": 4,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 24,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Landing Skid End Cap",
+    "id": "x500v2_blend_jiao_lianjie",
+    "blenderName": "JIAO-LIANJIE",
+    "category": "Structure",
+    "description": "Tapón de la cruz inferior. Pieza modelada en base al CAD JIAO-LIANJIE.",
+    "function": "Tapón de la cruz inferior",
+    "weightKg": 0.005,
+    "dimensions": "⌀10 mm",
+    "materialType": "Nylon Protector",
+    "manufacturer": "Holybro",
+    "quantityInScene": 2,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 24,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "M3 Dome/Cap Nut",
+    "id": "x500v2_blend_lm_m3_ding",
+    "blenderName": "LM-M3-DING",
+    "category": "Structure",
+    "description": "Tuerca ciega. Pieza modelada en base al CAD LM-M3-DING.",
+    "function": "Tuerca ciega",
+    "weightKg": 0.001,
+    "dimensions": "M3",
+    "materialType": "Latón",
+    "manufacturer": "Holybro",
+    "quantityInScene": 8,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "M3 Nyloc Nut",
+    "id": "x500v2_blend_lm_m3_nilong",
+    "blenderName": "LM-M3-NILONG",
+    "category": "Structure",
+    "description": "Tuerca autoblocante. Pieza modelada en base al CAD LM-M3-NILONG.",
+    "function": "Tuerca autoblocante",
+    "weightKg": 0.001,
+    "dimensions": "M3",
+    "materialType": "Acero/Nylon",
+    "manufacturer": "Holybro",
+    "quantityInScene": 2,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "M2.5 Micro Screw",
+    "id": "x500v2_blend_m25_6_chen_liu",
+    "blenderName": "M25-6-CHEN-LIU",
+    "category": "Structure",
+    "description": "Tornillería instrumento. Pieza modelada en base al CAD M25-6-CHEN-LIU.",
+    "function": "Tornillería instrumento",
+    "weightKg": 0.001,
+    "dimensions": "M2.5",
+    "materialType": "Acero",
+    "manufacturer": "Holybro",
+    "quantityInScene": 12,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "M3 Pan/Countersunk Screw",
+    "id": "x500v2_blend_m3_10_pan_ding",
+    "blenderName": "M3-10-PAN-DING",
+    "category": "Structure",
+    "description": "Tornillería rasante. Pieza modelada en base al CAD M3-10-PAN-DING.",
+    "function": "Tornillería rasante",
+    "weightKg": 0.001,
+    "dimensions": "M3",
+    "materialType": "Acero Inox",
+    "manufacturer": "Holybro",
+    "quantityInScene": 4,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "M3 Pan/Countersunk Screw",
+    "id": "x500v2_blend_m3_14_pan",
+    "blenderName": "M3-14-PAN",
+    "category": "Structure",
+    "description": "Tornillería rasante. Pieza modelada en base al CAD M3-14-PAN.",
+    "function": "Tornillería rasante",
+    "weightKg": 0.001,
+    "dimensions": "M3",
+    "materialType": "Acero Inox",
+    "manufacturer": "Holybro",
+    "quantityInScene": 4,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "M3 Pan/Countersunk Screw",
+    "id": "x500v2_blend_m3_16_chen_liu",
+    "blenderName": "M3-16-CHEN-LIU",
+    "category": "Structure",
+    "description": "Tornillería rasante. Pieza modelada en base al CAD M3-16-CHEN-LIU.",
+    "function": "Tornillería rasante",
+    "weightKg": 0.001,
+    "dimensions": "M3",
+    "materialType": "Acero Inox",
+    "manufacturer": "Holybro",
+    "quantityInScene": 2,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Landing Gear T-Connector",
+    "id": "x500v2_blend_mao_jiao",
+    "blenderName": "MAO-JIAO",
+    "category": "Structure",
+    "description": "Unión T del tren. Pieza modelada en base al CAD MAO-JIAO.",
+    "function": "Unión T del tren",
+    "weightKg": 0.008,
+    "dimensions": "16 a 10 mm",
+    "materialType": "Plástico Reforzado",
+    "manufacturer": "Holybro",
+    "quantityInScene": 4,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 24,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "M2.5 Micro Screw",
+    "id": "x500v2_blend_nilongzhu_m25_5",
+    "blenderName": "NILONGZHU-M25-5",
+    "category": "Structure",
+    "description": "Tornillería instrumento. Pieza modelada en base al CAD NILONGZHU-M25-5.",
+    "function": "Tornillería instrumento",
+    "weightKg": 0.001,
+    "dimensions": "M2.5",
+    "materialType": "Acero",
+    "manufacturer": "Holybro",
+    "quantityInScene": 4,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "M3 Pan/Countersunk Screw",
+    "id": "x500v2_blend_nilongzhu_m3_5",
+    "blenderName": "NILONGZHU-M3-5",
+    "category": "Structure",
+    "description": "Tornillería rasante. Pieza modelada en base al CAD NILONGZHU-M3-5.",
+    "function": "Tornillería rasante",
+    "weightKg": 0.001,
+    "dimensions": "M3",
+    "materialType": "Acero Inox",
+    "manufacturer": "Holybro",
+    "quantityInScene": 4,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Upper Platform Board",
+    "id": "x500v2_blend_platform_plat_x500",
+    "blenderName": "PLATFORM-PLAT-X500",
+    "category": "Structure",
+    "description": "Montura elevada del GPS M10. Pieza modelada en base al CAD PLATFORM-PLAT-X500.",
+    "function": "Montura elevada del GPS M10",
+    "weightKg": 0.015,
+    "dimensions": "80×80 mm",
+    "materialType": "Fibra de Carbono",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Payload 10mm Carbon Rails",
+    "id": "x500v2_blend_pylons_x500",
+    "blenderName": "PYLONS-X500",
+    "category": "Structure",
+    "description": "Riel inferior porta-elementos 10mm. Pieza modelada en base al CAD PYLONS-X500.",
+    "function": "Riel inferior porta-elementos 10mm",
+    "weightKg": 0.015,
+    "dimensions": "⌀10×250 mm",
+    "materialType": "Fibra de carbono",
+    "manufacturer": "Holybro",
+    "quantityInScene": 2,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Carbon Fiber Top Plate",
+    "id": "x500v2_blend_top_plate_x500_v5",
+    "blenderName": "TOP-PLATE-X500-V5",
+    "category": "Structure",
+    "description": "Interfase de vuelo, Pixhawk, Radio. Pieza modelada en base al CAD TOP-PLATE-X500-V5.",
+    "function": "Interfase de vuelo, Pixhawk, Radio",
+    "weightKg": 0.075,
+    "dimensions": "144×144 mm",
+    "materialType": "Fibra Carbono Twill 2mm",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 23,
+      "thermalPeak": 28,
+      "heatingIndex": 1.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "XT60 Male Connector Plug",
+    "id": "x500v2_blend_tou_xt60h_m_14awg",
+    "blenderName": "TOU-XT60H-M-14AWG",
+    "category": "Structure",
+    "description": "Unión eléctrica de potencia. Pieza modelada en base al CAD TOU-XT60H-M-14AWG.",
+    "function": "Unión eléctrica de potencia",
+    "weightKg": 0.005,
+    "dimensions": "Estándar",
+    "materialType": "Nylon / Oro",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 40,
+      "thermalPeak": 60,
+      "heatingIndex": 5.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "XT60 Panel / Holder",
+    "id": "x500v2_blend_x500_tao_xt60",
+    "blenderName": "X500-TAO-XT60",
+    "category": "Structure",
+    "description": "Soporte cautivo del conector XT60. Pieza modelada en base al CAD X500-TAO-XT60.",
+    "function": "Soporte cautivo del conector XT60",
+    "weightKg": 0.003,
+    "dimensions": "Estándar",
+    "materialType": "Inyección plástico",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 35,
+      "thermalPeak": 45,
+      "heatingIndex": 3.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Intel Realsense Camera Bracket",
+    "id": "x500v2_blend_zhijia_camera_intel",
+    "blenderName": "ZHIJIA-CAMERA-INTEL",
+    "category": "Structure",
+    "description": "Montura frontal para sistema estéreo. Pieza modelada en base al CAD ZHIJIA-CAMERA-INTEL.",
+    "function": "Montura frontal para sistema estéreo",
+    "weightKg": 0.015,
+    "dimensions": "A medida",
+    "materialType": "Nylon Reforzado",
+    "manufacturer": "Holybro",
+    "quantityInScene": 1,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.0
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Self-Locking Flange Nut",
+    "id": "x500v2_blend_zslm_m25",
+    "blenderName": "ZSLM-M25",
+    "category": "Structure",
+    "description": "Tuerca con brida. Pieza modelada en base al CAD ZSLM-M25.",
+    "function": "Tuerca con brida",
+    "weightKg": 0.001,
+    "dimensions": "M3/M2.5",
+    "materialType": "Acero",
+    "manufacturer": "Holybro",
+    "quantityInScene": 4,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "M3 Dome/Cap Nut",
+    "id": "x500v2_blend_zslm_m3_ding",
+    "blenderName": "ZSLM-M3-DING",
+    "category": "Structure",
+    "description": "Tuerca ciega. Pieza modelada en base al CAD ZSLM-M3-DING.",
+    "function": "Tuerca ciega",
+    "weightKg": 0.001,
+    "dimensions": "M3",
+    "materialType": "Latón",
+    "manufacturer": "Holybro",
+    "quantityInScene": 8,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  },
+  {
+    "partName": "Self-Locking Flange Nut",
+    "id": "x500v2_blend_zslm_m3_falan",
+    "blenderName": "ZSLM-M3-FALAN",
+    "category": "Structure",
+    "description": "Tuerca con brida. Pieza modelada en base al CAD ZSLM-M3-FALAN.",
+    "function": "Tuerca con brida",
+    "weightKg": 0.001,
+    "dimensions": "M3/M2.5",
+    "materialType": "Acero",
+    "manufacturer": "Holybro",
+    "quantityInScene": 16,
+    "physics": {
+      "thermalHover": 22,
+      "thermalPeak": 25,
+      "heatingIndex": 0.5
+    },
+    "ui": {
+      "isHotspotTarget": false,
+      "hotspotLabel": ""
+    }
+  }
+]
