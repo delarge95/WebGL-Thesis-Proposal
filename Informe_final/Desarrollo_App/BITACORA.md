@@ -165,6 +165,12 @@ Elevar la calidad visual y la experiencia de usuario (UX) para cumplir estándar
     - _Solución Técnica_: `OrbitCameraController.ApplyPan(...)` ahora proyecta el movimiento usando `transform.right` y `transform.up` normalizados, manteniendo el drag alineado al plano visual actual. Además se corrigió el texto del onboarding para reflejar los controles reales de mouse.
     - _Resultado_: El paneo responde en el mismo marco local de la cámara y deja de sentirse como una traslación híbrida entre vista y mundo.
 
+8.  **Corrección de Cut en Blueprint con postproceso**:
+    - _Problema_: El recorte de `Cut` se veía bien en el pass principal de Blueprint, pero el edge detection seguía reconstruyendo contornos de geometría no recortada.
+    - _Causa raíz_: Los passes `DepthOnly` y `DepthNormals` no estaban aplicando `_GlobalClipPlane` ni `_GlobalClipPlane2`, así que el postproceso leía buffers inconsistentes con la geometría visible.
+    - _Solución Técnica_: Se añadió `positionWS` a ambos passes auxiliares y se replicó el descarte por clipping global antes de escribir profundidad y normales.
+    - _Resultado_: Blueprint pasa a alimentar el postproceso con depth/normals ya recortados, alineando el contorno técnico con el plano de corte activo.
+
 ### Registro de Cambios (Febrero 18, 2026)
 
 1.  **Rediseño de Interfaz (UI Toolkit)**:

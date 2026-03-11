@@ -259,16 +259,40 @@ Shader "WebGL/Blueprint"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             struct Attributes { float4 positionOS : POSITION; };
-            struct Varyings { float4 positionCS : SV_POSITION; };
+            struct Varyings
+            {
+                float4 positionCS : SV_POSITION;
+                float3 positionWS : TEXCOORD0;
+            };
+
+            float4 _GlobalClipPlane;
+            float _GlobalClipEnabled;
+            float4 _GlobalClipPlane2;
+            float _GlobalClipEnabled2;
 
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
                 OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+                OUT.positionWS = TransformObjectToWorld(IN.positionOS.xyz);
                 return OUT;
             }
 
-            half4 frag(Varyings IN) : SV_Target { return 0; }
+            half4 frag(Varyings IN) : SV_Target
+            {
+                if (_GlobalClipEnabled > 0.5)
+                {
+                    float clipDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
+                    if (clipDist < 0) discard;
+                }
+                if (_GlobalClipEnabled2 > 0.5)
+                {
+                    float clipDist2 = dot(IN.positionWS, _GlobalClipPlane2.xyz) + _GlobalClipPlane2.w;
+                    if (clipDist2 < 0) discard;
+                }
+
+                return 0;
+            }
             ENDHLSL
         }
 
@@ -296,19 +320,37 @@ Shader "WebGL/Blueprint"
             struct Varyings
             {
                 float4 positionCS : SV_POSITION;
-                float3 normalWS : TEXCOORD0;
+                float3 positionWS : TEXCOORD0;
+                float3 normalWS : TEXCOORD1;
             };
+
+            float4 _GlobalClipPlane;
+            float _GlobalClipEnabled;
+            float4 _GlobalClipPlane2;
+            float _GlobalClipEnabled2;
 
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
                 OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+                OUT.positionWS = TransformObjectToWorld(IN.positionOS.xyz);
                 OUT.normalWS = TransformObjectToWorldNormal(IN.normalOS);
                 return OUT;
             }
 
             half4 frag(Varyings IN) : SV_Target
             {
+                if (_GlobalClipEnabled > 0.5)
+                {
+                    float clipDist = dot(IN.positionWS, _GlobalClipPlane.xyz) + _GlobalClipPlane.w;
+                    if (clipDist < 0) discard;
+                }
+                if (_GlobalClipEnabled2 > 0.5)
+                {
+                    float clipDist2 = dot(IN.positionWS, _GlobalClipPlane2.xyz) + _GlobalClipPlane2.w;
+                    if (clipDist2 < 0) discard;
+                }
+
                 float3 normal = normalize(IN.normalWS);
                 return half4(normal * 0.5 + 0.5, 1.0);
             }
