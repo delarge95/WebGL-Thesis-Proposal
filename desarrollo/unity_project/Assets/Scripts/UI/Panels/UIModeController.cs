@@ -242,9 +242,6 @@ namespace WebGL.UI.Panels
                 return;
             }
 
-            if (_analyze.IsExploded && newState != AppState.ExplodedView)
-                _analyze.SetExplodeState(false);
-
             if (newState == AppState.FocusMode) return;
 
             if (newState == AppState.Analyze && _activeMode != ActiveMode.Analyze)

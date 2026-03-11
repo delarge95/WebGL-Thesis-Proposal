@@ -125,6 +125,25 @@ Aportar valor técnico y educativo real más allá de la visualización estétic
 
 Elevar la calidad visual y la experiencia de usuario (UX) para cumplir estándares de la industria (Awwwards/Apple Design).
 
+### Registro de Cambios (Marzo 11, 2026) — Ajustes UX Fase 1 y Fase 2
+
+1.  **Persistencia de submenús Analyze ante selección 3D**:
+    - _Problema_: Los submenús `Cut`, `Filter` y `Explode` se cerraban al seleccionar piezas o al hacer click en el background.
+    - _Causa raíz_: `UIManager.OnPartSelected(...)` ejecutaba `CloseAllMenus()` como efecto colateral del sistema de selección 3D.
+    - _Solución Técnica_: Se eliminó el cierre automático desde `UIManager`, desacoplando la navegación de Analyze de los eventos `PartSelectedEvent`.
+    - _Resultado_: Los submenús permanecen abiertos durante la interacción normal con el modelo y solo cambian cuando el usuario navega explícitamente entre modos o botones.
+
+2.  **Desacoplamiento de Explode respecto al AppState global**:
+    - _Problema_: La vista explosionada se desactivaba al cambiar entre Analyze y Studio o al reabrir Analyze, aunque el usuario no hubiera apagado `Explode`.
+    - _Causa raíz_: `ExplodedViewManager` y `UIModeController` apagaban el estado explosivo al salir de `AppState.ExplodedView`.
+    - _Solución Técnica_: Se removió el reseteo automático de `SetExplosionFactor(0f)` en `ExplodedViewManager.OnStateChanged(...)` y la limpieza forzada de `SetExplodeState(false)` en `UIModeController.SyncWithAppState(...)`.
+    - _Resultado_: Mientras `Explode` esté activo, el botón sigue marcado y el slider permanece visible hasta que el usuario lo apague explícitamente con el botón o llevando el slider a cero.
+
+3.  **Consolidación de diagnóstico y plan de remediación**:
+    - _Acción_: Se documentó el análisis técnico completo de problemas de submenús, explode, blueprint/cut, info panel y cámara.
+    - _Archivo_: `desarrollo/docs/investigacion/14_analisis_problemas_app_2026-03-10.md`.
+    - _Por qué_: Dejar una base verificable para implementar las siguientes fases sin depender de memoria de sesión.
+
 ### Registro de Cambios (Febrero 18, 2026)
 
 1.  **Rediseño de Interfaz (UI Toolkit)**:
