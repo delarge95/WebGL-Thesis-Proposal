@@ -1851,19 +1851,23 @@
 
 /* ── Top Bar ── */
 .ui-light-bg .header-title {
-    color: rgba(0, 0, 0, 0.7);
+    color: rgba(32, 30, 28, 0.84);
 }
 
 /* ── Mode Buttons ── */
 .ui-light-bg .mode-btn-label {
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(248, 243, 236, 0.86);
+}
+
+.ui-light-bg .mode-btn--active .mode-btn-label {
+    color: rgba(84, 222, 201, 1);
 }
 
 /* ── Selection Indicator ── */
 .ui-light-bg .selection-label {
-    color: rgba(0, 0, 0, 0.75);
-    background-color: rgba(0, 0, 0, 0.08);
-    border-color: rgba(0, 0, 0, 0.12);
+    color: rgba(26, 30, 36, 0.88);
+    background-color: rgba(255, 255, 255, 0.22);
+    border-color: rgba(0, 0, 0, 0.16);
 }
 
 /* ── Icon Buttons ── */
@@ -1881,21 +1885,25 @@
 
 /* ── Small Icon Buttons ── */
 .ui-light-bg .icon-button-small {
-    border-color: rgba(0, 0, 0, 0.1);
-    -unity-background-image-tint-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(255, 255, 255, 0.18);
+    border-color: rgba(0, 0, 0, 0.18);
+    -unity-background-image-tint-color: rgba(17, 19, 22, 0.88);
 }
 
 .ui-light-bg .icon-button-small:hover {
-    border-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.24);
+    border-color: rgba(0, 0, 0, 0.26);
 }
 
 .ui-light-bg .icon-button-small:active {
-    border-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(0, 0, 0, 0.34);
 }
 
 /* ── Actions Row (Bottom Bar Pill) ── */
 .ui-light-bg .actions-row {
-    border-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(22, 22, 28, 0.38);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 
 /* ── Glassmorphic Panel ── */
@@ -1912,65 +1920,98 @@
 
 /* ── Sheet Content ── */
 .ui-light-bg .sheet-title {
-    color: rgba(0, 0, 0, 0.9);
+    color: rgba(250, 246, 240, 0.96);
 }
 
 .ui-light-bg .sheet-hint {
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(250, 244, 236, 0.66);
+}
+
+.ui-light-bg .sheet-description {
+    color: rgba(250, 244, 236, 0.72);
+}
+
+.ui-light-bg .sheet-foldout {
+    border-top-color: rgba(255, 255, 255, 0.12);
 }
 
 .ui-light-bg .data-label {
-    color: rgba(0, 0, 0, 0.4);
+    color: rgba(248, 240, 232, 0.62);
 }
 
 .ui-light-bg .data-value {
-    color: rgba(0, 0, 0, 0.8);
+    color: rgba(255, 250, 245, 0.96);
+}
+
+.ui-light-bg .data-value-status {
+    color: rgba(255, 250, 245, 0.98);
 }
 
 /* ── Peek Bar ── */
 .ui-light-bg .peek-handle {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.26);
 }
 
 .ui-light-bg .peek-label {
-    color: rgba(0, 0, 0, 0.4);
+    color: rgba(250, 244, 236, 0.82);
 }
 
 /* ── Sheet Close Button ── */
 .ui-light-bg .sheet-close-btn {
-    border-color: rgba(0, 0, 0, 0.1);
-    color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.16);
+    color: rgba(250, 246, 240, 0.78);
 }
 
 .ui-light-bg .sheet-close-btn:hover {
-    border-color: rgba(0, 0, 0, 0.2);
-    color: rgba(0, 0, 0, 0.9);
+    border-color: rgba(255, 255, 255, 0.28);
+    color: rgba(255, 250, 245, 0.96);
 }
 
 .ui-light-bg .sheet-close-btn:active {
-    border-color: rgba(0, 0, 0, 0.3);
-    color: rgba(0, 0, 0, 0.7);
+    border-color: rgba(255, 255, 255, 0.34);
+    color: rgba(255, 250, 245, 0.88);
 }
 
 /* ── Submenu Cards ── */
 .ui-light-bg .submenu-card {
-    border-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(0, 0, 0, 0.16);
 }
 
 .ui-light-bg .submenu-card:hover {
-    border-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.28);
+    border-color: rgba(0, 0, 0, 0.24);
 }
 
 .ui-light-bg .submenu-card:active {
+    background-color: rgba(255, 255, 255, 0.34);
     border-color: rgba(0, 0, 0, 0.3);
 }
 
 .ui-light-bg .submenu-label {
-    color: rgba(0, 0, 0, 0.65);
+    color: rgba(22, 24, 28, 0.84);
 }
 
 .ui-light-bg .submenu-icon {
-    -unity-background-image-tint-color: rgba(0, 0, 0, 0.65);
+    -unity-background-image-tint-color: rgba(22, 24, 28, 0.76);
+}
+
+.ui-light-bg .submenu-title {
+    color: rgba(28, 26, 24, 0.74);
+}
+
+.ui-light-bg .cross-section-axis-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(0, 0, 0, 0.16);
+}
+
+.ui-light-bg .cross-section-axis-btn:hover {
+    background-color: rgba(255, 255, 255, 0.28);
+    border-color: rgba(0, 0, 0, 0.24);
+}
+
+.ui-light-bg .cross-section-axis-label {
+    color: rgba(22, 24, 28, 0.84);
 }
 
 /* ── Buttons ── */
@@ -2007,79 +2048,102 @@
 
 /* ── Mode Button Icons ── */
 .ui-light-bg .mode-btn-icon {
-    -unity-background-image-tint-color: rgba(0, 0, 0, 0.6);
+    -unity-background-image-tint-color: rgba(248, 243, 236, 0.8);
+}
+
+.ui-light-bg .mode-btn--active .mode-btn-icon {
+    -unity-background-image-tint-color: rgba(84, 222, 201, 1);
 }
 
 /* ── Sheet Handle ── */
 .ui-light-bg .sheet-handle {
-    background-color: rgba(0, 0, 0, 0.16);
+    background-color: rgba(255, 255, 255, 0.18);
 }
 
-/* ── Details Sheet (light frosted glass instead of dark) ── */
+/* ── Details Sheet (darkened tint of the bright environment) ── */
 .ui-light-bg .details-sheet {
-    background-color: rgba(255, 255, 255, 0.85);
-    border-top-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(18, 18, 24, 0.58);
+    border-top-color: rgba(255, 255, 255, 0.14);
 }
 
 /* ── Info Bar Peek ── */
 .ui-light-bg .info-bar-peek {
-    background-color: rgba(255, 255, 255, 0.96);
-    border-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(18, 18, 24, 0.48);
+    border-color: rgba(255, 255, 255, 0.14);
 }
 
 .ui-light-bg .info-bar-peek:hover {
-    background-color: rgba(245, 245, 245, 0.98);
-    border-color: rgba(0, 0, 0, 0.15);
+    background-color: rgba(18, 18, 24, 0.58);
+    border-color: rgba(255, 255, 255, 0.22);
 }
 
 .ui-light-bg .info-bar-peek:active {
-    background-color: rgba(235, 235, 235, 1);
+    background-color: rgba(18, 18, 24, 0.66);
 }
 
 /* ── Actions Row — opaque pill when sheet is open ── */
 .ui-light-bg .actions-row--sheet-open {
-    background-color: rgba(255, 255, 255, 0.96);
-    border-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(18, 18, 24, 0.7);
+    border-color: rgba(255, 255, 255, 0.16);
 }
 
 /* ── Back Button ── */
 .ui-light-bg .btn-back {
-    border-color: rgba(0, 0, 0, 0.1);
-    color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(255, 255, 255, 0.18);
+    border-color: rgba(0, 0, 0, 0.16);
+    color: rgba(17, 19, 22, 0.84);
 }
 
 .ui-light-bg .btn-back:hover {
-    border-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.24);
+    border-color: rgba(0, 0, 0, 0.24);
 }
 
 .ui-light-bg .btn-back:active {
-    border-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(0, 0, 0, 0.32);
 }
 
 /* ── Read-Only Text (Description) ── */
 .ui-light-bg .read-only-text {
-    color: rgba(0, 0, 0, 0.65);
+    color: rgba(250, 244, 236, 0.72);
+}
+
+.ui-light-bg .read-only-text > .unity-text-field__input {
+    color: rgba(250, 244, 236, 0.72);
 }
 
 /* ── Foldout Headers (Identification / Specifications / Assembly) ── */
 .ui-light-bg .unity-foldout__toggle {
-    color: rgba(0, 0, 0, 0.7);
+    color: rgba(248, 240, 232, 0.86);
 }
 
 .ui-light-bg .unity-foldout__toggle .unity-toggle__checkmark {
-    -unity-background-image-tint-color: rgba(0, 0, 0, 0.5);
+    -unity-background-image-tint-color: rgba(248, 240, 232, 0.68);
+}
+
+.ui-light-bg .sheet-foldout > .unity-foldout__toggle > .unity-toggle__input > .unity-foldout__text {
+    color: rgba(248, 240, 232, 0.6);
 }
 
 /* ── Slider on light bg ── */
 .ui-light-bg .glass-slider .unity-base-slider__tracker {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(24, 26, 30, 0.24);
 }
 
 .ui-light-bg .glass-slider .unity-base-slider__dragger {
-    background-color: rgba(0, 0, 0, 0.3);
-    border-color: rgba(0, 0, 0, 0.15);
+    background-color: rgba(255, 250, 245, 0.92);
+    border-width: 2px;
+    border-color: rgba(24, 26, 30, 0.32);
 }
 
 .ui-light-bg .glass-slider .unity-base-slider__dragger:hover {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 1);
+    border-color: rgba(24, 26, 30, 0.46);
+}
+
+.ui-light-bg .glass-slider .unity-base-slider__dragger:hover:active,
+.ui-light-bg .glass-slider .unity-base-slider__dragger:active {
+    background-color: rgba(84, 222, 201, 1);
+    border-color: rgba(84, 222, 201, 1);
 }
