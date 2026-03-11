@@ -171,6 +171,11 @@ Elevar la calidad visual y la experiencia de usuario (UX) para cumplir estándar
     - _Solución Técnica_: Se añadió `positionWS` a ambos passes auxiliares y se replicó el descarte por clipping global antes de escribir profundidad y normales.
     - _Resultado_: Blueprint pasa a alimentar el postproceso con depth/normals ya recortados, alineando el contorno técnico con el plano de corte activo.
 
+9.  **Separación de pan y pinch en touch**:
+    - _Problema_: Los gestos de dos dedos seguían ejecutando paneo y zoom en el mismo flujo, de modo que un desplazamiento vertical podía introducir zoom por ruido de pinch.
+    - _Solución Técnica_: `OrbitCameraController.HandleTouchInput()` ahora clasifica la intención del gesto por magnitud dominante entre `panDelta` y `pinchDelta`, aplicando sólo uno de los dos movimientos por frame.
+    - _Resultado_: El paneo touch deja de arrastrar zoom espurio y el pinch deja de contaminar el desplazamiento del foco.
+
 ### Registro de Cambios (Febrero 18, 2026)
 
 1.  **Rediseño de Interfaz (UI Toolkit)**:
