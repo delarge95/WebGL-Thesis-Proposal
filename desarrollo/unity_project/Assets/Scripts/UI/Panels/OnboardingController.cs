@@ -37,7 +37,7 @@ namespace WebGL.UI.Panels
             {
                 icon = "🖱",
                 title = "ORBIT & ZOOM",
-                description = "Click and drag to rotate the model.\nScroll to zoom in and out.\nRight-click drag to pan."
+                description = "Right-click drag to rotate the model.\nScroll to zoom in and out.\nMiddle-click drag to pan."
             },
             new Step
             {

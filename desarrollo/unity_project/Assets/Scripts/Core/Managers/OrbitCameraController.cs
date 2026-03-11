@@ -223,13 +223,9 @@ namespace WebGL.Core.Managers
 
         private void ApplyPan(float x, float y)
         {
-            Vector3 right = transform.right;
-            // Use World Up to prevent "pulling back" sensation ("Elevator Panning")
-            Vector3 up = Vector3.up; 
-            
-            // Flatten right vector to keep it horizontal
-            right.y = 0f; 
-            right.Normalize();
+            // Pan in camera-local space so the drag direction stays aligned with the current view.
+            Vector3 right = transform.right.normalized;
+            Vector3 up = transform.up.normalized;
 
             Vector3 move = (-right * x) + (-up * y);
 

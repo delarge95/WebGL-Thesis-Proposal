@@ -160,6 +160,11 @@ Elevar la calidad visual y la experiencia de usuario (UX) para cumplir estándar
     - _Solución Técnica_: Se fijó una rotación base de `45°` en `ProceduralCloseIcon` y se reforzó `InputManager` para recalcular el panel activo, usar touch cuando exista y filtrar picks no interactivos o invisibles antes de bloquear input 3D.
     - _Resultado_: La X ya se percibe correctamente como cierre y la detección de UI queda más robusta para hover, selección y cámara cuando el puntero cae sobre controles reales.
 
+7.  **Corrección de paneo en espacio local de cámara**:
+    - _Problema_: El paneo seguía mezclando ejes globales (`Vector3.up` + `right` aplanado), lo que desalineaba el desplazamiento respecto a la orientación real de la cámara.
+    - _Solución Técnica_: `OrbitCameraController.ApplyPan(...)` ahora proyecta el movimiento usando `transform.right` y `transform.up` normalizados, manteniendo el drag alineado al plano visual actual. Además se corrigió el texto del onboarding para reflejar los controles reales de mouse.
+    - _Resultado_: El paneo responde en el mismo marco local de la cámara y deja de sentirse como una traslación híbrida entre vista y mundo.
+
 ### Registro de Cambios (Febrero 18, 2026)
 
 1.  **Rediseño de Interfaz (UI Toolkit)**:
