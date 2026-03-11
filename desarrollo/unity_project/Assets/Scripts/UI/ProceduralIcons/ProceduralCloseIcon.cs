@@ -6,30 +6,32 @@ namespace WebGL.UI.ProceduralIcons
     [UxmlElement]
     public partial class ProceduralCloseIcon : ProceduralIconBase
     {
+        private const float BaseRotation = 45f;
+
         private float targetScale = 1f;
         private float currentScale = 1f;
         private float scaleVelocity = 0f;
 
-        private float targetRotation = 0f;
-        private float currentRotation = 0f;
+        private float targetRotation = BaseRotation;
+        private float currentRotation = BaseRotation;
         private float rotationVelocity = 0f;
 
         protected override void OnHoverEnter()
         {
             targetScale = 1.12f;
-            targetRotation = 8f;
+            targetRotation = BaseRotation + 8f;
         }
 
         protected override void OnHoverExit()
         {
             targetScale = 1f;
-            targetRotation = 0f;
+            targetRotation = BaseRotation;
         }
 
         protected override void OnPressed()
         {
             targetScale = 0.82f;
-            targetRotation = 0f;
+            targetRotation = BaseRotation;
         }
 
         protected override void OnReleased()
