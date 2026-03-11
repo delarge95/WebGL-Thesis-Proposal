@@ -25,6 +25,7 @@
 - `fix(ui)`: Se eliminó el cierre automático de submenús Analyze al seleccionar piezas o al hacer click en el fondo 3D.
 - `fix(explode)`: Se desacopló el estado de `Explode` del `AppState` global para que no se apague al cambiar entre Analyze y Studio.
 - `fix(ui)`: Se restauró la X del info panel con un icono procedimental y se reajustó su tamaño/posición para alinearla con el sistema visual del top bar.
+- `fix(ui)`: Se eliminaron cierres no permitidos del info panel, quitando el drag-to-dismiss y evitando que los accesos de info funcionen como toggle de cierre.
 - `docs`: Se añadió un documento técnico con diagnóstico completo y plan de implementación por fases para los siguientes problemas de la app.
 
 ### Archivos Afectados
@@ -32,6 +33,7 @@
 - `desarrollo/unity_project/Assets/Scripts/UI/UIManager.cs`
 - `desarrollo/unity_project/Assets/Scripts/Core/Content/ExplodedViewManager.cs`
 - `desarrollo/unity_project/Assets/Scripts/UI/Panels/UIModeController.cs`
+- `desarrollo/unity_project/Assets/Scripts/UI/Panels/UIDetailsSheet.cs`
 - `desarrollo/unity_project/Assets/Scripts/UI/ProceduralIcons/ProceduralCloseIcon.cs`
 - `desarrollo/unity_project/Assets/Scripts/UI/Layouts/MainLayout.uxml`
 - `desarrollo/unity_project/Assets/UI/Styles/Theme.uss`
@@ -42,6 +44,7 @@
 - `Cut`, `Filter` y `Explode` ya no se cierran al clickear el background.
 - La vista explosionada permanece activa al abrir otros submenús de Analyze y al alternar entre Analyze y Studio.
 - El info panel vuelve a mostrar un botón de cierre visible, consistente con el sistema de iconos procedurales y mejor alineado en la esquina superior derecha.
+- El info panel ya no se cierra arrastrando el handle ni al volver a pulsar los accesos de info; su cierre queda acotado a la `X`, doble click en el fondo 3D y cambio de modo.
 - La desactivación de `Explode` queda restringida a las dos acciones esperadas por UX:
   - volver a pulsar el botón `Explode`
   - llevar el slider a `0`

@@ -150,6 +150,11 @@ Elevar la calidad visual y la experiencia de usuario (UX) para cumplir estándar
     - _Refinamiento UX_: El botón de cierre se escaló a 64x64, con icono central mayor y offsets simétricos de 24px desde el borde superior y derecho del panel para alinearlo con el lenguaje visual de `Home` y `Reset`.
     - _Resultado_: El cierre del panel ahora usa el mismo sistema visual del resto de controles premium y mantiene una alineación más limpia en la esquina.
 
+5.  **Endurecimiento de reglas de cierre del info panel**:
+    - _Problema_: El panel todavía podía cerrarse por arrastre del handle y por comportamiento toggle del acceso global de info, dos caminos no alineados con la UX definida.
+    - _Solución Técnica_: Se eliminó el bloque `drag-to-dismiss` de `UIDetailsSheet.BindInteractions()` y se sustituyó el toggle de `InfoBarPeek` y `ToolInfoBtn` por apertura explícita mediante `ShowInfo()`.
+    - _Resultado_: El panel conserva sólo los cierres permitidos por esta fase: botón `X`, doble click sobre el fondo y cambio hacia otro ítem/modo de la barra inferior.
+
 ### Registro de Cambios (Febrero 18, 2026)
 
 1.  **Rediseño de Interfaz (UI Toolkit)**:
