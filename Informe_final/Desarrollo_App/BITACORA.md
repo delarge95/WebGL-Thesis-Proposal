@@ -155,6 +155,11 @@ Elevar la calidad visual y la experiencia de usuario (UX) para cumplir estándar
     - _Solución Técnica_: Se eliminó el bloque `drag-to-dismiss` de `UIDetailsSheet.BindInteractions()` y se sustituyó el toggle de `InfoBarPeek` y `ToolInfoBtn` por apertura explícita mediante `ShowInfo()`.
     - _Resultado_: El panel conserva sólo los cierres permitidos por esta fase: botón `X`, doble click sobre el fondo y cambio hacia otro ítem/modo de la barra inferior.
 
+6.  **Ajuste final del icono de cierre + hardening de detección UI**:
+    - _Problema_: El nuevo icono de cierre se seguía leyendo como `+` porque su estado base partía sin rotación, y `InputManager.IsPointerOverUI()` dependía de un `Pick()` mínimo basado sólo en `mousePosition`.
+    - _Solución Técnica_: Se fijó una rotación base de `45°` en `ProceduralCloseIcon` y se reforzó `InputManager` para recalcular el panel activo, usar touch cuando exista y filtrar picks no interactivos o invisibles antes de bloquear input 3D.
+    - _Resultado_: La X ya se percibe correctamente como cierre y la detección de UI queda más robusta para hover, selección y cámara cuando el puntero cae sobre controles reales.
+
 ### Registro de Cambios (Febrero 18, 2026)
 
 1.  **Rediseño de Interfaz (UI Toolkit)**:

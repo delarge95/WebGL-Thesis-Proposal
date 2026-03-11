@@ -61,21 +61,22 @@ namespace WebGL.Core.Managers
         /// </summary>
         public bool IsPointerOverUI()
         {
+            CacheUIDocumentIfNeeded();
             if (_uiPanel == null) return false;
+
+            Vector2 screenPos = GetCurrentPointerScreenPosition();
+            if (screenPos.x < 0f || screenPos.y < 0f) return false;
 
             // RuntimePanelUtils.ScreenToPanel handles:
             //  - Y-axis inversion (Screen bottom-left → Panel top-left)
             //  - ScaleWithScreenSize scaling factor
-            Vector2 panelPos = RuntimePanelUtils.ScreenToPanel(_uiPanel, Input.mousePosition);
+            Vector2 panelPos = RuntimePanelUtils.ScreenToPanel(_uiPanel, screenPos);
             VisualElement picked = _uiPanel.Pick(panelPos);
 
             // Pick() returns null if nothing with picking-mode: Position is hit
             if (picked == null) return false;
 
-            // The TemplateContainer (root's parent) is not interactive UI
-            if (_mainUIDocument != null && picked == _mainUIDocument.rootVisualElement?.parent) return false;
-
-            return true;
+            return IsInteractivePick(picked);
         }
 
         // ═══════════════════════════════════════════════════════
@@ -128,9 +129,7 @@ namespace WebGL.Core.Managers
         /// </summary>
         private void CacheUIDocumentIfNeeded()
         {
-            if (_uiPanel != null) return;
-
-            if (_mainUIDocument == null)
+            if (_mainUIDocument == null || _mainUIDocument.rootVisualElement == null)
             {
                 _mainUIDocument = Object.FindFirstObjectByType<UIDocument>();
             }
@@ -139,6 +138,42 @@ namespace WebGL.Core.Managers
             {
                 _uiPanel = _mainUIDocument.rootVisualElement.panel;
             }
+            else
+            {
+                _uiPanel = null;
+            }
+        }
+
+        private Vector2 GetCurrentPointerScreenPosition()
+        {
+            if (Input.touchCount > 0)
+            {
+                return Input.GetTouch(0).position;
+            }
+
+            return Input.mousePosition;
+        }
+
+        private bool IsInteractivePick(VisualElement picked)
+        {
+            if (picked == null || _mainUIDocument?.rootVisualElement == null) return false;
+
+            VisualElement root = _mainUIDocument.rootVisualElement;
+            VisualElement templateRoot = root.parent;
+
+            for (VisualElement current = picked; current != null; current = current.parent)
+            {
+                if (current == root || current == templateRoot) return false;
+
+                if (current.pickingMode != PickingMode.Position) continue;
+                if (!current.enabledInHierarchy) continue;
+                if (current.resolvedStyle.display == DisplayStyle.None) continue;
+                if (current.resolvedStyle.visibility == Visibility.Hidden) continue;
+
+                return true;
+            }
+
+            return false;
         }
     }
 }
