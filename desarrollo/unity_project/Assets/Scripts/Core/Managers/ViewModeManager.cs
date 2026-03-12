@@ -51,7 +51,9 @@ namespace WebGL.Core.Managers
         [Header("Blueprint Settings")]
         [SerializeField] private Color blueprintLineColor = new Color(0.85f, 0.9f, 1f);
         [SerializeField] private Color blueprintBgColor = new Color(0.08f, 0.18f, 0.38f);
+#pragma warning disable CS0414 // Reserved for Inspector configuration
         [SerializeField] private float blueprintGridSize = 0.1f;
+#pragma warning restore CS0414
 
         private Dictionary<Renderer, Material[]> originalMaterials = new Dictionary<Renderer, Material[]>();
         private List<Renderer> allRenderers = new List<Renderer>();

@@ -9,7 +9,9 @@ namespace WebGL.Core.Managers
     {
         [Header("Settings")]
         [SerializeField] private float fadeTransitionDuration = 0.3f;
+#pragma warning disable CS0414 // Reserved for Inspector configuration
         [SerializeField] private float isolatedOpacity = 0.15f;
+#pragma warning restore CS0414
 
         private Dictionary<ExplodablePart, bool> partVisibility = new Dictionary<ExplodablePart, bool>();
         private Dictionary<ExplodablePart, Material[]> originalMaterials = new Dictionary<ExplodablePart, Material[]>();

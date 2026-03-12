@@ -20,7 +20,7 @@ Shader "WebGL/Thermal"
         _NoiseSpeed("Noise Speed", Range(0, 2)) = 0.5
         _EdgeGlow("Edge Glow", Range(0, 2)) = 0.5
         
-        [Header(Spatial Thermal - set via MaterialPropertyBlock)]
+        [Header(Spatial Thermal)]
         _ThermalMode("Mode (0=Uniform 1=Radial 2=Axial)", Float) = 0
         _ThermalHotspotOS("Hotspot OS", Vector) = (0, 0, 0, 0)
         _ThermalDirectionOS("Direction OS", Vector) = (0, 1, 0, 0)
