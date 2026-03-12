@@ -27,6 +27,17 @@ namespace WebGL.Core.Data
         public float maxLoad; // kg or N
         public float operatingTemp; // Celsius
 
+        [Header("Thermal Simulation")]
+        public float operatingTempMin;        // °C — lower bound of normal operating range
+        public float operatingTempMax;        // °C — upper bound of normal operating range
+        public float thermalPeak;             // °C — absolute peak temperature under max load
+        public float thermalHover;            // °C — steady-state temperature at hover load
+        public float thermalWarmupSeconds;    // seconds to reach equilibrium from ambient
+        public float thermalExposure;         // 0-1 — how exposed the part is to convective cooling
+        public float thermalConductionScale;  // multiplier for conduction through contact links
+        public float thermalSourceWeight;     // 0-1 — how strongly this part drives its own heat
+        public bool  isThermallyCritical;     // true if this part should trigger thermal warnings
+
         [Header("Visuals")]
         public Sprite icon;
         public Color highlightColor = Color.cyan;

@@ -1,6 +1,6 @@
-# Technology Stack â€” WebGL Drone Visualization
+# Technology Stack — WebGL Drone Visualization
 
-> Inventario completo de tecnologÃ­as, herramientas, y servicios utilizados en el desarrollo del proyecto.
+> Inventario completo de tecnologías, herramientas, y servicios utilizados en el desarrollo del proyecto.
 
 ---
 
@@ -8,26 +8,26 @@
 
 ### Unity 6 LTS
 
-- **VersiÃ³n**: Unity 6000.0.62f1
+- **Versión**: Unity 6000.0.62f1
 - **Render Pipeline**: Universal Render Pipeline (URP) 17.0.3
-- **Target Platform**: WebGL 2.0 (IL2CPP â†’ WebAssembly)
+- **Target Platform**: WebGL 2.0 (IL2CPP -> WebAssembly)
 - **UI Framework**: UI Toolkit (USS + UXML)
 - **Paquetes Unity**:
-  - `com.unity.render-pipelines.universal` â€” URP rendering
-  - `com.unity.inputsystem` â€” New Input System
-  - `com.unity.textmeshpro` â€” Advanced text rendering
-  - `com.unity.cinemachine` â€” Camera system (orbit, pan, zoom)
+  - `com.unity.render-pipelines.universal` — URP rendering
+  - `com.unity.inputsystem` — New Input System
+  - `com.unity.textmeshpro` — Advanced text rendering
+  - `com.unity.cinemachine` — Camera system (orbit, pan, zoom)
 
 ---
 
-## 2. Lenguajes de ProgramaciÃ³n
+## 2. Lenguajes de Programación
 
 | Lenguaje        | Uso                                    | Archivos                     |
 | --------------- | -------------------------------------- | ---------------------------- |
-| **C#**          | Core logic, managers, UI controllers   | 91 scripts (~14,778 lÃ­neas)  |
-| **HLSL**        | Custom shaders (URP compatible)        | 9 shaders (1,749 lÃ­neas)     |
-| **USS**         | Styles (Unity Style Sheets, CSS-like)  | 5 stylesheets (3,561 lÃ­neas) |
-| **UXML**        | UI layout (XML-based, HTML-like)       | 4 layouts (502 lÃ­neas)       |
+| **C#**          | Core logic, managers, UI controllers   | 91 scripts (~14,778 líneas)  |
+| **HLSL**        | Custom shaders (URP compatible)        | 9 shaders (1,749 líneas)     |
+| **USS**         | Styles (Unity Style Sheets, CSS-like)  | 5 stylesheets (3,561 líneas) |
+| **UXML**        | UI layout (XML-based, HTML-like)       | 4 layouts (502 líneas)       |
 | **HTML/CSS/JS** | Landing page web                       | `docs/` folder               |
 | **JSX**         | React components (Framer Motion cards) | `docs/src/`                  |
 
@@ -37,38 +37,45 @@
 
 ### 3.1 Antigravity (Google DeepMind)
 
-**Rol**: Agente de desarrollo agentic AI principal â€” pareja de programaciÃ³n.
+**Rol**: Agente de desarrollo agentic AI principal — pareja de programación.
 
-- **Modo de operaciÃ³n**: PLANNING â†’ EXECUTION â†’ VERIFICATION
+- **Modo de operación**: PLANNING -> EXECUTION -> VERIFICATION
 - **Conversaciones de desarrollo**: 6+ sesiones documentadas
 - **Artifacts generados**: Implementation plans, task lists, walkthroughs, changelogs
 - **Capacidades utilizadas**:
-  - Escritura y ediciÃ³n de cÃ³digo (C#, USS, UXML, HLSL)
-  - InvestigaciÃ³n de codebase (grep, file search, outline)
-  - EjecuciÃ³n de comandos (git, npm, Unity)
-  - GeneraciÃ³n de documentaciÃ³n
-  - Debugging y resoluciÃ³n de errores
+  - Escritura y edición de código (C#, USS, UXML, HLSL)
+  - Investigación de codebase (grep, file search, outline)
+  - Ejecución de comandos (git, npm, Unity)
+  - Generación de documentación
+  - Debugging y resolución de errores
 
 ### 3.2 GitHub Copilot
 
-**Rol**: Auto-completion y sugerencias de cÃ³digo.
+**Rol**: Auto-completion y sugerencias de código.
 
 - **IDE integration**: Visual Studio / Rider
 - **Uso**: Complemento de Antigravity para inline suggestions
 
 ### 3.3 Perplexity AI
 
-**Rol**: InvestigaciÃ³n tÃ©cnica y bÃºsqueda de documentaciÃ³n.
+**Rol**: Investigación técnica y búsqueda de documentación.
 
 - **Uso**: Consultas sobre Unity API, WebGL compatibility, shader syntax, CSS properties
-- **Prompts especializados**: Generados por Antigravity para investigaciÃ³n profunda
+- **Prompts especializados**: Generados por Antigravity para investigación profunda
 
 ### 3.4 Kimi K2
 
-**Rol**: DiseÃ±o de presentaciÃ³n y material visual.
+**Rol**: Diseño de presentación y material visual.
 
-- **Uso**: Sistema de diseÃ±o para presentaciÃ³n
-- **Output**: DocumentaciÃ³n de presentaciÃ³n en `docs/`
+- **Uso**: Sistema de diseño para presentación
+- **Output**: Documentación de presentación en `docs/`
+
+### 3.5 OpenAI Codex
+
+**Rol**: Agente de desarrollo para implementacion, mantenimiento documental y coordinacion tecnica del subsistema termico.
+
+- **Uso**: arquitectura del sistema termico, implementacion C#, integracion shader/UI, workflows de verificacion y gobernanza documental
+- **Output**: codigo de runtime, documentacion tecnica viva, indices de navegacion y workflows locales para mantenimiento ordenado
 
 ---
 
@@ -76,18 +83,19 @@
 
 > 10 skills personalizadas creadas en `.agent/skills/` para extender las capacidades de Antigravity dentro del contexto del proyecto.
 
-| Skill                   | DescripciÃ³n                                                                          |
+| Skill                   | Descripción                                                                          |
 | ----------------------- | ------------------------------------------------------------------------------------ |
 | **arch_guard**          | Roslyn Analyzer para enforcer reglas de arquitectura (God Classes, Coupling)         |
 | **graph_builder**       | Construye Knowledge Graph estructural del proyecto Unity para prevenir alucinaciones |
-| **scene_architect**     | ConstrucciÃ³n programÃ¡tica de Unity Scene para configuraciÃ³n perfecta                 |
+| **scene_architect**     | Construcción programática de Unity Scene para configuración perfecta                 |
 | **ui_validator**        | Valida assets de UI Toolkit y genera bindings C# seguros                             |
 | **unity_asset_auditor** | Escanea el proyecto por assets faltantes (fuentes, settings, paquetes)               |
 | **unity_observer**      | Monitorea el estado del Unity Editor y errores en tiempo real                        |
-| **unity_ui_pro**        | DiseÃ±o de interfaces siguiendo Apple HIG y Material Design                           |
+| **unity_ui_pro**        | Diseño de interfaces siguiendo Apple HIG y Material Design                           |
 | **uss_linter**          | Escanea USS y UXML para compatibilidad Unity 6                                       |
 | **webgl_optimizer**     | Valida y optimiza settings para builds WebGL de alto rendimiento                     |
 | **webgl_scanner**       | Scanner avanzado para compatibilidad WebGL 2.0 (Shaders, Texturas, Audio)            |
+| **wolfram-thermal-verifier** | Workflow local para validar ecuaciones, unidades y factores del subsistema termico |
 
 ---
 
@@ -95,19 +103,25 @@
 
 ### Knowledge Items System
 
-- **UbicaciÃ³n**: `<appDataDir>/knowledge/` (Antigravity managed)
+- **Ubicación**: `<appDataDir>/knowledge/` (Antigravity managed)
 - **Formato**: `metadata.json` + `artifacts/` por cada KI
 - **Uso**: Contexto persistente entre conversaciones
   - Patrones de arquitectura del proyecto
   - Bugs resueltos y gotchas conocidos
-  - Decisiones de diseÃ±o y su rationale
+  - Decisiones de diseño y su rationale
   - Estado actual del proyecto
+
+### Repo-local thermal knowledge
+
+- **Ubicación**: `.agent/workflows/thermal_documentation_maintenance.md` y `desarrollo/docs/sistema_termico/`
+- **Uso**: mantener trazabilidad del subsistema termico, su politica documental y el workflow de verificacion con WolframAlpha
+- **Beneficio**: continuidad entre iteraciones sin depender solo del contexto de la sesion
 
 ### Conversation Logs
 
-- **UbicaciÃ³n**: `<appDataDir>/brain/<conversation-id>/`
+- **Ubicación**: `<appDataDir>/brain/<conversation-id>/`
 - **Contenido**: Logs de tareas, artifacts, implementation plans, walkthroughs
-- **Uso**: RecuperaciÃ³n de contexto de sesiones anteriores
+- **Uso**: Recuperación de contexto de sesiones anteriores
 
 ---
 
@@ -115,10 +129,10 @@
 
 ### graph_builder Skill
 
-- **PropÃ³sito**: Mapeo estructural del proyecto Unity
+- **Propósito**: Mapeo estructural del proyecto Unity
 - **Nodos**: Scripts, clases, namespaces, assets, escenas
 - **Edges**: Dependencias, herencia, referencias, uso
-- **Beneficio**: PrevenciÃ³n de alucinaciones al definir relaciones reales del cÃ³digo
+- **Beneficio**: Prevención de alucinaciones al definir relaciones reales del código
 
 ---
 
@@ -129,9 +143,9 @@
 MCPs disponibles para ampliar el contexto del agente:
 
 - **File System MCP**: Lectura/escritura de archivos del proyecto
-- **Terminal MCP**: EjecuciÃ³n de comandos del sistema
-- **Browser MCP**: InteracciÃ³n con pÃ¡ginas web (testing visual)
-- **Resource MCP**: Acceso a recursos especÃ­ficos del servidor
+- **Terminal MCP**: Ejecución de comandos del sistema
+- **Browser MCP**: Interacción con páginas web (testing visual)
+- **Resource MCP**: Acceso a recursos específicos del servidor
 
 ---
 
@@ -147,7 +161,7 @@ MCPs disponibles para ampliar el contexto del agente:
 
 ### CI/CD
 
-- **GitHub Pages**: Deploy automÃ¡tico desde `/docs`
+- **GitHub Pages**: Deploy automático desde `/docs`
 - **Workflows**: GitHub Actions (inicialmente incluido, luego removido para simplificar)
 
 ---
@@ -156,21 +170,21 @@ MCPs disponibles para ampliar el contexto del agente:
 
 ### Stack Principal
 
-| TecnologÃ­a        | VersiÃ³n | Uso                                   |
+| Tecnología        | Versión | Uso                                   |
 | ----------------- | ------- | ------------------------------------- |
-| **HTML5**         | â€”       | Estructura semÃ¡ntica                  |
-| **CSS3**          | â€”       | Estilos, animaciones, responsive      |
-| **JavaScript**    | ES6+    | LÃ³gica de interacciÃ³n                 |
+| **HTML5**         | —       | Estructura semántica                  |
+| **CSS3**          | —       | Estilos, animaciones, responsive      |
+| **JavaScript**    | ES6+    | Lógica de interacción                 |
 | **GSAP**          | 3.x     | Scrollytelling, animaciones avanzadas |
-| **React**         | 18.x    | Componentes (migraciÃ³n en progreso)   |
-| **Framer Motion** | 10.x    | Micro-interacciones temÃ¡ticas         |
+| **React**         | 18.x    | Componentes (migración en progreso)   |
+| **Framer Motion** | 10.x    | Micro-interacciones temáticas         |
 | **Vite**          | 5.x     | Build tool y dev server               |
-| **Mermaid**       | â€”       | Diagramas en documentaciÃ³n            |
+| **Mermaid**       | —       | Diagramas en documentación            |
 
 ### Fonts
 
-- **Inter** â€” TipografÃ­a global (UI body text)
-- **Space Grotesk** â€” TÃ­tulos y headings
+- **Inter** — Tipografía global (UI body text)
+- **Space Grotesk** — Títulos y headings
 
 ---
 
@@ -178,17 +192,17 @@ MCPs disponibles para ampliar el contexto del agente:
 
 ### Custom Shaders (HLSL / URP)
 
-| Shader                   | TÃ©cnica                           | Uso                    |
+| Shader                   | Técnica                           | Uso                    |
 | ------------------------ | --------------------------------- | ---------------------- |
 | `ClippableLit`           | Clip plane con stencil            | Corte transversal      |
-| `XRay`                   | Fresnel + dual pass               | Transparencia tÃ©cnica  |
+| `XRay`                   | Fresnel + dual pass               | Transparencia técnica  |
 | `Blueprint`              | Grid + outline overlay            | Vista de planos        |
-| `Thermal`                | Gradiente animado de calor        | Mapa tÃ©rmico           |
+| `Thermal`                | Gradiente animado de calor        | Mapa térmico           |
 | `WireframeWebGL`         | Barycentric coords (WebGL compat) | Malla visible (WebGL)  |
 | `Wireframe`              | Geometry shader                   | Malla visible (editor) |
-| `SolidColor`             | Flat + outline                    | Vista sÃ³lida           |
+| `SolidColor`             | Flat + outline                    | Vista sólida           |
 | `Ghosted`                | Fresnel + depth fade              | Transparencia fantasma |
-| `AnimatedGradientSkybox` | Gradient lerp animado             | Cielo dinÃ¡mico         |
+| `AnimatedGradientSkybox` | Gradient lerp animado             | Cielo dinámico         |
 
 ---
 
@@ -196,29 +210,29 @@ MCPs disponibles para ampliar el contexto del agente:
 
 ### UI Toolkit (Unity)
 
-- **Theme.uss**: Stylesheet principal (~1,808 lÃ­neas)
-- **MainTheme.uss**: Tema base (376 lÃ­neas)
-- **Hotspots.uss**: Estilos de hotspots (102 lÃ­neas)
-- **Overlays.uss**: Overlays y loading (116 lÃ­neas)
-- **MainLayout.uxml**: Layout principal (~394 lÃ­neas)
+- **Theme.uss**: Stylesheet principal (~1,808 líneas)
+- **MainTheme.uss**: Tema base (376 líneas)
+- **Hotspots.uss**: Estilos de hotspots (102 líneas)
+- **Overlays.uss**: Overlays y loading (116 líneas)
+- **MainLayout.uxml**: Layout principal (~394 líneas)
 - **Design Tokens**: Documentados en `DESIGN_TOKENS.md`
   - Colores: Monochrome (`#050505` bg, `#ffffff` accent)
-  - TipografÃ­a: Inter 14â€“20px, Space Grotesk 24â€“40px
+  - Tipografía: Inter 14–20px, Space Grotesk 24–40px
   - Espaciado: Sistema 4/8/12/16/24/32px
-  - Bordes: `8pxâ€“50%` border-radius
-  - Motion: `0.15â€“0.4s` ease-out transitions
+  - Bordes: `8px–50%` border-radius
+  - Motion: `0.15–0.4s` ease-out transitions
 
 ---
 
 ## 12. Project Management
 
-### Herramientas de PlanificaciÃ³n
+### Herramientas de Planificación
 
 | Herramienta                   | Uso                                   |
 | ----------------------------- | ------------------------------------- |
-| **Antigravity task.md**       | Checklists por sesiÃ³n                 |
-| **implementation_plan.md**    | Planes tÃ©cnicos detallados con review |
-| **walkthrough.md**            | DocumentaciÃ³n post-ejecuciÃ³n          |
+| **Antigravity task.md**       | Checklists por sesión                 |
+| **implementation_plan.md**    | Planes técnicos detallados con review |
+| **walkthrough.md**            | Documentación post-ejecución          |
 | **HOJA_DE_RUTA.md**           | Roadmap general del proyecto          |
 | **MICROINTERACTIONS_PLAN.md** | Plan de micro-interacciones (web)     |
 | **PLAN_MODELADO_DRON.md**     | Plan de modelado 3D                   |
@@ -227,7 +241,7 @@ MCPs disponibles para ampliar el contexto del agente:
 
 ## 13. Hardware de Desarrollo
 
-| Componente | EspecificaciÃ³n                  |
+| Componente | Especificación                  |
 | ---------- | ------------------------------- |
 | **GPU**    | NVIDIA GTX 980 Ti               |
 | **RAM**    | 48 GB                           |
@@ -236,18 +250,18 @@ MCPs disponibles para ampliar el contexto del agente:
 
 ---
 
-## 14. Testing y ValidaciÃ³n
+## 14. Testing y Validación
 
-### MÃ©todos Utilizados
+### Métodos Utilizados
 
 - **Unity Play Mode**: Testing interactivo en editor
 - **WebGL Build**: Build y deploy a GitHub Pages
 - **Browser Testing**: Chrome DevTools, Antigravity browser tool
-- **Visual Comparison**: ComparaciÃ³n con web landing page para consistency
-- **USS Liter**: ValidaciÃ³n de sintaxis de hojas de estilo
+- **Visual Comparison**: Comparación con web landing page para consistency
+- **USS Liter**: Validación de sintaxis de hojas de estilo
 
 ### Pendientes
 
 - Pruebas de usabilidad (SUS, NASA-TLX)
 - Performance profiling (Unity Profiler)
-- Testing mÃ³vil (touch, responsive)
+- Testing móvil (touch, responsive)

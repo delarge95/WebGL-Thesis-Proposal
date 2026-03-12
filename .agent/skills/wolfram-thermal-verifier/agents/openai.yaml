@@ -1,0 +1,4 @@
+﻿interface:
+  display_name: "Wolfram Verifier"
+  short_description: "Verify engineering math with WolframAlpha."
+  default_prompt: "Use $wolfram-thermal-verifier to verify thermal equations, units, and heat-transfer calculations before updating the drone thermal system."

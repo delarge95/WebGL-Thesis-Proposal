@@ -1,0 +1,97 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{Resumen}{1}{Doc-Start}%
+\contentsline {section}{Abstract}{2}{Doc-Start}%
+\contentsline {section}{Información General de la Propuesta de Trabajo de Grado Proyecto Aplicado}{8}{Doc-Start}%
+\contentsline {subsection}{Integrantes de la Propuesta de Investigación}{8}{section*.1}%
+\contentsline {subsection}{Datos Específicos del Proyecto}{8}{section*.1}%
+\contentsline {section}{Planteamiento del Problema}{9}{section*.1}%
+\contentsline {section}{Justificación}{11}{section*.1}%
+\contentsline {subsection}{Criterios Técnicos de Selección}{11}{section*.2}%
+\contentsline {subsubsection}{Rendimiento de CPU (WASM vs JavaScript)}{11}{section*.2}%
+\contentsline {subsubsection}{\textit {Pipeline} de Assets Robusto}{11}{section*.2}%
+\contentsline {subsubsection}{Optimizaciones Gráficas Avanzadas}{11}{section*.2}%
+\contentsline {subsubsection}{Herramientas Visuales para Artistas Técnicos}{12}{section*.2}%
+\contentsline {subsubsection}{Escalabilidad Industrial}{12}{section*.2}%
+\contentsline {subsubsection}{Ventana de Oportunidad Tecnológica}{12}{section*.2}%
+\contentsline {subsection}{Aporte a la Ingeniería Multimedia}{12}{section*.2}%
+\contentsline {section}{Objetivos}{14}{section*.2}%
+\contentsline {subsection}{Objetivo General}{14}{section*.3}%
+\contentsline {subsection}{Objetivos Específicos}{14}{section*.3}%
+\contentsline {section}{Marco de Referencia}{15}{section*.3}%
+\contentsline {subsection}{Estado del Arte}{15}{section*.4}%
+\contentsline {subsubsection}{Benchmarking de Soluciones Web 3D Actuales}{15}{section*.4}%
+\contentsline {paragraph}{Three.js}{15}{section*.5}%
+\contentsline {subparagraph}{Ventajas}{15}{section*.5}%
+\contentsline {subparagraph}{Desventajas}{15}{section*.5}%
+\contentsline {paragraph}{Babylon.js}{15}{section*.5}%
+\contentsline {subparagraph}{Ventajas}{15}{section*.5}%
+\contentsline {subparagraph}{Desventajas}{16}{section*.5}%
+\contentsline {paragraph}{Unity WebGL}{16}{section*.5}%
+\contentsline {subparagraph}{Ventajas}{16}{section*.5}%
+\contentsline {subparagraph}{Desventajas}{16}{section*.5}%
+\contentsline {paragraph}{Unreal Engine Pixel Streaming}{16}{section*.5}%
+\contentsline {subparagraph}{Ventajas}{16}{section*.5}%
+\contentsline {subparagraph}{Desventajas}{16}{section*.5}%
+\contentsline {paragraph}{Spline}{17}{section*.5}%
+\contentsline {subparagraph}{Ventajas}{17}{section*.5}%
+\contentsline {subparagraph}{Desventajas}{17}{section*.5}%
+\contentsline {paragraph}{Marmoset Viewer}{17}{section*.5}%
+\contentsline {subparagraph}{Ventajas}{17}{section*.5}%
+\contentsline {subparagraph}{Desventajas}{17}{section*.5}%
+\contentsline {paragraph}{Sketchfab}{17}{section*.5}%
+\contentsline {subparagraph}{Ventajas}{17}{section*.5}%
+\contentsline {subparagraph}{Desventajas}{18}{section*.5}%
+\contentsline {paragraph}{PlayCanvas}{18}{section*.5}%
+\contentsline {subparagraph}{Ventajas}{18}{section*.5}%
+\contentsline {subparagraph}{Desventajas}{18}{section*.5}%
+\contentsline {subsubsection}{Gap Analysis y Justificación de Unity WebGL.}{19}{table.caption.6}%
+\contentsline {paragraph}{Descartados}{19}{section*.7}%
+\contentsline {subparagraph}{Pixel Streaming}{19}{section*.7}%
+\contentsline {subparagraph}{Spline/Marmoset/Sketchfab}{19}{section*.7}%
+\contentsline {subparagraph}{Three.js/Babylon.js/PlayCanvas}{19}{section*.7}%
+\contentsline {paragraph}{Seleccionado Unity WebGL}{19}{section*.7}%
+\contentsline {subparagraph}{Balance Fidelidad-Tamaño}{19}{section*.7}%
+\contentsline {subparagraph}{Herramientas Visuales}{19}{section*.7}%
+\contentsline {subparagraph}{Rendimiento Predecible}{19}{section*.7}%
+\contentsline {subparagraph}{Ecosistema Maduro}{19}{section*.7}%
+\contentsline {subsection}{Marco Teórico}{20}{section*.7}%
+\contentsline {paragraph}{Hipótesis de Usabilidad (Carga Cognitiva).}{20}{section*.8}%
+\contentsline {subsubsection}{Teoría de la Carga Cognitiva (Sweller, 1988; Sweller et al., 2019)}{20}{section*.8}%
+\contentsline {paragraph}{Carga Intrínseca (Intrinsic Load)}{20}{section*.9}%
+\contentsline {paragraph}{Carga Extrínseca (Extraneous Load)}{21}{section*.9}%
+\contentsline {subparagraph}{Reducción en este Proyecto}{21}{section*.9}%
+\contentsline {paragraph}{Carga Relevante o Germana (Germane Load)}{21}{section*.9}%
+\contentsline {subparagraph}{Maximización en este Proyecto}{21}{section*.9}%
+\contentsline {paragraph}{Navegación Espacial (Bowman et al., 2004; Darken \& Sibert, 1996).}{21}{section*.9}%
+\contentsline {paragraph}{Cognición Distribuida (Hutchins, 1995).}{22}{section*.9}%
+\contentsline {paragraph}{Heurísticas de Usabilidad (Nielsen, 1994).}{22}{section*.9}%
+\contentsline {paragraph}{Rotación Mental y Visualización Espacial (Hegarty \& Waller, 2004; Bartlett \& Dorribo Camba, 2023).}{23}{Item.4}%
+\contentsline {subsubsection}{Teoría de Percepción Visual (Gestalt)}{23}{Item.4}%
+\contentsline {paragraph}{Principios de Gestalt (Wertheimer, 1923; Köhler, 1929).}{23}{section*.10}%
+\contentsline {paragraph}{Teoría del Color (Ware, 2012; Miller, 1956).}{23}{section*.10}%
+\contentsline {subsubsection}{Fundamentos Matemáticos de Optimización Gráfica}{24}{section*.10}%
+\contentsline {paragraph}{Presupuesto Poligonal.}{24}{section*.11}%
+\contentsline {paragraph}{Densidad de Texel Consistente.}{24}{section*.11}%
+\contentsline {paragraph}{Reducción de \textit {Draw Calls} (GPU Instancing).}{24}{section*.11}%
+\contentsline {paragraph}{\textit {Frame Time} Budget.}{24}{section*.11}%
+\contentsline {subsubsection}{Modelo Matemático de Renderizado Físicamente Basado (PBR)}{24}{section*.11}%
+\contentsline {paragraph}{BRDF de Cook-Torrance (1982).}{24}{section*.12}%
+\contentsline {paragraph}{Aproximación de Fresnel (Schlick, 1994).}{25}{section*.12}%
+\contentsline {paragraph}{GGX Distribution (Walter et al., 2007).}{25}{section*.12}%
+\contentsline {paragraph}{Modelo Disney (Burley, 2012).}{25}{section*.12}%
+\contentsline {paragraph}{Iluminación Basada en Imágenes (IBL).}{25}{section*.12}%
+\contentsline {subsection}{Marco Conceptual}{27}{section*.12}%
+\contentsline {section}{Metodología}{30}{section*.12}%
+\contentsline {subsection}{Framework de Design Science Research}{30}{section*.13}%
+\contentsline {subsection}{Desarrollo en Sprints}{30}{Item.10}%
+\contentsline {subsubsection}{Sprint 1: Análisis y Fundamentación Técnica (Semana 1-4)}{30}{section*.14}%
+\contentsline {subsubsection}{Sprint 2: \textit {Pipeline} de Arte Técnico (Semana 5-8)}{30}{section*.14}%
+\contentsline {subsubsection}{Sprint 3: Ingeniería e Implementación (Semana 9-16)}{31}{section*.14}%
+\contentsline {subsubsection}{Sprint 4: Validación y Despliegue (Semana 17-24)}{31}{section*.14}%
+\contentsline {subsection}{Tamaño de Muestra para Pruebas de Usabilidad}{31}{section*.14}%
+\contentsline {subsection}{KPIs Técnicos (Cuantitativos)}{32}{section*.14}%
+\contentsline {section}{Cronograma de Actividades}{33}{Item.16}%
+\contentsline {section}{Recursos Necesarios}{34}{table.caption.15}%
+\contentsline {section}{Resultados o Productos Esperados}{35}{table.caption.16}%
+\contentsline {section}{Referencias Bibliográficas}{36}{table.caption.17}%
+\contentsfinish 

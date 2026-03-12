@@ -1,0 +1,1159 @@
+/* ============================================================
+   WebGL Drone Viewer — Main Theme Stylesheet
+   2026 Futuristic Minimalist · 8pt Grid · HIG/MD3 Compliant
+   ============================================================ */
+
+/* Import Modules */
+@import "Hotspots.uss";
+
+/* ────────────────────────────────────────────────
+   Design Tokens (Direct Values — USS has no vars)
+   Aligned with web landing page (docs/src/index.css)
+   
+   Background:     rgb(10, 10, 10)          #0a0a0a
+   Surface:        rgba(18, 18, 18, 0.92)   #121212
+   Primary:        rgb(0, 217, 255)         Cyan (CTA only)
+   On-Surface:     rgb(255, 255, 255)       White
+   On-Surface-Dim: rgba(255, 255, 255, 0.4) Muted
+   Accent-Green:   rgb(50, 220, 150)
+   Border:         rgba(255, 255, 255, 0.08)
+   Border-Hover:   rgba(255, 255, 255, 0.2) White
+   Radius-SM:      8px
+   Radius-MD:      12px
+   Radius-LG:      24px
+   ──────────────────────────────────────────────── */
+
+/* ────────────────────────────────────────────────
+   Base Root
+   ──────────────────────────────────────────────── */
+.root {
+    flex-grow: 1;
+    background-color: rgb(10, 10, 10);
+    color: rgb(255, 255, 255);
+    -unity-font: resource("Fonts/Inter/Inter-Regular");
+    -unity-font-definition: initial; /* Ensure legacy font loads if SDF fails */
+    font-size: 24px;
+}
+
+/* Full Screen Overlay */
+.app-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+
+    transition-property: opacity;
+    transition-duration: 0.8s;
+}
+
+.app-container--active {
+    opacity: 1;
+
+}
+
+/* ────────────────────────────────────────────────
+   Hero / Landing Screen
+   ──────────────────────────────────────────────── */
+.hero-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(10, 10, 10);
+    transition-property: opacity;
+    transition-duration: 0.5s;
+}
+
+.hero-title {
+    font-size: 64px;
+    -unity-font: resource("Fonts/SpaceGrotesk/SpaceGrotesk-Regular");
+    -unity-font-style: normal;
+    color: white;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+}
+
+.hero-subtitle {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 48px;
+    letter-spacing: 0;
+}
+
+/* ────────────────────────────────────────────────
+   Root Container
+   ──────────────────────────────────────────────── */
+.root-container {
+    flex-grow: 1;
+    background-color: transparent;
+    justify-content: space-between;
+}
+
+/* ────────────────────────────────────────────────
+   Top Bar (Header)
+   Height: 64px (8pt grid), margin-top: 80px safe area
+   ──────────────────────────────────────────────── */
+.top-bar {
+    height: 64px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    margin-top: 80px;
+}
+
+.header-title {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.6);
+    -unity-font-style: bold;
+    letter-spacing: 3px;
+}
+
+#HomeBtn {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    translate: 0 -50%;
+}
+
+#ResetViewBtn {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    translate: 0 -50%;
+}
+
+#HotspotBtn {
+    position: absolute;
+    right: 128px; /* 24px (margin) + 80px (ResetBtn) + 24px (gap) */
+    top: 50%;
+    translate: 0 -50%;
+}
+
+/* ────────────────────────────────────────────────
+   Bottom Bar (Controls — Thumb Zone)
+   ──────────────────────────────────────────────── */
+.bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: transparent;
+    padding-bottom: 24px;
+
+    /* Smooth shift for sheet */
+    /* Smooth shift for sheet */
+    transition-property: bottom;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+/* Actions Row — 16px spacing between buttons (8pt grid) */
+.actions-row {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+/* ────────────────────────────────────────────────
+   Icon Buttons (100px — exceeds 48dp minimum)
+   ──────────────────────────────────────────────── */
+.icon-button {
+    width: 72px;
+    height: 72px;
+    margin-left: 16px;
+    margin-right: 16px;
+
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+
+    justify-content: center;
+    align-items: center;
+
+    transition-property: background-color, border-color, scale;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.icon-button:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.icon-button:active {
+    scale: 0.94;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.icon-button:disabled {
+    opacity: 0.3;
+    background-color: rgba(18, 18, 18, 0.5);
+    border-color: rgba(255, 255, 255, 0.04);
+}
+
+.button-icon-text {
+    font-size: 32px;
+}
+
+/* Small Icon Button (Top Bar — Reset, Home, Hotspot) */
+.icon-button-small {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    justify-content: center;
+    align-items: center;
+    transition-property: border-color, background-color, scale;
+    transition-duration: 0.2s;
+    margin-right: 16px;
+}
+
+.icon-button-small:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.icon-button-small:active {
+    scale: 0.94;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.button-icon-text-small {
+    font-size: 20px;
+    color: white;
+}
+
+/* ────────────────────────────────────────────────
+   Selection Label (Below Buttons)
+   ──────────────────────────────────────────────── */
+.info-row {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+}
+
+.selection-label {
+    font-size: 20px;
+    color: white;
+    -unity-font-style: bold;
+
+    background-color: rgba(18, 18, 18, 0.6);
+    padding: 8px 16px;
+    border-radius: 8px;
+
+    /* Smooth fade — NO display:none */
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.selection-label--hidden {
+    opacity: 0;
+
+}
+
+/* ── Hero Submenus (Full Screen Overlays) ── */
+.hero-submenu {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #0a0a0a;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition-duration: 0.3s;
+    transition-property: opacity;
+    padding-top: 40px;
+}
+
+.hero-submenu--active {
+    display: flex;
+    opacity: 1;
+}
+
+.btn-back {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    width: 48px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    -unity-font: resource("Fonts/Inter/Inter-Regular");
+    font-size: 24px;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    transition-duration: 0.2s;
+    cursor: link;
+}
+
+.btn-back:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: white;
+    scale: 1.1;
+}
+
+.submenu-scroll {
+    width: 600px;
+    max-height: 70%;
+    margin-top: 24px;
+}
+
+/* ────────────────────────────────────────────────
+   Bottom Sheet (Details Panel)
+   Slides up from bottom. Buttons sit above via z-order.
+   ──────────────────────────────────────────────── */
+.details-sheet {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: 200px;
+    max-height: 55%;
+
+    background-color: rgba(10, 10, 10, 0.96);
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.08);
+    padding: 32px;
+    padding-bottom: 40px;
+
+    translate: 0 0;
+    transition-property: translate;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.details-sheet--hidden {
+    translate: 0 100%;
+    opacity: 1;
+    picking-mode: ignore;
+}
+
+.sheet-handle {
+    width: 40px;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.16);
+    border-radius: 2px;
+    align-self: center;
+    margin-bottom: 24px;
+}
+
+.sheet-header {
+    margin-bottom: 8px;
+}
+
+.sheet-title {
+    font-size: 28px;
+    -unity-font-style: bold;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.sheet-hint {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
+    -unity-font-style: italic;
+}
+
+.sheet-content {
+    opacity: 1;
+    transition-duration: 0.2s;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.read-only-text {
+    background-color: transparent;
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+    -unity-font-style: normal;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: normal; /* text-wrap in new Unity */
+}
+
+.read-only-text > .unity-text-field__input {
+    background-color: transparent;
+    border-width: 0;
+    padding: 0;
+}
+
+/* Force right alignment for data values converted to text fields */
+.data-value.read-only-text > .unity-text-field__input {
+    -unity-text-align: middle-right;
+}
+
+.sheet-scroll {
+    flex-grow: 1;
+    margin-top: 8px;
+}
+
+/* UI Shift on Sheet Expand — moves buttons up above the sheet */
+/* UI Shift on Sheet Expand — moves buttons up above the sheet */
+.ui-shifted {
+    bottom: 56%; /* Matches max-height (55%) + safety margin */
+    /* No translate needed, we animate bottom property on .bottom-bar */
+}
+
+/* ────────────────────────────────────────────────
+   Category Menu (Pop-up Pill Bar)
+   ──────────────────────────────────────────────── */
+.category-menu {
+    position: absolute;
+    bottom: 192px;
+    left: 50%;
+    translate: -50% 0;
+
+    flex-direction: row;
+    background-color: rgba(18, 18, 18, 0.94);
+    border-radius: 12px;
+    padding: 8px 16px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+
+    opacity: 1;
+    scale: 1 1;
+    transition-duration: 0.25s;
+    transition-property: opacity, scale, translate;
+    transition-timing-function: ease-out;
+}
+
+.category-menu--hidden {
+    opacity: 0;
+    scale: 0.88 0.88;
+    translate: -50% 16px;
+    picking-mode: ignore;
+}
+
+.category-menu--hidden > * {
+    picking-mode: ignore;
+}
+
+.category-menu--hidden > * {
+    picking-mode: ignore;
+}
+
+/* Category Tag Buttons */
+.btn-tag {
+    width: auto;
+    min-width: 100px;
+    height: 48px;
+    margin-right: 8px;
+    margin-bottom: 0;
+
+    font-size: 16px;
+    -unity-font-style: bold;
+    color: rgba(255, 255, 255, 0.5);
+
+    background-color: transparent;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+
+    justify-content: center;
+    align-items: center;
+
+    transition-property: border-color, background-color, color;
+    transition-duration: 0.2s;
+}
+
+.btn-tag:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.btn-tag--active {
+    background-color: rgb(0, 217, 255);
+    border-color: rgb(0, 217, 255);
+    color: rgb(10, 10, 10);
+}
+
+/* ────────────────────────────────────────────────
+   Explosion Slider
+   ──────────────────────────────────────────────── */
+.slider-container {
+    position: absolute;
+    bottom: 192px;
+    left: 50%;
+    margin-left: -248px;
+    translate: 0 0;
+
+    width: 496px;
+    height: auto;
+
+    background-color: rgba(18, 18, 18, 0.92);
+    border-radius: 12px;
+    padding: 24px 32px 8px 32px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    /* Smooth show/hide — NO display:none */
+    opacity: 1;
+    transition-duration: 0.3s;
+    transition-property: opacity, translate, scale;
+    transition-timing-function: ease-out;
+}
+
+.slider-hidden {
+    opacity: 0;
+    scale: 0.96 0.96;
+    translate: 0 16px;
+    picking-mode: ignore;
+}
+
+.slider-hidden > *, .shader-menu--hidden > *, .category-menu--hidden > *, .env-panel--hidden > * {
+    picking-mode: ignore;
+}
+
+/* slider-container--shifted-up removed — menus inside BottomBar now */
+
+.slider-label {
+    display: none;
+}
+
+/* Slider Track/Dragger */
+.glass-slider {
+    min-height: 48px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.glass-slider #unity-drag-container {
+    height: 8px;
+    justify-content: center;
+}
+
+.glass-slider .unity-base-slider__tracker {
+    background-color: rgba(255, 255, 255, 0.2);
+    height: 4px;
+    border-radius: 2px;
+    border-width: 0;
+    top: 50%;
+    margin-top: -2px;
+}
+
+.glass-slider .unity-base-slider__dragger {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgb(0, 217, 255);
+    border-width: 2px;
+    border-color: white;
+    margin-top: -24px;
+    top: 50%;
+    transition-property: scale, background-color;
+    transition-duration: 0.15s;
+}
+
+.glass-slider .unity-base-slider__dragger:hover {
+    scale: 1.16;
+    background-color: white;
+    border-color: rgb(0, 217, 255);
+}
+
+.glass-slider .unity-base-slider__dragger:focus {
+    border-color: white;
+}
+
+/* ────────────────────────────────────────────────
+   Data Grid (Sheet Content)
+   ──────────────────────────────────────────────── */
+.data-row {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.04);
+}
+
+.data-label {
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.data-value {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    -unity-font-style: bold;
+}
+
+.data-value-status {
+    color: rgb(50, 220, 150);
+}
+
+/* ────────────────────────────────────────────────
+   Glassmorphic Panel (Reusable)
+   ──────────────────────────────────────────────── */
+.glass-panel {
+    background-color: rgba(18, 18, 18, 0.88);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 24px;
+    transition-property: background-color, border-color;
+    transition-duration: 0.25s;
+}
+
+.glass-panel:hover {
+    background-color: rgba(24, 24, 24, 0.92);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ────────────────────────────────────────────────
+   Buttons (Generic)
+   ──────────────────────────────────────────────── */
+.btn {
+    border-width: 1px;
+    border-radius: 8px;
+    padding: 16px 40px;
+    font-size: 18px;
+    -unity-font-style: normal;
+    letter-spacing: 1px;
+    transition-property: background-color, border-color, scale;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+    cursor: link;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-primary {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    border-width: 1px;
+}
+
+.btn-primary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    scale: 1.05;
+}
+
+.btn-ghost {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    border-width: 1px;
+}
+
+.btn-ghost:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.btn-icon {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+    border-width: 1px;
+    transition-property: border-color, background-color;
+    transition-duration: 0.2s;
+}
+
+.btn-icon:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.btn-wide {
+    width: 280px;
+    margin-bottom: 12px;
+}
+
+.btn-full-width {
+    width: 100%;
+}
+
+/* ────────────────────────────────────────────────
+   Utility / Tag Dots
+   ──────────────────────────────────────────────── */
+.tag-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.tag-dot-accent {
+    background-color: rgb(0, 217, 255);
+}
+
+.tag-dot-energy {
+    background-color: rgb(100, 230, 255);
+}
+
+.tag-dot-mechanical {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ────────────────────────────────────────────────
+   Sidebar (Desktop — Left Edge)
+   ──────────────────────────────────────────────── */
+.sidebar {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    translate: 0 -50%;
+    background-color: rgba(18, 18, 18, 0.88);
+    border-color: rgba(255, 255, 255, 0.08);
+    border-width: 1px;
+    border-radius: 12px;
+    padding: 16px;
+    width: 64px;
+    align-items: center;
+    transition-property: border-color;
+    transition-duration: 0.25s;
+}
+
+.sidebar:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-spacer {
+    height: 24px;
+}
+
+/* ────────────────────────────────────────────────
+   Details Panel (Desktop — Right Side)
+   ──────────────────────────────────────────────── */
+.details-panel {
+    position: absolute;
+    right: 24px;
+    top: 152px;
+    bottom: 200px;
+    width: 600px;
+    background-color: rgba(10, 10, 10, 0.95);
+    border-color: rgba(255, 255, 255, 0.08);
+    border-width: 1px;
+    border-radius: 12px;
+    padding: 24px;
+    translate: 110% 0;
+    transition-property: translate;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-out;
+}
+
+.details-panel--visible {
+    translate: 0 0;
+}
+
+.panel-header {
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
+.panel-title {
+    font-size: 36px;
+    color: white;
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+}
+
+.panel-subtitle {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+}
+
+.panel-spacer {
+    flex-grow: 1;
+}
+
+/* ────────────────────────────────────────────────
+   HUD Bars
+   ──────────────────────────────────────────────── */
+.hud-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 120px;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 32px;
+    background-color: transparent;
+}
+
+.hud-top {
+    top: 0;
+    justify-content: space-between;
+}
+
+.hud-bottom {
+    bottom: 0;
+    justify-content: center;
+    background-color: rgba(10, 10, 10, 0.6);
+    padding-bottom: 24px;
+}
+
+.app-logo {
+    font-size: 24px;
+    -unity-font-style: bold;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 3px;
+}
+
+/* ────────────────────────────────────────────────
+   Misc Text
+   ──────────────────────────────────────────────── */
+.reset-icon-label {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.part-description {
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 24px;
+    white-space: normal;
+    font-size: 16px;
+}
+
+/* ────────────────────────────────────────────────
+   Assembly Section (Inside Sheet)
+   ──────────────────────────────────────────────── */
+.assembly-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.section-title {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 3px;
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+}
+
+.data-value-stars {
+    color: rgb(255, 200, 50);
+}
+
+/* ────────────────────────────────────────────────
+   Shader Menu (Phase 1 — Long Press Popup)
+   ──────────────────────────────────────────────── */
+.shader-menu {
+    position: absolute;
+    bottom: 192px;
+    left: 50%;
+    translate: -50% 0;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    width: 90%;
+    max-width: 640px;
+    
+    background-color: rgba(18, 18, 18, 0.94);
+    border-radius: 12px;
+    padding: 12px 16px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+
+    opacity: 1;
+    scale: 1 1;
+    transition-property: opacity, scale, translate;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.shader-menu--hidden {
+    opacity: 0;
+    scale: 0.88 0.88;
+    translate: -50% 16px;
+    picking-mode: ignore;
+}
+
+.shader-menu--hidden > * {
+    picking-mode: ignore;
+}
+
+.shader-menu--hidden > * {
+    picking-mode: ignore;
+}
+
+.shader-mode-btn {
+    min-width: 80px;
+    height: 40px;
+    margin: 4px;
+    padding: 0 12px;
+    font-size: 14px;
+    -unity-font-style: normal;
+    color: rgba(255, 255, 255, 0.5);
+    background-color: transparent;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    transition-property: background-color, border-color, color;
+    transition-duration: 0.2s;
+}
+
+.shader-mode-btn:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.shader-mode-btn--active {
+    background-color: rgb(0, 217, 255);
+    border-color: rgb(0, 217, 255);
+    color: rgb(10, 10, 10);
+}
+
+/* ────────────────────────────────────────────────
+   Environment Panel (Phase 5)
+   ──────────────────────────────────────────────── */
+.env-panel {
+    position: absolute;
+    bottom: 192px;
+    right: 16px;
+
+    width: 320px;
+    background-color: rgba(18, 18, 18, 0.94);
+    border-radius: 12px;
+    padding: 24px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+
+    opacity: 1;
+    scale: 1 1;
+    transition-property: opacity, scale;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.env-panel--hidden {
+    opacity: 0;
+    scale: 0.92 0.92;
+    picking-mode: ignore;
+}
+
+.env-panel--hidden > * {
+    picking-mode: ignore;
+}
+
+.env-panel--hidden > * {
+    picking-mode: ignore;
+}
+
+.env-panel-title {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 3px;
+    -unity-font-style: bold;
+    margin-bottom: 16px;
+}
+
+.env-presets-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.env-preset-btn {
+    min-width: 56px;
+    height: 32px;
+    margin: 4px;
+    padding: 0 8px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    background-color: transparent;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    transition-property: background-color, border-color, color;
+    transition-duration: 0.15s;
+}
+
+.env-preset-btn:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.env-preset-btn--active {
+    background-color: rgb(0, 217, 255);
+    border-color: rgb(0, 217, 255);
+    color: rgb(10, 10, 10);
+}
+
+.env-slider-group {
+    margin-bottom: 8px;
+}
+
+.env-slider-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+.env-slider {
+    min-height: 32px;
+}
+
+/* ────────────────────────────────────────────────
+   Hero Menu (Phase 4)
+   ──────────────────────────────────────────────── */
+.hero-menu {
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-menu > .btn {
+    margin-bottom: 16px;
+}
+
+.hero--hidden {
+    opacity: 0;
+
+    transition-property: opacity;
+    transition-duration: 0.5s;
+}
+
+/* ────────────────────────────────────────────────
+   About Panel (Phase 4)
+   ──────────────────────────────────────────────── */
+.about-panel {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    width: 500px;
+    background-color: rgba(10, 10, 10, 0.96);
+    border-radius: 12px;
+    padding: 40px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    align-items: center;
+    opacity: 1;
+    transition-property: opacity, scale;
+    transition-duration: 0.3s;
+}
+
+.about-panel--hidden {
+    display: none;
+    picking-mode: ignore;
+}
+
+.about-title {
+    font-size: 28px;
+    -unity-font-style: bold;
+    color: white;
+    margin-bottom: 16px;
+}
+
+.about-desc {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
+    white-space: normal;
+    -unity-text-align: middle-center;
+    margin-bottom: 16px;
+}
+
+.about-credit {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.25);
+}
+
+.about-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+/* ────────────────────────────────────────────────
+   Device Selector (Hero submenu)
+   ──────────────────────────────────────────────── */
+.device-selector {
+    margin-top: 24px;
+    width: 320px;
+    background-color: rgba(18, 18, 18, 0.92);
+    border-radius: 12px;
+    padding: 12px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    align-items: stretch;
+    opacity: 1;
+    scale: 1 1;
+    transition-property: opacity, scale;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.device-selector--hidden {
+    display: none;
+}
+
+
+.device-option {
+    height: 48px;
+    margin-bottom: 4px;
+    padding: 0 16px;
+    font-size: 16px;
+    width: 100%;
+    height: 64px;
+    margin-bottom: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    padding-left: 24px;
+    justify-content: flex-start;
+    align-items: center;
+    transition-duration: 0.2s;
+    cursor: link;
+}
+
+.device-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    scale: 1.01;
+}
+
+.device-option--active {
+    background-color: rgba(0, 255, 255, 0.1);
+    border-color: rgb(0, 255, 255);
+    color: rgb(0, 255, 255);
+    /* -unity-font-style: bold; */
+}
+
+.device-option:disabled {
+    opacity: 0.25;
+    color: rgba(255, 255, 255, 0.3);
+}

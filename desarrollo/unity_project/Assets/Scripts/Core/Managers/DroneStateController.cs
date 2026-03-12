@@ -48,7 +48,23 @@ namespace WebGL.Core.Managers
         public DroneState CurrentState => currentState;
         public bool IsOn => currentState != DroneState.Off && currentState != DroneState.ShuttingDown;
 
+        /// <summary>Current system load factor (0 = off, 1 = max thrust). Used by ThermalSimulationManager.</summary>
+        public float SystemLoadFactor
+        {
+            get => systemLoadFactor;
+            set
+            {
+                float clamped = Mathf.Clamp01(value);
+                if (Mathf.Approximately(systemLoadFactor, clamped)) return;
+                systemLoadFactor = clamped;
+                OnSystemLoadChanged?.Invoke(systemLoadFactor);
+            }
+        }
+
+        private float systemLoadFactor;
+
         public event Action<DroneState> OnStateChanged;
+        public event Action<float> OnSystemLoadChanged;
 
         protected override void Awake()
         {
@@ -134,6 +150,7 @@ namespace WebGL.Core.Managers
             {
                 SetState(DroneState.Flying);
                 targetPropellerSpeed = propellerMaxSpeed;
+                SystemLoadFactor = 0.75f;
                 PlayDroneSound(flyingSound);
                 SetParticles(true);
             }
@@ -141,6 +158,7 @@ namespace WebGL.Core.Managers
             {
                 SetState(DroneState.Idle);
                 targetPropellerSpeed = propellerMaxSpeed * 0.3f;
+                SystemLoadFactor = 0.2f;
                 PlayDroneSound(idleSound);
                 SetParticles(false);
             }
@@ -224,6 +242,13 @@ namespace WebGL.Core.Managers
         {
             currentState = newState;
             OnStateChanged?.Invoke(newState);
+
+            // Sync load factor for thermal simulation
+            if (newState == DroneState.Off || newState == DroneState.ShuttingDown)
+                SystemLoadFactor = 0f;
+            else if (newState == DroneState.StartingUp)
+                SystemLoadFactor = 0.1f;
+
             Debug.Log($"[DroneState] {newState}");
         }
 

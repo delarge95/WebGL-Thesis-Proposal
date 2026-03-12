@@ -1,0 +1,7 @@
+{
+  "query": "convert (1 cm^2)/(1 mm) to m",
+  "endpoint": "website",
+  "website_url": "https://www.wolframalpha.com/input?i=convert+%281+cm%5E2%29%2F%281+mm%29+to+m",
+  "api_url": null,
+  "fetched": false
+}

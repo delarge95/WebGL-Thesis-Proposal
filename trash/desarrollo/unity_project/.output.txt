@@ -1,0 +1,371 @@
+﻿
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.ai.inference@587873fd5e1b\Samples~\Convert tensors to textures
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----       3/11/2025  4:12 p. m.           4915 TensorToTexture.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.ai.inference@587873fd5e1b\Samples~\Convert textures to tensors
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----       3/11/2025  4:12 p. m.           4820 TextureToTensor.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.ai.inference@587873fd5e1b\Samples~\Copy a texture tensor to the
+    screen
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----       3/11/2025  4:12 p. m.           5942 RunModelOnFullScreen.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.ai.inference@587873fd5e1b\Samples~\Encrypt a model
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----       3/11/2025  4:12 p. m.           4870 LoadEncryptedModel.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.ai.inference@587873fd5e1b\Samples~\Read output asynchronously
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----       3/11/2025  4:12 p. m.           8136 AsyncReadback.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.ai.inference@587873fd5e1b\Samples~\Run a model
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----       3/11/2025  4:12 p. m.           4878 ModelExecution.unity
+-a----       3/11/2025  4:12 p. m.           4878 ModelExecutionMultipleInputsO
+                                                  utputs.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.ai.inference@587873fd5e1b\Samples~\Run a model a layer at a time
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----       3/11/2025  4:12 p. m.           6301 ModelExecutionInParts.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.ai.inference@587873fd5e1b\Samples~\Tokenizer - All Mini LM
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----       3/11/2025  4:12 p. m.           9501 RunAllMiniLm.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.ai.inference@587873fd5e1b\Samples~\Use a compute buffer
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----       3/11/2025  4:12 p. m.           6086 ComputeBuffer.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.ai.inference@587873fd5e1b\Samples~\Use a job to write data
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----       3/11/2025  4:12 p. m.           6166 CSharpJob.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.ai.inference@587873fd5e1b\Samples~\Use tensor indexing methods
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----       3/11/2025  4:12 p. m.           4857 TensorIndexing.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.ai.inference@587873fd5e1b\Samples~\Use the functional API with an
+    existing model
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----       3/11/2025  4:12 p. m.           9534 UseTheFunctionalAPI.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.cinemachine@5342685532bb\Samples~\2D Samples
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      23/10/2025  6:59 a. m.          60042 2D Fighters.unity
+-a----      23/10/2025  6:59 a. m.          47949 CameraMagnets.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.cinemachine@5342685532bb\Samples~\2D Samples\2D Platformer
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      23/10/2025  6:59 a. m.         403673 2D Platformer.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.cinemachine@5342685532bb\Samples~\3D Samples
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      23/10/2025  6:59 a. m.          51178 Brain Update Modes.unity
+-a----      23/10/2025  6:59 a. m.          50332 ClearShot.unity
+-a----      23/10/2025  6:59 a. m.         104223 Cutscene.unity
+-a----      23/10/2025  6:59 a. m.          28922 EarlyLookAtCustomBlend.unity
+-a----      23/10/2025  6:59 a. m.        6644022 FlyAround.unity
+-a----      23/10/2025  6:59 a. m.          29908 FreeLook Deoccluder.unity
+-a----      23/10/2025  6:59 a. m.          53660 FreeLook on Spherical
+                                                  Surface.unity
+-a----      23/10/2025  6:59 a. m.          29313 Impulse Wave.unity
+-a----      23/10/2025  6:59 a. m.          31823 Lock-on Target.unity
+-a----      23/10/2025  6:59 a. m.          37057 MixingCamera.unity
+-a----      23/10/2025  6:59 a. m.          24985 PerspectiveToOrthoCustomBlend
+                                                  .unity
+-a----      23/10/2025  6:59 a. m.          31356 Portals.unity
+-a----      23/10/2025  6:59 a. m.          92296 RunningRace.unity
+-a----      23/10/2025  6:59 a. m.          35048 SplitScreenCar.unity
+-a----      23/10/2025  6:59 a. m.         105189 ThirdPersonWithAimMode.unity
+-a----      23/10/2025  6:59 a. m.         110331 ThirdPersonWithRoadieRun.unit
+                                                  y
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.cinemachine@5342685532bb\Samples~\Input System Samples\Split
+    Screen Multiplayer
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      23/10/2025  6:59 a. m.          38324 Split Screen
+                                                  Multiplayer.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.dt.app-ui@8ac7e730dd5d\Samples~\Drag And Drop\Scenes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----     31/07/2025  11:29 p. m.           9753 Drag And Drop.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.dt.app-ui@8ac7e730dd5d\Samples~\MVVM\Scenes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----     31/07/2025  11:29 p. m.           7442 MVVM.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.dt.app-ui@8ac7e730dd5d\Samples~\MVVM And Redux\Scenes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----     31/07/2025  11:29 p. m.           9892 MVVMRedux.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.dt.app-ui@8ac7e730dd5d\Samples~\Navigation\Scenes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----     31/07/2025  11:29 p. m.           7549 NavigationSample.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.dt.app-ui@8ac7e730dd5d\Samples~\Redux\Scenes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----     31/07/2025  11:29 p. m.           9104 Redux.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.dt.app-ui@8ac7e730dd5d\Samples~\Trackpad\Scenes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----     31/07/2025  11:29 p. m.          13162 Trackpad.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.dt.app-ui@8ac7e730dd5d\Samples~\UI Kit\Scenes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----     31/07/2025  11:29 p. m.           7107 UI Kit Transparent.unity
+-a----     31/07/2025  11:29 p. m.          11769 UI Kit WS.unity
+-a----     31/07/2025  11:29 p. m.           8776 UI Kit.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.dt.app-ui@8ac7e730dd5d\Samples~\UndoRedo
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----     31/07/2025  11:29 p. m.           9782 UndoRedo.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Editor\SceneTemplates
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          10037 Basic.unity
+-a----      5/12/2025  11:10 p. m.         119587 Indoors.unity
+-a----      5/12/2025  11:10 p. m.          53165 Standard.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\RendererShaderUser
+    ValueSamples\Scenes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.         840794 Agora.unity
+-a----      5/12/2025  11:10 p. m.          92234 LookDev.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    CameraStacking\3D Skybox
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.         129096 3DSkybox.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    CameraStacking\MixedFOV
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.         114912 MixedFOV.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    CameraStacking\SplitScreen
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          73507 SplitScreen.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    Decals\BlobShadow
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          54730 BlobShadow.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    Decals\PaintSplat
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          55280 PaintSplat.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    Decals\ProxyLighting
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          83472 ProxyLighting.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    LensFlares
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          28562 LensFlareShowroom.unity
+-a----      5/12/2025  11:10 p. m.          54531 SunFlare.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    Lighting\Reflection Probes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.         262198 Reflection Probes.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    RendererFeatures\AmbientOcclusion
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.         118955 AmbientOcclusion.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    RendererFeatures\BlitToRTHandle
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          35606 BlitToRTHandle.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    RendererFeatures\DepthBlit
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          49168 DepthBlit.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    RendererFeatures\DistortTunnel
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.         547257 DistortTunnel.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    RendererFeatures\GlitchEffect
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          64762 GlitchEffect.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    RendererFeatures\KeepFrame
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.         144450 KeepFrame.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    RendererFeatures\OcclusionEffect
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          52914 OcclusionEffect.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    RendererFeatures\TrailEffect
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          45075 TrailEffect.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.render-pipelines.universal@6ea13a8ff72f\Samples~\URPPackageSamples\
+    Shaders\Lit
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          98593 Lit.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.shadergraph@252d58e80e1a\Samples~\FeatureExamples\Scenes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.         153156 BiRPFeatureExamplesScene.unit
+                                                  y
+-a----      5/12/2025  11:10 p. m.         160826 HDRPFeatureExampleScene.unity
+-a----      5/12/2025  11:10 p. m.         165637 URPFeatureExamplesScene.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.shadergraph@252d58e80e1a\Samples~\ProductionReady\Scenes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.         222300 HDRPProductionReadyShaders.un
+                                                  ity
+-a----      5/12/2025  11:10 p. m.          48396 URPProductionReadyShaders.uni
+                                                  ty
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.shadergraph@252d58e80e1a\Samples~\Terrain\Scenes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          37202 TerrainHDRP.unity
+-a----      5/12/2025  11:10 p. m.          32845 TerrainURP.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.shadergraph@252d58e80e1a\Samples~\UGUIShaders\Scenes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.         245760 UISampleScene.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.splines@1cb7d86fc7ff\Samples~\SplineExamples\Scenes\Animate
+    Component
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      15/09/2025  4:07 p. m.         414677 SplineAnimate.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.splines@1cb7d86fc7ff\Samples~\SplineExamples\Scenes\Extrude Spline
+    and Nearest Point
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      15/09/2025  4:07 p. m.          46535 Extrude Spline and Nearest
+                                                  Point.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.splines@1cb7d86fc7ff\Samples~\SplineExamples\Scenes\GPU Evaluation
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      15/09/2025  4:07 p. m.          22313 GPU Evaluation.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.splines@1cb7d86fc7ff\Samples~\SplineExamples\Scenes\Instantiate
+    Component
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      15/09/2025  4:07 p. m.          51708 SplineInstantiate.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.splines@1cb7d86fc7ff\Samples~\SplineExamples\Scenes\Path Fitting
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      15/09/2025  4:07 p. m.          10278 Paint Splines.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.splines@1cb7d86fc7ff\Samples~\SplineExamples\Scenes\SplineData and
+    Generation
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      15/09/2025  4:07 p. m.          68113 SplineData and
+                                                  Generation.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.splines@1cb7d86fc7ff\Samples~\SplineExamples\Scenes\SplinePath
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      15/09/2025  4:07 p. m.         141587 SplinePath Sample.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.test-framework@0b7a23ab2e1d\Samples~\11_SceneBasedTests
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.           8437 MyGameScene.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.test-framework@0b7a23ab2e1d\Samples~\11_SceneBasedTests_Solution
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.           8437 MyGameScene.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.test-framework@0b7a23ab2e1d\Samples~\12_BuildSetupCleanup
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.           8437 MyGameScene.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.test-framework@0b7a23ab2e1d\Samples~\12_BuildSetupCleanup_Solution
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.           8437 MyGameScene.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.test-framework@0b7a23ab2e1d\Samples~\17_RunningTestsProgrammaticall
+    y
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          13651 MyScene.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.test-framework@0b7a23ab2e1d\Samples~\17_RunningTestsProgrammaticall
+    y_Solution
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      5/12/2025  11:10 p. m.          13651 MyScene.unity
+    Directorio: E:\WebGL_tesis\desarrollo\unity_project\Library\PackageCache\co
+    m.unity.testtools.codecoverage@e4e5058206c0\Samples~\Tutorial\Asteroids\Sce
+    nes
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      25/07/2024  4:43 p. m.          25518 Asteroids.unity

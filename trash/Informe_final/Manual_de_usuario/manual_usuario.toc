@@ -1,0 +1,34 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Introducción}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}¿Para Quién es Este Manual?}{3}{subsection.1.1}%
+\contentsline {section}{\numberline {2}Requisitos del Sistema}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Hardware Mínimo}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Software}{3}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Acceso al Sistema}{3}{section.3}%
+\contentsline {section}{\numberline {4}Navegación Básica}{4}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Controles de Cámara}{4}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Gestos del Panel de Información}{4}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Atajos de Teclado}{4}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Modos de Trabajo}{4}{section.5}%
+\contentsline {section}{\numberline {6}Modos de Renderizado}{5}{section.6}%
+\contentsline {section}{\numberline {7}Exploración de Piezas}{5}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Seleccionar una Pieza}{5}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Panel de Información}{5}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Vista Explosionada (Despiece)}{5}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Activar Vista Explosionada}{5}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Interactuar en Vista Explosionada}{6}{subsection.8.2}%
+\contentsline {section}{\numberline {9}Cortes Transversales}{6}{section.9}%
+\contentsline {section}{\numberline {10}Encendido del Dron (Simulación)}{6}{section.10}%
+\contentsline {section}{\numberline {11}Herramientas de Ingeniero (Proyectadas)}{6}{section.11}%
+\contentsline {subsection}{\numberline {11.1}Herramienta de Medición}{7}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}Puntos de Conexión}{7}{subsection.11.2}%
+\contentsline {subsection}{\numberline {11.3}Anotaciones}{7}{subsection.11.3}%
+\contentsline {subsection}{\numberline {11.4}Guía de Ensamblaje}{7}{subsection.11.4}%
+\contentsline {subsection}{\numberline {11.5}Lista de Materiales (BOM)}{7}{subsection.11.5}%
+\contentsline {subsection}{\numberline {11.6}Lista de Verificación}{7}{subsection.11.6}%
+\contentsline {section}{\numberline {12}Configuración y Accesibilidad}{8}{section.12}%
+\contentsline {section}{\numberline {13}Solución de Problemas}{8}{section.13}%
+\contentsline {subsection}{\numberline {13.1}El modelo no carga}{8}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}Rendimiento lento}{8}{subsection.13.2}%
+\contentsline {subsection}{\numberline {13.3}Audio no funciona}{8}{subsection.13.3}%
+\contentsline {section}{\numberline {14}Soporte y Contacto}{8}{section.14}%
