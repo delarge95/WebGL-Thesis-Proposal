@@ -10,6 +10,7 @@ namespace WebGL.Core.Managers
         private const float TOUCH_ORBIT_SCALE       = 0.12f;
         private const float TOUCH_DEAD_ZONE         = 2f;   // px — ignore micro-jitter on orbit
         private const float TOUCH_TWO_FINGER_DEAD   = 4f;   // px — larger dead zone for 2-finger gestures
+        private const float TOUCH_GESTURE_DOMINANCE = 1.2f;
         private const float MOUSE_SCROLL_SCALE      = 2f;
         private const float RAYCAST_MAX_DISTANCE    = 100f;
         private const float FOCUS_SNAP_DISTANCE     = 5f;
@@ -178,8 +179,37 @@ namespace WebGL.Core.Managers
                 Vector2 curCenter  = (t0.position + t1.position) * 0.5f;
                 Vector2 prevCenter = ((t0.position - t0.deltaPosition) + (t1.position - t1.deltaPosition)) * 0.5f;
                 Vector2 panDelta   = curCenter - prevCenter;
+                float panMagnitude = panDelta.magnitude;
 
-                if (panDelta.magnitude > TOUCH_TWO_FINGER_DEAD)
+                // ── Zoom: Pinch distance change ──
+                float curDist  = Vector2.Distance(t0.position, t1.position);
+                float prevDist = Vector2.Distance(
+                    t0.position - t0.deltaPosition,
+                    t1.position - t1.deltaPosition);
+                float pinchDelta = curDist - prevDist;
+                float pinchMagnitude = Mathf.Abs(pinchDelta);
+
+                bool panActive = panMagnitude > TOUCH_TWO_FINGER_DEAD;
+                bool pinchActive = pinchMagnitude > TOUCH_TWO_FINGER_DEAD;
+
+                bool usePan = panActive && (!pinchActive || panMagnitude >= pinchMagnitude * TOUCH_GESTURE_DOMINANCE);
+                bool usePinch = pinchActive && (!panActive || pinchMagnitude > panMagnitude * TOUCH_GESTURE_DOMINANCE);
+
+                if (!usePan && !usePinch)
+                {
+                    if (panActive && pinchActive)
+                    {
+                        usePan = panMagnitude >= pinchMagnitude;
+                        usePinch = !usePan;
+                    }
+                    else
+                    {
+                        usePan = panActive;
+                        usePinch = pinchActive;
+                    }
+                }
+
+                if (usePan)
                 {
                     Camera cam = GetComponent<Camera>();
                     if (cam != null)
@@ -196,14 +226,7 @@ namespace WebGL.Core.Managers
                     }
                 }
 
-                // ── Zoom: Pinch distance change ──
-                float curDist  = Vector2.Distance(t0.position, t1.position);
-                float prevDist = Vector2.Distance(
-                    t0.position - t0.deltaPosition,
-                    t1.position - t1.deltaPosition);
-                float pinchDelta = curDist - prevDist;
-
-                if (Mathf.Abs(pinchDelta) > TOUCH_TWO_FINGER_DEAD)
+                if (usePinch)
                 {
                     // Normalize by screen height so the gesture feels the same
                     // on any device resolution
@@ -223,13 +246,9 @@ namespace WebGL.Core.Managers
 
         private void ApplyPan(float x, float y)
         {
-            Vector3 right = transform.right;
-            // Use World Up to prevent "pulling back" sensation ("Elevator Panning")
-            Vector3 up = Vector3.up; 
-            
-            // Flatten right vector to keep it horizontal
-            right.y = 0f; 
-            right.Normalize();
+            // Pan in camera-local space so the drag direction stays aligned with the current view.
+            Vector3 right = transform.right.normalized;
+            Vector3 up = transform.up.normalized;
 
             Vector3 move = (-right * x) + (-up * y);
 

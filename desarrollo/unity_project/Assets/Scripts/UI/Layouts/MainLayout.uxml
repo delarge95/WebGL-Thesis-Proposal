@@ -32,7 +32,9 @@
             </ui:VisualElement>
 
             <!-- Close button — absolute top-right of sheet, above header -->
-            <ui:Button name="SheetCloseBtn" text="✕" class="sheet-close-btn" tooltip="Close panel" />
+            <ui:Button name="SheetCloseBtn" class="sheet-close-btn" tooltip="Close panel">
+                <pi:ProceduralCloseIcon class="sheet-close-icon" picking-mode="Ignore" />
+            </ui:Button>
             
             <!-- Content Container: DETAILS (Part Info) -->
             <ui:VisualElement name="SheetContent_Details" class="sheet-content sheet-content--active" picking-mode="Ignore">
@@ -116,6 +118,10 @@
                         <ui:Button name="ToolIsolateBtn" class="submenu-card" tooltip="Isolate Selected Part">
                             <pi:ProceduralIsolateIcon class="submenu-icon" picking-mode="Ignore"/>
                             <ui:Label text="ISOLATE" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="ToolPowerBtn" class="submenu-card" tooltip="Toggle Drone Power">
+                            <pi:ProceduralPowerIcon class="submenu-icon" picking-mode="Ignore"/>
+                            <ui:Label text="POWER" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <!-- Measure tool hidden — planned for future release (see PLAN_TRABAJO_FINAL.md)
                         <ui:Button name="ToolMeasureBtn" class="submenu-card" tooltip="Measure Distance">

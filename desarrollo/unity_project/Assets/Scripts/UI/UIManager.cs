@@ -5,6 +5,7 @@ using WebGL.Core.Utils;
 using WebGL.Core.Events;
 using WebGL.Core.Content;
 using WebGL.UI.Panels;
+using WebGL.UI.ProceduralIcons;
 
 namespace WebGL.UI
 {
@@ -214,7 +215,7 @@ namespace WebGL.UI
             _fabInfoBtn = root.Q<Button>("ToolInfoBtn");
             if (_fabInfoBtn != null)
             {
-                System.Action fabClick = () => _detailsSheet.ToggleInfo();
+                System.Action fabClick = () => _detailsSheet.ShowInfo();
                 _fabInfoBtn.clicked += fabClick;
                 AddCleanup(() => _fabInfoBtn.clicked -= fabClick);
             }
@@ -265,6 +266,16 @@ namespace WebGL.UI
             // ── Initial state ──
             _detailsSheet.UpdatePartIndicator(null);
             // Slider is inside ExplodeSubPanel (starts hidden via submenu--hidden)
+
+            // ── Adaptive UI contrast based on environment luminance ──
+            var envCtrl = EnvironmentController.Instance;
+            if (envCtrl != null)
+            {
+                envCtrl.OnLightBackgroundChanged += OnLightBgChanged;
+                AddCleanup(() => envCtrl.OnLightBackgroundChanged -= OnLightBgChanged);
+                root.EnableInClassList("ui-light-bg", envCtrl.IsLightBackground);
+                root.Query<ProceduralIconBase>().ForEach(icon => icon.SetLightBackground(envCtrl.IsLightBackground));
+            }
 
             // ── All buttons block 3D input ──
             RegisterButtonInputBlockers();
@@ -335,8 +346,7 @@ namespace WebGL.UI
 
             OrbitCameraController.Instance?.ResetView();
 
-            if (ViewModeManager.Instance?.CurrentMode != null && ViewModeManager.Instance.CurrentMode != ViewMode.Realistic)
-                ViewModeManager.Instance.SetViewMode(ViewMode.Realistic);
+            // Preserve current view mode (Blueprint, Thermal, etc.) — only reset geometry state
 
             // Explicitly disable cross-section on reset (one of only two valid triggers)
             CrossSectionManager.Instance?.DisableCrossSection();
@@ -379,6 +389,9 @@ namespace WebGL.UI
             PartVisibilityManager.Instance?.IsolatePart(part);
             _isIsolated = true;
             _modeController.SetIsolateState(true);
+
+            // Center camera on the isolated part
+            OrbitCameraController.Instance?.FocusOnObject(sel.transform);
         }
 
         private void ClearIsolation()
@@ -386,6 +399,13 @@ namespace WebGL.UI
             PartVisibilityManager.Instance?.ClearIsolation();
             _isIsolated = false;
             _modeController.SetIsolateState(false);
+
+            // Smoothly return camera to full drone view
+            var cam = OrbitCameraController.Instance;
+            if (cam != null)
+            {
+                cam.ResetView();
+            }
         }
 
         private void ToggleIsolation()
@@ -424,11 +444,6 @@ namespace WebGL.UI
 
         private void OnPartSelected(PartSelectedEvent evt)
         {
-            // Close sub-menus within current mode when a part is selected
-            // Skip when selection comes from a hotspot to avoid flashing/re-opening the sheet
-            if (!evt.FromHotspot)
-                _modeController.CloseAllMenus();
-
             // Delegate data display to details sheet
             _detailsSheet.PopulatePartData(evt.PartData, evt.FromHotspot);
 
@@ -445,13 +460,17 @@ namespace WebGL.UI
         {
             if (evt.PartData == null)
             {
-                // Double-click on background → exit isolate if active
+                // Double-click on background → exit isolate + close sheet
                 if (_isIsolated) ClearIsolation();
+                if (_detailsSheet != null && _detailsSheet.IsSheetOpen)
+                    _detailsSheet.SetSheetState(false);
             }
             else if (_isIsolated)
             {
-                // Already isolated + double-click on part → de-isolate
+                // Already isolated + double-click on part → de-isolate + close sheet
                 ClearIsolation();
+                if (_detailsSheet != null && _detailsSheet.IsSheetOpen)
+                    _detailsSheet.SetSheetState(false);
             }
             else
             {
@@ -486,6 +505,13 @@ namespace WebGL.UI
         private void OnViewModeChanged(ViewMode newMode)
         {
             if (_uiAnalyzePanel != null) _uiAnalyzePanel.OnViewModeChanged(newMode);
+        }
+
+        private void OnLightBgChanged(bool isLight)
+        {
+            root?.EnableInClassList("ui-light-bg", isLight);
+            _detailsSheet?.SetLightBackground(isLight);
+            root?.Query<ProceduralIconBase>().ForEach(icon => icon.SetLightBackground(isLight));
         }
 
         // ═══════════════════════════════════════════════════════

@@ -18,6 +18,57 @@
 
 ---
 
+## 2026-03-11 — Ajustes UX: Analyze persistente + Explode desacoplado
+
+### Trabajo Realizado
+
+- `fix(ui)`: Se eliminó el cierre automático de submenús Analyze al seleccionar piezas o al hacer click en el fondo 3D.
+- `fix(explode)`: Se desacopló el estado de `Explode` del `AppState` global para que no se apague al cambiar entre Analyze y Studio.
+- `fix(ui)`: Se restauró la X del info panel con un icono procedimental y se reajustó su tamaño/posición para alinearla con el sistema visual del top bar.
+- `fix(ui)`: Se eliminaron cierres no permitidos del info panel, quitando el drag-to-dismiss y evitando que los accesos de info funcionen como toggle de cierre.
+- `fix(input)`: Se endureció `InputManager.IsPointerOverUI()` para usar el panel activo, soportar touch y descartar picks no interactivos o invisibles.
+- `style(ui)`: Se fijó la rotación base del icono de cierre en `45°` para que la `X` no se lea como `+`.
+- `fix(camera)`: Se corrigió el paneo para usar los ejes locales de la cámara en lugar de una mezcla de ejes globales.
+- `fix(ui)`: Se alineó el onboarding con los controles reales de cámara (`right-click` orbit, `middle-click` pan).
+- `fix(shader)`: Se aplicó clipping global también en los passes `DepthOnly` y `DepthNormals` de `Blueprint.shader` para que `Cut` respete el postproceso.
+- `fix(camera)`: Se separó la intención de `pan` y `pinch` en touch para evitar zoom espurio durante gestos de desplazamiento con dos dedos.
+- `style(ui)`: Se rediseñó el contraste del modo claro usando superficies translúcidas oscurecidas, tipografía más legible y controles con mayor definición en `Studio Light` y fondos claros.
+- `refactor(ui)`: `ProceduralIconBase` pasó a soportar override de paleta por icono y `ProceduralCloseIcon` quedó fijado a una paleta clara para mantener contraste dentro del sheet.
+- `docs`: Se añadió un documento técnico con diagnóstico completo y plan de implementación por fases para los siguientes problemas de la app.
+
+### Archivos Afectados
+
+- `desarrollo/unity_project/Assets/Scripts/UI/UIManager.cs`
+- `desarrollo/unity_project/Assets/Scripts/Core/Content/ExplodedViewManager.cs`
+- `desarrollo/unity_project/Assets/Scripts/UI/Panels/UIModeController.cs`
+- `desarrollo/unity_project/Assets/Scripts/UI/Panels/UIDetailsSheet.cs`
+- `desarrollo/unity_project/Assets/Scripts/Core/Managers/InputManager.cs`
+- `desarrollo/unity_project/Assets/Scripts/Core/Managers/OrbitCameraController.cs`
+- `desarrollo/unity_project/Assets/Scripts/UI/Panels/OnboardingController.cs`
+- `desarrollo/unity_project/Assets/Shaders/Blueprint.shader`
+- `desarrollo/unity_project/Assets/Scripts/UI/ProceduralIcons/ProceduralIconBase.cs`
+- `desarrollo/unity_project/Assets/Scripts/UI/ProceduralIcons/ProceduralCloseIcon.cs`
+- `desarrollo/unity_project/Assets/Scripts/UI/Layouts/MainLayout.uxml`
+- `desarrollo/unity_project/Assets/UI/Styles/Theme.uss`
+- `desarrollo/docs/investigacion/14_analisis_problemas_app_2026-03-10.md`
+
+### Resultado Validado
+
+- `Cut`, `Filter` y `Explode` ya no se cierran al clickear el background.
+- La vista explosionada permanece activa al abrir otros submenús de Analyze y al alternar entre Analyze y Studio.
+- El info panel vuelve a mostrar un botón de cierre visible, consistente con el sistema de iconos procedurales y mejor alineado en la esquina superior derecha.
+- El info panel ya no se cierra arrastrando el handle ni al volver a pulsar los accesos de info; su cierre queda acotado a la `X`, doble click en el fondo 3D y cambio de modo.
+- La `X` recupera una lectura visual correcta en reposo y la detección de UI queda mejor preparada para bloquear input 3D sólo sobre controles interactivos reales.
+- El paneo vuelve a seguir el plano local de la cámara y el onboarding ya no instruye un gesto de pan incorrecto.
+- El modo `Blueprint` ahora entrega profundidad y normales ya recortadas al postproceso, evitando que el contorno reconstruya partes fuera del plano de corte.
+- En touch, los gestos de dos dedos ya no aplican pan y zoom a la vez salvo ruido residual mínimo, priorizando la intención dominante del usuario.
+- En fondos claros, el panel inferior y la pill de navegación dejan de verse como bloques blancos lavados y pasan a funcionar como superficies tonales oscuras, legibles y visualmente integradas con el environment.
+- La desactivación de `Explode` queda restringida a las dos acciones esperadas por UX:
+  - volver a pulsar el botón `Explode`
+  - llevar el slider a `0`
+
+---
+
 ## Fase 0 — Investigación y Selección Técnica _(Pre-Git)_
 
 > Trabajo documentado en sesiones de Antigravity (conversación `c5f61e42`)

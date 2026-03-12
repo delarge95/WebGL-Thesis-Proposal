@@ -20,7 +20,7 @@ El sistema se implementó siguiendo patrones de diseño profesionales para garan
     \item \textbf{Capa de Presentación (UI).} \texttt{UIManager}, \texttt{UIDetailsSheet}, paneles de análisis y configuración, controlados mediante UI~Toolkit (UXML~+~USS).
     \item \textbf{Capa de Lógica de Aplicación.} Máquina de estados (\texttt{AppStateMachine}), controlador de modos (\texttt{BaseModeHandler} y subclases), y lógica de interacción (selección, cámara, vista explosionada).
     \item \textbf{Capa de Servicios (\textit{Core}).} Managers globales (\texttt{GameManager}, \texttt{AudioManager}, \texttt{SelectionManager}, \texttt{ViewModeManager}), bus de eventos (\texttt{EventBus}) y \textit{Service Locator}.
-    \item \textbf{Capa de Datos.} \texttt{ScriptableObjects} (\texttt{DronePartData}, \texttt{AssemblyGuideData}) y configuración persistente (\texttt{PlayerPrefs} $\rightarrow$ \texttt{localStorage} en WebGL).
+    \item \textbf{Capa de Datos.} \texttt{ScriptableObjects} (\texttt{DronePartData}, \texttt{AssemblyGuideData}) y configuración persistente (\texttt{PlayerPrefs} $\rightarrow$ \texttt{localStorage} en WebGL). \textit{Nota}: \texttt{AssemblyGuideData} fue diseñado para las herramientas de ensamblaje (proyectadas para futuras iteraciones).
 \end{enumerate}
 
 \subsubsection{Principios Arquitectónicos}
@@ -103,7 +103,7 @@ Se implementaron~7 modos de visualización que intercambian los materiales de la
 \subsection{Sistema de Interfaz de Usuario}
 \addcontentsline{toc}{subsection}{Sistema de Interfaz de Usuario}
 
-La interfaz se desarrolló íntegramente con \textbf{UI~Toolkit} (UIElements), el sistema declarativo de Unity basado en UXML (estructura) + USS (estilos), conceptualmente análogo a HTML~+~CSS. Esta elección se debió a tres factores: (a)~desacoplamiento de la interfaz respecto al espacio~3D, (b)~responsividad nativa para diferentes resoluciones, y (c)~facilidad de tematización mediante variables~USS.
+La interfaz se desarrolló íntegramente con \textbf{UI~Toolkit} (UIElements; Unity Technologies, 2024b), el sistema declarativo de Unity basado en UXML (estructura) + USS (estilos), conceptualmente análogo a HTML~+~CSS. Esta elección se debió a tres factores: (a)~desacoplamiento de la interfaz respecto al espacio~3D, (b)~responsividad nativa para diferentes resoluciones, y (c)~facilidad de tematización mediante variables~USS.
 
 \subsubsection{Componentes Principales}
 \addcontentsline{toc}{subsubsection}{Componentes Principales}
@@ -216,27 +216,27 @@ El sistema de catálogo se implementó con los siguientes módulos:
 
 \paragraph{Cortes Transversales (CrossSectionManager).} Permite visualizar cortes en los ejes X, Y y Z con un plano visual configurable. El corte se implementó mediante \texttt{\_ClipPlane} como variable global de \textit{shader}, de modo que todos los materiales respeten el plano de recorte sin necesidad de modificar cada \textit{shader} individualmente.
 
-\paragraph{Estados del Dron (DroneStateController).} Simulación de~5 estados operativos: Off, StartingUp, Idle, Flying, ShuttingDown. Incluye animación de propelas con velocidad variable, luces de estado (rojo, amarillo, verde), partículas de propulsión y efecto \textit{hover} (oscilación vertical).
+\paragraph{Estados del Dron (DroneStateController).} Módulo diseñado para simular~5 estados operativos: Off, StartingUp, Idle, Flying, ShuttingDown. Incluye animación de propelas con velocidad variable, luces de estado (rojo, amarillo, verde), partículas de propulsión y efecto \textit{hover} (oscilación vertical). \textit{Nota}: este sistema se encuentra en fase de integración activa para la versión actual del prototipo.
 
 \paragraph{Puntos de Interés (\textit{Hotspots}).} Sistema de puntos interactivos~3D (\texttt{SmartHotspot}) posicionados sobre componentes clave del dron. Cada \textit{hotspot} está vinculado a un \texttt{DronePartData} y, al hacer clic, publica un evento de selección que abre el panel de información correspondiente. Los \textit{hotspots} se escalan dinámicamente según la distancia de la cámara para mantener legibilidad.
 
 % ═══════════════════════════════════════════════════════════════════════════════
-\subsection{Herramientas de Ensamblaje}
-\addcontentsline{toc}{subsection}{Herramientas de Ensamblaje}
+\subsection{Herramientas de Ensamblaje (Proyectadas)}
+\addcontentsline{toc}{subsection}{Herramientas de Ensamblaje (Proyectadas)}
 
-Se implementaron herramientas especializadas orientadas a ingenieros y técnicos de ensamblaje:
+Se diseñaron e implementaron a nivel de código los módulos para un conjunto de herramientas especializadas orientadas a ingenieros y técnicos de ensamblaje. Estos módulos cuentan con la arquitectura y lógica de base completa (scripts~C\#, datos \texttt{ScriptableObject}, eventos del \texttt{EventBus}), pero \textbf{no están integrados en la interfaz de usuario de la versión actual del prototipo}. Se proyectan para futuras iteraciones del sistema.
 
-\paragraph{Guía de Ensamblaje (AssemblyGuideManager).} Sistema de instrucciones paso a paso con: (a)~navegación secuencial con barra de progreso, (b)~listado de herramientas requeridas por paso, (c)~tiempos estimados y niveles de dificultad (escala~1--5), (d)~advertencias de seguridad y consejos de instalación, y (e)~resaltado automático de las piezas involucradas en cada paso.
+\paragraph{Guía de Ensamblaje (AssemblyGuideManager).} Módulo diseñado para instrucciones paso a paso con: (a)~navegación secuencial con barra de progreso, (b)~listado de herramientas requeridas por paso, (c)~tiempos estimados y niveles de dificultad (escala~1--5), (d)~advertencias de seguridad y consejos de instalación, y (e)~resaltado automático de las piezas involucradas en cada paso. La interfaz de usuario (\texttt{AssemblyStepUI}) y los datos (\texttt{AssemblyGuideData}) fueron implementados como artefactos de código listos para integración.
 
 \paragraph{Herramienta de Medición (MeasurementTool).} Implementación completa con tres modos: Distancia (entre~2 puntos vía \textit{raycast}), Ángulo (3~puntos con cálculo vectorial), y Radio (con cálculo de circunferencia y área). Incluye visualización en tiempo real con marcadores y líneas~3D mediante \texttt{LineRenderer}. \textit{Nota}: esta funcionalidad fue ocultada en la versión actual del prototipo dado que el modelo~3D no posee escala~1:1 calibrada; se incluye como trabajo futuro.
 
-\paragraph{Puntos de Conexión (ConnectionPointsViewer).} Visualización de puntos de conexión con colores codificados por tipo: tornillos (gris) con especificación de torque, conexiones \textit{snap} (verde), soldaduras (naranja) y cables (azul).
+\paragraph{Puntos de Conexión (ConnectionPointsViewer).} Módulo para visualización de puntos de conexión con colores codificados por tipo: tornillos (gris) con especificación de torque, conexiones \textit{snap} (verde), soldaduras (naranja) y cables (azul). Requiere la configuración de componentes \texttt{ConnectionPointMarker} en los objetos de la escena.
 
-\paragraph{Lista de Materiales (BillOfMaterialsManager).} Generación automática de BOM (\textit{Bill of Materials}) con cantidades, pesos totales, agrupación por categoría, y exportación a formato CSV.
+\paragraph{Lista de Materiales (BillOfMaterialsManager).} Módulo para generación automática de BOM (\textit{Bill of Materials}) con cantidades, pesos totales, agrupación por categoría, y exportación a formato CSV.
 
-\paragraph{Sistema de Anotaciones (AnnotationSystem).} Notas~3D con texto \textit{billboard} (orientado siempre hacia la cámara), líneas de conexión a piezas y persistencia de estado.
+\paragraph{Sistema de Anotaciones (AnnotationSystem).} Módulo para notas~3D con texto \textit{billboard} (orientado siempre hacia la cámara) y líneas de conexión a piezas. La persistencia de datos queda como trabajo futuro.
 
-\paragraph{Lista de Verificación (AssemblyChecklist).} \textit{Checklist} interactiva para verificar la presencia de piezas durante un proceso de ensamblaje real.
+\paragraph{Lista de Verificación (AssemblyChecklist).} \textit{Checklist} diseñada para verificar la presencia de piezas durante un proceso de ensamblaje real.
 
 % ═══════════════════════════════════════════════════════════════════════════════
 \subsection{\textit{Pipeline} de Optimización de Assets~3D}
@@ -284,23 +284,22 @@ Los detalles de alta frecuencia del modelo \textit{high-poly} se proyectaron en 
 Los materiales se crearon en Adobe Substance Painter siguiendo el flujo \textit{Metallic/Roughness}, produciendo los siguientes mapas por material: Albedo, Normal, Metallic, Roughness, Ambient Occlusion y Emission (para LEDs). Los materiales representaron los componentes reales del dron: fibra de carbono, aluminio anodizado, plásticos ABS y PCBs.
 
 % --- Etapa 4: Optimización runtime ---
-\subsubsection{Optimización WebGL (WebGLOptimizer)}
+\subsubsection{Optimización WebGL}
 \addcontentsline{toc}{subsubsection}{Optimización WebGL}
 
-Se implementó un sistema automático de ajuste de calidad en tiempo de ejecución (\texttt{WebGLOptimizer}) que:
+Se implementó un sistema de ajuste de calidad en tiempo de ejecución distribuido en dos módulos complementarios: \texttt{QualityManager} (ajuste dinámico de resolución según \textit{frame rate}) y \texttt{WebGLProfiler} (monitoreo de métricas de rendimiento). El sistema:
 
 \begin{itemize}
-    \item Reduce la calidad de texturas en dispositivos móviles detectados por \textit{user agent}.
-    \item Desactiva sombras y efectos de post-procesado en dispositivos de baja gama.
-    \item Monitorea el \textit{heap} de WebAssembly y ejecuta \texttt{GC.Collect()} forzado cuando supera los 800\,MB.
     \item Ajusta dinámicamente la escala de renderizado (\texttt{renderScale}) según el \textit{frame rate} medido.
+    \item Monitorea métricas de rendimiento (FPS, \textit{frame time}, uso de \textit{heap}).
+    \item Proporciona diagnósticos de rendimiento en tiempo de ejecución (\texttt{WebGLDiagnostics}).
 \end{itemize}
 
 % ═══════════════════════════════════════════════════════════════════════════════
 \subsection{\textit{Shaders} Personalizados}
 \addcontentsline{toc}{subsection}{Shaders Personalizados}
 
-Se desarrollaron~9 \textit{shaders} HLSL/CG optimizados para WebGL~2.0:
+Se desarrollaron~9 \textit{shaders} HLSL/CG optimizados para WebGL~2.0 bajo Universal Render Pipeline (Unity Technologies, 2024c):
 
 \begin{table}[h!]
 \centering
@@ -348,13 +347,13 @@ El \texttt{ScriptableObject DronePartData} almacena más de~32 campos por pieza,
 
 \paragraph{Motor de Animaciones (TweenEngine).} Implementación liviana alternativa a DOTween, con~8 tipos de \textit{easing} (Linear, EaseInOut, EaseIn, EaseOut, EaseInBack, EaseOutBack, EaseInElastic, EaseOutElastic) para animaciones de \texttt{float}, \texttt{Vector3} y \texttt{Color}.
 
-\paragraph{Captura de Pantalla (ScreenshotManager).} Sistema de captura que bifurca la implementación según la plataforma: en el Editor usa \texttt{File.WriteAllBytes}, y en WebGL genera un enlace de descarga en base64 mediante interoperabilidad~JavaScript.
+\paragraph{Captura de Pantalla.} Se diseñó un sistema de captura que bifurca la implementación según la plataforma: en el Editor usaría \texttt{File.WriteAllBytes}, y en WebGL generaría un enlace de descarga en base64 mediante interoperabilidad~JavaScript. Este módulo está proyectado para futuras iteraciones.
 
 % ═══════════════════════════════════════════════════════════════════════════════
 \subsection{Restricciones de WebGL y Soluciones}
 \addcontentsline{toc}{subsection}{Restricciones de WebGL y Soluciones}
 
-La compilación a WebGL impuso restricciones técnicas significativas que requirieron soluciones de ingeniería específicas:
+La compilación a WebGL impuso restricciones técnicas significativas (Unity Technologies, 2024d) que requirieron soluciones de ingeniería específicas:
 
 \begin{table}[h!]
 \centering
@@ -366,7 +365,7 @@ La compilación a WebGL impuso restricciones técnicas significativas que requir
 \textit{Single-threaded} & Operaciones asíncronas mediante \texttt{Coroutines}; sin \texttt{System.Threading} \\
 Sin \textit{filesystem} & Persistencia en \texttt{PlayerPrefs} $\rightarrow$ \texttt{localStorage} \\
 Sin Geometry Shaders & \textit{Shader} alternativo (\texttt{WireframeWebGL}) basado en coordenadas baricéntricas \\
-Heap limitado ($\sim$2\,GB) & \texttt{WebGLOptimizer} monitorea heap y fuerza \texttt{GC.Collect()} sobre 800\,MB \\
+Heap limitado ($\sim$2\,GB) & \texttt{QualityManager} + \texttt{WebGLProfiler} monitorean rendimiento y ajustan escala de renderizado \\
 Sin \texttt{System.IO.File} & Captura de pantalla vía base64 y JS \textit{interop} \\
 Sin \texttt{Application.Quit()} & Navegación \textit{back} mediante \texttt{ExternalEval} \\
 \hline

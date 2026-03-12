@@ -8,8 +8,7 @@ using System.Globalization;
 namespace WebGL.UI.Panels
 {
     /// <summary>
-    /// Manages the bottom details sheet: open/close, drag-to-dismiss,
-    /// and populating part data fields.
+    /// Manages the bottom details sheet: open/close and populating part data fields.
     /// Extracted from UIManager (Phase 3 Step 2: God Class Dismantling).
     /// </summary>
     public class UIDetailsSheet
@@ -37,10 +36,15 @@ namespace WebGL.UI.Panels
         private readonly Button _infoBtn;
         private readonly VisualElement _actionsRow;
 
+        // ── Accent colors (adaptive) ──
+        private static readonly Color AccentDark  = new Color(0.06f, 0.73f, 0.5f);   // teal on dark bg
+        private static readonly Color AccentLight = new Color(0.02f, 0.48f, 0.35f);   // deeper teal on light bg
+        private static readonly Color MutedDark   = new Color(0.6f, 0.6f, 0.7f);      // placeholder on dark bg
+        private static readonly Color MutedLight  = new Color(0.35f, 0.35f, 0.4f);    // placeholder on light bg
+        private bool _isLightBg;
+
         // ── State ──
         public bool IsSheetOpen { get; private set; } = false;
-        private float _dragStartY;
-        private bool _isDraggingSheet;
         private float _swipeStartY;
         private bool _isSwipingUp;
 
@@ -84,8 +88,8 @@ namespace WebGL.UI.Panels
 
             if (_infoBarPeek != null)
             {
-                _infoBarPeek.clicked += ToggleInfo;
-                AddCleanup(() => _infoBarPeek.clicked -= ToggleInfo);
+                _infoBarPeek.clicked += ShowInfo;
+                AddCleanup(() => _infoBarPeek.clicked -= ShowInfo);
             }
 
             if (_sheetCloseBtn != null)
@@ -94,7 +98,7 @@ namespace WebGL.UI.Panels
                 _sheetCloseBtn.clicked += onClose;
                 AddCleanup(() => _sheetCloseBtn.clicked -= onClose);
 
-                // Stop click from bubbling to header toggle
+                // Stop click from bubbling to parent containers
                 EventCallback<ClickEvent> stopClick = evt => evt.StopPropagation();
                 _sheetCloseBtn.RegisterCallback(stopClick);
                 AddCleanup(() => _sheetCloseBtn.UnregisterCallback(stopClick));
@@ -113,6 +117,26 @@ namespace WebGL.UI.Panels
             OnSheetStateChanged = null;
             foreach (var action in _cleanupActions) action?.Invoke();
             _cleanupActions.Clear();
+        }
+
+        /// <summary>
+        /// Called by UIManager when the environment changes between light/dark.
+        /// Re-applies inline accent colors so they match the new background.
+        /// </summary>
+        public void SetLightBackground(bool isLight)
+        {
+            _isLightBg = isLight;
+
+            // Re-apply accent on labels that use inline style.color
+            if (_partNameLabel != null && !_partNameLabel.ClassListContains("selection-label--hidden"))
+                _partNameLabel.style.color = new StyleColor(isLight ? AccentLight : AccentDark);
+
+            if (_topContextLabel != null)
+            {
+                bool hasSelection = SelectionManager.Instance?.HasSelection == true;
+                _topContextLabel.style.color = new StyleColor(
+                    hasSelection ? (isLight ? AccentLight : AccentDark) : (isLight ? MutedLight : MutedDark));
+            }
         }
 
         // ═══════════════════════════════════════════════════════
@@ -161,6 +185,14 @@ namespace WebGL.UI.Panels
 
             OrbitCameraController.Instance?.SetViewportShift(isOpen ? 0.15f : 0f);
 
+            // Focus camera on the selected part when opening the sheet
+            if (isOpen)
+            {
+                var sel = SelectionManager.Instance?.CurrentSelection;
+                if (sel != null)
+                    OrbitCameraController.Instance?.FocusOnObject(sel.transform);
+            }
+
             OnSheetStateChanged?.Invoke(isOpen);
         }
 
@@ -177,6 +209,12 @@ namespace WebGL.UI.Panels
 
             if (_sheetTitle != null) _sheetTitle.text = titleText;
             SetSheetState(true);
+        }
+
+        public void ShowInfo()
+        {
+            if (!IsSheetOpen)
+                OpenSheet();
         }
 
         public void ToggleInfo()
@@ -261,7 +299,7 @@ namespace WebGL.UI.Panels
                 if (_partNameLabel != null)
                 {
                     _partNameLabel.text = upperName;
-                    _partNameLabel.style.color = new StyleColor(new Color(0.06f, 0.73f, 0.5f));
+                    _partNameLabel.style.color = new StyleColor(_isLightBg ? AccentLight : AccentDark);
                     _partNameLabel.RemoveFromClassList("selection-label--hidden");
                 }
 
@@ -269,7 +307,7 @@ namespace WebGL.UI.Panels
                 if (_topContextLabel != null)
                 {
                     _topContextLabel.text = upperName;
-                    _topContextLabel.style.color = new StyleColor(new Color(0.06f, 0.73f, 0.5f));
+                    _topContextLabel.style.color = new StyleColor(_isLightBg ? AccentLight : AccentDark);
                 }
             }
             else
@@ -281,7 +319,7 @@ namespace WebGL.UI.Panels
                 if (_topContextLabel != null)
                 {
                     _topContextLabel.text = "SELECT A PART";
-                    _topContextLabel.style.color = new StyleColor(new Color(0.6f, 0.6f, 0.7f));
+                    _topContextLabel.style.color = new StyleColor(_isLightBg ? MutedLight : MutedDark);
                 }
             }
         }
@@ -306,43 +344,6 @@ namespace WebGL.UI.Panels
                 _detailsSheet.RegisterCallback(pe);
                 _detailsSheet.RegisterCallback(pl);
                 AddCleanup(() => { _detailsSheet.UnregisterCallback(pe); _detailsSheet.UnregisterCallback(pl); });
-            }
-
-            // Header click to toggle
-            var header = _root.Q(className: "sheet-header");
-            if (header != null)
-            {
-                EventCallback<ClickEvent> headerClick = evt => SetSheetState(!IsSheetOpen);
-                header.RegisterCallback(headerClick);
-                AddCleanup(() => header.UnregisterCallback(headerClick));
-            }
-
-            // Drag-to-dismiss handle
-            var handle = _root.Q(className: "sheet-handle");
-            if (handle != null)
-            {
-                EventCallback<PointerDownEvent> handleDown = evt => { _dragStartY = evt.position.y; _isDraggingSheet = true; };
-                EventCallback<PointerUpEvent> handleUp = evt => _isDraggingSheet = false;
-                EventCallback<PointerLeaveEvent> handleLeave = evt => _isDraggingSheet = false;
-                EventCallback<PointerMoveEvent> handleMove = evt =>
-                {
-                    if (_isDraggingSheet && (evt.position.y - _dragStartY > 50))
-                    {
-                        SetSheetState(false);
-                        _isDraggingSheet = false;
-                    }
-                };
-                handle.RegisterCallback(handleDown);
-                handle.RegisterCallback(handleUp);
-                handle.RegisterCallback(handleLeave);
-                handle.RegisterCallback(handleMove);
-                AddCleanup(() =>
-                {
-                    handle.UnregisterCallback(handleDown);
-                    handle.UnregisterCallback(handleUp);
-                    handle.UnregisterCallback(handleLeave);
-                    handle.UnregisterCallback(handleMove);
-                });
             }
 
             // ScrollView blocks camera zoom

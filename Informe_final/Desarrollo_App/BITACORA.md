@@ -125,6 +125,62 @@ Aportar valor técnico y educativo real más allá de la visualización estétic
 
 Elevar la calidad visual y la experiencia de usuario (UX) para cumplir estándares de la industria (Awwwards/Apple Design).
 
+### Registro de Cambios (Marzo 11, 2026) — Ajustes UX Fase 1 y Fase 2
+
+1.  **Persistencia de submenús Analyze ante selección 3D**:
+    - _Problema_: Los submenús `Cut`, `Filter` y `Explode` se cerraban al seleccionar piezas o al hacer click en el background.
+    - _Causa raíz_: `UIManager.OnPartSelected(...)` ejecutaba `CloseAllMenus()` como efecto colateral del sistema de selección 3D.
+    - _Solución Técnica_: Se eliminó el cierre automático desde `UIManager`, desacoplando la navegación de Analyze de los eventos `PartSelectedEvent`.
+    - _Resultado_: Los submenús permanecen abiertos durante la interacción normal con el modelo y solo cambian cuando el usuario navega explícitamente entre modos o botones.
+
+2.  **Desacoplamiento de Explode respecto al AppState global**:
+    - _Problema_: La vista explosionada se desactivaba al cambiar entre Analyze y Studio o al reabrir Analyze, aunque el usuario no hubiera apagado `Explode`.
+    - _Causa raíz_: `ExplodedViewManager` y `UIModeController` apagaban el estado explosivo al salir de `AppState.ExplodedView`.
+    - _Solución Técnica_: Se removió el reseteo automático de `SetExplosionFactor(0f)` en `ExplodedViewManager.OnStateChanged(...)` y la limpieza forzada de `SetExplodeState(false)` en `UIModeController.SyncWithAppState(...)`.
+    - _Resultado_: Mientras `Explode` esté activo, el botón sigue marcado y el slider permanece visible hasta que el usuario lo apague explícitamente con el botón o llevando el slider a cero.
+
+3.  **Consolidación de diagnóstico y plan de remediación**:
+    - _Acción_: Se documentó el análisis técnico completo de problemas de submenús, explode, blueprint/cut, info panel y cámara.
+    - _Archivo_: `desarrollo/docs/investigacion/14_analisis_problemas_app_2026-03-10.md`.
+    - _Por qué_: Dejar una base verificable para implementar las siguientes fases sin depender de memoria de sesión.
+
+4.  **Restauración visual del cierre del info panel**:
+    - _Problema_: La X del panel de información era funcional pero visualmente inestable al depender de un glyph de texto.
+    - _Solución Técnica_: Se creó `ProceduralCloseIcon` dentro del sistema de iconos procedurales y se reemplazó el texto del botón por dicho icono en `MainLayout.uxml`.
+    - _Refinamiento UX_: El botón de cierre se escaló a 64x64, con icono central mayor y offsets simétricos de 24px desde el borde superior y derecho del panel para alinearlo con el lenguaje visual de `Home` y `Reset`.
+    - _Resultado_: El cierre del panel ahora usa el mismo sistema visual del resto de controles premium y mantiene una alineación más limpia en la esquina.
+
+5.  **Endurecimiento de reglas de cierre del info panel**:
+    - _Problema_: El panel todavía podía cerrarse por arrastre del handle y por comportamiento toggle del acceso global de info, dos caminos no alineados con la UX definida.
+    - _Solución Técnica_: Se eliminó el bloque `drag-to-dismiss` de `UIDetailsSheet.BindInteractions()` y se sustituyó el toggle de `InfoBarPeek` y `ToolInfoBtn` por apertura explícita mediante `ShowInfo()`.
+    - _Resultado_: El panel conserva sólo los cierres permitidos por esta fase: botón `X`, doble click sobre el fondo y cambio hacia otro ítem/modo de la barra inferior.
+
+6.  **Ajuste final del icono de cierre + hardening de detección UI**:
+    - _Problema_: El nuevo icono de cierre se seguía leyendo como `+` porque su estado base partía sin rotación, y `InputManager.IsPointerOverUI()` dependía de un `Pick()` mínimo basado sólo en `mousePosition`.
+    - _Solución Técnica_: Se fijó una rotación base de `45°` en `ProceduralCloseIcon` y se reforzó `InputManager` para recalcular el panel activo, usar touch cuando exista y filtrar picks no interactivos o invisibles antes de bloquear input 3D.
+    - _Resultado_: La X ya se percibe correctamente como cierre y la detección de UI queda más robusta para hover, selección y cámara cuando el puntero cae sobre controles reales.
+
+7.  **Corrección de paneo en espacio local de cámara**:
+    - _Problema_: El paneo seguía mezclando ejes globales (`Vector3.up` + `right` aplanado), lo que desalineaba el desplazamiento respecto a la orientación real de la cámara.
+    - _Solución Técnica_: `OrbitCameraController.ApplyPan(...)` ahora proyecta el movimiento usando `transform.right` y `transform.up` normalizados, manteniendo el drag alineado al plano visual actual. Además se corrigió el texto del onboarding para reflejar los controles reales de mouse.
+    - _Resultado_: El paneo responde en el mismo marco local de la cámara y deja de sentirse como una traslación híbrida entre vista y mundo.
+
+8.  **Corrección de Cut en Blueprint con postproceso**:
+    - _Problema_: El recorte de `Cut` se veía bien en el pass principal de Blueprint, pero el edge detection seguía reconstruyendo contornos de geometría no recortada.
+    - _Causa raíz_: Los passes `DepthOnly` y `DepthNormals` no estaban aplicando `_GlobalClipPlane` ni `_GlobalClipPlane2`, así que el postproceso leía buffers inconsistentes con la geometría visible.
+    - _Solución Técnica_: Se añadió `positionWS` a ambos passes auxiliares y se replicó el descarte por clipping global antes de escribir profundidad y normales.
+    - _Resultado_: Blueprint pasa a alimentar el postproceso con depth/normals ya recortados, alineando el contorno técnico con el plano de corte activo.
+
+9.  **Separación de pan y pinch en touch**:
+    - _Problema_: Los gestos de dos dedos seguían ejecutando paneo y zoom en el mismo flujo, de modo que un desplazamiento vertical podía introducir zoom por ruido de pinch.
+    - _Solución Técnica_: `OrbitCameraController.HandleTouchInput()` ahora clasifica la intención del gesto por magnitud dominante entre `panDelta` y `pinchDelta`, aplicando sólo uno de los dos movimientos por frame.
+    - _Resultado_: El paneo touch deja de arrastrar zoom espurio y el pinch deja de contaminar el desplazamiento del foco.
+
+10. **Rebalanceo de contraste UI para fondos claros**:
+    - _Problema_: En presets claros (`Studio Light`, `White`, `Yellow`, `Day`) la UI entraba en un estado de bajo contraste: el sheet inferior se volvía casi blanco, los foldouts perdían legibilidad y la pill/barra inferior quedaba demasiado lavada sobre el fondo.
+    - _Solución Técnica_: Se rehizo el bloque `ui-light-bg` de `Theme.uss` usando superficies translúcidas oscurecidas para `details-sheet`, `actions-row` e `info-bar-peek`, con jerarquía tipográfica más fuerte, bordes más visibles y sliders/foldouts reajustados para lectura real. Además, `ProceduralIconBase` pasó a permitir paletas por icono y `ProceduralCloseIcon` quedó fijado a una paleta clara para conservar contraste dentro del sheet tintado.
+    - _Resultado_: La UI clara deja de sentirse "blanca sobre blanco" y pasa a leerse como un sistema tonal coherente, donde el panel inferior oscurece el color del environment en vez de desentonar con un bloque blanco opaco.
+
 ### Registro de Cambios (Febrero 18, 2026)
 
 1.  **Rediseño de Interfaz (UI Toolkit)**:

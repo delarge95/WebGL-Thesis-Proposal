@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using WebGL.Core.Utils;
 using WebGL.Core.Events;
+using WebGL.Core.Rendering;
 
 namespace WebGL.Core.Managers
 {
@@ -48,8 +49,8 @@ namespace WebGL.Core.Managers
         [SerializeField] private float xRayFresnelPower = 2f;
 
         [Header("Blueprint Settings")]
-        [SerializeField] private Color blueprintLineColor = new Color(0.2f, 0.4f, 1f);
-        [SerializeField] private Color blueprintBgColor = new Color(0.05f, 0.1f, 0.2f);
+        [SerializeField] private Color blueprintLineColor = new Color(0.85f, 0.9f, 1f);
+        [SerializeField] private Color blueprintBgColor = new Color(0.08f, 0.18f, 0.38f);
         [SerializeField] private float blueprintGridSize = 0.1f;
 
         private Dictionary<Renderer, Material[]> originalMaterials = new Dictionary<Renderer, Material[]>();
@@ -57,6 +58,12 @@ namespace WebGL.Core.Managers
         private bool isTransitioning = false;
 
         public ViewMode CurrentMode => currentMode;
+
+        /// <summary>
+        /// The fallback mode to return to when a temporary shader override is toggled off.
+        /// Set by UIEnvironmentPanel when Blueprint env is active.
+        /// </summary>
+        public ViewMode BaseMode { get; set; } = ViewMode.Realistic;
 
         public event Action<ViewMode> OnModeChanged;
 
@@ -129,7 +136,7 @@ namespace WebGL.Core.Managers
                     blueprintMaterial.name = "Blueprint";
                     blueprintMaterial.SetColor("_LineColor", blueprintLineColor);
                     blueprintMaterial.SetColor("_BackgroundColor", blueprintBgColor);
-                    blueprintMaterial.SetFloat("_GridScale", blueprintGridSize * 100f);
+                    blueprintMaterial.SetFloat("_GridScale", 20f);
                 }
                 else
                 {
@@ -212,6 +219,12 @@ namespace WebGL.Core.Managers
             currentMode = mode;
 
             StartCoroutine(TransitionToMode(mode));
+
+            // Toggle screen-space edge detection for Blueprint mode
+            bool needsEdges = mode == ViewMode.Blueprint;
+            EdgeDetectionFeature.GlobalEnabled = needsEdges;
+            if (needsEdges)
+                EdgeDetectionFeature.OverrideEdgeColor = blueprintLineColor;
 
             OnModeChanged?.Invoke(mode);
             EventBus.Publish(new ViewModeChangedEvent(mode != ViewMode.Realistic));

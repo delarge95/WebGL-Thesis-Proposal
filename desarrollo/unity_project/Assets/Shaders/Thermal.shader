@@ -19,6 +19,9 @@ Shader "WebGL/Thermal"
         _NoiseScale("Noise Scale", Range(1, 50)) = 10
         _NoiseSpeed("Noise Speed", Range(0, 2)) = 0.5
         _EdgeGlow("Edge Glow", Range(0, 2)) = 0.5
+        
+        [HideInInspector] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
+        [HideInInspector] _EmissionColor("Emission Color", Color) = (0, 0, 0, 0)
     }
 
     SubShader
@@ -78,6 +81,8 @@ Shader "WebGL/Thermal"
                 half _NoiseScale;
                 half _NoiseSpeed;
                 half _EdgeGlow;
+                half4 _BaseColor;
+                half4 _EmissionColor;
             CBUFFER_END
 
             // Global clipping (set by CrossSectionManager)
@@ -179,9 +184,91 @@ Shader "WebGL/Thermal"
                 float scanline = sin(IN.positionCS.y * 2.0) * 0.02 + 0.98;
                 color.rgb *= scanline;
                 
+                // Selection/hover highlight (driven by HighlightSystem)
+                // Use inverted luminance to guarantee contrast on hot/white areas
+                half thermalLum = dot(color.rgb, half3(0.299, 0.587, 0.114));
+                half3 contrastTint = lerp(_BaseColor.rgb, half3(0,0,0), thermalLum);
+                half highlightBlend = saturate(1.0 - _BaseColor.a);
+                // Overlay selection color with strong contrast
+                color.rgb = lerp(color.rgb, contrastTint, highlightBlend * 0.65);
+                color.rgb += _EmissionColor.rgb * (0.3 + highlightBlend * 0.4);
+                
                 color.rgb = MixFog(color.rgb, IN.fogFactor);
                 
                 return color;
+            }
+            ENDHLSL
+        }
+
+        // Depth-only pass for edge detection prepass
+        Pass
+        {
+            Name "DepthOnly"
+            Tags { "LightMode" = "DepthOnly" }
+
+            ZWrite On
+            ColorMask 0
+
+            HLSLPROGRAM
+            #pragma target 3.0
+            #pragma vertex vert
+            #pragma fragment frag
+
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+
+            struct Attributes { float4 positionOS : POSITION; };
+            struct Varyings { float4 positionCS : SV_POSITION; };
+
+            Varyings vert(Attributes IN)
+            {
+                Varyings OUT;
+                OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+                return OUT;
+            }
+
+            half4 frag(Varyings IN) : SV_Target { return 0; }
+            ENDHLSL
+        }
+
+        // DepthNormals pass for normal-based edge detection
+        Pass
+        {
+            Name "DepthNormals"
+            Tags { "LightMode" = "DepthNormalsOnly" }
+
+            ZWrite On
+
+            HLSLPROGRAM
+            #pragma target 3.0
+            #pragma vertex vert
+            #pragma fragment frag
+
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+                float3 normalOS : NORMAL;
+            };
+
+            struct Varyings
+            {
+                float4 positionCS : SV_POSITION;
+                float3 normalWS : TEXCOORD0;
+            };
+
+            Varyings vert(Attributes IN)
+            {
+                Varyings OUT;
+                OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+                OUT.normalWS = TransformObjectToWorldNormal(IN.normalOS);
+                return OUT;
+            }
+
+            half4 frag(Varyings IN) : SV_Target
+            {
+                float3 normal = normalize(IN.normalWS);
+                return half4(normal * 0.5 + 0.5, 1.0);
             }
             ENDHLSL
         }

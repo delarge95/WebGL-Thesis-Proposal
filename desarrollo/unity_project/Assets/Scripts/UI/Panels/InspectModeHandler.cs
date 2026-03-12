@@ -14,10 +14,12 @@ namespace WebGL.UI.Panels
         private readonly Button _hotspotBtn;
         private readonly Button _isolateBtn;
         private readonly Button _measureBtn;
+        private readonly Button _powerBtn;
 
         private bool _hotspotsEnabled = true;
         private bool _isIsolated;
         private bool _isMeasuring;
+        private bool _isPowered;
 
         // ── Events forwarded to orchestrator ──
         public event Action OnIsolateToggleRequested;
@@ -30,6 +32,7 @@ namespace WebGL.UI.Panels
             _hotspotBtn = container.Q<Button>("ToolHotspotBtn");
             _isolateBtn = container.Q<Button>("ToolIsolateBtn");
             _measureBtn = container.Q<Button>("ToolMeasureBtn");
+            _powerBtn = container.Q<Button>("ToolPowerBtn");
 
             BindCards();
         }
@@ -56,6 +59,23 @@ namespace WebGL.UI.Panels
                 Action onMeasure = () => DelayAction(ToggleMeasure);
                 _measureBtn.clicked += onMeasure;
                 AddCleanup(() => _measureBtn.clicked -= onMeasure);
+            }
+
+            if (_powerBtn != null)
+            {
+                Action onPower = () => DelayAction(TogglePower);
+                _powerBtn.clicked += onPower;
+                AddCleanup(() => _powerBtn.clicked -= onPower);
+            }
+
+            // Sync power button state with DroneStateController
+            var drone = DroneStateController.Instance;
+            if (drone != null)
+            {
+                _isPowered = drone.IsOn;
+                _powerBtn?.EnableInClassList("submenu-card--active", _isPowered);
+                drone.OnStateChanged += OnDroneStateChanged;
+                AddCleanup(() => drone.OnStateChanged -= OnDroneStateChanged);
             }
         }
 
@@ -100,6 +120,17 @@ namespace WebGL.UI.Panels
         {
             _isMeasuring = measuring;
             _measureBtn?.EnableInClassList("submenu-card--active", measuring);
+        }
+
+        public void TogglePower()
+        {
+            DroneStateController.Instance?.TogglePower();
+        }
+
+        private void OnDroneStateChanged(DroneState state)
+        {
+            _isPowered = state != DroneState.Off && state != DroneState.ShuttingDown;
+            _powerBtn?.EnableInClassList("submenu-card--active", _isPowered);
         }
 
         public override void Dispose()
