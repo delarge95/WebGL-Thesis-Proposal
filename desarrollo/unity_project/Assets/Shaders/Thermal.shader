@@ -20,6 +20,15 @@ Shader "WebGL/Thermal"
         _NoiseSpeed("Noise Speed", Range(0, 2)) = 0.5
         _EdgeGlow("Edge Glow", Range(0, 2)) = 0.5
         
+        [Header(Spatial Thermal - set via MaterialPropertyBlock)]
+        _ThermalMode("Mode (0=Uniform 1=Radial 2=Axial)", Float) = 0
+        _ThermalHotspotOS("Hotspot OS", Vector) = (0, 0, 0, 0)
+        _ThermalDirectionOS("Direction OS", Vector) = (0, 1, 0, 0)
+        _ThermalSpread("Spread", Float) = 0.1
+        _ThermalEdgeCooling("Edge Cooling", Float) = 0.22
+        _ThermalBaseVariation("Base Variation", Float) = 0.08
+        _ThermalPropagation("Propagation", Float) = 1.0
+        
         [HideInInspector] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
         [HideInInspector] _EmissionColor("Emission Color", Color) = (0, 0, 0, 0)
     }
@@ -64,6 +73,7 @@ Shader "WebGL/Thermal"
                 float3 viewDirWS : TEXCOORD2;
                 float2 uv : TEXCOORD3;
                 float fogFactor : TEXCOORD4;
+                float3 positionOS : TEXCOORD5;
             };
 
             TEXTURE2D(_BaseMap);
@@ -81,6 +91,13 @@ Shader "WebGL/Thermal"
                 half _NoiseScale;
                 half _NoiseSpeed;
                 half _EdgeGlow;
+                half _ThermalMode;
+                half4 _ThermalHotspotOS;
+                half4 _ThermalDirectionOS;
+                half _ThermalSpread;
+                half _ThermalEdgeCooling;
+                half _ThermalBaseVariation;
+                half _ThermalPropagation;
                 half4 _BaseColor;
                 half4 _EmissionColor;
             CBUFFER_END
@@ -128,6 +145,46 @@ Shader "WebGL/Thermal"
                 }
             }
 
+            // Spatial temperature modulation:
+            // Mode 0 (Uniform): temperature is constant across the surface
+            // Mode 1 (Radial): temperature decreases with distance from hotspot
+            // Mode 2 (Axial): temperature decreases along the direction axis from hotspot
+            half ComputeSpatialFactor(float3 posOS)
+            {
+                half mode = _ThermalMode;
+                half3 hotspot = _ThermalHotspotOS.xyz;
+                half3 direction = normalize(_ThermalDirectionOS.xyz + half3(0.0001, 0.0001, 0.0001));
+                half spread = max(_ThermalSpread, 0.01);
+                half propagation = _ThermalPropagation;
+
+                // Uniform mode: no spatial variation
+                if (mode < 0.5)
+                {
+                    return 1.0;
+                }
+
+                float3 offset = posOS - hotspot;
+
+                half dist;
+                if (mode < 1.5)
+                {
+                    // Radial: spherical distance from hotspot
+                    dist = length(offset);
+                }
+                else
+                {
+                    // Axial: distance along the direction axis from hotspot
+                    dist = abs(dot(offset, direction));
+                }
+
+                // Normalized falloff: 1.0 at hotspot, 0.0 at spread distance
+                half falloff = saturate(1.0 - dist / spread);
+                // Apply propagation as a power curve for shaping
+                falloff = pow(falloff, max(1.0 / propagation, 0.2));
+
+                return falloff;
+            }
+
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
@@ -138,6 +195,7 @@ Shader "WebGL/Thermal"
                 OUT.viewDirWS = GetWorldSpaceNormalizeViewDir(OUT.positionWS);
                 OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
                 OUT.fogFactor = ComputeFogFactor(OUT.positionCS.z);
+                OUT.positionOS = IN.positionOS.xyz;
 
                 return OUT;
             }
@@ -159,37 +217,48 @@ Shader "WebGL/Thermal"
                 half3 normalWS = normalize(IN.normalWS);
                 half3 viewDirWS = normalize(IN.viewDirWS);
                 
-                // Sample base texture for heat variation
-                half baseHeat = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv).r;
+                // Base temperature band from solver (via MaterialPropertyBlock)
+                half baseTempCenter = (_MinTemp + _MaxTemp) * 0.5;
+                half baseTempRange = max(_MaxTemp - _MinTemp, 0.001);
+
+                // Spatial temperature modulation (radial/axial/uniform)
+                half spatialFactor = ComputeSpatialFactor(IN.positionOS);
                 
-                // Animated noise for heat shimmer
+                // Edge cooling: reduce temperature at surface edges (fresnel)
+                half ndotv = saturate(dot(normalWS, viewDirWS));
+                half edgeCool = (1.0 - ndotv) * _ThermalEdgeCooling;
+                
+                // Edge glow: visual highlight at silhouette edges
+                half edgeGlow = (1.0 - ndotv) * _EdgeGlow;
+                
+                // Animated noise for heat shimmer (modulated by temperature, not driving it)
                 float2 noiseUV = IN.positionWS.xz * _NoiseScale;
                 noiseUV += _Time.y * _NoiseSpeed;
-                float heatNoise = noise(noiseUV) * _TempVariation;
+                half heatNoise = (noise(noiseUV) - 0.5) * _ThermalBaseVariation;
                 
-                // Edge glow (fresnel)
-                half ndotv = saturate(dot(normalWS, viewDirWS));
-                half edgeHeat = (1.0 - ndotv) * _EdgeGlow;
+                // Sample base texture for micro-variation
+                half baseHeat = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv).r;
+                half texVariation = (baseHeat - 0.5) * _TempVariation;
                 
-                // Combine temperature factors
-                half temperature = lerp(_MinTemp, _MaxTemp, baseHeat);
-                temperature += heatNoise - _TempVariation * 0.5;
-                temperature += edgeHeat;
+                // Combine: solver temperature × spatial falloff + perturbations
+                half temperature = baseTempCenter * spatialFactor;
+                temperature -= edgeCool * baseTempRange;
+                temperature += heatNoise;
+                temperature += texVariation * baseTempRange * 0.3;
+                temperature += edgeGlow * 0.08;
                 temperature = saturate(temperature);
                 
                 // Get color from thermal gradient
                 half4 color = GetThermalColor(temperature);
                 
-                // Add some scanline effect
-                float scanline = sin(IN.positionCS.y * 2.0) * 0.02 + 0.98;
+                // Subtle scanline effect for technical look
+                float scanline = sin(IN.positionCS.y * 2.0) * 0.015 + 0.985;
                 color.rgb *= scanline;
                 
                 // Selection/hover highlight (driven by HighlightSystem)
-                // Use inverted luminance to guarantee contrast on hot/white areas
                 half thermalLum = dot(color.rgb, half3(0.299, 0.587, 0.114));
                 half3 contrastTint = lerp(_BaseColor.rgb, half3(0,0,0), thermalLum);
                 half highlightBlend = saturate(1.0 - _BaseColor.a);
-                // Overlay selection color with strong contrast
                 color.rgb = lerp(color.rgb, contrastTint, highlightBlend * 0.65);
                 color.rgb += _EmissionColor.rgb * (0.3 + highlightBlend * 0.4);
                 
