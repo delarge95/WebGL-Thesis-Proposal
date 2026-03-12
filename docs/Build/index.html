@@ -54,15 +54,16 @@
         updateBannerVisibility();
       }
 
-      // Latest mobile-ready build (brotli-compressed artifacts)
-      var buildUrl = "Build/Build/Build";
-      var loaderUrl = buildUrl + "/9e25d1bd13d2f238df2d2c9dc7c48aab.loader.js";
+      // GitHub Pages does not reliably serve .br with Content-Encoding.
+      // Use uncompressed artifacts to avoid gray-screen startup failures.
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/ab2f3f6e350829ea42e221d969487f1f.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/9bdf98bd931455f4b3bd473ff9c17f65.data.br",
+        dataUrl: buildUrl + "/a7fc5c2760f880a46e2e6226c6e7da3f.data",
         frameworkUrl:
-          buildUrl + "/2fa062a8cf53aa74de78a6a0d53a1b67.framework.js.br",
-        codeUrl: buildUrl + "/14cd36a5c7eb022a2fb8c8881dbac922.wasm.br",
+          buildUrl + "/2fa062a8cf53aa74de78a6a0d53a1b67.framework.js",
+        codeUrl: buildUrl + "/2f04370d9fd995f9c7a950fb9931eced.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "UNAD",
         productName: "WebGL Drone Viewer",
