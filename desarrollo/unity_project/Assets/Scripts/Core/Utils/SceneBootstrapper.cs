@@ -1,7 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using WebGL.Core.Managers;
 using WebGL.Core.Content;
+using WebGL.Core.Managers;
+using WebGL.Core.Thermal;
 
 namespace WebGL.Core.Utils
 {
@@ -15,7 +16,7 @@ namespace WebGL.Core.Utils
         [SerializeField] private Transform droneRoot;
         [SerializeField] private Transform cameraRig;
         [SerializeField] private Light mainLight;
-        
+
         [Header("Configuration")]
         [SerializeField] private bool autoInitialize = true;
         [SerializeField] private bool showDebugInfo = true;
@@ -38,13 +39,11 @@ namespace WebGL.Core.Utils
 
         private void ValidateManagers()
         {
-            // Core managers that should exist
             EnsureManager<GameManager>("GameManager");
             EnsureManager<SelectionManager>("SelectionManager");
             EnsureManager<AudioManager>("AudioManager");
             EnsureManager<NotificationManager>("NotificationManager");
-            
-            // Feature managers
+
             EnsureManager<ExplodedViewManager>("ExplodedViewManager");
             EnsureManager<ViewModeManager>("ViewModeManager");
             EnsureManager<PartCatalogManager>("PartCatalogManager");
@@ -52,8 +51,9 @@ namespace WebGL.Core.Utils
             EnsureManager<CrossSectionManager>("CrossSectionManager");
             EnsureManager<DroneStateController>("DroneStateController");
             EnsureManager<ModularPartsSystem>("ModularPartsSystem");
-            
-            // Engineer tools
+            EnsureManager<ThermalSimulationManager>("ThermalSimulationManager");
+            EnsureManager<ThermalViewController>("ThermalViewController");
+
             EnsureManager<AssemblyGuideManager>("AssemblyGuideManager");
             EnsureManager<MeasurementTool>("MeasurementTool");
             EnsureManager<ConnectionPointsViewer>("ConnectionPointsViewer");
@@ -61,7 +61,6 @@ namespace WebGL.Core.Utils
             EnsureManager<AnnotationSystem>("AnnotationSystem");
             EnsureManager<AssemblyChecklist>("AssemblyChecklist");
 
-            // Performance
             EnsureManager<QualityManager>("QualityManager");
         }
 
@@ -70,7 +69,7 @@ namespace WebGL.Core.Utils
             if (FindAnyObjectByType<T>() == null)
             {
                 Debug.LogWarning($"[SceneBootstrapper] Missing manager: {name}. Creating default.");
-                var go = new GameObject($"_{name}");
+                GameObject go = new GameObject($"_{name}");
                 go.AddComponent<T>();
             }
         }
@@ -81,24 +80,24 @@ namespace WebGL.Core.Utils
             Debug.Log($"Scene: {SceneManager.GetActiveScene().name}");
             Debug.Log($"Platform: {Application.platform}");
             Debug.Log($"Quality Level: {QualitySettings.names[QualitySettings.GetQualityLevel()]}");
-            
-            // Count parts
-            var parts = FindObjectsByType<Content.ExplodablePart>(FindObjectsSortMode.None);
+
+            ExplodablePart[] parts = FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None);
             Debug.Log($"Explodable Parts: {parts.Length}");
-            
-            // Check managers
+
             LogManagerStatus<GameManager>("GameManager");
             LogManagerStatus<SelectionManager>("SelectionManager");
             LogManagerStatus<ViewModeManager>("ViewModeManager");
             LogManagerStatus<ExplodedViewManager>("ExplodedViewManager");
-            
+            LogManagerStatus<ThermalSimulationManager>("ThermalSimulationManager");
+            LogManagerStatus<ThermalViewController>("ThermalViewController");
+
             Debug.Log("==========================================");
         }
 
         private void LogManagerStatus<T>(string name) where T : Component
         {
-            var manager = FindAnyObjectByType<T>();
-            string status = manager != null ? "✓" : "✗";
+            T manager = FindAnyObjectByType<T>();
+            string status = manager != null ? "OK" : "MISSING";
             Debug.Log($"  {status} {name}");
         }
 
@@ -106,15 +105,13 @@ namespace WebGL.Core.Utils
         public void ValidateSceneSetup()
         {
             bool valid = true;
-            
-            // Check camera
+
             if (Camera.main == null)
             {
                 Debug.LogError("[SceneBootstrapper] No main camera found!");
                 valid = false;
             }
-            
-            // Check lighting
+
             if (mainLight == null)
             {
                 mainLight = FindAnyObjectByType<Light>();
@@ -123,24 +120,22 @@ namespace WebGL.Core.Utils
                     Debug.LogWarning("[SceneBootstrapper] No directional light found!");
                 }
             }
-            
-            // Check drone
+
             if (droneRoot == null)
             {
-                var parts = FindObjectsByType<Content.ExplodablePart>(FindObjectsSortMode.None);
+                ExplodablePart[] parts = FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None);
                 if (parts.Length == 0)
                 {
                     Debug.LogWarning("[SceneBootstrapper] No ExplodablePart components found!");
                 }
             }
-            
-            // Check UI
-            var uiDocument = FindAnyObjectByType<UnityEngine.UIElements.UIDocument>();
+
+            UnityEngine.UIElements.UIDocument uiDocument = FindAnyObjectByType<UnityEngine.UIElements.UIDocument>();
             if (uiDocument == null)
             {
                 Debug.LogWarning("[SceneBootstrapper] No UIDocument found for UI Toolkit!");
             }
-            
+
             if (valid)
             {
                 Debug.Log("[SceneBootstrapper] Scene validation passed!");
@@ -150,8 +145,8 @@ namespace WebGL.Core.Utils
         [ContextMenu("Create Default Managers GameObject")]
         public void CreateDefaultManagersObject()
         {
-            var managersGO = new GameObject("_GameManagers");
-            
+            GameObject managersGO = new GameObject("_GameManagers");
+
             managersGO.AddComponent<GameManager>();
             managersGO.AddComponent<SelectionManager>();
             managersGO.AddComponent<AudioManager>();
@@ -163,13 +158,15 @@ namespace WebGL.Core.Utils
             managersGO.AddComponent<CrossSectionManager>();
             managersGO.AddComponent<DroneStateController>();
             managersGO.AddComponent<ModularPartsSystem>();
+            managersGO.AddComponent<ThermalSimulationManager>();
+            managersGO.AddComponent<ThermalViewController>();
             managersGO.AddComponent<AssemblyGuideManager>();
             managersGO.AddComponent<MeasurementTool>();
             managersGO.AddComponent<ConnectionPointsViewer>();
             managersGO.AddComponent<BillOfMaterialsManager>();
             managersGO.AddComponent<AnnotationSystem>();
             managersGO.AddComponent<AssemblyChecklist>();
-            
+
             Debug.Log("[SceneBootstrapper] Created _GameManagers with all manager components.");
         }
     }

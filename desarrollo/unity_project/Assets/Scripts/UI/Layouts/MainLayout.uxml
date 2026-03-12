@@ -1,9 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns:pi="WebGL.UI.ProceduralIcons" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Styles/Theme.uss" />
     
-    <!-- ═══════════════════════════════════════════════
-         Root Container — MUST be Ignore so clicks pass to 3D scene
-         ═══════════════════════════════════════════════ -->
+    <!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+         Root Container Ã¢â‚¬â€ MUST be Ignore so clicks pass to 3D scene
+         Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
     <ui:VisualElement name="Root" class="root-container" picking-mode="Ignore">
         
         <!-- World Space UI Container (hotspots) -->
@@ -19,10 +19,10 @@
             </ui:Button>
         </ui:VisualElement>
 
-        <!-- ═══════════════════════════════════════════════
-             Bottom Sheet (Details — slides up from very bottom)
+        <!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+             Bottom Sheet (Details Ã¢â‚¬â€ slides up from very bottom)
              Rendered BEFORE BottomBar so bar stays on top visually
-             ═══════════════════════════════════════════════ -->
+             Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
         <ui:VisualElement name="BottomSheet" class="details-sheet details-sheet--hidden" picking-mode="Ignore">
             <ui:VisualElement class="sheet-handle" picking-mode="Ignore" />
             
@@ -31,7 +31,7 @@
                 <ui:Label text="SELECT A PART" name="SheetTitle" class="sheet-title" picking-mode="Ignore" />
             </ui:VisualElement>
 
-            <!-- Close button — absolute top-right of sheet, above header -->
+            <!-- Close button Ã¢â‚¬â€ absolute top-right of sheet, above header -->
             <ui:Button name="SheetCloseBtn" class="sheet-close-btn" tooltip="Close panel">
                 <pi:ProceduralCloseIcon class="sheet-close-icon" picking-mode="Ignore" />
             </ui:Button>
@@ -40,7 +40,7 @@
             <ui:VisualElement name="SheetContent_Details" class="sheet-content sheet-content--active" picking-mode="Ignore">
                 <ui:ScrollView class="sheet-scroll" mode="Vertical" touch-scroll-type="Elastic" picking-mode="Position">
 
-                    <!-- Part Description — editorial subtitle directly below title -->
+                    <!-- Part Description Ã¢â‚¬â€ editorial subtitle directly below title -->
                     <ui:Label name="PartDescription" class="sheet-description" picking-mode="Ignore" />
 
                     <!-- Section 1: Identification -->
@@ -99,14 +99,14 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- ═══════════════════════════════════════════════
-             Bottom Bar — Mode containers + master buttons + label
+        <!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+             Bottom Bar Ã¢â‚¬â€ Mode containers + master buttons + label
              Mode containers live INSIDE the bar so they shift
              together when the info sheet pushes the bar up.
-             ═══════════════════════════════════════════════ -->
+             Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
         <ui:VisualElement name="BottomBar" class="bottom-bar" picking-mode="Ignore">
 
-            <!-- ═══ INSPECT MODE ═══ Info, Pins, Isolate (all toggles) -->
+            <!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â INSPECT MODE Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â Info, Pins, Isolate (all toggles) -->
             <ui:VisualElement name="ToolsModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
                 <ui:VisualElement name="ToolsCardGrid" class="mode-submenu" picking-mode="Position">
                     <ui:Label text="INSPECT" class="submenu-title" picking-mode="Ignore"/>
@@ -123,19 +123,20 @@
                             <pi:ProceduralPowerIcon class="submenu-icon" picking-mode="Ignore"/>
                             <ui:Label text="POWER" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
-                        <!-- Measure tool hidden — planned for future release (see PLAN_TRABAJO_FINAL.md)
-                        <ui:Button name="ToolMeasureBtn" class="submenu-card" tooltip="Measure Distance">
-                            <pi:ProceduralMeasureIcon class="submenu-icon" picking-mode="Ignore"/>
-                            <ui:Label text="MEASURE" class="submenu-label" picking-mode="Ignore"/>
-                        </ui:Button>
-                        -->
                     </ui:VisualElement>
+
+                    <ui:VisualElement name="PowerInlineSlider" class="env-slider-group" picking-mode="Position">
+                        <ui:Label text="LOAD" class="env-slider-label" picking-mode="Ignore" />
+                        <ui:Slider name="PowerLoadSlider" low-value="0" high-value="100" value="35" class="glass-slider env-slider" picking-mode="Position" />
+                        <ui:Label name="PowerLoadValue" text="35%" class="explosion-value-label" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <!-- Measure tool hidden - planned for future release (see Informe_final/Desarrollo_App/hojas_de_ruta/PLAN_TRABAJO_FINAL.md) -->
                 </ui:VisualElement>
             </ui:VisualElement>
 
-            <!-- ═══ ANALYZE MODE ═══ Cut, Explode, Filter -->
+            <!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â ANALYZE MODE Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â Cut, Explode, Filter -->
             <ui:VisualElement name="AnalyzeModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
-                <!-- Level 1 — Card Grid -->
+                <!-- Level 1 Ã¢â‚¬â€ Card Grid -->
                 <ui:VisualElement name="AnalyzeCardGrid" class="mode-submenu" picking-mode="Position">
                     <ui:Label text="ANALYZE" class="submenu-title" picking-mode="Ignore"/>
                     <ui:VisualElement class="submenu-grid">
@@ -160,7 +161,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
 
-                <!-- Level 2a — Cross-Section Panel -->
+                <!-- Level 2a Ã¢â‚¬â€ Cross-Section Panel -->
                 <ui:VisualElement name="CrossSectionPanel" class="mode-submenu cross-section-panel submenu--hidden" picking-mode="Position">
                     <ui:Label text="CROSS SECTION" class="submenu-title" picking-mode="Ignore" />
                     <ui:VisualElement class="cross-section-axis-group" picking-mode="Position">
@@ -174,24 +175,24 @@
                             <ui:Label text="Z" class="cross-section-axis-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="CrossSectionInvertBtn" class="cross-section-axis-btn">
-                            <ui:Label text="⇅" class="cross-section-axis-label" picking-mode="Ignore"/>
+                            <ui:Label text="Ã¢â€¡â€¦" class="cross-section-axis-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="CrossSectionCombineBtn" class="cross-section-axis-btn" style="display: none;">
-                            <ui:Label text="∠" class="cross-section-axis-label" picking-mode="Ignore"/>
+                            <ui:Label text="Ã¢Ë†Â " class="cross-section-axis-label" picking-mode="Ignore"/>
                         </ui:Button>
                     </ui:VisualElement>
                     <ui:Slider name="CrossSectionPosition" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
                     <ui:VisualElement name="CrossSectionControls2" class="cross-section-controls" style="display: none;">
                         <ui:VisualElement class="cross-section-axis-group" picking-mode="Position">
                             <ui:Button name="CrossSectionInvertBtn2" class="cross-section-axis-btn">
-                                <ui:Label text="⇅ 2" class="cross-section-axis-label" picking-mode="Ignore"/>
+                                <ui:Label text="Ã¢â€¡â€¦ 2" class="cross-section-axis-label" picking-mode="Ignore"/>
                             </ui:Button>
                         </ui:VisualElement>
                         <ui:Slider name="CrossSectionPosition2" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
                     </ui:VisualElement>
                 </ui:VisualElement>
 
-                <!-- Level 2c — Filter Sub-Panel -->
+                <!-- Level 2c Ã¢â‚¬â€ Filter Sub-Panel -->
                 <ui:VisualElement name="FilterSubPanel" class="mode-submenu submenu--hidden" picking-mode="Position">
                     <ui:Label text="FILTER CATEGORY" class="submenu-title" picking-mode="Ignore"/>
                     <ui:VisualElement class="submenu-grid">
@@ -223,7 +224,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
 
-            <!-- ═══ STUDIO MODE ═══ Shaders + Environment + Lighting (single panel) -->
+            <!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â STUDIO MODE Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â Shaders + Environment + Lighting (single panel) -->
             <ui:VisualElement name="StudioModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
                 <ui:VisualElement name="StudioPanel" class="mode-submenu" picking-mode="Position">
                     <!-- Shader Section -->
@@ -292,24 +293,24 @@
                 </ui:VisualElement>
             </ui:VisualElement>
 
-            <!-- Mode Buttons Row — 3 master modes -->
+            <!-- Mode Buttons Row Ã¢â‚¬â€ 3 master modes -->
             <ui:VisualElement class="actions-row" picking-mode="Ignore">
-                <ui:Button name="ModeToolsBtn" class="mode-btn" tooltip="Inspect — Pins, Isolate, Measure">
+                <ui:Button name="ModeToolsBtn" class="mode-btn" tooltip="Inspect Ã¢â‚¬â€ Pins, Isolate, Measure">
                     <pi:ProceduralInspectIcon class="mode-btn-icon" picking-mode="Ignore"/>
                     <ui:Label text="INSPECT" class="mode-btn-label" picking-mode="Ignore"/>
                 </ui:Button>
-                <ui:Button name="ModeAnalyzeBtn" class="mode-btn" tooltip="Analyze — Cut, Explode, Filter">
+                <ui:Button name="ModeAnalyzeBtn" class="mode-btn" tooltip="Analyze Ã¢â‚¬â€ Cut, Explode, Filter">
                     <pi:ProceduralAnalyzeIcon class="mode-btn-icon" picking-mode="Ignore"/>
                     <ui:Label text="ANALYZE" class="mode-btn-label" picking-mode="Ignore"/>
                 </ui:Button>
-                <ui:Button name="ModeStudioBtn" class="mode-btn" tooltip="Studio — Shaders, Environment &amp; Lighting">
+                <ui:Button name="ModeStudioBtn" class="mode-btn" tooltip="Studio Ã¢â‚¬â€ Shaders, Environment &amp; Lighting">
                     <pi:ProceduralStudioIcon class="mode-btn-icon" picking-mode="Ignore"/>
                     <ui:Label text="STUDIO" class="mode-btn-label" picking-mode="Ignore"/>
                 </ui:Button>
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- ═══ PRE-PEEK INFO BAR (Option 1) ═══
+        <!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â PRE-PEEK INFO BAR (Option 1) Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
              Appears at the very bottom when a part is selected. -->
         <ui:Button name="InfoBarPeek" class="info-bar-peek info-bar-peek--hidden" picking-mode="Position">
             <ui:VisualElement class="peek-handle" picking-mode="Ignore" />
@@ -318,10 +319,10 @@
 
     </ui:VisualElement>
 
-    <!-- ═══════════════════════════════════════════════
-         Hero / Pre-Load Menu (overlay — LAST so it's on top)
+    <!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+         Hero / Pre-Load Menu (overlay Ã¢â‚¬â€ LAST so it's on top)
          picking-mode Ignore when hidden so it doesn't block 3D clicks
-         ═══════════════════════════════════════════════ -->
+         Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
     <ui:VisualElement name="HeroContainer" class="hero-container">
         <!-- Main Hero Content -->
         <ui:VisualElement name="HeroMain" style="width: 100%; height: 100%; align-items: center; justify-content: center;">
@@ -341,9 +342,9 @@
             <ui:Button name="SubmenuBackBtn_Devices" class="btn-back" text="&lt;" />
             <ui:Label text="Select device" class="hero-title" />
             <ui:ScrollView class="submenu-scroll device-scroll" mode="Vertical" touch-scroll-type="Elastic">
-                <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="🛸  DJI Phantom 4 Pro" />
-                <ui:Button name="DeviceBtn_Robot" class="device-option" text="🤖  Boston Dynamics Spot" enabled="false" />
-                <ui:Button name="DeviceBtn_Satellite" class="device-option" text="🛰️  CubeSat 3U" enabled="false" />
+                <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="Ã°Å¸â€ºÂ¸  DJI Phantom 4 Pro" />
+                <ui:Button name="DeviceBtn_Robot" class="device-option" text="Ã°Å¸Â¤â€“  Boston Dynamics Spot" enabled="false" />
+                <ui:Button name="DeviceBtn_Satellite" class="device-option" text="Ã°Å¸â€ºÂ°Ã¯Â¸Â  CubeSat 3U" enabled="false" />
             </ui:ScrollView>
         </ui:VisualElement>
 
@@ -353,7 +354,7 @@
             <ui:Label text="About" class="hero-title" />
             <ui:ScrollView class="submenu-scroll" mode="Vertical" touch-scroll-type="Elastic">
                 <ui:Label text="Interactive 3D drone visualization for engineering education. Built with Unity WebGL." class="about-desc" />
-                <ui:Label text="Thesis Project — 2026" class="about-credit" />
+                <ui:Label text="Thesis Project Ã¢â‚¬â€ 2026" class="about-credit" />
                 <ui:Button text="VIEW PROJECT ON GITHUB" class="btn btn-ghost btn-wide" />
                 <ui:VisualElement class="about-separator" />
                 <ui:Button name="HeroHelpBtn" text="VIEW TUTORIAL" class="btn btn-ghost btn-wide" />
@@ -374,9 +375,9 @@
         <!-- Device Selector removed / moved to BottomSheet -->
     </ui:VisualElement>
 
-    <!-- ═══════════════════════════════════════════════
-         Onboarding Overlay (first-visit help — LAST so it's on top of everything)
-         ═══════════════════════════════════════════════ -->
+    <!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+         Onboarding Overlay (first-visit help Ã¢â‚¬â€ LAST so it's on top of everything)
+         Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
     <ui:VisualElement name="OnboardingOverlay" class="onboard-overlay" style="display: none;">
         <ui:VisualElement class="onboard-card">
             <!-- Step counter -->
@@ -384,7 +385,7 @@
 
             <!-- Icon area -->
             <ui:VisualElement name="OnboardStepIcon" class="onboard-icon-area" picking-mode="Ignore">
-                <ui:Label name="OnboardIconLabel" text="🖱" class="onboard-icon" picking-mode="Ignore" />
+                <ui:Label name="OnboardIconLabel" text="Ã°Å¸â€“Â±" class="onboard-icon" picking-mode="Ignore" />
             </ui:VisualElement>
 
             <!-- Title + Description -->

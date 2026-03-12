@@ -27,6 +27,21 @@ namespace WebGL.Core.Data
         public float maxLoad; // kg or N
         public float operatingTemp; // Celsius
 
+        [Header("Thermal")]
+        public float operatingTempMin = 20f;
+        public float operatingTempMax = 80f;
+        public float thermalHover = 25f;
+        public float thermalPeak = 40f;
+        public float thermalWarmupSeconds = 8f;
+        public string thermalProfile;
+        public string thermalMaterialKey;
+        public bool isThermallyCritical = false;
+        public bool inheritParentThermal = false;
+        [Range(0.1f, 2f)] public float thermalMassScale = 1f;
+        [Range(0f, 1f)] public float thermalExposure = 0.5f;
+        [Range(0f, 2f)] public float thermalSourceWeight = 1f;
+        [Range(0f, 2f)] public float thermalConductionScale = 1f;
+
         [Header("Visuals")]
         public Sprite icon;
         public Color highlightColor = Color.cyan;
@@ -73,8 +88,8 @@ namespace WebGL.Core.Data
 
         public string GetAssemblyInfo()
         {
-            var info = $"Assembly Information\n──────────────────\n";
-            info += $"Difficulty: {new string('★', difficultyLevel)}{new string('☆', 5 - difficultyLevel)}\n";
+            var info = $"Assembly Information\n{new string('-', 18)}\n";
+            info += $"Difficulty: {new string('\u2605', difficultyLevel)}{new string('\u2606', 5 - difficultyLevel)}\n";
             info += $"Time: ~{installationTimeMinutes:F0} minutes\n";
             
             if (requiredTools != null && requiredTools.Length > 0)
@@ -94,7 +109,7 @@ namespace WebGL.Core.Data
 
             if (!string.IsNullOrEmpty(installationTips))
             {
-                info += $"\n💡 Tip: {installationTips}";
+                info += $"\nTip: {installationTips}";
             }
 
             return info;
