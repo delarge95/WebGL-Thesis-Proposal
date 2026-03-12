@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-03-12] Etapa 2: Bootstrap termico, verificacion Wolfram, retopologia
+
+- ix(bootstrap): SceneBootstrapper ahora inicializa ThermalSimulationManager y ThermalViewController en runtime.
+- docs(thermal): Verificacion V002 de escalas de conductividad contra datos de ingenieria (7 materiales). Documentado en wolfram_verificaciones.md.
+- docs(thermal): Creada guia de retopologia RETOPOLOGIA_POR_PIEZA.md con clasificacion de 28 piezas en 3 tiers.
+- ix(docs): Corregidas afirmaciones falsas en INDICE_TERMICO.md sobre SceneBootstrapper y Thermal.shader.
+- docs(solver): Agregado comentario V002 a EstimateMaterialConductivityScale() documentando la compresion deliberada de escalas.
+
+
 ## Leyenda de Prefijos
 
 | Prefijo    | Significado                           |

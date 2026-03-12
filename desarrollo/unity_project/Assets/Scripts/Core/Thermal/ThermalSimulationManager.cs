@@ -661,6 +661,13 @@ namespace WebGL.Core.Thermal
             return ThermalSourceClass.Passive;
         }
 
+        // V002 — Wolfram Verification: These are deliberately compressed conductivity scales
+        // (0.18–1.8) not real k ratios (0.017–24.1 normalized to steel).
+        // Real values: Cu=390, Al=167, Steel=16.2, CF=2.5, FR4=0.30, LiPo=0.50, Nylon=0.28 W/(m·K).
+        // Compression prevents metallic parts from reaching equilibrium in 1 frame while
+        // insulating parts show imperceptible gradients. Prioritizes visual credibility over
+        // numerical accuracy, consistent with the V1 scope.
+        // See: desarrollo/docs/sistema_termico/wolfram_verificaciones.md#V002
         private static float EstimateMaterialConductivityScale(string materialType)
         {
             if (string.IsNullOrWhiteSpace(materialType))

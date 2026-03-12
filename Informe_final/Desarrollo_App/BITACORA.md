@@ -6,6 +6,38 @@
 
 ---
 
+## Registro de Cambios (Marzo 12, 2026) - Etapa 2: Bootstrap termico, verificacion Wolfram, retopologia
+
+### Objetivo
+
+Completar los cimientos de la Etapa 2 del sistema termico: asegurar que el solver y la capa visual se inicialicen en runtime, verificar las constantes de conductividad con datos de ingenieria, y proveer guia de retopologia al pipeline 3D.
+
+### Acciones Realizadas
+
+1. **Commit baseline del trabajo de Codex**:
+   - _Accion_: Se comitio todo el trabajo que Codex dejo sin committear en la branch `thermal-simulation`.
+   - _Justificacion_: Crear un punto de restauracion antes de modificaciones adicionales.
+2. **Correccion de SceneBootstrapper**:
+   - _Implementacion_: Se agrego `EnsureManager<ThermalSimulationManager>` y `EnsureManager<ThermalViewController>` en `SceneBootstrapper.ValidateManagers()`.
+   - _Resultado_: El sistema termico ahora se inicializa automaticamente en runtime. La documentacion previa decia que esto estaba hecho, pero no lo estaba.
+3. **Verificacion Wolfram V002 — Escalas de conductividad**:
+   - _Accion_: Se verificaron las 7 escalas de conductividad de `EstimateMaterialConductivityScale()` contra datos de ingenieria (fuentes citadas).
+   - _Resultado_: Las escalas son heuristicas comprimidas (rango 0.18–1.8 vs real 0.017–24.1). Se documento la justificacion de la compresion y se agrego comentario al codigo fuente.
+4. **Guia de retopologia por pieza**:
+   - _Implementacion_: Se creo `RETOPOLOGIA_POR_PIEZA.md` clasificando las 28 piezas en 3 tiers con presupuesto de poligonos, requisitos UV y funcion termica.
+   - _Resultado_: Pipeline 3D tiene criterios claros para retopologizar segun prioridad termica.
+5. **Correccion de documentacion**:
+   - _Accion_: Se corrigieron afirmaciones falsas en `INDICE_TERMICO.md` sobre el SceneBootstrapper y el shader.
+   - _Resultado_: La documentacion ahora refleja el estado real del codigo.
+
+### Estado Actual
+
+- Etapa 2 en progreso: bootstrap funcional, verificacion de constantes iniciada, guia de retopologia entregada.
+- Shader pendiente de recibir parametros espaciales (Etapa 3).
+- Asignacion de ThermalSurfaceProfile pendiente para piezas criticas.
+
+---
+
 ## Registro de Cambios (Marzo 12, 2026) - Fundacion del Sistema Termico Hibrido
 
 ### Objetivo

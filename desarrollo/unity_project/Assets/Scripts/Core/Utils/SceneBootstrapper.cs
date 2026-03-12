@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using WebGL.Core.Managers;
 using WebGL.Core.Content;
+using WebGL.Core.Thermal;
 
 namespace WebGL.Core.Utils
 {
@@ -63,6 +64,10 @@ namespace WebGL.Core.Utils
 
             // Performance
             EnsureManager<QualityManager>("QualityManager");
+
+            // Thermal simulation
+            EnsureManager<ThermalSimulationManager>("ThermalSimulationManager");
+            EnsureManager<ThermalViewController>("ThermalViewController");
         }
 
         private void EnsureManager<T>(string name) where T : Component

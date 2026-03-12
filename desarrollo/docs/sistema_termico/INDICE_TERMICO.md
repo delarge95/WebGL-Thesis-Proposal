@@ -77,7 +77,7 @@ Si algun enlace del chat o del visor interno abre un archivo vacio, toma este in
   - Expone `SystemLoadFactor` y sincroniza carga con animacion/estado.
 
 - `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Utils\SceneBootstrapper.cs`
-  - Asegura la carga de `ThermalSimulationManager` y `ThermalViewController` en escena.
+  - Asegura la carga de `ThermalSimulationManager` y `ThermalViewController` en escena (corregido 2026-03-12).
 
 - `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Data\DronePartData.cs`
   - Ya tiene campos termicos agregados para la V1.
@@ -93,8 +93,8 @@ Si algun enlace del chat o del visor interno abre un archivo vacio, toma este in
 ### 6. Render termico
 
 - `E:\WebGL_tesis\desarrollo\unity_project\Assets\Shaders\Thermal.shader`
-  - Shader termico actualizado.
-  - Ahora recibe parametros espaciales por pieza: modo, hotspot, direccion, spread y propagacion.
+  - Shader termico base. Recibe `_MinTemp` y `_MaxTemp` por `MaterialPropertyBlock`. Tiene gradiente de 4 colores, ruido animado, edge glow y cross-section.
+  - **Pendiente**: declarar y consumir parametros espaciales (`_ThermalMode`, `_ThermalHotspotOS`, `_ThermalDirectionOS`, `_ThermalSpread`, `_ThermalEdgeCooling`, `_ThermalBaseVariation`, `_ThermalPropagation`) que `ThermalViewController` ya envia.
 
 ## Archivos Minimos para Revisar Primero
 
@@ -115,10 +115,17 @@ Haz esto:
 3. Usa este indice como punto de entrada manual.
 4. No asumas que "archivo vacio" significa perdida real hasta comprobar la ruta en disco.
 
+### 7. Verificacion matematica y retopologia
+
+- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\wolfram_verificaciones.md`
+  - Registro de verificaciones con WolframAlpha. Incluye V001 (factor geometrico) y V002 (escalas de conductividad).
+
+- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\RETOPOLOGIA_POR_PIEZA.md`
+  - Guia de retopologia por pieza. Clasifica las 28 piezas en 3 tiers segun funcion termica.
+
 ## Proximo Paso Recomendado
 
-Cuando confirmes que puedes abrir bien estos archivos desde VS Code, seguimos con la siguiente etapa tecnica:
-
-- preprocesado offline del grafo de contactos
-- perfiles termicos reales para motores, ESC, bateria y brazos
-- leyenda termica visible en UI
+- Actualizar Thermal.shader para consumir los parametros espaciales que ThermalViewController ya envia
+- Calibrar el grafo de contactos sobre geometria retopologizada
+- Asignar ThermalSurfaceProfile a piezas criticas
+- Leyenda termica visible en UI
