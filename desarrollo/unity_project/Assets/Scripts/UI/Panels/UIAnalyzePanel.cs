@@ -100,6 +100,16 @@ namespace WebGL.UI.Panels
                 default:                  bg = new Color(0.04f, 0.055f, 0.11f); break;
             }
             if (Camera.main != null) Camera.main.backgroundColor = bg;
+
+            // Toggle thermal legend
+            if (_shaderMenu != null)
+            {
+                var legend = _shaderMenu.panel?.visualTree.Q<VisualElement>("ThermalLegendContainer");
+                if (legend != null)
+                {
+                    legend.EnableInClassList("thermal-legend--hidden", mode != ViewMode.Thermal);
+                }
+            }
         }
     }
 }

@@ -99,6 +99,13 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
+        <!-- ═══ THERMAL LEGEND ═══ -->
+        <ui:VisualElement name="ThermalLegendContainer" class="thermal-legend thermal-legend--hidden" picking-mode="Ignore">
+            <ui:Label name="ThermalMaxTemp" text="100°C" class="thermal-legend-label" picking-mode="Ignore" />
+            <ui:VisualElement class="thermal-legend-gradient" picking-mode="Ignore" />
+            <ui:Label name="ThermalMinTemp" text="20°C" class="thermal-legend-label" picking-mode="Ignore" />
+        </ui:VisualElement>
+
         <!-- ═══════════════════════════════════════════════
              Bottom Bar — Mode containers + master buttons + label
              Mode containers live INSIDE the bar so they shift

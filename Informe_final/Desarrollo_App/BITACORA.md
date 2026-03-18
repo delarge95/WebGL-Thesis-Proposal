@@ -94,3 +94,8 @@ Definir la viabilidad técnica y conceptual de un visualizador interactivo 3D pa
 ## Fase 2: Pipeline de Producción 3D (Septiembre - Octubre 2025)
 
 ### O
+### 2026-03-17: Etapa 5  Thermal Legend y Wolfram (V003, V004)
+- **UI Añadida**: Creado ThermalLegendContainer en MainLayout.uxml y estilos con gradiente lineal (linear-gradient) en Theme.uss.
+- **Sincronización de UI**: Actualizado UIAnalyzePanel.cs para mostrar la leyenda solo cuando el Shading Mode es "Thermal".
+- **Sincronización de Datos**: Actualizado ThermalViewController.cs para inyectar automáticamente displayMinTemperatureC y displayMaxTemperatureC en las etiquetas UI conectadas al visualizador.
+- **Wolfram V003/V004**: Validado WarmupSeconds (tau) y coolingRate. El cálculo real muestra que una $\tau$ verdadera tomaría ~7 minutos (410s) en llegar al equilibrio, justificando plenamente el valor acelerado del solver (10-15s) para UX y performance visual interactiva en la app.

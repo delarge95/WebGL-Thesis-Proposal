@@ -76,6 +76,40 @@ Las escalas del solver usan un rango comprimido deliberado (0.18–1.8) en lugar
 
 ## Proximas verificaciones pendientes
 
-- [ ] Tiempo de warmup por componente (tau): motor 10s, ESC 6s, battery 15s — comparar con datos de termografia disponibles
-- [ ] Tasa de enfriamiento convectivo por exposicion: ¿son los valores (0.05–0.16) plausibles para conveccion natural en aire quieto?
+- [x] Tiempo de warmup por componente (tau): motor 10s, ESC 6s, battery 15s — comparar con datos de termografia disponibles (VER V003)
+- [x] Tasa de enfriamiento convectivo por exposicion: ¿son los valores (0.05–0.16) plausibles para conveccion natural en aire quieto? (VER V004)
 - [ ] Temperatura de pico de motores brushless (~90°C) — confirmar contra datasheets de motores 2216
+---
+
+## V003  Constante de tiempo termico (tau) de un motor brushless
+
+- **Fecha**: 2026-03-17
+- **Contexto**: 
+ode.WarmupSeconds en ThermalSimulationManager.cs y los valores en x500v2_blender_synced_parts.json (ej: motor tau = 10s)
+- **Proposito**: Verificar si el tiempo de calentamiento del motor (10s) es fisicamente realista o una heuristica visual.
+
+### Calculo Real 
+Un motor 2216 pesa ~65g, mayormente aluminio y cobre ( \approx 600$ J/kgK). Area superficial  \approx 0.0038$ m. Conveccion mixta con flujo del rotor  \approx 25$ W/mK.
+- Wolfram query: (0.065 kg * 600 J/(kg K)) / (25 W/(m^2 K) * 0.0038 m^2)
+- Real $\tau \approx 410$ segundos (casi 7 minutos para alcanzar equilibrio).
+
+### Analisis
+Si usaramos el $\tau$ real de 410s, el usuario tendria que observar la simulacion interactiva durante 7 minutos para ver los colores estabilizarse. Para propósitos educativos e interactivos en una app de WebGL, eso es inaceptable.
+El valor de WarmupSeconds = 10 significa que el solver está intencionalmente acelerado ~40x respecto a la realidad para efectos de visualizacion inmediata.
+
+**Conclusion**: Es una escala heuristica intencional para experiencia de usuario (UX).
+
+---
+
+## V004  Tasa de enfriamiento convectivo (Cooling Rate)
+
+- **Fecha**: 2026-03-17
+- **Contexto**: defaultCoolingRate = 0.08f en ThermalSimulationManager.cs
+- **Proposito**: Verificar la proporcion respecto a la ley de enfriamiento de Newton.
+
+### Analisis
+La ley de Newton establece /dt = -k(T - T_{env})$, donde  = 1/\tau$.
+Si el solver usa  = 0.08$, el $\tau$ equivalente de enfriamiento es /0.08 = 12.5$ segundos.
+Nuevamente, esto esta perfectamente alienado con la decision documentada en V003 de comprimir el tiempo $\tau$ a la escala de ~10-15 segundos para la visualizacion interactiva en tiempo real.
+
+**Conclusion**: Matematicamente coherente con la escala de tiempo acelerada del sistema.

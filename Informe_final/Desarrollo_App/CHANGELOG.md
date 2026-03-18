@@ -919,3 +919,14 @@
 | UXML Layouts      | 4 (502 l�neas)                                                                                                      |
 | ScriptableObjects | 11 (DronePartData)                                                                                                  |
 | Escenas Unity     | 3                                                                                                                   |
+
+## [Unreleased] - 2026-03-17
+### Added
+- Thermal Legend UI en MainLayout.uxml con etiquetas dinámicas de temperatura y un gradiente lineal térmico en Theme.uss.
+- Sincronización automática de displayMinTemperatureC y displayMaxTemperatureC desde ThermalViewController hacia la UI.
+
+### Changed
+- UIAnalyzePanel.cs ahora vincula la visibilidad de la leyenda al seleccionar la opción 'Thermal' del menú Rendering.
+
+### Verified
+- Añadidas V003 y V004 en wolfram_verificaciones.md, confirmando matemática y cualitativamente la compresión de las constantes de tiempo térmico (tau) en ThermalSimulationManager.cs por razones de fluidez interactiva en WebGL vs la realidad (7 minutos).

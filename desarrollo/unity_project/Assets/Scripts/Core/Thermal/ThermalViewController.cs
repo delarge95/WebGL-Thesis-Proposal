@@ -196,6 +196,16 @@ namespace WebGL.Core.Thermal
             float minDisplay = Mathf.Min(displayMinTemperatureC, ambientTemperatureC);
             float maxDisplay = Mathf.Max(displayMaxTemperatureC, minDisplay + 1f);
 
+            // Sync Legend UI
+            var uiDoc = Object.FindFirstObjectByType<UnityEngine.UIElements.UIDocument>();
+            if (uiDoc != null && uiDoc.rootVisualElement != null)
+            {
+                var minLabel = uiDoc.rootVisualElement.Q<UnityEngine.UIElements.Label>("ThermalMinTemp");
+                var maxLabel = uiDoc.rootVisualElement.Q<UnityEngine.UIElements.Label>("ThermalMaxTemp");
+                if (minLabel != null) minLabel.text = $"{Mathf.RoundToInt(minDisplay)}°C";
+                if (maxLabel != null) maxLabel.text = $"{Mathf.RoundToInt(maxDisplay)}°C";
+            }
+
             foreach (ThermalRendererBinding binding in bindings)
             {
                 if (binding.Renderer == null)
