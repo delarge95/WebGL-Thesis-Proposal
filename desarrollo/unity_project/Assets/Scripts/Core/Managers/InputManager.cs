@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using WebGL.Core.Utils;
+using System;
 
 namespace WebGL.Core.Managers
 {
@@ -18,6 +19,7 @@ namespace WebGL.Core.Managers
         // ── Cached UI references ──
         private UIDocument _mainUIDocument;
         private IPanel _uiPanel;
+        private bool _pickErrorLogged;
 
         // ── Public input state ──
         public Vector2 LookInput { get; private set; }
@@ -61,6 +63,12 @@ namespace WebGL.Core.Managers
         /// </summary>
         public bool IsPointerOverUI()
         {
+            // Fast path: explicit blocker set by UI handlers.
+            if (InputBlocked)
+            {
+                return true;
+            }
+
             CacheUIDocumentIfNeeded();
             if (_uiPanel == null) return false;
 
@@ -71,7 +79,21 @@ namespace WebGL.Core.Managers
             //  - Y-axis inversion (Screen bottom-left → Panel top-left)
             //  - ScaleWithScreenSize scaling factor
             Vector2 panelPos = RuntimePanelUtils.ScreenToPanel(_uiPanel, screenPos);
-            VisualElement picked = _uiPanel.Pick(panelPos);
+            VisualElement picked;
+            try
+            {
+                picked = _uiPanel.Pick(panelPos);
+            }
+            catch (Exception ex)
+            {
+                if (!_pickErrorLogged)
+                {
+                    _pickErrorLogged = true;
+                    Debug.LogWarning($"[InputManager] Panel.Pick failed. Falling back to InputBlocked flag. {ex.Message}");
+                }
+
+                return InputBlocked;
+            }
 
             // Pick() returns null if nothing with picking-mode: Position is hit
             if (picked == null) return false;
@@ -131,7 +153,7 @@ namespace WebGL.Core.Managers
         {
             if (_mainUIDocument == null || _mainUIDocument.rootVisualElement == null)
             {
-                _mainUIDocument = Object.FindFirstObjectByType<UIDocument>();
+                _mainUIDocument = UnityEngine.Object.FindFirstObjectByType<UIDocument>();
             }
 
             if (_mainUIDocument != null && _mainUIDocument.rootVisualElement != null)
@@ -170,6 +192,73 @@ namespace WebGL.Core.Managers
                 if (current.resolvedStyle.display == DisplayStyle.None) continue;
                 if (current.resolvedStyle.visibility == Visibility.Hidden) continue;
 
+                if (IsPassThroughSurface(current))
+                {
+                    continue;
+                }
+
+                if (IsInteractiveElement(current))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool IsInteractiveElement(VisualElement element)
+        {
+            if (element == null)
+            {
+                return false;
+            }
+
+            if (element is Button ||
+                element is Slider ||
+                element is SliderInt ||
+                element is ScrollView ||
+                element is Scroller ||
+                element is Toggle ||
+                element is Foldout ||
+                element is TextField ||
+                element is DropdownField)
+            {
+                return true;
+            }
+
+            string name = element.name;
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                string lower = name.ToLowerInvariant();
+                if (lower.Contains("btn") || lower.Contains("button") ||
+                    lower.Contains("slider") || lower.Contains("scroll"))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool IsPassThroughSurface(VisualElement element)
+        {
+            if (element == null)
+            {
+                return false;
+            }
+
+            if (element.name == "BottomSheet" || element.name == "SheetContent_Details")
+            {
+                return true;
+            }
+
+            if (element.ClassListContains("sheet-header"))
+            {
+                return true;
+            }
+
+            if (element.ClassListContains("details-sheet") || element.ClassListContains("sheet-content"))
+            {
                 return true;
             }
 

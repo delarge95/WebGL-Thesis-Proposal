@@ -152,12 +152,14 @@ namespace WebGL.UI.Panels
                 if (isOpen)
                 {
                     _detailsSheet.RemoveFromClassList("details-sheet--hidden");
-                    _detailsSheet.pickingMode = PickingMode.Position;
+                    // Keep container pass-through: only real child controls should capture input.
+                    _detailsSheet.pickingMode = PickingMode.Ignore;
                 }
                 else
                 {
                     _detailsSheet.AddToClassList("details-sheet--hidden");
                     _detailsSheet.pickingMode = PickingMode.Ignore;
+                    InputManager.InputBlocked = false;
                 }
             }
 
@@ -330,31 +332,22 @@ namespace WebGL.UI.Panels
 
         private void BindInteractions()
         {
-            // Details sheet input blocking
-            if (_detailsSheet != null)
-            {
-                EventCallback<PointerDownEvent> pd = evt => evt.StopPropagation();
-                EventCallback<PointerUpEvent> pu = evt => evt.StopPropagation();
-                _detailsSheet.RegisterCallback(pd);
-                _detailsSheet.RegisterCallback(pu);
-                AddCleanup(() => { _detailsSheet.UnregisterCallback(pd); _detailsSheet.UnregisterCallback(pu); });
-
-                EventCallback<PointerEnterEvent> pe = evt => InputManager.InputBlocked = true;
-                EventCallback<PointerLeaveEvent> pl = evt => InputManager.InputBlocked = false;
-                _detailsSheet.RegisterCallback(pe);
-                _detailsSheet.RegisterCallback(pl);
-                AddCleanup(() => { _detailsSheet.UnregisterCallback(pe); _detailsSheet.UnregisterCallback(pl); });
-            }
-
-            // ScrollView blocks camera zoom
+// ScrollView blocks camera zoom
             var sheetScroll = _root.Q<ScrollView>(className: "sheet-scroll");
             if (sheetScroll != null)
             {
-                EventCallback<PointerEnterEvent> scrollEnter = evt => InputManager.InputBlocked = true;
+                EventCallback<PointerDownEvent> scrollDown = evt => InputManager.InputBlocked = true;
+                EventCallback<PointerUpEvent> scrollUp = evt => InputManager.InputBlocked = false;
                 EventCallback<PointerLeaveEvent> scrollLeave = evt => InputManager.InputBlocked = false;
-                sheetScroll.RegisterCallback(scrollEnter);
+                sheetScroll.RegisterCallback(scrollDown);
+                sheetScroll.RegisterCallback(scrollUp);
                 sheetScroll.RegisterCallback(scrollLeave);
-                AddCleanup(() => { sheetScroll.UnregisterCallback(scrollEnter); sheetScroll.UnregisterCallback(scrollLeave); });
+                AddCleanup(() =>
+                {
+                    sheetScroll.UnregisterCallback(scrollDown);
+                    sheetScroll.UnregisterCallback(scrollUp);
+                    sheetScroll.UnregisterCallback(scrollLeave);
+                });
             }
 
             // Close button
