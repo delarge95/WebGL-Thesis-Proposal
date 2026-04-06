@@ -39,7 +39,25 @@ namespace WebGL.Core.Managers
         /// Replaces the old OrbitCameraController.GlobalInputBlocked static field
         /// (Phase 4: Hardening — single source of truth in InputManager).
         /// </summary>
-        public static bool InputBlocked { get; set; }
+        private static bool _inputBlocked;
+
+        public static bool InputBlocked
+        {
+            get
+            {
+                // Fail-safe: if no mouse buttons or touches are active, clear any stuck input blocks.
+                // This prevents UI Toolkit bugs (missed PointerLeave/PointerUp) from permanently locking 3D interaction.
+                if (_inputBlocked && !Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetMouseButton(2) && Input.touchCount == 0)
+                {
+                    _inputBlocked = false;
+                }
+                return _inputBlocked;
+            }
+            set
+            {
+                _inputBlocked = value;
+            }
+        }
 
         protected override void Awake()
         {
@@ -98,7 +116,8 @@ namespace WebGL.Core.Managers
             // Pick() returns null if nothing with picking-mode: Position is hit
             if (picked == null) return false;
 
-            return IsInteractivePick(picked);
+            bool isInteractive = IsInteractivePick(picked, panelPos);
+            return isInteractive;
         }
 
         // ═══════════════════════════════════════════════════════
@@ -176,14 +195,36 @@ namespace WebGL.Core.Managers
             return Input.mousePosition;
         }
 
-        private bool IsInteractivePick(VisualElement picked)
+        /// <summary>
+        /// Determines whether a picked VisualElement should block 3D interaction.
+        /// Walks up the ancestor chain looking for interactive UI controls, but
+        /// verifies that each candidate's worldBound actually contains the pointer
+        /// position. This prevents false positives from overflow-clipped elements
+        /// whose bounding boxes extend beyond their visible parent.
+        /// </summary>
+        private bool IsInteractivePick(VisualElement picked, Vector2 panelPos)
         {
             if (picked == null || _mainUIDocument?.rootVisualElement == null) return false;
 
             VisualElement root = _mainUIDocument.rootVisualElement;
             VisualElement templateRoot = root.parent;
 
-            for (VisualElement current = picked; current != null; current = current.parent)
+            // Quick exit: if picked IS the document root or panel root, it's empty space.
+            if (picked == root || picked == templateRoot) return false;
+
+            // Check the picked element itself first — fastest path
+            if (IsInteractiveElement(picked) && ElementContainsPoint(picked, panelPos))
+            {
+                return true;
+            }
+
+            // Walk up at most MAX_ANCESTOR_DEPTH levels looking for interactive ancestors.
+            // Also verify the ancestor's worldBound contains the pointer — this prevents
+            // Panel.Pick() returning overflow-clipped internal elements (e.g. ScrollView
+            // internals) from blocking input when the pointer is outside the visible area.
+            const int MAX_ANCESTOR_DEPTH = 8;
+            int depth = 0;
+            for (VisualElement current = picked.parent; current != null && depth < MAX_ANCESTOR_DEPTH; current = current.parent, depth++)
             {
                 if (current == root || current == templateRoot) return false;
 
@@ -197,13 +238,27 @@ namespace WebGL.Core.Managers
                     continue;
                 }
 
-                if (IsInteractiveElement(current))
+                if (IsInteractiveElement(current) && ElementContainsPoint(current, panelPos))
                 {
                     return true;
                 }
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Returns true if the element's world bounding rect contains the given panel-space point.
+        /// Used to verify that an interactive ancestor is actually visually at the pointer position,
+        /// filtering out false positives from overflow-clipped or off-screen elements.
+        /// </summary>
+        private static bool ElementContainsPoint(VisualElement element, Vector2 panelPos)
+        {
+            if (element == null) return false;
+            Rect wb = element.worldBound;
+            // worldBound can be zero-sized for hidden or collapsed elements
+            if (wb.width <= 0f || wb.height <= 0f) return false;
+            return wb.Contains(panelPos);
         }
 
         private static bool IsInteractiveElement(VisualElement element)
