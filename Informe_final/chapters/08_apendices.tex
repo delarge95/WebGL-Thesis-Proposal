@@ -18,10 +18,10 @@ El código fuente completo del proyecto se encuentra disponible en el siguiente 
 
 \noindent El repositorio contiene:
 \begin{itemize}
-    \item 91 scripts C\# ($\sim$14\,778 líneas)
+    \item 104 scripts C\# ($\sim$16\,927 líneas)
     \item 9 \textit{shaders} HLSL/CG ($\sim$1\,749 líneas)
     \item 5 hojas de estilo USS + 4 plantillas UXML ($\sim$4\,063 líneas)
-    \item 240+ \textit{commits} con mensajes semánticos (\textit{Conventional Commits})
+    \item 316 \textit{commits} con mensajes semánticos (\textit{Conventional Commits})
     \item Rama principal de desarrollo: \texttt{feature/phase2-ux-redesign}
 \end{itemize}
 
@@ -71,7 +71,7 @@ El manual técnico completo (341~líneas, formato \LaTeX{} compilado a PDF) se e
     \item \textit{ScriptableObjects} (\texttt{DronePartData}, \texttt{AssemblyGuideData})
     \item Compilación y despliegue WebGL
     \item Extensión del sistema (nueva pieza, nuevo modo, nuevo \textit{manager})
-    \item Resumen de scripts (inventario de 91~archivos C\#)
+    \item Resumen de scripts (inventario de 104~archivos C\#)
 \end{enumerate}
 
 % ═══════════════════════════════════════════════════════════════════════════════
@@ -153,14 +153,13 @@ La referencia completa de configuración WebGL se encuentra en:
 \subsection*{Apéndice G: Assets de Audio}
 \addcontentsline{toc}{subsection}{Apéndice G: Assets de Audio}
 
-% TODO: Actualizar este apéndice cuando los assets de audio sean creados/adquiridos.
 El inventario de assets de audio se encuentra en:
 
 \begin{center}
 \texttt{Documentacion\_Tecnica/06\_Assets\_Audio.md}
 \end{center}
 
-\noindent \textit{[Sección pendiente de completar --- los archivos de audio aún no han sido creados.]} El documento define la estructura requerida:
+\noindent Los efectos de audio se implementarán como paso final del desarrollo de la aplicación. El documento define la estructura requerida:
 
 \begin{itemize}
     \item 16~clips de audio distribuidos en 4~categorías:
@@ -262,7 +261,7 @@ Data / Events & DronePartData, AssemblyGuideData, StateChangedEvent & 5 \\
 Utilities & TweenEngine, QualityManager, WebGLProfiler & 10 \\
 Content & DroneStateController, AnnotationSystem, ConnectionPointsViewer & 3 \\
 \hline
-\textbf{Total} & & \textbf{91} \\
+\textbf{Total} & & \textbf{104} \\
 \hline
 \end{tabular}
 \end{table}
@@ -284,9 +283,6 @@ La bitácora completa de desarrollo se encuentra en el archivo \texttt{BITACORA.
 \subsection*{Apéndice N: \textit{Pipeline} de Optimización de Assets~3D}
 \addcontentsline{toc}{subsection}{Apéndice N: Pipeline de Optimización de Assets 3D}
 
-% TODO: Completar cuando se finalice el pipeline con Houdini (LODs / retopología procedural).
-% Actualizar también la Sección 4.5 del Capítulo 4 con los detalles definitivos.
-
 El flujo de trabajo de \textit{Technical Art} para la optimización de los modelos~3D del dron comprende las siguientes herramientas y etapas:
 
 \begin{table}[h!]
@@ -296,7 +292,7 @@ El flujo de trabajo de \textit{Technical Art} para la optimización de los model
 \begin{tabular}{clll}
 \hline
 \textbf{\#} & \textbf{Etapa} & \textbf{Herramienta} & \textbf{Estado} \\ \hline
-0 & Procesamiento procedural & SideFX Houdini & \textit{[Pendiente]} \\
+0 & Procesamiento procedural & SideFX Houdini & Evaluado / Descartado \\
 1 & Retopología & Blender~4.x & Completada \\
 2 & \textit{Baking} de normales & Blender~4.x & Completada \\
 3 & Texturizado PBR & Adobe Substance Painter & Completada \\
@@ -305,7 +301,7 @@ El flujo de trabajo de \textit{Technical Art} para la optimización de los model
 \end{tabular}
 \end{table}
 
-\noindent \textit{[Sección pendiente de completar una vez se finalice la integración de Houdini en el pipeline para generación de LODs y/o retopología procedural. Véase el Capítulo~4, Sección ``Pipeline de Optimización de Assets~3D'' para la descripción técnica detallada.]}
+\noindent Houdini fue evaluado como herramienta de procesamiento procedural (conversión CAD$\rightarrow$mesh, generación de LODs), pero se descartó en favor de Blender para el Pipeline actual, dado que el proyecto trabajó con un único modelo de dron. Se recomienda su uso para pipelines con múltiples modelos (véase Cap.~6, Trabajo Futuro).
 
 % ═══════════════════════════════════════════════════════════════════════════════
 \subsection*{Apéndice O: \textit{Changelog} de Versiones}

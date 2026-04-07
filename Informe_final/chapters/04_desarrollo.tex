@@ -1,30 +1,30 @@
 % =============================================================================
-% Capítulo 4 — Desarrollo e Implementación
-% Fuentes: Sección inline de informe_final.tex (original),
+% Capï¿½tulo 4 ï¿½ Desarrollo e Implementaciï¿½n
+% Fuentes: Secciï¿½n inline de informe_final.tex (original),
 %          01_Arquitectura_del_Sistema.md, 02_Referencia_Tecnica_Modulos.md,
 %          03_Pipeline_Renderizado_Shaders.md, TECHNOLOGY_STACK.md
 % =============================================================================
 
-\section{Desarrollo e Implementación}
-\addcontentsline{toc}{section}{Desarrollo e Implementación}
+\section{Desarrollo e Implementacin}
+\addcontentsline{toc}{section}{Desarrollo e Implementacin}
 
-El desarrollo del prototipo siguió una metodología iterativa en fases (DSR Sprints), resultando en~91 scripts con aproximadamente~14\,778~líneas de código C\#, 9~\textit{shaders} personalizados ($\sim$1\,749~líneas HLSL/CG) y un sistema de diseño (\textit{design system}) basado en UI~Toolkit (5~USS + 4~UXML). La implementación abarcó sistemas de interacción, visualización, audio y herramientas especializadas para ingenieros.
+El desarrollo del prototipo sigui una metodologa iterativa en fases (DSR Sprints), resultando en~104 scripts con aproximadamente~16\,927~lneas de cdigo C\#, 9~\textit{shaders} personalizados ($\sim$1\,749~lneas HLSL/CG) y un sistema de diseo (\textit{design system}) basado en UI~Toolkit (5~USS + 4~UXML). La implementacin abarc sistemas de interaccin, visualizacin, audio y herramientas especializadas para ingenieros.
 
 % -------------------------------------------------------------------------------
 \subsection{Arquitectura del Sistema}
 \addcontentsline{toc}{subsection}{Arquitectura del Sistema}
 
-El sistema se implementó siguiendo patrones de diseño profesionales para garantizar modularidad, extensibilidad y facilidad de mantenimiento. La arquitectura se organizó en~4 capas con dependencias estrictamente descendentes:
+El sistema se implement siguiendo patrones de diseo profesionales para garantizar modularidad, extensibilidad y facilidad de mantenimiento. La arquitectura se organiz en~4 capas con dependencias estrictamente descendentes:
 
 \begin{enumerate}
-    \item \textbf{Capa de Presentación (UI).} \texttt{UIManager}, \texttt{UIDetailsSheet}, paneles de análisis y configuración, controlados mediante UI~Toolkit (UXML~+~USS).
-    \item \textbf{Capa de Lógica de Aplicación.} Máquina de estados (\texttt{AppStateMachine}), controlador de modos (\texttt{BaseModeHandler} y subclases), y lógica de interacción (selección, cámara, vista explosionada).
+    \item \textbf{Capa de Presentacin (UI).} \texttt{UIManager}, \texttt{UIDetailsSheet}, paneles de anlisis y configuracin, controlados mediante UI~Toolkit (UXML~+~USS).
+    \item \textbf{Capa de Lgica de Aplicacin.} Mquina de estados (\texttt{AppStateMachine}), controlador de modos (\texttt{BaseModeHandler} y subclases), y lgica de interaccin (seleccin, cmara, vista explosionada).
     \item \textbf{Capa de Servicios (\textit{Core}).} Managers globales (\texttt{GameManager}, \texttt{AudioManager}, \texttt{SelectionManager}, \texttt{ViewModeManager}), bus de eventos (\texttt{EventBus}) y \textit{Service Locator}.
-    \item \textbf{Capa de Datos.} \texttt{ScriptableObjects} (\texttt{DronePartData}, \texttt{AssemblyGuideData}) y configuración persistente (\texttt{PlayerPrefs} $\rightarrow$ \texttt{localStorage} en WebGL). \textit{Nota}: \texttt{AssemblyGuideData} fue diseñado para las herramientas de ensamblaje (proyectadas para futuras iteraciones).
+    \item \textbf{Capa de Datos.} \texttt{ScriptableObjects} (\texttt{DronePartData}, \texttt{AssemblyGuideData}) y configuracin persistente (\texttt{PlayerPrefs} $\rightarrow$ \texttt{localStorage} en WebGL). \textit{Nota}: \texttt{AssemblyGuideData} fue diseado para las herramientas de ensamblaje (proyectadas para futuras iteraciones).
 \end{enumerate}
 
-\subsubsection{Principios Arquitectónicos}
-\addcontentsline{toc}{subsubsection}{Principios Arquitectónicos}
+\subsubsection{Principios Arquitectnicos}
+\addcontentsline{toc}{subsubsection}{Principios Arquitectnicos}
 
 \begin{table}[h!]
 \centering
@@ -32,31 +32,31 @@ El sistema se implementó siguiendo patrones de diseño profesionales para garanti
 \small
 \begin{tabular}{lp{9cm}}
 \hline
-\textbf{Principio} & \textbf{Implementación} \\ \hline
-SRP & Cada Manager maneja un único dominio (cámara, selección, vista, corte) \\
-Inversión de Dep. & Módulos comunicados vía \texttt{EventBus} estático, sin referencias directas \\
-Abierto/Cerrado & Nuevos modos de visualización se agregan con un \texttt{enum} y un \textit{shader}, sin modificar \texttt{ViewModeManager} \\
-Composición & \texttt{ExplodablePart} como MonoBehaviour composicional con \texttt{DronePartData} \\
+\textbf{Principio} & \textbf{Implementacin} \\ \hline
+SRP & Cada Manager maneja un nico dominio (cmara, seleccin, vista, corte) \\
+Inversin de Dep. & Mdulos comunicados va \texttt{EventBus} esttico, sin referencias directas \\
+Abierto/Cerrado & Nuevos modos de visualizacin se agregan con un \texttt{enum} y un \textit{shader}, sin modificar \texttt{ViewModeManager} \\
+Composicin & \texttt{ExplodablePart} como MonoBehaviour composicional con \texttt{DronePartData} \\
 \hline
 \end{tabular}
 \end{table}
 
-\subsubsection{Patrones de Diseño Implementados}
-\addcontentsline{toc}{subsubsection}{Patrones de Diseño Implementados}
+\subsubsection{Patrones de Diseo Implementados}
+\addcontentsline{toc}{subsubsection}{Patrones de Diseo Implementados}
 
 \begin{itemize}
-    \item \textbf{Singleton / PersistentSingleton.} Managers globales que persisten entre escenas, con jerarquía de~3 niveles.
-    \item \textbf{Service Locator.} Resolución de dependencias en \textit{runtime}, migrando~4 singletons a registro centralizado.
-    \item \textbf{Event Bus (Pub/Sub).} Comunicación desacoplada entre módulos con suscripciones tipadas, detección de \textit{leaks} y purga automática de suscriptores inválidos.
-    \item \textbf{Strategy.} Clase abstracta \texttt{BaseModeHandler} con~3 \textit{handlers} concretos (\texttt{InspectModeHandler}, \texttt{AnalyzeModeHandler}, \texttt{StudioModeHandler}) que encapsulan el comportamiento específico de cada modo de interacción.
-    \item \textbf{State Machine.} Control de~9 estados de la aplicación (\textit{Loading}, \textit{Exploration}, \textit{ExplodedView}, \textit{PartFocus}, \textit{Settings}, \textit{Menu}, entre otros) con transiciones validadas y eventos de notificación.
-    \item \textbf{ScriptableObjects.} Configuración de datos desacoplada de la lógica: \texttt{DronePartData} (25+ campos por pieza) y \texttt{AssemblyGuideData} (pasos de ensamblaje).
+    \item \textbf{Singleton / PersistentSingleton.} Managers globales que persisten entre escenas, con jerarqua de~3 niveles.
+    \item \textbf{Service Locator.} Resolucin de dependencias en \textit{runtime}, migrando~4 singletons a registro centralizado.
+    \item \textbf{Event Bus (Pub/Sub).} Comunicacin desacoplada entre mdulos con suscripciones tipadas, deteccin de \textit{leaks} y purga automtica de suscriptores invlidos.
+    \item \textbf{Strategy.} Clase abstracta \texttt{BaseModeHandler} con~3 \textit{handlers} concretos (\texttt{InspectModeHandler}, \texttt{AnalyzeModeHandler}, \texttt{StudioModeHandler}) que encapsulan el comportamiento especfico de cada modo de interaccin.
+    \item \textbf{State Machine.} Control de~9 estados de la aplicacin (\textit{Loading}, \textit{Exploration}, \textit{ExplodedView}, \textit{PartFocus}, \textit{Settings}, \textit{Menu}, entre otros) con transiciones validadas y eventos de notificacin.
+    \item \textbf{ScriptableObjects.} Configuracin de datos desacoplada de la lgica: \texttt{DronePartData} (25+ campos por pieza) y \texttt{AssemblyGuideData} (pasos de ensamblaje).
 \end{itemize}
 
-\subsubsection{Flujo de Comunicación}
-\addcontentsline{toc}{subsubsection}{Flujo de Comunicación}
+\subsubsection{Flujo de Comunicacin}
+\addcontentsline{toc}{subsubsection}{Flujo de Comunicacin}
 
-El flujo de comunicación entre los módulos principales sigue el patrón:
+El flujo de comunicacin entre los mdulos principales sigue el patrn:
 
 \begin{verbatim}
 AppStateMachine <--> EventBus <--> SelectionManager
@@ -65,80 +65,80 @@ AppStateMachine <--> EventBus <--> SelectionManager
  GameManager      AudioManager      UIManager
 \end{verbatim}
 
-Cada cambio de estado en la \texttt{AppStateMachine} dispara un evento tipado (\texttt{StateChangedEvent}) a través del \texttt{EventBus}, al que los subsistemas se suscriben para reaccionar de forma desacoplada.
+Cada cambio de estado en la \texttt{AppStateMachine} dispara un evento tipado (\texttt{StateChangedEvent}) a travs del \texttt{EventBus}, al que los subsistemas se suscriben para reaccionar de forma desacoplada.
 
 % -------------------------------------------------------------------------------
 \subsection{Sistemas \textit{Core} Implementados}
 \addcontentsline{toc}{subsection}{Sistemas Core Implementados}
 
-\paragraph{Sistema de Estados (AppStateMachine).} Controla el flujo de la aplicación con~9 estados mutuamente excluyentes. Cada transición dispara eventos que permiten a los subsistemas reaccionar sin acoplamiento directo.
+\paragraph{Sistema de Estados (AppStateMachine).} Controla el flujo de la aplicacin con~9 estados mutuamente excluyentes. Cada transicin dispara eventos que permiten a los subsistemas reaccionar sin acoplamiento directo.
 
-\paragraph{Sistema de Eventos (EventBus).} Implementación Pub/Sub genérica tipada que evita acoplamiento directo. Eventos como \texttt{PartSelectedEvent} y \texttt{StateChangedEvent} permiten comunicación limpia entre módulos que no se conocen entre sí. Incluye mecanismos de seguridad: detección de suscripciones duplicadas y purga automática de delegados huérfanos.
+\paragraph{Sistema de Eventos (EventBus).} Implementacin Pub/Sub genrica tipada que evita acoplamiento directo. Eventos como \texttt{PartSelectedEvent} y \texttt{StateChangedEvent} permiten comunicacin limpia entre mdulos que no se conocen entre s. Incluye mecanismos de seguridad: deteccin de suscripciones duplicadas y purga automtica de delegados hurfanos.
 
-\paragraph{Sistema de Selección (SelectionManager).} Integra \textit{raycast} sobre la geometría del dron con el sistema de resaltado visual (\texttt{HighlightSystem}), cursores dinámicos (\texttt{CursorManager}) que cambian según el elemento bajo el puntero, y \texttt{AnalyticsManager} para métricas de uso.
+\paragraph{Sistema de Seleccin (SelectionManager).} Integra \textit{raycast} sobre la geometra del dron con el sistema de resaltado visual (\texttt{HighlightSystem}), cursores dinmicos (\texttt{CursorManager}) que cambian segn el elemento bajo el puntero, y \texttt{AnalyticsManager} para mtricas de uso.
 
-\paragraph{Vista Explosionada (ExplodedViewManager).} Animación suave de las piezas del dron con motor de interpolación (\texttt{TweenEngine}) personalizado. Soporta explosión por orden de ensamblaje y niveles de explosión variables, permitiendo al usuario separar progresivamente los componentes para revelar la estructura interna.
+\paragraph{Vista Explosionada (ExplodedViewManager).} Animacin suave de las piezas del dron con motor de interpolacin (\texttt{TweenEngine}) personalizado. Soporta explosin por orden de ensamblaje y niveles de explosin variables, permitiendo al usuario separar progresivamente los componentes para revelar la estructura interna.
 
-\paragraph{Cámara Orbital (OrbitCameraController).} Implementación de controles \textit{arcball} con rotación restringida (sin \textit{roll}), suavizado \textit{ease-out}, soporte simultáneo de ratón y gestos táctiles (\textit{pinch-to-zoom}), punto de pivote dinámico (\textit{re-center} con doble clic), y límites configurables de distancia y ángulo.
+\paragraph{Cmara Orbital (OrbitCameraController).} Implementacin de controles \textit{arcball} con rotacin restringida (sin \textit{roll}), suavizado \textit{ease-out}, soporte simultneo de ratn y gestos tctiles (\textit{pinch-to-zoom}), punto de pivote dinmico (\textit{re-center} con doble clic), y lmites configurables de distancia y ngulo.
 
-\paragraph{Sistema de \textit{Input} Unificado (InputManager).} Abstrae la entrada de ratón y táctil en un único API, detectando gestos de~1, 2~y~3 dedos para navegación, rotación y \textit{pan}, respectivamente. Incluye detección de \textit{drag} versus \textit{tap} basada en umbral de desplazamiento.
+\paragraph{Sistema de \textit{Input} Unificado (InputManager).} Abstrae la entrada de ratn y tctil en un nico API, detectando gestos de~1, 2~y~3 dedos para navegacin, rotacin y \textit{pan}, respectivamente. Incluye deteccin de \textit{drag} versus \textit{tap} basada en umbral de desplazamiento.
 
 % -------------------------------------------------------------------------------
-\subsection{Modos de Visualización (ViewModeManager)}
-\addcontentsline{toc}{subsection}{Modos de Visualización}
+\subsection{Modos de Visualizacin (ViewModeManager)}
+\addcontentsline{toc}{subsection}{Modos de Visualizacin}
 
-Se implementaron~7 modos de visualización que intercambian los materiales de la escena en tiempo real, permitiendo diferentes perspectivas de análisis:
+Se implementaron~7 modos de visualizacin que intercambian los materiales de la escena en tiempo real, permitiendo diferentes perspectivas de anlisis:
 
 \begin{enumerate}
-    \item \textbf{Realistic.} Materiales PBR originales con iluminación IBL (Reflection Probes + \textit{Irradiance Map}).
+    \item \textbf{Realistic.} Materiales PBR originales con iluminacin IBL (Reflection Probes + \textit{Irradiance Map}).
     \item \textbf{X-Ray.} Semi-transparente con efecto Fresnel para revelar componentes internos sin ocultar el contexto externo.
-    \item \textbf{Blueprint.} Estilo de plano técnico azul con detección de bordes (Sobel) para simular la estética de dibujos de ingeniería.
-    \item \textbf{SolidColor.} Color sólido configurable, ideal para capturas de pantalla de producción.
-    \item \textbf{Wireframe.} Renderizado exclusivo de geometría de líneas. Incluye un \textit{SubShader} alternativo para WebGL, dado que WebGL~2.0 no soporta \textit{Geometry Shaders}.
-    \item \textbf{Ghosted.} Versión altamente transparente que permite ver toda la estructura simultáneamente.
-    \item \textbf{Thermal.} Simulación de vista térmica con gradiente de color, donde el color indica la temperatura de operación esperada de cada componente.
+    \item \textbf{Blueprint.} Estilo de plano tcnico azul con deteccin de bordes (Sobel) para simular la esttica de dibujos de ingeniera.
+    \item \textbf{SolidColor.} Color slido configurable, ideal para capturas de pantalla de produccin.
+    \item \textbf{Wireframe.} Renderizado exclusivo de geometra de lneas. Incluye un \textit{SubShader} alternativo para WebGL, dado que WebGL~2.0 no soporta \textit{Geometry Shaders}.
+    \item \textbf{Ghosted.} Versin altamente transparente que permite ver toda la estructura simultneamente.
+    \item \textbf{Thermal.} Simulacin de vista trmica con gradiente de color, donde el color indica la temperatura de operacin esperada de cada componente.
 \end{enumerate}
 
 % -------------------------------------------------------------------------------
 \subsection{Sistema de Interfaz de Usuario}
 \addcontentsline{toc}{subsection}{Sistema de Interfaz de Usuario}
 
-La interfaz se desarrolló íntegramente con \textbf{UI~Toolkit} (UIElements; Unity Technologies, 2024b), el sistema declarativo de Unity basado en UXML (estructura) + USS (estilos), conceptualmente análogo a HTML~+~CSS. Esta elección se debió a tres factores: (a)~desacoplamiento de la interfaz respecto al espacio~3D, (b)~responsividad nativa para diferentes resoluciones, y (c)~facilidad de tematización mediante variables~USS.
+La interfaz se desarroll ntegramente con \textbf{UI~Toolkit} (UIElements; Unity Technologies, 2024b), el sistema declarativo de Unity basado en UXML (estructura) + USS (estilos), conceptualmente anlogo a HTML~+~CSS. Esta eleccin se debi a tres factores: (a)~desacoplamiento de la interfaz respecto al espacio~3D, (b)~responsividad nativa para diferentes resoluciones, y (c)~facilidad de tematizacin mediante variables~USS.
 
 \subsubsection{Componentes Principales}
 \addcontentsline{toc}{subsubsection}{Componentes Principales}
 
 \begin{itemize}
-    \item \textbf{UIHeroController.} Pantalla de inicio (\textit{hero section}) con animación de entrada y transición al visor principal.
-    \item \textbf{UIManager.} Coordinador central de la UI: gestiona la barra de herramientas, el panel de información, los botones de modo y el estado visual de todos los controles.
-    \item \textbf{UIDetailsSheet (\textit{Bottom Sheet}).} Panel deslizable inferior que muestra información técnica detallada de la pieza seleccionada, con gesto de arrastre para expandir/colapsar (\textit{drag-to-dismiss}).
-    \item \textbf{UIAnalyzePanel.} Panel de herramientas de análisis: vista explosionada, filtros de categoría, modos de renderizado.
+    \item \textbf{UIHeroController.} Pantalla de inicio (\textit{hero section}) con animacin de entrada y transicin al visor principal.
+    \item \textbf{UIManager.} Coordinador central de la UI: gestiona la barra de herramientas, el panel de informacin, los botones de modo y el estado visual de todos los controles.
+    \item \textbf{UIDetailsSheet (\textit{Bottom Sheet}).} Panel deslizable inferior que muestra informacin tcnica detallada de la pieza seleccionada, con gesto de arrastre para expandir/colapsar (\textit{drag-to-dismiss}).
+    \item \textbf{UIAnalyzePanel.} Panel de herramientas de anlisis: vista explosionada, filtros de categora, modos de renderizado.
     \item \textbf{UICrossSectionPanel.} Control de corte transversal con \textit{toggles} por eje (X, Y, Z) y un \textit{slider} para posicionar el plano de corte.
-    \item \textbf{UIEnvironmentPanel.} Selector de entornos de iluminación (Studio, Night, Blue) con previsualización.
+    \item \textbf{UIEnvironmentPanel.} Selector de entornos de iluminacin (Studio, Night, Blue) con previsualizacin.
 \end{itemize}
 
 \subsubsection{\textit{Design System}}
 \addcontentsline{toc}{subsubsection}{Design System}
 
-Se definió un sistema de diseño (\textit{design system}) coherente documentado en variables USS:
+Se defini un sistema de diseo (\textit{design system}) coherente documentado en variables USS:
 
 \begin{itemize}
-    \item \textbf{Paleta.} Esquema monocromático oscuro (\texttt{\#050505} fondo, \texttt{\#ffffff} acento), optimizado para contraste con el visor~3D.
-    \item \textbf{Tipografía.} Inter (UI) y Space Grotesk (datos técnicos), con escalas de~12px a~36px.
+    \item \textbf{Paleta.} Esquema monocromtico oscuro (\texttt{\#050505} fondo, \texttt{\#ffffff} acento), optimizado para contraste con el visor~3D.
+    \item \textbf{Tipografa.} Inter (UI) y Space Grotesk (datos tcnicos), con escalas de~12px a~36px.
     \item \textbf{Espaciado.} Rejilla de 4~puntos (valores de~4, 8, 12, 16, 20, 24, 32\,px).
-    \item \textbf{Transiciones.} Duraciones estandarizadas (0.15\,s rápida, 0.3\,s estándar, 0.4\,s lenta) con \textit{easing} uniforme.
+    \item \textbf{Transiciones.} Duraciones estandarizadas (0.15\,s rpida, 0.3\,s estndar, 0.4\,s lenta) con \textit{easing} uniforme.
 \end{itemize}
 
 % -------------------------------------------------------------------------------
-\subsection{Catálogo y Gestión de Piezas}
-\addcontentsline{toc}{subsection}{Catálogo y Gestión de Piezas}
+\subsection{Catlogo y Gestin de Piezas}
+\addcontentsline{toc}{subsection}{Catlogo y Gestin de Piezas}
 
-Se implementó un sistema completo de catálogo de componentes del dron Holybro X500~V2 que permite la exploración interactiva de las~16 piezas del gemelo digital.
+Se implement un sistema completo de catlogo de componentes del dron Holybro X500~V2 que permite la exploracin interactiva de las~16 piezas del gemelo digital.
 
 \subsubsection{Modelo de Referencia: Holybro X500~V2}
 \addcontentsline{toc}{subsubsection}{Modelo de Referencia: Holybro X500 V2}
 
-El modelo seleccionado para el gemelo digital es el kit de desarrollo \textbf{Holybro PX4 Development Kit X500~V2}, un \textit{quadcopter} de categoría educativa y de desarrollo con las siguientes especificaciones globales:
+El modelo seleccionado para el gemelo digital es el kit de desarrollo \textbf{Holybro PX4 Development Kit X500~V2}, un \textit{quadcopter} de categora educativa y de desarrollo con las siguientes especificaciones globales:
 
 \begin{table}[h!]
 \centering
@@ -146,16 +146,16 @@ El modelo seleccionado para el gemelo digital es el kit de desarrollo \textbf{Ho
 \small
 \begin{tabular}{lp{9cm}}
 \hline
-\textbf{Parámetro} & \textbf{Valor} \\ \hline
+\textbf{Parmetro} & \textbf{Valor} \\ \hline
 Distancia entre ejes (\textit{wheelbase}) & 500\,mm \\
-Dimensiones del fuselaje & 144\,×\,144\,mm (plates) \\
+Dimensiones del fuselaje & 144\,\,144\,mm (plates) \\
 Altura del tren de aterrizaje & 215\,mm \\
-Separación entre placas & 28\,mm \\
-Peso total (sin batería) & 610\,g (frame+electrónica) \\
+Separacin entre placas & 28\,mm \\
+Peso total (sin batera) & 610\,g (frame+electrnica) \\
 Peso del frame kit & $\sim$365\,g \\
 Tiempo de vuelo (hover) & $\sim$18\,min (LiPo 4S 5000\,mAh) \\
-Carga útil máxima & $\sim$1\,kg (estimada) \\
-Batería compatible & LiPo 4S (14.8\,V), 2000--5000\,mAh \\
+Carga til mxima & $\sim$1\,kg (estimada) \\
+Batera compatible & LiPo 4S (14.8\,V), 2000--5000\,mAh \\
 Firmware soportado & PX4 / ArduPilot \\
 Tiempo de ensamblaje & $\sim$30\,min \\
 \hline
@@ -165,7 +165,7 @@ Tiempo de ensamblaje & $\sim$30\,min \\
 \subsubsection{Inventario de Piezas del Gemelo Digital}
 \addcontentsline{toc}{subsubsection}{Inventario de Piezas del Gemelo Digital}
 
-El catálogo comprende~16 piezas organizadas en~4 categorías funcionales. Cada pieza cuenta con un \texttt{ScriptableObject DronePartData} con más de~32 campos técnicos (véase Sección~``Configuración de DronePartData''). La Tabla~\ref{tab:inventario-piezas} resume el inventario completo.
+El catlogo comprende~16 piezas organizadas en~4 categoras funcionales. Cada pieza cuenta con un \texttt{ScriptableObject DronePartData} con ms de~32 campos tcnicos (vase Seccin~``Configuracin de DronePartData''). La Tabla~\ref{tab:inventario-piezas} resume el inventario completo.
 
 \begin{longtable}{clp{4.5cm}cp{2.5cm}}
 \caption{Inventario Completo de Piezas del Holybro X500~V2}\label{tab:inventario-piezas} \\
@@ -176,123 +176,120 @@ El catálogo comprende~16 piezas organizadas en~4 categorías funcionales. Cada pi
 \textbf{\#} & \textbf{Categ.} & \textbf{Pieza} & \textbf{Peso (g)} & \textbf{Material} \\ \hline
 \endhead
 01 & Estruct. & Placas Sup.\ e Inf.\ de Fibra de Carbono & 150 & CF twill 2\,mm \\
-02 & Estruct. & Tubos de Brazo CF~×\,4 (con Motor + ESC) & 120 & CF ?16\,mm \\
+02 & Estruct. & Tubos de Brazo CF~\,4 (con Motor + ESC) & 120 & CF ?16\,mm \\
 03 & Estruct. & Tren de Aterrizaje CF & 80 & CF ?16+?10\,mm \\
 04 & Estruct. & Placa de Plataforma (\textit{Platform Board}) & 15 & Nylon/PA12 \\
-05 & Estruct. & Sistema de Rieles + Soporte de Batería & 25 & Aluminio ?10\,mm \\
+05 & Estruct. & Sistema de Rieles + Soporte de Batera & 25 & Aluminio ?10\,mm \\
 \hline
 06 & Electr. & PDB (\textit{Power Distribution Board}) & 20 & PCB FR4 \\
-07 & Electr. & Módulo de Potencia PM02~V3 & 28 & PCB FR4 \\
+07 & Electr. & Mdulo de Potencia PM02~V3 & 28 & PCB FR4 \\
 08 & Electr. & Pixhawk 6C Autopilot & 35 & PCB + Al anodizado \\
-09 & Electr. & GPS M10 con Brújula & 32 & Antena cerámica + CF \\
-10 & Electr. & Radio de Telemetría SiK~V3 & 15 & PCB + plástico \\
-14 & Electr. & Batería LiPo 4S 5000\,mAh (*) & 520 & Polímero de litio \\
+09 & Electr. & GPS M10 con Brjula & 32 & Antena cermica + CF \\
+10 & Electr. & Radio de Telemetra SiK~V3 & 15 & PCB + plstico \\
+14 & Electr. & Batera LiPo 4S 5000\,mAh (*) & 520 & Polmero de litio \\
 15 & Electr. & Receptor RC RadioMaster R81 (*) & 5 & PCB miniatura \\
 \hline
-11 & Propuls. & Motor Brushless 2216 KV920~×\,4 & 252 & Al CNC + Cu \\
-12 & Propuls. & ESC BLHeli-S 20A~×\,4 & 28 & PCB FR4 + MOSFET \\
-13 & Propuls. & Hélices 1045~×\,4 (+2 repuesto) & 32 & Nylon/ABS \\
+11 & Propuls. & Motor Brushless 2216 KV920~\,4 & 252 & Al CNC + Cu \\
+12 & Propuls. & ESC BLHeli-S 20A~\,4 & 28 & PCB FR4 + MOSFET \\
+13 & Propuls. & Hlices 1045~\,4 (+2 repuesto) & 32 & Nylon/ABS \\
 \hline
-16 & Otros & Kit de Herrajes y Tornillería & 20 & Acero/nylon/Al \\
+16 & Otros & Kit de Herrajes y Tornillera & 20 & Acero/nylon/Al \\
 \hline
 \multicolumn{5}{l}{\footnotesize (*) No incluidos en el kit; recomendados por el fabricante.} \\
 \end{longtable}
 
-\subsubsection{Funcionalidades del Catálogo Interactivo}
-\addcontentsline{toc}{subsubsection}{Funcionalidades del Catálogo Interactivo}
+\subsubsection{Funcionalidades del Catlogo Interactivo}
+\addcontentsline{toc}{subsubsection}{Funcionalidades del Catlogo Interactivo}
 
-El sistema de catálogo se implementó con los siguientes módulos:
+El sistema de catlogo se implement con los siguientes mdulos:
 
 \begin{itemize}
-    \item \textbf{PartCatalogManager.} Búsqueda por nombre, descripción y tipo de componente, con soporte para consultas parciales.
-    \item \textbf{PartCatalogUI.} Interfaz con \textit{scroll} virtual, filtros por categoría (Structural, Electronics, Propulsion, Other) y filtros por material.
+    \item \textbf{PartCatalogManager.} Bsqueda por nombre, descripcin y tipo de componente, con soporte para consultas parciales.
+    \item \textbf{PartCatalogUI.} Interfaz con \textit{scroll} virtual, filtros por categora (Structural, Electronics, Propulsion, Other) y filtros por material.
     \item \textbf{PartVisibilityManager.} Control de visibilidad con animaciones \textit{fade-in/out} para ocultar y mostrar piezas sin corte abrupto.
-    \item \textbf{EnhancedInfoPanel.} Panel detallado que muestra peso, dimensiones, función, material, fabricante y número de parte, extraído directamente del \texttt{DronePartData} de cada pieza.
+    \item \textbf{EnhancedInfoPanel.} Panel detallado que muestra peso, dimensiones, funcin, material, fabricante y nmero de parte, extrado directamente del \texttt{DronePartData} de cada pieza.
 \end{itemize}
 
 % -------------------------------------------------------------------------------
-\subsection{Herramientas Avanzadas de Análisis}
-\addcontentsline{toc}{subsection}{Herramientas Avanzadas de Análisis}
+\subsection{Herramientas Avanzadas de Anlisis}
+\addcontentsline{toc}{subsection}{Herramientas Avanzadas de Anlisis}
 
-\paragraph{Cortes Transversales (CrossSectionManager).} Permite visualizar cortes en los ejes X, Y y Z con un plano visual configurable. El corte se implementó mediante \texttt{\_ClipPlane} como variable global de \textit{shader}, de modo que todos los materiales respeten el plano de recorte sin necesidad de modificar cada \textit{shader} individualmente.
+\paragraph{Cortes Transversales (CrossSectionManager).} Permite visualizar cortes en los ejes X, Y y Z con un plano visual configurable. El corte se implement mediante \texttt{\_ClipPlane} como variable global de \textit{shader}, de modo que todos los materiales respeten el plano de recorte sin necesidad de modificar cada \textit{shader} individualmente.
 
-\paragraph{Estados del Dron (DroneStateController).} Módulo diseñado para simular~5 estados operativos: Off, StartingUp, Idle, Flying, ShuttingDown. Incluye animación de propelas con velocidad variable, luces de estado (rojo, amarillo, verde), partículas de propulsión y efecto \textit{hover} (oscilación vertical). \textit{Nota}: este sistema se encuentra en fase de integración activa para la versión actual del prototipo.
+\paragraph{Estados del Dron (DroneStateController).} Mdulo diseado para simular~5 estados operativos: Off, StartingUp, Idle, Flying, ShuttingDown. Incluye animacin de propelas con velocidad variable, luces de estado (rojo, amarillo, verde), partculas de propulsin y efecto \textit{hover} (oscilacin vertical). \textit{Nota}: este sistema se encuentra en fase de integracin activa para la versin actual del prototipo.
 
-\paragraph{Puntos de Interés (\textit{Hotspots}).} Sistema de puntos interactivos~3D (\texttt{SmartHotspot}) posicionados sobre componentes clave del dron. Cada \textit{hotspot} está vinculado a un \texttt{DronePartData} y, al hacer clic, publica un evento de selección que abre el panel de información correspondiente. Los \textit{hotspots} se escalan dinámicamente según la distancia de la cámara para mantener legibilidad.
+\paragraph{Puntos de Inters (\textit{Hotspots}).} Sistema de puntos interactivos~3D (\texttt{SmartHotspot}) posicionados sobre componentes clave del dron. Cada \textit{hotspot} est vinculado a un \texttt{DronePartData} y, al hacer clic, publica un evento de seleccin que abre el panel de informacin correspondiente. Los \textit{hotspots} se escalan dinmicamente segn la distancia de la cmara para mantener legibilidad.
 
 % -------------------------------------------------------------------------------
 \subsection{Herramientas de Ensamblaje (Proyectadas)}
 \addcontentsline{toc}{subsection}{Herramientas de Ensamblaje (Proyectadas)}
 
-Se diseñaron e implementaron a nivel de código los módulos para un conjunto de herramientas especializadas orientadas a ingenieros y técnicos de ensamblaje. Estos módulos cuentan con la arquitectura y lógica de base completa (scripts~C\#, datos \texttt{ScriptableObject}, eventos del \texttt{EventBus}), pero \textbf{no están integrados en la interfaz de usuario de la versión actual del prototipo}. Se proyectan para futuras iteraciones del sistema.
+Se disearon e implementaron a nivel de cdigo los mdulos para un conjunto de herramientas especializadas orientadas a ingenieros y tcnicos de ensamblaje. Estos mdulos cuentan con la arquitectura y lgica de base completa (scripts~C\#, datos \texttt{ScriptableObject}, eventos del \texttt{EventBus}), pero \textbf{no estn integrados en la interfaz de usuario de la versin actual del prototipo}. Se proyectan para futuras iteraciones del sistema.
 
-\paragraph{Guía de Ensamblaje (AssemblyGuideManager).} Módulo diseñado para instrucciones paso a paso con: (a)~navegación secuencial con barra de progreso, (b)~listado de herramientas requeridas por paso, (c)~tiempos estimados y niveles de dificultad (escala~1--5), (d)~advertencias de seguridad y consejos de instalación, y (e)~resaltado automático de las piezas involucradas en cada paso. La interfaz de usuario (\texttt{AssemblyStepUI}) y los datos (\texttt{AssemblyGuideData}) fueron implementados como artefactos de código listos para integración.
+\paragraph{Gua de Ensamblaje (AssemblyGuideManager).} Mdulo diseado para instrucciones paso a paso con: (a)~navegacin secuencial con barra de progreso, (b)~listado de herramientas requeridas por paso, (c)~tiempos estimados y niveles de dificultad (escala~1--5), (d)~advertencias de seguridad y consejos de instalacin, y (e)~resaltado automtico de las piezas involucradas en cada paso. La interfaz de usuario (\texttt{AssemblyStepUI}) y los datos (\texttt{AssemblyGuideData}) fueron implementados como artefactos de cdigo listos para integracin.
 
-\paragraph{Herramienta de Medición (MeasurementTool).} Implementación completa con tres modos: Distancia (entre~2 puntos vía \textit{raycast}), Ángulo (3~puntos con cálculo vectorial), y Radio (con cálculo de circunferencia y área). Incluye visualización en tiempo real con marcadores y líneas~3D mediante \texttt{LineRenderer}. \textit{Nota}: esta funcionalidad fue ocultada en la versión actual del prototipo dado que el modelo~3D no posee escala~1:1 calibrada; se incluye como trabajo futuro.
+\paragraph{Herramienta de Medicin (MeasurementTool).} Implementacin completa con tres modos: Distancia (entre~2 puntos va \textit{raycast}), ngulo (3~puntos con clculo vectorial), y Radio (con clculo de circunferencia y rea). Incluye visualizacin en tiempo real con marcadores y lneas~3D mediante \texttt{LineRenderer}. \textit{Nota}: esta funcionalidad fue ocultada en la versin actual del prototipo dado que el modelo~3D no posee escala~1:1 calibrada; se incluye como trabajo futuro.
 
-\paragraph{Puntos de Conexión (ConnectionPointsViewer).} Módulo para visualización de puntos de conexión con colores codificados por tipo: tornillos (gris) con especificación de torque, conexiones \textit{snap} (verde), soldaduras (naranja) y cables (azul). Requiere la configuración de componentes \texttt{ConnectionPointMarker} en los objetos de la escena.
+\paragraph{Puntos de Conexin (ConnectionPointsViewer).} Mdulo para visualizacin de puntos de conexin con colores codificados por tipo: tornillos (gris) con especificacin de torque, conexiones \textit{snap} (verde), soldaduras (naranja) y cables (azul). Requiere la configuracin de componentes \texttt{ConnectionPointMarker} en los objetos de la escena.
 
-\paragraph{Lista de Materiales (BillOfMaterialsManager).} Módulo para generación automática de BOM (\textit{Bill of Materials}) con cantidades, pesos totales, agrupación por categoría, y exportación a formato CSV.
+\paragraph{Lista de Materiales (BillOfMaterialsManager).} Mdulo para generacin automtica de BOM (\textit{Bill of Materials}) con cantidades, pesos totales, agrupacin por categora, y exportacin a formato CSV.
 
-\paragraph{Sistema de Anotaciones (AnnotationSystem).} Módulo para notas~3D con texto \textit{billboard} (orientado siempre hacia la cámara) y líneas de conexión a piezas. La persistencia de datos queda como trabajo futuro.
+\paragraph{Sistema de Anotaciones (AnnotationSystem).} Mdulo para notas~3D con texto \textit{billboard} (orientado siempre hacia la cmara) y lneas de conexin a piezas. La persistencia de datos queda como trabajo futuro.
 
-\paragraph{Lista de Verificación (AssemblyChecklist).} \textit{Checklist} diseñada para verificar la presencia de piezas durante un proceso de ensamblaje real.
+\paragraph{Lista de Verificacin (AssemblyChecklist).} \textit{Checklist} diseada para verificar la presencia de piezas durante un proceso de ensamblaje real.
 
 % -------------------------------------------------------------------------------
-\subsection{\textit{Pipeline} de Optimización de Assets~3D}
-\addcontentsline{toc}{subsection}{Pipeline de Optimización de Assets 3D}
+\subsection{\textit{Pipeline} de Optimizacin de Assets~3D}
+\addcontentsline{toc}{subsection}{Pipeline de Optimizacin de Assets 3D}
 
-Se diseñó y ejecutó un \textit{pipeline} de \textit{Technical Art} riguroso para cumplir con el presupuesto de~100\,000 polígonos establecido en los KPIs. El flujo de trabajo completo se compone de las etapas descritas a continuación y se resume en la Figura~\ref{fig:pipeline-3d}.
+Se dise y ejecut un \textit{pipeline} de \textit{Technical Art} riguroso para cumplir con el presupuesto de~100\,000 polgonos establecido en los KPIs. El flujo de trabajo completo se compone de las etapas descritas a continuacin y se resume en la Figura~\ref{fig:pipeline-3d}.
 
-% TODO: Insertar diagrama del pipeline 3D cuando esté disponible.
-% Flujo propuesto: CAD (STEP/IGES) ? [Houdini: conversión/simplificación procedural]
-%   ? Blender (retopología/baking) ? Substance Painter (PBR) ? Unity (WebGLOptimizer)
+% TODO: Insertar diagrama del pipeline 3D cuando est disponible.
+% Flujo propuesto: CAD (STEP/IGES) ? [Houdini: conversin/simplificacin procedural]
+%   ? Blender (retopologa/baking) ? Substance Painter (PBR) ? Unity (WebGLOptimizer)
 \begin{figure}[h!]
     \centering
     % \includegraphics[width=0.95\textwidth]{figures/pipeline_3d_workflow.png}
-    \fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}\textit{[Diagrama del pipeline pendiente de inclusión]}\vspace{2cm}}}
-    \caption{Flujo de trabajo del \textit{pipeline} de optimización de assets~3D: desde modelos CAD hasta WebGL.}
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}\textit{[Diagrama del pipeline pendiente de inclusin]}\vspace{2cm}}}
+    \caption{Flujo de trabajo del \textit{pipeline} de optimizacin de assets~3D: desde modelos CAD hasta WebGL.}
     \label{fig:pipeline-3d}
 \end{figure}
 
-% --- Etapa 0 (condicional): Procesamiento procedural en Houdini ---
-\subsubsection{Procesamiento Procedural (Houdini)}
+% --- Etapa 0 (evaluada): Procesamiento procedural en Houdini ---
+\subsubsection{Procesamiento Procedural (Houdini --- Evaluado y Descartado)}
 \addcontentsline{toc}{subsubsection}{Procesamiento Procedural (Houdini)}
 
-% TODO: Completar esta sección cuando se defina el rol final de Houdini en el pipeline.
-% Posibles usos: conversión CAD?mesh, retopología procedural (PolyReduce/Remesh),
-% generación de LODs, limpieza de geometría, exportación batch.
-Los modelos CAD originales en formato STEP/IGES presentaron superficies NURBS de alta complejidad ($>$2~millones de polígonos). Se evaluó el uso de SideFX Houdini como herramienta de procesamiento procedural para la conversión, simplificación y/o generación de niveles de detalle (LODs) de manera automatizada. \textit{[Sección pendiente de completar una vez se finalice la definición del rol de Houdini en el pipeline.]}
+Los modelos CAD originales en formato STEP/IGES presentaron superficies NURBS de alta complejidad ($>$2~millones de pol\'igonos). Se evalu\'o el uso de SideFX Houdini como herramienta de procesamiento procedural para la conversi\'on automatizada CAD$\rightarrow$mesh, la simplificaci\'on mediante PolyReduce/Remesh y la generaci\'on de niveles de detalle (LODs). Sin embargo, dado que el proyecto trabaj\'o con un \'unico modelo de dron (Holybro X500~V2), la retopolog\'ia manual y semi-autom\'atica en Blender~4.x ofreci\'o resultados de mayor calidad con un costo de tiempo menor que la configuraci\'on de un pipeline procedural completo. Houdini se recomienda como trabajo futuro para pipelines que involucren m\'ultiples modelos de hardware.
 
-% --- Etapa 1: Retopología ---
-\subsubsection{Retopología}
-\addcontentsline{toc}{subsubsection}{Retopología}
+% --- Etapa 1: Retopolog\'ia ---
+\subsubsection{Retopolog\'ia}
+\addcontentsline{toc}{subsubsection}{Retopolog\'ia}
 
-% TODO: Actualizar si la retopología se realiza finalmente en Houdini en lugar de Blender.
-Los modelos de alta densidad fueron simplificados en Blender mediante dos estrategias: (a)~modificador Decimate para reducción automática de~95\,\% en áreas uniformes, y (b)~retopología manual en áreas de deformación crítica y \textit{edge loops} funcionales (bordes de tornillos, interfaces de ensamblaje). El resultado fue una malla \textit{low-poly} inferior a~100\,000~triángulos.
+
+Los modelos de alta densidad fueron simplificados en Blender mediante dos estrategias: (a)~modificador Decimate para reduccin automtica de~95\,\% en reas uniformes, y (b)~retopologa manual en reas de deformacin crtica y \textit{edge loops} funcionales (bordes de tornillos, interfaces de ensamblaje). El resultado fue una malla \textit{low-poly} inferior a~100\,000~tringulos.
 
 % --- Etapa 2: Baking ---
 \subsubsection{\textit{Baking} de Normales}
 \addcontentsline{toc}{subsubsection}{Baking de Normales}
 
-Los detalles de alta frecuencia del modelo \textit{high-poly} se proyectaron en mapas de normales (\textit{Normal Maps}) de resolución $2048 \times 2048$, permitiendo que la geometría de bajo poligonaje retuviera la apariencia visual del modelo original. El proceso se realizó en Blender con jaulas de proyección (\textit{cage baking}) para minimizar artefactos.
+Los detalles de alta frecuencia del modelo \textit{high-poly} se proyectaron en mapas de normales (\textit{Normal Maps}) de resolucin $2048 \times 2048$, permitiendo que la geometra de bajo poligonaje retuviera la apariencia visual del modelo original. El proceso se realiz en Blender con jaulas de proyeccin (\textit{cage baking}) para minimizar artefactos.
 
 % --- Etapa 3: Texturizado PBR ---
 \subsubsection{Texturizado PBR}
 \addcontentsline{toc}{subsubsection}{Texturizado PBR}
 
-Los materiales se crearon en Adobe Substance Painter siguiendo el flujo \textit{Metallic/Roughness}, produciendo los siguientes mapas por material: Albedo, Normal, Metallic, Roughness, Ambient Occlusion y Emission (para LEDs). Los materiales representaron los componentes reales del dron: fibra de carbono, aluminio anodizado, plásticos ABS y PCBs.
+Los materiales se crearon en Adobe Substance Painter siguiendo el flujo \textit{Metallic/Roughness}, produciendo los siguientes mapas por material: Albedo, Normal, Metallic, Roughness, Ambient Occlusion y Emission (para LEDs). Los materiales representaron los componentes reales del dron: fibra de carbono, aluminio anodizado, plsticos ABS y PCBs.
 
-% --- Etapa 4: Optimización runtime ---
-\subsubsection{Optimización WebGL}
-\addcontentsline{toc}{subsubsection}{Optimización WebGL}
+% --- Etapa 4: Optimizacin runtime ---
+\subsubsection{Optimizacin WebGL}
+\addcontentsline{toc}{subsubsection}{Optimizacin WebGL}
 
-Se implementó un sistema de ajuste de calidad en tiempo de ejecución distribuido en dos módulos complementarios: \texttt{QualityManager} (ajuste dinámico de resolución según \textit{frame rate}) y \texttt{WebGLProfiler} (monitoreo de métricas de rendimiento). El sistema:
+Se implement un sistema de ajuste de calidad en tiempo de ejecucin distribuido en dos mdulos complementarios: \texttt{QualityManager} (ajuste dinmico de resolucin segn \textit{frame rate}) y \texttt{WebGLProfiler} (monitoreo de mtricas de rendimiento). El sistema:
 
 \begin{itemize}
-    \item Ajusta dinámicamente la escala de renderizado (\texttt{renderScale}) según el \textit{frame rate} medido.
-    \item Monitorea métricas de rendimiento (FPS, \textit{frame time}, uso de \textit{heap}).
-    \item Proporciona diagnósticos de rendimiento en tiempo de ejecución (\texttt{WebGLDiagnostics}).
+    \item Ajusta dinmicamente la escala de renderizado (\texttt{renderScale}) segn el \textit{frame rate} medido.
+    \item Monitorea mtricas de rendimiento (FPS, \textit{frame time}, uso de \textit{heap}).
+    \item Proporciona diagnsticos de rendimiento en tiempo de ejecucin (\texttt{WebGLDiagnostics}).
 \end{itemize}
 
 % -------------------------------------------------------------------------------
@@ -307,62 +304,66 @@ Se desarrollaron~9 \textit{shaders} HLSL/CG optimizados para WebGL~2.0 bajo Univ
 \small
 \begin{tabular}{lp{8cm}}
 \hline
-\textbf{Shader} & \textbf{Descripción} \\ \hline
-ClippableLit & Extensión de Lit URP con soporte de plano de corte global (\texttt{\_ClipPlane}) \\
+\textbf{Shader} & \textbf{Descripcin} \\ \hline
+ClippableLit & Extensin de Lit URP con soporte de plano de corte global (\texttt{\_ClipPlane}) \\
 XRay & Semi-transparencia con efecto Fresnel; \texttt{Blend SrcAlpha OneMinusSrcAlpha} \\
-Blueprint & Detección de bordes Sobel sobre normales, estética de plano técnico \\
+Blueprint & Deteccin de bordes Sobel sobre normales, esttica de plano tcnico \\
 Thermal & Gradiente de color parametrizable basado en valores de temperatura simulados \\
-Wireframe & Geometría de líneas vía Geometry Shader (escritorio) \\
-WireframeWebGL & \textit{Fallback} basado en coordenadas baricéntricas para WebGL~2.0 \\
-SolidColor & Color plano configurable sin iluminación \\
+Wireframe & Geometra de lneas va Geometry Shader (escritorio) \\
+WireframeWebGL & \textit{Fallback} basado en coordenadas baricntricas para WebGL~2.0 \\
+SolidColor & Color plano configurable sin iluminacin \\
 Ghosted & Transparencia extrema con refuerzo de bordes \\
-AnimatedGradientSkybox & Fondo procedural animado con interpolación de gradientes \\
+AnimatedGradientSkybox & Fondo procedural animado con interpolacin de gradientes \\
 \hline
 \end{tabular}
 \end{table}
 
-Todos los \textit{shaders} PBR implementaron el modelo Cook-Torrance con distribución GGX y aproximación de Fresnel de Schlick (véase Sección Marco Teórico, Modelo Matemático PBR). El \textit{shader} ClippableLit sirve como base para los modos que requieren compatibilidad con el sistema de corte transversal.
+Todos los \textit{shaders} PBR implementaron el modelo Cook-Torrance con distribucin GGX y aproximacin de Fresnel de Schlick (vase Seccin Marco Terico, Modelo Matemtico PBR). El \textit{shader} ClippableLit sirve como base para los modos que requieren compatibilidad con el sistema de corte transversal.
 
 % -------------------------------------------------------------------------------
-\subsection{Configuración de DronePartData}
-\addcontentsline{toc}{subsection}{Configuración de DronePartData}
+\subsection{Configuracin de DronePartData}
+\addcontentsline{toc}{subsection}{Configuracin de DronePartData}
 
-El \texttt{ScriptableObject DronePartData} almacena más de~32 campos por pieza, organizados en bloques funcionales. Los 16~\texttt{ScriptableObjects} del catálogo fueron configurados con datos técnicos verificados de la documentación oficial de Holybro, PX4, y fichas de dato de los fabricantes de cada componente (véase Apéndice~P):
+El \texttt{ScriptableObject DronePartData} almacena ms de~32 campos por pieza, organizados en bloques funcionales. Los 16~\texttt{ScriptableObjects} del catlogo fueron configurados con datos tcnicos verificados de la documentacin oficial de Holybro, PX4, y fichas de dato de los fabricantes de cada componente (vase Apndice~P):
 
 \begin{itemize}
-    \item \textbf{Información General.} Nombre, ID único (\texttt{x500v2\_*}), tipo de componente (\texttt{PartType}: Frame, Motor, ESC, FlightController, GPS, Radio, etc.), descripción técnica detallada.
-    \item \textbf{Especificaciones Técnicas.} Peso (kg), dimensiones (mm), función operativa, potencia nominal (W), temperatura operativa máxima (°C), carga máxima (A o kg según tipo).
-    \item \textbf{Materiales.} Tipo de material (CF twill, aluminio CNC, PCB FR4, nylon, LiPo), propiedades mecánicas/térmicas, fabricante y número de parte (\textit{SKU}).
-    \item \textbf{Vista Explosionada.} Dirección de explosión (\texttt{Vector3}), distancia de separación (0.3--2.5), prioridad de animación (1--10).
-    \item \textbf{Ensamblaje.} Herramientas requeridas (\texttt{string[]}), especificación de torque (Nm), cantidad y tamaño de tornillos, dificultad (1--5), tiempo de instalación (min), prerrequisitos, orden de montaje.
-    \item \textbf{Conexiones y Seguridad.} Tipos de conexión (\texttt{string[]}), advertencias de seguridad, consejos de instalación.
-    \item \textbf{Perfil Térmico.} Color de \textit{highlight} (\texttt{Color}) utilizado por el \textit{shader} \texttt{Thermal} para representar la temperatura de operación: desde azul oscuro (piezas pasivas, $\sim$20\,°C) hasta rojo intenso (motores a plena carga, $\sim$95\,°C).
+    \item \textbf{Informacin General.} Nombre, ID nico (\texttt{x500v2\_*}), tipo de componente (\texttt{PartType}: Frame, Motor, ESC, FlightController, GPS, Radio, etc.), descripcin tcnica detallada.
+    \item \textbf{Especificaciones Tcnicas.} Peso (kg), dimensiones (mm), funcin operativa, potencia nominal (W), temperatura operativa mxima (C), carga mxima (A o kg segn tipo).
+    \item \textbf{Materiales.} Tipo de material (CF twill, aluminio CNC, PCB FR4, nylon, LiPo), propiedades mecnicas/trmicas, fabricante y nmero de parte (\textit{SKU}).
+    \item \textbf{Vista Explosionada.} Direccin de explosin (\texttt{Vector3}), distancia de separacin (0.3--2.5), prioridad de animacin (1--10).
+    \item \textbf{Ensamblaje.} Herramientas requeridas (\texttt{string[]}), especificacin de torque (Nm), cantidad y tamao de tornillos, dificultad (1--5), tiempo de instalacin (min), prerrequisitos, orden de montaje.
+    \item \textbf{Conexiones y Seguridad.} Tipos de conexin (\texttt{string[]}), advertencias de seguridad, consejos de instalacin.
+    \item \textbf{Perfil Trmico.} Color de \textit{highlight} (\texttt{Color}) utilizado por el \textit{shader} \texttt{Thermal} para representar la temperatura de operacin: desde azul oscuro (piezas pasivas, $\sim$20\,C) hasta rojo intenso (motores a plena carga, $\sim$95\,C).
 \end{itemize}
 
 % -------------------------------------------------------------------------------
 
-\subsection{Subsistema Térmico Híbrido (En Desarrollo Activo)}
-\addcontentsline{toc}{subsection}{Subsistema Térmico Híbrido (En Desarrollo Activo)}
+\subsection{Subsistema Trmico Hbrido (En Desarrollo Activo)}
+\addcontentsline{toc}{subsection}{Subsistema Trmico Hbrido (En Desarrollo Activo)}
 
-Como extensión del modo de visualización \textit{Thermal}, se inició la implementación de un subsistema térmico híbrido orientado a navegadores WebGL. A diferencia del enfoque inicial puramente visual, la nueva base incorpora un solver reducido por componentes, una representación de carga sostenida asociada al estado operativo del dron y una capa de propagación espacial visual para piezas críticas.
+Como extensin del modo de visualizacin \textit{Thermal}, se inici la implementacin de un subsistema trmico hbrido orientado a navegadores WebGL. A diferencia del enfoque inicial puramente visual, la nueva base incorpora un solver reducido por componentes, una representacin de carga sostenida asociada al estado operativo del dron y una capa de propagacin espacial visual para piezas crticas.
 
-La arquitectura inicial del subsistema quedó compuesta por \texttt{ThermalSimulationManager}, \texttt{ThermalViewController}, \texttt{ThermalSurfaceProfile}, \texttt{ThermalContactGraphAsset} y \texttt{ThermalContactGraphBuilderWindow}. Esta decisión permitió separar la física reducida, la transferencia de temperatura al render y la generación offline del grafo térmico, manteniendo un diseño compatible con las restricciones de rendimiento de WebGL móvil.
+La arquitectura inicial del subsistema qued compuesta por \texttt{ThermalSimulationManager}, \texttt{ThermalViewController}, \texttt{ThermalSurfaceProfile}, \texttt{ThermalContactGraphAsset} y \texttt{ThermalContactGraphBuilderWindow}. Esta decisin permiti separar la fsica reducida, la transferencia de temperatura al render y la generacin offline del grafo trmico, manteniendo un diseo compatible con las restricciones de rendimiento de WebGL mvil.
 
-En esta etapa, la simulación no se presenta como CFD ni como FEA térmico completo, sino como una aproximación físicamente consistente, cualitativa avanzada y visualmente creíble. El siguiente paso consiste en calibrar el grafo generado sobre la geometría final retopologizada del X500~V2 y asignar perfiles térmicos a las piezas críticas.
+
+
+En esta etapa, la simulacion no se presenta como CFD ni como FEA termico completo, sino como una aproximacion fisicamente consistente, cualitativa avanzada y visualmente creible. El siguiente paso consiste en calibrar el grafo generado sobre la geometria final retopologizada del X500~V2 y asignar perfiles termicos a las piezas criticas.
+
+Durante la etapa de rescate de marzo de 2026 se fijo ademas un asset canonico de contactos (\texttt{ThermalCanonicalContactGraph.asset}), se consolido la leyenda termica visible in UI y se endurecio \texttt{ThermalViewController} para usar presets canonicos cuando todavia no exista un \texttt{ThermalSurfaceProfile} manual. El harness \texttt{ThermalTestSetup.cs} quedo aislado como herramienta experimental para CAD bruto y no debe confundirse con la ruta oficial del sistema.
 \subsection{Sistemas Complementarios}
 \addcontentsline{toc}{subsection}{Sistemas Complementarios}
 
-\paragraph{Sistema de Audio (AudioManager).} Control completo de audio con volúmenes separados (Master, SFX, Music), persistencia de preferencias en \texttt{PlayerPrefs}, y \textit{fade} dinámico entre pistas.
+\paragraph{Sistema de Audio (AudioManager).} Control completo de audio con volmenes separados (Master, SFX, Music), persistencia de preferencias en \texttt{PlayerPrefs}, y \textit{fade} dinmico entre pistas.
 
-\paragraph{Motor de Animaciones (TweenEngine).} Implementación liviana alternativa a DOTween, con~8 tipos de \textit{easing} (Linear, EaseInOut, EaseIn, EaseOut, EaseInBack, EaseOutBack, EaseInElastic, EaseOutElastic) para animaciones de \texttt{float}, \texttt{Vector3} y \texttt{Color}.
+\paragraph{Motor de Animaciones (TweenEngine).} Implementacin liviana alternativa a DOTween, con~8 tipos de \textit{easing} (Linear, EaseInOut, EaseIn, EaseOut, EaseInBack, EaseOutBack, EaseInElastic, EaseOutElastic) para animaciones de \texttt{float}, \texttt{Vector3} y \texttt{Color}.
 
-\paragraph{Captura de Pantalla.} Se diseñó un sistema de captura que bifurca la implementación según la plataforma: en el Editor usaría \texttt{File.WriteAllBytes}, y en WebGL generaría un enlace de descarga en base64 mediante interoperabilidad~JavaScript. Este módulo está proyectado para futuras iteraciones.
+\paragraph{Captura de Pantalla.} Se dise un sistema de captura que bifurca la implementacin segn la plataforma: en el Editor usara \texttt{File.WriteAllBytes}, y en WebGL generara un enlace de descarga en base64 mediante interoperabilidad~JavaScript. Este mdulo est proyectado para futuras iteraciones.
 
 % -------------------------------------------------------------------------------
 \subsection{Restricciones de WebGL y Soluciones}
 \addcontentsline{toc}{subsection}{Restricciones de WebGL y Soluciones}
 
-La compilación a WebGL impuso restricciones técnicas significativas (Unity Technologies, 2024d) que requirieron soluciones de ingeniería específicas:
+La compilacin a WebGL impuso restricciones tcnicas significativas (Unity Technologies, 2024d) que requirieron soluciones de ingeniera especficas:
 
 \begin{table}[h!]
 \centering
@@ -370,20 +371,20 @@ La compilación a WebGL impuso restricciones técnicas significativas (Unity Techn
 \small
 \begin{tabular}{lp{8cm}}
 \hline
-\textbf{Restricción} & \textbf{Solución} \\ \hline
-\textit{Single-threaded} & Operaciones asíncronas mediante \texttt{Coroutines}; sin \texttt{System.Threading} \\
+\textbf{Restriccin} & \textbf{Solucin} \\ \hline
+\textit{Single-threaded} & Operaciones asncronas mediante \texttt{Coroutines}; sin \texttt{System.Threading} \\
 Sin \textit{filesystem} & Persistencia en \texttt{PlayerPrefs} $\rightarrow$ \texttt{localStorage} \\
-Sin Geometry Shaders & \textit{Shader} alternativo (\texttt{WireframeWebGL}) basado en coordenadas baricéntricas \\
+Sin Geometry Shaders & \textit{Shader} alternativo (\texttt{WireframeWebGL}) basado en coordenadas baricntricas \\
 Heap limitado ($\sim$2\,GB) & \texttt{QualityManager} + \texttt{WebGLProfiler} monitorean rendimiento y ajustan escala de renderizado \\
-Sin \texttt{System.IO.File} & Captura de pantalla vía base64 y JS \textit{interop} \\
-Sin \texttt{Application.Quit()} & Navegación \textit{back} mediante \texttt{ExternalEval} \\
+Sin \texttt{System.IO.File} & Captura de pantalla va base64 y JS \textit{interop} \\
+Sin \texttt{Application.Quit()} & Navegacin \textit{back} mediante \texttt{ExternalEval} \\
 \hline
 \end{tabular}
 \end{table}
 
 % -------------------------------------------------------------------------------
-\subsection{Resumen de Implementación}
-\addcontentsline{toc}{subsection}{Resumen de Implementación}
+\subsection{Resumen de Implementacin}
+\addcontentsline{toc}{subsection}{Resumen de Implementacin}
 
 \begin{table}[h!]
 \centering
@@ -391,7 +392,7 @@ Sin \texttt{Application.Quit()} & Navegación \textit{back} mediante \texttt{Exte
 \small
 \begin{tabular}{lc}
 \hline
-\textbf{Categoría} & \textbf{Cantidad} \\ \hline
+\textbf{Categora} & \textbf{Cantidad} \\ \hline
 Core Managers & 30 \\
 UI Components & 19 \\
 Data / Events & 5 \\
@@ -400,12 +401,12 @@ Content & 3 \\
 Shaders & 9 \\
 USS / UXML & 9 \\
 \hline
-\textbf{Total C\# Scripts} & \textbf{91} \\
+\textbf{Total C\# Scripts} & \textbf{104} \\
 \textbf{Total Shaders} & \textbf{9} \\
-\textbf{Líneas C\#} & \textbf{$\sim$14\,778} \\
-\textbf{Líneas HLSL/CG} & \textbf{$\sim$1\,749} \\
-\textbf{Líneas USS + UXML} & \textbf{$\sim$4\,063} \\
-\textbf{Commits en repositorio} & \textbf{240+} \\
+\textbf{Lneas C\#} & \textbf{$\sim$16\,927} \\
+\textbf{Lneas HLSL/CG} & \textbf{$\sim$1\,749} \\
+\textbf{Lneas USS + UXML} & \textbf{$\sim$4\,063} \\
+\textbf{Commits en repositorio} & \textbf{316} \\
 \hline
 \end{tabular}
 \end{table}

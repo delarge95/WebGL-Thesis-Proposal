@@ -930,3 +930,36 @@
 
 ### Verified
 - Añadidas V003 y V004 en wolfram_verificaciones.md, confirmando matemática y cualitativamente la compresión de las constantes de tiempo térmico (tau) en ThermalSimulationManager.cs por razones de fluidez interactiva en WebGL vs la realidad (7 minutos).
+
+## [Unreleased] - 2026-03-19
+### Added
+- `ThermalCanonicalContactGraph.asset` como grafo explicito oficial para las 28 piezas canonicas del solver.
+- Presets termicos canónicos en `ThermalViewController` para motores, ESC, bateria, brazos, plates y stack central.
+- `AGENT_HANDOFF_THERMAL.md` y nueva guia `RETOPOLOGIA_POR_PIEZA.md` con enfoque hibrido 28+55.
+
+### Changed
+- `ThermalSimulationManager` ahora resuelve automaticamente un grafo canonico por `Resources` antes de caer al fallback heuristico.
+- `ThermalViewController` cachea la leyenda UI y deja de buscar el `UIDocument` en cada refresh.
+- `ThermalContactGraphBuilderWindow` apunta por defecto al asset oficial en `Assets/Resources/`.
+- `ThermalTestSetup.cs` queda marcado como experimental y fuera del camino oficial.
+
+### Docs
+- Sincronizados `README.md`, indices termicos, matriz documental, documentacion tecnica, bitacora, manual tecnico, capitulo 4 y referencias de portafolio.
+
+### Notes
+- En esta rama la carga termica oficial sigue gobernada por `DroneStateController`; un slider UI dedicado sigue siendo mejora futura y no debe describirse como ya reintegrado.
+## [Unreleased] - 2026-03-31
+### Added
+- `ImportedDroneRuntimeBinder.cs` para reenganchar el FBX importado al runtime y recachear managers clave.
+- `PartRenderCategory.cs` para soportar categorias publicas por renderer (`Structure`, `Propulsion`, `Electronics`, `Fasteners`, `Misc`).
+- `PREPARACION_FBX_IMPORTADO.md` como guia operativa del flujo oficial para `x500v2_Drone`.
+
+### Changed
+- `UIManager` ahora autocrea managers criticos tambien para escenas sin bootstrap serializado completo.
+- `SelectionManager` ahora cae por defecto a la layer `SelectablePart` si el `LayerMask` no fue configurado.
+- `SetupImportedDroneThermalTest` ahora asigna layer seleccionable, colliders tipo box, categorias auxiliares y binder runtime.
+- `ViewModeManager`, `ExplodedViewManager`, `PartVisibilityManager`, `CrossSectionManager` y `HotspotManager` exponen recacheo o refresh para el dron importado.
+
+### Notes
+- `Fasteners` y `Misc` ya son categorias publicas filtrables y aislables como coleccion visual, pero siguen heredando temperatura del ensamblaje padre en el solver V1.
+- La validacion final sigue pendiente en Unity Editor con la escena retopologizada completa.

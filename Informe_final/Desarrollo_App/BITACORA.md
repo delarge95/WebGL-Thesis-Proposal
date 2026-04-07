@@ -99,3 +99,60 @@ Definir la viabilidad técnica y conceptual de un visualizador interactivo 3D pa
 - **Sincronización de UI**: Actualizado UIAnalyzePanel.cs para mostrar la leyenda solo cuando el Shading Mode es "Thermal".
 - **Sincronización de Datos**: Actualizado ThermalViewController.cs para inyectar automáticamente displayMinTemperatureC y displayMaxTemperatureC en las etiquetas UI conectadas al visualizador.
 - **Wolfram V003/V004**: Validado WarmupSeconds (tau) y coolingRate. El cálculo real muestra que una $\tau$ verdadera tomaría ~7 minutos (410s) en llegar al equilibrio, justificando plenamente el valor acelerado del solver (10-15s) para UX y performance visual interactiva en la app.
+
+---
+
+## Registro de Cambios (Marzo 19, 2026) - Rescate del sistema termico y etapa 4 canonica
+
+### Objetivo
+
+Sanear la rama termica, consolidar el camino oficial del runtime y corregir la documentacion para que refleje el estado real del subsistema.
+
+### Acciones Realizadas
+
+1. **Auditoria de cambios recientes**:
+   - _Accion_: Revision tecnica del trabajo heredado para clasificar que se conserva, que se corrige y que queda como experimental.
+   - _Resultado_: Se mantiene la arquitectura base del solver, shader, leyenda UI y tooling editor; se eliminan sobrepromesas documentales.
+2. **Grafo canónico oficial**:
+   - _Implementacion_: Creacion de `Assets/Resources/ThermalCanonicalContactGraph.asset` con la red explicita de contactos para las 28 piezas canonicas.
+   - _Resultado_: El runtime ya no depende del fallback heuristico como camino oficial.
+3. **Endurecimiento de `ThermalViewController`**:
+   - _Implementacion_: Cache de la leyenda UI, presets canónicos por pieza critica y mejor resolucion de hotspots/direccion cuando no existe `ThermalSurfaceProfile` manual.
+   - _Resultado_: Mejor estabilidad y mejor lectura visual sin tocar escenas serializadas.
+4. **Aislamiento del flujo CAD bruto**:
+   - _Implementacion_: `ThermalTestSetup.cs` se reetiqueto como experimental y dev-only.
+   - _Resultado_: Queda claro que no forma parte del pipeline oficial del sistema termico.
+5. **Gobernanza documental**:
+   - _Implementacion_: Reescritura de `README.md`, `AGENT_HANDOFF_THERMAL.md`, `RETOPOLOGIA_POR_PIEZA.md`, indices y matriz documental; actualizacion de docs tecnicas y de portafolio.
+   - _Resultado_: La documentacion ahora distingue entre implementado, integrado, validado, experimental y pendiente.
+
+### Estado Actual
+
+- Runtime oficial: solver por 28 piezas canonicas + grafo explicito + shader espacial + leyenda UI.
+- Carga termica visible: gobernada por `DroneStateController.SystemLoadFactor` y estados del dron.
+- Pendiente real: validar la escena final retopologizada, asignar overrides manuales solo donde aporten valor y medir rendimiento en Unity Editor/build objetivo.
+---
+
+## Registro de Cambios (Marzo 31, 2026) - Integracion del dron importado y rescate de runtime
+
+### Objetivo
+
+Cerrar la brecha entre el FBX importado `x500v2_Drone` y los sistemas de seleccion, filtros, explode, cut y thermal.
+
+### Acciones Realizadas
+
+1. **Bootstrap runtime reforzado**:
+   - _Implementacion_: `UIManager` ahora puede autocrear `InputManager`, `SelectionManager`, `ExplodedViewManager`, `PartCatalogManager`, `NotificationManager`, `DroneStateController`, `ThermalSimulationManager` y `ThermalViewController` cuando la escena no tenga bootstrap serializado.
+   - _Resultado_: La escena queda mas resiliente aunque falte `SceneBootstrapper`.
+2. **Binder del dron importado**:
+   - _Implementacion_: Se creo `ImportedDroneRuntimeBinder` para reconectar `DroneStateController`, recachear `ViewModeManager`, `ExplodedViewManager`, `PartVisibilityManager`, `PartCatalogManager`, `CrossSectionManager`, `ThermalSimulationManager` y `ThermalViewController`.
+   - _Resultado_: El modelo importado puede reengancharse al runtime sin tocar escenas serializadas a mano.
+3. **Preparacion del FBX endurecida**:
+   - _Implementacion_: `SetupImportedDroneThermalTest` ahora clasifica auxiliares, anade `PartRenderCategory`, crea colliders tipo box por renderer, asigna la layer `SelectablePart` y coloca el binder runtime en el root.
+   - _Resultado_: Mejora directa de selection, filter, isolate, thermal y explode sobre el dron importado.
+4. **Seleccion y categorias publicas**:
+   - _Implementacion_: La seleccion ya resuelve al `ExplodablePart` canonico y la taxonomia publica de filtros queda en `ALL`, `STRUCTURE`, `PROPULSION`, `ELECTRONICS`, `FASTENERS`, `MISC`.
+   - _Resultado_: `Fasteners` y `Misc` pasan a ser grupos visuales publicos sin ampliar el solver termico V1.
+5. **Leyenda y panel de energia**:
+   - _Implementacion_: La leyenda termica ya usa gradiente runtime y el modo Inspect expone el panel de power con estado y slider de carga.
+   - _Resultado_: El feedback visual del sistema termico y del estado del dron deja de ser opaco en la UI.

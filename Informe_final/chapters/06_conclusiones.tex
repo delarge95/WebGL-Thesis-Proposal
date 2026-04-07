@@ -21,14 +21,14 @@ Se diseñó e implementó exitosamente un prototipo funcional de visor~3D intera
 
 % TODO: Bloque B — Agregar dato real de polígonos finales en escena.
 
-\paragraph{OE2: Arquitectura Modular de Software.} Se desarrolló una arquitectura de~4~capas (Presentación, Lógica, Servicios, Datos) con~91~scripts C\# y~9~\textit{shaders} personalizados, aplicando patrones profesionales (Singleton, Service Locator, Event Bus, Strategy, State Machine, ScriptableObject). La modularidad del sistema fue validada empíricamente: se lograron agregar~3~modos de visualización adicionales sin modificar el núcleo del \texttt{ViewModeManager}, confirmando la adherencia al principio Abierto/Cerrado.
+\paragraph{OE2: Arquitectura Modular de Software.} Se desarrolló una arquitectura de~4~capas (Presentación, Lógica, Servicios, Datos) con~104~scripts C\# y~9~\textit{shaders} personalizados, aplicando patrones profesionales (Singleton, Service Locator, Event Bus, Strategy, State Machine, ScriptableObject). La modularidad del sistema fue validada empíricamente: se lograron agregar~3~modos de visualización adicionales sin modificar el núcleo del \texttt{ViewModeManager}, confirmando la adherencia al principio Abierto/Cerrado.
 
 \paragraph{OE3: Evaluación de Usabilidad.} Se diseñaron los instrumentos de evaluación (cuestionario SUS de Brooke, protocolo NASA-TLX Raw, y sesiones \textit{Think-Aloud}) con~6~tareas guiadas representativas. La aplicación del protocolo está pendiente (véase Trabajo Futuro).
 
 % TODO: Bloque D — Si los resultados están disponibles, reemplazar
 % "La aplicación del protocolo está pendiente" con los datos reales.
 
-\paragraph{OE4: Documentación y Despliegue.} Se generó documentación técnica exhaustiva ($\sim$1\,060+$ líneas de documentación de arquitectura, un inventario completo de módulos, y documentación del \textit{pipeline} de \textit{shaders}). El código se gestionó en un repositorio Git con~240+~\textit{commits} estructurados. El despliegue se validó para navegadores Chrome, Firefox, Edge y Safari en dispositivos de escritorio y móviles.
+\paragraph{OE4: Documentación y Despliegue.} Se generó documentación técnica exhaustiva ($\sim$1\,060+$ líneas de documentación de arquitectura, un inventario completo de módulos, y documentación del \textit{pipeline} de \textit{shaders}). El código se gestionó en un repositorio Git con~316~\textit{commits} estructurados. El despliegue se validó para navegadores Chrome, Firefox, Edge y Safari en dispositivos de escritorio y móviles.
 
 % ═══════════════════════════════════════════════════════════════════════════════
 \subsection{Contribuciones del Trabajo}
@@ -63,6 +63,12 @@ Se identifican las siguientes líneas de trabajo futuro derivadas de las limitac
     \item \textbf{Sistema de Anotaciones Colaborativas.} Extender el \texttt{AnnotationSystem} actual a una versión multiusuario con persistencia en base de datos, permitiendo que equipos de ingeniería compartan notas y hallazgos sobre el modelo.
 
     \item \textbf{Captura de Pantalla.} Integrar un módulo de captura que genere imágenes PNG vía base64 en WebGL y descarga directa al dispositivo del usuario.
+
+    \item \textbf{Asset Bundles.} Si bien la arquitectura del sistema se diseñó para ser extensible a múltiples modelos de drones mediante \texttt{ScriptableObjects}, la carga dinámica de modelos mediante \textit{Asset Bundles} no fue implementada en la versión actual. Esta funcionalidad, combinada con un CMS, permitiría agregar nuevos modelos sin recompilar la aplicación.
+
+    \item \textbf{Pipeline Procedural (Houdini).} SideFX Houdini fue evaluado como herramienta de procesamiento procedural para la conversión automatizada CAD$\rightarrow$mesh y generación de LODs. Para el modelo único del X500~V2, Blender ofreció resultados superiores. Sin embargo, se recomienda Houdini para futuros pipelines con múltiples modelos de hardware.
+
+    \item \textbf{Subsistema Térmico.} El subsistema térmico híbrido, implementado como contribución adicional al proyecto, constituye una base de simulación cualitativa con verificación Wolfram. Para futuras iteraciones, se recomienda la calibración con datos experimentales reales y la integración de un \textit{slider} de carga del usuario en la interfaz.
 \end{enumerate}
 
 % ═══════════════════════════════════════════════════════════════════════════════

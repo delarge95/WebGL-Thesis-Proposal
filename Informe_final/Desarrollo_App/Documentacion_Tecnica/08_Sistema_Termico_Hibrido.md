@@ -1,4 +1,4 @@
-# 08. Sistema Termico Hibrido
+# 08. Sistema termico hibrido
 
 ## Estado
 
@@ -8,17 +8,18 @@ Activo, en desarrollo tecnico. No debe describirse todavia como simulacion termo
 
 Implementar una simulacion termica hibrida, fisicamente consistente y visualmente creible para el dron Holybro X500 V2 en Unity WebGL.
 
-## Alcance de la V1
+## Alcance real de la V1
 
-- solver termico reducido por componentes
-- conduccion entre piezas en contacto
-- conveccion simplificada al ambiente
-- vista termica alimentada por temperatura calculada por pieza
-- propagacion espacial visual basica en piezas criticas
-- control de carga sostenida mediante slider asociado al estado del dron
-- authoring offline del grafo de contactos termicos
+- solver termico reducido por componentes canonicos,
+- conduccion entre piezas en contacto,
+- conveccion simplificada al ambiente,
+- vista termica alimentada por temperatura calculada por pieza,
+- propagacion espacial visual en piezas criticas,
+- leyenda termica visible en UI,
+- authoring offline del grafo de contactos termicos,
+- y fallback heuristico solo como respaldo de desarrollo.
 
-## Componentes Principales
+## Componentes principales
 
 ### ThermalSimulationManager
 
@@ -26,7 +27,7 @@ Responsable del solver por componentes. Construye nodos termicos, evalua carga e
 
 ### ThermalViewController
 
-Puente entre solver y render. Lee temperaturas y envia parametros al shader termico por `MaterialPropertyBlock`.
+Puente entre solver y render. Lee temperaturas, cachea la leyenda y envia parametros al shader termico por `MaterialPropertyBlock`.
 
 ### ThermalSurfaceProfile
 
@@ -40,25 +41,48 @@ Asset que almacena nodos, metadata de build y enlaces termicos entre piezas.
 
 Herramienta de editor que analiza `ExplodablePart` en la escena, estima cercania/contacto por bounds y genera un `ThermalContactGraphAsset` reutilizable en runtime.
 
+### ThermalCanonicalContactGraph.asset
+
+Asset canónico oficial de la V1. Define la red explicita de contactos para las 28 piezas oficiales del solver.
+
 ### Thermal.shader
 
 Shader termico ajustado para recibir banda de temperatura normalizada, modo de propagacion visual, hotspot local, direccion axial local, spread, edge cooling y propagation.
 
-## Integracion con el Sistema Existente
+## Integracion con el sistema existente
 
-- `DroneStateController` expone `SystemLoadFactor` y eventos de carga.
-- `InspectModeHandler` conecta el slider de carga con `DroneStateController`.
-- `MainLayout.uxml` incorpora `PowerLoadSlider` y `PowerLoadValue`.
+- `DroneStateController` expone `SystemLoadFactor` y estados del dron.
+- En esta rama, la carga termica visible se gobierna desde `DroneStateController`; un slider dedicado de usuario sigue siendo una mejora futura, no una capacidad ya cerrada.
 - `SceneBootstrapper` asegura la presencia de `ThermalSimulationManager` y `ThermalViewController` en runtime.
+- `MainLayout.uxml`, `Theme.uss` y `UIAnalyzePanel.cs` ya sostienen la leyenda termica visible en modo Thermal.
 - `ThermalContactGraphBuilderWindow` habilita un workflow de preprocesado offline sin tocar escenas serializadas.
+- `ThermalTestSetup.cs` se conserva solo como harness experimental para CAD bruto.
 
-## Limitaciones Actuales
+## Limitaciones actuales
 
-- el grafo offline actual se basa en bounds, no aun en contactos refinados de la geometria final retopologizada
-- no hay validacion cuantitativa cerrada contra termografias reales
-- no se han asignado aun perfiles manuales refinados a todas las piezas criticas
-- la simulacion actual prioriza credibilidad visual y estabilidad WebGL sobre exactitud numerica de alta fidelidad
+- el grafo canónico requiere calibracion final sobre la geometria retopologizada del X500 V2,
+- no hay validacion cuantitativa cerrada contra termografias reales,
+- no se han asignado aun overrides manuales refinados a todas las piezas criticas,
+- la simulacion actual prioriza credibilidad visual y estabilidad WebGL sobre exactitud numerica de alta fidelidad.
 
-## Siguiente Hito
+## Siguiente hito
 
-Calibrar el grafo termico sobre la geometria final del X500 V2, asignar `ThermalSurfaceProfile` a piezas criticas y reemplazar el fallback runtime donde ya exista asset precomputado.
+Validar el sistema sobre la escena final retopologizada, decidir donde usar `ThermalSurfaceProfile` manual y medir rendimiento del modo Thermal en Unity Editor y build objetivo.
+## Actualizacion 2026-03-31
+
+### Integracion del dron importado
+
+La escena oficial ya dispone de una ruta de preparacion para `x500v2_Drone` basada en dos pasos:
+
+1. `Tools > Import Drone Model Into Scene`
+2. `Tools > Thermal > Prepare Imported Drone For Thermal Test`
+
+Esa preparacion agrega anchors canonicos, categorias por renderer, colliders de seleccion, layer `SelectablePart` y un `ImportedDroneRuntimeBinder` para recachear managers en runtime.
+
+### Estado de energia visible
+
+En la rama actual el modo Inspect ya expone un panel de power con estado textual y slider de carga. `DroneStateController` gobierna `OFF`, `STARTING`, `IDLE`, `FLYING` y alimenta la carga termica visible del solver.
+
+### Fasteners y Misc
+
+`Fasteners` y `Misc` ya forman parte de la taxonomia publica de filtros y pueden aislarse como coleccion visual. No amplian la granularidad fisica del solver: heredan la temperatura del ensamblaje padre.

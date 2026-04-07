@@ -23,12 +23,12 @@
 % Header/Footer
 \pagestyle{fancy}
 \fancyhf{}
-\rhead{Manual Técnico - Prototipo Web 3D}
-\lhead{Ingeniería Multimedia - UNAD}
-\rfoot{Página \thepage}
+\rhead{Manual Tï¿½cnico - Prototipo Web 3D}
+\lhead{Ingenierï¿½a Multimedia - UNAD}
+\rfoot{Pï¿½gina \thepage}
 
-\title{\textbf{Manual Técnico}\\Prototipo Web 3D Interactivo para Visualización Técnica de Drones}
-\author{Alexander Woodcock Salomón}
+\title{\textbf{Manual Tï¿½cnico}\\Prototipo Web 3D Interactivo para Visualizaciï¿½n Tï¿½cnica de Drones}
+\author{Alexander Woodcock Salomï¿½n}
 \date{Marzo 2026}
 
 \begin{document}
@@ -37,37 +37,37 @@
 \tableofcontents
 \newpage
 
-\section{Introducción}
-Este documento técnico detalla la arquitectura, componentes y procedimientos de mantenimiento del prototipo Web 3D para visualización técnica de drones. El sistema implementa 91 scripts C\# (~14,778 líneas), 9 shaders personalizados (~1,749 líneas), 5 hojas de estilo USS (~3,561 líneas) y 4 layouts UXML (~502 líneas), con arquitectura modular, patrones de diseño profesionales y optimizaciones específicas para WebGL.
+\section{Introduccin}
+Este documento tcnico detalla la arquitectura, componentes y procedimientos de mantenimiento del prototipo Web 3D para visualizacin tcnica de drones. El sistema implementa 104 scripts C\# (~16,927 lneas), 9 shaders personalizados (~1,749 lneas), 5 hojas de estilo USS (~3,561 lneas) y 4 layouts UXML (~502 lneas), con arquitectura modular, patrones de diseo profesionales y optimizaciones especficas para WebGL.
 
 \subsection{Alcance del Documento}
 \begin{itemize}
-    \item Arquitectura del sistema y patrones de diseño
-    \item Descripción de todos los sistemas implementados
-    \item Procedimientos de compilación y despliegue
-    \item Guías de extensión y mantenimiento
+    \item Arquitectura del sistema y patrones de diseo
+    \item Descripcin de todos los sistemas implementados
+    \item Procedimientos de compilacin y despliegue
+    \item Guas de extensin y mantenimiento
 \end{itemize}
 
 \section{Arquitectura del Sistema}
 
-\subsection{Stack Tecnológico}
+\subsection{Stack Tecnolgico}
 \begin{itemize}
     \item \textbf{Motor:} Unity 6000.0.62f1 (Unity 6)
     \item \textbf{Lenguaje:} C\# 11 (Scripting) / HLSL (Shaders)
     \item \textbf{Plataforma:} WebGL 2.0
     \item \textbf{Compilador:} IL2CPP $\rightarrow$ WebAssembly (WASM)
-    \item \textbf{Pipeline Gráfico:} Universal Render Pipeline (URP)
+    \item \textbf{Pipeline Grfico:} Universal Render Pipeline (URP)
     \item \textbf{UI Framework:} UI Toolkit (USS/UXML)
 \end{itemize}
 
-\subsection{Patrones de Diseño Implementados}
+\subsection{Patrones de Diseo Implementados}
 \begin{itemize}
     \item \textbf{Singleton/PersistentSingleton:} Para managers globales
-    \item \textbf{Service Locator (H01):} Resolución de dependencias en tiempo de ejecución
-    \item \textbf{Event Bus:} Comunicación desacoplada con detección de leaks y purga de zombies (H03)
+    \item \textbf{Service Locator (H01):} Resolucin de dependencias en tiempo de ejecucin
+    \item \textbf{Event Bus:} Comunicacin desacoplada con deteccin de leaks y purga de zombies (H03)
     \item \textbf{Strategy (BaseModeHandler, H02):} 3 handlers concretos (InspectHandler, AnalyzeHandler, StudioHandler)
-    \item \textbf{State Machine:} Control de estados de la aplicación (9 estados)
-    \item \textbf{ScriptableObjects:} Configuración de datos (DronePartData, AssemblyGuideData)
+    \item \textbf{State Machine:} Control de estados de la aplicacin (9 estados)
+    \item \textbf{ScriptableObjects:} Configuracin de datos (DronePartData, AssemblyGuideData)
 \end{itemize}
 
 \subsection{Diagrama de Arquitectura}
@@ -99,9 +99,9 @@ Assets/Scripts/
 |   +-- Utils/          # Utilidades (Singleton, TweenEngine)
 +-- UI/
 |   +-- UIManager.cs    # Control principal UI
-|   +-- PartCatalogUI   # Catálogo de piezas
-|   +-- EnhancedInfoPanel # Panel de información
-|   +-- AssemblyStepUI  # Guía de ensamblaje
+|   +-- PartCatalogUI   # Catlogo de piezas
+|   +-- EnhancedInfoPanel # Panel de informacin
+|   +-- AssemblyStepUI  # Gua de ensamblaje
 +-- Graphics/
 |   +-- Shaders/        # Shaders personalizados
 |   +-- PostProcessing/ # Efectos de post-procesado
@@ -112,97 +112,101 @@ Assets/Scripts/
 \subsection{Core Managers (25+ Scripts)}
 
 \subsubsection{AppStateMachine.cs}
-Máquina de estados principal. Estados: Loading, Exploration, ExplodedView, PartFocus, Settings, Menu.
+Mquina de estados principal. Estados: Loading, Exploration, ExplodedView, PartFocus, Settings, Menu.
 \begin{lstlisting}[language=C]
 AppStateMachine.Instance.TransitionTo(AppState.ExplodedView);
 \end{lstlisting}
 
 \subsubsection{EventBus.cs}
-Sistema de eventos pub/sub para comunicación desacoplada.
+Sistema de eventos pub/sub para comunicacin desacoplada.
 \begin{lstlisting}[language=C]
 EventBus.Publish(new PartSelectedEvent(partData));
 EventBus.Subscribe<PartSelectedEvent>(OnPartSelected);
 \end{lstlisting}
 
 \subsubsection{SelectionManager.cs}
-Gestiona selección de piezas con raycast, integra HighlightSystem, CursorManager y AnalyticsManager.
+Gestiona seleccin de piezas con raycast, integra HighlightSystem, CursorManager y AnalyticsManager.
 
 \subsubsection{ViewModeManager.cs}
-Controla 7 modos de visualización:
+Controla 7 modos de visualizacin:
 \begin{itemize}
     \item Realistic - Material original
     \item XRay - Semi-transparente con fresnel
-    \item Blueprint - Estilo técnico
-    \item SolidColor - Color sólido configurable
-    \item Wireframe - Solo líneas
+    \item Blueprint - Estilo tcnico
+    \item SolidColor - Color slido configurable
+    \item Wireframe - Solo lneas
     \item Ghosted - Fantasma
-    \item Thermal - Vista térmica
+    \item Thermal - Vista trmica
 \end{itemize}
 
 \subsubsection{PartCatalogManager.cs}
-Búsqueda y filtrado de piezas por nombre, tipo, categoría y material.
+Bsqueda y filtrado de piezas por nombre, tipo, categora y material.
 
 \subsubsection{PartVisibilityManager.cs}
 Control de visibilidad: ocultar, mostrar, aislar piezas con animaciones de fade.
 
 \subsubsection{CrossSectionManager.cs}
-Cortes transversales en ejes X, Y, Z con plano visual y posición configurable.
+Cortes transversales en ejes X, Y, Z con plano visual y posicin configurable.
 
 \subsubsection{DroneStateController.cs}
-Control de estado del dron: Off, StartingUp, Idle, Flying, ShuttingDown. Incluye animación de propelas, luces de estado y partículas. \textit{En fase de integración activa para la versión actual del prototipo.}
+Control de estado del dron: Off, StartingUp, Idle, Flying, ShuttingDown. Incluye animacin de propelas, luces de estado y partculas. \textit{En fase de integracin activa para la versin actual del prototipo.}
 
 
-\subsubsection{Subsistema Térmico Híbrido (V1)}
-Se incorporó una base de simulación térmica híbrida orientada a WebGL móvil. Esta arquitectura combina un solver reducido por componentes, una capa de visualización espacial por pieza y un pipeline de verificación matemática apoyado por WolframAlpha. Los módulos principales son:
+\subsubsection{Subsistema Trmico Hbrido (V1)}
+Se incorpor una base de simulacin trmica hbrida orientada a WebGL mvil. Esta arquitectura combina un solver reducido por componentes, una capa de visualizacin espacial por pieza y un pipeline de verificacin matemtica apoyado por WolframAlpha. Los mdulos principales son:
 \begin{itemize}
-    \item \texttt{ThermalSimulationManager}: solver por componentes con temperatura ambiente, carga sostenida y conducción heurística.
-    \item \texttt{ThermalViewController}: puente entre simulación y render mediante \texttt{MaterialPropertyBlock}.
-    \item \texttt{ThermalSurfaceProfile}: configuración opcional por pieza crítica para hotspot, dirección y propagación visual.
-    \item \texttt{ThermalContactGraphAsset}: base serializable del grafo de contactos térmicos.
-    \item \texttt{ThermalContactGraphBuilderWindow}: herramienta de editor para generar el grafo térmico offline.
+    \item \texttt{ThermalSimulationManager}: solver por componentes con temperatura ambiente, carga sostenida y conduccin heurstica.
+    \item \texttt{ThermalViewController}: puente entre simulacin y render mediante \texttt{MaterialPropertyBlock}.
+    \item \texttt{ThermalSurfaceProfile}: configuracin opcional por pieza crtica para hotspot, direccin y propagacin visual.
+    \item \texttt{ThermalContactGraphAsset}: base serializable del grafo de contactos trmicos.
+    \item \texttt{ThermalContactGraphBuilderWindow}: herramienta de editor para generar el grafo trmico offline.
 \end{itemize}
 
-Esta V1 no debe describirse todavía como FEA en tiempo real ni como termografía validada experimentalmente; su propósito es ofrecer consistencia física y credibilidad visual dentro de las restricciones de Unity WebGL.
+
+
+Esta V1 no debe describirse todavia como FEA en tiempo real ni como termografia validada experimentalmente; su proposito es ofrecer consistencia fisica y credibilidad visual dentro de las restricciones de Unity WebGL.
+
+La ruta oficial de esta V1 ya usa un grafo de contactos explicito (\texttt{ThermalCanonicalContactGraph.asset}) y una leyenda termica visible en modo \texttt{Thermal}. En esta rama, la carga termica sigue gobernada por \texttt{DroneStateController.SystemLoadFactor} y por los estados del dron; un slider de usuario dedicado permanece como mejora futura. El archivo \texttt{ThermalTestSetup.cs} se conserva unicamente como harness experimental para CAD bruto y no forma parte del pipeline oficial.
 \subsubsection{ModularPartsSystem.cs}
-Sistema de slots para intercambio de piezas modulares con animaciones. \textit{Proyectado para futuras iteraciones; requiere configuración de datos en Inspector.}
+Sistema de slots para intercambio de piezas modulares con animaciones. \textit{Proyectado para futuras iteraciones; requiere configuracin de datos en Inspector.}
 
 \subsection{Herramientas de Ensamblaje (Proyectadas)}
 
-\noindent \textit{Los siguientes módulos fueron desarrollados a nivel de código pero no están integrados en la interfaz de usuario de la versión actual del prototipo. Se proyectan para futuras iteraciones.}
+\noindent \textit{Los siguientes mdulos fueron desarrollados a nivel de cdigo pero no estn integrados en la interfaz de usuario de la versin actual del prototipo. Se proyectan para futuras iteraciones.}
 
 \subsubsection{AssemblyGuideManager.cs}
-Guía paso a paso con:
+Gua paso a paso con:
 \begin{itemize}
-    \item Pasos secuenciales con navegación
+    \item Pasos secuenciales con navegacin
     \item Herramientas requeridas por paso
     \item Tiempos estimados
     \item Niveles de dificultad (1-5)
     \item Advertencias de seguridad
-    \item Tips de instalación
+    \item Tips de instalacin
 \end{itemize}
 
 \subsubsection{MeasurementTool.cs}
-Herramienta de medición con modos: Distancia, Ángulo, Radio.
+Herramienta de medicin con modos: Distancia, ngulo, Radio.
 
 \subsubsection{ConnectionPointsViewer.cs}
-Visualización de puntos de conexión (tornillos, snaps, soldaduras, cables).
+Visualizacin de puntos de conexin (tornillos, snaps, soldaduras, cables).
 
 \subsubsection{BillOfMaterialsManager.cs}
-Generación de lista de materiales con exportación CSV.
+Generacin de lista de materiales con exportacin CSV.
 
 \subsubsection{AnnotationSystem.cs}
 Sistema de notas 3D con billboard text.
 
 \subsubsection{AssemblyChecklist.cs}
-Lista de verificación de piezas con progreso.
+Lista de verificacin de piezas con progreso.
 
 \subsection{Sistemas de Audio y Visual}
 
 \subsubsection{AudioManager.cs}
-Control de audio con volúmenes separados (Master, SFX, Music) y persistencia.
+Control de audio con volmenes separados (Master, SFX, Music) y persistencia.
 
 \subsubsection{QualityManager.cs}
-Ajuste dinámico de calidad basado en FPS.
+Ajuste dinmico de calidad basado en FPS.
 
 \subsubsection{TweenEngine.cs}
 Motor de animaciones ligero (alternativa a DOTween) con 8 tipos de easing.
@@ -213,29 +217,29 @@ Sistema de notificaciones toast animadas.
 \section{ScriptableObjects}
 
 \subsection{DronePartData}
-Configuración completa de cada pieza del Holybro X500~V2 (16 piezas con 32+ campos cada una):
+Configuracin completa de cada pieza del Holybro X500~V2 (16 piezas con 32+ campos cada una):
 \begin{itemize}
-    \item Info General: nombre, ID (\texttt{x500v2\_*}), tipo (\texttt{PartType}), descripción
-    \item Specs Técnicos: peso (kg), dimensiones (mm), función, potencia (W), temp. operativa (°C)
+    \item Info General: nombre, ID (\texttt{x500v2\_*}), tipo (\texttt{PartType}), descripcin
+    \item Specs Tcnicos: peso (kg), dimensiones (mm), funcin, potencia (W), temp. operativa (C)
     \item Materiales: tipo (CF, Al, PCB FR4, nylon, LiPo), propiedades, fabricante, part number
-    \item Vista Explosionada: dirección (\texttt{Vector3}), distancia (0.3--2.5), prioridad (1--10)
+    \item Vista Explosionada: direccin (\texttt{Vector3}), distancia (0.3--2.5), prioridad (1--10)
     \item Info de Ensamblaje: herramientas, torque (Nm), tornillos, dificultad (1--5), tiempo (min), prerequisitos
-    \item Perfil Térmico: color de highlight para shader Thermal (azul\,=\,frío a rojo\,=\,caliente)
+    \item Perfil Trmico: color de highlight para shader Thermal (azul\,=\,fro a rojo\,=\,caliente)
 \end{itemize}
 
-\noindent \textbf{Piezas del catálogo (16):}
+\noindent \textbf{Piezas del catlogo (16):}
 
 \begin{longtable}{|p{0.5cm}|p{4.2cm}|p{1.3cm}|p{1.5cm}|p{4cm}|}
 \hline
-\textbf{\#} & \textbf{Pieza} & \textbf{Peso} & \textbf{Categoría} & \textbf{ID en Sistema} \\
+\textbf{\#} & \textbf{Pieza} & \textbf{Peso} & \textbf{Categora} & \textbf{ID en Sistema} \\
 \hline
 \endfirsthead
 \hline
-\textbf{\#} & \textbf{Pieza} & \textbf{Peso} & \textbf{Categoría} & \textbf{ID en Sistema} \\
+\textbf{\#} & \textbf{Pieza} & \textbf{Peso} & \textbf{Categora} & \textbf{ID en Sistema} \\
 \hline
 \endhead
 01 & Placas Sup/Inf CF & 150\,g & Structural & \texttt{x500v2\_plates} \\
-02 & Tubos de Brazo ×4 & 120\,g & Structural & \texttt{x500v2\_arm\_FL/FR/BL/BR} \\
+02 & Tubos de Brazo 4 & 120\,g & Structural & \texttt{x500v2\_arm\_FL/FR/BL/BR} \\
 03 & Tren de Aterrizaje & 80\,g & Structural & \texttt{x500v2\_landing\_gear} \\
 04 & Platform Board & 15\,g & Structural & \texttt{x500v2\_platform\_board} \\
 05 & Rieles + Battery Mount & 25\,g & Structural & \texttt{x500v2\_rails\_battery} \\
@@ -244,10 +248,10 @@ Configuración completa de cada pieza del Holybro X500~V2 (16 piezas con 32+ camp
 08 & Pixhawk 6C & 35\,g & Electronics & \texttt{x500v2\_pixhawk6c} \\
 09 & GPS M10 & 32\,g & Electronics & \texttt{x500v2\_gps\_m10} \\
 10 & Telemetry Radio SiK V3 & 15\,g & Electronics & \texttt{x500v2\_telemetry\_radio} \\
-11 & Motor 2216 KV920 ×4 & 252\,g & Propulsion & \texttt{x500v2\_motor\_*} \\
-12 & ESC BLHeli-S 20A ×4 & 28\,g & Propulsion & \texttt{x500v2\_esc\_*} \\
-13 & Hélices 1045 ×4 & 32\,g & Propulsion & \texttt{x500v2\_prop\_*} \\
-14 & Batería LiPo 4S (*) & 520\,g & Electronics & \texttt{x500v2\_battery} \\
+11 & Motor 2216 KV920 4 & 252\,g & Propulsion & \texttt{x500v2\_motor\_*} \\
+12 & ESC BLHeli-S 20A 4 & 28\,g & Propulsion & \texttt{x500v2\_esc\_*} \\
+13 & Hlices 1045 4 & 32\,g & Propulsion & \texttt{x500v2\_prop\_*} \\
+14 & Batera LiPo 4S (*) & 520\,g & Electronics & \texttt{x500v2\_battery} \\
 15 & Receptor RC R81 (*) & 5\,g & Electronics & \texttt{x500v2\_rc\_receiver} \\
 16 & Kit de Herrajes & 20\,g & Other & \texttt{x500v2\_hardware\_kit} \\
 \hline
@@ -255,9 +259,9 @@ Configuración completa de cada pieza del Holybro X500~V2 (16 piezas con 32+ camp
 \end{longtable}
 
 \subsection{AssemblyGuideData}
-Definición de guías de ensamblaje con lista de pasos configurables.
+Definicin de guas de ensamblaje con lista de pasos configurables.
 
-\section{Compilación y Despliegue}
+\section{Compilacin y Despliegue}
 
 \subsection{Requisitos de Build}
 \begin{enumerate}
@@ -266,12 +270,12 @@ Definición de guías de ensamblaje con lista de pasos configurables.
     \item URP configurado
 \end{enumerate}
 
-\subsection{Configuración de Build}
+\subsection{Configuracin de Build}
 \begin{enumerate}
     \item File $>$ Build Settings $>$ WebGL
     \item Player Settings:
     \begin{itemize}
-        \item Compression: Brotli (producción) o Disabled (desarrollo)
+        \item Compression: Brotli (produccin) o Disabled (desarrollo)
         \item Code Stripping: High
         \item IL2CPP Code Generation: Faster (Smaller) Builds
     \end{itemize}
@@ -284,50 +288,50 @@ Content-Type: application/wasm (para .wasm)
 Content-Encoding: br (si usa Brotli)
 \end{verbatim}
 
-\section{Extensión del Sistema}
+\section{Extensin del Sistema}
 
-\subsection{Añadir Nueva Pieza}
+\subsection{Aadir Nueva Pieza}
 \begin{enumerate}
     \item Crear DronePartData asset (Create $>$ WebGL $>$ Drone Part Data)
     \item Configurar todos los campos
-    \item Añadir ExplodablePart component al modelo 3D
+    \item Aadir ExplodablePart component al modelo 3D
     \item Asignar DronePartData al component
-    \item Añadir ConnectionPointMarker a puntos de conexión
+    \item Aadir ConnectionPointMarker a puntos de conexin
 \end{enumerate}
 
-\subsection{Añadir Nuevo Modo de Vista}
+\subsection{Aadir Nuevo Modo de Vista}
 \begin{enumerate}
-    \item Añadir entrada a enum ViewMode
+    \item Aadir entrada a enum ViewMode
     \item Crear material en ViewModeManager
-    \item Implementar lógica en ApplyModeToRenderers()
-    \item Añadir botón en ViewModeToolbar
+    \item Implementar lgica en ApplyModeToRenderers()
+    \item Aadir botn en ViewModeToolbar
 \end{enumerate}
 
-\subsection{Añadir Nuevo Manager}
+\subsection{Aadir Nuevo Manager}
 \begin{enumerate}
     \item Heredar de Singleton<T> o PersistentSingleton<T>
-    \item Implementar lógica en Awake() y Start()
+    \item Implementar lgica en Awake() y Start()
     \item Suscribirse a eventos relevantes del EventBus
-    \item Añadir al GameObject \_GameManagers en escena
+    \item Aadir al GameObject \_GameManagers en escena
 \end{enumerate}
 
 \section{Resumen de Scripts}
 
 \begin{longtable}{|p{5cm}|p{8cm}|}
 \hline
-\textbf{Script} & \textbf{Función} \\
+\textbf{Script} & \textbf{Funcin} \\
 \hline
 \endfirsthead
 \hline
-\textbf{Script} & \textbf{Función} \\
+\textbf{Script} & \textbf{Funcin} \\
 \hline
 \endhead
-AppStateMachine & Máquina de estados principal (9 estados) \\
-EventBus & Sistema de eventos con detección de leaks (H03) \\
-ServiceLocator & Resolución de dependencias en runtime (H01) \\
-SelectionManager & Selección de piezas con raycast \\
-ViewModeManager & 7 modos de visualización con cache \\
-PartCatalogManager & Búsqueda y filtrado \\
+AppStateMachine & Mquina de estados principal (9 estados) \\
+EventBus & Sistema de eventos con deteccin de leaks (H03) \\
+ServiceLocator & Resolucin de dependencias en runtime (H01) \\
+SelectionManager & Seleccin de piezas con raycast \\
+ViewModeManager & 7 modos de visualizacin con cache \\
+PartCatalogManager & Bsqueda y filtrado \\
 PartVisibilityManager & Ocultar/mostrar piezas con fade \\
 CrossSectionManager & Cortes transversales dual-plane \\
 DroneStateController & 5 estados del dron (en desarrollo) \\
@@ -337,55 +341,55 @@ ThermalSurfaceProfile & Perfil espacial por pieza critica \\
 ThermalContactGraphAsset & Asset del grafo de contactos termicos \\
 ThermalContactGraphBuilderWindow & Herramienta editor para generar el grafo termico offline \\
 ModularPartsSystem & Intercambio de piezas (proyectado) \\
-AssemblyGuideManager & Guía de ensamblaje paso a paso (proyectado) \\
-MeasurementTool & Mediciones 3D (distancia/ángulo/radio) \\
-ConnectionPointsViewer & Puntos de conexión coloreados (proyectado) \\
+AssemblyGuideManager & Gua de ensamblaje paso a paso (proyectado) \\
+MeasurementTool & Mediciones 3D (distancia/ngulo/radio) \\
+ConnectionPointsViewer & Puntos de conexin coloreados (proyectado) \\
 BillOfMaterialsManager & Lista de materiales + CSV (proyectado) \\
 AnnotationSystem & Notas 3D billboard (proyectado) \\
-AssemblyChecklist & Verificación de piezas (proyectado) \\
+AssemblyChecklist & Verificacin de piezas (proyectado) \\
 AudioManager & Control de audio \\
 TweenEngine & Motor de animaciones (8 easings) \\
-OrbitCameraController & Cámara orbital (mouse+touch) \\
+OrbitCameraController & Cmara orbital (mouse+touch) \\
 CameraPresets & 6 vistas predefinidas \\
 ExplodedViewManager & Vista explosionada con filtros \\
 HighlightSystem & Resaltado hover/select \\
 MaterialController & Toggle XRay + color override \\
 CursorManager & 7 tipos de cursor \\
 LoadingController & Pantalla de carga \\
-AnalyticsManager & Métricas de uso \\
+AnalyticsManager & Mtricas de uso \\
 AccessibilityManager & UI Scale + High Contrast \\
 ErrorHandler & Captura de excepciones \\
 ScreenshotManager & Captura PNG a base64 (proyectado) \\
 KeyboardShortcuts & Atajos de teclado \\
 PerformanceMonitor & Overlay de rendimiento \\
-WebGLProfiler & Monitoreo de métricas de rendimiento WebGL \\
+WebGLProfiler & Monitoreo de mtricas de rendimiento WebGL \\
 UIManager & Orquestador de 6 sub-controladores \\
 UIModeController & 3 modos (Inspect/Analyze/Studio) \\
 UIDetailsSheet & Bottom sheet con drag-to-dismiss \\
-UIHeroController & Landing screen + submenús \\
+UIHeroController & Landing screen + submens \\
 UIAnalyzePanel & 7 botones de modo shader \\
 UICrossSectionPanel & Control dual-plane \\
 UIEnvironmentPanel & Sliders de luz + presets \\
 HotspotManager & Spawn de SmartHotspots \\
 SmartHotspot & Hotspot 3D?2D con occlusion \\
-AssemblyStepUI & Panel de guía de ensamblaje (proyectado) \\
-PartCatalogUI & Catálogo filtrable \\
-SettingsPanel & Modal de configuración \\
+AssemblyStepUI & Panel de gua de ensamblaje (proyectado) \\
+PartCatalogUI & Catlogo filtrable \\
+SettingsPanel & Modal de configuracin \\
 TooltipSystem & Tooltip flotante \\
 EnhancedInfoPanel & Panel info detallada de pieza \\
 DetailsPanelController & Controller UXML-driven \\
 SceneTransitionManager & Fade in/out \\
-SceneBootstrapper & Auto-creación de 18 managers \\
-EnvironmentController & 5 presets de iluminación \\
+SceneBootstrapper & Auto-creacin de 18 managers \\
+EnvironmentController & 5 presets de iluminacin \\
 InputManager & Bloqueo de input + IsPointerOverUI \\
 NotificationManager & Toast notifications \\
-QualityManager & Resolución adaptativa por FPS \\
+QualityManager & Resolucin adaptativa por FPS \\
 SaveSystem & PlayerPrefs wrapper \\
-DroneAssembler & Creación procedural del dron \\
-ExplodablePart & Posición explosionada + DronePartData \\
+DroneAssembler & Creacin procedural del dron \\
+ExplodablePart & Posicin explosionada + DronePartData \\
 \hline
 \end{longtable}
 
-\textbf{Total: 91 scripts C\# (~14,778 líneas), 9 shaders (~1,749 líneas), 5 USS (~3,561 líneas), 4 UXML (~502 líneas)}
+\textbf{Total: 104 scripts C\# (~16,927 lneas), 9 shaders (~1,749 lneas), 5 USS (~3,561 lneas), 4 UXML (~502 lneas)}
 
 \end{document}

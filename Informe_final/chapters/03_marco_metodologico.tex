@@ -59,7 +59,7 @@ El desarrollo se articuló en cuatro \textit{Sprints} principales, cada uno con 
 \begin{itemize}
     \item Configuración de Unity~6000.0.62f1 con URP~17.0.3 y WebGL~2.0.
     \item Arquitectura de software: patrones Singleton, EventBus (Pub/Sub), Strategy (modos de visualización), State Machine (9~estados con transiciones validadas).
-    \item Programación de~91 scripts C\# compilados a WebAssembly vía IL2CPP ($\sim$14\,778~líneas).
+    \item Programación de~104 scripts C\# compilados a WebAssembly vía IL2CPP ($\sim$16\,927~líneas).
     \item Desarrollo de~9 \textit{shaders} HLSL/CG personalizados ($\sim$1\,749~líneas): ClippableLit, X-Ray, Blueprint, Thermal, Wireframe, entre otros.
     \item Implementación de UI responsiva con UI Toolkit: 5~hojas de estilo USS ($\sim$3\,561~líneas) y 4~plantillas UXML ($\sim$502~líneas).
     \item Implementación de 7~modos de visualización (Realistic, X-Ray, Blueprint, SolidColor, Wireframe, Ghosted, Thermal).
@@ -93,7 +93,7 @@ API gráfica & WebGL~2.0 & OpenGL ES~3.0 en navegador \\
 UI & UI Toolkit & USS + UXML (sin \textit{canvas} tradicional) \\
 Modelado 3D & Blender & Retopología, UV \textit{unwrapping} \\
 Texturizado & Substance Painter & Materiales PBR (Metallic Workflow) \\
-Control de versiones & Git + GitHub & 240+ \textit{commits}, Git LFS para binarios \\
+Control de versiones & Git + GitHub & 316 \textit{commits}, Git LFS para binarios \\
 IDE & JetBrains Rider & Análisis estático, refactoring \\
 \textit{Profiling} & Unity Profiler & CPU, GPU, Memory \\
 Navegador & Chrome DevTools & \textit{Profiling} de red y WASM \\
@@ -167,7 +167,12 @@ El SUS es un cuestionario estandarizado de~10 ítems en escala Likert (1--5) que
 
 El NASA-TLX evalúa la carga de trabajo percibida en seis dimensiones: Demanda Mental, Demanda Física, Demanda Temporal, Rendimiento, Esfuerzo y Frustración. Se utilizó la versión \textbf{Raw~TLX} (sin ponderación por pares), donde cada dimensión se evalúa en escala continua de~0 a~100 y el puntaje global es el promedio de las seis dimensiones.
 
-\paragraph{Hipótesis de contraste.} El visor~3D interactivo produce una carga cognitiva significativamente menor que la consulta de documentación técnica en formato PDF~2D. Se esperaba una reducción de rango Alto (60--80) a rango Bajo--Moderado (30--50).
+\paragraph{Hipótesis de contraste.} Se formularon las siguientes hipótesis:
+
+\begin{itemize}
+    \item $H_0$: No existe diferencia significativa en la carga cognitiva percibida entre el visor~3D interactivo y la consulta de documentación técnica en formato PDF~2D.
+    \item $H_1$: El visor~3D interactivo produce una carga cognitiva significativamente menor que la consulta de documentación técnica en formato PDF~2D. Se esperaba una reducción de rango Alto (60--80) a rango Bajo--Moderado (30--50).
+\end{itemize}
 
 \textbf{Meta del proyecto:} NASA-TLX $\leq$ 40 (carga ``Baja'').
 
