@@ -4,35 +4,36 @@ using WebGL.Core.Managers;
 
 namespace WebGL.UI.Panels
 {
-    /// <summary>
-    /// Handles the Inspect mode UI: Info, Pins (Hotspots), and Isolate toggle cards.
-    /// All cards are immediate toggles — no sub-panel navigation.
-    /// </summary>
     public class InspectModeHandler : BaseModeHandler
     {
-        private readonly VisualElement _cardGrid;
         private readonly Button _hotspotBtn;
         private readonly Button _isolateBtn;
         private readonly Button _measureBtn;
         private readonly Button _powerBtn;
+        private readonly VisualElement _powerLoadPanel;
+        private readonly Slider _powerLoadSlider;
+        private readonly Label _powerLoadValue;
+        private readonly Label _powerStateLabel;
 
         private bool _hotspotsEnabled = true;
-        private bool _isIsolated;
         private bool _isMeasuring;
         private bool _isPowered;
+        private bool _suppressSliderCallback;
 
-        // ── Events forwarded to orchestrator ──
         public event Action OnIsolateToggleRequested;
 
         public InspectModeHandler(VisualElement root, VisualElement container) : base(root, container)
         {
             if (container == null) return;
 
-            _cardGrid = container.Q<VisualElement>("ToolsCardGrid");
             _hotspotBtn = container.Q<Button>("ToolHotspotBtn");
             _isolateBtn = container.Q<Button>("ToolIsolateBtn");
             _measureBtn = container.Q<Button>("ToolMeasureBtn");
             _powerBtn = container.Q<Button>("ToolPowerBtn");
+            _powerLoadPanel = container.Q<VisualElement>("ToolPowerLoadPanel");
+            _powerLoadSlider = container.Q<Slider>("ToolPowerLoadSlider");
+            _powerLoadValue = container.Q<Label>("ToolPowerLoadValue");
+            _powerStateLabel = container.Q<Label>("ToolPowerStateLabel");
 
             BindCards();
         }
@@ -68,22 +69,67 @@ namespace WebGL.UI.Panels
                 AddCleanup(() => _powerBtn.clicked -= onPower);
             }
 
-            // Sync power button state with DroneStateController
-            var drone = DroneStateController.Instance;
+            if (_powerLoadSlider != null)
+            {
+                EventCallback<ChangeEvent<float>> onSliderChanged = evt =>
+                {
+                    if (_suppressSliderCallback) return;
+                    DroneStateController.Instance?.SetLoadCommand(evt.newValue);
+                    UpdatePowerLoadUI(evt.newValue);
+                };
+                _powerLoadSlider.RegisterValueChangedCallback(onSliderChanged);
+                AddCleanup(() => _powerLoadSlider.UnregisterValueChangedCallback(onSliderChanged));
+
+                EventCallback<PointerDownEvent> onDown = evt =>
+                {
+                    if (evt.button == 0)
+                    {
+                        InputManager.InputBlocked = true;
+                    }
+                    evt.StopPropagation();
+                };
+                EventCallback<PointerUpEvent> onUp = evt =>
+                {
+                    if (evt.button == 0)
+                    {
+                        InputManager.InputBlocked = false;
+                    }
+                };
+                _powerLoadSlider.RegisterCallback(onDown);
+                _powerLoadSlider.RegisterCallback(onUp);
+                AddCleanup(() =>
+                {
+                    _powerLoadSlider.UnregisterCallback(onDown);
+                    _powerLoadSlider.UnregisterCallback(onUp);
+                });
+            }
+
+            DroneStateController drone = DroneStateController.Instance;
             if (drone != null)
             {
                 _isPowered = drone.IsOn;
-                _powerBtn?.EnableInClassList("submenu-card--active", _isPowered);
                 drone.OnStateChanged += OnDroneStateChanged;
+                drone.OnLoadCommandChanged += OnLoadCommandChanged;
                 AddCleanup(() => drone.OnStateChanged -= OnDroneStateChanged);
+                AddCleanup(() => drone.OnLoadCommandChanged -= OnLoadCommandChanged);
+
+                SetSliderValueWithoutFeedback(drone.LoadCommandNormalized);
+                UpdatePowerButtonState(drone.CurrentState);
+                UpdatePowerLoadUI(drone.LoadCommandNormalized);
+            }
+            else
+            {
+                UpdatePowerButtonState(DroneState.Off);
+                UpdatePowerLoadUI(0f);
             }
         }
 
-        public override void Activate() { /* Inspect cards are always visible when container shows */ }
+        public override void Activate()
+        {
+        }
 
         public override void Deactivate()
         {
-            // Ensure measurement tool is turned off when leaving Inspect mode
             if (_isMeasuring)
             {
                 _isMeasuring = false;
@@ -101,7 +147,6 @@ namespace WebGL.UI.Panels
 
         public void SetIsolateState(bool isolated)
         {
-            _isIsolated = isolated;
             _isolateBtn?.EnableInClassList("submenu-card--active", isolated);
         }
 
@@ -129,8 +174,59 @@ namespace WebGL.UI.Panels
 
         private void OnDroneStateChanged(DroneState state)
         {
+            UpdatePowerButtonState(state);
+
+            if (state == DroneState.Off)
+            {
+                UpdatePowerLoadUI(DroneStateController.Instance != null ? DroneStateController.Instance.LoadCommandNormalized : 0f);
+            }
+        }
+
+        private void OnLoadCommandChanged(float loadNormalized)
+        {
+            SetSliderValueWithoutFeedback(loadNormalized);
+            UpdatePowerLoadUI(loadNormalized);
+        }
+
+        private void UpdatePowerButtonState(DroneState state)
+        {
             _isPowered = state != DroneState.Off && state != DroneState.ShuttingDown;
             _powerBtn?.EnableInClassList("submenu-card--active", _isPowered);
+            if (_powerLoadPanel != null)
+            {
+                _powerLoadPanel.style.opacity = _isPowered ? 1f : 0.55f;
+            }
+
+            if (_powerStateLabel == null)
+            {
+                return;
+            }
+
+            _powerStateLabel.text = state switch
+            {
+                DroneState.StartingUp => "STARTING",
+                DroneState.Idle => "IDLE",
+                DroneState.Flying => "FLYING",
+                DroneState.ShuttingDown => "SHUTDOWN",
+                _ => "OFF",
+            };
+        }
+
+        private void UpdatePowerLoadUI(float loadNormalized)
+        {
+            if (_powerLoadValue != null)
+            {
+                _powerLoadValue.text = $"{Math.Round(loadNormalized * 100f):F0}%";
+            }
+        }
+
+        private void SetSliderValueWithoutFeedback(float value)
+        {
+            if (_powerLoadSlider == null) return;
+
+            _suppressSliderCallback = true;
+            _powerLoadSlider.value = value;
+            _suppressSliderCallback = false;
         }
 
         public override void Dispose()

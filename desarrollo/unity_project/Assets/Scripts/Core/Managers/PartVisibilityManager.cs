@@ -16,6 +16,7 @@ namespace WebGL.Core.Managers
         private Dictionary<ExplodablePart, bool> partVisibility = new Dictionary<ExplodablePart, bool>();
         private Dictionary<ExplodablePart, Material[]> originalMaterials = new Dictionary<ExplodablePart, Material[]>();
         private ExplodablePart isolatedPart = null;
+        private Transform isolatedTransform = null;
         private List<ExplodablePart> allParts = new List<ExplodablePart>();
 
         protected override void Awake()
@@ -25,19 +26,25 @@ namespace WebGL.Core.Managers
 
         private void Start()
         {
-            CacheParts();
+            RebuildCache();
         }
 
-        private void CacheParts()
+        public void RebuildCache()
         {
+            allParts.Clear();
+            partVisibility.Clear();
+            originalMaterials.Clear();
+            isolatedPart = null;
+            isolatedTransform = null;
+
             allParts.AddRange(FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None));
             foreach (var part in allParts)
             {
                 partVisibility[part] = true;
-                var renderer = part.GetComponent<Renderer>();
-                if (renderer != null)
+                var renderers = part.GetComponentsInChildren<Renderer>(true);
+                if (renderers != null && renderers.Length > 0)
                 {
-                    originalMaterials[part] = renderer.sharedMaterials;
+                    originalMaterials[part] = renderers[0].sharedMaterials;
                 }
             }
         }
@@ -85,6 +92,7 @@ namespace WebGL.Core.Managers
             }
 
             isolatedPart = part;
+            isolatedTransform = null;
 
             foreach (var p in allParts)
             {
@@ -108,18 +116,88 @@ namespace WebGL.Core.Managers
             Debug.Log($"[PartVisibility] Isolated: {part.name}");
         }
 
+        public void IsolateTransform(Transform selection)
+        {
+            if (selection == null)
+            {
+                ClearIsolation();
+                return;
+            }
+
+            ExplodablePart parentPart = selection.GetComponentInParent<ExplodablePart>();
+            if (parentPart == null)
+            {
+                ClearIsolation();
+                return;
+            }
+
+            isolatedPart = parentPart;
+            isolatedTransform = selection;
+
+            bool anyRendererVisible = false;
+
+            foreach (var p in allParts)
+            {
+                if (p == null) continue;
+                p.gameObject.SetActive(true);
+
+                var renderers = p.GetComponentsInChildren<Renderer>(true);
+                foreach (var renderer in renderers)
+                {
+                    if (renderer == null) continue;
+
+                    bool visible =
+                        renderer.transform == selection ||
+                        renderer.transform.IsChildOf(selection) ||
+                        selection.IsChildOf(renderer.transform);
+
+                    renderer.enabled = visible;
+                    anyRendererVisible |= visible;
+
+                    Collider collider = renderer.GetComponent<Collider>();
+                    if (collider != null)
+                    {
+                        collider.enabled = visible;
+                    }
+                }
+            }
+
+            if (!anyRendererVisible)
+            {
+                // Fallback to canonical isolation when selection has no render surface.
+                IsolatePart(parentPart);
+                return;
+            }
+
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayClick();
+            }
+
+            Debug.Log($"[PartVisibility] Isolated transform: {selection.name}");
+        }
+
         public void ClearIsolation()
         {
             isolatedPart = null;
+            isolatedTransform = null;
 
             foreach (var p in allParts)
             {
                 // Restore all parts
                 p.gameObject.SetActive(true);
-                // Reset any material property block overrides
-                var renderer = p.GetComponent<Renderer>();
-                if (renderer != null)
+                var renderers = p.GetComponentsInChildren<Renderer>(true);
+                foreach (var renderer in renderers)
                 {
+                    if (renderer == null) continue;
+                    renderer.enabled = true;
+
+                    Collider collider = renderer.GetComponent<Collider>();
+                    if (collider != null)
+                    {
+                        collider.enabled = true;
+                    }
+
                     MaterialPropertyBlock block = new MaterialPropertyBlock();
                     renderer.SetPropertyBlock(block);
                 }
@@ -130,10 +208,12 @@ namespace WebGL.Core.Managers
 
         private void SetPartOpacity(ExplodablePart part, float opacity)
         {
-            var renderer = part.GetComponent<Renderer>();
-            if (renderer == null) return;
-
-            StartCoroutine(AnimateOpacity(renderer, opacity));
+            var renderers = part.GetComponentsInChildren<Renderer>(true);
+            foreach (var renderer in renderers)
+            {
+                if (renderer == null) continue;
+                StartCoroutine(AnimateOpacity(renderer, opacity));
+            }
         }
 
         private System.Collections.IEnumerator AnimateOpacity(Renderer renderer, float targetOpacity)
@@ -168,19 +248,27 @@ namespace WebGL.Core.Managers
 
         private System.Collections.IEnumerator FadePartOut(ExplodablePart part)
         {
-            var renderer = part.GetComponent<Renderer>();
-            if (renderer != null)
+            var renderers = part.GetComponentsInChildren<Renderer>(true);
+            bool animatedAny = false;
+            foreach (var renderer in renderers)
             {
+                if (renderer == null) continue;
+                animatedAny = true;
                 yield return AnimateOpacity(renderer, 0f);
+            }
+            if (!animatedAny)
+            {
+                yield return null;
             }
             part.gameObject.SetActive(false);
         }
 
         private System.Collections.IEnumerator FadePartIn(ExplodablePart part)
         {
-            var renderer = part.GetComponent<Renderer>();
-            if (renderer != null)
+            var renderers = part.GetComponentsInChildren<Renderer>(true);
+            foreach (var renderer in renderers)
             {
+                if (renderer == null) continue;
                 yield return AnimateOpacity(renderer, 1f);
             }
         }

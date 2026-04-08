@@ -3,6 +3,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering.RenderGraphModule;
 using UnityEngine.Rendering.RenderGraphModule.Util;
+using System;
 
 namespace WebGL.Core.Rendering
 {
@@ -29,6 +30,7 @@ namespace WebGL.Core.Rendering
         // Static toggle controlled by ViewModeManager
         public static bool GlobalEnabled { get; set; } = false;
         public static Color OverrideEdgeColor { get; set; } = new Color(0.85f, 0.9f, 1f, 1f);
+        public static float OverrideEdgeThickness { get; set; } = -1f;
 
         public override void Create()
         {
@@ -39,12 +41,14 @@ namespace WebGL.Core.Rendering
         {
             if (!GlobalEnabled) return;
             if (settings.edgeDetectionMaterial == null) return;
+            if (renderingData.cameraData.cameraType != CameraType.Game) return;
             renderer.EnqueuePass(edgePass);
         }
 
         private class EdgeDetectionPass : ScriptableRenderPass
         {
             private Settings settings;
+            private bool _renderGraphErrorLogged;
 
             private static readonly int EdgeColorId = Shader.PropertyToID("_EdgeColor");
             private static readonly int ThicknessId = Shader.PropertyToID("_Thickness");
@@ -61,7 +65,7 @@ namespace WebGL.Core.Rendering
             private void SetMaterialProperties(Material mat)
             {
                 mat.SetColor(EdgeColorId, OverrideEdgeColor);
-                mat.SetFloat(ThicknessId, settings.edgeThickness);
+                mat.SetFloat(ThicknessId, OverrideEdgeThickness > 0f ? OverrideEdgeThickness : settings.edgeThickness);
                 mat.SetFloat(DepthThresholdId, settings.depthThreshold);
                 mat.SetFloat(NormalThresholdId, settings.normalThreshold);
 
@@ -95,20 +99,50 @@ namespace WebGL.Core.Rendering
 
                 if (!cameraColorHandle.IsValid()) return;
 
-                var descriptor = renderGraph.GetTextureDesc(cameraColorHandle);
+                TextureDesc descriptor;
+                try
+                {
+                    descriptor = renderGraph.GetTextureDesc(cameraColorHandle);
+                }
+                catch (Exception ex)
+                {
+                    if (!_renderGraphErrorLogged)
+                    {
+                        _renderGraphErrorLogged = true;
+                        Debug.LogWarning($"[EdgeDetectionFeature] Skipping pass due to invalid source texture handle: {ex.Message}");
+                    }
+                    return;
+                }
+
+                if (descriptor.width <= 0 || descriptor.height <= 0)
+                {
+                    return;
+                }
+
                 descriptor.name = "_EdgeDetectionTemp";
                 descriptor.clearBuffer = false;
                 var tempTexture = renderGraph.CreateTexture(descriptor);
 
-                // Blit source → temp with edge detection material
-                RenderGraphUtils.BlitMaterialParameters blitToTemp =
-                    new(cameraColorHandle, tempTexture, mat, 0);
-                renderGraph.AddBlitPass(blitToTemp, "Edge Detection Blit");
+                try
+                {
+                    // Blit source → temp with edge detection material
+                    RenderGraphUtils.BlitMaterialParameters blitToTemp =
+                        new(cameraColorHandle, tempTexture, mat, 0);
+                    renderGraph.AddBlitPass(blitToTemp, "Edge Detection Blit");
 
-                // Blit temp → source (copy back)
-                RenderGraphUtils.BlitMaterialParameters blitBack =
-                    new(tempTexture, cameraColorHandle, Blitter.GetBlitMaterial(TextureDimension.Tex2D), 0);
-                renderGraph.AddBlitPass(blitBack, "Edge Detection Copy Back");
+                    // Blit temp → source (copy back)
+                    RenderGraphUtils.BlitMaterialParameters blitBack =
+                        new(tempTexture, cameraColorHandle, Blitter.GetBlitMaterial(TextureDimension.Tex2D), 0);
+                    renderGraph.AddBlitPass(blitBack, "Edge Detection Copy Back");
+                }
+                catch (Exception ex)
+                {
+                    if (!_renderGraphErrorLogged)
+                    {
+                        _renderGraphErrorLogged = true;
+                        Debug.LogWarning($"[EdgeDetectionFeature] RenderGraph edge pass failed and was skipped: {ex.Message}");
+                    }
+                }
             }
 
             // ── Legacy path (Compatibility Mode fallback) ──

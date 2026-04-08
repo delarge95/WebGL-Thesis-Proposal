@@ -144,17 +144,27 @@ namespace WebGL.UI.Panels
             slider.RegisterValueChangedCallback(onChange);
             AddCleanup(() => slider.UnregisterValueChangedCallback(onChange));
 
-            EventCallback<PointerEnterEvent> onEnter = evt => InputManager.InputBlocked = true;
-            EventCallback<PointerLeaveEvent> onLeave = evt => InputManager.InputBlocked = false;
-            EventCallback<PointerDownEvent> onDown = evt => evt.StopPropagation();
-            slider.RegisterCallback(onEnter);
-            slider.RegisterCallback(onLeave);
+            EventCallback<PointerDownEvent> onDown = evt =>
+            {
+                if (evt.button == 0)
+                {
+                    InputManager.InputBlocked = true;
+                }
+                evt.StopPropagation();
+            };
+            EventCallback<PointerUpEvent> onUp = evt =>
+            {
+                if (evt.button == 0)
+                {
+                    InputManager.InputBlocked = false;
+                }
+            };
             slider.RegisterCallback(onDown);
+            slider.RegisterCallback(onUp);
             AddCleanup(() =>
             {
-                slider.UnregisterCallback(onEnter);
-                slider.UnregisterCallback(onLeave);
                 slider.UnregisterCallback(onDown);
+                slider.UnregisterCallback(onUp);
             });
         }
 

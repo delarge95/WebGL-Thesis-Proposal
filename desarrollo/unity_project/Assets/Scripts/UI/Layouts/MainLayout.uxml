@@ -102,7 +102,7 @@
         <!-- ═══ THERMAL LEGEND ═══ -->
         <ui:VisualElement name="ThermalLegendContainer" class="thermal-legend thermal-legend--hidden" picking-mode="Ignore">
             <ui:Label name="ThermalMaxTemp" text="100°C" class="thermal-legend-label" picking-mode="Ignore" />
-            <ui:VisualElement class="thermal-legend-gradient" picking-mode="Ignore" />
+            <ui:VisualElement name="ThermalLegendGradient" class="thermal-legend-gradient" picking-mode="Ignore" />
             <ui:Label name="ThermalMinTemp" text="20°C" class="thermal-legend-label" picking-mode="Ignore" />
         </ui:VisualElement>
 
@@ -136,6 +136,13 @@
                             <ui:Label text="MEASURE" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         -->
+                    </ui:VisualElement>
+                    <ui:VisualElement name="ToolPowerLoadPanel" class="inspect-power-panel" picking-mode="Position" style="width: 476px; min-height: 72px; align-self: center; margin-top: 12px; padding: 4px 0 0 0; border-width: 0; border-radius: 0; background-color: rgba(0,0,0,0);">
+                        <ui:VisualElement class="inspect-power-header" picking-mode="Ignore" style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <ui:Label name="ToolPowerStateLabel" text="OFF" class="inspect-power-state" picking-mode="Ignore" style="font-size: 16px; color: rgba(255,255,255,0.78); -unity-font-style: bold; letter-spacing: 1px;" />
+                            <ui:Label name="ToolPowerLoadValue" text="0%" class="inspect-power-value" picking-mode="Ignore" style="font-size: 16px; color: rgba(70,175,255,0.98); -unity-font-style: bold;" />
+                        </ui:VisualElement>
+                        <ui:Slider name="ToolPowerLoadSlider" low-value="0" high-value="1" value="0" class="glass-slider inspect-power-slider" picking-mode="Position" style="flex-grow: 1; min-height: 44px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
@@ -216,15 +223,15 @@
                         </ui:Button>
                         <ui:Button name="CatBtn_Avionics" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-avionics" picking-mode="Ignore"/>
-                            <ui:Label text="AVIONICS" class="submenu-label" picking-mode="Ignore"/>
+                            <ui:Label text="ELECTRONICS" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="CatBtn_Power" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-power" picking-mode="Ignore"/>
-                            <ui:Label text="POWER" class="submenu-label" picking-mode="Ignore"/>
+                            <ui:Label text="FASTENERS" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="CatBtn_Payload" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-payload" picking-mode="Ignore"/>
-                            <ui:Label text="PAYLOAD" class="submenu-label" picking-mode="Ignore"/>
+                            <ui:Label text="MISC" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                     </ui:VisualElement>
                 </ui:VisualElement>

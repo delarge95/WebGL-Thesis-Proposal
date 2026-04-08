@@ -113,3 +113,29 @@ Si el solver usa  = 0.08$, el $\tau$ equivalente de enfriamiento es /0.08 = 12.5
 Nuevamente, esto esta perfectamente alienado con la decision documentada en V003 de comprimir el tiempo $\tau$ a la escala de ~10-15 segundos para la visualizacion interactiva en tiempo real.
 
 **Conclusion**: Matematicamente coherente con la escala de tiempo acelerada del sistema.
+
+---
+
+## V005 - Grafo canonico de contactos y factor geometrico
+
+- **Fecha**: 2026-03-19
+- **Contexto**: `ThermalCanonicalContactGraph.asset`
+- **Proposito**: Dejar trazado que el asset canonico congela proxies geometricos de `A_contacto` y `L_efectiva` para la V1, no mediciones CAD metrologicas finales.
+
+### Regla usada
+
+El asset sigue la misma aproximacion documentada en V001:
+
+```text
+G_ij ~= k_eff * A_contacto / L_efectiva
+```
+
+### Decision documentada
+
+- `contactAreaCm2` y `pathLengthMm` del asset canonico son valores proxy orientados a una simulacion cualitativa avanzada.
+- El objetivo del asset es reemplazar el exito aparente del fallback heuristico por una red explicita y editable.
+- La calibracion final contra geometria retopologizada sigue pendiente.
+
+### Conclusion
+
+El asset canonico es fisicamente coherente a nivel dimensional y metodologico, pero todavia no debe presentarse como calibracion geometrica final del X500 V2.

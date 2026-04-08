@@ -24,7 +24,7 @@ Carpeta de curaduría personal para extraer piezas de portafolio a partir de est
 ## Fuentes activas recomendadas
 
 - Assets CAD y referencias del dron: `desarrollo/docs/investigacion/Holybro/`
-- Arquitectura y documentacion del sistema termico: `desarrollo/docs/sistema_termico/`
+- Arquitectura, handoff y guia de modelado del sistema termico: `desarrollo/docs/sistema_termico/`
 - Modelos CAD del lote Holybro: `desarrollo/docs/investigacion/Holybro/Holybro_X500_V2_3D Print/`
 - Herramientas generadas para el pipeline Holybro:
   - `desarrollo/docs/investigacion/Holybro/cad_symmetry_addon_v5_ultimate.py`
@@ -54,6 +54,6 @@ Carpeta de curaduría personal para extraer piezas de portafolio a partir de est
 - `documentacion/04_Breakdown_Pipeline_CAD_a_WebGL.md`: resumen corto del flujo técnico desde CAD industrial hasta runtime WebGL, orientado a ArtStation, reel y entrevistas.
 - `documentacion/05_Breakdown_Sistema_Visualizacion_Interactiva.md`: resumen corto del sistema interactivo del visor, sus overlays técnicos y su valor como pieza de producto.
 - `documentacion/06_Plan_Activos_Visuales_Portafolio.md`: shot list y lista de entregables visuales para transformar los breakdowns en material publicable.
-- `documentacion/07_Breakdown_Sistema_Termico_Hibrido.md`: breakdown tecnico vivo del sistema termico hibrido, ya util como pieza de proceso para portafolio.
+- `documentacion/07_Breakdown_Sistema_Termico_Hibrido.md`: breakdown tecnico vivo del sistema termico hibrido, ya alineado con el grafo canonico, la leyenda UI y la frontera entre flujo oficial y tooling experimental.
 - `assets_fuente/README.md`: guía mínima para almacenar y clasificar capturas, clips, heroes y diagramas.
 - `herramientas_fuente/README.md`: manifiesto de la curaduría técnica inicial y listado de scripts, shaders y componentes ya staged.

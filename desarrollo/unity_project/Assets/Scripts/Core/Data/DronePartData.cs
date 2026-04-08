@@ -2,6 +2,16 @@ using UnityEngine;
 
 namespace WebGL.Core.Data
 {
+    public enum PartCategory
+    {
+        Avionics,
+        SensorsComms,
+        PowerDistribution,
+        PropulsionSystem,
+        SkeletonAirframe,
+        Fasteners,
+        Uncategorized
+    }
     [CreateAssetMenu(fileName = "NewDronePart", menuName = "WebGL/Drone Part Data")]
     public class DronePartData : ScriptableObject
     {
@@ -42,6 +52,8 @@ namespace WebGL.Core.Data
         public Sprite icon;
         public Color highlightColor = Color.cyan;
         public Texture2D thumbnail;
+        public bool isHotspotTarget;
+        public string hotspotLabel;
 
         [Header("Exploded View")]
         public Vector3 explosionDirection;
@@ -67,19 +79,26 @@ namespace WebGL.Core.Data
         public string[] connectionTypes; // Screw, Snap, Solder, Wire
         public int screwCount;
         public string screwSize; // M2, M3, etc.
+        public string[] subComponentNames;
 
         // UI category field
-        public string category;
+        public PartCategory category = PartCategory.Uncategorized;
 
         public string GetFullDescription()
         {
-            return $"{partName}\n\n" +
+            string desc = $"{partName}\n\n" +
                    $"Type: {partType}\n" +
                    $"Material: {materialType}\n" +
                    $"Weight: {weightKg:F2} kg\n" +
                    $"Dimensions: {dimensions}\n\n" +
                    $"Function: {function}\n\n" +
                    $"{description}";
+            if (subComponentNames != null && subComponentNames.Length > 0)
+            {
+                desc += "\n\nAssembly includes:\n- " + string.Join("\n- ", subComponentNames);
+            }
+
+            return desc;
         }
 
         public string GetAssemblyInfo()

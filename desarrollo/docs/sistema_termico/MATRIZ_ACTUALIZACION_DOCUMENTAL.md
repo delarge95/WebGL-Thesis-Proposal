@@ -1,66 +1,97 @@
-# Matriz de Actualizacion Documental del Sistema Termico
+# Matriz de actualizacion documental del sistema termico
 
 ## Objetivo
 
-Definir que documentos deben actualizarse, con que frecuencia y bajo que criterio de evidencia cada vez que se avance en la funcionalidad de simulacion termica del dron.
+Definir que documentos se actualizan, cuando y con que nivel de evidencia cada vez que avanza el subsistema termico.
 
-## Reglas Generales
+## Reglas generales
 
-- No registrar como final una funcionalidad que aun este en fase de cimiento, prototipo o validacion parcial.
-- No escribir metricas, rendimiento o resultados experimentales sin datos reales medidos.
-- Diferenciar siempre entre `implementado`, `integrado en UI`, `en validacion` y `proyectado`.
-- Toda ecuacion, conversion o constante relevante para el sistema termico debe pasar por el workflow de WolframAlpha antes de fijarse en codigo o documentacion tecnica.
+- No registrar como terminado lo que solo este prototipado.
+- No prometer validacion fisica sin evidencia medible.
+- Distinguir siempre entre `implementado`, `integrado`, `validado`, `experimental` y `pendiente`.
+- Toda constante, conversion o ecuacion nueva debe quedar trazada en `wolfram_verificaciones.md`.
+- Todo artefacto que no pertenezca al camino oficial debe etiquetarse como experimental.
 
-## Actualizacion Progresiva por Iteracion
+## Actualizacion progresiva por iteracion
 
-### Siempre actualizar cuando haya avance tecnico real
+Actualizar siempre cuando haya avance tecnico real:
 
 - `Informe_final/Desarrollo_App/BITACORA.md`
 - `Informe_final/Desarrollo_App/CHANGELOG.md`
 - `desarrollo/docs/sistema_termico/README.md`
+- `desarrollo/docs/sistema_termico/AGENT_HANDOFF_THERMAL.md`
+- `desarrollo/docs/sistema_termico/RETOPOLOGIA_POR_PIEZA.md`
+- `desarrollo/docs/sistema_termico/INDICE_TERMICO.md`
+- `desarrollo/unity_project/Assets/Scripts/Core/Thermal/INDICE_TERMICO_CODIGO.md`
 - `desarrollo/docs/sistema_termico/wolfram_verificaciones.md`
 - `Informe_final/Desarrollo_App/Documentacion_Tecnica/08_Sistema_Termico_Hibrido.md`
 
-## Actualizacion por Hito Tecnico
+## Actualizacion por hito estable
 
-### Actualizar cuando una etapa quede funcional y estable
+Actualizar cuando la etapa ya sea mantenible y explicable a terceros:
 
 - `Informe_final/Manual_tecnico/manual_tecnico.tex`
 - `Informe_final/chapters/04_desarrollo.tex`
 - `Informe_final/Desarrollo_App/TECHNOLOGY_STACK.md`
 - `portafolio_personal/README.md`
+- `portafolio_personal/documentacion/07_Breakdown_Sistema_Termico_Hibrido.md`
 
-## Actualizacion Condicionada por Estado de Producto
+## Actualizacion condicionada por estado de producto
 
-### Actualizar cuando la experiencia ya sea visible y usable en build
+Actualizar solo cuando la experiencia ya sea visible y usable en build:
 
 - `Informe_final/Manual_de_usuario/manual_usuario.tex`
 
-## Actualizacion Solo con Evidencia Validada
+## Actualizacion solo con evidencia validada
 
-### No actualizar hasta tener datos reales
+No actualizar como resultado final hasta tener datos medidos:
 
 - `Informe_final/chapters/05_resultados.tex`
 - `Informe_final/chapters/06_conclusiones.tex`
 
-## Actualizacion de Portafolio
+## Etiquetado obligatorio
 
-### Cuando una pieza ya tenga valor de showcase
+### Implementado
 
-- Crear o extender breakdowns en `portafolio_personal/documentacion/`.
-- Prioridad alta cuando exista arquitectura clara, visualizacion convincente, workflow diferenciador o una solucion tecnica reusable.
+Existe en codigo o asset y puede localizarse en el repo.
 
-## Estado Actual del Sistema Termico
+### Integrado
 
-A fecha de esta matriz, el sistema termico debe documentarse como:
+Ya participa del flujo real de escena o UI.
 
-- cimiento funcional de un subsistema termico hibrido
-- solver reducido por componentes
-- vista termica alimentada por datos reales por pieza
-- propagacion espacial visual basica
-- slider de carga sostenida conectado al estado del dron
-- preprocesado offline del grafo de contactos en desarrollo
+### Validado
 
-## Siguiente Etapa Documentable
+Ya se comprobo en Unity Editor o build objetivo con observacion real.
 
-La siguiente etapa que, al completarse, debe gatillar actualizacion mayor en manual tecnico y capitulo 4 es el preprocesado offline del grafo de contactos termicos y la asignacion de perfiles termicos a las piezas criticas del X500 V2.
+### Experimental
+
+Existe, pero esta fuera del camino oficial o usa datos dummy.
+
+### Pendiente
+
+Se documento como siguiente paso, no como capacidad actual.
+
+## Estado actual que debe usarse en la tesis y docs vivas
+
+Documentar el sistema termico hoy como:
+
+- subsistema hibrido V1 en desarrollo activo,
+- solver reducido por 28 piezas canonicas,
+- grafo de contactos canónico oficial ya creado,
+- leyenda termica visible,
+- presets visuales canónicos activos,
+- validacion final sobre escena retopologizada aun pendiente,
+- harness CAD bruto etiquetado como experimental.
+## Actualizacion 2026-03-31
+
+Agregar a la trazabilidad operativa del subsistema:
+
+- `desarrollo/docs/sistema_termico/PREPARACION_FBX_IMPORTADO.md`
+
+Registrar como `implementado` e `integrado` cuando aplique:
+
+- binder runtime del dron importado,
+- panel de power con slider de carga,
+- taxonomia publica de 6 filtros,
+- herencia termica de `Fasteners` y `Misc`,
+- y preparacion automatizada del FBX importado.

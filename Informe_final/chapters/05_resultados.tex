@@ -1,29 +1,29 @@
+﻿% =============================================================================
+% CapÃ­tulo 5 â€” Resultados y AnÃ¡lisis
+% ESTADO: ESTRUCTURA CON PLACEHOLDERS â€” Requiere datos de Bloque B (mÃ©tricas
+% de rendimiento del build WebGL) y Bloque D (validaciÃ³n con usuarios SUS/TLX).
 % =============================================================================
-% Capítulo 5 — Resultados y Análisis
-% ESTADO: ESTRUCTURA CON PLACEHOLDERS — Requiere datos de Bloque B (métricas
-% de rendimiento del build WebGL) y Bloque D (validación con usuarios SUS/TLX).
-% =============================================================================
 
-\section{Resultados y Análisis}
-\addcontentsline{toc}{section}{Resultados y Análisis}
+\section{Resultados y AnÃ¡lisis}
+\addcontentsline{toc}{section}{Resultados y AnÃ¡lisis}
 
-En este capítulo se presentan los resultados obtenidos durante la implementación y validación del prototipo, organizados en tres dimensiones: (a)~productos de software entregados, (b)~rendimiento técnico medido contra los KPIs establecidos en la metodología, y (c)~evaluación de usabilidad y carga cognitiva con usuarios.
+En este capÃ­tulo se presentan los resultados obtenidos durante la implementaciÃ³n y validaciÃ³n del prototipo, organizados en tres dimensiones: (a)~productos de software entregados, (b)~rendimiento tÃ©cnico medido contra los KPIs establecidos en la metodologÃ­a, y (c)~evaluaciÃ³n de usabilidad y carga cognitiva con usuarios.
 
-% ═══════════════════════════════════════════════════════════════════════════════
+% â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 \subsection{Productos Entregados}
 \addcontentsline{toc}{subsection}{Productos Entregados}
 
-\begin{table}[h!]
+\begin{table}[htbp!]
 \centering
 \caption{Productos Entregados vs. Productos Esperados}
 \small
-\begin{tabular}{p{5.5cm}p{5cm}p{3.5cm}}
+\begin{tabular}{>{\RaggedRight\arraybackslash}p{5.5cm}>{\RaggedRight\arraybackslash}p{5cm}>{\RaggedRight\arraybackslash}p{3.5cm}}
 \hline
 \textbf{Producto Esperado} & \textbf{Indicador} & \textbf{Estado} \\ \hline
 Prototipo WebGL Funcional &
-URL pública del prototipo. \newline
+URL pÃºblica del prototipo. \newline
 104 scripts implementados (meta: 65+). \newline
-7 modos de visualización. \newline
+7 modos de visualizaciÃ³n. \newline
 Sistema de vista explosionada. \newline
 Herramientas de ensamblaje (proyectadas). &
 Cumplido \\
@@ -34,115 +34,220 @@ Compatibilidad WebGL 2.0. &
 Cumplido \\
 
 Modelos 3D Optimizados &
-% TODO: Bloque B — Insertar porcentaje real de reducción
-Reducción de tamaño $\geq$ 90\,\%. \newline
+Reducci\'on geom\'etrica aproximada de 95\,\% en zonas uniformes (Decimate). \newline
+Retopolog\'ia manual en zonas cr\'iticas + malla final objetivo $<$ 100\,000 tri\'angulos. \newline
 DronePartData con 25+ campos. &
 Cumplido \\
 
 Documento de Trabajo de Grado &
 Normas APA 7 UNAD. \newline
-Documentación técnica completa. &
+DocumentaciÃ³n tÃ©cnica completa. &
 Cumplido \\
 
-Informe de Evaluación &
-% TODO: Bloque D — Insertar referencia a resultados SUS y NASA-TLX
-Resultados SUS y NASA-TLX. &
-Pendiente \\ \hline
+Informe de EvaluaciÃ³n &
+Instrumentos definidos: SUS, NASA-TLX y Think-Aloud. \newline
+Muestra objetivo: 8--12 participantes. \newline
+Aplicaci\'on y medici\'on final pendientes. &
+Pendiente (Bloque D) \\ \hline
 \end{tabular}
 \end{table}
 
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection{Rendimiento Técnico (KPIs)}
-\addcontentsline{toc}{subsection}{Rendimiento Técnico (KPIs)}
+% â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+\subsection{Rendimiento TÃ©cnico (KPIs)}
+\addcontentsline{toc}{subsection}{Rendimiento TÃ©cnico (KPIs)}
 
-Se realizaron pruebas de rendimiento del \textit{build} WebGL en dispositivos representativos de gama media y alta. Los resultados se contrastaron con las metas definidas en la metodología.
+Se realizaron pruebas de rendimiento del \textit{build} WebGL en dispositivos representativos de gama media y alta. Los resultados se contrastaron con las metas definidas en la metodologÃ­a.
 
-% TODO: Bloque B — Reemplazar TODOS los valores de la tabla con datos reales
-% del build WebGL final. NO USAR los datos ficticios del borrador anterior
-% (85,400 polígonos, 34 FPS, 2.8s shell, etc.).
-
-\begin{table}[h!]
+\begin{table}[htbp!]
 \centering
-\caption{Resultados de Rendimiento Técnico}
+\caption{Resultados de Rendimiento TÃ©cnico}
 \small
 \begin{tabular}{lccc}
 \hline
-\textbf{Métrica (KPI)} & \textbf{Meta} & \textbf{Resultado} & \textbf{Cumplido} \\ \hline
-Polígonos en Escena          & $<$ 100\,000 & \textit{[pendiente]} & --- \\
-FPS (Móvil Mid-Range)        & $>$ 30       & \textit{[pendiente]} & --- \\
-Draw Calls                   & $<$ 50       & \textit{[pendiente]} & --- \\
-Frame Time (ms)              & $<$ 33       & \textit{[pendiente]} & --- \\
-VRAM Texturas (MB)           & $<$ 64       & \textit{[pendiente]} & --- \\
-Tiempo de Carga (Shell, s)   & $<$ 3        & \textit{[pendiente]} & --- \\
-Tiempo de Carga (Full, s)    & $<$ 10       & \textit{[pendiente]} & --- \\
+\textbf{MÃ©trica (KPI)} & \textbf{Meta} & \textbf{Resultado} & \textbf{Cumplido} \\ \hline
+PolÃ­gonos en Escena          & $<$ 100\,000 & \textit{[KPI\_POLIGONOS\_FINAL]} & \textit{[CUMPLE\_SI\_NO]} \\
+FPS (MÃ³vil Mid-Range)        & $>$ 30       & \textit{[KPI\_FPS\_MID\_RANGE]} & \textit{[CUMPLE\_SI\_NO]} \\
+Draw Calls                   & $<$ 50       & \textit{[KPI\_DRAW\_CALLS]} & \textit{[CUMPLE\_SI\_NO]} \\
+Frame Time (ms)              & $<$ 33       & \textit{[KPI\_FRAME\_TIME\_MS]} & \textit{[CUMPLE\_SI\_NO]} \\
+VRAM Texturas (MB)           & $<$ 64       & \textit{[KPI\_VRAM\_MB]} & \textit{[CUMPLE\_SI\_NO]} \\
+Tiempo de Carga (Shell, s)   & $<$ 3        & \textit{[KPI\_SHELL\_SECONDS]} & \textit{[CUMPLE\_SI\_NO]} \\
+Tiempo de Carga (Full, s)    & $<$ 10       & \textit{[KPI\_FULL\_SECONDS]} & \textit{[CUMPLE\_SI\_NO]} \\
 \hline
 \end{tabular}
 \end{table}
 
-% TODO: Bloque B — Agregar párrafos de análisis por cada KPI:
-% - Polígonos: Detallar el resultado del pipeline de retopología
-% - FPS: Detallar dispositivos de prueba y resultados por dispositivo
-% - Draw Calls: Explicar impacto de batching y atlas de texturas
-% - Tiempo de Carga: Detallar tiempos por tipo de conexión (WiFi, 4G)
+\paragraph{Lectura de KPIs.} Reemplazar los tokens \textit{[KPI\_*]} por los valores finales obtenidos del build, manteniendo el formato de cumplimiento \textit{[CUMPLE\_SI\_NO]}.\newline
+\textit{[ANALISIS\_POLIGONOS]} \quad
+\textit{[ANALISIS\_FPS]} \quad
+\textit{[ANALISIS\_DRAW\_CALLS]} \quad
+\textit{[ANALISIS\_CARGA]}
 
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection{Evaluación de Usabilidad (SUS)}
-\addcontentsline{toc}{subsection}{Evaluación de Usabilidad (SUS)}
+\begin{figure}[htbp!]
+	\centering
+	\fbox{\parbox{0.86\textwidth}{\centering\vspace{1.2cm}\textit{[Figura KPI pendiente: insertar comparativa de KPIs vs meta]}\vspace{1.2cm}}}
+	\caption{Comparativa de resultados t\'ecnicos KPI frente a umbrales objetivo.}
+	\label{fig:kpi-comparativa}
+\end{figure}
 
-Se aplicó el cuestionario \textit{System Usability Scale} (SUS) de Brooke (1996) a una muestra de participantes tras completar las~6 tareas guiadas definidas en el protocolo de validación (véase Sección~\ref{sec:instrumentos}).
+\begin{table}[htbp!]
+\centering
+\caption{FPS por dispositivo de prueba (plantilla editable)}
+\small
+\begin{tabular}{>{\RaggedRight\arraybackslash}p{3.4cm}>{\RaggedRight\arraybackslash}p{4.0cm}>{\RaggedRight\arraybackslash}p{2.2cm}>{\RaggedRight\arraybackslash}p{2.4cm}>{\RaggedRight\arraybackslash}p{3.0cm}}
+\hline
+\textbf{Dispositivo} & \textbf{Browser / GPU} & \textbf{FPS medio} & \textbf{Frame time} & \textbf{Observaci\'on} \\ \hline
+Desktop gama alta & \textit{[BROWSER\_DESKTOP]} / \textit{[GPU\_DESKTOP]} & \textit{[FPS\_DESKTOP]} & \textit{[FRAME\_DESKTOP]} & \textit{[NOTA\_DESKTOP]} \\
+Tablet & \textit{[BROWSER\_TABLET]} / \textit{[GPU\_TABLET]} & \textit{[FPS\_TABLET]} & \textit{[FRAME\_TABLET]} & \textit{[NOTA\_TABLET]} \\
+M\'ovil mid-range & \textit{[BROWSER\_MOBILE]} / \textit{[GPU\_MOBILE]} & \textit{[FPS\_MOBILE]} & \textit{[FRAME\_MOBILE]} & \textit{[NOTA\_MOBILE]} \\
+\hline
+\end{tabular}
+\end{table}
 
-% TODO: Bloque D — Completar con datos reales:
-% - Tamaño de la muestra (N esperado: 8-12)
-% - Puntaje promedio SUS (meta: ≥ 68)
-% - Desviación estándar
-% - Clasificación según escala de Bangor et al. (2009):
-%   ≥ 85.5 = Excelente (A), 72.6-85.4 = Bueno (B), 52.0-72.5 = OK (C),
+% â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+\subsection{EvaluaciÃ³n de Usabilidad (SUS)}
+\addcontentsline{toc}{subsection}{EvaluaciÃ³n de Usabilidad (SUS)}
+
+Se aplicÃ³ el cuestionario \textit{System Usability Scale} (SUS) de Brooke (1996) a una muestra de participantes tras completar las~6 tareas guiadas definidas en el protocolo de validaciÃ³n (vÃ©ase SecciÃ³n~\ref{sec:instrumentos}).
+
+% TODO: Bloque D â€” Completar con datos reales:
+% - TamaÃ±o de la muestra (N esperado: 8-12)
+% - Puntaje promedio SUS (meta: â‰¥ 68)
+% - DesviaciÃ³n estÃ¡ndar
+% - ClasificaciÃ³n segÃºn escala de Bangor et al. (2009):
+%   â‰¥ 85.5 = Excelente (A), 72.6-85.4 = Bueno (B), 52.0-72.5 = OK (C),
 %   38.0-51.9 = Pobre (D), < 38 = Peor Imaginable (F)
 % - Tabla de puntajes por participante
-% - Gráfico de distribución (opcional)
+% - GrÃ¡fico de distribuciÃ³n (opcional)
 
-\textit{[Resultados pendientes de validación con usuarios — Bloque D.]}
+\textit{[SUS\_PROMEDIO]}\,\textit{[SUS\_SD]}\,\textit{[SUS\_CLASIFICACION]}
 
-% ═══════════════════════════════════════════════════════════════════════════════
+\begin{table}[htbp!]
+\centering
+\caption{Resultados SUS por participante (plantilla editable)}
+\small
+\begin{tabular}{>{\RaggedRight\arraybackslash}p{2.1cm}>{\RaggedRight\arraybackslash}p{2.7cm}>{\RaggedRight\arraybackslash}p{3.1cm}>{\RaggedRight\arraybackslash}p{3.5cm}}
+\hline
+\textbf{Participante} & \textbf{SUS bruto} & \textbf{SUS normalizado} & \textbf{Adjetivo / lectura} \\ \hline
+P01 & \textit{[SUS\_P01\_BRUTO]} & \textit{[SUS\_P01\_NORM]} & \textit{[SUS\_P01\_ADJ]} \\
+P02 & \textit{[SUS\_P02\_BRUTO]} & \textit{[SUS\_P02\_NORM]} & \textit{[SUS\_P02\_ADJ]} \\
+P03 & \textit{[SUS\_P03\_BRUTO]} & \textit{[SUS\_P03\_NORM]} & \textit{[SUS\_P03\_ADJ]} \\
+P04 & \textit{[SUS\_P04\_BRUTO]} & \textit{[SUS\_P04\_NORM]} & \textit{[SUS\_P04\_ADJ]} \\
+P05 & \textit{[SUS\_P05\_BRUTO]} & \textit{[SUS\_P05\_NORM]} & \textit{[SUS\_P05\_ADJ]} \\
+P06 & \textit{[SUS\_P06\_BRUTO]} & \textit{[SUS\_P06\_NORM]} & \textit{[SUS\_P06\_ADJ]} \\
+P07 & \textit{[SUS\_P07\_BRUTO]} & \textit{[SUS\_P07\_NORM]} & \textit{[SUS\_P07\_ADJ]} \\
+P08 & \textit{[SUS\_P08\_BRUTO]} & \textit{[SUS\_P08\_NORM]} & \textit{[SUS\_P08\_ADJ]} \\
+P09 & \textit{[SUS\_P09\_BRUTO]} & \textit{[SUS\_P09\_NORM]} & \textit{[SUS\_P09\_ADJ]} \\
+P10 & \textit{[SUS\_P10\_BRUTO]} & \textit{[SUS\_P10\_NORM]} & \textit{[SUS\_P10\_ADJ]} \\
+P11 & \textit{[SUS\_P11\_BRUTO]} & \textit{[SUS\_P11\_NORM]} & \textit{[SUS\_P11\_ADJ]} \\
+P12 & \textit{[SUS\_P12\_BRUTO]} & \textit{[SUS\_P12\_NORM]} & \textit{[SUS\_P12\_ADJ]} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp!]
+	\centering
+	\fbox{\parbox{0.86\textwidth}{\centering\vspace{1.2cm}\textit{[Figura SUS pendiente: insertar gr\'afica final de barras o boxplot]}\vspace{1.2cm}}}
+	\caption{Distribuci\'on de puntajes SUS por participante.}
+	\label{fig:sus-distribucion}
+\end{figure}
+
+\textit{[Resultados pendientes de validaci\'on con usuarios â€” Bloque D.]}
+
+% â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 \subsection{Carga Cognitiva (NASA-TLX)}
 \addcontentsline{toc}{subsection}{Carga Cognitiva (NASA-TLX)}
 
-Se aplicó el cuestionario \textit{Raw Task Load Index} (Raw TLX) de Hart y Staveland (1988) para evaluar la carga cognitiva percibida al interactuar con el prototipo~3D, comparándola con la experiencia equivalente usando documentación estática~(PDF) del mismo dron.
+Se aplicÃ³ el cuestionario \textit{Raw Task Load Index} (Raw TLX) de Hart y Staveland (1988) para evaluar la carga cognitiva percibida al interactuar con el prototipo~3D, comparÃ¡ndola con la experiencia equivalente usando documentaciÃ³n estÃ¡tica~(PDF) del mismo dron.
 
-% TODO: Bloque D — Completar con datos reales:
-% - Puntaje global promedio Raw TLX (meta: ≤ 40)
-% - Desglose por dimensión: Exigencia Mental, Exigencia Física, Exigencia Temporal,
-%   Rendimiento, Esfuerzo, Frustración
-% - Comparativa: grupo 3D interactivo vs grupo PDF estático
-%   (hipótesis: 2D → 60-80, 3D → 30-50)
-% - Prueba estadística (si N es suficiente): t de Student o Mann-Whitney U
-% - Gráfico radar o de barras comparativo (opcional)
+% TODO: Bloque D â€” Completar con datos reales:
+% - Puntaje global promedio Raw TLX (meta: â‰¤ 40)
+% - Desglose por dimensiÃ³n: Exigencia Mental, Exigencia FÃ­sica, Exigencia Temporal,
+%   Rendimiento, Esfuerzo, FrustraciÃ³n
+% - Comparativa: grupo 3D interactivo vs grupo PDF estÃ¡tico
+%   (hipÃ³tesis: 2D â†’ 60-80, 3D â†’ 30-50)
+% - Prueba estadÃ­stica (si N es suficiente): t de Student o Mann-Whitney U
+% - GrÃ¡fico radar o de barras comparativo (opcional)
 
-\textit{[Resultados pendientes de validación con usuarios — Bloque D.]}
+\textit{[NASA\_TLX\_GLOBAL]}\,\textit{[NASA\_TLX\_SD]}\,\textit{[NASA\_TLX\_CLASIFICACION]}
 
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection{Retroalimentación Cualitativa (\textit{Think-Aloud})}
-\addcontentsline{toc}{subsection}{Retroalimentación Cualitativa (Think-Aloud)}
+\begin{table}[htbp!]
+\centering
+\caption{Resultados NASA-TLX por participante (plantilla editable)}
+\small
+\begin{tabular}{>{\RaggedRight\arraybackslash}p{1.5cm}>{\RaggedRight\arraybackslash}p{1.6cm}>{\RaggedRight\arraybackslash}p{1.6cm}>{\RaggedRight\arraybackslash}p{1.6cm}>{\RaggedRight\arraybackslash}p{1.6cm}>{\RaggedRight\arraybackslash}p{1.6cm}>{\RaggedRight\arraybackslash}p{1.6cm}>{\RaggedRight\arraybackslash}p{1.8cm}}
+\hline
+\textbf{Part.} & \textbf{Mental} & \textbf{F\'isica} & \textbf{Temporal} & \textbf{Rend.} & \textbf{Esfuerzo} & \textbf{Frustr.} & \textbf{Promedio} \\ \hline
+P01 & \textit{[TLX\_P01\_M]} & \textit{[TLX\_P01\_F]} & \textit{[TLX\_P01\_T]} & \textit{[TLX\_P01\_R]} & \textit{[TLX\_P01\_E]} & \textit{[TLX\_P01\_FR]} & \textit{[TLX\_P01\_AVG]} \\
+P02 & \textit{[TLX\_P02\_M]} & \textit{[TLX\_P02\_F]} & \textit{[TLX\_P02\_T]} & \textit{[TLX\_P02\_R]} & \textit{[TLX\_P02\_E]} & \textit{[TLX\_P02\_FR]} & \textit{[TLX\_P02\_AVG]} \\
+P03 & \textit{[TLX\_P03\_M]} & \textit{[TLX\_P03\_F]} & \textit{[TLX\_P03\_T]} & \textit{[TLX\_P03\_R]} & \textit{[TLX\_P03\_E]} & \textit{[TLX\_P03\_FR]} & \textit{[TLX\_P03\_AVG]} \\
+P04 & \textit{[TLX\_P04\_M]} & \textit{[TLX\_P04\_F]} & \textit{[TLX\_P04\_T]} & \textit{[TLX\_P04\_R]} & \textit{[TLX\_P04\_E]} & \textit{[TLX\_P04\_FR]} & \textit{[TLX\_P04\_AVG]} \\
+P05 & \textit{[TLX\_P05\_M]} & \textit{[TLX\_P05\_F]} & \textit{[TLX\_P05\_T]} & \textit{[TLX\_P05\_R]} & \textit{[TLX\_P05\_E]} & \textit{[TLX\_P05\_FR]} & \textit{[TLX\_P05\_AVG]} \\
+P06 & \textit{[TLX\_P06\_M]} & \textit{[TLX\_P06\_F]} & \textit{[TLX\_P06\_T]} & \textit{[TLX\_P06\_R]} & \textit{[TLX\_P06\_E]} & \textit{[TLX\_P06\_FR]} & \textit{[TLX\_P06\_AVG]} \\
+P07 & \textit{[TLX\_P07\_M]} & \textit{[TLX\_P07\_F]} & \textit{[TLX\_P07\_T]} & \textit{[TLX\_P07\_R]} & \textit{[TLX\_P07\_E]} & \textit{[TLX\_P07\_FR]} & \textit{[TLX\_P07\_AVG]} \\
+P08 & \textit{[TLX\_P08\_M]} & \textit{[TLX\_P08\_F]} & \textit{[TLX\_P08\_T]} & \textit{[TLX\_P08\_R]} & \textit{[TLX\_P08\_E]} & \textit{[TLX\_P08\_FR]} & \textit{[TLX\_P08\_AVG]} \\
+P09 & \textit{[TLX\_P09\_M]} & \textit{[TLX\_P09\_F]} & \textit{[TLX\_P09\_T]} & \textit{[TLX\_P09\_R]} & \textit{[TLX\_P09\_E]} & \textit{[TLX\_P09\_FR]} & \textit{[TLX\_P09\_AVG]} \\
+P10 & \textit{[TLX\_P10\_M]} & \textit{[TLX\_P10\_F]} & \textit{[TLX\_P10\_T]} & \textit{[TLX\_P10\_R]} & \textit{[TLX\_P10\_E]} & \textit{[TLX\_P10\_FR]} & \textit{[TLX\_P10\_AVG]} \\
+P11 & \textit{[TLX\_P11\_M]} & \textit{[TLX\_P11\_F]} & \textit{[TLX\_P11\_T]} & \textit{[TLX\_P11\_R]} & \textit{[TLX\_P11\_E]} & \textit{[TLX\_P11\_FR]} & \textit{[TLX\_P11\_AVG]} \\
+P12 & \textit{[TLX\_P12\_M]} & \textit{[TLX\_P12\_F]} & \textit{[TLX\_P12\_T]} & \textit{[TLX\_P12\_R]} & \textit{[TLX\_P12\_E]} & \textit{[TLX\_P12\_FR]} & \textit{[TLX\_P12\_AVG]} \\
+\hline
+\end{tabular}
+\end{table}
 
-Durante las sesiones de prueba se aplicó el protocolo \textit{Think-Aloud} (Ericsson y Simon, 1993), registrando las verbalizaciones de los participantes. Los comentarios se codificaron en categorías temáticas.
+\begin{figure}[htbp!]
+	\centering
+	\fbox{\parbox{0.86\textwidth}{\centering\vspace{1.2cm}\textit{[Figura NASA-TLX pendiente: insertar radar o barras comparativas]}\vspace{1.2cm}}}
+	\caption{Comparativa de carga cognitiva NASA-TLX entre prototipo 3D y PDF est\'atico.}
+	\label{fig:nasa-tlx-comparativa}
+\end{figure}
 
-% TODO: Bloque D — Completar con datos reales:
-% - Categorías identificadas (ej: navegación, comprensión, estética, dificultades)
+\textit{[Resultados pendientes de validaci\'on con usuarios â€” Bloque D.]}
+
+% â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+\subsection{RetroalimentaciÃ³n Cualitativa (\textit{Think-Aloud})}
+\addcontentsline{toc}{subsection}{RetroalimentaciÃ³n Cualitativa (Think-Aloud)}
+
+Durante las sesiones de prueba se aplicÃ³ el protocolo \textit{Think-Aloud} (Ericsson y Simon, 1993), registrando las verbalizaciones de los participantes. Los comentarios se codificaron en categorÃ­as temÃ¡ticas.
+
+% TODO: Bloque D â€” Completar con datos reales:
+% - CategorÃ­as identificadas (ej: navegaciÃ³n, comprensiÃ³n, estÃ©tica, dificultades)
 % - Citas textuales representativas de los participantes
 % - Problemas de usabilidad identificados y su frecuencia
 
-\textit{[Resultados pendientes de validación con usuarios — Bloque D.]}
+\begin{table}[htbp!]
+\centering
+\caption{Codificaci\'on de resultados Think-Aloud (plantilla editable)}
+\small
+\begin{tabular}{>{\RaggedRight\arraybackslash}p{3.4cm}>{\RaggedRight\arraybackslash}p{2.6cm}>{\RaggedRight\arraybackslash}p{6.0cm}>{\RaggedRight\arraybackslash}p{2.4cm}}
+\hline
+\textbf{Categor\'ia} & \textbf{Frecuencia} & \textbf{Cita representativa} & \textbf{Acci\'on} \\ \hline
+Navegaci\'on & \textit{[FREQ\_NAV]} & \textit{[CITA\_NAV]} & \textit{[ACCION\_NAV]} \\
+Comprensi\'on t\'ecnica & \textit{[FREQ\_COMP]} & \textit{[CITA\_COMP]} & \textit{[ACCION\_COMP]} \\
+Est\'etica / legibilidad & \textit{[FREQ\_EST]} & \textit{[CITA\_EST]} & \textit{[ACCION\_EST]} \\
+Dificultades de uso & \textit{[FREQ\_DIFF]} & \textit{[CITA\_DIFF]} & \textit{[ACCION\_DIFF]} \\
+Feedback positivo & \textit{[FREQ\_POS]} & \textit{[CITA\_POS]} & \textit{[ACCION\_POS]} \\
+\hline
+\end{tabular}
+\end{table}
 
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection{Discusión de Resultados}
-\addcontentsline{toc}{subsection}{Discusión de Resultados}
+\textit{[Resultados pendientes de validaci\'on con usuarios â€” Bloque D.]}
 
-% TODO: Bloque B + D — Escribir discusión integradora:
-% - Triangulación de datos cuantitativos (SUS, TLX, KPIs) con cualitativos (Think-Aloud)
-% - Relación con los objetivos específicos y la pregunta de investigación
-% - Comparación con benchmarks de la industria (SUS promedio = 68, TLX < 40)
+% â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+\subsection{DiscusiÃ³n de Resultados}
+\addcontentsline{toc}{subsection}{DiscusiÃ³n de Resultados}
+
+% TODO: Bloque B + D â€” Escribir discusiÃ³n integradora:
+% - TriangulaciÃ³n de datos cuantitativos (SUS, TLX, KPIs) con cualitativos (Think-Aloud)
+% - RelaciÃ³n con los objetivos especÃ­ficos y la pregunta de investigaciÃ³n
+% - ComparaciÃ³n con benchmarks de la industria (SUS promedio = 68, TLX < 40)
 % - Limitaciones de la muestra y del protocolo
 
-\textit{[Discusión pendiente de resultados — Bloques B y D.]}
+\textit{[Discusi\'on pendiente de resultados â€” Bloques B y D.]}
 
 \newpage
+
+
+
+
+
+
+

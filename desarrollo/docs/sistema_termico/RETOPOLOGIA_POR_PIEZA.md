@@ -1,165 +1,199 @@
-# Guia de Retopologia por Pieza — Holybro X500 V2
+# Guía de retopología por pieza - Holybro X500 V2
 
-## Objetivo
+## Propósito
 
-Definir la topologia de malla requerida para cada pieza del dron segun su funcion termica en el sistema de simulacion. Las piezas criticas necesitan mallas mas densas y limpias para soportar gradientes de temperatura visualmente creibles.
+Este documento le dice a un modelador junior exactamente cómo preparar la geometría del dron para que funcione bien con:
 
-## Criterios de Clasificacion
+- el runtime WebGL,
+- la lectura visual del producto,
+- y la propagación térmica del sistema híbrido.
 
-| Tier | Descripcion | Topologia | Polys estimados | UV |
-|------|-------------|-----------|----------------:|-----|
-| **Critico** | Fuentes de calor principales o sumideros con gradientes visibles | Quad-dominant, densidad aumentada cerca de hotspots, loops de soporte | 1500–4000 | Unwrap limpio, sin solapamiento, padding 4px min |
-| **Secundario** | Piezas con conduccion pasiva o contacto termico directo | Mix quad/tri aceptable, topologia limpia sin ngons | 500–1500 | Unwrap funcional, solapamiento simetrico permitido |
-| **Minimo** | Piezas sin rol termico significativo | Low-poly agresivo, tris permitidos | 200–600 | Atlas packing, auto-unwrap aceptable |
+La regla principal es simple:
 
----
+- no optimizar pensando en `ngons`,
+- optimizar pensando en la triangulación final que Unity realmente va a renderizar.
 
-## Clasificacion por Pieza
+Unity triangula igual cualquier `ngon`. Por eso el ahorro real no viene de dejar caras grandes ambiguas, sino de controlar la topología final, la densidad donde importa y la separación correcta entre piezas canónicas.
 
-### Tier Critico — Fuentes de calor y sumideros principales
+## Capa A - Reglas globales
 
-#### Motores (×4): `x500v2_motor_FL`, `_FR`, `_BL`, `_BR`
+### Reglas obligatorias de exportación
 
-- **Funcion termica**: Fuente de calor primaria. Pico ~90°C bajo carga alta.
-- **Patron visual**: Radial — calor concentrado en centro del bobinado, enfriamiento en extremos.
-- **Topologia requerida**:
-  - Quads limpios en cilindro principal
-  - Edge loops concentricos en zona del estator (centro del motor)
-  - Densidad mayor en la mitad inferior (zona de contacto con brazo/ESC)
-  - Min 8 segmentos radiales en seccion circular
-- **Polys**: 2000–3000
-- **UV**: Planar Y para caras superior/inferior, cilindrica para cuerpo
+- No exportar `ngons` en la malla final.
+- En piezas críticas usar malla `quad-dominant`.
+- En piezas secundarias se permiten triángulos controlados.
+- No fusionar fuentes térmicas canónicas con sus disipadores solo para ahorrar polígonos.
+- Aplicar transforms antes de exportar.
+- Mantener normales consistentes y malla manifold.
+- Conservar grosor físico real cuando ese grosor afecta lectura térmica o de contacto.
+- Pivotes coherentes con la función de la pieza.
+- Escala final en metros, consistente con Unity.
 
-#### ESCs (×4): `x500v2_esc_FL`, `_FR`, `_BL`, `_BR`
+### Naming
 
-- **Funcion termica**: Fuente de calor secundaria. MOSFETs alcanzan ~90°C.
-- **Patron visual**: Axial — calor concentrado en MOSFETs (centro de la PCB), disipacion hacia extremos de la placa.
-- **Topologia requerida**:
-  - Quad planar limpio con subdivision adicional en zona central (donde se ubican MOSFETs)
-  - Edge loops paralelos al eje largo
-  - Evitar triangulos en caras frontales
-- **Polys**: 600–1200
-- **UV**: Planar Z, una isla por cara visible
+Las piezas que correspondan a nodos oficiales del solver deben conservar o mapear a estos IDs:
 
-#### Bateria: `x500v2_battery`
+- `x500v2_bottom_plate`
+- `x500v2_top_plate`
+- `x500v2_arm_FL`, `x500v2_arm_FR`, `x500v2_arm_BL`, `x500v2_arm_BR`
+- `x500v2_landing_gear`
+- `x500v2_platform_board`
+- `x500v2_rails_battery`
+- `x500v2_pdb`
+- `x500v2_power_module`
+- `x500v2_pixhawk6c`
+- `x500v2_gps_m10`
+- `x500v2_telemetry_radio`
+- `x500v2_motor_FL`, `x500v2_motor_FR`, `x500v2_motor_BL`, `x500v2_motor_BR`
+- `x500v2_esc_FL`, `x500v2_esc_FR`, `x500v2_esc_BL`, `x500v2_esc_BR`
+- `x500v2_prop_FL`, `x500v2_prop_FR`, `x500v2_prop_BL`, `x500v2_prop_BR`
+- `x500v2_battery`
+- `x500v2_rc_receiver`
 
-- **Funcion termica**: Fuente de calor interna por resistencia. Rango operativo estrecho 0–45°C. Warmup lento (15s).
-- **Patron visual**: Radial — calor uniforme con concentracion interna, enfriamiento en extremos.
-- **Topologia requerida**:
-  - Caja subdividida con edge loops en cortes transversales (min 3 cortes)
-  - Quads limpios en las 6 caras
-  - Densidad ligeramente mayor en extremos donde contacta con rails
-- **Polys**: 800–1500
-- **UV**: Box projection limpio
+### UVs
 
-#### Brazos (×4): `x500v2_arm_FL`, `_FR`, `_BL`, `_BR`
+- Piezas críticas: UV limpio, sin overlaps, padding razonable.
+- Piezas secundarias: UV limpio o simétrico, con overlaps solo si no afecta lectura.
+- Piezas mínimas: atlas o auto-unwrap aceptable.
 
-- **Funcion termica**: Sumidero estructural. Conducen calor de motor/ESC hacia placas centrales. Alta exposicion al aire.
-- **Patron visual**: Axial — gradiente lineal de extremo caliente (motor) a extremo frio (placa central).
-- **Topologia requerida**:
-  - Tubo cuadrado con subdivisiones a lo largo del eje principal (min 6 segmentos longitudinales)
-  - Edge loops uniformemente distribuidos para gradiente suave
-  - Quads obligatorios
-- **Polys**: 400–800 por brazo
-- **UV**: Cilindrica desenvuelta, una isla continua
+### Contacto térmico
 
-### Tier Secundario — Contacto termico pasivo
+Si una pieza transmite calor a otra, su zona de contacto debe ser clara en geometría y fácil de leer en bounds y malla. No hace falta microdetalle, pero sí:
 
-#### Placa inferior: `x500v2_bottom_plate`
+- cara o banda de contacto definida,
+- grosor razonable,
+- loops cerca del anclaje,
+- y pivote/orientación consistentes.
 
-- **Funcion termica**: Hub de conduccion central. Conecta brazos, PDB, rails de bateria.
-- **Topologia**: Plano con agujeros de montaje. Quads limpios, densidad uniforme.
-- **Polys**: 600–1000
-- **UV**: Planar Y
+## Capa B - Topología por las 28 piezas canónicas
 
-#### Placa superior: `x500v2_top_plate`
+### Tabla maestra
 
-- **Funcion termica**: Conecta a Pixhawk, platform board, radio, receiver. Conduccion moderada.
-- **Topologia**: Plano con agujeros. Similar a placa inferior.
-- **Polys**: 600–1000
-- **UV**: Planar Y
+| Pieza canónica | Rol térmico | Patrón visual esperado | Nivel topológico | Guía concreta |
+| --- | --- | --- | --- | --- |
+| `x500v2_bottom_plate` | Hub estructural y disipador pasivo | Uniform | Secundario alto | Plano con agujeros y grosor real. Quads limpios alrededor de agujeros, bordes y uniones con brazos/rails. No gastar densidad en zonas planas muertas. |
+| `x500v2_top_plate` | Stack central pasivo | Uniform | Secundario alto | Igual criterio que bottom plate. Mantener limpia la zona donde apoyan Pixhawk, radio y platform board. |
+| `x500v2_arm_*` x4 | Canal principal de conducción desde motor/ESC hacia el centro | Axial | Crítico | Quad-dominant. Al menos 6 segmentos longitudinales. Loops adicionales en extremo motor y extremo hub. No colapsar la longitud útil del tubo. |
+| `x500v2_landing_gear` | Sumidero pasivo muy expuesto | Uniform | Secundario | Puede usar tris controlados. Mantener forma legible y puntos de contacto con bottom plate. |
+| `x500v2_platform_board` | Plataforma pasiva | Uniform | Mínimo/secundario | Superficie limpia y ligera. No necesita densidad térmica alta. |
+| `x500v2_rails_battery` | Puente de conducción entre bottom plate y batería | Axial | Secundario alto | Mantener continuidad longitudinal y puntos de apoyo definidos. Loops en zonas de apoyo con batería y fijación a la base. |
+| `x500v2_pdb` | Fuente electrónica secundaria | Radial suave | Secundario alto | PCB plana con suficiente definición central. Mantener grosor realista y borde estable. |
+| `x500v2_power_module` | Fuente electrónica secundaria | Radial suave | Secundario alto | Caja/PCB compacta. Subdividir ligeramente la cara donde van componentes. |
+| `x500v2_pixhawk6c` | Fuente electrónica secundaria relevante | Radial suave | Secundario alto | Mantener tapa, base y volumen general limpios. Si se colapsa detalle, nunca perder el volumen principal. |
+| `x500v2_gps_m10` | Térmicamente menor | Uniform | Mínimo | Se puede simplificar bastante. Si se conserva mástil, que sea limpio y ligero. |
+| `x500v2_telemetry_radio` | Térmicamente menor | Uniform | Mínimo | Caja simple con malla baja y UV funcional. |
+| `x500v2_motor_*` x4 | Fuente térmica primaria | Radial | Crítico | Quad-dominant. Mantener cilindro limpio, loops concéntricos y densidad extra cerca de carcasa y base de montaje. No usar `ngons` en tapas finales. |
+| `x500v2_esc_*` x4 | Fuente térmica primaria/secundaria | Axial | Crítico | PCB o cuerpo rectangular limpio. Densidad media con loops paralelos al eje largo. Detalle extra solo donde se ubican MOSFETs o zona de fijación. |
+| `x500v2_prop_*` x4 | Sin rol térmico relevante | Uniform | Mínimo | Muy low poly, silueta correcta y balance visual. No dedicar loops térmicos. |
+| `x500v2_battery` | Fuente térmica primaria moderada | Radial | Crítico | Caja limpia con quads estables. Añadir 2-3 cortes longitudinales o transversales para que el gradiente no se vea plano. |
+| `x500v2_rc_receiver` | Electrónica menor | Uniform | Mínimo | Caja simple. Puede heredar temperatura visual del stack central si hace falta. |
 
-#### PDB: `x500v2_pdb`
+### Reglas por tier
 
-- **Funcion termica**: ElectronicsHigh. Pistas de cobre de alta corriente. Contacto directo con placa inferior.
-- **Topologia**: Plano fino con subdivision en zona central.
-- **Polys**: 300–600
-- **UV**: Planar Z
+#### Tier crítico
 
-#### Power Module: `x500v2_power_module`
+Aplica a:
 
-- **Funcion termica**: ElectronicsHigh. Regulador de voltaje, disipa calor moderado.
-- **Topologia**: Caja simple con subdivision en cara superior (componentes).
-- **Polys**: 300–500
-- **UV**: Box projection
+- motores,
+- ESC,
+- batería,
+- brazos.
 
-#### Pixhawk 6C: `x500v2_pixhawk6c`
+Reglas:
 
-- **Funcion termica**: ElectronicsHigh. Procesador de vuelo genera calor continuo.
-- **Topologia**: Caja con detalle en cara superior (conectores, LEDs).
-- **Polys**: 500–800
-- **UV**: Box limpio
+- `quad-dominant`.
+- Sin `ngons` finales.
+- Loops concentrados en hotspots y contactos.
+- UV limpio.
+- No fusionar con el padre térmico.
 
-#### Rails de bateria: `x500v2_rails_battery`
+#### Tier secundario alto
 
-- **Funcion termica**: Conductor de contacto entre placa inferior y bateria.
-- **Topologia**: Extrusion simple con edge loops en puntos de contacto.
-- **Polys**: 200–400
-- **UV**: Cilindrica
+Aplica a:
 
-### Tier Minimo — Sin rol termico significativo
+- bottom plate,
+- top plate,
+- rails battery,
+- PDB,
+- power module,
+- Pixhawk,
+- landing gear.
 
-#### Platform Board: `x500v2_platform_board`
+Reglas:
 
-- **Polys**: 200–400
-- **UV**: Planar auto
+- Quads preferidos, tris controlados aceptables.
+- Mantener claros los volúmenes y superficies de apoyo.
+- Reducir densidad en áreas muertas.
 
-#### GPS M10: `x500v2_gps_m10`
+#### Tier mínimo
 
-- **Polys**: 300–500
-- **UV**: Planar auto
+Aplica a:
 
-#### Telemetry Radio: `x500v2_telemetry_radio`
+- props,
+- radio,
+- receiver,
+- GPS,
+- platform board,
+- fijaciones menores heredadas.
 
-- **Polys**: 200–400
-- **UV**: Planar auto
+Reglas:
 
-#### RC Receiver: `x500v2_rc_receiver`
+- Low poly agresivo.
+- Tris aceptables.
+- Sin obsesionarse con loops térmicos.
+- Si una pieza es demasiado pequeña para justificar simulación propia, debe heredar temperatura del padre canónico.
 
-- **Polys**: 200–300
-- **UV**: Planar auto
+## Capa C - Mapeo 55 CAD/Blender -> 28 piezas canónicas
 
-#### Landing Gear: `x500v2_landing_gear`
+### Mapeo principal por ensamblaje
 
-- **Funcion termica**: Sumidero pasivo con alta exposicion al aire. Sin fuente de calor propia.
-- **Polys**: 400–800
-- **UV**: Cilindrica auto
+| Nodo canónico | Subcomponentes CAD/Blender relacionados | Qué hacer en modelado | Dueño térmico |
+| --- | --- | --- | --- |
+| `x500v2_bottom_plate` | `BOTTOM-PLATE-X500-V5`, `X500-TAO-XT60`, clips y tornillería asociada a base | Mantener la plate como pieza limpia y separada. XT60 holder y fijaciones pueden quedar como hijos visuales low poly o heredar temperatura. | `x500v2_bottom_plate` |
+| `x500v2_top_plate` | `TOP-PLATE-X500-V5`, fijaciones del stack superior | Mantener la plate separada. Tornillería y separadores pueden quedar en tier mínimo o heredar temperatura. | `x500v2_top_plate` |
+| `x500v2_arm_*` | `CARBON-FIBER-TUBE300`, `HMX5V-GUAN-DINGWEI`, `HMX5V-JIBI-JIA-MUJU`, `HMX5V-ZUO-DJ-MUJU`, `HMX5V-DIGAI-DIANJIZUO-MUJU`, `BAN-DJ-DIAN-F2`, `JIA-GUAN` | El tubo principal debe quedar limpio y priorizado. Las abrazaderas, soportes y clamps pueden preservarse como piezas visuales separadas o fusionarse visualmente, pero el solver sigue viendo un brazo canónico. | `x500v2_arm_FL/FR/BL/BR` |
+| `x500v2_landing_gear` | `CARBON-FIBER-TUBE`, `JIAO-EVA`, `JIAO-LIANJIE`, `MAO-JIAO` | Mantener legibilidad del conjunto, pero con malla ligera. Almohadillas y tapas pueden heredar temperatura. | `x500v2_landing_gear` |
+| `x500v2_platform_board` | `PLATFORM-PLAT-X500` | Puede ser una pieza simple y ligera. | `x500v2_platform_board` |
+| `x500v2_rails_battery` | `BATTERY-MOUNTING-PLAT`, `BATTERY-PAD`, `PYLONS-X500`, `GUAN-CHENG` | Mantener la superficie de apoyo y las barras/rieles legibles. El pad puede ser visualmente separado pero térmicamente heredado si hace falta. | `x500v2_rails_battery` |
+| `x500v2_pixhawk6c` | `DIKE-PIXHAWK6C-LV-C1`, `MIANKE-PIXHAWK6C-LV-C1`, `IMU-PIXHAWK6C`, `PCB-PIXHAWK6C-F1`, `BM06B-WO` | Mantener el volumen principal claro. Conectores pequeños y detalle interno pueden heredar. Si el showcase lo requiere, shell y PCB pueden ser submallas dentro del mismo nodo canónico. | `x500v2_pixhawk6c` |
+| `x500v2_power_module` | `PCB-PM06`, `TOU-XT60H-M-14AWG` | Mantener la PCB o carcasa principal separada. El conector puede quedar como hijo visual low poly. | `x500v2_power_module` |
+| `x500v2_gps_m10` | `GAN-GPSV5-ZHIJIA`, `GPS-ZHIJIA-ZHUANJIETOU`, `GPS-ZHIJIA-ZUO`, `GPSV5-ZHIJIA-LUOMAO`, `GPSV5-ZHIJIA-TUOPAN` | La antena y el mástil pueden quedar como ensamblaje visual. Para el solver sigue siendo un nodo GPS único. | `x500v2_gps_m10` |
+| `x500v2_motor_*` | `DJ-2216-KV880` | Mantener el motor como pieza separada sí o sí. | `x500v2_motor_FL/FR/BL/BR` |
+| Fijaciones menores heredadas | `GB70-*`, `LM-*`, `M25-*`, `M3-*`, `NILONGZHU-*`, `ZSLM-*`, `JIA-LIANJIE`, `GAI-GUANGLIU`, `ZHIJIA-CAMERA-INTEL` | No crear nodos térmicos propios en V1. Dejar low poly o integrarlos visualmente al ensamblaje padre. | Padre canónico más cercano |
 
-#### Propellers (×4): `x500v2_propeller_FL`, `_FR`, `_BL`, `_BR`
+### Subcomponentes sin correspondencia completa en el JSON sincronizado de 55
 
-- **Funcion termica**: Ninguna directa. No se calientan significativamente.
-- **Polys**: 200–400
-- **UV**: Planar auto
+En el dataset CAD/Blender actual no aparecen claramente representados como piezas dedicadas:
 
----
+- `x500v2_pdb`
+- `x500v2_esc_*`
+- `x500v2_prop_*`
+- `x500v2_battery`
+- `x500v2_telemetry_radio`
+- `x500v2_rc_receiver`
 
-## Resumen de Presupuesto
+Instrucción para modelado:
 
-| Tier | Piezas | Polys por pieza | Total estimado |
-|------|-------:|----------------:|---------------:|
-| Critico | 13 (4M + 4E + 1B + 4A) | 600–3000 | ~18,000 |
-| Secundario | 6 | 200–1000 | ~4,000 |
-| Minimo | 9 | 200–500 | ~3,000 |
-| **Total** | **28** | — | **~25,000** |
+- estas piezas siguen siendo nodos oficiales del solver,
+- deben mantenerse o autorizarse como piezas separadas en la escena final,
+- no deben perderse por falta de correspondencia en el lote CAD sincronizado actual.
 
-Este presupuesto es compatible con el target de rendimiento WebGL movil a 23+ FPS.
+## Capa D - Checklist de entrega para modelador
 
----
+Antes de dar una pieza por aprobada, revisar:
 
-## Reglas Generales
+- ¿La pieza conserva el `partId` canónico o un nombre mapeable?
+- ¿La pieza crítica quedó sin `ngons` finales?
+- ¿La densidad está donde nace o viaja el calor y no en superficies muertas?
+- ¿Los contactos físicos importantes se leen bien en malla y bounds?
+- ¿El pivote es coherente con montaje, animación o lectura técnica?
+- ¿Las transforms están aplicadas?
+- ¿La escala está correcta para Unity?
+- ¿La malla es manifold y tiene normales sanas?
+- ¿El UV es limpio si la pieza es crítica o secundaria alta?
+- ¿La pieza debe llevar `ThermalSurfaceProfile` manual o basta el preset canónico?
+- ¿La pieza participa en el grafo de contactos o solo hereda temperatura?
 
-1. **No ngons en la exportacion final**. Blender puede tenerlos durante edicion pero deben resolverse antes de exportar.
-2. **Quads obligatorios en Tier Critico**. El shader termico proyecta gradientes que se ven mal con triangulaciones irregulares.
-3. **Edge loops en zonas de contacto**. Si una pieza toca otra (ej: motor sobre brazo), la zona de contacto debe tener edge loops definidos para que el gradiente visual sea suave.
-4. **Orientar la topologia al flujo de calor**. En piezas axiales (brazos, ESCs), los edge loops deben ser perpendiculares al eje largo. En piezas radiales (motores, bateria), loops concentricos.
-5. **Escala en Blender**. Exportar con la misma escala que el modelo actual en Unity. Verificar que las bounds de cada pieza coincidan con las usadas por el `ThermalContactGraphBuilderWindow`.
+## Decisión final para el modelador
+
+Si dudas entre una malla con `ngons` y una malla limpia en quads/tris controlados, elige siempre la segunda. En este proyecto importa más una triangulación predecible y una topología legible para el gradiente térmico que un ahorro falso de polígonos basado en `ngons`.

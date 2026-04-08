@@ -27,9 +27,20 @@ MonoBehaviour:
   powerConsumption: 0
   maxLoad: 0
   operatingTemp: 0
+  operatingTempMin: 0
+  operatingTempMax: 0
+  thermalPeak: 0
+  thermalHover: 0
+  thermalWarmupSeconds: 0
+  thermalExposure: 0
+  thermalConductionScale: 0
+  thermalSourceWeight: 0
+  isThermallyCritical: 0
   icon: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
   thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
   explosionDirection: {x: 0, y: 0, z: 0}
   explosionDistance: 1
   explosionPriority: 0
@@ -47,4 +58,5 @@ MonoBehaviour:
   connectionTypes: []
   screwCount: 0
   screwSize: 
-  category: Structure
+  subComponentNames: []
+  category: 6

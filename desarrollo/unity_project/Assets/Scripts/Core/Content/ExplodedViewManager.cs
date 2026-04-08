@@ -4,6 +4,7 @@ using UnityEngine;
 using WebGL.Core.Managers;
 using WebGL.Core.Utils;
 using WebGL.Core.Events;
+using System;
 
 namespace WebGL.Core.Content
 {
@@ -28,7 +29,7 @@ namespace WebGL.Core.Content
         private void Start()
         {
             // Find all explodable parts in the scene
-            parts.AddRange(FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None));
+            RebuildCache();
             
             // Subscribe to state changes
             EventBus.Subscribe<StateChangedEvent>(OnStateChanged);
@@ -99,32 +100,83 @@ namespace WebGL.Core.Content
         public float GetExplosionFactor() => explosionFactor;
         public float GetCurrentFactor() => currentFactor;
 
+        public void RebuildCache()
+        {
+            parts.Clear();
+            parts.AddRange(FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None));
+            UpdateAllParts();
+        }
+
         public void SetCategoryFilters(List<string> activeCategories)
         {
             foreach (var part in parts)
             {
                 if (part == null) continue;
 
-                if (activeCategories == null || activeCategories.Count == 0 || activeCategories.Contains("ALL"))
+                part.gameObject.SetActive(true);
+
+                Renderer[] renderers = part.GetComponentsInChildren<Renderer>(true);
+                bool showAll = activeCategories == null || activeCategories.Count == 0 || activeCategories.Contains("ALL");
+                bool anyVisible = false;
+
+                foreach (Renderer renderer in renderers)
                 {
-                    part.gameObject.SetActive(true);
-                }
-                else
-                {
-                    // Case-insensitive check against multiple categories
-                    bool match = false;
-                    if (part.Data != null)
+                    if (renderer == null) continue;
+
+                    bool visible = showAll || RendererMatchesFilters(renderer, part, activeCategories);
+                    renderer.enabled = visible;
+                    anyVisible |= visible;
+
+                    Collider collider = renderer.GetComponent<Collider>();
+                    if (collider != null)
                     {
-                        foreach (var cat in activeCategories)
-                        {
-                            if (part.Data.category.Equals(cat, System.StringComparison.OrdinalIgnoreCase))
-                            {
-                                match = true;
-                                break;
-                            }
-                        }
+                        collider.enabled = visible;
                     }
-                    part.gameObject.SetActive(match);
+                }
+
+                if (!anyVisible)
+                {
+                    DisableRootColliders(part.transform);
+                }
+            }
+        }
+
+        private static bool RendererMatchesFilters(Renderer renderer, ExplodablePart part, IReadOnlyList<string> activeCategories)
+        {
+            PartRenderCategory renderCategory = renderer.GetComponent<PartRenderCategory>();
+            if (renderCategory != null)
+            {
+                return renderCategory.MatchesAny(activeCategories);
+            }
+
+            if (part == null || part.Data == null)
+            {
+                return false;
+            }
+
+            foreach (string category in activeCategories)
+            {
+                if (string.Equals(category, part.Data.category.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static void DisableRootColliders(Transform root)
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            foreach (Collider collider in root.GetComponentsInChildren<Collider>(true))
+            {
+                if (collider != null)
+                {
+                    collider.enabled = false;
                 }
             }
         }

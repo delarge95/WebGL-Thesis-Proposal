@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using WebGL.Core.Content;
+using WebGL.Core.Events;
 using WebGL.Core.Managers;
 using WebGL.Core.Utils;
 
@@ -11,6 +12,7 @@ using WebGL.Core.Utils;
 /// </summary>
 public class HotspotManager : Singleton<HotspotManager>
 {
+    private VisualElement _root;
     private VisualElement _container;
     private readonly List<SmartHotspot> _activeHotspots = new List<SmartHotspot>();
     private Camera _mainCamera;
@@ -20,6 +22,7 @@ public class HotspotManager : Singleton<HotspotManager>
     /// </summary>
     public void Initialize(VisualElement root)
     {
+        _root = root;
         _mainCamera = Camera.main;
 
         _container = root.Q<VisualElement>("WorldSpaceContainer");
@@ -29,7 +32,19 @@ public class HotspotManager : Singleton<HotspotManager>
             return;
         }
 
+        ClearHotspots();
         SpawnHotspots();
+    }
+
+    public void RebuildHotspots()
+    {
+        if (_root == null)
+        {
+            return;
+        }
+
+        Initialize(_root);
+        SetVisible(IsVisible);
     }
 
     private void SpawnHotspots()
@@ -40,15 +55,14 @@ public class HotspotManager : Singleton<HotspotManager>
 
         foreach (var part in parts)
         {
-            if (part == null) continue;
-            CreateHotspot(part.transform);
+            if (part == null || part.Data == null || !part.Data.isHotspotTarget) continue;
+            CreateHotspot(part);
         }
     }
 
-    private void CreateHotspot(Transform target)
+    private void CreateHotspot(ExplodablePart targetPart)
     {
-        // SmartHotspot now handles its own click/hover events internally
-        SmartHotspot hotspot = new SmartHotspot(_container, target, _mainCamera);
+        SmartHotspot hotspot = new SmartHotspot(_container, targetPart, _mainCamera);
         _activeHotspots.Add(hotspot);
     }
 
@@ -58,7 +72,13 @@ public class HotspotManager : Singleton<HotspotManager>
     /// </summary>
     private void OnDisable()
     {
+        EventBus.Unsubscribe<ImportedDroneRuntimeBoundEvent>(HandleImportedDroneRuntimeBound);
         ClearHotspots();
+    }
+
+    private void OnEnable()
+    {
+        EventBus.Subscribe<ImportedDroneRuntimeBoundEvent>(HandleImportedDroneRuntimeBound);
     }
 
     private void LateUpdate()
@@ -105,5 +125,10 @@ public class HotspotManager : Singleton<HotspotManager>
     public void ToggleVisibility()
     {
         SetVisible(!IsVisible);
+    }
+
+    private void HandleImportedDroneRuntimeBound(ImportedDroneRuntimeBoundEvent _)
+    {
+        RebuildHotspots();
     }
 }

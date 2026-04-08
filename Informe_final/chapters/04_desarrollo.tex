@@ -1,6 +1,6 @@
-% =============================================================================
-% Cap�tulo 4 � Desarrollo e Implementaci�n
-% Fuentes: Secci�n inline de informe_final.tex (original),
+﻿% =============================================================================
+% Capï¿½tulo 4 ï¿½ Desarrollo e Implementaciï¿½n
+% Fuentes: Secciï¿½n inline de informe_final.tex (original),
 %          01_Arquitectura_del_Sistema.md, 02_Referencia_Tecnica_Modulos.md,
 %          03_Pipeline_Renderizado_Shaders.md, TECHNOLOGY_STACK.md
 % =============================================================================
@@ -16,6 +16,8 @@ El desarrollo del prototipo sigui una metodologa iterativa en fases (DSR Sprints
 
 El sistema se implement siguiendo patrones de diseo profesionales para garantizar modularidad, extensibilidad y facilidad de mantenimiento. La arquitectura se organiz en~4 capas con dependencias estrictamente descendentes:
 
+La vista consolidada de esta organizaci\'on se presenta en la Figura~\ref{fig:4_1_arquitectura_capas}.
+
 \begin{enumerate}
     \item \textbf{Capa de Presentacin (UI).} \texttt{UIManager}, \texttt{UIDetailsSheet}, paneles de anlisis y configuracin, controlados mediante UI~Toolkit (UXML~+~USS).
     \item \textbf{Capa de Lgica de Aplicacin.} Mquina de estados (\texttt{AppStateMachine}), controlador de modos (\texttt{BaseModeHandler} y subclases), y lgica de interaccin (seleccin, cmara, vista explosionada).
@@ -26,11 +28,11 @@ El sistema se implement siguiendo patrones de diseo profesionales para garantiza
 \subsubsection{Principios Arquitectnicos}
 \addcontentsline{toc}{subsubsection}{Principios Arquitectnicos}
 
-\begin{table}[h!]
+\begin{table}[htbp!]
 \centering
 \caption{Principios SOLID Aplicados en la Arquitectura}
 \small
-\begin{tabular}{lp{9cm}}
+\begin{tabular}{l>{\RaggedRight\arraybackslash}p{9cm}}
 \hline
 \textbf{Principio} & \textbf{Implementacin} \\ \hline
 SRP & Cada Manager maneja un nico dominio (cmara, seleccin, vista, corte) \\
@@ -67,9 +69,13 @@ AppStateMachine <--> EventBus <--> SelectionManager
 
 Cada cambio de estado en la \texttt{AppStateMachine} dispara un evento tipado (\texttt{StateChangedEvent}) a travs del \texttt{EventBus}, al que los subsistemas se suscriben para reaccionar de forma desacoplada.
 
+Este comportamiento publish/subscribe se detalla en la Figura~\ref{fig:4_2_eventbus}.
+
 % -------------------------------------------------------------------------------
 \subsection{Sistemas \textit{Core} Implementados}
 \addcontentsline{toc}{subsection}{Sistemas Core Implementados}
+
+La relaci\'on entre estados globales y flujo de selecci\'on se sintetiza en las Figuras~\ref{fig:4_3_app_state_machine} y~\ref{fig:4_4_flujo_seleccion}.
 
 \paragraph{Sistema de Estados (AppStateMachine).} Controla el flujo de la aplicacin con~9 estados mutuamente excluyentes. Cada transicin dispara eventos que permiten a los subsistemas reaccionar sin acoplamiento directo.
 
@@ -88,6 +94,8 @@ Cada cambio de estado en la \texttt{AppStateMachine} dispara un evento tipado (\
 \addcontentsline{toc}{subsection}{Modos de Visualizacin}
 
 Se implementaron~7 modos de visualizacin que intercambian los materiales de la escena en tiempo real, permitiendo diferentes perspectivas de anlisis:
+
+La orquestaci\'on t\'ecnica de este pipeline visual se muestra en la Figura~\ref{fig:4_5_pipeline_shaders}.
 
 \begin{enumerate}
     \item \textbf{Realistic.} Materiales PBR originales con iluminacin IBL (Reflection Probes + \textit{Irradiance Map}).
@@ -135,16 +143,18 @@ Se defini un sistema de diseo (\textit{design system}) coherente documentado en 
 
 Se implement un sistema completo de catlogo de componentes del dron Holybro X500~V2 que permite la exploracin interactiva de las~16 piezas del gemelo digital.
 
+El flujo de datos entre activos, cat\'alogo y paneles se resume en la Figura~\ref{fig:4_6_flujo_dronepartdata}.
+
 \subsubsection{Modelo de Referencia: Holybro X500~V2}
 \addcontentsline{toc}{subsubsection}{Modelo de Referencia: Holybro X500 V2}
 
 El modelo seleccionado para el gemelo digital es el kit de desarrollo \textbf{Holybro PX4 Development Kit X500~V2}, un \textit{quadcopter} de categora educativa y de desarrollo con las siguientes especificaciones globales:
 
-\begin{table}[h!]
+\begin{table}[htbp!]
 \centering
 \caption{Especificaciones Globales del Holybro X500~V2}
 \small
-\begin{tabular}{lp{9cm}}
+\begin{tabular}{l>{\RaggedRight\arraybackslash}p{9cm}}
 \hline
 \textbf{Parmetro} & \textbf{Valor} \\ \hline
 Distancia entre ejes (\textit{wheelbase}) & 500\,mm \\
@@ -167,7 +177,7 @@ Tiempo de ensamblaje & $\sim$30\,min \\
 
 El catlogo comprende~16 piezas organizadas en~4 categoras funcionales. Cada pieza cuenta con un \texttt{ScriptableObject DronePartData} con ms de~32 campos tcnicos (vase Seccin~``Configuracin de DronePartData''). La Tabla~\ref{tab:inventario-piezas} resume el inventario completo.
 
-\begin{longtable}{clp{4.5cm}cp{2.5cm}}
+\begin{longtable}{cl>{\RaggedRight\arraybackslash}p{4.5cm}c>{\RaggedRight\arraybackslash}p{2.5cm}}
 \caption{Inventario Completo de Piezas del Holybro X500~V2}\label{tab:inventario-piezas} \\
 \hline
 \textbf{\#} & \textbf{Categ.} & \textbf{Pieza} & \textbf{Peso (g)} & \textbf{Material} \\ \hline
@@ -226,6 +236,8 @@ El sistema de catlogo se implement con los siguientes mdulos:
 
 Se disearon e implementaron a nivel de cdigo los mdulos para un conjunto de herramientas especializadas orientadas a ingenieros y tcnicos de ensamblaje. Estos mdulos cuentan con la arquitectura y lgica de base completa (scripts~C\#, datos \texttt{ScriptableObject}, eventos del \texttt{EventBus}), pero \textbf{no estn integrados en la interfaz de usuario de la versin actual del prototipo}. Se proyectan para futuras iteraciones del sistema.
 
+El estado por m\'odulo de estas herramientas se documenta en la Figura~\ref{fig:4_9_ensamblaje_estado}.
+
 \paragraph{Gua de Ensamblaje (AssemblyGuideManager).} Mdulo diseado para instrucciones paso a paso con: (a)~navegacin secuencial con barra de progreso, (b)~listado de herramientas requeridas por paso, (c)~tiempos estimados y niveles de dificultad (escala~1--5), (d)~advertencias de seguridad y consejos de instalacin, y (e)~resaltado automtico de las piezas involucradas en cada paso. La interfaz de usuario (\texttt{AssemblyStepUI}) y los datos (\texttt{AssemblyGuideData}) fueron implementados como artefactos de cdigo listos para integracin.
 
 \paragraph{Herramienta de Medicin (MeasurementTool).} Implementacin completa con tres modos: Distancia (entre~2 puntos va \textit{raycast}), ngulo (3~puntos con clculo vectorial), y Radio (con clculo de circunferencia y rea). Incluye visualizacin en tiempo real con marcadores y lneas~3D mediante \texttt{LineRenderer}. \textit{Nota}: esta funcionalidad fue ocultada en la versin actual del prototipo dado que el modelo~3D no posee escala~1:1 calibrada; se incluye como trabajo futuro.
@@ -247,7 +259,7 @@ Se dise y ejecut un \textit{pipeline} de \textit{Technical Art} riguroso para cu
 % TODO: Insertar diagrama del pipeline 3D cuando est disponible.
 % Flujo propuesto: CAD (STEP/IGES) ? [Houdini: conversin/simplificacin procedural]
 %   ? Blender (retopologa/baking) ? Substance Painter (PBR) ? Unity (WebGLOptimizer)
-\begin{figure}[h!]
+\begin{figure}[htbp!]
     \centering
     % \includegraphics[width=0.95\textwidth]{figures/pipeline_3d_workflow.png}
     \fbox{\parbox{0.9\textwidth}{\centering\vspace{2cm}\textit{[Diagrama del pipeline pendiente de inclusin]}\vspace{2cm}}}
@@ -298,11 +310,11 @@ Se implement un sistema de ajuste de calidad en tiempo de ejecucin distribuido e
 
 Se desarrollaron~9 \textit{shaders} HLSL/CG optimizados para WebGL~2.0 bajo Universal Render Pipeline (Unity Technologies, 2024c):
 
-\begin{table}[h!]
+\begin{table}[htbp!]
 \centering
 \caption{Inventario de \textit{Shaders} Personalizados}
 \small
-\begin{tabular}{lp{8cm}}
+\begin{tabular}{l>{\RaggedRight\arraybackslash}p{8cm}}
 \hline
 \textbf{Shader} & \textbf{Descripcin} \\ \hline
 ClippableLit & Extensin de Lit URP con soporte de plano de corte global (\texttt{\_ClipPlane}) \\
@@ -319,6 +331,8 @@ AnimatedGradientSkybox & Fondo procedural animado con interpolacin de gradientes
 \end{table}
 
 Todos los \textit{shaders} PBR implementaron el modelo Cook-Torrance con distribucin GGX y aproximacin de Fresnel de Schlick (vase Seccin Marco Terico, Modelo Matemtico PBR). El \textit{shader} ClippableLit sirve como base para los modos que requieren compatibilidad con el sistema de corte transversal.
+
+La trazabilidad entre modos y materiales se observa en la Figura~\ref{fig:4_5_pipeline_shaders}.
 
 % -------------------------------------------------------------------------------
 \subsection{Configuracin de DronePartData}
@@ -343,6 +357,8 @@ El \texttt{ScriptableObject DronePartData} almacena ms de~32 campos por pieza, o
 
 Como extensin del modo de visualizacin \textit{Thermal}, se inici la implementacin de un subsistema trmico hbrido orientado a navegadores WebGL. A diferencia del enfoque inicial puramente visual, la nueva base incorpora un solver reducido por componentes, una representacin de carga sostenida asociada al estado operativo del dron y una capa de propagacin espacial visual para piezas crticas.
 
+La arquitectura de este subsistema se presenta en la Figura~\ref{fig:4_7_subsistema_termico}.
+
 La arquitectura inicial del subsistema qued compuesta por \texttt{ThermalSimulationManager}, \texttt{ThermalViewController}, \texttt{ThermalSurfaceProfile}, \texttt{ThermalContactGraphAsset} y \texttt{ThermalContactGraphBuilderWindow}. Esta decisin permiti separar la fsica reducida, la transferencia de temperatura al render y la generacin offline del grafo trmico, manteniendo un diseo compatible con las restricciones de rendimiento de WebGL mvil.
 
 
@@ -365,11 +381,13 @@ Durante la etapa de rescate de marzo de 2026 se fijo ademas un asset canonico de
 
 La compilacin a WebGL impuso restricciones tcnicas significativas (Unity Technologies, 2024d) que requirieron soluciones de ingeniera especficas:
 
-\begin{table}[h!]
+La correspondencia restricci\'on--mitigaci\'on se resume en la Figura~\ref{fig:4_8_webgl_mitigaciones}.
+
+\begin{table}[htbp!]
 \centering
 \caption{Restricciones de WebGL y Soluciones Implementadas}
 \small
-\begin{tabular}{lp{8cm}}
+\begin{tabular}{l>{\RaggedRight\arraybackslash}p{8cm}}
 \hline
 \textbf{Restriccin} & \textbf{Solucin} \\ \hline
 \textit{Single-threaded} & Operaciones asncronas mediante \texttt{Coroutines}; sin \texttt{System.Threading} \\
@@ -386,7 +404,9 @@ Sin \texttt{Application.Quit()} & Navegacin \textit{back} mediante \texttt{Exter
 \subsection{Resumen de Implementacin}
 \addcontentsline{toc}{subsection}{Resumen de Implementacin}
 
-\begin{table}[h!]
+Como cierre operativo del cap\'itulo, el flujo de despliegue y validaci\'on final se muestra en la Figura~\ref{fig:4_10_despliegue_artefactos}. Las plantillas de resultados que estructuran el Cap\'itulo~5 se presentan en las Figuras~\ref{fig:4_11_sus_template}, \ref{fig:4_12_nasatlx_template} y \ref{fig:4_13_kpi_template}.
+
+\begin{table}[htbp!]
 \centering
 \caption{Resumen de Artefactos de Software Implementados}
 \small
@@ -411,4 +431,159 @@ USS / UXML & 9 \\
 \end{tabular}
 \end{table}
 
+% -------------------------------------------------------------------------------
+\subsection{Inventario de Figuras, Renders y Screenshots Pendientes}
+\addcontentsline{toc}{subsection}{Inventario de Figuras, Renders y Screenshots Pendientes}
+
+Esta subsecci\'on deja trazabilidad editorial de los recursos visuales que deben importarse en la versi\'on final del informe. Los diagramas Mermaid 4.1--4.13 deben exportarse a SVG o PDF y enlazarse en sus respectivos lugares del Cap\'itulo 4. Los screenshots y renders se ubican en las subsecciones correspondientes de este mismo cap\'itulo.
+
+\begin{table}[htbp!]
+\centering
+\caption{Mapa de inserci\'on de diagramas Mermaid en Cap\'itulo 4}
+\small
+\begin{tabular}{>{\RaggedRight\arraybackslash}p{1.1cm}>{\RaggedRight\arraybackslash}p{3.9cm}>{\RaggedRight\arraybackslash}p{4.4cm}>{\RaggedRight\arraybackslash}p{4.0cm}}
+\hline
+\textbf{ID} & \textbf{Figura} & \textbf{Ubicaci\'on sugerida} & \textbf{Descripci\'on breve} \\ \hline
+4.1 & Arquitectura por capas del sistema & Arquitectura del Sistema & Vista C4 simplificada con UI, orquestaci\'on, servicios y datos. \\
+4.2 & Flujo EventBus Publish/Subscribe & Sistemas Core Implementados & Publicadores y suscriptores desacoplados por eventos. \\
+4.3 & M\'aquina de estados de la aplicaci\'on & Sistemas Core Implementados & Estados globales y transiciones de AppStateMachine. \\
+4.4 & Flujo de selecci\'on de piezas & Sistemas Core Implementados & Entrada, raycast, resoluci\'on y reacciones del sistema. \\
+4.5 & Pipeline de shaders por modo & Modos de Visualizaci\'on & Relaci\'on entre modos, shaders y fallback URP. \\
+4.6 & Flujo de datos DronePartData & Cat\'alogo y Gesti\'on de Piezas & Ruta de datos desde el ScriptableObject hasta la UI. \\
+4.7 & Subsistema t\'ermico h\'ibrido & Subsistema T\'ermico H\'ibrido & Solver, grafo de contactos, shader y leyenda visual. \\
+4.8 & Restricciones WebGL y mitigaciones & Restricciones de WebGL y Soluciones & Limitaci\'on t\'ecnica, soluci\'on aplicada e impacto. \\
+4.9 & Herramientas de ensamblaje proyectadas & Herramientas de Ensamblaje & Estado por m\'odulo: integrado, parcial o proyectado. \\
+4.10 & Despliegue y artefactos & Resumen de Implementaci\'on / cierre del cap\'itulo & Flujo de build, publicaci\'on y QA. \\
+4.11 & Plantilla de resultados SUS & Inserci\'on posterior al bloque de validaci\'on & Estructura de an\'alisis para usabilidad. \\
+4.12 & Plantilla de resultados NASA-TLX & Inserci\'on posterior al bloque de validaci\'on & Estructura de an\'alisis para carga cognitiva. \\
+4.13 & Plantilla de KPIs t\'ecnicos & Inserci\'on posterior al bloque de validaci\'on & Estructura de mediciones t\'ecnicas. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp!]
+\centering
+\caption{Screenshots y renders pendientes de producci\'on}
+\small
+\begin{tabular}{>{\RaggedRight\arraybackslash}p{1.1cm}>{\RaggedRight\arraybackslash}p{3.8cm}>{\RaggedRight\arraybackslash}p{4.5cm}>{\RaggedRight\arraybackslash}p{4.0cm}}
+\hline
+\textbf{ID} & \textbf{Imagen} & \textbf{Ubicaci\'on sugerida} & \textbf{Descripci\'on breve} \\ \hline
+S1 & Landing/Hero del visor & Presentaci\'on del prototipo / apertura de cap\'itulo & Imagen de entrada con identidad visual del proyecto. \\
+S2 & Vista principal Realistic & Sistema de Interfaz de Usuario & Render base del dron con materiales PBR. \\
+S3 & Vista Explosionada & Vista Explosionada & Separaci\'on de piezas y lectura de ensamblaje. \\
+S4 & Modo X-Ray & Modos de Visualizaci\'on & Transparencia para ver componentes internos. \\
+S5 & Modo Wireframe & Modos de Visualizaci\'on & Lectura de malla y depuraci\'on visual. \\
+S6 & Modo Thermal & Subsistema T\'ermico H\'ibrido & Gradiente t\'ermico por componente. \\
+S7 & Cross-Section X/Y/Z & Herramientas Avanzadas de An\'alisis & Plano de corte interactivo. \\
+S8 & Cat\'alogo y filtros & Cat\'alogo y Gesti\'on de Piezas & Vista de exploraci\'on de contenido t\'ecnico. \\
+S9 & Bottom sheet de detalle & Sistema de Interfaz de Usuario & Ficha t\'ecnica de pieza seleccionada. \\
+S10 & Hotspots hover/selecci\'on & Herramientas Avanzadas de An\'alisis & Punto interactivo sobre el modelo. \\
+S11 & Entornos Studio vs Exterior/Night & Sistema de Interfaz de Usuario & Comparativa de presets de iluminaci\'on. \\
+S12 & Vista responsive m\'ovil & Sistema de Interfaz de Usuario & Validaci\'on de adaptaci\'on a pantalla peque\'na. \\
+S13 & Retopolog\'ia before/after & Pipeline de Optimizaci\'on de Assets 3D & Comparativa high-poly vs low-poly. \\
+\hline
+\end{tabular}
+\end{table}
+
+% -------------------------------------------------------------------------------
+\subsection{Diagramas T\'ecnicos del Cap\'itulo 4 (Importados desde Mermaid)}
+\addcontentsline{toc}{subsection}{Diagramas T\'ecnicos del Cap\'itulo 4 (Importados desde Mermaid)}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter4/fig_4_1.pdf}
+    \caption{Arquitectura por capas del sistema (C4 simplificado).}
+    \label{fig:4_1_arquitectura_capas}
+\end{figure}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter4/fig_4_2.pdf}
+    \caption{Flujo de comunicaci\'on EventBus (Publish/Subscribe).}
+    \label{fig:4_2_eventbus}
+\end{figure}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter4/fig_4_3.pdf}
+    \caption{M\'aquina de estados de la aplicaci\'on (AppStateMachine).}
+    \label{fig:4_3_app_state_machine}
+\end{figure}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter4/fig_4_4.pdf}
+    \caption{Flujo de selecci\'on de piezas: input, raycast, evento y sincronizaci\'on de UI.}
+    \label{fig:4_4_flujo_seleccion}
+\end{figure}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter4/fig_4_5.pdf}
+    \caption{Pipeline de shaders por modo de visualizaci\'on.}
+    \label{fig:4_5_pipeline_shaders}
+\end{figure}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter4/fig_4_6.pdf}
+    \caption{Flujo de datos DronePartData desde asset hasta interfaz.}
+    \label{fig:4_6_flujo_dronepartdata}
+\end{figure}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter4/fig_4_7.pdf}
+    \caption{Arquitectura del subsistema t\'ermico h\'ibrido (V1).}
+    \label{fig:4_7_subsistema_termico}
+\end{figure}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter4/fig_4_8.pdf}
+    \caption{Restricciones WebGL y mitigaciones t\'ecnicas aplicadas.}
+    \label{fig:4_8_webgl_mitigaciones}
+\end{figure}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter4/fig_4_9.pdf}
+    \caption{Estado de herramientas de ensamblaje proyectadas por m\'odulo.}
+    \label{fig:4_9_ensamblaje_estado}
+\end{figure}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter4/fig_4_10.pdf}
+    \caption{Flujo de despliegue y artefactos desde build hasta hosting y QA.}
+    \label{fig:4_10_despliegue_artefactos}
+\end{figure}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter4/fig_4_11.pdf}
+    \caption{Plantilla metodol\'ogica para resultados SUS.}
+    \label{fig:4_11_sus_template}
+\end{figure}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter4/fig_4_12.pdf}
+    \caption{Plantilla metodol\'ogica para resultados NASA-TLX.}
+    \label{fig:4_12_nasatlx_template}
+\end{figure}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter4/fig_4_13.pdf}
+    \caption{Plantilla de medici\'on de KPIs t\'ecnicos y brecha contra objetivos.}
+    \label{fig:4_13_kpi_template}
+\end{figure}
+
 \newpage
+
+
+
+
+
+

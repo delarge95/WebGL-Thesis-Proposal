@@ -15,7 +15,7 @@ namespace WebGL.Tests.Editor
             var data = ScriptableObject.CreateInstance<DronePartData>();
             data.id = "test-001";
             data.partName = "Test Part";
-            data.category = "Testing";
+            data.category = PartCategory.Uncategorized;
             data.description = "A test part for unit testing.";
             data.weightKg = 100f;
             data.dimensions = "10 x 10 x 10 cm";
@@ -51,7 +51,7 @@ namespace WebGL.Tests.Editor
             // Assert
             Assert.AreEqual("test-001", data.id);
             Assert.AreEqual("Test Part", data.partName);
-            Assert.AreEqual("Testing", data.category);
+            Assert.AreEqual(PartCategory.Uncategorized, data.category);
             Assert.AreEqual(100f, data.weightKg);
             Assert.AreEqual(2, data.difficultyLevel);
             Assert.AreEqual(4, data.screwCount);

@@ -1,131 +1,97 @@
-# Indice del Sistema Termico
+# Indice del sistema termico
 
-## Nota Importante
+## Uso de este indice
 
-Los archivos de este sistema no estan vacios en disco.
-Si algun enlace del chat o del visor interno abre un archivo vacio, toma este indice como fuente de verdad y abre las rutas manualmente desde VS Code o desde el explorador del proyecto.
+Si el visor del chat falla o abre archivos vacios, usa este documento como mapa de verdad y abre las rutas manualmente desde VS Code.
 
-## Carpeta Base
-
-`E:\WebGL_tesis\desarrollo\docs\sistema_termico\`
-
-## Orden Recomendado de Apertura
-
-1. Arquitectura general
-2. Workflow de verificacion matematica
-3. Solver termico base
-4. Capa visual termica
-5. Perfil espacial por pieza
-6. Integracion UI y control de carga
-7. Shader termico
-
-## Archivos Clave
-
-### 1. Arquitectura y documentacion
-
-- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\README.md`
-  - Documento principal del sistema termico.
-  - Contiene arquitectura, modelo fisico, decisiones cerradas, etapas y estado base implementado.
-
-- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\wolfram_verificaciones.md`
-  - Registro de verificaciones matematicas con WolframAlpha.
-  - Aqui debe quedar trazada cada conversion o derivacion relevante.
-
-- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\wolfram_query_conductance_factor.json`
-  - Primer artefacto generado por el workflow de Wolfram.
-  - Guarda la consulta usada para revisar el factor geometrico de conduccion.
-
-### 2. Workflow / Skill local
-
-- `E:\WebGL_tesis\.agent\skills\wolfram-thermal-verifier\SKILL.md`
-  - Skill local para verificar ecuaciones, unidades y aproximaciones termicas.
-
-- `E:\WebGL_tesis\.agent\skills\wolfram-thermal-verifier\references\wolfram-workflow.md`
-  - Guia de uso del workflow de WolframAlpha.
-
-- `E:\WebGL_tesis\.agent\skills\wolfram-thermal-verifier\scripts\wolfram_verify.py`
-  - Script para generar consultas y, si existe `WOLFRAM_APP_ID`, consultar los endpoints oficiales.
-
-- `E:\WebGL_tesis\.agent\workflows\thermal_math_verification.md`
-  - Workflow resumido del proceso de verificacion matematica.
-
-### 3. Codigo base del sistema termico
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalSimulationManager.cs`
-  - Solver termico reducido por componentes.
-  - Maneja nodos, enlaces, temperatura ambiente, carga, enfriamiento y conduccion heuristica.
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalContactGraphAsset.cs`
-  - Asset para el grafo de contactos termicos.
-  - Sera la base del preprocesado offline en la siguiente etapa.
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalViewController.cs`
-  - Puente entre simulacion y render.
-  - Lee temperaturas del solver y las envía al shader por pieza.
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalSurfaceProfile.cs`
-  - Perfil espacial por pieza.
-  - Define patron de calor, hotspot, direccion, spread y propagacion visual.
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Events\ThermalEvents.cs`
-  - Eventos del subsistema termico.
-
-### 4. Integracion con el dron y la escena
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Managers\DroneStateController.cs`
-  - Controla estados `Off`, `StartingUp`, `Idle`, `Flying`, `ShuttingDown`.
-  - Expone `SystemLoadFactor` y sincroniza carga con animacion/estado.
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Utils\SceneBootstrapper.cs`
-  - Asegura la carga de `ThermalSimulationManager` y `ThermalViewController` en escena (corregido 2026-03-12).
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Data\DronePartData.cs`
-  - Ya tiene campos termicos agregados para la V1.
-
-### 5. UI y control de potencia
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\UI\Panels\InspectModeHandler.cs`
-  - Conecta el boton de power y el slider de carga sostenida con `DroneStateController`.
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\UI\Layouts\MainLayout.uxml`
-  - Contiene `PowerLoadSlider` y `PowerLoadValue`.
-
-### 6. Render termico
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Shaders\Thermal.shader`
-  - Shader termico base. Recibe `_MinTemp` y `_MaxTemp` por `MaterialPropertyBlock`. Tiene gradiente de 4 colores, ruido animado, edge glow y cross-section.
-  - **Pendiente**: declarar y consumir parametros espaciales (`_ThermalMode`, `_ThermalHotspotOS`, `_ThermalDirectionOS`, `_ThermalSpread`, `_ThermalEdgeCooling`, `_ThermalBaseVariation`, `_ThermalPropagation`) que `ThermalViewController` ya envia.
-
-## Archivos Minimos para Revisar Primero
-
-Si quieres inspeccionar lo mas importante sin perderte, abre estos cinco en este orden:
+## Punto de entrada recomendado
 
 1. `E:\WebGL_tesis\desarrollo\docs\sistema_termico\README.md`
-2. `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalSimulationManager.cs`
-3. `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalViewController.cs`
-4. `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Managers\DroneStateController.cs`
-5. `E:\WebGL_tesis\desarrollo\unity_project\Assets\Shaders\Thermal.shader`
+2. `E:\WebGL_tesis\desarrollo\docs\sistema_termico\AGENT_HANDOFF_THERMAL.md`
+3. `E:\WebGL_tesis\desarrollo\docs\sistema_termico\RETOPOLOGIA_POR_PIEZA.md`
+4. `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalSimulationManager.cs`
+5. `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalViewController.cs`
+6. `E:\WebGL_tesis\desarrollo\unity_project\Assets\Resources\ThermalCanonicalContactGraph.asset`
+7. `E:\WebGL_tesis\desarrollo\unity_project\Assets\Shaders\Thermal.shader`
 
-## Si el visor vuelve a fallar
+## Archivos clave
 
-Haz esto:
+### Arquitectura y gobierno documental
 
-1. Abre el archivo desde el arbol del proyecto, no desde el enlace del chat.
-2. Si el panel de diff muestra cosas raras, recarga la ventana o reabre el workspace.
-3. Usa este indice como punto de entrada manual.
-4. No asumas que "archivo vacio" significa perdida real hasta comprobar la ruta en disco.
-
-### 7. Verificacion matematica y retopologia
-
-- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\wolfram_verificaciones.md`
-  - Registro de verificaciones con WolframAlpha. Incluye V001 (factor geometrico) y V002 (escalas de conductividad).
-
+- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\README.md`
+  - Arquitectura oficial, estado real y pendientes.
+- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\AGENT_HANDOFF_THERMAL.md`
+  - Estado resumido para continuidad operativa.
 - `E:\WebGL_tesis\desarrollo\docs\sistema_termico\RETOPOLOGIA_POR_PIEZA.md`
-  - Guia de retopologia por pieza. Clasifica las 28 piezas en 3 tiers segun funcion termica.
+  - Guia 28+55 para modelado y retopologia.
+- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\MATRIZ_ACTUALIZACION_DOCUMENTAL.md`
+  - Reglas de actualizacion de tesis, manuales y docs del subsistema.
+- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\wolfram_verificaciones.md`
+  - Trazabilidad matematica.
 
-## Proximo Paso Recomendado
+### Runtime oficial
 
-- Actualizar Thermal.shader para consumir los parametros espaciales que ThermalViewController ya envia
-- Calibrar el grafo de contactos sobre geometria retopologizada
-- Asignar ThermalSurfaceProfile a piezas criticas
-- Leyenda termica visible en UI
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalSimulationManager.cs`
+  - Solver por nodos y carga del grafo canonico.
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalViewController.cs`
+  - Bridge solver-render, presets canónicos y cache de leyenda.
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalSurfaceProfile.cs`
+  - Override manual por pieza cuando haga falta.
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Resources\ThermalCanonicalContactGraph.asset`
+  - Grafo explicito oficial de la V1.
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Shaders\Thermal.shader`
+  - Visualizacion termica espacial por pieza.
+
+### UI y scene integration
+
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\UI\Panels\UIAnalyzePanel.cs`
+  - Muestra/oculta la leyenda termica segun `ViewMode.Thermal`.
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\UI\Layouts\MainLayout.uxml`
+  - Contenedor visual de la leyenda.
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\UI\Styles\Theme.uss`
+  - Estilos y gradiente visual de la leyenda.
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Managers\DroneStateController.cs`
+  - Fuente actual de `SystemLoadFactor` y estados del dron.
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Utils\SceneBootstrapper.cs`
+  - Bootstrap runtime de los managers termicos.
+
+### Tooling offline
+
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Editor\Thermal\ThermalContactGraphBuilderWindow.cs`
+  - Generacion o refinamiento offline de contactos.
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Editor\ThermalTestSetup.cs`
+  - Harness experimental para CAD bruto. No es el flujo oficial.
+
+## Estado real del sistema
+
+Ya existe:
+
+- shader espacial,
+- leyenda termica visible,
+- grafo canonico oficial,
+- fallback heuristico solo como respaldo,
+- presets canónicos para piezas criticas.
+
+El siguiente paso real ya no es "añadir shader espacial" ni "crear la leyenda". El siguiente paso real es:
+
+- validar la escena final retopologizada,
+- asignar overrides manuales solo donde aporten valor,
+- y medir rendimiento en el target final.
+## Actualizacion 2026-03-31
+
+Nuevo punto de entrada operativo para el dron importado:
+
+- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\PREPARACION_FBX_IMPORTADO.md`
+
+Nuevos archivos o rutas clave para esta integracion:
+
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Utils\ImportedDroneRuntimeBinder.cs`
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Content\PartRenderCategory.cs`
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Editor\SetupImportedDroneThermalTest.cs`
+
+Estado actual del flujo oficial:
+
+- el panel de power y el slider de carga ya existen en UI,
+- la leyenda termica usa gradiente runtime, no depende del gradiente USS,
+- `Fasteners` y `Misc` ya forman parte de la taxonomia publica de filtros,
+- y el dron importado requiere pasar por la etapa de preparacion antes de validar thermal, cut, filter, isolate y explode.

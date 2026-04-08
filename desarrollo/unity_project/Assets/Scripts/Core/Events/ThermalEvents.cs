@@ -31,4 +31,18 @@
             AmbientTemperatureC = ambientTemperatureC;
         }
     }
+
+    public struct ImportedDroneRuntimeBoundEvent
+    {
+        public string RootName;
+        public int PropellerCount;
+        public int PartCount;
+
+        public ImportedDroneRuntimeBoundEvent(string rootName, int propellerCount, int partCount)
+        {
+            RootName = rootName;
+            PropellerCount = propellerCount;
+            PartCount = partCount;
+        }
+    }
 }

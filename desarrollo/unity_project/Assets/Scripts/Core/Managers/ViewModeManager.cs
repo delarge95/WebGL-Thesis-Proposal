@@ -80,18 +80,56 @@ namespace WebGL.Core.Managers
             CreateDefaultMaterials();
         }
 
+        public void RebuildCache()
+        {
+            CacheRenderers();
+            CreateDefaultMaterials();
+        }
+
+        public void ReapplyCurrentMode(bool notifyListeners = false)
+        {
+            if (allRenderers.Count == 0)
+            {
+                CacheRenderers();
+                CreateDefaultMaterials();
+            }
+
+            ApplyModeToRenderers(currentMode);
+
+            bool needsEdges = currentMode == ViewMode.Blueprint;
+            EdgeDetectionFeature.GlobalEnabled = needsEdges;
+            if (needsEdges)
+            {
+                EdgeDetectionFeature.OverrideEdgeColor = blueprintLineColor;
+                EdgeDetectionFeature.OverrideEdgeThickness = 0.75f;
+            }
+            else
+            {
+                EdgeDetectionFeature.OverrideEdgeThickness = -1f;
+            }
+
+            if (notifyListeners)
+            {
+                OnModeChanged?.Invoke(currentMode);
+            }
+        }
+
         private void CacheRenderers()
         {
-            // Find all part renderers
-            var parts = FindObjectsByType<WebGL.Core.Content.ExplodablePart>(FindObjectsSortMode.None);
-            foreach (var part in parts)
+            allRenderers.Clear();
+            originalMaterials.Clear();
+
+            var seen = new HashSet<Renderer>();
+            var renderers = WebGL.Core.Content.DroneRenderResolver.CollectManagedRenderers();
+            foreach (var renderer in renderers)
             {
-                var renderer = part.GetComponent<Renderer>();
-                if (renderer != null)
+                if (renderer == null || !seen.Add(renderer))
                 {
-                    allRenderers.Add(renderer);
-                    originalMaterials[renderer] = renderer.sharedMaterials;
+                    continue;
                 }
+
+                allRenderers.Add(renderer);
+                originalMaterials[renderer] = renderer.sharedMaterials;
             }
         }
 
@@ -139,6 +177,9 @@ namespace WebGL.Core.Managers
                     blueprintMaterial.SetColor("_LineColor", blueprintLineColor);
                     blueprintMaterial.SetColor("_BackgroundColor", blueprintBgColor);
                     blueprintMaterial.SetFloat("_GridScale", 20f);
+                    blueprintMaterial.SetFloat("_OutlineWidth", 0.0015f);
+                    blueprintMaterial.SetFloat("_FresnelPower", 6.5f);
+                    blueprintMaterial.SetFloat("_EdgeThreshold", 0.56f);
                 }
                 else
                 {
@@ -226,7 +267,14 @@ namespace WebGL.Core.Managers
             bool needsEdges = mode == ViewMode.Blueprint;
             EdgeDetectionFeature.GlobalEnabled = needsEdges;
             if (needsEdges)
+            {
                 EdgeDetectionFeature.OverrideEdgeColor = blueprintLineColor;
+                EdgeDetectionFeature.OverrideEdgeThickness = 0.35f;
+            }
+            else
+            {
+                EdgeDetectionFeature.OverrideEdgeThickness = -1f;
+            }
 
             OnModeChanged?.Invoke(mode);
             EventBus.Publish(new ViewModeChangedEvent(mode != ViewMode.Realistic));

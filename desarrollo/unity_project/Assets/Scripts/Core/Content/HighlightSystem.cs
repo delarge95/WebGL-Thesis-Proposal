@@ -4,7 +4,6 @@ using WebGL.Core.Utils;
 
 namespace WebGL.Core.Content
 {
-    [RequireComponent(typeof(Renderer))]
     public class HighlightSystem : MonoBehaviour
     {
         [Header("Highlight Settings")]
@@ -14,12 +13,8 @@ namespace WebGL.Core.Content
         [SerializeField] private float pulseIntensity = 0.2f;
 
         private MaterialController materialController;
-        private Color originalColor = Color.white;
         private Coroutine pulseCoroutine;
         private bool isSelected = false;
-        // private bool // isHovered = false;
-
-        private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
 
         private void Awake()
         {
@@ -47,11 +42,20 @@ namespace WebGL.Core.Content
         public void OnSelect()
         {
             isSelected = true;
-            // Enable emission keyword for URP
-            Renderer rend = GetComponent<Renderer>();
-            if (rend != null)
+            Renderer[] renderers = materialController != null ? materialController.Renderers : null;
+            if (renderers != null)
             {
-                rend.material.EnableKeyword("_EMISSION");
+                foreach (Renderer renderer in renderers)
+                {
+                    if (renderer == null) continue;
+                    foreach (Material material in renderer.materials)
+                    {
+                        if (material != null)
+                        {
+                            material.EnableKeyword("_EMISSION");
+                        }
+                    }
+                }
             }
             
             materialController.SetColor(selectedColor);
@@ -87,34 +91,33 @@ namespace WebGL.Core.Content
 
         private IEnumerator PulseRoutine()
         {
-            Renderer rend = GetComponent<Renderer>();
+            Renderer[] renderers = materialController != null ? materialController.Renderers : null;
             MaterialPropertyBlock block = new MaterialPropertyBlock();
 
-            // Cache ID
             int emissionColorId = Shader.PropertyToID("_EmissionColor");
-            // Standard/URP Lit usually uses _EmissionColor
 
             while (isSelected)
             {
                 float pulse = Mathf.Sin(Time.time * pulseSpeed) * pulseIntensity + 1f;
-                // Pulse from base color to base * intensity
                 Color pulsedColor = selectedColor * pulse;
 
-                rend.GetPropertyBlock(block);
-                
-                // Set Emission for Glow
-                block.SetColor(emissionColorId, pulsedColor * 2f); // Boost intensity
-                
-                // Set Base Color for tint (URP usually _BaseColor, Built-in _Color)
-                block.SetColor("_BaseColor", pulsedColor); 
-                block.SetColor("_Color", pulsedColor); // Fallback for standard shaders
-                
-                rend.SetPropertyBlock(block);
+                if (renderers != null)
+                {
+                    foreach (Renderer renderer in renderers)
+                    {
+                        if (renderer == null) continue;
+
+                        renderer.GetPropertyBlock(block);
+                        block.SetColor(emissionColorId, pulsedColor * 2f);
+                        block.SetColor("_BaseColor", pulsedColor);
+                        block.SetColor("_Color", pulsedColor);
+                        renderer.SetPropertyBlock(block);
+                    }
+                }
 
                 yield return null;
             }
 
-            // Reset when done
             materialController.ResetProperties();
         }
     }

@@ -89,6 +89,7 @@ namespace WebGL.Core.Thermal
 
         [Header("Graph")]
         [SerializeField] private ThermalContactGraphAsset contactGraph;
+        [SerializeField] private string defaultContactGraphResourcePath = "ThermalCanonicalContactGraph";
 
         [Header("Debug")]
         [SerializeField] private bool logInitialization = true;
@@ -103,10 +104,12 @@ namespace WebGL.Core.Thermal
         private float currentLoadFactor = 0.35f;
         private float stepAccumulator;
         private bool isReady;
+        private bool usingFallbackLinks;
 
         public bool IsReady => isReady;
         public float AmbientTemperatureC => ambientTemperatureC;
         public IReadOnlyList<ThermalPartSnapshot> DebugSnapshot => debugSnapshot;
+        public bool IsUsingFallbackLinks => usingFallbackLinks;
 
         public event Action ThermalStepCompleted;
 
@@ -121,6 +124,7 @@ namespace WebGL.Core.Thermal
         private void OnEnable()
         {
             AttachDroneState();
+            ResolveContactGraph();
         }
 
         private void OnDisable()
@@ -149,6 +153,7 @@ namespace WebGL.Core.Thermal
         public void RebuildRuntime()
         {
             AttachDroneState();
+            ResolveContactGraph();
 
             nodes.Clear();
             nodesById.Clear();
@@ -177,7 +182,8 @@ namespace WebGL.Core.Thermal
 
             if (logInitialization)
             {
-                Debug.Log($"[ThermalSimulationManager] Ready={isReady} Nodes={nodes.Count} Links={links.Count}");
+                string graphMode = usingFallbackLinks ? "fallback-links" : "contact-graph";
+                Debug.Log($"[ThermalSimulationManager] Ready={isReady} Nodes={nodes.Count} Links={links.Count} Mode={graphMode}");
             }
         }
 
@@ -300,7 +306,13 @@ namespace WebGL.Core.Thermal
 
         private void BuildLinks()
         {
-            if (contactGraph != null && contactGraph.links != null && contactGraph.links.Count > 0)
+            bool hasAuthoritativeGraph = contactGraph != null
+                && contactGraph.links != null
+                && contactGraph.links.Count > 0;
+
+            usingFallbackLinks = !hasAuthoritativeGraph;
+
+            if (hasAuthoritativeGraph)
             {
                 foreach (ThermalContactLinkData linkData in contactGraph.links)
                 {
@@ -326,6 +338,25 @@ namespace WebGL.Core.Thermal
             TryAddLink("x500v2_bottom_plate", "x500v2_rails_battery", 0.04f);
             TryAddLink("x500v2_rails_battery", "x500v2_battery", 0.05f);
             TryAddLink("x500v2_bottom_plate", "x500v2_landing_gear", 0.03f);
+        }
+
+        private void ResolveContactGraph()
+        {
+            if (contactGraph != null && contactGraph.links != null && contactGraph.links.Count > 0)
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(defaultContactGraphResourcePath))
+            {
+                return;
+            }
+
+            ThermalContactGraphAsset loadedGraph = Resources.Load<ThermalContactGraphAsset>(defaultContactGraphResourcePath);
+            if (loadedGraph != null)
+            {
+                contactGraph = loadedGraph;
+            }
         }
 
         private void AddPerArmFallbackLinks(string suffix)
@@ -661,9 +692,9 @@ namespace WebGL.Core.Thermal
             return ThermalSourceClass.Passive;
         }
 
-        // V002 — Wolfram Verification: These are deliberately compressed conductivity scales
-        // (0.18–1.8) not real k ratios (0.017–24.1 normalized to steel).
-        // Real values: Cu=390, Al=167, Steel=16.2, CF=2.5, FR4=0.30, LiPo=0.50, Nylon=0.28 W/(m·K).
+        // V002 â€” Wolfram Verification: These are deliberately compressed conductivity scales
+        // (0.18â€“1.8) not real k ratios (0.017â€“24.1 normalized to steel).
+        // Real values: Cu=390, Al=167, Steel=16.2, CF=2.5, FR4=0.30, LiPo=0.50, Nylon=0.28 W/(mÂ·K).
         // Compression prevents metallic parts from reaching equilibrium in 1 frame while
         // insulating parts show imperceptible gradients. Prioritizes visual credibility over
         // numerical accuracy, consistent with the V1 scope.

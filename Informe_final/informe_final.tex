@@ -8,6 +8,8 @@
 \usepackage{setspace} % For line spacing
 \usepackage{graphicx} % If you need images later
 \usepackage{booktabs} % For professional tables
+\usepackage{array} % Column modifiers for table alignment
+\usepackage{longtable} % For multipage tables in chapters
 \usepackage{caption}  % For customizing captions
 \usepackage{amsmath} % For math symbols if needed
 \usepackage{amsfonts} % For math fonts if needed
@@ -57,6 +59,7 @@
 
 % Paragraph Indentation (0.5 inches = 1.27 cm)
 \setlength{\parindent}{1.27cm}
+\setlength{\emergencystretch}{3em}
 
 % Disable Section Numbering (Fixes ToC Overlap)
 \setcounter{secnumdepth}{0}
@@ -69,6 +72,7 @@
 \pagestyle{fancy}
 \fancyhf{} % Clear header/footer
 \renewcommand{\headrulewidth}{0pt} % No header rule
+\setlength{\headheight}{14.5pt} % Avoid fancyhdr headheight warning
 \fancyhead[L]{\footnotesize\MakeUppercase{Prototipo Web 3D Interactivo}} % Running head APA 7
 \fancyhead[R]{\thepage} % Page number top right
 \fancypagestyle{plain}{% Redefine plain style used by titlepage etc.

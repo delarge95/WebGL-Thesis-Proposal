@@ -237,7 +237,7 @@ namespace WebGL.UI.Panels
                 // Title Case for editorial hierarchy (not ALL CAPS)
                 if (_sheetTitle != null)
                     _sheetTitle.text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(data.partName.ToLower());
-                if (_sheetCategory != null) _sheetCategory.text = data.category;
+                if (_sheetCategory != null) _sheetCategory.text = data.category.ToString();
                 if (_sheetFunction != null) _sheetFunction.text = data.function;
                 if (_sheetMaterial != null) _sheetMaterial.text = data.materialType;
                 if (_sheetDesc != null) _sheetDesc.text = data.description;
@@ -332,21 +332,30 @@ namespace WebGL.UI.Panels
 
         private void BindInteractions()
         {
-// ScrollView blocks camera zoom
+            // Block 3D input only while the user is actively dragging the sheet scroll.
             var sheetScroll = _root.Q<ScrollView>(className: "sheet-scroll");
             if (sheetScroll != null)
             {
-                EventCallback<PointerDownEvent> scrollDown = evt => InputManager.InputBlocked = true;
-                EventCallback<PointerUpEvent> scrollUp = evt => InputManager.InputBlocked = false;
-                EventCallback<PointerLeaveEvent> scrollLeave = evt => InputManager.InputBlocked = false;
+                EventCallback<PointerDownEvent> scrollDown = evt =>
+                {
+                    if (evt.button == 0)
+                    {
+                        InputManager.InputBlocked = true;
+                    }
+                };
+                EventCallback<PointerUpEvent> scrollUp = evt =>
+                {
+                    if (evt.button == 0)
+                    {
+                        InputManager.InputBlocked = false;
+                    }
+                };
                 sheetScroll.RegisterCallback(scrollDown);
                 sheetScroll.RegisterCallback(scrollUp);
-                sheetScroll.RegisterCallback(scrollLeave);
                 AddCleanup(() =>
                 {
                     sheetScroll.UnregisterCallback(scrollDown);
                     sheetScroll.UnregisterCallback(scrollUp);
-                    sheetScroll.UnregisterCallback(scrollLeave);
                 });
             }
 

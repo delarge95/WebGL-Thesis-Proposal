@@ -34,7 +34,7 @@ namespace WebGL.Editor.Antigravity
             {
                 data = ScriptableObject.CreateInstance<DronePartData>();
                 data.partName = "Test Cube Module";
-                data.category = "Structure"; // Note: lowercase field, PROPERTY is capitalized
+                data.category = PartCategory.SkeletonAirframe; // Note: lowercase field, PROPERTY is capitalized
                 data.description = "A standard issue testing cube. Material is unknown but highly reflective. Handle with care.";
                 data.partType = "Generic";
                 data.weightKg = 1.5f;

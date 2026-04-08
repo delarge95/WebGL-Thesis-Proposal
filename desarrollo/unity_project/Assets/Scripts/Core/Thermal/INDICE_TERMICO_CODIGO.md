@@ -1,129 +1,90 @@
-# Indice de Codigo Termico
+# Indice de codigo termico
 
-## Objetivo
-
-Este archivo sirve como punto de entrada rapido para revisar y modificar la implementacion termica en Unity sin depender del visor del chat.
-
-## Carpetas Base
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\`
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Editor\Thermal\`
-
-## Orden Recomendado de Lectura
+## Orden recomendado de lectura
 
 1. `ThermalSimulationManager.cs`
 2. `ThermalViewController.cs`
-3. `ThermalContactGraphBuilderWindow.cs`
-4. `ThermalContactGraphAsset.cs`
-5. `ThermalSurfaceProfile.cs`
+3. `ThermalContactGraphAsset.cs`
+4. `ThermalSurfaceProfile.cs`
+5. `ThermalContactGraphBuilderWindow.cs`
 6. `DroneStateController.cs`
-7. `InspectModeHandler.cs`
+7. `UIAnalyzePanel.cs`
 8. `Thermal.shader`
 
-## Mapa del Sistema
+## Mapa rapido
 
-### 1. Solver principal
+### Solver y contactos
 
 - `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalSimulationManager.cs`
-- Es el nucleo fisico de la V1.
-- Construye nodos termicos desde `ExplodablePart + DronePartData`.
-- Calcula temperatura de equilibrio, enfriamiento al ambiente y conduccion entre piezas.
-
-### 2. Puente entre simulacion y render
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalViewController.cs`
-- Lee temperaturas del solver.
-- Localiza renderers y les inyecta parametros termicos por `MaterialPropertyBlock`.
-- Decide el patron visual por pieza: uniforme, radial o axial.
-
-### 3. Authoring offline del grafo
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Editor\Thermal\ThermalContactGraphBuilderWindow.cs`
-- Recorre `ExplodablePart` del dron en escena.
-- Estima cercania y area de contacto a partir de bounds.
-- Genera un `ThermalContactGraphAsset` reutilizable en runtime.
-
-### 4. Grafo de contactos
+  - Solver oficial por nodos.
+  - Intenta cargar `ThermalCanonicalContactGraph.asset` y cae al fallback solo si falta.
 
 - `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalContactGraphAsset.cs`
-- Define enlaces termicos, metadata de build y lista de nodos.
-- Es la base serializable para reemplazar el fallback heuristico.
+  - Formato serializable del grafo.
 
-### 5. Perfil espacial por pieza
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Resources\ThermalCanonicalContactGraph.asset`
+  - Grafo explicito oficial de la V1.
+
+### Visual y overrides
+
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalViewController.cs`
+  - Cachea la leyenda UI.
+  - Traduce temperaturas a `MaterialPropertyBlock`.
+  - Usa presets canónicos cuando no hay `ThermalSurfaceProfile`.
 
 - `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalSurfaceProfile.cs`
-- Permite refinar visualmente una pieza concreta sin tocar el solver global.
-- Define hotspot, direccion, spread, edge cooling y propagacion.
-
-## Archivos Externos Relacionados
-
-### Estado y carga del dron
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Managers\DroneStateController.cs`
-- Expone `SystemLoadFactor`.
-- Cambia entre `Off`, `StartingUp`, `Idle`, `Flying` y `ShuttingDown`.
-- El slider de carga y la simulacion termica dependen de este archivo.
-
-### UI de potencia
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\UI\Panels\InspectModeHandler.cs`
-- Conecta el boton de power y el slider de carga con `DroneStateController`.
-
-- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\UI\Layouts\MainLayout.uxml`
-- Contiene `PowerLoadSlider` y `PowerLoadValue`.
-
-### Shader termico
+  - Override manual por pieza para hotspot, direccion, spread y propagation.
 
 - `E:\WebGL_tesis\desarrollo\unity_project\Assets\Shaders\Thermal.shader`
-- Recibe los parametros espaciales enviados por `ThermalViewController`.
-- Pinta el gradiente termico visible por pieza.
+  - Consume uniform, radial y axial por pieza.
 
-## Si quieres cambiar...
+### UI relacionada
 
-### Fisica termica global
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\UI\Panels\UIAnalyzePanel.cs`
+  - Controla visibilidad de la leyenda en modo Thermal.
 
-Empieza por:
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\UI\Layouts\MainLayout.uxml`
+  - Tiene `ThermalLegendContainer`.
 
-- `ThermalSimulationManager.cs`
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\UI\Styles\Theme.uss`
+  - Define el gradiente de la leyenda.
 
-### Contactos entre piezas
+### Estado y bootstrap
 
-Empieza por:
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Managers\DroneStateController.cs`
+  - Expone `SystemLoadFactor` y estados del dron. En esta rama la carga termica visible se gobierna desde aqui, no desde un slider UI dedicado.
 
-- `ThermalContactGraphBuilderWindow.cs`
-- `ThermalContactGraphAsset.cs`
-- y luego `ThermalSimulationManager.cs`
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Utils\SceneBootstrapper.cs`
+  - Garantiza que los managers existan en runtime.
 
-### Aspecto visual del calor
+### Tooling offline
 
-Empieza por:
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Editor\Thermal\ThermalContactGraphBuilderWindow.cs`
+  - Builder offline del grafo.
 
-- `ThermalViewController.cs`
-- `ThermalSurfaceProfile.cs`
-- `Thermal.shader`
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Editor\ThermalTestSetup.cs`
+  - Experimental. Solo para pruebas con CAD bruto y datos dummy.
 
-### Slider de potencia o comportamiento de encendido
+## Documentos cercanos al codigo
 
-Empieza por:
+- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\AGENT_HANDOFF_THERMAL.md`
+- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\RETOPOLOGIA_POR_PIEZA.md`
+- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\MATRIZ_ACTUALIZACION_DOCUMENTAL.md`
 
-- `DroneStateController.cs`
-- `InspectModeHandler.cs`
-- `MainLayout.uxml`
+## Estado real
 
-## Estado Actual de la Implementacion
+Ya no falta crear la leyenda ni el shader espacial. Lo que falta es cerrar el uso sobre la escena final retopologizada y calibrar donde haga falta.
+## Actualizacion 2026-03-31
 
-Ya existe:
+Revisar tambien:
 
-- solver termico reducido por componentes
-- vista termica alimentada por temperatura real por pieza
-- perfil espacial basico por hotspot/direccion
-- slider de carga sostenida conectado al dron
-- asset del grafo termico con metadata de build
-- herramienta offline para generar contactos candidatos desde la escena
+- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\PREPARACION_FBX_IMPORTADO.md`
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Utils\ImportedDroneRuntimeBinder.cs`
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Content\PartRenderCategory.cs`
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Editor\SetupImportedDroneThermalTest.cs`
 
-Todavia falta:
+Notas de integracion vigentes:
 
-- calibracion del grafo sobre la geometria final
-- perfiles termicos reales asignados a todas las piezas criticas
-- leyenda termica visible en UI
-- calibracion con datos mas cercanos a materiales reales
+- `ThermalViewController` ya genera la leyenda por textura runtime.
+- `DroneStateController` ya gobierna el panel de power y el slider de carga visible.
+- `SetupImportedDroneThermalTest` clasifica auxiliares, anade colliders, asigna layer seleccionable y coloca el binder runtime.

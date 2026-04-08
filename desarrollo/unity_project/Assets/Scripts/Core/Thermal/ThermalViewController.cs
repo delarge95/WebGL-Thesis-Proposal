@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -11,7 +12,9 @@ namespace WebGL.Core.Thermal
     internal sealed class ThermalRendererBinding
     {
         public string PartId;
+        public string NormalizedPartId;
         public Renderer Renderer;
+        public Transform Transform;
         public DronePartData Data;
         public ThermalSurfaceProfile Profile;
         public MaterialPropertyBlock PropertyBlock;
@@ -34,9 +37,15 @@ namespace WebGL.Core.Thermal
         [SerializeField] private bool logBindingSummary;
 
         private readonly List<ThermalRendererBinding> bindings = new List<ThermalRendererBinding>();
+        private readonly Dictionary<string, ThermalRendererBinding> bindingsById = new Dictionary<string, ThermalRendererBinding>(StringComparer.OrdinalIgnoreCase);
 
         private ThermalSimulationManager thermalSimulation;
         private ViewModeManager viewModeManager;
+        private UIDocument uiDocument;
+        private Label thermalMinLabel;
+        private Label thermalMaxLabel;
+        private VisualElement thermalGradientElement;
+        private Texture2D thermalLegendTexture;
         private bool isThermalModeActive;
         private float refreshTimer;
 
@@ -54,16 +63,19 @@ namespace WebGL.Core.Thermal
         {
             RebuildBindings();
             AttachManagers();
+            TryBindLegendUI();
         }
 
         private void OnEnable()
         {
             AttachManagers();
+            TryBindLegendUI();
         }
 
         private void OnDisable()
         {
             DetachManagers();
+            ClearLegendBinding();
         }
 
         private void Update()
@@ -74,6 +86,8 @@ namespace WebGL.Core.Thermal
             {
                 return;
             }
+
+            TryBindLegendUI();
 
             float targetInterval = 1f / Mathf.Max(refreshRateHz, 1f);
             refreshTimer += Time.unscaledDeltaTime;
@@ -86,26 +100,31 @@ namespace WebGL.Core.Thermal
             RefreshThermalVisuals();
         }
 
-        [ContextMenu("Rebuild Thermal Renderer Bindings")]
+                [ContextMenu("Rebuild Thermal Renderer Bindings")]
         public void RebuildBindings()
         {
             bindings.Clear();
+            bindingsById.Clear();
 
-            ExplodablePart[] parts = FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None);
-            foreach (ExplodablePart part in parts)
+            HashSet<Renderer> seen = new HashSet<Renderer>();
+            List<Renderer> renderers = DroneRenderResolver.CollectManagedRenderers();
+            foreach (Renderer renderer in renderers)
             {
-                if (part == null)
+                if (renderer == null || !seen.Add(renderer))
                 {
                     continue;
                 }
 
-                Renderer renderer = part.GetComponent<Renderer>();
-                if (renderer == null)
-                {
-                    continue;
-                }
+                ExplodablePart part = DroneRenderResolver.ResolveCanonicalPart(renderer.transform);
+                ThermalSurfaceProfile profile = part != null
+                    ? part.GetComponent<ThermalSurfaceProfile>()
+                    : renderer.GetComponentInParent<ThermalSurfaceProfile>();
+                string partId = profile != null
+                    ? profile.ResolvePartId(part)
+                    : DroneRenderResolver.ResolveThermalSourceId(renderer, part);
+                string normalizedPartId = NormalizePartId(partId);
 
-                MeshFilter meshFilter = part.GetComponent<MeshFilter>();
+                MeshFilter meshFilter = renderer.GetComponent<MeshFilter>();
                 Vector3 localExtents = meshFilter != null && meshFilter.sharedMesh != null
                     ? meshFilter.sharedMesh.bounds.extents
                     : Vector3.one * 0.15f;
@@ -116,20 +135,25 @@ namespace WebGL.Core.Thermal
                 }
 
                 Vector3 dominantAxis = ResolveDominantAxis(localExtents, out float dominantExtent);
-                ThermalSurfaceProfile profile = part.GetComponent<ThermalSurfaceProfile>();
-                string partId = profile != null ? profile.ResolvePartId(part) : ResolvePartId(part);
-
-                bindings.Add(new ThermalRendererBinding
+                ThermalRendererBinding binding = new ThermalRendererBinding
                 {
                     PartId = partId,
+                    NormalizedPartId = normalizedPartId,
                     Renderer = renderer,
-                    Data = part.Data,
+                    Transform = renderer.transform,
+                    Data = part != null ? part.Data : null,
                     Profile = profile,
                     PropertyBlock = new MaterialPropertyBlock(),
                     LocalExtents = localExtents,
                     DominantAxis = dominantAxis,
                     DominantExtent = dominantExtent,
-                });
+                };
+
+                bindings.Add(binding);
+                if (!string.IsNullOrWhiteSpace(normalizedPartId) && !bindingsById.ContainsKey(normalizedPartId))
+                {
+                    bindingsById.Add(normalizedPartId, binding);
+                }
             }
 
             if (logBindingSummary)
@@ -179,7 +203,12 @@ namespace WebGL.Core.Thermal
                     RebuildBindings();
                 }
 
+                TryBindLegendUI();
                 RefreshThermalVisuals();
+            }
+            else
+            {
+                UpdateLegendUI(displayMinTemperatureC, displayMaxTemperatureC);
             }
         }
 
@@ -196,16 +225,7 @@ namespace WebGL.Core.Thermal
 
             float minDisplay = Mathf.Min(displayMinTemperatureC, ambientTemperatureC);
             float maxDisplay = Mathf.Max(displayMaxTemperatureC, minDisplay + 1f);
-
-            // Sync Legend UI
-            var uiDoc = Object.FindFirstObjectByType<UnityEngine.UIElements.UIDocument>();
-            if (uiDoc != null && uiDoc.rootVisualElement != null)
-            {
-                var minLabel = uiDoc.rootVisualElement.Q<UnityEngine.UIElements.Label>("ThermalMinTemp");
-                var maxLabel = uiDoc.rootVisualElement.Q<UnityEngine.UIElements.Label>("ThermalMaxTemp");
-                if (minLabel != null) minLabel.text = $"{Mathf.RoundToInt(minDisplay)}°C";
-                if (maxLabel != null) maxLabel.text = $"{Mathf.RoundToInt(maxDisplay)}°C";
-            }
+            UpdateLegendUI(minDisplay, maxDisplay);
 
             foreach (ThermalRendererBinding binding in bindings)
             {
@@ -226,7 +246,7 @@ namespace WebGL.Core.Thermal
                 float maxBand = Mathf.Clamp01(normalizedTemperature + bandHalfWidth);
                 float shaderMode = ResolveShaderMode(binding);
                 Vector3 hotspot = ResolveHotspot(binding);
-                Vector3 direction = ResolveDirection(binding);
+                Vector3 direction = ResolveDirection(binding, hotspot);
                 float spread = ResolveSpread(binding);
                 float edgeCooling = ResolveEdgeCooling(binding);
                 float baseVariation = ResolveBaseVariation(binding);
@@ -283,6 +303,12 @@ namespace WebGL.Core.Thermal
                 return binding.Profile.Pattern;
             }
 
+            ThermalSurfacePattern canonicalPattern = ResolveCanonicalPattern(binding);
+            if (canonicalPattern != ThermalSurfacePattern.Automatic)
+            {
+                return canonicalPattern;
+            }
+
             string partType = binding.Data != null
                 ? (binding.Data.partType ?? string.Empty).ToLowerInvariant()
                 : string.Empty;
@@ -291,17 +317,7 @@ namespace WebGL.Core.Thermal
                 ? (binding.Data.partName ?? string.Empty).ToLowerInvariant()
                 : string.Empty;
 
-            if (partType.Contains("motor") || partName.Contains("motor"))
-            {
-                return ThermalSurfacePattern.Radial;
-            }
-
-            if (partType.Contains("battery") || partName.Contains("battery"))
-            {
-                return ThermalSurfacePattern.Radial;
-            }
-
-            if (partType.Contains("flightcontroller") || partType.Contains("powermodule") || partType.Contains("pdb"))
+            if (partType.Contains("motor") || partName.Contains("motor") || partType.Contains("battery") || partName.Contains("battery"))
             {
                 return ThermalSurfacePattern.Radial;
             }
@@ -309,6 +325,11 @@ namespace WebGL.Core.Thermal
             if (partType.Contains("esc") || partType.Contains("arm") || partType.Contains("frame") || partType.Contains("landing"))
             {
                 return ThermalSurfacePattern.Axial;
+            }
+
+            if (partType.Contains("flightcontroller") || partType.Contains("powermodule") || partType.Contains("pdb"))
+            {
+                return ThermalSurfacePattern.Radial;
             }
 
             return ThermalSurfacePattern.Uniform;
@@ -321,19 +342,29 @@ namespace WebGL.Core.Thermal
                 return binding.Profile.HotspotLocal;
             }
 
+            if (TryResolveCanonicalHotspot(binding, out Vector3 hotspot))
+            {
+                return hotspot;
+            }
+
             if (ResolvePattern(binding) == ThermalSurfacePattern.Axial)
             {
-                return -binding.DominantAxis * binding.DominantExtent * 0.9f;
+                return -binding.DominantAxis * binding.DominantExtent * 0.85f;
             }
 
             return Vector3.zero;
         }
 
-        private Vector3 ResolveDirection(ThermalRendererBinding binding)
+        private Vector3 ResolveDirection(ThermalRendererBinding binding, Vector3 hotspot)
         {
             if (binding.Profile != null && binding.Profile.DirectionLocal.sqrMagnitude > 0.0001f)
             {
                 return binding.Profile.DirectionLocal.normalized;
+            }
+
+            if (TryResolveCanonicalDirection(binding, hotspot, out Vector3 direction))
+            {
+                return direction;
             }
 
             return binding.DominantAxis;
@@ -346,10 +377,40 @@ namespace WebGL.Core.Thermal
                 return binding.Profile.Spread;
             }
 
+            if (IsCanonicalMotorPart(binding.NormalizedPartId))
+            {
+                return binding.DominantExtent * 1.15f + 0.015f;
+            }
+
+            if (IsCanonicalEscPart(binding.NormalizedPartId))
+            {
+                return binding.DominantExtent * 1.35f + 0.025f;
+            }
+
+            if (IsCanonicalArmPart(binding.NormalizedPartId))
+            {
+                return binding.DominantExtent * 2.15f + 0.05f;
+            }
+
+            if (IsCanonicalBatteryPart(binding.NormalizedPartId))
+            {
+                return MaxComponent(binding.LocalExtents) * 1.4f + 0.03f;
+            }
+
+            if (IsCanonicalElectronicsCore(binding.NormalizedPartId))
+            {
+                return MaxComponent(binding.LocalExtents) * 1.25f + 0.02f;
+            }
+
+            if (IsBatteryRailPart(binding.NormalizedPartId))
+            {
+                return binding.DominantExtent * 1.7f + 0.03f;
+            }
+
             ThermalSurfacePattern pattern = ResolvePattern(binding);
             if (pattern == ThermalSurfacePattern.Radial)
             {
-                return binding.DominantExtent * 1.25f + 0.02f;
+                return MaxComponent(binding.LocalExtents) * 1.2f + 0.02f;
             }
 
             if (pattern == ThermalSurfacePattern.Axial)
@@ -367,6 +428,31 @@ namespace WebGL.Core.Thermal
                 return binding.Profile.EdgeCooling;
             }
 
+            if (IsCanonicalMotorPart(binding.NormalizedPartId))
+            {
+                return 0.18f;
+            }
+
+            if (IsCanonicalEscPart(binding.NormalizedPartId))
+            {
+                return 0.24f;
+            }
+
+            if (IsCanonicalArmPart(binding.NormalizedPartId))
+            {
+                return 0.32f;
+            }
+
+            if (IsCanonicalBatteryPart(binding.NormalizedPartId))
+            {
+                return 0.12f;
+            }
+
+            if (IsCanonicalPlatePart(binding.NormalizedPartId))
+            {
+                return 0.28f;
+            }
+
             if (binding.Data != null && binding.Data.thermalExposure > 0f)
             {
                 return Mathf.Lerp(0.08f, 0.35f, binding.Data.thermalExposure);
@@ -382,14 +468,284 @@ namespace WebGL.Core.Thermal
                 return binding.Profile.BaseVariation;
             }
 
-            return binding.Data != null && binding.Data.isThermallyCritical ? 0.16f : 0.08f;
+            if (IsCanonicalPlatePart(binding.NormalizedPartId))
+            {
+                return 0.07f;
+            }
+
+            if (IsCanonicalMotorPart(binding.NormalizedPartId) || IsCanonicalEscPart(binding.NormalizedPartId))
+            {
+                return 0.16f;
+            }
+
+            return binding.Data != null && binding.Data.isThermallyCritical ? 0.14f : 0.08f;
         }
 
         private float ResolvePropagation(ThermalRendererBinding binding, float normalizedTemperature)
         {
             float basePropagation = binding.Profile != null ? binding.Profile.Propagation : 1f;
-            float criticalBoost = binding.Data != null && binding.Data.isThermallyCritical ? 0.2f : 0f;
-            return Mathf.Clamp(basePropagation * Mathf.Lerp(0.45f, 1f, normalizedTemperature) + criticalBoost, 0.25f, 2f);
+            float temperatureBlend = Mathf.Lerp(0.45f, 1f, normalizedTemperature);
+
+            if (IsCanonicalArmPart(binding.NormalizedPartId) || IsBatteryRailPart(binding.NormalizedPartId))
+            {
+                return Mathf.Clamp(basePropagation * (temperatureBlend + 0.2f), 0.35f, 1.75f);
+            }
+
+            if (IsCanonicalMotorPart(binding.NormalizedPartId) || IsCanonicalEscPart(binding.NormalizedPartId))
+            {
+                return Mathf.Clamp(basePropagation * (temperatureBlend + 0.1f), 0.35f, 1.6f);
+            }
+
+            float criticalBoost = binding.Data != null && binding.Data.isThermallyCritical ? 0.15f : 0f;
+            return Mathf.Clamp(basePropagation * temperatureBlend + criticalBoost, 0.25f, 1.5f);
+        }
+
+        private bool TryBindLegendUI()
+        {
+            if (thermalMinLabel != null && thermalMaxLabel != null && thermalGradientElement != null && thermalMinLabel.panel != null && thermalMaxLabel.panel != null)
+            {
+                return true;
+            }
+
+            if (uiDocument == null)
+            {
+                uiDocument = FindFirstObjectByType<UIDocument>();
+                if (uiDocument == null)
+                {
+                    return false;
+                }
+            }
+
+            VisualElement root = uiDocument.rootVisualElement;
+            if (root == null)
+            {
+                return false;
+            }
+
+            thermalMinLabel = root.Q<Label>("ThermalMinTemp");
+            thermalMaxLabel = root.Q<Label>("ThermalMaxTemp");
+            thermalGradientElement = root.Q<VisualElement>("ThermalLegendGradient");
+            return thermalMinLabel != null && thermalMaxLabel != null && thermalGradientElement != null;
+        }
+
+        private void ClearLegendBinding()
+        {
+            uiDocument = null;
+            thermalMinLabel = null;
+            thermalMaxLabel = null;
+            thermalGradientElement = null;
+        }
+
+        private void UpdateLegendUI(float minDisplay, float maxDisplay)
+        {
+            if (!TryBindLegendUI())
+            {
+                return;
+            }
+
+            thermalMinLabel.text = FormatTemperature(minDisplay);
+            thermalMaxLabel.text = FormatTemperature(maxDisplay);
+            ApplyLegendGradient();
+        }
+
+        private static string FormatTemperature(float value)
+        {
+            return $"{Mathf.RoundToInt(value)}\u00B0C";
+        }
+
+        private void ApplyLegendGradient()
+        {
+            if (thermalGradientElement == null)
+            {
+                return;
+            }
+
+            if (thermalLegendTexture == null)
+            {
+                thermalLegendTexture = BuildLegendTexture();
+            }
+
+            thermalGradientElement.style.backgroundImage = new StyleBackground(thermalLegendTexture);
+#pragma warning disable CS0618
+            thermalGradientElement.style.unityBackgroundScaleMode = ScaleMode.StretchToFill;
+#pragma warning restore CS0618
+        }
+
+        private static Texture2D BuildLegendTexture()
+        {
+            const int height = 256;
+            Texture2D texture = new Texture2D(1, height, TextureFormat.RGBA32, false, true);
+            texture.wrapMode = TextureWrapMode.Clamp;
+            texture.filterMode = FilterMode.Bilinear;
+            texture.name = "ThermalLegendGradientRuntime";
+
+            for (int y = 0; y < height; y++)
+            {
+                float t = y / (float)(height - 1);
+                texture.SetPixel(0, y, EvaluateLegendColor(t));
+            }
+
+            texture.Apply(false, false);
+            return texture;
+        }
+
+        private static Color EvaluateLegendColor(float t)
+        {
+            Color cold = new Color(0.05f, 0.0f, 0.35f, 1f);
+            Color mid = new Color(1f, 0.5f, 0f, 1f);
+            Color hot = new Color(1f, 0.92f, 0.08f, 1f);
+            Color whiteHot = Color.white;
+
+            if (t < 0.33f)
+            {
+                return Color.Lerp(cold, mid, t / 0.33f);
+            }
+
+            if (t < 0.66f)
+            {
+                return Color.Lerp(mid, hot, (t - 0.33f) / 0.33f);
+            }
+
+            return Color.Lerp(hot, whiteHot, (t - 0.66f) / 0.34f);
+        }
+
+        private ThermalSurfacePattern ResolveCanonicalPattern(ThermalRendererBinding binding)
+        {
+            if (IsCanonicalMotorPart(binding.NormalizedPartId) || IsCanonicalBatteryPart(binding.NormalizedPartId) || IsCanonicalElectronicsCore(binding.NormalizedPartId))
+            {
+                return ThermalSurfacePattern.Radial;
+            }
+
+            if (IsCanonicalEscPart(binding.NormalizedPartId) || IsCanonicalArmPart(binding.NormalizedPartId) || IsBatteryRailPart(binding.NormalizedPartId))
+            {
+                return ThermalSurfacePattern.Axial;
+            }
+
+            if (IsCanonicalUniformPart(binding.NormalizedPartId))
+            {
+                return ThermalSurfacePattern.Uniform;
+            }
+
+            return ThermalSurfacePattern.Automatic;
+        }
+
+        private bool TryResolveCanonicalHotspot(ThermalRendererBinding binding, out Vector3 hotspot)
+        {
+            hotspot = Vector3.zero;
+
+            if (IsCanonicalMotorPart(binding.NormalizedPartId) || IsCanonicalBatteryPart(binding.NormalizedPartId) || IsCanonicalElectronicsCore(binding.NormalizedPartId))
+            {
+                return true;
+            }
+
+            if (TryGetCanonicalSuffix(binding.NormalizedPartId, out string suffix))
+            {
+                if (IsCanonicalArmPart(binding.NormalizedPartId))
+                {
+                    if (TryResolveNeighborHotspot(binding, new[]
+                    {
+                        $"x500v2_motor_{suffix}",
+                        $"x500v2_esc_{suffix}"
+                    }, out hotspot))
+                    {
+                        return true;
+                    }
+
+                    hotspot = -binding.DominantAxis * binding.DominantExtent * 0.85f;
+                    return true;
+                }
+
+                if (IsCanonicalEscPart(binding.NormalizedPartId))
+                {
+                    if (TryResolveNeighborHotspot(binding, new[]
+                    {
+                        $"x500v2_motor_{suffix}",
+                        $"x500v2_arm_{suffix}"
+                    }, out hotspot))
+                    {
+                        return true;
+                    }
+
+                    hotspot = -binding.DominantAxis * binding.DominantExtent * 0.6f;
+                    return true;
+                }
+            }
+
+            if (IsBatteryRailPart(binding.NormalizedPartId))
+            {
+                if (TryResolveNeighborHotspot(binding, new[]
+                {
+                    "x500v2_battery",
+                    "x500v2_bottom_plate"
+                }, out hotspot))
+                {
+                    return true;
+                }
+
+                hotspot = -binding.DominantAxis * binding.DominantExtent * 0.55f;
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool TryResolveCanonicalDirection(ThermalRendererBinding binding, Vector3 hotspot, out Vector3 direction)
+        {
+            direction = Vector3.zero;
+
+            if (IsCanonicalArmPart(binding.NormalizedPartId) || IsCanonicalEscPart(binding.NormalizedPartId) || IsBatteryRailPart(binding.NormalizedPartId))
+            {
+                Vector3 towardCenter = -hotspot;
+                if (towardCenter.sqrMagnitude > 0.0001f)
+                {
+                    direction = towardCenter.normalized;
+                    return true;
+                }
+
+                direction = binding.DominantAxis;
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool TryResolveNeighborHotspot(ThermalRendererBinding binding, IEnumerable<string> neighborIds, out Vector3 hotspot)
+        {
+            hotspot = Vector3.zero;
+            if (binding.Transform == null)
+            {
+                return false;
+            }
+
+            Vector3 sum = Vector3.zero;
+            int count = 0;
+            foreach (string neighborId in neighborIds)
+            {
+                if (!bindingsById.TryGetValue(NormalizePartId(neighborId), out ThermalRendererBinding neighbor) || neighbor.Renderer == null)
+                {
+                    continue;
+                }
+
+                Vector3 localPoint = binding.Transform.InverseTransformPoint(neighbor.Renderer.bounds.center);
+                sum += localPoint;
+                count++;
+            }
+
+            if (count == 0)
+            {
+                return false;
+            }
+
+            hotspot = ClampLocalPointToExtents(sum / count, binding.LocalExtents * 0.95f);
+            return true;
+        }
+
+        private static Vector3 ClampLocalPointToExtents(Vector3 point, Vector3 extents)
+        {
+            return new Vector3(
+                Mathf.Clamp(point.x, -extents.x, extents.x),
+                Mathf.Clamp(point.y, -extents.y, extents.y),
+                Mathf.Clamp(point.z, -extents.z, extents.z));
         }
 
         private static string ResolvePartId(ExplodablePart part)
@@ -401,6 +757,80 @@ namespace WebGL.Core.Thermal
             }
 
             return part != null ? part.gameObject.name : string.Empty;
+        }
+
+        private static string NormalizePartId(string partId)
+        {
+            return string.IsNullOrWhiteSpace(partId)
+                ? string.Empty
+                : partId.Trim().ToLowerInvariant();
+        }
+
+        private static bool TryGetCanonicalSuffix(string normalizedPartId, out string suffix)
+        {
+            suffix = string.Empty;
+            if (string.IsNullOrWhiteSpace(normalizedPartId) || normalizedPartId.Length < 3)
+            {
+                return false;
+            }
+
+            string candidate = normalizedPartId.Substring(normalizedPartId.Length - 2).ToUpperInvariant();
+            if (candidate == "FL" || candidate == "FR" || candidate == "BL" || candidate == "BR")
+            {
+                suffix = candidate;
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool IsCanonicalMotorPart(string normalizedPartId)
+        {
+            return normalizedPartId.StartsWith("x500v2_motor_", StringComparison.Ordinal);
+        }
+
+        private static bool IsCanonicalEscPart(string normalizedPartId)
+        {
+            return normalizedPartId.StartsWith("x500v2_esc_", StringComparison.Ordinal);
+        }
+
+        private static bool IsCanonicalArmPart(string normalizedPartId)
+        {
+            return normalizedPartId.StartsWith("x500v2_arm_", StringComparison.Ordinal);
+        }
+
+        private static bool IsCanonicalBatteryPart(string normalizedPartId)
+        {
+            return string.Equals(normalizedPartId, "x500v2_battery", StringComparison.Ordinal);
+        }
+
+        private static bool IsBatteryRailPart(string normalizedPartId)
+        {
+            return string.Equals(normalizedPartId, "x500v2_rails_battery", StringComparison.Ordinal);
+        }
+
+        private static bool IsCanonicalElectronicsCore(string normalizedPartId)
+        {
+            return string.Equals(normalizedPartId, "x500v2_pdb", StringComparison.Ordinal)
+                || string.Equals(normalizedPartId, "x500v2_power_module", StringComparison.Ordinal)
+                || string.Equals(normalizedPartId, "x500v2_pixhawk6c", StringComparison.Ordinal);
+        }
+
+        private static bool IsCanonicalPlatePart(string normalizedPartId)
+        {
+            return string.Equals(normalizedPartId, "x500v2_bottom_plate", StringComparison.Ordinal)
+                || string.Equals(normalizedPartId, "x500v2_top_plate", StringComparison.Ordinal)
+                || string.Equals(normalizedPartId, "x500v2_platform_board", StringComparison.Ordinal);
+        }
+
+        private static bool IsCanonicalUniformPart(string normalizedPartId)
+        {
+            return IsCanonicalPlatePart(normalizedPartId)
+                || string.Equals(normalizedPartId, "x500v2_landing_gear", StringComparison.Ordinal)
+                || string.Equals(normalizedPartId, "x500v2_gps_m10", StringComparison.Ordinal)
+                || string.Equals(normalizedPartId, "x500v2_telemetry_radio", StringComparison.Ordinal)
+                || string.Equals(normalizedPartId, "x500v2_rc_receiver", StringComparison.Ordinal)
+                || normalizedPartId.StartsWith("x500v2_prop_", StringComparison.Ordinal);
         }
 
         private static bool IsHeatSource(DronePartData data)
@@ -439,5 +869,12 @@ namespace WebGL.Core.Thermal
             dominantExtent = Mathf.Max(extents.z, 0.05f);
             return Vector3.forward;
         }
+
+        private static float MaxComponent(Vector3 value)
+        {
+            return Mathf.Max(value.x, Mathf.Max(value.y, value.z));
+        }
     }
 }
+
+

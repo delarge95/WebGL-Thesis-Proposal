@@ -34,7 +34,7 @@ namespace WebGL.Core.Utils
                 var rend = part.GetComponent<Renderer>();
                 if (rend == null) continue;
 
-                string category = part.Data != null ? part.Data.category : "";
+                string category = part.Data != null ? part.Data.category.ToString() : "";
                 string partName = part.gameObject.name;
 
                 Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
@@ -180,7 +180,13 @@ namespace WebGL.Core.Utils
             // 3. Create Rich Data
             DronePartData data = ScriptableObject.CreateInstance<DronePartData>();
             data.partName = name.Replace("_", " ");
-            data.category = category;
+            data.category = category switch { 
+                "Structure" => PartCategory.SkeletonAirframe,
+                "Power" => PartCategory.PowerDistribution,
+                "Propulsion" => PartCategory.PropulsionSystem,
+                "Avionics" => PartCategory.Avionics,
+                _ => PartCategory.Uncategorized 
+            };
             data.partType = category;
             data.description = desc;
             data.materialType = materialType;

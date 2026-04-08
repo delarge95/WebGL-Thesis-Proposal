@@ -4,6 +4,7 @@ using WebGL.Core.Managers;
 using WebGL.Core.Utils;
 using WebGL.Core.Events;
 using WebGL.Core.Content;
+using WebGL.Core.Thermal;
 using WebGL.UI.Panels;
 using WebGL.UI.ProceduralIcons;
 
@@ -77,11 +78,23 @@ namespace WebGL.UI
         // ── Memory Leak Prevention (Phase 3 Step 1) ──
         private System.Collections.Generic.List<System.Action> _uiCleanupActions = new System.Collections.Generic.List<System.Action>();
 
-        // ── Button input blocker callbacks (shared instances) ──
-        private EventCallback<PointerEnterEvent> _onBtnEnter = evt => InputManager.InputBlocked = true;
-        private EventCallback<PointerLeaveEvent> _onBtnLeave = evt => InputManager.InputBlocked = false;
-        private EventCallback<PointerDownEvent> _onBtnDown = evt => evt.StopPropagation();
-        private EventCallback<PointerUpEvent> _onBtnUp = evt => evt.StopPropagation();
+        // ── Button event guards (shared instances) ──
+        private EventCallback<PointerDownEvent> _onBtnDown = evt =>
+        {
+            if (evt.button == 0)
+            {
+                InputManager.InputBlocked = true;
+            }
+            evt.StopPropagation();
+        };
+        private EventCallback<PointerUpEvent> _onBtnUp = evt =>
+        {
+            if (evt.button == 0)
+            {
+                InputManager.InputBlocked = false;
+            }
+            evt.StopPropagation();
+        };
 
         protected override void Awake()
         {
@@ -206,9 +219,9 @@ namespace WebGL.UI
             BindCat("CatBtn_All", "ALL");
             BindCat("CatBtn_Structure", "Structure");
             BindCat("CatBtn_Propulsion", "Propulsion");
-            BindCat("CatBtn_Avionics", "Avionics");
-            BindCat("CatBtn_Power", "Power");
-            BindCat("CatBtn_Payload", "Payload");
+            BindCat("CatBtn_Avionics", "Electronics");
+            BindCat("CatBtn_Power", "Fasteners");
+            BindCat("CatBtn_Payload", "Misc");
 
             // ── FAB (global info button) ──
             _fabContainer = root.Q<VisualElement>("GlobalActionContainer");
@@ -226,27 +239,34 @@ namespace WebGL.UI
                 explosionSlider.RegisterValueChangedCallback(OnExplosionSliderChanged);
                 AddCleanup(() => explosionSlider.UnregisterValueChangedCallback(OnExplosionSliderChanged));
 
-                EventCallback<PointerEnterEvent> esEn = evt => InputManager.InputBlocked = true;
-                EventCallback<PointerLeaveEvent> esLe = evt => InputManager.InputBlocked = false;
-                EventCallback<PointerDownEvent> esDo = evt => evt.StopPropagation();
-                explosionSlider.RegisterCallback(esEn);
-                explosionSlider.RegisterCallback(esLe);
+                EventCallback<PointerDownEvent> esDo = evt =>
+                {
+                    if (evt.button == 0)
+                    {
+                        InputManager.InputBlocked = true;
+                    }
+                    evt.StopPropagation();
+                };
+                EventCallback<PointerUpEvent> esUp = evt =>
+                {
+                    if (evt.button == 0)
+                    {
+                        InputManager.InputBlocked = false;
+                    }
+                };
                 explosionSlider.RegisterCallback(esDo);
-                AddCleanup(() => { explosionSlider.UnregisterCallback(esEn); explosionSlider.UnregisterCallback(esLe); explosionSlider.UnregisterCallback(esDo); });
+                explosionSlider.RegisterCallback(esUp);
+                AddCleanup(() => { explosionSlider.UnregisterCallback(esDo); explosionSlider.UnregisterCallback(esUp); });
             }
 
-            // ── ExplodeInlineSlider container — block pointer events from bubbling
+            // ── ExplodeInlineSlider container — stop pointer events from bubbling
             //    past the slider so clicks don't reach parent handlers. ──
             var explodeInline = root.Q<VisualElement>("ExplodeInlineSlider");
             if (explodeInline != null)
             {
-                EventCallback<PointerEnterEvent> epEn = evt => InputManager.InputBlocked = true;
-                EventCallback<PointerLeaveEvent> epLe = evt => InputManager.InputBlocked = false;
                 EventCallback<PointerDownEvent> epDo = evt => evt.StopPropagation();
-                explodeInline.RegisterCallback(epEn);
-                explodeInline.RegisterCallback(epLe);
                 explodeInline.RegisterCallback(epDo);
-                AddCleanup(() => { explodeInline.UnregisterCallback(epEn); explodeInline.UnregisterCallback(epLe); explodeInline.UnregisterCallback(epDo); });
+                AddCleanup(() => explodeInline.UnregisterCallback(epDo));
             }
 
             // ── CrossSectionPanel & FilterSubPanel — same protection ──
@@ -254,13 +274,9 @@ namespace WebGL.UI
             {
                 var panel = root.Q<VisualElement>(panelName);
                 if (panel == null) continue;
-                EventCallback<PointerEnterEvent> pEn = evt => InputManager.InputBlocked = true;
-                EventCallback<PointerLeaveEvent> pLe = evt => InputManager.InputBlocked = false;
                 EventCallback<PointerDownEvent> pDo = evt => evt.StopPropagation();
-                panel.RegisterCallback(pEn);
-                panel.RegisterCallback(pLe);
                 panel.RegisterCallback(pDo);
-                AddCleanup(() => { panel.UnregisterCallback(pEn); panel.UnregisterCallback(pLe); panel.UnregisterCallback(pDo); });
+                AddCleanup(() => panel.UnregisterCallback(pDo));
             }
 
             // ── Initial state ──
@@ -277,8 +293,8 @@ namespace WebGL.UI
                 root.Query<ProceduralIconBase>().ForEach(icon => icon.SetLightBackground(envCtrl.IsLightBackground));
             }
 
-            // ── All buttons block 3D input ──
-            RegisterButtonInputBlockers();
+            // ── All buttons stop propagation inside UITK to avoid click-through ──
+            RegisterButtonEventGuards();
         }
 
         // ═══════════════════════════════════════════════════════
@@ -384,9 +400,9 @@ namespace WebGL.UI
         {
             var sel = SelectionManager.Instance?.CurrentSelection;
             if (sel == null) return;
-            var part = sel.GetComponent<ExplodablePart>();
+            var part = sel.GetComponentInParent<ExplodablePart>();
             if (part == null) return;
-            PartVisibilityManager.Instance?.IsolatePart(part);
+            PartVisibilityManager.Instance?.IsolateTransform(sel);
             _isIsolated = true;
             _modeController.SetIsolateState(true);
 
@@ -515,22 +531,18 @@ namespace WebGL.UI
         }
 
         // ═══════════════════════════════════════════════════════
-        //  Button input blockers (all buttons block 3D raycast)
+        //  Button event guards
         // ═══════════════════════════════════════════════════════
 
-        private void RegisterButtonInputBlockers()
+        private void RegisterButtonEventGuards()
         {
             root.Query<Button>().ForEach(btn =>
             {
-                btn.RegisterCallback(_onBtnEnter);
-                btn.RegisterCallback(_onBtnLeave);
                 btn.RegisterCallback(_onBtnDown);
                 btn.RegisterCallback(_onBtnUp);
 
                 AddCleanup(() =>
                 {
-                    btn.UnregisterCallback(_onBtnEnter);
-                    btn.UnregisterCallback(_onBtnLeave);
                     btn.UnregisterCallback(_onBtnDown);
                     btn.UnregisterCallback(_onBtnUp);
                 });
@@ -546,11 +558,25 @@ namespace WebGL.UI
             GameObject managers = GameObject.Find("Managers");
             if (managers == null) managers = new GameObject("Managers");
 
+            if (InputManager.Instance == null) managers.AddComponent<InputManager>();
+            if (SelectionManager.Instance == null) managers.AddComponent<SelectionManager>();
+            if (ExplodedViewManager.Instance == null) managers.AddComponent<ExplodedViewManager>();
+            if (PartCatalogManager.Instance == null) managers.AddComponent<PartCatalogManager>();
+            if (NotificationManager.Instance == null) managers.AddComponent<NotificationManager>();
             if (HotspotManager.Instance == null) managers.AddComponent<HotspotManager>();
             if (ViewModeManager.Instance == null) managers.AddComponent<ViewModeManager>();
             if (!ServiceLocator.Has<EnvironmentController>()) managers.AddComponent<EnvironmentController>();
             if (CrossSectionManager.Instance == null) managers.AddComponent<CrossSectionManager>();
             if (PartVisibilityManager.Instance == null) managers.AddComponent<PartVisibilityManager>();
+            if (DroneStateController.Instance == null) managers.AddComponent<DroneStateController>();
+            if (ThermalSimulationManager.Instance == null) managers.AddComponent<ThermalSimulationManager>();
+            if (ThermalViewController.Instance == null) managers.AddComponent<ThermalViewController>();
+
+            GameObject droneRoot = GameObject.Find("x500v2_Drone");
+            if (droneRoot != null && droneRoot.GetComponent<ImportedDroneRuntimeBinder>() == null)
+            {
+                droneRoot.AddComponent<ImportedDroneRuntimeBinder>();
+            }
         }
     }
 }

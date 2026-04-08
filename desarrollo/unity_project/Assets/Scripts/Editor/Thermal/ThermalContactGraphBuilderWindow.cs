@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -41,7 +41,7 @@ namespace WebGL.Editor.Thermal
     {
         [SerializeField] private Transform root;
         [SerializeField] private ThermalContactGraphAsset targetAsset;
-        [SerializeField] private string assetPath = "Assets/Data/Thermal/ThermalContactGraph.asset";
+        [SerializeField] private string assetPath = "Assets/Resources/ThermalCanonicalContactGraph.asset";
         [SerializeField, Min(0.1f)] private float maxGapMm = 12f;
         [SerializeField, Min(0f)] private float minContactAreaCm2 = 0.5f;
         [SerializeField, Min(0.1f)] private float minPathLengthMm = 1f;

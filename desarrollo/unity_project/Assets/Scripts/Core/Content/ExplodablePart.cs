@@ -22,6 +22,14 @@ namespace WebGL.Core.Content
         {
             initialPosition = transform.localPosition;
             CalculateTargetPosition();
+
+            foreach (AuxiliaryExplodeOffset offset in GetComponentsInChildren<AuxiliaryExplodeOffset>(true))
+            {
+                if (offset != null)
+                {
+                    offset.Initialize();
+                }
+            }
         }
 
         private void Start()
@@ -52,6 +60,14 @@ namespace WebGL.Core.Content
         {
             // Linear interpolation between initial and target position
             transform.localPosition = Vector3.Lerp(initialPosition, targetPosition, factor);
+
+            foreach (AuxiliaryExplodeOffset offset in GetComponentsInChildren<AuxiliaryExplodeOffset>(true))
+            {
+                if (offset != null)
+                {
+                    offset.Apply(factor);
+                }
+            }
         }
 
         public void SetXRay(bool enable, Material xrayMat)

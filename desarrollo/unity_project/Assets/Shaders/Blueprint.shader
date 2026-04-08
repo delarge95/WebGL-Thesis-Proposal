@@ -6,15 +6,15 @@ Shader "WebGL/Blueprint"
         _BackgroundColor("Background Color", Color) = (0.08, 0.18, 0.38, 1.0)
         _GridColor("Grid Color", Color) = (0.4, 0.55, 0.8, 0.2)
         
-        _OutlineWidth("Outline Width", Range(0, 0.05)) = 0.012
-        _EdgeThreshold("Edge Threshold", Range(0, 1)) = 0.3
+        _OutlineWidth("Outline Width", Range(0, 0.05)) = 0.0015
+        _EdgeThreshold("Edge Threshold", Range(0, 1)) = 0.56
         
         [Header(Grid)]
         _GridScale("Grid Scale", Range(1, 100)) = 20
         _GridWidth("Grid Line Width", Range(0.005, 0.05)) = 0.015
         
         [Header(Technical Lines)]
-        _FresnelPower("Edge Detection Power", Range(0.1, 8)) = 3.5
+        _FresnelPower("Edge Detection Power", Range(0.1, 8)) = 6.5
         
         [HideInInspector] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
         [HideInInspector] _EmissionColor("Emission Color", Color) = (0, 0, 0, 0)
@@ -134,13 +134,13 @@ Shader "WebGL/Blueprint"
                 float2 aa2 = smoothstep(fw2 * 1.5, fw2 * 0.5, d2);
                 float gridLine2 = max(aa2.x, aa2.y) * 0.3;
                 
-                half gridAlpha = saturate(gridLine + gridLine2) * _GridColor.a * 0.4;
+                half gridAlpha = saturate(gridLine + gridLine2) * _GridColor.a * 0.22;
                 color = lerp(color, _GridColor.rgb, gridAlpha);
                 
                 // Silhouette edge detection (Fresnel, unlit — no light dependency)
                 half ndotv = saturate(dot(normalWS, viewDirWS));
                 half edge = pow(1.0 - ndotv, _FresnelPower);
-                half edgeMask = smoothstep(_EdgeThreshold, _EdgeThreshold + 0.1, edge);
+                half edgeMask = smoothstep(_EdgeThreshold, _EdgeThreshold + 0.07, edge);
                 color = lerp(color, _LineColor.rgb, edgeMask);
                 
                 // Blueprint paper grain — unified with skybox dither
@@ -152,8 +152,8 @@ Shader "WebGL/Blueprint"
                 
                 // Selection/hover highlight (driven by HighlightSystem)
                 half highlightBlend = saturate(1.0 - _BaseColor.a);
-                color = lerp(color, _BaseColor.rgb, highlightBlend * 0.5);
-                color += _EmissionColor.rgb * 0.3;
+                color = lerp(color, _BaseColor.rgb, highlightBlend * 0.18);
+                color += _EmissionColor.rgb * 0.08;
                 
                 color = MixFog(color, IN.fogFactor);
                 
@@ -236,8 +236,8 @@ Shader "WebGL/Blueprint"
                 }
 
                 // Selection-aware outline
-                half3 outlineColor = lerp(_LineColor.rgb, _BaseColor.rgb, saturate(1.0 - _BaseColor.a) * 0.6);
-                return half4(outlineColor + _EmissionColor.rgb * 0.2, 1.0);
+                half3 outlineColor = lerp(_LineColor.rgb, _BaseColor.rgb, saturate(1.0 - _BaseColor.a) * 0.25);
+                return half4(outlineColor + _EmissionColor.rgb * 0.05, 1.0);
             }
             ENDHLSL
         }

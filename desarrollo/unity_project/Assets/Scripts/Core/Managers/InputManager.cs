@@ -7,8 +7,8 @@ namespace WebGL.Core.Managers
 {
     /// <summary>
     /// Centralized input manager. Provides unified input state and UI-awareness.
-    /// Other managers (SelectionManager, OrbitCameraController) query IsPointerOverUI()
-    /// to avoid processing 3D input when the user is interacting with UI Toolkit elements.
+    /// Selection queries UI hit-testing to avoid click-through, while camera motion
+    /// relies on explicit gesture capture through InputBlocked.
     /// </summary>
     public class InputManager : PersistentSingleton<InputManager>
     {
@@ -33,11 +33,8 @@ namespace WebGL.Core.Managers
         public bool IsDragging3D { get; private set; }
 
         /// <summary>
-        /// Global flag set by UI pointer-enter/leave callbacks to block 3D input
-        /// (orbit, pan, zoom, selection hover) while the user is interacting with
-        /// UI Toolkit elements like sliders, sheets, or scroll views.
-        /// Replaces the old OrbitCameraController.GlobalInputBlocked static field
-        /// (Phase 4: Hardening — single source of truth in InputManager).
+        /// Manual blocker for active UI gestures (slider drags, sheet scrolling, etc.).
+        /// This should only be toggled on press/drag lifecycles, never on hover.
         /// </summary>
         private static bool _inputBlocked;
 
@@ -81,43 +78,59 @@ namespace WebGL.Core.Managers
         /// </summary>
         public bool IsPointerOverUI()
         {
-            // Fast path: explicit blocker set by UI handlers.
+            // Fast path: explicit blocker set only while the UI is actively
+            // capturing a gesture and should keep 3D input suspended.
             if (InputBlocked)
             {
                 return true;
             }
 
-            CacheUIDocumentIfNeeded();
-            if (_uiPanel == null) return false;
-
-            Vector2 screenPos = GetCurrentPointerScreenPosition();
-            if (screenPos.x < 0f || screenPos.y < 0f) return false;
-
-            // RuntimePanelUtils.ScreenToPanel handles:
-            //  - Y-axis inversion (Screen bottom-left → Panel top-left)
-            //  - ScaleWithScreenSize scaling factor
-            Vector2 panelPos = RuntimePanelUtils.ScreenToPanel(_uiPanel, screenPos);
-            VisualElement picked;
-            try
+            if (!TryGetPointerPositions(out Vector2 screenPos, out Vector2 panelPos))
             {
-                picked = _uiPanel.Pick(panelPos);
-            }
-            catch (Exception ex)
-            {
-                if (!_pickErrorLogged)
-                {
-                    _pickErrorLogged = true;
-                    Debug.LogWarning($"[InputManager] Panel.Pick failed. Falling back to InputBlocked flag. {ex.Message}");
-                }
-
-                return InputBlocked;
+                return false;
             }
 
-            // Pick() returns null if nothing with picking-mode: Position is hit
-            if (picked == null) return false;
+            if (IsExplicitBlockingSurfaceAtPoint(screenPos))
+            {
+                return true;
+            }
 
-            bool isInteractive = IsInteractivePick(picked, panelPos);
-            return isInteractive;
+            if (!TryPickElementAtPanelPosition(panelPos, out VisualElement picked, out bool pickFailed))
+            {
+                return pickFailed ? InputBlocked : false;
+            }
+
+            return IsInteractivePick(picked, panelPos);
+        }
+
+        /// <summary>
+        /// Returns true when the pointer is over any visible UI Toolkit element.
+        /// Used by selection/hover systems so UI clicks are never interpreted as
+        /// background clicks that would deselect the current part.
+        /// </summary>
+        public bool IsPointerOverSelectionBlockingUI()
+        {
+            if (InputBlocked)
+            {
+                return true;
+            }
+
+            if (!TryGetPointerPositions(out Vector2 screenPos, out Vector2 panelPos))
+            {
+                return false;
+            }
+
+            if (IsExplicitBlockingSurfaceAtPoint(screenPos))
+            {
+                return true;
+            }
+
+            if (!TryPickElementAtPanelPosition(panelPos, out VisualElement picked, out bool pickFailed))
+            {
+                return pickFailed ? InputBlocked : false;
+            }
+
+            return IsVisiblePick(picked, panelPos);
         }
 
         // ═══════════════════════════════════════════════════════
@@ -130,8 +143,9 @@ namespace WebGL.Core.Managers
             ZoomInput = 0f;
             IsInteracting = false;
 
-            // Track drag state: starts on mouse-down in 3D, ends on mouse-up
-            if (Input.GetMouseButtonDown(1) && !IsPointerOverUI())
+            // Track drag state: starts when the user begins a 3D drag outside an
+            // actively captured UI gesture, ends on mouse-up.
+            if (Input.GetMouseButtonDown(1) && !InputBlocked)
             {
                 IsDragging3D = true;
             }
@@ -195,6 +209,74 @@ namespace WebGL.Core.Managers
             return Input.mousePosition;
         }
 
+        private bool TryGetPointerPositions(out Vector2 screenPos, out Vector2 panelPos)
+        {
+            screenPos = Vector2.zero;
+            panelPos = Vector2.zero;
+
+            CacheUIDocumentIfNeeded();
+            if (_uiPanel == null) return false;
+
+            screenPos = GetCurrentPointerScreenPosition();
+            if (screenPos.x < 0f || screenPos.y < 0f) return false;
+
+            // RuntimePanelUtils.ScreenToPanel handles:
+            //  - Y-axis inversion (Screen bottom-left → Panel top-left)
+            //  - ScaleWithScreenSize scaling factor
+            panelPos = RuntimePanelUtils.ScreenToPanel(_uiPanel, screenPos);
+            return true;
+        }
+
+        private bool TryPickElementAtPanelPosition(Vector2 panelPos, out VisualElement picked, out bool pickFailed)
+        {
+            picked = null;
+            pickFailed = false;
+            try
+            {
+                picked = _uiPanel.Pick(panelPos);
+            }
+            catch (Exception ex)
+            {
+                if (!_pickErrorLogged)
+                {
+                    _pickErrorLogged = true;
+                    Debug.LogWarning($"[InputManager] Panel.Pick failed. Falling back to InputBlocked flag. {ex.Message}");
+                }
+
+                pickFailed = true;
+                return false;
+            }
+
+            // Pick() returns null if nothing with picking-mode: Position is hit
+            return picked != null;
+        }
+
+        private bool IsExplicitBlockingSurfaceAtPoint(Vector2 screenPos)
+        {
+            if (_mainUIDocument?.rootVisualElement == null) return false;
+
+            return IsNamedSurfaceAtPoint("BottomSheet", screenPos)
+                || IsNamedSurfaceAtPoint("InfoBarPeek", screenPos);
+        }
+
+        private bool IsNamedSurfaceAtPoint(string elementName, Vector2 screenPos)
+        {
+            VisualElement element = _mainUIDocument?.rootVisualElement?.Q<VisualElement>(elementName);
+            return IsElementVisible(element) && ElementContainsScreenPoint(element, screenPos);
+        }
+
+        private bool IsVisiblePick(VisualElement picked, Vector2 panelPos)
+        {
+            if (picked == null || _mainUIDocument?.rootVisualElement == null) return false;
+
+            VisualElement root = _mainUIDocument.rootVisualElement;
+            VisualElement templateRoot = root.parent;
+
+            if (picked == root || picked == templateRoot) return false;
+
+            return IsElementChainAtPoint(picked, panelPos, root, templateRoot);
+        }
+
         /// <summary>
         /// Determines whether a picked VisualElement should block 3D interaction.
         /// Walks up the ancestor chain looking for interactive UI controls, but
@@ -212,36 +294,43 @@ namespace WebGL.Core.Managers
             // Quick exit: if picked IS the document root or panel root, it's empty space.
             if (picked == root || picked == templateRoot) return false;
 
-            // Check the picked element itself first — fastest path
-            if (IsInteractiveElement(picked) && ElementContainsPoint(picked, panelPos))
-            {
-                return true;
-            }
-
-            // Walk up at most MAX_ANCESTOR_DEPTH levels looking for interactive ancestors.
-            // Also verify the ancestor's worldBound contains the pointer — this prevents
-            // Panel.Pick() returning overflow-clipped internal elements (e.g. ScrollView
-            // internals) from blocking input when the pointer is outside the visible area.
-            const int MAX_ANCESTOR_DEPTH = 8;
+            // Walk up the chain and validate each candidate against the full visible
+            // containment path. This prevents overflow-clipped sheet descendants from
+            // blocking 3D input outside the visible UI surface.
+            const int MAX_ANCESTOR_DEPTH = 16;
             int depth = 0;
-            for (VisualElement current = picked.parent; current != null && depth < MAX_ANCESTOR_DEPTH; current = current.parent, depth++)
+            for (VisualElement current = picked; current != null && depth < MAX_ANCESTOR_DEPTH; current = current.parent, depth++)
             {
-                if (current == root || current == templateRoot) return false;
+                if (current == root || current == templateRoot) break;
 
-                if (current.pickingMode != PickingMode.Position) continue;
-                if (!current.enabledInHierarchy) continue;
-                if (current.resolvedStyle.display == DisplayStyle.None) continue;
-                if (current.resolvedStyle.visibility == Visibility.Hidden) continue;
+                if (!CanElementBlock3D(current)) continue;
 
-                if (IsPassThroughSurface(current))
-                {
-                    continue;
-                }
+                if (IsPassThroughSurface(current)) continue;
+                if (!IsInteractiveElement(current)) continue;
 
-                if (IsInteractiveElement(current) && ElementContainsPoint(current, panelPos))
+                if (IsElementChainAtPoint(current, panelPos, root, templateRoot))
                 {
                     return true;
                 }
+            }
+
+            return false;
+        }
+
+        private static bool IsElementChainAtPoint(VisualElement element, Vector2 panelPos, VisualElement root, VisualElement templateRoot)
+        {
+            const int MAX_ANCESTOR_DEPTH = 24;
+            int depth = 0;
+
+            for (VisualElement current = element; current != null && depth < MAX_ANCESTOR_DEPTH; current = current.parent, depth++)
+            {
+                if (current == root || current == templateRoot)
+                {
+                    return true;
+                }
+
+                if (!IsElementVisible(current)) return false;
+                if (!ElementContainsPoint(current, panelPos)) return false;
             }
 
             return false;
@@ -261,6 +350,34 @@ namespace WebGL.Core.Managers
             return wb.Contains(panelPos);
         }
 
+        private static bool ElementContainsScreenPoint(VisualElement element, Vector2 screenPos)
+        {
+            if (element == null) return false;
+
+            Rect wb = element.worldBound;
+            if (wb.width <= 0f || wb.height <= 0f) return false;
+
+            // worldBound is expressed in panel/screen space with origin at the
+            // lower-left in this runtime setup, so the raw screen pointer aligns
+            // with it more reliably than ScreenToPanel-converted coordinates.
+            return wb.Contains(screenPos);
+        }
+
+        private static bool CanElementBlock3D(VisualElement element)
+        {
+            return element != null
+                && element.pickingMode == PickingMode.Position
+                && IsElementVisible(element);
+        }
+
+        private static bool IsElementVisible(VisualElement element)
+        {
+            return element != null
+                && element.enabledInHierarchy
+                && element.resolvedStyle.display != DisplayStyle.None
+                && element.resolvedStyle.visibility != Visibility.Hidden;
+        }
+
         private static bool IsInteractiveElement(VisualElement element)
         {
             if (element == null)
@@ -277,6 +394,14 @@ namespace WebGL.Core.Managers
                 element is Foldout ||
                 element is TextField ||
                 element is DropdownField)
+            {
+                return true;
+            }
+
+            if (element.ClassListContains("mode-submenu") ||
+                element.ClassListContains("hero-container") ||
+                element.ClassListContains("hero-submenu") ||
+                element.ClassListContains("onboard-overlay"))
             {
                 return true;
             }

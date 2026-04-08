@@ -56,18 +56,28 @@ namespace WebGL.UI.Panels
                 _envLightRotSlider.RegisterValueChangedCallback(onRotChanged);
                 AddCleanup(() => _envLightRotSlider.UnregisterValueChangedCallback(onRotChanged));
 
-                EventCallback<PointerEnterEvent> onEnter = evt => InputManager.InputBlocked = true;
-                EventCallback<PointerLeaveEvent> onLeave = evt => InputManager.InputBlocked = false;
-                EventCallback<PointerDownEvent> onDown = evt => evt.StopPropagation();
+                EventCallback<PointerDownEvent> onDown = evt =>
+                {
+                    if (evt.button == 0)
+                    {
+                        InputManager.InputBlocked = true;
+                    }
+                    evt.StopPropagation();
+                };
+                EventCallback<PointerUpEvent> onUp = evt =>
+                {
+                    if (evt.button == 0)
+                    {
+                        InputManager.InputBlocked = false;
+                    }
+                };
 
-                _envLightRotSlider.RegisterCallback(onEnter);
-                _envLightRotSlider.RegisterCallback(onLeave);
                 _envLightRotSlider.RegisterCallback(onDown);
+                _envLightRotSlider.RegisterCallback(onUp);
 
                 AddCleanup(() => {
-                    _envLightRotSlider.UnregisterCallback(onEnter);
-                    _envLightRotSlider.UnregisterCallback(onLeave);
                     _envLightRotSlider.UnregisterCallback(onDown);
+                    _envLightRotSlider.UnregisterCallback(onUp);
                 });
             }
 
@@ -80,18 +90,28 @@ namespace WebGL.UI.Panels
                 _envLightIntSlider.RegisterValueChangedCallback(onIntChanged);
                 AddCleanup(() => _envLightIntSlider.UnregisterValueChangedCallback(onIntChanged));
 
-                EventCallback<PointerEnterEvent> onEnter2 = evt => InputManager.InputBlocked = true;
-                EventCallback<PointerLeaveEvent> onLeave2 = evt => InputManager.InputBlocked = false;
-                EventCallback<PointerDownEvent> onDown2 = evt => evt.StopPropagation();
+                EventCallback<PointerDownEvent> onDown2 = evt =>
+                {
+                    if (evt.button == 0)
+                    {
+                        InputManager.InputBlocked = true;
+                    }
+                    evt.StopPropagation();
+                };
+                EventCallback<PointerUpEvent> onUp2 = evt =>
+                {
+                    if (evt.button == 0)
+                    {
+                        InputManager.InputBlocked = false;
+                    }
+                };
 
-                _envLightIntSlider.RegisterCallback(onEnter2);
-                _envLightIntSlider.RegisterCallback(onLeave2);
                 _envLightIntSlider.RegisterCallback(onDown2);
+                _envLightIntSlider.RegisterCallback(onUp2);
 
                 AddCleanup(() => {
-                    _envLightIntSlider.UnregisterCallback(onEnter2);
-                    _envLightIntSlider.UnregisterCallback(onLeave2);
                     _envLightIntSlider.UnregisterCallback(onDown2);
+                    _envLightIntSlider.UnregisterCallback(onUp2);
                 });
             }
 

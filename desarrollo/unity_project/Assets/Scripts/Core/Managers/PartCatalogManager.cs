@@ -10,23 +10,24 @@ using WebGL.Core.Events;
 namespace WebGL.Core.Managers
 {
     [Serializable]
-    public class PartCategory
+    public class UICategory
     {
-        public string name;
-        public string icon;
-        public List<string> partTypes;
+        public PartCategory categoryEnum;
+        public string displayName;
+        public Sprite icon;
     }
 
     public class PartCatalogManager : Singleton<PartCatalogManager>
     {
         [Header("Categories")]
-        [SerializeField] private PartCategory[] categories = new PartCategory[]
+        [SerializeField] private UICategory[] uiCategories = new UICategory[]
         {
-            new PartCategory { name = "Structure", partTypes = new List<string> { "Frame", "Body", "Arm" } },
-            new PartCategory { name = "Propulsion", partTypes = new List<string> { "Motor", "Propeller", "ESC" } },
-            new PartCategory { name = "Electronics", partTypes = new List<string> { "FlightController", "GPS", "Receiver", "Battery" } },
-            new PartCategory { name = "Sensors", partTypes = new List<string> { "Camera", "Lidar", "Ultrasonic", "Barometer" } },
-            new PartCategory { name = "Other", partTypes = new List<string> { "LED", "Landing", "Payload" } }
+            new UICategory { categoryEnum = PartCategory.Avionics, displayName = "Avionics" },
+            new UICategory { categoryEnum = PartCategory.SensorsComms, displayName = "Sensors & Comms" },
+            new UICategory { categoryEnum = PartCategory.PowerDistribution, displayName = "Power Distribution" },
+            new UICategory { categoryEnum = PartCategory.PropulsionSystem, displayName = "Propulsion System" },
+            new UICategory { categoryEnum = PartCategory.SkeletonAirframe, displayName = "Skeleton & Airframe" },
+            new UICategory { categoryEnum = PartCategory.Fasteners, displayName = "Fasteners" }
         };
 
         private List<ExplodablePart> allParts = new List<ExplodablePart>();
@@ -37,7 +38,7 @@ namespace WebGL.Core.Managers
 
         public List<ExplodablePart> AllParts => allParts;
         public List<ExplodablePart> FilteredParts => filteredParts;
-        public PartCategory[] Categories => categories;
+        public UICategory[] Categories => uiCategories;
 
         public event Action<List<ExplodablePart>> OnFilterChanged;
         public event Action<ExplodablePart> OnPartFocused;
@@ -107,8 +108,8 @@ namespace WebGL.Core.Managers
                 // Category filter
                 if (!string.IsNullOrEmpty(currentCategoryFilter))
                 {
-                    var category = categories.FirstOrDefault(c => c.name == currentCategoryFilter);
-                    if (category != null && !category.partTypes.Contains(part.Data.partType))
+                    var uiCat = uiCategories.FirstOrDefault(c => c.displayName == currentCategoryFilter);
+                    if (uiCat != null && part.Data.category != uiCat.categoryEnum)
                     {
                         return false;
                     }

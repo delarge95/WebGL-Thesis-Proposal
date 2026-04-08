@@ -59,6 +59,9 @@ namespace WebGL.Core.Managers
         private Vector3 targetFocusPoint;
 
         private bool _isTouchInput;
+        private bool _orbitGestureBlockedByUI;
+        private bool _panGestureBlockedByUI;
+        private bool _touchGestureBlockedByUI;
 
         // Reset Logic
         private Vector3 initialFocusPoint;
@@ -102,11 +105,10 @@ namespace WebGL.Core.Managers
 
         private void HandleInput()
         {
-            // Phase 4: Centralized input blocking via InputManager
+            // Camera input should only yield while the UI is actively capturing
+            // a primary-button gesture (sliders, sheet drag/scroll, button press).
+            // Passive hover/pick checks were causing large phantom dead-zones.
             if (InputManager.InputBlocked) return;
-
-            // Phase 4: Skip camera input when pointer is over UI Toolkit elements
-            if (InputManager.Instance != null && InputManager.Instance.IsPointerOverUI()) return;
 
             if (Input.touchCount > 0)
             {
@@ -125,11 +127,28 @@ namespace WebGL.Core.Managers
             // 0. Smart Pivot: Re-center on Interaction Start
             if (Input.GetMouseButtonDown(1))
             {
-                PickPivot(Input.mousePosition);
+                _orbitGestureBlockedByUI = IsPointerOverCameraBlockingUI();
+                if (!_orbitGestureBlockedByUI)
+                {
+                    PickPivot(Input.mousePosition);
+                }
+            }
+            if (Input.GetMouseButtonUp(1))
+            {
+                _orbitGestureBlockedByUI = false;
+            }
+
+            if (Input.GetMouseButtonDown(2))
+            {
+                _panGestureBlockedByUI = IsPointerOverCameraBlockingUI();
+            }
+            if (Input.GetMouseButtonUp(2))
+            {
+                _panGestureBlockedByUI = false;
             }
 
             // 1. Orbit (Right Click)
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButton(1) && !_orbitGestureBlockedByUI)
             {
                 float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
                 float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
@@ -137,7 +156,7 @@ namespace WebGL.Core.Managers
             }
 
             // 2. Pan (Middle Click)
-            if (Input.GetMouseButton(2))
+            if (Input.GetMouseButton(2) && !_panGestureBlockedByUI)
             {
                 float mouseX = Input.GetAxis("Mouse X") * panSpeed;
                 float mouseY = Input.GetAxis("Mouse Y") * panSpeed;
@@ -146,7 +165,7 @@ namespace WebGL.Core.Managers
 
             // 3. Zoom (Scroll)
             float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (Mathf.Abs(scroll) > 0.001f)
+            if (Mathf.Abs(scroll) > 0.001f && !IsPointerOverCameraBlockingUI())
             {
                 ApplyZoom(scroll * MOUSE_SCROLL_SCALE);
             }
@@ -154,6 +173,42 @@ namespace WebGL.Core.Managers
 
         private void HandleTouchInput()
         {
+            if (Input.touchCount == 0)
+            {
+                _touchGestureBlockedByUI = false;
+                return;
+            }
+
+            for (int i = 0; i < Input.touchCount; i++)
+            {
+                Touch touch = Input.GetTouch(i);
+                if (touch.phase == TouchPhase.Began && IsPointerOverCameraBlockingUI())
+                {
+                    _touchGestureBlockedByUI = true;
+                }
+            }
+
+            if (_touchGestureBlockedByUI)
+            {
+                bool allTouchesReleased = true;
+                for (int i = 0; i < Input.touchCount; i++)
+                {
+                    Touch touch = Input.GetTouch(i);
+                    if (touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled)
+                    {
+                        allTouchesReleased = false;
+                        break;
+                    }
+                }
+
+                if (allTouchesReleased)
+                {
+                    _touchGestureBlockedByUI = false;
+                }
+
+                return;
+            }
+
             // 1 Finger: Orbit
             if (Input.touchCount == 1)
             {
@@ -234,6 +289,12 @@ namespace WebGL.Core.Managers
                     ApplyZoom(normalizedPinch * zoomSpeed * (currentDistance * touchZoomSpeed / 0.008f));
                 }
             }
+        }
+
+        private static bool IsPointerOverCameraBlockingUI()
+        {
+            return InputManager.Instance != null
+                && InputManager.Instance.IsPointerOverSelectionBlockingUI();
         }
 
         // Shared Logic

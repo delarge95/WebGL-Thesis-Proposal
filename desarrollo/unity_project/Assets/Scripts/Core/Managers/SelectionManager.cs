@@ -67,6 +67,17 @@ namespace WebGL.Core.Managers
 
         #region Unity Lifecycle
 
+        protected override void Awake()
+        {
+            base.Awake();
+
+            if (selectionLayer.value == 0)
+            {
+                int selectableLayer = LayerMask.NameToLayer("SelectablePart");
+                selectionLayer = selectableLayer >= 0 ? (1 << selectableLayer) : ~0;
+            }
+        }
+
         private void Update()
         {
             if (!ShouldProcessInput()) return;
@@ -96,13 +107,14 @@ namespace WebGL.Core.Managers
         {
             if (Camera.main == null) return;
 
-            // Phase 4: Use centralized InputManager for both explicit blocks and UI detection
+            // Selection should yield to any visible UI so hovering a button/panel never
+            // highlights or clicks through to the 3D model underneath.
             if (InputManager.InputBlocked) 
             {
                 ClearHover();
                 return;
             }
-            if (InputManager.Instance != null && InputManager.Instance.IsPointerOverUI())
+            if (InputManager.Instance != null && InputManager.Instance.IsPointerOverSelectionBlockingUI())
             {
                 ClearHover();
                 return;
@@ -112,7 +124,7 @@ namespace WebGL.Core.Managers
 
             if (Physics.Raycast(ray, out RaycastHit hit, maxRayDistance, selectionLayer))
             {
-                Transform newHover = hit.transform;
+                Transform newHover = ResolveSelectableTransform(hit.transform);
 
                 if (newHover != hoveredObject)
                 {
@@ -145,6 +157,10 @@ namespace WebGL.Core.Managers
         {
             hoveredObject = newHover;
             hoveredHighlight = hoveredObject.GetComponent<HighlightSystem>();
+            if (hoveredHighlight == null)
+            {
+                hoveredHighlight = hoveredObject.GetComponentInParent<HighlightSystem>();
+            }
             
             if (hoveredHighlight != null && hoveredObject != currentSelection)
             {
@@ -195,8 +211,8 @@ namespace WebGL.Core.Managers
             // Phase 4: Respect centralized input block (set by UI pointer events)
             if (InputManager.InputBlocked) return;
             
-            // UI Blocking Check — delegates to InputManager for centralized UI detection.
-            if (InputManager.Instance != null && InputManager.Instance.IsPointerOverUI())
+            // UI clicks should never be interpreted as background deselection clicks.
+            if (InputManager.Instance != null && InputManager.Instance.IsPointerOverSelectionBlockingUI())
             {
                 return;
             }
@@ -206,7 +222,7 @@ namespace WebGL.Core.Managers
             DronePartData clickedData = null;
             if (hoveredObject != null)
             {
-                var exp = hoveredObject.GetComponent<ExplodablePart>();
+                var exp = hoveredObject.GetComponentInParent<ExplodablePart>();
                 clickedData = exp != null ? exp.Data : null;
             }
 
@@ -262,6 +278,7 @@ namespace WebGL.Core.Managers
         /// <param name="fromHotspot">True if triggered by a hotspot click.</param>
         public void SelectObject(Transform selection, bool fromHotspot = false)
         {
+            selection = ResolveSelectableTransform(selection);
             if (selection == null) return;
 
             // Clean up previous selection highlight before applying new one
@@ -272,6 +289,10 @@ namespace WebGL.Core.Managers
 
             currentSelection = selection;
             currentHighlight = selection.GetComponent<HighlightSystem>();
+            if (currentHighlight == null)
+            {
+                currentHighlight = selection.GetComponentInParent<HighlightSystem>();
+            }
 
             // Apply highlight
             if (currentHighlight != null)
@@ -281,6 +302,10 @@ namespace WebGL.Core.Managers
 
             // Get data and publish event
             var explodable = selection.GetComponent<ExplodablePart>();
+            if (explodable == null)
+            {
+                explodable = selection.GetComponentInParent<ExplodablePart>();
+            }
             if (explodable != null && explodable.Data != null)
             {
                 EventBus.Publish(new PartSelectedEvent(explodable.Data, fromHotspot));
@@ -296,6 +321,11 @@ namespace WebGL.Core.Managers
             AudioManager.Instance?.PlayClick();
 
             Debug.Log($"[SelectionManager] Selected: {selection.name}");
+        }
+
+        private static Transform ResolveSelectableTransform(Transform rawTransform)
+        {
+            return rawTransform;
         }
 
         /// <summary>

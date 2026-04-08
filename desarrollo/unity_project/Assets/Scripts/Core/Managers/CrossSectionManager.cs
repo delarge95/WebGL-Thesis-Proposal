@@ -115,6 +115,17 @@ namespace WebGL.Core.Managers
             }
         }
 
+        public void RefreshTargetObject()
+        {
+            targetObject = null;
+            FindTargetObject();
+
+            if (isEnabled)
+            {
+                UpdateAndApply();
+            }
+        }
+
         private void CreatePlaneVisual(ref GameObject visual, string name)
         {
             visual = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -470,14 +481,7 @@ namespace WebGL.Core.Managers
 
         private List<Renderer> GetAllPartRenderers()
         {
-            var renderers = new List<Renderer>();
-            var parts = FindObjectsByType<WebGL.Core.Content.ExplodablePart>(FindObjectsSortMode.None);
-            foreach (var part in parts)
-            {
-                var r = part.GetComponent<Renderer>();
-                if (r != null) renderers.Add(r);
-            }
-            return renderers;
+            return WebGL.Core.Content.DroneRenderResolver.CollectManagedRenderers();
         }
 
         /// <summary>

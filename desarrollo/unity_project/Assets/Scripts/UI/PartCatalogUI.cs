@@ -106,7 +106,7 @@ namespace WebGL.UI
             {
                 foreach (var category in PartCatalogManager.Instance.Categories)
                 {
-                    var btn = CreateCategoryButton(category.name, category.name);
+                    var btn = CreateCategoryButton(category.displayName, category.displayName);
                     categoryContainer.Add(btn);
                 }
             }
