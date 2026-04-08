@@ -12,6 +12,8 @@ namespace WebGL.Core.Managers
     /// </summary>
     public class InputManager : PersistentSingleton<InputManager>
     {
+        private const bool EnableDebugLogs = false;
+
         [Header("Settings")]
         [SerializeField] private float mouseSensitivity = 1.0f;
         [SerializeField] private float touchSensitivity = 0.5f;
@@ -78,35 +80,45 @@ namespace WebGL.Core.Managers
         /// </summary>
         public bool IsPointerOverUI()
         {
-            // Fast path: explicit blocker set only while the UI is actively
-            // capturing a gesture and should keep 3D input suspended.
+            return IsPointerOverSelectionBlockingUI();
+        }
+
+        /// <summary>
+        /// Returns true when the pointer is over UI that should block camera orbit/pan/zoom.
+        /// Camera can interact everywhere EXCEPT over the info panel's scroll viewport.
+        /// Double-click on canvas should work even when panel is open (to close it).
+        /// </summary>
+        public bool IsPointerOverCameraBlockingUI()
+        {
             if (InputBlocked)
             {
                 return true;
             }
 
-            if (!TryGetPointerPositions(out Vector2 screenPos, out Vector2 panelPos))
+            if (!TryGetPointerPositions(out _, out Vector2 panelPos))
             {
                 return false;
             }
 
-            if (IsExplicitBlockingSurfaceAtPoint(screenPos))
+            // Only block camera when over scroll region while sheet is visible
+            if (IsDetailsSheetVisible())
             {
-                return true;
+                return IsPointerOverSheetScrollRegion(panelPos);
             }
 
-            if (!TryPickElementAtPanelPosition(panelPos, out VisualElement picked, out bool pickFailed))
-            {
-                return pickFailed ? InputBlocked : false;
-            }
-
-            return IsInteractivePick(picked, panelPos);
+            // Block on explicit controls only when sheet is closed
+            return IsPointerOverBlockingElement(panelPos);
         }
 
         /// <summary>
         /// Returns true when the pointer is over any visible UI Toolkit element.
         /// Used by selection/hover systems so UI clicks are never interpreted as
         /// background clicks that would deselect the current part.
+        /// 
+        /// IMPORTANT DISTINCTION:
+        /// - When sheet is CLOSED: blocks only explicit controls (buttons, sliders, etc)
+        /// - When sheet is OPEN: blocks the panel background area AND controls, 
+        ///   but ALLOWS 3D interaction outside the panel (on the canvas)
         /// </summary>
         public bool IsPointerOverSelectionBlockingUI()
         {
@@ -115,22 +127,68 @@ namespace WebGL.Core.Managers
                 return true;
             }
 
-            if (!TryGetPointerPositions(out Vector2 screenPos, out Vector2 panelPos))
+            if (!TryGetPointerPositions(out _, out Vector2 panelPos))
             {
                 return false;
             }
 
-            if (IsExplicitBlockingSurfaceAtPoint(screenPos))
+            // Selection must only be blocked by truly interactive UI elements.
+            // Do not block by broad panel background bounds, which can cause
+            // false positives and freeze canvas interaction.
+            return IsPointerOverBlockingElement(panelPos);
+        }
+
+        /// <summary>
+        /// Raw probe that ignores InputBlocked and checks only actual UI hit-testing
+        /// at the current pointer position.
+        /// </summary>
+        public bool IsPointerOverBlockingUIRaw()
+        {
+            if (!TryGetPointerPositions(out _, out Vector2 panelPos))
             {
-                return true;
+                return false;
             }
 
-            if (!TryPickElementAtPanelPosition(panelPos, out VisualElement picked, out bool pickFailed))
+            return IsPointerOverBlockingElement(panelPos);
+        }
+
+        /// <summary>
+        /// Diagnostic helper for click-block analysis.
+        /// </summary>
+        public string GetSelectionBlockDebugReason()
+        {
+            if (InputBlocked)
             {
-                return pickFailed ? InputBlocked : false;
+                return "InputBlocked=true";
             }
 
-            return IsVisiblePick(picked, panelPos);
+            if (!TryGetPointerPositions(out Vector2 screenPos, out Vector2 panelPos))
+            {
+                return "TryGetPointerPositions=false";
+            }
+
+            bool sheetVisible = IsDetailsSheetVisible();
+            if (IsPointerOverNamedElement("SheetCloseBtn", panelPos)) return "SheetCloseBtn";
+            if (IsPointerOverNamedElement("InfoBarPeek", panelPos, requireVisibleClass: "info-bar-peek--hidden")) return "InfoBarPeek";
+            if (sheetVisible && IsPointerOverSheetScrollRegion(panelPos)) return "SheetScrollRegion";
+            if (IsPointerOverInteractiveUI(panelPos)) return "InteractiveUI";
+
+            return $"NoBlock screen=({screenPos.x:F1},{screenPos.y:F1}) panel=({panelPos.x:F1},{panelPos.y:F1})";
+        }
+
+        private static void LogDebug(string message)
+        {
+            if (EnableDebugLogs) Debug.Log(message);
+        }
+
+        private static void LogWarning(string message)
+        {
+            if (EnableDebugLogs) Debug.LogWarning(message);
+        }
+
+        private static void LogError(string message)
+        {
+            if (EnableDebugLogs) Debug.LogError(message);
         }
 
         // ═══════════════════════════════════════════════════════
@@ -184,11 +242,32 @@ namespace WebGL.Core.Managers
         /// </summary>
         private void CacheUIDocumentIfNeeded()
         {
-            if (_mainUIDocument == null || _mainUIDocument.rootVisualElement == null)
+            if (_mainUIDocument != null && _mainUIDocument.rootVisualElement != null && ContainsSelectionBlockingLayout(_mainUIDocument.rootVisualElement))
             {
-                _mainUIDocument = UnityEngine.Object.FindFirstObjectByType<UIDocument>();
+                _uiPanel = _mainUIDocument.rootVisualElement.panel;
+                return;
             }
 
+            UIDocument bestDocument = null;
+            int bestScore = -1;
+
+            UIDocument[] documents = UnityEngine.Object.FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
+            foreach (UIDocument document in documents)
+            {
+                if (document == null || document.rootVisualElement == null)
+                {
+                    continue;
+                }
+
+                int score = ScoreDocumentForSelectionBlockingUI(document.rootVisualElement);
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestDocument = document;
+                }
+            }
+
+            _mainUIDocument = bestDocument;
             if (_mainUIDocument != null && _mainUIDocument.rootVisualElement != null)
             {
                 _uiPanel = _mainUIDocument.rootVisualElement.panel;
@@ -197,6 +276,38 @@ namespace WebGL.Core.Managers
             {
                 _uiPanel = null;
             }
+        }
+
+        private static bool ContainsSelectionBlockingLayout(VisualElement root)
+        {
+            if (root == null)
+            {
+                return false;
+            }
+
+            return root.Q<VisualElement>("BottomSheet") != null
+                || root.Q<Button>("InfoBarPeek") != null
+                || root.Q<Button>("SheetCloseBtn") != null
+                || root.Q<VisualElement>("SheetContent_Details") != null;
+        }
+
+        private static int ScoreDocumentForSelectionBlockingUI(VisualElement root)
+        {
+            if (root == null)
+            {
+                return -1;
+            }
+
+            int score = 0;
+
+            if (root.Q<VisualElement>("BottomSheet") != null) score += 4;
+            if (root.Q<VisualElement>("SheetContent_Details") != null) score += 3;
+            if (root.Q<Button>("SheetCloseBtn") != null) score += 3;
+            if (root.Q<Button>("InfoBarPeek") != null) score += 2;
+            if (root.Q<VisualElement>("BottomBar") != null) score += 1;
+            if (root.Q<VisualElement>("TopBar") != null) score += 1;
+
+            return score;
         }
 
         private Vector2 GetCurrentPointerScreenPosition()
@@ -220,10 +331,12 @@ namespace WebGL.Core.Managers
             screenPos = GetCurrentPointerScreenPosition();
             if (screenPos.x < 0f || screenPos.y < 0f) return false;
 
-            // RuntimePanelUtils.ScreenToPanel handles:
-            //  - Y-axis inversion (Screen bottom-left → Panel top-left)
-            //  - ScaleWithScreenSize scaling factor
-            panelPos = RuntimePanelUtils.ScreenToPanel(_uiPanel, screenPos);
+            // Unity Input uses bottom-left origin, while UI Toolkit runtime
+            // uses top-left origin. Mirror Y before ScreenToPanel conversion.
+            Vector2 screenPosTopLeft = screenPos;
+            screenPosTopLeft.y = Screen.height - screenPos.y;
+
+            panelPos = RuntimePanelUtils.ScreenToPanel(_uiPanel, screenPosTopLeft);
             return true;
         }
 
@@ -240,7 +353,7 @@ namespace WebGL.Core.Managers
                 if (!_pickErrorLogged)
                 {
                     _pickErrorLogged = true;
-                    Debug.LogWarning($"[InputManager] Panel.Pick failed. Falling back to InputBlocked flag. {ex.Message}");
+                    LogWarning($"[InputManager] Panel.Pick failed. Falling back to InputBlocked flag. {ex.Message}");
                 }
 
                 pickFailed = true;
@@ -253,16 +366,154 @@ namespace WebGL.Core.Managers
 
         private bool IsExplicitBlockingSurfaceAtPoint(Vector2 screenPos)
         {
-            if (_mainUIDocument?.rootVisualElement == null) return false;
+            CacheUIDocumentIfNeeded();
+            if (_mainUIDocument?.rootVisualElement == null || _uiPanel == null) return false;
 
-            return IsNamedSurfaceAtPoint("BottomSheet", screenPos)
-                || IsNamedSurfaceAtPoint("InfoBarPeek", screenPos);
+            // Convert screen position to panel position using the same method as TryGetPointerPositions
+            Vector2 panelPos = RuntimePanelUtils.ScreenToPanel(_uiPanel, screenPos);
+
+            // Check if pointer is over BottomSheet container (even though pickingMode=Ignore)
+            VisualElement bottomSheet = _mainUIDocument.rootVisualElement.Q<VisualElement>("BottomSheet");
+            if (bottomSheet != null && IsElementVisible(bottomSheet) && ElementContainsPoint(bottomSheet, panelPos))
+            {
+                // Additional check: only block if sheet is actually visible/not-hidden
+                if (!bottomSheet.ClassListContains("details-sheet--hidden"))
+                {
+                    return true;
+                }
+            }
+
+            // Check InfoBarPeek button explicitly
+            VisualElement infoBarPeek = _mainUIDocument.rootVisualElement.Q<VisualElement>("InfoBarPeek");
+            if (infoBarPeek != null && IsElementVisible(infoBarPeek) && ElementContainsPoint(infoBarPeek, panelPos))
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        private bool IsNamedSurfaceAtPoint(string elementName, Vector2 screenPos)
+        private bool IsPointerOverBlockingElement(Vector2 panelPos)
+        {
+            if (_mainUIDocument?.rootVisualElement == null) return false;
+
+            bool sheetVisible = IsDetailsSheetVisible();
+
+            // Sheet-only blockers must not apply when the sheet is hidden.
+            if (sheetVisible)
+            {
+                if (IsPointerOverNamedElement("SheetCloseBtn", panelPos)
+                    || IsPointerOverSheetScrollRegion(panelPos))
+                {
+                    return true;
+                }
+            }
+
+            // Global blockers (toolbar, mode buttons, sliders, etc.)
+            return IsPointerOverNamedElement("InfoBarPeek", panelPos, requireVisibleClass: "info-bar-peek--hidden")
+                || IsPointerOverInteractiveUI(panelPos);
+        }
+
+        private bool IsDetailsSheetVisible()
+        {
+            VisualElement bottomSheet = _mainUIDocument?.rootVisualElement?.Q<VisualElement>("BottomSheet");
+            return IsElementVisible(bottomSheet) && !bottomSheet.ClassListContains("details-sheet--hidden");
+        }
+
+        private bool IsPointerOverSheetScrollRegion(Vector2 panelPos)
+        {
+            if (_mainUIDocument?.rootVisualElement == null) return false;
+
+            VisualElement root = _mainUIDocument.rootVisualElement;
+            ScrollView sheetScroll = root.Q<ScrollView>(className: "sheet-scroll");
+            if (!IsElementVisible(sheetScroll)) return false;
+
+            VisualElement[] candidates =
+            {
+                sheetScroll.Q<VisualElement>(className: "unity-content-and-vertical-scroll-container"),
+                sheetScroll.Q<VisualElement>(className: "unity-content-container"),
+                sheetScroll.contentViewport,
+                sheetScroll.contentContainer
+            };
+
+            foreach (VisualElement candidate in candidates)
+            {
+                if (IsElementVisible(candidate) && ElementContainsPoint(candidate, panelPos))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsPointerOverInteractiveUI(Vector2 panelPos)
+        {
+            if (_mainUIDocument?.rootVisualElement == null) return false;
+
+            VisualElement root = _mainUIDocument.rootVisualElement;
+
+            string[] namedControls =
+            {
+                "HomeBtn",
+                "ResetViewBtn",
+                "ToolHotspotBtn",
+                "ToolIsolateBtn",
+                "ToolPowerBtn",
+                "AnalyzeCrossSectionBtn",
+                "AnalyzeExplodeBtn",
+                "AnalyzeFilterBtn",
+                "ShaderMode_Realistic",
+                "ShaderMode_XRay",
+                "ShaderMode_Blueprint",
+                "ShaderMode_SolidColor",
+                "CrossSectionAxisX",
+                "CrossSectionAxisY",
+                "CrossSectionAxisZ",
+                "CrossSectionInvertBtn",
+                "CrossSectionCombineBtn",
+                "CrossSectionInvertBtn2",
+                "CatBtn_All",
+                "CatBtn_Structure",
+                "CatBtn_Propulsion",
+                "CatBtn_Avionics",
+                "CatBtn_Power",
+                "CatBtn_Payload",
+                "ToolPowerLoadSlider",
+                "ExplosionSlider",
+                "CrossSectionPosition",
+                "CrossSectionPosition2"
+            };
+
+            foreach (string name in namedControls)
+            {
+                VisualElement element = root.Q<VisualElement>(name);
+                if (IsElementVisible(element) && ElementContainsPoint(element, panelPos))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsPointerOverNamedElement(string elementName, Vector2 panelPos, string requireVisibleClass = null)
         {
             VisualElement element = _mainUIDocument?.rootVisualElement?.Q<VisualElement>(elementName);
-            return IsElementVisible(element) && ElementContainsScreenPoint(element, screenPos);
+            if (!IsElementVisible(element)) return false;
+
+            if (!string.IsNullOrEmpty(requireVisibleClass) && element.ClassListContains(requireVisibleClass))
+            {
+                return false;
+            }
+
+            return ElementContainsPoint(element, panelPos);
+        }
+
+        private bool IsNamedSurfaceAtPoint(string elementName, Vector2 panelPos)
+        {
+            VisualElement element = _mainUIDocument?.rootVisualElement?.Q<VisualElement>(elementName);
+            return IsElementVisible(element) && ElementContainsPoint(element, panelPos);
         }
 
         private bool IsVisiblePick(VisualElement picked, Vector2 panelPos)
@@ -365,9 +616,16 @@ namespace WebGL.Core.Managers
 
         private static bool CanElementBlock3D(VisualElement element)
         {
-            return element != null
-                && element.pickingMode == PickingMode.Position
-                && IsElementVisible(element);
+            if (element == null) return false;
+            
+            // Special case: BottomSheet is a container with pickingMode=Ignore,
+            // but its children should still block 3D input
+            if (element.name == "BottomSheet")
+            {
+                return IsElementVisible(element) && !element.ClassListContains("details-sheet--hidden");
+            }
+
+            return element.pickingMode == PickingMode.Position && IsElementVisible(element);
         }
 
         private static bool IsElementVisible(VisualElement element)
@@ -398,10 +656,17 @@ namespace WebGL.Core.Managers
                 return true;
             }
 
+            // Special cases for named containers that should block selection
+            if (element.name == "SheetCloseBtn" || element.name == "InfoBarPeek")
+            {
+                return true;
+            }
+
             if (element.ClassListContains("mode-submenu") ||
                 element.ClassListContains("hero-container") ||
                 element.ClassListContains("hero-submenu") ||
-                element.ClassListContains("onboard-overlay"))
+                element.ClassListContains("onboard-overlay") ||
+                element.ClassListContains("sheet-foldout"))
             {
                 return true;
             }
@@ -411,7 +676,8 @@ namespace WebGL.Core.Managers
             {
                 string lower = name.ToLowerInvariant();
                 if (lower.Contains("btn") || lower.Contains("button") ||
-                    lower.Contains("slider") || lower.Contains("scroll"))
+                    lower.Contains("slider") || lower.Contains("scroll") ||
+                    lower.Contains("foldout"))
                 {
                     return true;
                 }
@@ -427,20 +693,19 @@ namespace WebGL.Core.Managers
                 return false;
             }
 
-            if (element.name == "BottomSheet" || element.name == "SheetContent_Details")
-            {
-                return true;
-            }
+            // IMPORTANT: BottomSheet and SheetContent_Details should NOT be pass-through.
+            // They should block 3D interaction. Only specific internal elements allow pass-through.
+            // Removed: element.name == "BottomSheet" || element.name == "SheetContent_Details"
 
+            // Sheet header allows dragging through to select/deselect
             if (element.ClassListContains("sheet-header"))
             {
                 return true;
             }
 
-            if (element.ClassListContains("details-sheet") || element.ClassListContains("sheet-content"))
-            {
-                return true;
-            }
+            // Specific content containers - these also should NOT pass through
+            // The children (labels, values) are passive and don't block, but the container itself doesn't either
+            // Removed: element.ClassListContains("details-sheet") || element.ClassListContains("sheet-content")
 
             return false;
         }

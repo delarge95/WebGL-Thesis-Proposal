@@ -13,6 +13,10 @@ namespace WebGL.UI.Panels
     /// </summary>
     public class UIDetailsSheet
     {
+        // ── Singleton Instance ──
+        private static UIDetailsSheet _instance;
+        public static UIDetailsSheet Instance => _instance;
+
         // ── Elements ──
         private readonly VisualElement _root;
         private readonly VisualElement _detailsSheet;
@@ -60,6 +64,7 @@ namespace WebGL.UI.Panels
 
         public UIDetailsSheet(VisualElement root, Button infoBtn)
         {
+            _instance = this;  // ✅ Set singleton instance
             _root = root;
             _infoBtn = infoBtn;
 
@@ -90,6 +95,7 @@ namespace WebGL.UI.Panels
             {
                 _infoBarPeek.clicked += ShowInfo;
                 AddCleanup(() => _infoBarPeek.clicked -= ShowInfo);
+                RegisterTransientInputBlock(_infoBarPeek);
             }
 
             if (_sheetCloseBtn != null)
@@ -97,6 +103,7 @@ namespace WebGL.UI.Panels
                 System.Action onClose = () => SetSheetState(false);
                 _sheetCloseBtn.clicked += onClose;
                 AddCleanup(() => _sheetCloseBtn.clicked -= onClose);
+                RegisterTransientInputBlock(_sheetCloseBtn);
 
                 // Stop click from bubbling to parent containers
                 EventCallback<ClickEvent> stopClick = evt => evt.StopPropagation();
@@ -336,27 +343,7 @@ namespace WebGL.UI.Panels
             var sheetScroll = _root.Q<ScrollView>(className: "sheet-scroll");
             if (sheetScroll != null)
             {
-                EventCallback<PointerDownEvent> scrollDown = evt =>
-                {
-                    if (evt.button == 0)
-                    {
-                        InputManager.InputBlocked = true;
-                    }
-                };
-                EventCallback<PointerUpEvent> scrollUp = evt =>
-                {
-                    if (evt.button == 0)
-                    {
-                        InputManager.InputBlocked = false;
-                    }
-                };
-                sheetScroll.RegisterCallback(scrollDown);
-                sheetScroll.RegisterCallback(scrollUp);
-                AddCleanup(() =>
-                {
-                    sheetScroll.UnregisterCallback(scrollDown);
-                    sheetScroll.UnregisterCallback(scrollUp);
-                });
+                RegisterTransientInputBlock(sheetScroll);
             }
 
             // Close button
@@ -367,12 +354,18 @@ namespace WebGL.UI.Panels
                 AddCleanup(() => _sheetCloseBtn.UnregisterCallback(closePd));
             }
 
+            if (_contentDetails != null)
+            {
+                RegisterTransientInputBlock(_contentDetails);
+            }
+
             // Info button
             if (_infoBtn != null)
             {
                 System.Action onInfoClick = ToggleInfo;
                 _infoBtn.clicked += onInfoClick;
                 AddCleanup(() => _infoBtn.clicked -= onInfoClick);
+                RegisterTransientInputBlock(_infoBtn);
             }
 
             // Swipe-up on actions-row pill to open sheet (issue #7 — gesture support)
@@ -412,6 +405,35 @@ namespace WebGL.UI.Panels
                     actionsRow.UnregisterCallback(swipeLeave);
                 });
             }
+        }
+
+        private void RegisterTransientInputBlock(VisualElement element)
+        {
+            if (element == null) return;
+
+            EventCallback<PointerDownEvent> pointerDown = evt =>
+            {
+                if (evt.button == 0)
+                {
+                    InputManager.InputBlocked = true;
+                }
+            };
+
+            EventCallback<PointerUpEvent> pointerUp = evt =>
+            {
+                if (evt.button == 0)
+                {
+                    InputManager.InputBlocked = false;
+                }
+            };
+
+            element.RegisterCallback(pointerDown);
+            element.RegisterCallback(pointerUp);
+            AddCleanup(() =>
+            {
+                element.UnregisterCallback(pointerDown);
+                element.UnregisterCallback(pointerUp);
+            });
         }
     }
 }

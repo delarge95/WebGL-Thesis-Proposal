@@ -32,12 +32,12 @@
             </ui:VisualElement>
 
             <!-- Close button — absolute top-right of sheet, above header -->
-            <ui:Button name="SheetCloseBtn" class="sheet-close-btn" tooltip="Close panel">
+            <ui:Button name="SheetCloseBtn" class="sheet-close-btn" tooltip="Close panel" picking-mode="Position">
                 <pi:ProceduralCloseIcon class="sheet-close-icon" picking-mode="Ignore" />
             </ui:Button>
             
             <!-- Content Container: DETAILS (Part Info) -->
-            <ui:VisualElement name="SheetContent_Details" class="sheet-content sheet-content--active" picking-mode="Ignore">
+            <ui:VisualElement name="SheetContent_Details" class="sheet-content sheet-content--active" picking-mode="Position">
                 <ui:ScrollView class="sheet-scroll" mode="Vertical" touch-scroll-type="Elastic" picking-mode="Position">
 
                     <!-- Part Description — editorial subtitle directly below title -->

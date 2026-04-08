@@ -3,6 +3,7 @@ using WebGL.Core.Data;
 using WebGL.Core.Utils;
 using WebGL.Core.Events;
 using WebGL.Core.Content;
+using System.Reflection;
 
 namespace WebGL.Core.Managers
 {
@@ -14,6 +15,8 @@ namespace WebGL.Core.Managers
     /// </summary>
     public class SelectionManager : Singleton<SelectionManager>
     {
+        private const bool EnableDebugLogs = false;
+
         #region Constants
 
         private const float DOUBLE_CLICK_THRESHOLD = 0.35f;
@@ -208,12 +211,38 @@ namespace WebGL.Core.Managers
         {
             if (!Input.GetMouseButtonDown(0)) return;
             
+            LogDebug("[SelectionManager.HandleClick] LMB clicked");
+            
             // Phase 4: Respect centralized input block (set by UI pointer events)
-            if (InputManager.InputBlocked) return;
+            if (InputManager.InputBlocked)
+            {
+                bool stillOverBlockingUI = InputManager.Instance != null && InputManager.Instance.IsPointerOverBlockingUIRaw();
+                if (!stillOverBlockingUI)
+                {
+                    // Recover from stale block states (missed pointer-up / focus transitions).
+                    InputManager.InputBlocked = false;
+                    LogWarning("[SelectionManager.HandleClick] Recovered stale InputBlocked=true");
+                }
+                else
+                {
+                    string reason = InputManager.Instance != null
+                        ? InputManager.Instance.GetSelectionBlockDebugReason()
+                        : "InputManager null";
+                    LogWarning($"[SelectionManager.HandleClick] BLOCKED by InputBlocked. reason={reason}");
+                    return;
+                }
+            }
             
             // UI clicks should never be interpreted as background deselection clicks.
-            if (InputManager.Instance != null && InputManager.Instance.IsPointerOverSelectionBlockingUI())
+            bool isOverUI = InputManager.Instance != null && InputManager.Instance.IsPointerOverSelectionBlockingUI();
+            LogDebug($"[SelectionManager.HandleClick] IsPointerOverSelectionBlockingUI = {isOverUI}");
+            
+            if (isOverUI)
             {
+                string reason = InputManager.Instance != null
+                    ? InputManager.Instance.GetSelectionBlockDebugReason()
+                    : "InputManager null";
+                LogWarning($"[SelectionManager.HandleClick] BLOCKED by IsPointerOverSelectionBlockingUI. reason={reason}");
                 return;
             }
 
@@ -245,6 +274,24 @@ namespace WebGL.Core.Managers
             // ── Normal selection logic ──
             if (hoveredObject == null)
             {
+                LogDebug("[SelectionManager.HandleClick] hoveredObject == null (background click)");
+                
+                // Background click → block only when the pointer is over actual UI controls.
+                bool blockDeselection = false;
+
+                if (InputManager.Instance != null && InputManager.Instance.IsPointerOverSelectionBlockingUI())
+                {
+                    LogDebug("[SelectionManager.HandleClick] Block: Pointer over blocking UI");
+                    blockDeselection = true;
+                }
+                
+                if (blockDeselection)
+                {
+                    LogDebug("[SelectionManager.HandleClick] Return: Deselection blocked");
+                    return;  // Don't deselect when clicking UI
+                }
+
+                LogDebug("[SelectionManager.HandleClick] Deselecting...");
                 // Background click → deselect current selection
                 Deselect();
                 return;
@@ -320,7 +367,7 @@ namespace WebGL.Core.Managers
             // Play feedback sound
             AudioManager.Instance?.PlayClick();
 
-            Debug.Log($"[SelectionManager] Selected: {selection.name}");
+            LogDebug($"[SelectionManager] Selected: {selection.name}");
         }
 
         private static Transform ResolveSelectableTransform(Transform rawTransform)
@@ -347,7 +394,79 @@ namespace WebGL.Core.Managers
             currentSelection = null;
             currentHighlight = null;
 
-            Debug.Log("[SelectionManager] Deselected (Background Click)");
+            LogDebug("[SelectionManager] Deselected (Background Click)");
+        }
+
+        /// <summary>
+        /// Checks if the details sheet is open using reflection to avoid assembly dependency.
+        /// Looks for WebGL.UI.Panels.UIDetailsSheet.Instance.IsSheetOpen without direct import.
+        /// </summary>
+        private static bool IsDetailsSheetOpen()
+        {
+            try
+            {
+                // Get the UIDetailsSheet type via reflection across loaded assemblies.
+                System.Type sheetType = null;
+                foreach (var assembly in System.AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    sheetType = assembly.GetType("WebGL.UI.Panels.UIDetailsSheet");
+                    if (sheetType != null)
+                    {
+                        break;
+                    }
+                }
+
+                if (sheetType == null)
+                {
+                    return false;
+                }
+
+                // Get the Instance property
+                PropertyInfo instanceProp = sheetType.GetProperty("Instance", 
+                    BindingFlags.Public | BindingFlags.Static | BindingFlags.IgnoreCase);
+                if (instanceProp == null)
+                {
+                    return false;
+                }
+
+                // Get the instance
+                object instance = instanceProp.GetValue(null);
+                if (instance == null)
+                {
+                    return false;
+                }
+
+                // Get the IsSheetOpen property
+                PropertyInfo isOpenProp = sheetType.GetProperty("IsSheetOpen",
+                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+                if (isOpenProp == null)
+                {
+                    return false;
+                }
+
+                // Get the value
+                object isOpen = isOpenProp.GetValue(instance);
+                return (bool)isOpen;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static void LogDebug(string message)
+        {
+            if (EnableDebugLogs) Debug.Log(message);
+        }
+
+        private static void LogWarning(string message)
+        {
+            if (EnableDebugLogs) Debug.LogWarning(message);
+        }
+
+        private static void LogError(string message)
+        {
+            if (EnableDebugLogs) Debug.LogError(message);
         }
 
         /// <summary>
@@ -370,7 +489,7 @@ namespace WebGL.Core.Managers
                 }
             }
 
-            Debug.LogWarning($"[SelectionManager] Part not found: {partData.partName}");
+            LogWarning($"[SelectionManager] Part not found: {partData.partName}");
         }
 
         #endregion

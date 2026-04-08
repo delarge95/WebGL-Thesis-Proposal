@@ -294,7 +294,7 @@ namespace WebGL.Core.Managers
         private static bool IsPointerOverCameraBlockingUI()
         {
             return InputManager.Instance != null
-                && InputManager.Instance.IsPointerOverSelectionBlockingUI();
+                && InputManager.Instance.IsPointerOverCameraBlockingUI();
         }
 
         // Shared Logic
