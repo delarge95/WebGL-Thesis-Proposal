@@ -40,6 +40,7 @@ namespace WebGL.Core.Managers
 
         private Transform currentSelection;
         private Transform hoveredObject;
+        private Transform hoveredRawTransform;
         private HighlightSystem currentHighlight;
         private HighlightSystem hoveredHighlight;
 
@@ -127,6 +128,7 @@ namespace WebGL.Core.Managers
 
             if (Physics.Raycast(ray, out RaycastHit hit, maxRayDistance, selectionLayer))
             {
+                hoveredRawTransform = hit.transform;
                 Transform newHover = ResolveSelectableTransform(hit.transform);
 
                 if (newHover != hoveredObject)
@@ -137,6 +139,7 @@ namespace WebGL.Core.Managers
             }
             else
             {
+                hoveredRawTransform = null;
                 ClearHover();
             }
         }
@@ -184,6 +187,7 @@ namespace WebGL.Core.Managers
             }
 
             hoveredObject = null;
+            hoveredRawTransform = null;
             hoveredHighlight = null;
 
             UpdateCursor(CursorType.Default);
@@ -249,19 +253,32 @@ namespace WebGL.Core.Managers
             // ── Double-click / double-tap detection ──
             float now = Time.time;
             DronePartData clickedData = null;
-            if (hoveredObject != null)
+            Transform clickedSelection = hoveredObject;
+            Transform clickedFull = ResolvePrimarySelection(hoveredRawTransform != null ? hoveredRawTransform : hoveredObject);
+            if (clickedFull != null)
             {
-                var exp = hoveredObject.GetComponentInParent<ExplodablePart>();
+                var exp = clickedFull.GetComponent<ExplodablePart>();
+                if (exp == null)
+                {
+                    exp = clickedFull.GetComponentInParent<ExplodablePart>();
+                }
+
                 clickedData = exp != null ? exp.Data : null;
             }
 
-            string clickId = clickedData?.partName ?? "__bg__";
+            string clickId = clickedSelection != null
+                ? clickedSelection.GetInstanceID().ToString()
+                : "__bg__";
             bool isDoubleClick = clickId == _lastClickId
                 && (now - _lastClickTime) < DOUBLE_CLICK_THRESHOLD;
 
             if (isDoubleClick)
             {
-                EventBus.Publish(new PartDoubleClickedEvent(clickedData));
+                EventBus.Publish(new PartDoubleClickedEvent(
+                    clickedData,
+                    clickedSelection,
+                    clickedFull,
+                    clickedSelection == null));
                 _lastClickTime = 0f;
                 _lastClickId = null;
                 return; // Skip normal selection on double-click
@@ -330,7 +347,6 @@ namespace WebGL.Core.Managers
             string hotspotGroupSummary = "",
             string hotspotGroupMembers = "")
         {
-            selection = ResolveSelectableTransform(selection);
             if (selection == null) return;
 
             // Clean up previous selection highlight before applying new one
@@ -380,8 +396,37 @@ namespace WebGL.Core.Managers
             LogDebug($"[SelectionManager] Selected: {selection.name}");
         }
 
-        private static Transform ResolveSelectableTransform(Transform rawTransform)
+        private Transform ResolveSelectableTransform(Transform rawTransform)
         {
+            if (rawTransform == null)
+            {
+                return null;
+            }
+
+            // Preserve the exact clicked transform so parent and subpiece clicks remain distinct.
+            // Data resolution and isolation continue to use the explodable root when needed.
+            return rawTransform;
+        }
+
+        private static Transform ResolvePrimarySelection(Transform rawTransform)
+        {
+            if (rawTransform == null)
+            {
+                return null;
+            }
+
+            ExplodablePart direct = rawTransform.GetComponent<ExplodablePart>();
+            if (direct != null)
+            {
+                return direct.transform;
+            }
+
+            ExplodablePart parent = rawTransform.GetComponentInParent<ExplodablePart>();
+            if (parent != null)
+            {
+                return parent.transform;
+            }
+
             return rawTransform;
         }
 

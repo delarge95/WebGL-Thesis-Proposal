@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
 using WebGL.Core.Managers;
 using WebGL.Core.Utils;
 using WebGL.Core.Events;
@@ -49,6 +50,8 @@ namespace WebGL.UI
         // ── State ──
         private bool _hotspotsInitialized = false;
         private bool _isIsolated = false;
+        private Transform _isolatedFullSelection;
+        private Transform _isolatedSubSelection;
 
 
 
@@ -403,24 +406,166 @@ namespace WebGL.UI
         //  Isolation helpers
         // ═══════════════════════════════════════════════════════
 
-        private void IsolateSelectedPart()
+        private static Transform ResolveFullSelection(Transform selection)
         {
-            var sel = SelectionManager.Instance?.CurrentSelection;
-            if (sel == null) return;
-            var part = sel.GetComponentInParent<ExplodablePart>();
-            if (part == null) return;
-            PartVisibilityManager.Instance?.IsolateTransform(sel);
+            if (selection == null)
+            {
+                return null;
+            }
+
+            var direct = selection.GetComponent<ExplodablePart>();
+            if (direct != null)
+            {
+                return direct.transform;
+            }
+
+            var parent = selection.GetComponentInParent<ExplodablePart>();
+            if (parent != null)
+            {
+                return parent.transform;
+            }
+
+            return selection;
+        }
+
+        private static bool IsSubSelection(Transform selection, Transform fullSelection)
+        {
+            if (selection == null || fullSelection == null || selection == fullSelection)
+            {
+                return false;
+            }
+
+            if (selection.IsChildOf(fullSelection))
+            {
+                return true;
+            }
+
+            string selectionPartId = ResolveCanonicalPartId(selection);
+            string fullSelectionPartId = ResolveCanonicalPartId(fullSelection);
+
+            return !string.IsNullOrWhiteSpace(selectionPartId)
+                && !string.IsNullOrWhiteSpace(fullSelectionPartId)
+                && string.Equals(selectionPartId, fullSelectionPartId, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string ResolveCanonicalPartId(Transform selection)
+        {
+            if (selection == null)
+            {
+                return string.Empty;
+            }
+
+            PartRenderCategory directCategory = selection.GetComponent<PartRenderCategory>();
+            if (directCategory != null && !string.IsNullOrWhiteSpace(directCategory.CanonicalPartId))
+            {
+                return directCategory.CanonicalPartId;
+            }
+
+            PartRenderCategory childCategory = selection.GetComponentInChildren<PartRenderCategory>(true);
+            if (childCategory != null && !string.IsNullOrWhiteSpace(childCategory.CanonicalPartId))
+            {
+                return childCategory.CanonicalPartId;
+            }
+
+            PartRenderCategory parentCategory = selection.GetComponentInParent<PartRenderCategory>();
+            if (parentCategory != null && !string.IsNullOrWhiteSpace(parentCategory.CanonicalPartId))
+            {
+                return parentCategory.CanonicalPartId;
+            }
+
+            ExplodablePart explodable = selection.GetComponent<ExplodablePart>();
+            if (explodable == null)
+            {
+                explodable = selection.GetComponentInParent<ExplodablePart>();
+            }
+
+            if (explodable != null && explodable.Data != null && !string.IsNullOrWhiteSpace(explodable.Data.id))
+            {
+                return explodable.Data.id;
+            }
+
+            return string.Empty;
+        }
+
+        private void IsolateFullSelection(Transform fullSelection)
+        {
+            if (fullSelection == null)
+            {
+                return;
+            }
+
+            PartVisibilityManager.Instance?.IsolateTransform(fullSelection);
             _isIsolated = true;
+            _isolatedFullSelection = fullSelection;
+            _isolatedSubSelection = null;
             _modeController.SetIsolateState(true);
 
             // Center camera on the isolated part
-            OrbitCameraController.Instance?.FocusOnObject(sel.transform);
+            OrbitCameraController.Instance?.FocusOnObject(fullSelection);
+        }
+
+        private void IsolateSubSelection(Transform subSelection, Transform fullSelection)
+        {
+            if (subSelection == null)
+            {
+                return;
+            }
+
+            if (fullSelection == null)
+            {
+                fullSelection = ResolveFullSelection(subSelection);
+            }
+
+            PartVisibilityManager.Instance?.IsolateTransform(subSelection);
+            _isIsolated = true;
+            _isolatedFullSelection = fullSelection;
+            _isolatedSubSelection = subSelection;
+            _modeController.SetIsolateState(true);
+
+            OrbitCameraController.Instance?.FocusOnObject(subSelection);
+        }
+
+        private void IsolateSelectedPart()
+        {
+            var sel = SelectionManager.Instance?.CurrentSelection;
+            if (sel == null)
+            {
+                return;
+            }
+
+            Transform fullSelection = ResolveFullSelection(sel);
+            if (fullSelection == null)
+            {
+                return;
+            }
+
+            if (IsSubSelection(sel, fullSelection))
+            {
+                IsolateSubSelection(sel, fullSelection);
+            }
+            else
+            {
+                IsolateFullSelection(fullSelection);
+            }
+        }
+
+        private void RestoreFullIsolationFromStack()
+        {
+            if (_isolatedFullSelection == null)
+            {
+                ClearIsolation();
+                return;
+            }
+
+            IsolateFullSelection(_isolatedFullSelection);
         }
 
         private void ClearIsolation()
         {
             PartVisibilityManager.Instance?.ClearIsolation();
             _isIsolated = false;
+            _isolatedFullSelection = null;
+            _isolatedSubSelection = null;
             _modeController.SetIsolateState(false);
 
             // Smoothly return camera to full drone view
@@ -434,9 +579,20 @@ namespace WebGL.UI
         private void ToggleIsolation()
         {
             if (_isIsolated)
-                ClearIsolation();
+            {
+                if (_isolatedSubSelection != null && _isolatedFullSelection != null)
+                {
+                    RestoreFullIsolationFromStack();
+                }
+                else
+                {
+                    ClearIsolation();
+                }
+            }
             else
+            {
                 IsolateSelectedPart();
+            }
         }
 
         // ═══════════════════════════════════════════════════════
@@ -486,26 +642,80 @@ namespace WebGL.UI
         /// </summary>
         private void OnPartDoubleClicked(PartDoubleClickedEvent evt)
         {
-            if (evt.PartData == null)
+            if (evt.IsBackground)
             {
-                // Double-click on background → exit isolate + close sheet
-                if (_isIsolated) ClearIsolation();
-                if (_detailsSheet != null && _detailsSheet.IsSheetOpen)
-                    _detailsSheet.SetSheetState(false);
+                // When a sub-piece is isolated, background double-click steps back
+                // to full-part isolation. Otherwise it clears isolation.
+                if (_isolatedSubSelection != null && _isolatedFullSelection != null)
+                {
+                    RestoreFullIsolationFromStack();
+                }
+                else if (_isIsolated)
+                {
+                    ClearIsolation();
+                }
+
+                return;
             }
-            else if (_isIsolated)
+
+            Transform clickedSelection = evt.ClickedTransform != null
+                ? evt.ClickedTransform
+                : SelectionManager.Instance?.CurrentSelection;
+
+            Transform clickedFull = evt.FullPartTransform != null
+                ? evt.FullPartTransform
+                : ResolveFullSelection(clickedSelection);
+
+            bool clickedIsSubSelection = IsSubSelection(clickedSelection, clickedFull);
+
+            if (_isolatedSubSelection != null)
             {
-                // Already isolated + double-click on part → de-isolate + close sheet
-                ClearIsolation();
-                if (_detailsSheet != null && _detailsSheet.IsSheetOpen)
-                    _detailsSheet.SetSheetState(false);
+                bool sameSubSelection = clickedSelection != null && clickedSelection == _isolatedSubSelection;
+                if (sameSubSelection)
+                {
+                    // If a sub-piece is isolated, double-clicking it returns
+                    // to the previous full-part isolation state.
+                    RestoreFullIsolationFromStack();
+                    return;
+                }
+
+                if (clickedIsSubSelection)
+                {
+                    IsolateSubSelection(clickedSelection, clickedFull);
+                    _detailsSheet?.OpenSheet();
+                    return;
+                }
+
+                IsolateFullSelection(clickedFull ?? clickedSelection);
+                _detailsSheet?.OpenSheet();
+                return;
+            }
+
+            if (_isIsolated)
+            {
+                if (clickedIsSubSelection)
+                {
+                    IsolateSubSelection(clickedSelection, clickedFull);
+                    _detailsSheet?.OpenSheet();
+                    return;
+                }
+
+                IsolateFullSelection(clickedFull ?? clickedSelection);
+                _detailsSheet?.OpenSheet();
+                return;
+            }
+
+            if (clickedIsSubSelection)
+            {
+                IsolateSubSelection(clickedSelection, clickedFull);
             }
             else
             {
-                // First double-click on a part → isolate + open info
-                _detailsSheet.OpenSheet();
-                IsolateSelectedPart();
+                IsolateFullSelection(clickedFull ?? clickedSelection);
             }
+
+            // Double-click isolation should always reveal the details panel.
+            _detailsSheet?.OpenSheet();
         }
 
         private void OnAppStateChanged(StateChangedEvent evt)
