@@ -1,0 +1,698 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using WebGL.Core.Content;
+using WebGL.Core.Data;
+using WebGL.Core.Utils;
+
+public static class SetupImportedDroneThermalTest
+{
+    private const string RootName = "x500v2_Drone";
+    private const string GeneratedDataFolder = "Assets/Core/Data/X500V2Generated";
+
+    private static string JsonPath => Path.GetFullPath(Path.Combine(Application.dataPath, "..", "..", "docs", "investigacion", "Holybro", "x500v2_parts_data.json"));
+
+    [Serializable]
+    private class DronePartJsonWrapper
+    {
+        public DronePartJson[] items;
+    }
+
+    [Serializable]
+    private class DronePartJson
+    {
+        public string partName;
+        public string id;
+        public string partType;
+        public string category;
+        public string description;
+        public string function;
+        public float weightKg;
+        public string dimensions;
+        public string materialType;
+        public string materialProperties;
+        public string manufacturer;
+        public string partNumber;
+        public float powerConsumption;
+        public float maxLoad;
+        public float operatingTemp;
+        public float operatingTempMin;
+        public float operatingTempMax;
+        public float thermalHover;
+        public float thermalPeak;
+        public float thermalWarmupSeconds;
+        public int difficultyLevel;
+        public string[] requiredTools;
+        public string[] safetyWarnings;
+        public string installationTips;
+        public float installationTimeMinutes;
+        public string torqueSpec;
+        public int assemblyOrder;
+        public string[] prerequisites;
+        public string[] connectionTypes;
+        public int screwCount;
+        public string screwSize;
+        public float[] explosionDirection;
+        public float explosionDistance;
+        public int explosionPriority;
+        public float[] highlightColor;
+        public bool isHotspotTarget;
+        public string hotspotLabel;
+    }
+
+    [MenuItem("Tools/Thermal/Prepare Imported Drone For Thermal Test")]
+    public static void PrepareImportedDrone()
+    {
+        GameObject root = GameObject.Find(RootName);
+        if (root == null)
+        {
+            EditorUtility.DisplayDialog("Thermal Test Setup", $"No se encontro '{RootName}' en la escena activa.", "OK");
+            return;
+        }
+
+        DronePartJson[] jsonParts = LoadJsonParts();
+        if (jsonParts == null || jsonParts.Length == 0)
+        {
+            EditorUtility.DisplayDialog("Thermal Test Setup", "No se pudo leer x500v2_parts_data.json.", "OK");
+            return;
+        }
+
+        EnsureFolder("Assets/Core");
+        EnsureFolder("Assets/Core/Data");
+        EnsureFolder(GeneratedDataFolder);
+        EnsureRuntimeBinder(root);
+
+        Dictionary<string, DronePartData> assetsById = GenerateOrUpdatePartAssets(jsonParts);
+        Dictionary<string, Transform> anchorsById = new Dictionary<string, Transform>(StringComparer.OrdinalIgnoreCase);
+
+        int prepared = 0;
+        int groupedChildren = 0;
+        int auxiliaryReparented = 0;
+        int warnings = 0;
+
+        foreach (DronePartJson jsonPart in jsonParts)
+        {
+            if (string.IsNullOrWhiteSpace(jsonPart.id))
+            {
+                continue;
+            }
+
+            List<Transform> matches = FindMatches(root.transform, jsonPart.id);
+            if (matches.Count == 0)
+            {
+                Debug.LogWarning($"[SetupImportedDroneThermalTest] No se encontraron nodos para {jsonPart.id}");
+                warnings++;
+                continue;
+            }
+
+            Transform anchor = ResolveOrCreateAnchor(root.transform, jsonPart.id, matches);
+            if (anchor == null)
+            {
+                warnings++;
+                continue;
+            }
+
+            foreach (Transform match in matches)
+            {
+                if (match == null || match == anchor || match.IsChildOf(anchor))
+                {
+                    continue;
+                }
+
+                Undo.SetTransformParent(match, anchor, "Group imported drone part");
+                groupedChildren++;
+            }
+
+            if (!assetsById.TryGetValue(jsonPart.id, out DronePartData dataAsset) || dataAsset == null)
+            {
+                Debug.LogWarning($"[SetupImportedDroneThermalTest] No existe DronePartData generado para {jsonPart.id}");
+                warnings++;
+                continue;
+            }
+
+            ExplodablePart explodable = anchor.GetComponent<ExplodablePart>();
+            if (explodable == null)
+            {
+                explodable = Undo.AddComponent<ExplodablePart>(anchor.gameObject);
+            }
+
+            if (anchor.GetComponent<MaterialController>() == null)
+            {
+                Undo.AddComponent<MaterialController>(anchor.gameObject);
+            }
+
+            if (anchor.GetComponent<HighlightSystem>() == null)
+            {
+                Undo.AddComponent<HighlightSystem>(anchor.gameObject);
+            }
+
+            explodable.SetData(dataAsset);
+            explodable.Initialize();
+            EditorUtility.SetDirty(explodable);
+
+            anchorsById[jsonPart.id] = anchor;
+            prepared++;
+        }
+
+        auxiliaryReparented = ReparentAuxiliaryChildren(root.transform, anchorsById);
+
+        foreach (DronePartJson jsonPart in jsonParts)
+        {
+            if (!anchorsById.TryGetValue(jsonPart.id, out Transform anchor) || anchor == null)
+            {
+                continue;
+            }
+
+            AnnotateRenderHierarchy(anchor, jsonPart);
+            EnsureSelectionColliders(anchor);
+            AssignSelectableLayer(anchor);
+
+            ExplodablePart explodable = anchor.GetComponent<ExplodablePart>();
+            if (explodable != null)
+            {
+                explodable.Initialize();
+            }
+        }
+
+        EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+        string message =
+            $"Preparadas {prepared} piezas canonicas para la prueba.\n" +
+            $"Hijos agrupados: {groupedChildren}\n" +
+            $"Auxiliares reasignados: {auxiliaryReparented}\n" +
+            $"Warnings: {warnings}";
+
+        Debug.Log($"[SetupImportedDroneThermalTest] {message}");
+        EditorUtility.DisplayDialog("Thermal Test Setup", message, "OK");
+    }
+
+    private static DronePartJson[] LoadJsonParts()
+    {
+        if (!File.Exists(JsonPath))
+        {
+            Debug.LogError($"[SetupImportedDroneThermalTest] JSON no encontrado: {JsonPath}");
+            return null;
+        }
+
+        string raw = File.ReadAllText(JsonPath);
+        string wrapped = "{\"items\":" + raw + "}";
+        DronePartJsonWrapper wrapper = JsonUtility.FromJson<DronePartJsonWrapper>(wrapped);
+        return wrapper != null ? wrapper.items : null;
+    }
+
+    private static Dictionary<string, DronePartData> GenerateOrUpdatePartAssets(IEnumerable<DronePartJson> jsonParts)
+    {
+        Dictionary<string, DronePartData> assetsById = new Dictionary<string, DronePartData>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (DronePartJson jsonPart in jsonParts)
+        {
+            if (jsonPart == null || string.IsNullOrWhiteSpace(jsonPart.id))
+            {
+                continue;
+            }
+
+            string assetPath = $"{GeneratedDataFolder}/{jsonPart.id}.asset";
+            DronePartData asset = AssetDatabase.LoadAssetAtPath<DronePartData>(assetPath);
+            if (asset == null)
+            {
+                asset = ScriptableObject.CreateInstance<DronePartData>();
+                AssetDatabase.CreateAsset(asset, assetPath);
+            }
+
+            ApplyJsonToAsset(asset, jsonPart);
+            EditorUtility.SetDirty(asset);
+            assetsById[jsonPart.id] = asset;
+        }
+
+        return assetsById;
+    }
+
+    private static void ApplyJsonToAsset(DronePartData asset, DronePartJson jsonPart)
+    {
+        asset.partName = jsonPart.partName;
+        asset.id = jsonPart.id;
+        asset.partType = jsonPart.partType;
+        asset.category = System.Enum.TryParse<PartCategory>(jsonPart.category.Replace(" ", ""), true, out var c) ? c : PartCategory.Uncategorized;
+        asset.description = jsonPart.description;
+        asset.function = jsonPart.function;
+        asset.weightKg = jsonPart.weightKg;
+        asset.dimensions = jsonPart.dimensions;
+        asset.materialType = jsonPart.materialType;
+        asset.materialProperties = jsonPart.materialProperties;
+        asset.manufacturer = jsonPart.manufacturer;
+        asset.partNumber = jsonPart.partNumber;
+        asset.powerConsumption = jsonPart.powerConsumption;
+        asset.maxLoad = jsonPart.maxLoad;
+        asset.operatingTemp = jsonPart.operatingTemp;
+        asset.operatingTempMin = jsonPart.operatingTempMin;
+        asset.operatingTempMax = jsonPart.operatingTempMax;
+        asset.thermalHover = jsonPart.thermalHover;
+        asset.thermalPeak = jsonPart.thermalPeak;
+        asset.thermalWarmupSeconds = jsonPart.thermalWarmupSeconds;
+        asset.requiredTools = jsonPart.requiredTools ?? Array.Empty<string>();
+        asset.safetyWarnings = jsonPart.safetyWarnings ?? Array.Empty<string>();
+        asset.installationTips = jsonPart.installationTips;
+        asset.installationTimeMinutes = jsonPart.installationTimeMinutes;
+        asset.difficultyLevel = jsonPart.difficultyLevel;
+        asset.torqueSpec = jsonPart.torqueSpec;
+        asset.assemblyOrder = jsonPart.assemblyOrder;
+        asset.prerequisites = jsonPart.prerequisites ?? Array.Empty<string>();
+        asset.connectionTypes = jsonPart.connectionTypes ?? Array.Empty<string>();
+        asset.screwCount = jsonPart.screwCount;
+        asset.screwSize = jsonPart.screwSize;
+        asset.explosionDirection = ToVector3(jsonPart.explosionDirection, GuessExplosionDirection(jsonPart.id));
+        asset.explosionDistance = jsonPart.explosionDistance > 0f ? jsonPart.explosionDistance : GuessExplosionDistance(jsonPart.id, jsonPart.partType);
+        asset.explosionPriority = jsonPart.explosionPriority;
+        asset.highlightColor = ToColor(jsonPart.highlightColor, GuessHighlightColor(jsonPart.id, jsonPart.partType));
+        asset.isThermallyCritical = IsThermallyCritical(jsonPart.id, jsonPart.partType);
+        asset.thermalExposure = GuessThermalExposure(jsonPart.id, jsonPart.partType);
+        asset.thermalSourceWeight = GuessSourceWeight(jsonPart.id, jsonPart.partType);
+        asset.thermalConductionScale = 1f;
+        asset.isHotspotTarget = jsonPart.isHotspotTarget;
+        asset.hotspotLabel = jsonPart.hotspotLabel;
+    }
+
+    private static List<Transform> FindMatches(Transform root, string canonicalId)
+    {
+        List<Transform> matches = new List<Transform>();
+        string dottedPrefix = canonicalId + ".";
+
+        foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
+        {
+            if (child == null || child == root)
+            {
+                continue;
+            }
+
+            string name = child.name;
+            if (string.Equals(name, canonicalId, StringComparison.OrdinalIgnoreCase) ||
+                name.StartsWith(dottedPrefix, StringComparison.OrdinalIgnoreCase))
+            {
+                matches.Add(child);
+            }
+        }
+
+        return matches;
+    }
+
+    private static Transform ResolveOrCreateAnchor(Transform root, string canonicalId, List<Transform> matches)
+    {
+        foreach (Transform match in matches)
+        {
+            if (string.Equals(match.name, canonicalId, StringComparison.OrdinalIgnoreCase))
+            {
+                return match;
+            }
+        }
+
+        Bounds bounds = default;
+        bool hasBounds = false;
+        foreach (Transform match in matches)
+        {
+            Renderer renderer = match.GetComponent<Renderer>();
+            if (renderer == null)
+            {
+                continue;
+            }
+
+            if (!hasBounds)
+            {
+                bounds = renderer.bounds;
+                hasBounds = true;
+            }
+            else
+            {
+                bounds.Encapsulate(renderer.bounds);
+            }
+        }
+
+        GameObject anchorObject = new GameObject(canonicalId);
+        Undo.RegisterCreatedObjectUndo(anchorObject, "Create canonical drone anchor");
+        anchorObject.transform.SetParent(root, true);
+        anchorObject.transform.localScale = Vector3.one;
+        anchorObject.transform.rotation = root.rotation;
+        anchorObject.transform.position = hasBounds ? bounds.center : root.position;
+        return anchorObject.transform;
+    }
+
+    private static int ReparentAuxiliaryChildren(Transform root, IReadOnlyDictionary<string, Transform> anchorsById)
+    {
+        int moved = 0;
+        List<Transform> directChildren = new List<Transform>();
+        foreach (Transform child in root)
+        {
+            directChildren.Add(child);
+        }
+
+        foreach (Transform child in directChildren)
+        {
+            if (child == null || child.GetComponent<ExplodablePart>() != null)
+            {
+                continue;
+            }
+
+            Renderer[] renderers = child.GetComponentsInChildren<Renderer>(true);
+            if (renderers == null || renderers.Length == 0)
+            {
+                continue;
+            }
+
+            Transform bestAnchor = ResolveBestAnchor(child, renderers[0], anchorsById);
+            if (bestAnchor == null || child.IsChildOf(bestAnchor))
+            {
+                continue;
+            }
+
+            Undo.SetTransformParent(child, bestAnchor, "Attach auxiliary imported part");
+            moved++;
+        }
+
+        return moved;
+    }
+
+    private static Transform ResolveBestAnchor(Transform candidate, Renderer renderer, IReadOnlyDictionary<string, Transform> anchorsById)
+    {
+        if (candidate == null || anchorsById == null || anchorsById.Count == 0)
+        {
+            return null;
+        }
+
+        string lowerName = candidate.name.ToLowerInvariant();
+        string suffix = ResolveQuadrantSuffix(lowerName);
+        Vector3 candidateCenter = renderer != null ? renderer.bounds.center : candidate.position;
+
+        float bestScore = float.MaxValue;
+        Transform bestAnchor = null;
+
+        foreach (KeyValuePair<string, Transform> kvp in anchorsById)
+        {
+            Transform anchor = kvp.Value;
+            if (anchor == null)
+            {
+                continue;
+            }
+
+            float score = Vector3.Distance(candidateCenter, anchor.position);
+            string anchorId = kvp.Key.ToLowerInvariant();
+
+            if (!string.IsNullOrWhiteSpace(suffix) && anchorId.EndsWith("_" + suffix, StringComparison.Ordinal))
+            {
+                score -= 2f;
+            }
+
+            if (lowerName.Contains("motor") && anchorId.Contains("motor")) score -= 1.5f;
+            if (lowerName.Contains("esc") && anchorId.Contains("esc")) score -= 1.5f;
+            if (lowerName.Contains("prop") && anchorId.Contains("prop")) score -= 1.5f;
+            if (lowerName.Contains("arm") && anchorId.Contains("arm")) score -= 1.2f;
+            if (lowerName.Contains("battery") && anchorId.Contains("battery")) score -= 1.2f;
+            if (lowerName.Contains("plate") && anchorId.Contains("plate")) score -= 0.9f;
+
+            if (score < bestScore)
+            {
+                bestScore = score;
+                bestAnchor = anchor;
+            }
+        }
+
+        return bestAnchor;
+    }
+
+    private static void AnnotateRenderHierarchy(Transform anchor, DronePartJson jsonPart)
+    {
+        Renderer[] renderers = anchor.GetComponentsInChildren<Renderer>(true);
+        foreach (Renderer renderer in renderers)
+        {
+            if (renderer == null)
+            {
+                continue;
+            }
+
+            PartRenderCategory category = renderer.GetComponent<PartRenderCategory>();
+            if (category == null)
+            {
+                category = Undo.AddComponent<PartRenderCategory>(renderer.gameObject);
+            }
+
+            string auxiliaryCategory = InferAuxiliaryCategory(renderer.transform.name);
+            string thermalSourceId = InferThermalSourcePartId(renderer.transform.name, jsonPart.id);
+            string primaryCategory = InferDisplayCategory(renderer.transform.name, jsonPart.category, thermalSourceId);
+            category.Configure(jsonPart.id, primaryCategory, auxiliaryCategory, thermalSourceId);
+            EditorUtility.SetDirty(category);
+        }
+    }
+
+    private static string InferAuxiliaryCategory(string rawName)
+    {
+        if (string.IsNullOrWhiteSpace(rawName))
+        {
+            return string.Empty;
+        }
+
+        string name = rawName.ToLowerInvariant();
+
+        if (name.Contains("fastener") || name.Contains("screw") || name.Contains("cap_screw") || name.Contains("bolt") ||
+            name.Contains("nut") || name.Contains("washer") || name.Contains("standoff") || name.Contains("spacer"))
+        {
+            return "Fasteners";
+        }
+
+        if (name.Contains("misc") || name.Contains("clip") || name.Contains("locator") || name.Contains("clamp") ||
+            name.Contains("brace") || name.Contains("guide") || name.Contains("connector") || name.Contains("holder"))
+        {
+            return "Misc";
+        }
+
+        return string.Empty;
+    }
+
+    private static string InferDisplayCategory(string rendererName, string fallbackCategory, string thermalSourceId)
+    {
+        string normalized = (thermalSourceId ?? rendererName ?? string.Empty).ToLowerInvariant();
+        if (normalized.Contains("motor") || normalized.Contains("prop") || normalized.Contains("esc"))
+        {
+            return "Propulsion";
+        }
+
+        if (normalized.Contains("battery") || normalized.Contains("gps") || normalized.Contains("pixhawk") ||
+            normalized.Contains("pdb") || normalized.Contains("power_module") || normalized.Contains("receiver") ||
+            normalized.Contains("telemetry") || normalized.Contains("radio"))
+        {
+            return "Electronics";
+        }
+
+        if (normalized.Contains("arm") || normalized.Contains("plate") || normalized.Contains("landing") ||
+            normalized.Contains("platform") || normalized.Contains("rail"))
+        {
+            return "Structure";
+        }
+
+        return string.IsNullOrWhiteSpace(fallbackCategory) ? "Misc" : fallbackCategory;
+    }
+
+    private static string InferThermalSourcePartId(string rendererName, string anchorId)
+    {
+        string lowerName = (rendererName ?? string.Empty).ToLowerInvariant();
+        string suffix = ResolveQuadrantSuffix(lowerName);
+        if (string.IsNullOrWhiteSpace(suffix))
+        {
+            suffix = ResolveQuadrantSuffix((anchorId ?? string.Empty).ToLowerInvariant());
+        }
+
+        if (lowerName.Contains("prop") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_prop_{suffix.ToUpperInvariant()}";
+        if (lowerName.Contains("motor") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_motor_{suffix.ToUpperInvariant()}";
+        if (lowerName.Contains("esc") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_esc_{suffix.ToUpperInvariant()}";
+        if (lowerName.Contains("battery")) return "x500v2_battery";
+        if (lowerName.Contains("pixhawk")) return "x500v2_pixhawk6c";
+        if (lowerName.Contains("gps")) return "x500v2_gps_m10";
+        if (lowerName.Contains("pdb")) return "x500v2_pdb";
+        if (lowerName.Contains("power_module")) return "x500v2_power_module";
+        if (lowerName.Contains("receiver")) return "x500v2_rc_receiver";
+        if (lowerName.Contains("telemetry") || lowerName.Contains("radio")) return "x500v2_telemetry_radio";
+        if (lowerName.Contains("rail")) return "x500v2_rails_battery";
+        if (lowerName.Contains("landing")) return "x500v2_landing_gear";
+        if (lowerName.Contains("top_plate")) return "x500v2_top_plate";
+        if (lowerName.Contains("bottom_plate")) return "x500v2_bottom_plate";
+
+        return anchorId;
+    }
+
+    private static string ResolveQuadrantSuffix(string lowerName)
+    {
+        if (lowerName.Contains("_fl")) return "fl";
+        if (lowerName.Contains("_fr")) return "fr";
+        if (lowerName.Contains("_bl")) return "bl";
+        if (lowerName.Contains("_br")) return "br";
+        return string.Empty;
+    }
+
+    private static void EnsureSelectionColliders(Transform anchor)
+    {
+        Renderer[] renderers = anchor.GetComponentsInChildren<Renderer>(true);
+        foreach (Renderer renderer in renderers)
+        {
+            if (renderer == null)
+            {
+                continue;
+            }
+
+            MeshFilter meshFilter = renderer.GetComponent<MeshFilter>();
+            if (meshFilter == null || meshFilter.sharedMesh == null)
+            {
+                continue;
+            }
+
+            if (renderer.GetComponent<Collider>() != null)
+            {
+                continue;
+            }
+
+            BoxCollider collider = Undo.AddComponent<BoxCollider>(renderer.gameObject);
+            collider.center = meshFilter.sharedMesh.bounds.center;
+            collider.size = meshFilter.sharedMesh.bounds.size;
+        }
+    }
+
+    private static void AssignSelectableLayer(Transform anchor)
+    {
+        int selectableLayer = LayerMask.NameToLayer("SelectablePart");
+        if (anchor == null || selectableLayer < 0)
+        {
+            return;
+        }
+
+        foreach (Transform child in anchor.GetComponentsInChildren<Transform>(true))
+        {
+            child.gameObject.layer = selectableLayer;
+        }
+    }
+
+    private static void EnsureRuntimeBinder(GameObject root)
+    {
+        if (root == null)
+        {
+            return;
+        }
+
+        if (root.GetComponent<ImportedDroneRuntimeBinder>() == null)
+        {
+            Undo.AddComponent<ImportedDroneRuntimeBinder>(root);
+        }
+    }
+
+    private static Vector3 ToVector3(float[] values, Vector3 fallback)
+    {
+        if (values != null && values.Length >= 3)
+        {
+            return new Vector3(values[0], values[1], values[2]);
+        }
+
+        return fallback;
+    }
+
+    private static Color ToColor(float[] values, Color fallback)
+    {
+        if (values != null && values.Length >= 4)
+        {
+            return new Color(values[0], values[1], values[2], values[3]);
+        }
+
+        return fallback;
+    }
+
+    private static bool IsThermallyCritical(string canonicalId, string partType)
+    {
+        string normalizedType = (partType ?? string.Empty).ToLowerInvariant();
+        return normalizedType.Contains("motor")
+            || normalizedType.Contains("esc")
+            || normalizedType.Contains("battery")
+            || normalizedType.Contains("arm")
+            || string.Equals(canonicalId, "x500v2_pdb", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(canonicalId, "x500v2_power_module", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(canonicalId, "x500v2_pixhawk6c", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(canonicalId, "x500v2_bottom_plate", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(canonicalId, "x500v2_top_plate", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static float GuessThermalExposure(string canonicalId, string partType)
+    {
+        string normalizedType = (partType ?? string.Empty).ToLowerInvariant();
+        if (normalizedType.Contains("propeller") || normalizedType.Contains("landing")) return 0.95f;
+        if (normalizedType.Contains("arm") || normalizedType.Contains("motor") || normalizedType.Contains("esc")) return 0.8f;
+        if (string.Equals(canonicalId, "x500v2_battery", StringComparison.OrdinalIgnoreCase)) return 0.35f;
+        if (string.Equals(canonicalId, "x500v2_pdb", StringComparison.OrdinalIgnoreCase) || string.Equals(canonicalId, "x500v2_pixhawk6c", StringComparison.OrdinalIgnoreCase)) return 0.45f;
+        return 0.55f;
+    }
+
+    private static float GuessSourceWeight(string canonicalId, string partType)
+    {
+        string normalizedType = (partType ?? string.Empty).ToLowerInvariant();
+        if (normalizedType.Contains("motor")) return 1f;
+        if (normalizedType.Contains("esc")) return 0.92f;
+        if (normalizedType.Contains("battery")) return 0.8f;
+        if (string.Equals(canonicalId, "x500v2_pdb", StringComparison.OrdinalIgnoreCase)) return 0.45f;
+        if (string.Equals(canonicalId, "x500v2_power_module", StringComparison.OrdinalIgnoreCase) || string.Equals(canonicalId, "x500v2_pixhawk6c", StringComparison.OrdinalIgnoreCase)) return 0.5f;
+        return 0.2f;
+    }
+
+    private static Vector3 GuessExplosionDirection(string canonicalId)
+    {
+        if (canonicalId.IndexOf("_prop_", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            if (canonicalId.EndsWith("_FL", StringComparison.OrdinalIgnoreCase)) return new Vector3(-1f, 0f, 1f);
+            if (canonicalId.EndsWith("_FR", StringComparison.OrdinalIgnoreCase)) return new Vector3(1f, 0f, 1f);
+            if (canonicalId.EndsWith("_BL", StringComparison.OrdinalIgnoreCase)) return new Vector3(-1f, 0f, -1f);
+            if (canonicalId.EndsWith("_BR", StringComparison.OrdinalIgnoreCase)) return new Vector3(1f, 0f, -1f);
+        }
+
+        if (canonicalId.EndsWith("_FL", StringComparison.OrdinalIgnoreCase)) return new Vector3(-1f, 0f, 1f);
+        if (canonicalId.EndsWith("_FR", StringComparison.OrdinalIgnoreCase)) return new Vector3(1f, 0f, 1f);
+        if (canonicalId.EndsWith("_BL", StringComparison.OrdinalIgnoreCase)) return new Vector3(-1f, 0f, -1f);
+        if (canonicalId.EndsWith("_BR", StringComparison.OrdinalIgnoreCase)) return new Vector3(1f, 0f, -1f);
+        if (string.Equals(canonicalId, "x500v2_top_plate", StringComparison.OrdinalIgnoreCase)) return Vector3.up;
+        if (string.Equals(canonicalId, "x500v2_bottom_plate", StringComparison.OrdinalIgnoreCase)) return Vector3.down;
+        if (string.Equals(canonicalId, "x500v2_battery", StringComparison.OrdinalIgnoreCase)) return new Vector3(0f, 0f, -1f);
+        return Vector3.up;
+    }
+
+    private static float GuessExplosionDistance(string canonicalId, string partType)
+    {
+        string normalizedType = (partType ?? string.Empty).ToLowerInvariant();
+        if (normalizedType.Contains("propeller")) return 0.16f;
+        if (normalizedType.Contains("motor")) return 0.22f;
+        if (normalizedType.Contains("esc")) return 0.18f;
+        if (normalizedType.Contains("arm")) return 0.42f;
+        if (normalizedType.Contains("battery")) return 0.18f;
+        if (normalizedType.Contains("landing")) return 0.18f;
+        if (string.Equals(canonicalId, "x500v2_top_plate", StringComparison.OrdinalIgnoreCase) || string.Equals(canonicalId, "x500v2_bottom_plate", StringComparison.OrdinalIgnoreCase)) return 0.16f;
+        return 0.2f;
+    }
+
+    private static Color GuessHighlightColor(string canonicalId, string partType)
+    {
+        string normalizedType = (partType ?? string.Empty).ToLowerInvariant();
+        if (normalizedType.Contains("motor") || normalizedType.Contains("esc")) return new Color(1f, 0.45f, 0.15f, 1f);
+        if (normalizedType.Contains("battery")) return new Color(0.95f, 0.8f, 0.2f, 1f);
+        if (normalizedType.Contains("arm") || canonicalId.IndexOf("plate", StringComparison.OrdinalIgnoreCase) >= 0) return new Color(0.35f, 0.75f, 1f, 1f);
+        return new Color(0.3f, 0.8f, 1f, 1f);
+    }
+
+    private static void EnsureFolder(string folderPath)
+    {
+        if (AssetDatabase.IsValidFolder(folderPath))
+        {
+            return;
+        }
+
+        string parent = Path.GetDirectoryName(folderPath)?.Replace('\\', '/');
+        string name = Path.GetFileName(folderPath);
+        if (!string.IsNullOrWhiteSpace(parent) && !string.IsNullOrWhiteSpace(name))
+        {
+            AssetDatabase.CreateFolder(parent, name);
+        }
+    }
+}
