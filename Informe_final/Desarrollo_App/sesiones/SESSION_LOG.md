@@ -1,5 +1,44 @@
 # Registro de Sesiones de Desarrollo
 
+## Sesión 2026-04-09 (Cierre de cobertura jerárquica + setup/auditoría adaptativos)
+
+### Objetivos
+
+- Eliminar huérfanos top-level y anchors vacíos en jerarquía importada.
+- Corregir ejecución de setup para no forzar dataset synced cuando la escena está en naming canónico.
+- Dejar auditoría coherente con la cobertura real de la escena.
+
+### Trabajo Realizado
+
+#### Runtime / Setup
+
+- Reparent reforzado con grupos sintéticos (`x500v2_fastener_group`, `x500v2_misc_group`).
+- Reparent por prefijo + heurística como fallback.
+- Unpack del prefab instance en setup para habilitar cambios de jerarquía sin bloqueo.
+- Selección automática de dataset por cobertura (`synced` vs `canonical`).
+
+#### Auditoría
+
+- `ImportedDroneCoverageAudit` actualizado para escoger fuente esperada por cobertura real.
+- Reporte final muestra cobertura jerárquica saneada.
+
+### Resultado Validado
+
+- Setup final: `Fuente usada: x500v2_parts_data.json (matches: 28/28)`.
+- Setup final: `Preparadas 28`, `Warnings 0`.
+- Auditoría final:
+	- `Anchors sin renderer: 0`
+	- `Renderers huérfanos top-level: 0`
+	- `Huérfanos no resueltos por prefijo: 0`
+
+### Próximo paso
+
+1. Validación funcional fina en Play Mode:
+	 - selección click/tap,
+	 - filtros Analyze (toggle + doble click exclusivo),
+	 - hotspots en Inspect/Analyze.
+2. Si no hay regresiones, cierre documental de entrega final.
+
 ## Sesión 2026-04-08 (Checkpoint de Integracion y Control de Entrega)
 
 ### Objetivos

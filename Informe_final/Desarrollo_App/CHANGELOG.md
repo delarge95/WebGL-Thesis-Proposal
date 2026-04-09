@@ -5,6 +5,35 @@
 
 ---
 
+## [2026-04-09] Cierre de cobertura jerarquica + setup/auditoria adaptativos por cobertura real
+
+### Added
+
+- Anchors sinteticos de grupo para auxiliares importados:
+  - `x500v2_fastener_group`
+  - `x500v2_misc_group`
+- Telemetria de reasignacion en el setup (grupo sintetico/prefijo/heuristica).
+
+### Changed
+
+- `SetupImportedDroneThermalTest` ahora selecciona automaticamente fuente de datos (`synced` o `canonical`) segun cobertura real en escena.
+- `ImportedDroneCoverageAudit` ahora selecciona fuente esperada por cobertura real para evitar falsos negativos de IDs faltantes.
+
+### Fixed
+
+- Reparent de auxiliares sobre escenas importadas con instancia de prefab mediante unpack previo del root.
+- Cobertura de jerarquia en escena actual:
+  - `Anchors sin renderer: 0`
+  - `Renderers huérfanos top-level: 0`
+  - `Huérfanos no resueltos por prefijo: 0`
+
+### Validation Snapshot
+
+- Setup: `Fuente usada: x500v2_parts_data.json (matches: 28/28)`, `Preparadas: 28`, `Warnings: 0`.
+- Audit: reporte en `desarrollo/unity_project/Reports/imported_drone_coverage_report.md`.
+
+---
+
 ## [2026-04-08] Checkpoint clave: split estable, filtros Analyze sin ALL y pipeline piezas 55+
 
 ### Added

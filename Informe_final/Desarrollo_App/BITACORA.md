@@ -52,6 +52,38 @@ Cerrar un checkpoint estable y publicable del prototipo, consolidando:
 
 ---
 
+## Registro de Cambios (Abril 09, 2026) - Cierre de cobertura jerarquica y estabilizacion del setup
+
+### Objetivo
+
+Cerrar la validacion operativa de jerarquia importada y eliminar falsos negativos del setup/auditoria cuando la escena real use nomenclatura canonica.
+
+### Acciones Realizadas
+
+1. **Reparacion de jerarquia importada**:
+   - _Implementacion_: Se reforzo el reparent de auxiliares con estrategia por grupo sintetico (`x500v2_fastener_group`, `x500v2_misc_group`) y por prefijo canonico.
+   - _Implementacion_: Se habilito `UnpackPrefabInstance` en el setup para permitir reparent robusto sobre instancias importadas.
+   - _Resultado_: Se logro `Renderers huérfanos en primer nivel: 0` y `Anchors sin renderer: 0` en la auditoria final.
+2. **Estabilizacion del setup termico/import**:
+   - _Implementacion_: `SetupImportedDroneThermalTest` ahora selecciona dataset por cobertura real de escena (synced vs canonico), en lugar de forzar synced siempre.
+   - _Resultado_: Ejecucion estable con `Fuente usada: x500v2_parts_data.json (matches: 28/28)`, `Preparadas 28`, `Warnings: 0`.
+3. **Auditoria adaptativa**:
+   - _Implementacion_: `ImportedDroneCoverageAudit` tambien selecciona la fuente esperada por cobertura real para reportar estado coherente con la escena cargada.
+   - _Resultado_: Se mantiene trazabilidad de cobertura sin confundir mismatch de nomenclatura con fallos de runtime.
+
+### Estado Actual
+
+- Jerarquia saneada para seleccion/filtros/hotspots en la escena actual.
+- Setup y auditoria con comportamiento consistente frente a escenas canonicas o granulares.
+- Rama remota actualizada con commits de hardening y cierre de cobertura.
+
+### Primer Paso Al Retomar La Sesion
+
+1. Ejecutar validacion funcional fina en Play Mode (seleccion, filtros Analyze y hotspots) con captura de evidencias.
+2. Si no aparecen regresiones, consolidar cierre documental en paquete final de entrega.
+
+---
+
 ## Registro de Cambios (Marzo 12, 2026) - Etapa 2: Bootstrap termico, verificacion Wolfram, retopologia
 
 ### Objetivo
