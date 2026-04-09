@@ -41,9 +41,9 @@ MonoBehaviour:
   icon: {fileID: 0}
   highlightColor: {r: 1, g: 0.65, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
-  isHotspotTarget: 1
+  isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: -0.83205026, z: 0.5547002}
+  explosionDirection: {x: 0, y: -0.3, z: 0.2}
   explosionDistance: 0.3
   explosionPriority: 2
   isModular: 0
@@ -72,4 +72,4 @@ MonoBehaviour:
   - Power Module PM02/PM06 Board
   - XT60 Male Connector Plug
   - XT60 Holder Panel
-  category: 2
+  category: 1

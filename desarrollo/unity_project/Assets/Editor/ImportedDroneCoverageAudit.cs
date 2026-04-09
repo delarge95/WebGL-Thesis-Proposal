@@ -52,13 +52,6 @@ public static class ImportedDroneCoverageAudit
             return;
         }
 
-        HashSet<string> expectedIds = LoadExpectedIds(out string sourceName);
-        if (expectedIds.Count == 0)
-        {
-            EditorUtility.DisplayDialog("Coverage Audit", "No se pudieron leer IDs esperados desde synced/canonical JSON.", "OK");
-            return;
-        }
-
         List<ExplodablePart> parts = root.GetComponentsInChildren<ExplodablePart>(true).ToList();
         Dictionary<string, ExplodablePart> partById = new Dictionary<string, ExplodablePart>(StringComparer.OrdinalIgnoreCase);
         List<ExplodablePart> partsWithoutDataId = new List<ExplodablePart>();
@@ -81,6 +74,13 @@ public static class ImportedDroneCoverageAudit
             {
                 partById.Add(id, part);
             }
+        }
+
+        HashSet<string> expectedIds = SelectExpectedIdsByCoverage(partById.Keys, out string sourceName, out int expectedMatches);
+        if (expectedIds.Count == 0)
+        {
+            EditorUtility.DisplayDialog("Coverage Audit", "No se pudieron leer IDs esperados desde synced/canonical JSON.", "OK");
+            return;
         }
 
         List<string> missingExpected = expectedIds.Where(id => !partById.ContainsKey(id)).OrderBy(id => id).ToList();
@@ -211,7 +211,7 @@ public static class ImportedDroneCoverageAudit
         report.AppendLine($"Fecha: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
         report.AppendLine($"Escena activa: {UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}");
         report.AppendLine($"Root auditado: {RootName}");
-        report.AppendLine($"Fuente de IDs esperados: {sourceName}");
+        report.AppendLine($"Fuente de IDs esperados: {sourceName} (matches: {expectedMatches}/{expectedIds.Count})");
         report.AppendLine();
         report.AppendLine("## Resumen");
         report.AppendLine();
@@ -343,22 +343,66 @@ public static class ImportedDroneCoverageAudit
         return null;
     }
 
-    private static HashSet<string> LoadExpectedIds(out string source)
+    private static HashSet<string> SelectExpectedIdsByCoverage(IEnumerable<string> anchorIds, out string source, out int matches)
     {
-        if (TryLoadSynced(out HashSet<string> syncedIds))
+        matches = 0;
+        HashSet<string> anchors = new HashSet<string>(anchorIds ?? Array.Empty<string>(), StringComparer.OrdinalIgnoreCase);
+
+        bool hasSynced = TryLoadSynced(out HashSet<string> syncedIds);
+        bool hasCanonical = TryLoadCanonical(out HashSet<string> canonicalIds);
+
+        int syncedMatches = hasSynced ? CountOverlap(anchors, syncedIds) : -1;
+        int canonicalMatches = hasCanonical ? CountOverlap(anchors, canonicalIds) : -1;
+
+        if (hasSynced && hasCanonical)
+        {
+            if (syncedMatches >= canonicalMatches)
+            {
+                source = SyncedJsonFile;
+                matches = syncedMatches;
+                return syncedIds;
+            }
+
+            source = CanonicalJsonFile;
+            matches = canonicalMatches;
+            return canonicalIds;
+        }
+
+        if (hasSynced)
         {
             source = SyncedJsonFile;
+            matches = syncedMatches;
             return syncedIds;
         }
 
-        if (TryLoadCanonical(out HashSet<string> canonicalIds))
+        if (hasCanonical)
         {
             source = CanonicalJsonFile;
+            matches = canonicalMatches;
             return canonicalIds;
         }
 
         source = "N/A";
         return new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static int CountOverlap(HashSet<string> left, HashSet<string> right)
+    {
+        if (left == null || right == null || left.Count == 0 || right.Count == 0)
+        {
+            return 0;
+        }
+
+        int count = 0;
+        foreach (string value in left)
+        {
+            if (right.Contains(value))
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     private static bool TryLoadSynced(out HashSet<string> ids)

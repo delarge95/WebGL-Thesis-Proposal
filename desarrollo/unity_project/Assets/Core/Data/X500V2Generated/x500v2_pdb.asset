@@ -42,9 +42,9 @@ MonoBehaviour:
   icon: {fileID: 0}
   highlightColor: {r: 1, g: 0.5, b: 0, a: 1}
   thumbnail: {fileID: 0}
-  isHotspotTarget: 0
+  isHotspotTarget: 1
   hotspotLabel: Power Distribution
-  explosionDirection: {x: 0, y: -1, z: 0}
+  explosionDirection: {x: 0, y: -0.5, z: 0}
   explosionDistance: 0.4
   explosionPriority: 2
   isModular: 0
@@ -71,4 +71,4 @@ MonoBehaviour:
   screwCount: 4
   screwSize: M3
   subComponentNames: []
-  category: 2
+  category: 1

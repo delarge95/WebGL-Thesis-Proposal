@@ -38,7 +38,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   highlightColor: {r: 0.2, g: 0.2, b: 0.8, a: 1}
   thumbnail: {fileID: 0}
-  isHotspotTarget: 1
+  isHotspotTarget: 0
   hotspotLabel: 
   explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 2

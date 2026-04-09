@@ -40,9 +40,9 @@ MonoBehaviour:
   icon: {fileID: 0}
   highlightColor: {r: 0, g: 0.9, b: 0.9, a: 1}
   thumbnail: {fileID: 0}
-  isHotspotTarget: 1
+  isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0.4319342, y: 0.8638684, z: 0.25916052}
+  explosionDirection: {x: 0.5, y: 1, z: 0.3}
   explosionDistance: 0.8
   explosionPriority: 6
   isModular: 0

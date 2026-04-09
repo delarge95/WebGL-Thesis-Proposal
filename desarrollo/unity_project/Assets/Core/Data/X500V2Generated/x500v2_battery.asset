@@ -42,7 +42,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 1
   hotspotLabel: Battery
-  explosionDirection: {x: 0, y: -0.95782626, z: -0.28734788}
+  explosionDirection: {x: 0, y: -1, z: -0.3}
   explosionDistance: 1.2
   explosionPriority: 9
   isModular: 0
@@ -73,4 +73,4 @@ MonoBehaviour:
   - Lithium Polymer 4S Battery
   - Battery Strap 1
   - Battery Strap 2
-  category: 2
+  category: 1
