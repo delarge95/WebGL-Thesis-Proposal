@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_gps_m10
+  m_EditorClassIdentifier: 
+  partName: Holybro M10 GPS Module
+  id: x500v2_gps_m10
+  partType: GPS
+  description: "M\xF3dulo GNSS multi-constelaci\xF3n u-blox M10 (GPS, Galileo, GLONASS,
+    BeiDou). Antena cer\xE1mica 25\xD725\xD74 mm de alto ganancia. Magnet\xF3metro
+    IST8310 integrado, LED RGB, buzzer y safety switch. Baud 115200, 5 Hz. M\xE1stil
+    de fibra de carbono incluido."
+  weightKg: 0.032
+  dimensions: "\u230050 \xD7 14.4 mm (m\xF3dulo), m\xE1stil ~100 mm"
+  function: "Posicionamiento 3D, velocidad, rumbo; br\xFAjula para orientaci\xF3n
+    absoluta"
+  materialType: "PCB con antena cer\xE1mica GNSS, carcasa pl\xE1stica, m\xE1stil
+    de fibra de carbono"
+  materialProperties: "Recepci\xF3n multiband, bater\xEDa backup para warm starts"
+  manufacturer: Holybro
+  partNumber: SKU12040
+  powerConsumption: 0.5
+  maxLoad: 0
+  operatingTemp: 70
+  operatingTempMin: -40
+  operatingTempMax: 80
+  thermalPeak: 40
+  thermalHover: 28
+  thermalWarmupSeconds: 2
+  thermalExposure: 0.55
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.2
+  isThermallyCritical: 0
+  icon: {fileID: 0}
+  highlightColor: {r: 0.2, g: 0.6, b: 1, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 1
+  hotspotLabel: GPS & Compass
+  explosionDirection: {x: 0, y: 1, z: 0}
+  explosionDistance: 1.5
+  explosionPriority: 7
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - Destornillador M2.5
+  safetyWarnings:
+  - "Alejar de fuentes de interferencia magn\xE9tica (PDB, cables de alta corriente)"
+  installationTips: "Montar centrado en platform board sobre m\xE1stil de carbono.
+    El m\xE1stil aleja GPS de interferencia EM. Verificar COMPASS_ORIENT en ArduPilot."
+  installationTimeMinutes: 5
+  difficultyLevel: 2
+  torqueSpec: 
+  assemblyOrder: 7
+  prerequisites:
+  - x500v2_platform_board
+  - x500v2_pixhawk6c
+  connectionTypes:
+  - Screw M2.5
+  - JST GHR 1.25mm 10-pin
+  screwCount: 2
+  screwSize: M2.5
+  subComponentNames:
+  - Holybro M10 GPS Antenna
+  - Folding Mast Joint
+  - Mast Base Bracket
+  - Securing Nut
+  - Top Mounting Tray
+  category: 1

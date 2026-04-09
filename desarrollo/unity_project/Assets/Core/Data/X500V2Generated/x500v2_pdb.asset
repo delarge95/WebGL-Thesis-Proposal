@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_pdb
+  m_EditorClassIdentifier: 
+  partName: Power Distribution Board
+  id: x500v2_pdb
+  partType: PDB
+  description: "Placa de distribuci\xF3n con entrada XT60 para bater\xEDa y salidas
+    XT30 para ESCs y perif\xE9ricos. Hasta 100A r\xE1faga. Montaje directo sobre
+    bottom plate. Sin conversi\xF3n de tensi\xF3n activa, bus de potencia puro. Sistema
+    plug-and-play sin soldadura."
+  weightKg: 0.02
+  dimensions: "~50 \xD7 50 mm"
+  function: "Bus central de distribuci\xF3n de potencia desde bater\xEDa hacia ESCs
+    y perif\xE9ricos"
+  materialType: PCB FR4 con pistas de cobre de alta corriente y conectores XT60/XT30
+  materialProperties: Alta conductividad, resistente al calor
+  manufacturer: Holybro
+  partNumber: Incluido en SKU30120
+  powerConsumption: 5
+  maxLoad: 100
+  operatingTemp: 80
+  operatingTempMin: -20
+  operatingTempMax: 80
+  thermalPeak: 60
+  thermalHover: 40
+  thermalWarmupSeconds: 5
+  thermalExposure: 0.45
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.45
+  isThermallyCritical: 1
+  icon: {fileID: 0}
+  highlightColor: {r: 1, g: 0.5, b: 0, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: Power Distribution
+  explosionDirection: {x: 0, y: -1, z: 0}
+  explosionDistance: 0.4
+  explosionPriority: 2
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - Destornillador Phillips
+  - Llave hexagonal M3
+  safetyWarnings:
+  - "No conectar bater\xEDa hasta completar todo el cableado"
+  - Verificar polaridad XT60
+  installationTips: Orientar XT60 hacia parte posterior. Conectar cables XT30 de
+    ESC antes de cerrar con top plate.
+  installationTimeMinutes: 3
+  difficultyLevel: 2
+  torqueSpec: 
+  assemblyOrder: 2
+  prerequisites:
+  - x500v2_bottom_plate
+  connectionTypes:
+  - Screw
+  - XT60 Plug
+  - XT30 Plug
+  screwCount: 4
+  screwSize: M3
+  subComponentNames: []
+  category: 2

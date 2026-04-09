@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_landing_gear
+  m_EditorClassIdentifier: 
+  partName: Landing Gear
+  id: x500v2_landing_gear
+  partType: Landing
+  description: "Tren de aterrizaje con dos patines cruzados: tubos de carbono verticales
+    (16 mm) y barras transversales (10 mm), unidos por T-connectors pl\xE1sticos
+    reforzados engrosados. Espuma amortiguadora en base. Proporciona 215 mm de altura
+    libre."
+  weightKg: 0.08
+  dimensions: "Altura: 215 mm, tubos \u230016 mm y \u230010 mm"
+  function: "Soporte al suelo; absorci\xF3n de impactos; separaci\xF3n de carga \xFAtil
+    inferior"
+  materialType: "Tubos de fibra de carbono con conectores pl\xE1sticos reforzados"
+  materialProperties: "Resistente a impactos, ligero, amortiguaci\xF3n por espuma"
+  manufacturer: Holybro
+  partNumber: '#510192'
+  powerConsumption: 0
+  maxLoad: 2500
+  operatingTemp: 80
+  operatingTempMin: -20
+  operatingTempMax: 80
+  thermalPeak: 25
+  thermalHover: 22
+  thermalWarmupSeconds: 0
+  thermalExposure: 0.95
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.2
+  isThermallyCritical: 0
+  icon: {fileID: 0}
+  highlightColor: {r: 0.35, g: 0.35, b: 0.35, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: -1, z: 0}
+  explosionDistance: 1.2
+  explosionPriority: 3
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - Llave hexagonal M3
+  safetyWarnings:
+  - "Verificar simetr\xEDa de ambos patines antes de apretar"
+  installationTips: "T-connectors encajan a presi\xF3n primero. Luego asegurar con
+    tornillos M3. Verificar nivelaci\xF3n."
+  installationTimeMinutes: 5
+  difficultyLevel: 2
+  torqueSpec: 
+  assemblyOrder: 3
+  prerequisites:
+  - x500v2_bottom_plate
+  connectionTypes:
+  - Screw
+  - Snap
+  screwCount: 4
+  screwSize: M3
+  subComponentNames: []
+  category: 4

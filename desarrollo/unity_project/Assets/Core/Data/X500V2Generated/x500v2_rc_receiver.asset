@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_rc_receiver
+  m_EditorClassIdentifier: 
+  partName: RC Receiver
+  id: x500v2_rc_receiver
+  partType: Receiver
+  description: Receptor RC compatible (RadioMaster R81 recomendado). D8/D16 o ELRS.
+    SBUS/PPM al Pixhawk RC IN. Opcional para el kit.
+  weightKg: 0.005
+  dimensions: "~25 \xD7 15 \xD7 8 mm"
+  function: "Recepci\xF3n de se\xF1ales de control manual del piloto"
+  materialType: PCB miniatura con antena
+  materialProperties: 
+  manufacturer: RadioMaster
+  partNumber: R81
+  powerConsumption: 0.2
+  maxLoad: 0
+  operatingTemp: 60
+  operatingTempMin: 0
+  operatingTempMax: 0
+  thermalPeak: 35
+  thermalHover: 25
+  thermalWarmupSeconds: 1
+  thermalExposure: 0.55
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.2
+  isThermallyCritical: 0
+  icon: {fileID: 0}
+  highlightColor: {r: 0.8, g: 0.2, b: 0.8, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 0.28734788, y: 0.95782626, z: 0}
+  explosionDistance: 0.7
+  explosionPriority: 6
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - Cinta adhesiva 3M
+  - Brida de nylon
+  safetyWarnings:
+  - Verificar binding con transmisor antes del vuelo
+  installationTips: "Fijar junto al Pixhawk. Antenas en V a 90\xB0. Puerto RC IN
+    del Pixhawk."
+  installationTimeMinutes: 2
+  difficultyLevel: 1
+  torqueSpec: 
+  assemblyOrder: 6
+  prerequisites:
+  - x500v2_pixhawk6c
+  connectionTypes:
+  - SBUS/PPM cable
+  screwCount: 0
+  screwSize: 
+  subComponentNames: []
+  category: 1

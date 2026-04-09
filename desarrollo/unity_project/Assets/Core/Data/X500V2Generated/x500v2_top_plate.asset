@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_top_plate
+  m_EditorClassIdentifier: 
+  partName: Carbon Fiber Top Plate
+  id: x500v2_top_plate
+  partType: Frame
+  description: "Plato superior de fibra de carbono twill de 2 mm, 144\xD7144 mm.
+    Cierra el s\xE1ndwich estructural con 28 mm de separaci\xF3n respecto al bottom
+    plate. Superficie de montaje para el Pixhawk, radio, receptor RC y standoffs
+    de la platform board."
+  weightKg: 0.075
+  dimensions: "144 \xD7 144 mm, 2 mm espesor"
+  function: "Cierre superior del fuselaje; montaje del flight controller y perif\xE9ricos"
+  materialType: Fibra de carbono twill 2 mm
+  materialProperties: Ultraligero, alta rigidez torsional
+  manufacturer: Holybro
+  partNumber: '#510179'
+  powerConsumption: 0
+  maxLoad: 500
+  operatingTemp: 80
+  operatingTempMin: -20
+  operatingTempMax: 80
+  thermalPeak: 38
+  thermalHover: 28
+  thermalWarmupSeconds: 0
+  thermalExposure: 0.55
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.2
+  isThermallyCritical: 1
+  icon: {fileID: 0}
+  highlightColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: 1, z: 0}
+  explosionDistance: 0.5
+  explosionPriority: 4
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - Llave hexagonal M3
+  safetyWarnings:
+  - No apretar en exceso los tornillos M3
+  installationTips: "Alinear gu\xEDas rectangulares de los brazos antes de apretar.
+    Usar tuercas nyloc."
+  installationTimeMinutes: 3
+  difficultyLevel: 2
+  torqueSpec: 0.5 Nm
+  assemblyOrder: 4
+  prerequisites:
+  - x500v2_bottom_plate
+  - x500v2_pdb
+  - x500v2_arm_FL
+  connectionTypes:
+  - Screw
+  screwCount: 4
+  screwSize: M3
+  subComponentNames: []
+  category: 4
