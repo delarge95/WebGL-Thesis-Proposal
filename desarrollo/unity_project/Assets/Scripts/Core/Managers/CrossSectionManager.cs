@@ -39,7 +39,7 @@ namespace WebGL.Core.Managers
         [SerializeField] private bool invertDirection2 = false;
 
         [Header("Visuals")]
-        [SerializeField] private Color planeColor = new Color(0.4f, 0.7f, 1f, 0.006f);
+        [SerializeField] private Color planeColor = new Color(0.2745f, 0.6863f, 1f, 0.006f);
         [SerializeField] private bool showPlane = true;
 
         [Header("References")]
@@ -452,6 +452,20 @@ namespace WebGL.Core.Managers
             Debug.Log("[CrossSection] Restored original materials");
         }
 
+        private void ReleaseSwappedStateWithoutRestoring()
+        {
+            if (!materialsSwapped)
+            {
+                return;
+            }
+
+            // ViewModeManager already applied the destination mode material.
+            // We only need to drop our Realistic swap bookkeeping to avoid
+            // restoring stale URP/Lit materials over Thermal/Blueprint/etc.
+            clippableCopies.Clear();
+            materialsSwapped = false;
+        }
+
         private Material CreateClippableCopy(Material original)
         {
             if (original == null)
@@ -502,10 +516,11 @@ namespace WebGL.Core.Managers
             else
             {
                 // Going to a custom shader that already supports clipping —
-                // just restore any clippable copies we made
+                // do NOT restore URP/Lit materials here; ViewModeManager already
+                // applied the destination shader (Thermal/Blueprint/etc).
                 if (materialsSwapped)
                 {
-                    RestoreOriginalMaterials();
+                    ReleaseSwappedStateWithoutRestoring();
                 }
             }
         }

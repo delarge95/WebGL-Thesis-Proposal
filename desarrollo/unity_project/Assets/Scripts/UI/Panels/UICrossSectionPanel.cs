@@ -209,6 +209,13 @@ namespace WebGL.UI.Panels
             var mgr = CrossSectionManager.Instance;
             if (mgr == null) return;
 
+            // If user re-selects an axis after turning all of them off,
+            // we must re-enable cross-section immediately from this panel.
+            if (_activeAxes.Count > 0 && !mgr.IsEnabled)
+            {
+                mgr.EnableCrossSection();
+            }
+
             if (_activeAxes.Count >= 1)
             {
                 mgr.SetPlane1Active(true);
