@@ -1,0 +1,35 @@
+    width: 600px;
+    max-height: 70%;
+    margin-top: 24px;
+}
+
+/* ────────────────────────────────────────────────
+   Bottom Sheet (Details Panel)
+   Slides up from bottom. Buttons sit above via z-order.
+   ──────────────────────────────────────────────── */
+.details-sheet {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 55%;
+
+    background-color: rgba(0, 0, 0, 0.82);
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.10);
+    padding: 80px 24px 40px 24px;
+    overflow: hidden;
+
+    translate: 0 0;
+    opacity: 1;
+    transition-property: translate, opacity;
+    transition-duration: 0.4s, 0.3s;
+    transition-timing-function: ease-out, ease-out;
+}
+
+.details-sheet--hidden {
+    translate: 0 105%;
+    opacity: 0;
+}

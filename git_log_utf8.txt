@@ -1,0 +1,40 @@
+﻿eb6c123 - 2026-03-18 - fix(thermal): add missing UnityEngine.UIElements using directive
+9ccdd3c - 2026-03-17 - feat(UI): Etapa 5  Thermal Legend UI + Wolfram V003/V004 - Added .thermal-legend to MainLayout.uxml & Theme.uss - Wired ThermalViewController to feed min/max temp to legend - Wired UIAnalyzePanel to toggle legend on ViewMode.Thermal - Logged tau & cooling rate physics verifications
+9cad337 - 2026-03-13 - fix: remove Blender backup files exceeding 100MB GitHub limit
+afa7737 - 2026-03-12 - fix: shader parse error + suppress CS0414 warnings
+c5b20ab - 2026-03-12 - feat(shader): Etapa 3  Thermal.shader now consumes spatial parameters
+634cdd9 - 2026-03-12 - feat(thermal): Etapa 2  bootstrap fix, Wolfram V002, retopology guide
+2b4f8ef - 2026-03-12 - chore(thermal): baseline checkpoint - Codex thermal system foundation
+80eb068 - 2026-03-12 - update: new WebGL build for GitHub Pages
+eca467b - 2026-03-12 - fix(webgl): use uncompressed build on GitHub Pages
+cb3eeda - 2026-03-11 - deploy(webgl): publish latest mobile build artifacts
+051e6ed - 2026-03-11 - deploy(webgl): point public build to latest mobile package
+df19057 - 2026-03-11 - docs(portfolio): curate additional technical pieces
+7f10c69 - 2026-03-11 - style(ui): improve contrast on light environments
+35af53f - 2026-03-11 - fix(camera): separate touch pan and pinch
+c9ea3e8 - 2026-03-11 - fix(shader): clip blueprint depth passes
+859aa4c - 2026-03-11 - fix(camera): align pan with camera space
+37c570c - 2026-03-11 - fix(input): harden UI pointer detection
+5971d2a - 2026-03-11 - fix(ui): restrict info panel close paths
+2fd841e - 2026-03-11 - fix(ui): restore and refine info panel close button
+e844a1b - 2026-03-11 - fix(ui): keep analyze menus and explode state persistent
+a409e27 - 2026-03-11 - docs: add app issues analysis and implementation plan
+da76889 - 2026-03-10 - docs: reorganize Holybro research and add Blender optimization assets
+e22785d - 2026-03-09 - build: new WebGL build (explode views, UI, env controls) + decompressed
+6d1c840 - 2026-03-09 - fix: explode hitboxes, close btn style, light+skybox slider, Studio Light preset, lighter materials
+7d5e028 - 2026-03-09 - build: new WebGL build with 512MB memory, decompressed (no .br)
+a6cfda9 - 2026-03-09 - fix: improve touch controls, fix edge detection material, enable post-processing
+2928c98 - 2026-03-06 - fix: binary patch WebAssembly module to allow 2GB max memory (resolves OOM error)
+cb7ff8c - 2026-03-06 - fix: increase WebGL heap limit to 2GB max to prevent OOM on large scenes
+9d6d572 - 2026-03-06 - fix: increase WebGL heap limit from 256MB to 512MB to prevent OOM
+868f452 - 2026-03-06 - fix: serve uncompressed WebGL build for GitHub Pages compatibility
+5f19388 - 2026-03-06 - build: publish latest WebGL build to docs
+82661ed - 2026-03-06 - fix: disable hidden hotspots interactions and smooth sheet exit
+ac32b7a - 2026-03-05 - fix: preserve view mode on reset + modern bottom sheet animation
+3d0a5df - 2026-03-05 - fix: thermal selection contrast + realistic test materials\n\n- Thermal shader: use inverted luminance for selection tint so\n  selected pieces are visible even on white-hot areas\n- DroneAssembler: add realistic PBR materials per category:\n  - Structure: dark carbon fiber (low metallic, high smoothness)\n  - Propulsion: brushed aluminum (high metallic)\n  - Power: matte black plastic\n  - Avionics/Camera: glossy polycarbonate\n  - Avionics/FC: green FR-4 PCB\n- Auto-apply materials to existing serialized parts on Start
+ad2629a - 2026-03-05 - feat: edge detection post-process with RenderGraph API\n\n- Move EdgeDetectionFeature into Core assembly (fix CS0234)\n- Add URP assembly references to Core.asmdef\n- Implement RecordRenderGraph for Unity 6 RenderGraph pipeline\n- Enable m_RequireDepthTexture in URP pipeline asset\n- Roberts Cross depth+normal edge detection via fullscreen blit
+4380594 - 2026-03-05 - feat: screen-space edge detection for Blueprint outlines
+4550c5a - 2026-03-05 - fix: restore Fresnel edges (unlit), fix white pieces on curved surfaces
+a8b0bee - 2026-03-05 - fix: Blueprint unlit + fwidth edges, selection highlight for Blueprint & Thermal
+5146b7f - 2026-03-05 - fix: flatten Blueprint diffuse to remove glass-like sheen
+4740100 - 2026-03-05 - fix: remove glass-like reflection + thicker white outline on Blueprint

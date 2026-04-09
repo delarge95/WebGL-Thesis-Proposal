@@ -1,0 +1,68 @@
+# Investigación de Estética y Claridad en Diagramas Técnicos
+
+Esta investigación propone un conjunto de principios visuales para asegurar que los diagramas de la tesis sean de "calidad editorial", facilitando la comprensión de conceptos complejos de ingeniería multimedia.
+
+## Principios de Diseño Propuestos
+
+### 1. Paleta de Colores "Ingeniería Multimedia"
+Para mantener la coherencia con una interfaz WebGL de alta gama, se propone una paleta basada en el estilo **Sleek Tech**:
+
+| Tipo de Componente | Color Sugerido | Hex Code | Propósito |
+| :--- | :--- | :--- | :--- |
+| Fondo de Nodo | Graphite / Dark | `#1A1A1A` | Base profesional |
+| Bordes / Conectores | Silver | `#CCCCCC` | Nitidez técnica |
+| Acento (Interactividad) | Cyan / Blue | `#00F2FF` | Señalización de flujo |
+| Alerta (Térmico) | Ember Red | `#FF4B2B` | Representación de calor |
+
+### 2. Tipografía y Jerarquía
+-   **Títulos de Nodo**: Fuente Sans-Serif bold (Inter). Minimizar el uso de texto largo; usar IDs de código cuando sea posible.
+-   **Anotaciones**: Texto de apoyo en fuente condensada o monospace (Cascadia Code) para distinguir teoría de implementación.
+
+### 3. Densidad de Información
+Se seguirá la regla de **"Una Idea por Diagrama"**. En lugar de un megadiagrama de arquitectura, se proponen diagramas modulares que puedan leerse en una fracción de página.
+
+---
+
+## Prototipo V1: Pipeline de Optimización 3D
+Este es un ejemplo de cómo se vería un diagrama "atractivo" usando Mermaid con estilos personalizados.
+
+````mermaid
+graph LR
+    subgraph "Origen (Fidelidad CAD)"
+        CAD[(".STEP / .IGES <br/>>2M polígonos")]
+    end
+
+    subgraph "Pipeline de Technical Art"
+        PRC(["Houdini <br/>Procedural <br/>(Evaluado)"])
+        RT["Blender 4.x <br/>Retopología & UVs"]
+        BK["Baking <br/>Normal/Curv/AO"]
+        TXT["Substance <br/>PBR Texturing"]
+    end
+
+    subgraph "Entrega (WebGL)"
+        WGL[("Optimizado <br/><100K polígonos")]
+    end
+
+    CAD --> PRC
+    PRC -.->|Descartado| RT
+    CAD ==> RT
+    RT --> BK
+    BK --> TXT
+    TXT ==> WGL
+
+    %% Styling
+    style CAD fill:#050505,stroke:#ffffff,stroke-width:2px,color:#fff
+    style WGL fill:#00F2FF,stroke:#050505,stroke-width:2px,color:#050505
+    style RT  fill:#1a1a1a,stroke:#ccc,color:#fff
+    style TXT fill:#1a1a1a,stroke:#ccc,color:#fff
+    style PRC fill:#333,stroke:#666,stroke-dasharray: 5 5,color:#999
+    
+    linkStyle 0,1 stroke:#666,stroke-width:1px
+    linkStyle 2,4 stroke:#00F2FF,stroke-width:3px
+````
+
+## Siguientes Pasos
+Una vez aprobado el `implementation_plan_diagrams.md`, procederé a generar los diagramas definitivos para:
+1.  **Arquitectura del Sistema Unity 6.**
+2.  **Lógica del Grafo Térmico.**
+3.  **Mapa de Estados del Usuario.**

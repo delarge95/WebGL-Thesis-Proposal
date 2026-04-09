@@ -1,0 +1,60 @@
+﻿%%{init: {'theme':'base','themeVariables': {
+  'fontFamily':'system-ui, -apple-system, Segoe UI, sans-serif',
+  'background':'#0b0f17',
+  'primaryColor':'#151b2b',
+  'primaryTextColor':'#e6edf7',
+  'primaryBorderColor':'#7dd3fc',
+  'lineColor':'#8b9bb4',
+  'textColor':'#e6edf7',
+  'edgeLabelBackground':'#0f1724'
+}}}%%
+flowchart LR
+  CORE[Core Runtime Integrado]
+  UI[UI Integrada]
+  DOC[Documentado para Informe]
+
+  A1[AssemblyGuideManager]
+  A2[MeasurementTool]
+  A3[ConnectionPointsViewer]
+  A4[BillOfMaterialsManager]
+  A5[AnnotationSystem]
+  A6[AssemblyChecklist]
+
+  ST1[Implementado en codigo]
+  ST2[Parcial o no integrado en UI final]
+  ST3[Proyectado para siguiente iteracion]
+
+  CORE --> A1
+  CORE --> A2
+  CORE --> A3
+  CORE --> A4
+  CORE --> A5
+  CORE --> A6
+
+  A1 --> ST2
+  A2 --> ST2
+  A3 --> ST3
+  A4 --> ST2
+  A5 --> ST3
+  A6 --> ST2
+
+  ST2 --> UI
+  ST3 --> UI
+  UI --> DOC
+
+  classDef ui fill:#1b3250,stroke:#7cc8ff,color:#f0f8ff,stroke-width:1px;
+  classDef orch fill:#1f3a2b,stroke:#6ee7b7,color:#ecfff6,stroke-width:2px;
+  classDef svc fill:#4a2f26,stroke:#f6ad55,color:#fff4e6,stroke-width:1px;
+  classDef data fill:#2f2a44,stroke:#c4b5fd,color:#f5f3ff,stroke-width:1px;
+  classDef event fill:#3d2348,stroke:#e879f9,color:#fdf4ff,stroke-width:1px;
+  classDef state fill:#0b3f46,stroke:#5eead4,color:#ecfeff,stroke-width:1px;
+  classDef risk fill:#5a1c1c,stroke:#f87171,color:#fff1f2,stroke-width:2px;
+  classDef mitigation fill:#223a76,stroke:#7dd3fc,color:#f0f8ff,stroke-width:1px;
+  classDef result fill:#145f54,stroke:#34d399,color:#ecfdf5,stroke-width:1px;
+  classDef neutral fill:#2b3140,stroke:#8b9bb4,color:#e6edf7,stroke-width:1px;
+
+  class CORE orch;
+  class UI ui;
+  class DOC result;
+  class A1,A2,A3,A4,A5,A6 svc;
+  class ST1,ST2,ST3 state;

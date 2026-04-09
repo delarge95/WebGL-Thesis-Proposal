@@ -1,0 +1,145 @@
+﻿commit 5971d2af5caec3c6c684b063f1a96f059e3de4d3
+Author: delarge95 <awoodcocks@unal.edu.co>
+Date:   Wed Mar 11 10:35:23 2026 -0500
+
+    fix(ui): restrict info panel close paths
+
+diff --git a/Informe_final/Desarrollo_App/BITACORA.md b/Informe_final/Desarrollo_App/BITACORA.md
+index 20c8670..1bab9b1 100644
+--- a/Informe_final/Desarrollo_App/BITACORA.md
++++ b/Informe_final/Desarrollo_App/BITACORA.md
+@@ -150,6 +150,11 @@ Elevar la calidad visual y la experiencia de usuario (UX) para cumplir est├índar
+     - _Refinamiento UX_: El bot├│n de cierre se escal├│ a 64x64, con icono central mayor y offsets sim├®tricos de 24px desde el borde superior y derecho del panel para alinearlo con el lenguaje visual de `Home` y `Reset`.
+     - _Resultado_: El cierre del panel ahora usa el mismo sistema visual del resto de controles premium y mantiene una alineaci├│n m├ís limpia en la esquina.
+ 
++5.  **Endurecimiento de reglas de cierre del info panel**:
++    - _Problema_: El panel todav├¡a pod├¡a cerrarse por arrastre del handle y por comportamiento toggle del acceso global de info, dos caminos no alineados con la UX definida.
++    - _Soluci├│n T├®cnica_: Se elimin├│ el bloque `drag-to-dismiss` de `UIDetailsSheet.BindInteractions()` y se sustituy├│ el toggle de `InfoBarPeek` y `ToolInfoBtn` por apertura expl├¡cita mediante `ShowInfo()`.
++    - _Resultado_: El panel conserva s├│lo los cierres permitidos por esta fase: bot├│n `X`, doble click sobre el fondo y cambio hacia otro ├¡tem/modo de la barra inferior.
++
+ ### Registro de Cambios (Febrero 18, 2026)
+ 
+ 1.  **Redise├▒o de Interfaz (UI Toolkit)**:
+diff --git a/Informe_final/Desarrollo_App/CHANGELOG.md b/Informe_final/Desarrollo_App/CHANGELOG.md
+index ce6fc8a..f9c01ba 100644
+--- a/Informe_final/Desarrollo_App/CHANGELOG.md
++++ b/Informe_final/Desarrollo_App/CHANGELOG.md
+@@ -25,6 +25,7 @@
+ - `fix(ui)`: Se elimin├│ el cierre autom├ítico de submen├║s Analyze al seleccionar piezas o al hacer click en el fondo 3D.
+ - `fix(explode)`: Se desacopl├│ el estado de `Explode` del `AppState` global para que no se apague al cambiar entre Analyze y Studio.
+ - `fix(ui)`: Se restaur├│ la X del info panel con un icono procedimental y se reajust├│ su tama├▒o/posici├│n para alinearla con el sistema visual del top bar.
++- `fix(ui)`: Se eliminaron cierres no permitidos del info panel, quitando el drag-to-dismiss y evitando que los accesos de info funcionen como toggle de cierre.
+ - `docs`: Se a├▒adi├│ un documento t├®cnico con diagn├│stico completo y plan de implementaci├│n por fases para los siguientes problemas de la app.
+ 
+ ### Archivos Afectados
+@@ -32,6 +33,7 @@
+ - `desarrollo/unity_project/Assets/Scripts/UI/UIManager.cs`
+ - `desarrollo/unity_project/Assets/Scripts/Core/Content/ExplodedViewManager.cs`
+ - `desarrollo/unity_project/Assets/Scripts/UI/Panels/UIModeController.cs`
++- `desarrollo/unity_project/Assets/Scripts/UI/Panels/UIDetailsSheet.cs`
+ - `desarrollo/unity_project/Assets/Scripts/UI/ProceduralIcons/ProceduralCloseIcon.cs`
+ - `desarrollo/unity_project/Assets/Scripts/UI/Layouts/MainLayout.uxml`
+ - `desarrollo/unity_project/Assets/UI/Styles/Theme.uss`
+@@ -42,6 +44,7 @@
+ - `Cut`, `Filter` y `Explode` ya no se cierran al clickear el background.
+ - La vista explosionada permanece activa al abrir otros submen├║s de Analyze y al alternar entre Analyze y Studio.
+ - El info panel vuelve a mostrar un bot├│n de cierre visible, consistente con el sistema de iconos procedurales y mejor alineado en la esquina superior derecha.
++- El info panel ya no se cierra arrastrando el handle ni al volver a pulsar los accesos de info; su cierre queda acotado a la `X`, doble click en el fondo 3D y cambio de modo.
+ - La desactivaci├│n de `Explode` queda restringida a las dos acciones esperadas por UX:
+   - volver a pulsar el bot├│n `Explode`
+   - llevar el slider a `0`
+diff --git a/desarrollo/unity_project/Assets/Scripts/UI/Panels/UIDetailsSheet.cs b/desarrollo/unity_project/Assets/Scripts/UI/Panels/UIDetailsSheet.cs
+index 95ccd70..620ea47 100644
+--- a/desarrollo/unity_project/Assets/Scripts/UI/Panels/UIDetailsSheet.cs
++++ b/desarrollo/unity_project/Assets/Scripts/UI/Panels/UIDetailsSheet.cs
+@@ -8,8 +8,7 @@ using System.Globalization;
+ namespace WebGL.UI.Panels
+ {
+     /// <summary>
+-    /// Manages the bottom details sheet: open/close, drag-to-dismiss,
+-    /// and populating part data fields.
++    /// Manages the bottom details sheet: open/close and populating part data fields.
+     /// Extracted from UIManager (Phase 3 Step 2: God Class Dismantling).
+     /// </summary>
+     public class UIDetailsSheet
+@@ -46,8 +45,6 @@ namespace WebGL.UI.Panels
+ 
+         // ÔöÇÔöÇ State ÔöÇÔöÇ
+         public bool IsSheetOpen { get; private set; } = false;
+-        private float _dragStartY;
+-        private bool _isDraggingSheet;
+         private float _swipeStartY;
+         private bool _isSwipingUp;
+ 
+@@ -91,8 +88,8 @@ namespace WebGL.UI.Panels
+ 
+             if (_infoBarPeek != null)
+             {
+-                _infoBarPeek.clicked += ToggleInfo;
+-                AddCleanup(() => _infoBarPeek.clicked -= ToggleInfo);
++                _infoBarPeek.clicked += ShowInfo;
++                AddCleanup(() => _infoBarPeek.clicked -= ShowInfo);
+             }
+ 
+             if (_sheetCloseBtn != null)
+@@ -214,6 +211,12 @@ namespace WebGL.UI.Panels
+             SetSheetState(true);
+         }
+ 
++        public void ShowInfo()
++        {
++            if (!IsSheetOpen)
++                OpenSheet();
++        }
++
+         public void ToggleInfo()
+         {
+             if (IsSheetOpen) SetSheetState(false);
+@@ -343,34 +346,6 @@ namespace WebGL.UI.Panels
+                 AddCleanup(() => { _detailsSheet.UnregisterCallback(pe); _detailsSheet.UnregisterCallback(pl); });
+             }
+ 
+-            // Drag-to-dismiss handle
+-            var handle = _root.Q(className: "sheet-handle");
+-            if (handle != null)
+-            {
+-                EventCallback<PointerDownEvent> handleDown = evt => { _dragStartY = evt.position.y; _isDraggingSheet = true; };
+-                EventCallback<PointerUpEvent> handleUp = evt => _isDraggingSheet = false;
+-                EventCallback<PointerLeaveEvent> handleLeave = evt => _isDraggingSheet = false;
+-                EventCallback<PointerMoveEvent> handleMove = evt =>
+-                {
+-                    if (_isDraggingSheet && (evt.position.y - _dragStartY > 50))
+-                    {
+-                        SetSheetState(false);
+-                        _isDraggingSheet = false;
+-                    }
+-                };
+-                handle.RegisterCallback(handleDown);
+-                handle.RegisterCallback(handleUp);
+-                handle.RegisterCallback(handleLeave);
+-                handle.RegisterCallback(handleMove);
+-                AddCleanup(() =>
+-                {
+-                    handle.UnregisterCallback(handleDown);
+-                    handle.UnregisterCallback(handleUp);
+-                    handle.UnregisterCallback(handleLeave);
+-                    handle.UnregisterCallback(handleMove);
+-                });
+-            }
+-
+             // ScrollView blocks camera zoom
+             var sheetScroll = _root.Q<ScrollView>(className: "sheet-scroll");
+             if (sheetScroll != null)
+diff --git a/desarrollo/unity_project/Assets/Scripts/UI/UIManager.cs b/desarrollo/unity_project/Assets/Scripts/UI/UIManager.cs
+index f4baf9a..37ef214 100644
+--- a/desarrollo/unity_project/Assets/Scripts/UI/UIManager.cs
++++ b/desarrollo/unity_project/Assets/Scripts/UI/UIManager.cs
+@@ -215,7 +215,7 @@ namespace WebGL.UI
+             _fabInfoBtn = root.Q<Button>("ToolInfoBtn");
+             if (_fabInfoBtn != null)
+             {
+-                System.Action fabClick = () => _detailsSheet.ToggleInfo();
++                System.Action fabClick = () => _detailsSheet.ShowInfo();
+                 _fabInfoBtn.clicked += fabClick;
+                 AddCleanup(() => _fabInfoBtn.clicked -= fabClick);
+             }

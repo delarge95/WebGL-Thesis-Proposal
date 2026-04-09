@@ -1,0 +1,53 @@
+# Plan de Generación de Diagramas Técnicos para la Tesis
+
+Este plan detalla la estrategia para investigar estilos visuales óptimos y generar los diagramas técnicos requeridos en el informe final de la tesis, asegurando que sean claros, profesionales y visualmente atractivos.
+
+## User Review Required
+
+> [!IMPORTANT]
+> Los diagramas se generarán inicialmente en formato **Mermaid** o **SVG** dentro de artefactos compartidos. Para incluirlos en LaTeX, se recomienda exportarlos como PDF/PNG de alta resolución o usar paquetes como `tikz` (si se requiere edición vectorial nativa). **¿Prefieres un estilo minimalista (blanco y negro técnico) o uno con la paleta de colores del proyecto (Oscuro/Tecnológico)?**
+
+## Proposed Changes
+
+### 1. Investigación de Estética y Claridad
+*   **Paleta de Colores**: Uso de la paleta del proyecto (Fondo: `#050505`, Acento: `#ffffff`, Variantes: `#1a1a1a`, `#cccccc`) para coherencia visual.
+*   **Tipografía**: Simulación de *Inter* y *Space Grotesk* en los diagramas para alineación con el manual técnico.
+*   **Tipos de Diagramas**: 
+    *   *Flujo/Pipeline*: Lineal, con iconos minimalistas.
+    *   *Arquitectura*: Modelo C4 simplificado para mostrar capas (Core, UI, Graphics).
+    *   *Estado*: Diagrama de transición de estados claro.
+
+---
+
+### 2. Generación de Diagramas Específicos
+
+#### [NEW] Pipeline de Optimización 3D (Sección 4.5)
+*   **Contenido**: CAD (STEP) ➔ Blender (Retopología/Baking) ➔ Substance (PBR) ➔ Unity (WebGL).
+*   **Visual**: Diagrama de bloques con gradiente de "densidad de datos" (de Pesado a Optimizado).
+
+#### [NEW] Arquitectura de Software (Sección 4.1)
+*   **Contenido**: Relación entre `AppStateMachine`, `EventBus`, `UIManager` y el Escenario 3D.
+*   **Visual**: Diagrama de capas con flechas de "Publicación/Suscripción" para el EventBus.
+
+#### [NEW] Lógica del Subsistema Térmico (Sección 4.8)
+*   **Contenido**: Entrada de Carga (Load) ➔ Grafo de Contactos ➔ Cálculo de $\Delta T$ ➔ Visualización PBR.
+*   **Visual**: Diagrama de proceso matemático simplificado.
+
+#### [NEW] Flujo de Estados de Usuario (Sección 4.1)
+*   **Contenido**: Transiciones entre `Inspect`, `Analyze` y `Studio`.
+
+---
+
+## Open Questions
+
+1.  **¿Deseas que los diagramas incluyan iconos descriptivos (ej. icono de un dron, un engranaje, etc.) o prefieres un estilo puramente constructivista/geométrico?**
+2.  **¿Necesitas que genere el código TikZ directamente para LaTeX o prefieres que los exporte como imágenes de alta calidad?** (TikZ es más flexible pero más complejo de compilar).
+
+## Verification Plan
+
+### Automated Tests
+-   Validación de sintaxis Mermaid en los artefactos generados.
+-   Verificación de accesibilidad (contraste de colores) en los diagramas proptotipo.
+
+### Manual Verification
+-   Revisión visual por parte del usuario para ajustar el nivel de detalle y "atractividad" antes de la generación final.
