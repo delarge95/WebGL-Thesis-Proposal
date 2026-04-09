@@ -209,10 +209,6 @@
                 <ui:VisualElement name="FilterSubPanel" class="mode-submenu submenu--hidden" picking-mode="Position">
                     <ui:Label text="FILTER CATEGORY" class="submenu-title" picking-mode="Ignore"/>
                     <ui:VisualElement class="submenu-grid">
-                        <ui:Button name="CatBtn_All" class="submenu-card submenu-card--active">
-                            <ui:VisualElement class="submenu-icon icon-all" picking-mode="Ignore"/>
-                            <ui:Label text="ALL" class="submenu-label" picking-mode="Ignore"/>
-                        </ui:Button>
                         <ui:Button name="CatBtn_Structure" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-structure" picking-mode="Ignore"/>
                             <ui:Label text="AIRFRAME" class="submenu-label" picking-mode="Ignore"/>
@@ -224,6 +220,10 @@
                         <ui:Button name="CatBtn_Avionics" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-avionics" picking-mode="Ignore"/>
                             <ui:Label text="AVIONICS" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="CatBtn_Sensors" class="submenu-card">
+                            <ui:VisualElement class="submenu-icon icon-avionics" picking-mode="Ignore"/>
+                            <ui:Label text="SENSORS" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="CatBtn_Power" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-power" picking-mode="Ignore"/>

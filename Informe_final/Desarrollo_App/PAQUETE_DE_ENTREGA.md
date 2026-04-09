@@ -104,3 +104,20 @@ Si una afirmación no puede ubicarse claramente en una de esas tres categorías,
 - Como referencia para la sustentación y la preparación del paquete final.
 - Como control editorial antes de regenerar PDFs académicos.
 - Como criterio para decidir qué se muestra en demo, qué se documenta como futuro y qué se declara como pendiente real.
+
+---
+
+## Estado de Checkpoint (2026-04-08)
+
+Se declara este corte como checkpoint clave de estabilidad del prototipo:
+
+- Runtime/UI principal funcionando de forma integrada.
+- Repositorio trazable con snapshot, split tematico y respaldo remoto.
+- Filtros Analyze alineados con categorias operativas del catalogo (sin boton `ALL`, con interaccion simple y exclusiva por doble click).
+- Pipeline de piezas preparado para dataset granular (55+) con fallback seguro al canónico.
+
+Pendiente prioritario para la siguiente sesion:
+
+1. Validar cobertura real de piezas y anclajes sobre el modelo final importado.
+2. Corregir casos de piezas no seleccionables o centradas en origen por heuristicas de reparent/anchor.
+3. Ajustar vista explosiva y cobertura termica final con ese modelo definitivo.

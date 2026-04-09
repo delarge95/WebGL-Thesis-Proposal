@@ -421,3 +421,125 @@ Para el nuevo modelo importado, usar como criterio de cobertura:
 - 100% de instancias registradas
 - 100% de piezas clasificadas en categorías PartCatalogManager
 - Hotspots solo en piezas/grupos de alta relevancia técnica
+
+## 14) Estado implementado tras esta iteración (2026-04-08)
+
+Esta sección complementa el inventario previo sin reemplazarlo.
+
+### 14.1 Fuente de datos en el setup térmico/editor
+
+Se actualizó el pipeline de preparación en `SetupImportedDroneThermalTest` para priorizar:
+
+- `x500v2_blender_synced_parts.json` (dataset granular, 55 piezas únicas)
+
+y usar fallback automático a:
+
+- `x500v2_parts_data.json` (dataset canónico de 28)
+
+Además, cuando el ID canónico no coincide directamente con nodos de escena, el setup ahora intenta match por `blenderName`.
+
+Impacto:
+
+- La generación de `DronePartData` en `Assets/Core/Data/X500V2Generated` puede escalar desde 28 hacia el universo granular del JSON synced, dependiendo de coincidencias reales en escena.
+
+### 14.2 Normalización de categorías hacia PartCatalogManager
+
+Se reforzó la normalización de categorías en la generación de assets para converger al enum destino:
+
+- `Avionics`
+- `SensorsComms`
+- `PowerDistribution`
+- `PropulsionSystem`
+- `SkeletonAirframe`
+- `Fasteners`
+
+Mapeos legacy/synced (ejemplos):
+
+- `Structure` -> `SkeletonAirframe`
+- `Propulsion` -> `PropulsionSystem`
+- `Electronics` -> `SensorsComms`
+- `Power` -> `PowerDistribution`
+- `Misc` -> `Uncategorized`
+
+Nota:
+
+- En inferencia por nombre térmico se separó `PowerDistribution` de `SensorsComms` y `Avionics` para mejorar coherencia de filtrado.
+
+### 14.3 Analyze Filter (UI) actualizado
+
+Se agregó la categoría de Analyze faltante para alineación con PartCatalog:
+
+- Nuevo botón: `CatBtn_Sensors` (`SensorsComms`)
+
+Con esto, Analyze dispone de:
+
+- `ALL`
+- `SkeletonAirframe`
+- `PropulsionSystem`
+- `Avionics`
+- `SensorsComms`
+- `PowerDistribution`
+- `Fasteners`
+
+Se actualizaron bindings y estado visual en:
+
+- `UIManager`
+- `AnalyzeModeHandler`
+- `MainLayout.uxml`
+- `InputManager` (detección de UI interactiva)
+
+### 14.4 Estado funcional resultante
+
+Estado actual tras cambios:
+
+- [x] Setup capaz de leer dataset granular (55) con fallback seguro al canónico (28)
+- [x] Match de nodos por `id` y por `blenderName`
+- [x] Analyze con categoría `SensorsComms` explícita
+- [x] Taxonomía de filtros más alineada a `PartCatalogManager`
+
+Pendiente para cerrar cobertura total end-to-end:
+
+- [ ] Verificar en escena importada que todas las entradas granular/synced queden efectivamente ancladas (no solo parseadas)
+- [ ] Regenerar y validar `ThermalCanonicalContactGraph.asset` para cobertura térmica equivalente al nuevo universo de piezas
+- [ ] Auditar distribución final por categoría tras regeneración para confirmar conteos objetivo (55 únicas / ~247 instancias o nuevo total real)
+
+### 14.5 Cambio UX en filtros Analyze (sin ALL)
+
+Se removió el botón `ALL` del panel Analyze.
+
+Nuevo comportamiento:
+
+- Estado inicial: todas las categorías activas.
+- Click simple en categoría: toggle on/off de esa categoría (si se intenta apagar la última activa, se restablece el estado por defecto con todas activas).
+- Doble click en categoría:
+  - Si no estaba en modo exclusivo, deja solo esa categoría activa.
+  - Si ya estaba en modo exclusivo sobre esa misma categoría, vuelve al estado por defecto (todas activas).
+
+Categorías visibles actuales en Analyze:
+
+- `SkeletonAirframe`
+- `PropulsionSystem`
+- `Avionics`
+- `SensorsComms`
+- `PowerDistribution`
+- `Fasteners`
+
+### 14.6 Diagnóstico técnico: piezas no seleccionables o "en el centro"
+
+En el modelo temporal/importado, las causas más probables detectadas son:
+
+1. Reanclaje heurístico de nodos auxiliares:
+  - El pipeline intenta reagrupar huérfanos al "mejor anchor" por distancia/nombre.
+  - Si la heurística falla o el naming difiere, algunas mallas pueden quedar bajo anchors inesperados.
+
+2. Creación de anchors en posición de fallback:
+  - Cuando no hay bounds válidos del match, el anchor nuevo puede crearse en posición raíz (centro del dron/escena), dando la sensación de piezas colapsadas al centro.
+
+3. Selección basada en collider por renderer:
+  - Si un renderer no tiene `MeshFilter`/mesh compatible o no recibió collider en el setup, esa parte puede quedar visible pero no seleccionable.
+
+4. Filtros de visibilidad deshabilitan colliders:
+  - En `ExplodedViewManager`, al ocultar renderers por filtro, también se deshabilitan colliders; una pieza filtrada no se puede seleccionar hasta volver a estar visible.
+
+5. Desfase entre IDs canónicos y nombres Blender:
+  - Aunque ya hay fallback por `blenderName`, aún pueden existir casos no mapeados 1:1 en este modelo provisional.

@@ -12,8 +12,12 @@ public static class SetupImportedDroneThermalTest
 {
     private const string RootName = "x500v2_Drone";
     private const string GeneratedDataFolder = "Assets/Core/Data/X500V2Generated";
+    private const string CanonicalJsonFile = "x500v2_parts_data.json";
+    private const string SyncedJsonFile = "x500v2_blender_synced_parts.json";
 
-    private static string JsonPath => Path.GetFullPath(Path.Combine(Application.dataPath, "..", "..", "docs", "investigacion", "Holybro", "x500v2_parts_data.json"));
+    private static string HolybroDocsDir => Path.GetFullPath(Path.Combine(Application.dataPath, "..", "..", "docs", "investigacion", "Holybro"));
+    private static string CanonicalJsonPath => Path.Combine(HolybroDocsDir, CanonicalJsonFile);
+    private static string SyncedJsonPath => Path.Combine(HolybroDocsDir, SyncedJsonFile);
 
     [Serializable]
     private class DronePartJsonWrapper
@@ -26,6 +30,7 @@ public static class SetupImportedDroneThermalTest
     {
         public string partName;
         public string id;
+        public string blenderName;
         public string partType;
         public string category;
         public string description;
@@ -63,6 +68,45 @@ public static class SetupImportedDroneThermalTest
         public string hotspotLabel;
     }
 
+    [Serializable]
+    private class SyncedPartJsonWrapper
+    {
+        public SyncedPartJson[] items;
+    }
+
+    [Serializable]
+    private class SyncedPhysicsJson
+    {
+        public float thermalHover;
+        public float thermalPeak;
+        public float heatingIndex;
+    }
+
+    [Serializable]
+    private class SyncedUiJson
+    {
+        public bool isHotspotTarget;
+        public string hotspotLabel;
+    }
+
+    [Serializable]
+    private class SyncedPartJson
+    {
+        public string partName;
+        public string id;
+        public string blenderName;
+        public string category;
+        public string description;
+        public string function;
+        public float weightKg;
+        public string dimensions;
+        public string materialType;
+        public string manufacturer;
+        public int quantityInScene;
+        public SyncedPhysicsJson physics;
+        public SyncedUiJson ui;
+    }
+
     [MenuItem("Tools/Thermal/Prepare Imported Drone For Thermal Test")]
     public static void PrepareImportedDrone()
     {
@@ -76,7 +120,7 @@ public static class SetupImportedDroneThermalTest
         DronePartJson[] jsonParts = LoadJsonParts();
         if (jsonParts == null || jsonParts.Length == 0)
         {
-            EditorUtility.DisplayDialog("Thermal Test Setup", "No se pudo leer x500v2_parts_data.json.", "OK");
+            EditorUtility.DisplayDialog("Thermal Test Setup", "No se pudo leer el dataset de piezas (synced/canonical).", "OK");
             return;
         }
 
@@ -100,7 +144,7 @@ public static class SetupImportedDroneThermalTest
                 continue;
             }
 
-            List<Transform> matches = FindMatches(root.transform, jsonPart.id);
+            List<Transform> matches = FindMatches(root.transform, jsonPart);
             if (matches.Count == 0)
             {
                 Debug.LogWarning($"[SetupImportedDroneThermalTest] No se encontraron nodos para {jsonPart.id}");
@@ -193,16 +237,99 @@ public static class SetupImportedDroneThermalTest
 
     private static DronePartJson[] LoadJsonParts()
     {
-        if (!File.Exists(JsonPath))
+        if (TryLoadParts(SyncedJsonPath, out DronePartJson[] syncedParts, useSyncedSchema: true))
         {
-            Debug.LogError($"[SetupImportedDroneThermalTest] JSON no encontrado: {JsonPath}");
-            return null;
+            Debug.Log($"[SetupImportedDroneThermalTest] Fuente de piezas: {SyncedJsonFile} ({syncedParts.Length} entradas)");
+            return syncedParts;
         }
 
-        string raw = File.ReadAllText(JsonPath);
+        if (TryLoadParts(CanonicalJsonPath, out DronePartJson[] canonicalParts, useSyncedSchema: false))
+        {
+            Debug.LogWarning($"[SetupImportedDroneThermalTest] Fallback a {CanonicalJsonFile} ({canonicalParts.Length} entradas)");
+            return canonicalParts;
+        }
+
+        Debug.LogError($"[SetupImportedDroneThermalTest] No se pudo cargar ni {SyncedJsonFile} ni {CanonicalJsonFile} en {HolybroDocsDir}");
+        return null;
+    }
+
+    private static bool TryLoadParts(string path, out DronePartJson[] parts, bool useSyncedSchema)
+    {
+        parts = null;
+        if (!File.Exists(path))
+        {
+            return false;
+        }
+
+        string raw = File.ReadAllText(path);
         string wrapped = "{\"items\":" + raw + "}";
-        DronePartJsonWrapper wrapper = JsonUtility.FromJson<DronePartJsonWrapper>(wrapped);
-        return wrapper != null ? wrapper.items : null;
+
+        if (useSyncedSchema)
+        {
+            SyncedPartJsonWrapper synced = JsonUtility.FromJson<SyncedPartJsonWrapper>(wrapped);
+            if (synced?.items == null || synced.items.Length == 0)
+            {
+                return false;
+            }
+
+            parts = ConvertSyncedParts(synced.items);
+            return parts.Length > 0;
+        }
+
+        DronePartJsonWrapper canonical = JsonUtility.FromJson<DronePartJsonWrapper>(wrapped);
+        parts = canonical?.items;
+        return parts != null && parts.Length > 0;
+    }
+
+    private static DronePartJson[] ConvertSyncedParts(SyncedPartJson[] synced)
+    {
+        List<DronePartJson> output = new List<DronePartJson>(synced.Length);
+        foreach (SyncedPartJson item in synced)
+        {
+            if (item == null || string.IsNullOrWhiteSpace(item.id))
+            {
+                continue;
+            }
+
+            float thermalHover = item.physics != null ? item.physics.thermalHover : 0f;
+            float thermalPeak = item.physics != null ? item.physics.thermalPeak : 0f;
+            float heatingIndex = item.physics != null ? item.physics.heatingIndex : 0f;
+
+            DronePartJson part = new DronePartJson
+            {
+                partName = item.partName,
+                id = item.id,
+                blenderName = item.blenderName,
+                partType = !string.IsNullOrWhiteSpace(item.category) ? item.category : item.blenderName,
+                category = item.category,
+                description = item.description,
+                function = item.function,
+                weightKg = item.weightKg,
+                dimensions = item.dimensions,
+                materialType = item.materialType,
+                manufacturer = item.manufacturer,
+                thermalHover = thermalHover,
+                thermalPeak = thermalPeak,
+                thermalWarmupSeconds = GuessWarmupSeconds(heatingIndex),
+                operatingTemp = thermalPeak > 0f ? thermalPeak : thermalHover,
+                operatingTempMin = Math.Max(0f, thermalHover - 15f),
+                operatingTempMax = thermalPeak > 0f ? thermalPeak : thermalHover + 20f,
+                isHotspotTarget = item.ui != null && item.ui.isHotspotTarget,
+                hotspotLabel = item.ui != null ? item.ui.hotspotLabel : string.Empty,
+                requiredTools = Array.Empty<string>(),
+                safetyWarnings = Array.Empty<string>(),
+                prerequisites = Array.Empty<string>(),
+                connectionTypes = Array.Empty<string>(),
+                explosionDirection = new[] { GuessExplosionDirection(item.id).x, GuessExplosionDirection(item.id).y, GuessExplosionDirection(item.id).z },
+                explosionDistance = GuessExplosionDistance(item.id, item.category),
+                highlightColor = new[] { GuessHighlightColor(item.id, item.category).r, GuessHighlightColor(item.id, item.category).g, GuessHighlightColor(item.id, item.category).b, GuessHighlightColor(item.id, item.category).a },
+                explosionPriority = 0
+            };
+
+            output.Add(part);
+        }
+
+        return output.ToArray();
     }
 
     private static Dictionary<string, DronePartData> GenerateOrUpdatePartAssets(IEnumerable<DronePartJson> jsonParts)
@@ -237,7 +364,7 @@ public static class SetupImportedDroneThermalTest
         asset.partName = jsonPart.partName;
         asset.id = jsonPart.id;
         asset.partType = jsonPart.partType;
-        asset.category = System.Enum.TryParse<PartCategory>(jsonPart.category.Replace(" ", ""), true, out var c) ? c : PartCategory.Uncategorized;
+        asset.category = NormalizePartCategory(jsonPart.category, jsonPart.id, jsonPart.partType);
         asset.description = jsonPart.description;
         asset.function = jsonPart.function;
         asset.weightKg = jsonPart.weightKg;
@@ -291,6 +418,40 @@ public static class SetupImportedDroneThermalTest
 
             string name = child.name;
             if (string.Equals(name, canonicalId, StringComparison.OrdinalIgnoreCase) ||
+                name.StartsWith(dottedPrefix, StringComparison.OrdinalIgnoreCase))
+            {
+                matches.Add(child);
+            }
+        }
+
+        return matches;
+    }
+
+    private static List<Transform> FindMatches(Transform root, DronePartJson jsonPart)
+    {
+        List<Transform> byCanonicalId = FindMatches(root, jsonPart.id);
+        if (byCanonicalId.Count > 0)
+        {
+            return byCanonicalId;
+        }
+
+        if (string.IsNullOrWhiteSpace(jsonPart.blenderName))
+        {
+            return byCanonicalId;
+        }
+
+        List<Transform> matches = new List<Transform>();
+        string dottedPrefix = jsonPart.blenderName + ".";
+
+        foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
+        {
+            if (child == null || child == root)
+            {
+                continue;
+            }
+
+            string name = child.name;
+            if (string.Equals(name, jsonPart.blenderName, StringComparison.OrdinalIgnoreCase) ||
                 name.StartsWith(dottedPrefix, StringComparison.OrdinalIgnoreCase))
             {
                 matches.Add(child);
@@ -464,7 +625,7 @@ public static class SetupImportedDroneThermalTest
         if (name.Contains("misc") || name.Contains("clip") || name.Contains("locator") || name.Contains("clamp") ||
             name.Contains("brace") || name.Contains("guide") || name.Contains("connector") || name.Contains("holder"))
         {
-            return "Misc";
+            return "Uncategorized";
         }
 
         return string.Empty;
@@ -475,23 +636,86 @@ public static class SetupImportedDroneThermalTest
         string normalized = (thermalSourceId ?? rendererName ?? string.Empty).ToLowerInvariant();
         if (normalized.Contains("motor") || normalized.Contains("prop") || normalized.Contains("esc"))
         {
-            return "Propulsion";
+            return "PropulsionSystem";
         }
 
         if (normalized.Contains("battery") || normalized.Contains("gps") || normalized.Contains("pixhawk") ||
             normalized.Contains("pdb") || normalized.Contains("power_module") || normalized.Contains("receiver") ||
             normalized.Contains("telemetry") || normalized.Contains("radio"))
         {
-            return "Electronics";
+            if (normalized.Contains("battery") || normalized.Contains("pdb") || normalized.Contains("power_module"))
+            {
+                return "PowerDistribution";
+            }
+
+            if (normalized.Contains("pixhawk"))
+            {
+                return "Avionics";
+            }
+
+            return "SensorsComms";
         }
 
         if (normalized.Contains("arm") || normalized.Contains("plate") || normalized.Contains("landing") ||
             normalized.Contains("platform") || normalized.Contains("rail"))
         {
-            return "Structure";
+            return "SkeletonAirframe";
         }
 
-        return string.IsNullOrWhiteSpace(fallbackCategory) ? "Misc" : fallbackCategory;
+        string fallback = NormalizeDisplayCategory(fallbackCategory);
+        return string.IsNullOrWhiteSpace(fallback) ? "Uncategorized" : fallback;
+    }
+
+    private static PartCategory NormalizePartCategory(string rawCategory, string canonicalId, string partType)
+    {
+        string normalized = NormalizeDisplayCategory(rawCategory);
+        if (string.IsNullOrWhiteSpace(normalized))
+        {
+            normalized = InferDisplayCategory(canonicalId, partType, canonicalId);
+        }
+
+        if (Enum.TryParse(normalized, true, out PartCategory parsed))
+        {
+            return parsed;
+        }
+
+        return PartCategory.Uncategorized;
+    }
+
+    private static string NormalizeDisplayCategory(string rawCategory)
+    {
+        if (string.IsNullOrWhiteSpace(rawCategory))
+        {
+            return string.Empty;
+        }
+
+        string compact = rawCategory.Replace(" ", string.Empty).Replace("&", string.Empty).Replace("/", string.Empty).ToLowerInvariant();
+        return compact switch
+        {
+            "structure" => "SkeletonAirframe",
+            "skeletonairframe" => "SkeletonAirframe",
+            "propulsion" => "PropulsionSystem",
+            "propulsionsystem" => "PropulsionSystem",
+            "electronics" => "SensorsComms",
+            "sensorscomms" => "SensorsComms",
+            "avionics" => "Avionics",
+            "power" => "PowerDistribution",
+            "powerdistribution" => "PowerDistribution",
+            "fasteners" => "Fasteners",
+            "misc" => "Uncategorized",
+            "uncategorized" => "Uncategorized",
+            _ => rawCategory.Trim()
+        };
+    }
+
+    private static float GuessWarmupSeconds(float heatingIndex)
+    {
+        if (heatingIndex <= 0f)
+        {
+            return 25f;
+        }
+
+        return Mathf.Clamp(65f - (heatingIndex * 4f), 10f, 60f);
     }
 
     private static string InferThermalSourcePartId(string rendererName, string anchorId)

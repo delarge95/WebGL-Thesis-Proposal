@@ -21,12 +21,21 @@ namespace WebGL.UI.Panels
         private readonly VisualElement _filterSubPanel;
 
         private enum SubLevel { CardGrid, SubPanel }
+        private static readonly string[] DefaultCategories =
+        {
+            "SkeletonAirframe",
+            "PropulsionSystem",
+            "Avionics",
+            "SensorsComms",
+            "PowerDistribution",
+            "Fasteners"
+        };
 
         private SubLevel _level = SubLevel.CardGrid;
         private string _activePanel; // "cross-section" | "explode" | "filter" | null
         private bool _isExploded;
         private float _lastExplodeValue = 0.5f; // remember last non-zero slider value (default 50%)
-        private readonly List<string> _activeCategories = new() { "ALL" };
+        private readonly List<string> _activeCategories = new(DefaultCategories);
 
         /// <summary>True when a sub-panel is open (for back-navigation detection).</summary>
         public bool IsSubPanelOpen => _level == SubLevel.SubPanel;
@@ -77,6 +86,8 @@ namespace WebGL.UI.Panels
             _level = SubLevel.CardGrid;
             _activePanel = null;
             ShowLevel();
+            ApplyCategoryFilters();
+            UpdateCategoryButtonStates();
 
             // Restore inline slider if explode is active
             if (_isExploded)
@@ -173,29 +184,62 @@ namespace WebGL.UI.Panels
 
         // ── Category Filters ──
 
-        public void SetCategoryFilter(string category, Button clickedBtn)
+        public void SetCategoryFilter(string category, Button clickedBtn, bool exclusiveMode = false)
         {
-            if (category == "ALL")
+            if (string.IsNullOrWhiteSpace(category))
             {
-                _activeCategories.Clear();
-                _activeCategories.Add("ALL");
+                return;
+            }
+
+            if (exclusiveMode)
+            {
+                if (IsOnlyCategoryActive(category))
+                {
+                    ResetToDefaultCategories();
+                }
+                else
+                {
+                    _activeCategories.Clear();
+                    _activeCategories.Add(category);
+                }
             }
             else
             {
-                if (_activeCategories.Contains("ALL"))
-                    _activeCategories.Remove("ALL");
-
                 if (_activeCategories.Contains(category))
+                {
                     _activeCategories.Remove(category);
+                }
                 else
+                {
                     _activeCategories.Add(category);
+                }
 
                 if (_activeCategories.Count == 0)
-                    _activeCategories.Add("ALL");
+                {
+                    // Keep a visible default when user toggles the last active chip off.
+                    ResetToDefaultCategories();
+                }
             }
 
-            ExplodedViewManager.Instance?.SetCategoryFilters(_activeCategories);
+            ApplyCategoryFilters();
             UpdateCategoryButtonStates();
+        }
+
+        private bool IsOnlyCategoryActive(string category)
+        {
+            return _activeCategories.Count == 1 &&
+                   string.Equals(_activeCategories[0], category, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private void ResetToDefaultCategories()
+        {
+            _activeCategories.Clear();
+            _activeCategories.AddRange(DefaultCategories);
+        }
+
+        private void ApplyCategoryFilters()
+        {
+            ExplodedViewManager.Instance?.SetCategoryFilters(_activeCategories);
         }
 
         private void UpdateCategoryButtonStates()
@@ -208,10 +252,10 @@ namespace WebGL.UI.Panels
                 btn?.EnableInClassList("submenu-card--active", _activeCategories.Contains(catName));
             }
 
-            UpdateBtn("CatBtn_All", "ALL");
             UpdateBtn("CatBtn_Structure", "SkeletonAirframe");
             UpdateBtn("CatBtn_Propulsion", "PropulsionSystem");
             UpdateBtn("CatBtn_Avionics", "Avionics");
+            UpdateBtn("CatBtn_Sensors", "SensorsComms");
             UpdateBtn("CatBtn_Power", "PowerDistribution");
             UpdateBtn("CatBtn_Payload", "Fasteners");
         }

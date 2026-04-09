@@ -216,10 +216,10 @@ namespace WebGL.UI
             if (resetBtn != null) { resetBtn.clicked += OnResetClicked; AddCleanup(() => resetBtn.clicked -= OnResetClicked); }
 
             // ── Category filter buttons (inside AnalyzeModeContainer/FilterSubPanel) ──
-            BindCat("CatBtn_All", "ALL");
             BindCat("CatBtn_Structure", "SkeletonAirframe");
             BindCat("CatBtn_Propulsion", "PropulsionSystem");
             BindCat("CatBtn_Avionics", "Avionics");
+            BindCat("CatBtn_Sensors", "SensorsComms");
             BindCat("CatBtn_Power", "PowerDistribution");
             BindCat("CatBtn_Payload", "Fasteners");
 
@@ -305,9 +305,16 @@ namespace WebGL.UI
         {
             var btn = root.Q<Button>(btnName);
             if (btn == null) return;
-            System.Action a = () => _modeController.SetCategoryFilter(category, btn);
-            btn.clicked += a;
-            AddCleanup(() => btn.clicked -= a);
+
+            EventCallback<ClickEvent> onClick = evt =>
+            {
+                bool exclusive = evt.clickCount >= 2;
+                _modeController.SetCategoryFilter(category, btn, exclusive);
+                evt.StopPropagation();
+            };
+
+            btn.RegisterCallback(onClick);
+            AddCleanup(() => btn.UnregisterCallback(onClick));
         }
 
         private void SetFabVisible(bool visible)

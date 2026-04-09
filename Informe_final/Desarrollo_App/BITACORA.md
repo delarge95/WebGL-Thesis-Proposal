@@ -6,6 +6,52 @@
 
 ---
 
+## Registro de Cambios (Abril 08, 2026) - Checkpoint clave de integracion runtime/UI y control de entrega
+
+### Objetivo
+
+Cerrar un checkpoint estable y publicable del prototipo, consolidando:
+
+- split de trabajo en commits tematicos,
+- trazabilidad de respaldo,
+- alineacion de filtros Analyze con taxonomia de catalogo,
+- preparacion de pipeline para dataset granular de piezas,
+- y limpieza operativa del repositorio para continuar la etapa final.
+
+### Acciones Realizadas
+
+1. **Operacion Git y control de riesgo**:
+   - _Implementacion_: Se genero snapshot completo de seguridad y luego split en 5 bloques tematicos (UI, tooling, thermal-data, modelos pesados, docs).
+   - _Implementacion_: Se publicaron branch de split, branch de snapshot y tag de backup en remoto con carga LFS completada.
+   - _Resultado_: Quedo trazabilidad total y punto de restauracion verificable.
+2. **Correccion y unificacion de filtros Analyze**:
+   - _Implementacion_: Se removio el boton `ALL` en filters y se dejo estado inicial con todas las categorias activas.
+   - _Implementacion_: Click simple mantiene toggle por categoria; doble click activa modo exclusivo por categoria; doble click nuevamente revierte a estado por defecto (todas activas).
+   - _Implementacion_: Se agrego categoria `SensorsComms` al panel Analyze para converger con `PartCatalogManager`.
+   - _Resultado_: UX de filtros mas consistente y taxonomia mas alineada al catalogo real.
+3. **Pipeline de piezas hacia dataset granular**:
+   - _Implementacion_: `SetupImportedDroneThermalTest` ahora prioriza `x500v2_blender_synced_parts.json` (55 piezas unicas) con fallback a `x500v2_parts_data.json` (28 canonicos).
+   - _Implementacion_: Se agrego matching por `blenderName` cuando no hay match por `id`.
+   - _Implementacion_: Normalizacion de categorias a enum final (`Avionics`, `SensorsComms`, `PowerDistribution`, `PropulsionSystem`, `SkeletonAirframe`, `Fasteners`).
+   - _Resultado_: El pipeline ya soporta la ruta correcta para incluir TODAS las piezas en la siguiente pasada de regeneracion.
+4. **Documentacion tecnica actualizada**:
+   - _Implementacion_: Se complemento `INVENTARIO_PIEZAS_TERMICO_FILTROS_HOTSPOTS.md` (sin borrar historial), agregando estado implementado, nuevo UX de filtros y diagnostico de piezas no seleccionables/centradas.
+   - _Resultado_: Queda trazabilidad clara de lo implementado vs lo pendiente de validacion en escena.
+
+### Estado Actual
+
+- La app queda funcional y estabilizada en un checkpoint clave.
+- El repo queda limpio/controlado para continuar sin deuda operativa.
+- El siguiente trabajo no es de infraestructura Git/UI base, sino de validacion final sobre modelo definitivo y cobertura de piezas.
+
+### Primer Paso Al Retomar La Sesion
+
+1. Ejecutar `Prepare Imported Drone For Thermal Test` sobre escena importada vigente.
+2. Validar cobertura real de anclajes (55 unicas / instancias esperadas), piezas no seleccionables y casos centrados en origen.
+3. Regenerar/ajustar grafo termico y vista explosiva con el modelo final para cerrar la etapa.
+
+---
+
 ## Registro de Cambios (Marzo 12, 2026) - Etapa 2: Bootstrap termico, verificacion Wolfram, retopologia
 
 ### Objetivo

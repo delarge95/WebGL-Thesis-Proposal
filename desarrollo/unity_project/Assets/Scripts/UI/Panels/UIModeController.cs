@@ -227,7 +227,7 @@ namespace WebGL.UI.Panels
         public void ToggleHotspots() => _inspect.ToggleHotspots();
         public void SetIsolateState(bool isolated) => _inspect.SetIsolateState(isolated);
         public void SetSliderVisible(bool visible) { /* No-op: slider always in ExplodeSubPanel */ }
-        public void SetCategoryFilter(string category, Button btn) => _analyze.SetCategoryFilter(category, btn);
+        public void SetCategoryFilter(string category, Button btn, bool exclusiveMode = false) => _analyze.SetCategoryFilter(category, btn, exclusiveMode);
         public void CloseAllMenus() => GetHandler(_activeMode)?.Deactivate();
 
         // ═══════════════════════════════════════════════════════
