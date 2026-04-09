@@ -6,15 +6,25 @@ namespace WebGL.Core.Content
 {
     public class HighlightSystem : MonoBehaviour
     {
+        public enum SelectionVisualMode
+        {
+            FillPulse,
+            SoftTint,
+            HotspotGroupTint
+        }
+
         [Header("Highlight Settings")]
         [SerializeField] private Color hoverColor = new Color(1f, 1f, 1f, 0.3f);
         [SerializeField] private Color selectedColor = new Color(0.2f, 0.8f, 1f, 0.5f);
+        [SerializeField] private Color parentSelectedColor = new Color(0.2f, 0.8f, 1f, 0.18f);
+        [SerializeField] private Color hotspotGroupColor = new Color(1.0f, 0.78f, 0.24f, 0.24f);
         [SerializeField] private float pulseSpeed = 2f;
         [SerializeField] private float pulseIntensity = 0.2f;
 
         private MaterialController materialController;
         private Coroutine pulseCoroutine;
         private bool isSelected = false;
+        private SelectionVisualMode currentSelectionMode = SelectionVisualMode.FillPulse;
 
         private void Awake()
         {
@@ -39,9 +49,27 @@ namespace WebGL.Core.Content
             materialController.ResetProperties();
         }
 
-        public void OnSelect()
+        public void OnSelect(SelectionVisualMode visualMode = SelectionVisualMode.FillPulse, Color? overrideColor = null)
         {
             isSelected = true;
+            currentSelectionMode = visualMode;
+
+            if (currentSelectionMode == SelectionVisualMode.SoftTint)
+            {
+                StopPulse();
+                materialController.ResetProperties();
+                materialController.SetColor(parentSelectedColor);
+                return;
+            }
+
+            if (currentSelectionMode == SelectionVisualMode.HotspotGroupTint)
+            {
+                StopPulse();
+                materialController.ResetProperties();
+                materialController.SetColor(overrideColor ?? hotspotGroupColor);
+                return;
+            }
+
             Renderer[] renderers = materialController != null ? materialController.Renderers : null;
             if (renderers != null)
             {
@@ -91,6 +119,12 @@ namespace WebGL.Core.Content
 
         private IEnumerator PulseRoutine()
         {
+            if (currentSelectionMode == SelectionVisualMode.SoftTint
+                || currentSelectionMode == SelectionVisualMode.HotspotGroupTint)
+            {
+                yield break;
+            }
+
             Renderer[] renderers = materialController != null ? materialController.Renderers : null;
             MaterialPropertyBlock block = new MaterialPropertyBlock();
 

@@ -52,6 +52,29 @@ namespace WebGL.UI
         private bool _isIsolated = false;
         private Transform _isolatedFullSelection;
         private Transform _isolatedSubSelection;
+        private bool _hotspotIsolationActive = false;
+        private readonly System.Collections.Generic.List<ExplodablePart> _hotspotIsolationMembers = new System.Collections.Generic.List<ExplodablePart>();
+        private enum SubIsolationParentLayer
+        {
+            None,
+            FullSelection,
+            HotspotGroup
+        }
+        private SubIsolationParentLayer _subIsolationParentLayer = SubIsolationParentLayer.None;
+
+        private bool HasHotspotIsolationLayer
+        {
+            get
+            {
+                if (_hotspotIsolationMembers.Count > 0)
+                {
+                    return true;
+                }
+
+                return PartVisibilityManager.Instance != null
+                    && PartVisibilityManager.Instance.HasStoredGroupIsolation;
+            }
+        }
 
 
 
@@ -498,6 +521,7 @@ namespace WebGL.UI
             _isIsolated = true;
             _isolatedFullSelection = fullSelection;
             _isolatedSubSelection = null;
+            _subIsolationParentLayer = SubIsolationParentLayer.None;
             _modeController.SetIsolateState(true);
 
             // Center camera on the isolated part
@@ -516,10 +540,24 @@ namespace WebGL.UI
                 fullSelection = ResolveFullSelection(subSelection);
             }
 
+            bool hadIsolatedFullLayer = _isIsolated && _isolatedSubSelection == null && _isolatedFullSelection != null;
+
             PartVisibilityManager.Instance?.IsolateTransform(subSelection);
             _isIsolated = true;
             _isolatedFullSelection = fullSelection;
             _isolatedSubSelection = subSelection;
+            if (hadIsolatedFullLayer)
+            {
+                _subIsolationParentLayer = SubIsolationParentLayer.FullSelection;
+            }
+            else if (HasHotspotIsolationLayer)
+            {
+                _subIsolationParentLayer = SubIsolationParentLayer.HotspotGroup;
+            }
+            else
+            {
+                _subIsolationParentLayer = SubIsolationParentLayer.FullSelection;
+            }
             _modeController.SetIsolateState(true);
 
             OrbitCameraController.Instance?.FocusOnObject(subSelection);
@@ -553,11 +591,61 @@ namespace WebGL.UI
         {
             if (_isolatedFullSelection == null)
             {
-                ClearIsolation();
+                if (_hotspotIsolationActive)
+                {
+                    RestoreHotspotIsolation();
+                }
+                else
+                {
+                    ClearIsolation();
+                }
                 return;
             }
 
             IsolateFullSelection(_isolatedFullSelection);
+        }
+
+        private void RestoreHotspotIsolation()
+        {
+            PartVisibilityManager visibility = PartVisibilityManager.Instance;
+
+            bool hasLocalMembers = false;
+            if (_hotspotIsolationMembers.Count > 0)
+            {
+                for (int i = 0; i < _hotspotIsolationMembers.Count; i++)
+                {
+                    if (_hotspotIsolationMembers[i] != null)
+                    {
+                        hasLocalMembers = true;
+                        break;
+                    }
+                }
+            }
+
+            if (hasLocalMembers)
+            {
+                visibility?.IsolateParts(_hotspotIsolationMembers);
+            }
+
+            // Always attempt fallback from persisted group isolation to avoid losing
+            // hotspot context if local member list is stale.
+            if (visibility != null && !visibility.IsGroupIsolationActive && visibility.HasStoredGroupIsolation)
+            {
+                visibility.RestoreStoredGroupIsolation();
+            }
+
+            if (visibility != null && !visibility.IsGroupIsolationActive)
+            {
+                // Keep state untouched if restore failed; avoid collapsing the stack to full clear.
+                return;
+            }
+
+            _isIsolated = false;
+            _isolatedFullSelection = null;
+            _isolatedSubSelection = null;
+            _subIsolationParentLayer = SubIsolationParentLayer.None;
+            _hotspotIsolationActive = true;
+            _modeController.SetIsolateState(true);
         }
 
         private void ClearIsolation()
@@ -566,6 +654,10 @@ namespace WebGL.UI
             _isIsolated = false;
             _isolatedFullSelection = null;
             _isolatedSubSelection = null;
+            _subIsolationParentLayer = SubIsolationParentLayer.None;
+            _hotspotIsolationActive = false;
+            _hotspotIsolationMembers.Clear();
+            PartVisibilityManager.Instance?.ClearStoredGroupIsolation();
             _modeController.SetIsolateState(false);
 
             // Smoothly return camera to full drone view
@@ -603,6 +695,7 @@ namespace WebGL.UI
         {
             EventBus.Subscribe<PartSelectedEvent>(OnPartSelected);
             EventBus.Subscribe<PartDoubleClickedEvent>(OnPartDoubleClicked);
+            EventBus.Subscribe<HotspotGroupIsolatedEvent>(OnHotspotGroupIsolated);
             EventBus.Subscribe<StateChangedEvent>(OnAppStateChanged);
             if (ViewModeManager.Instance != null)
                 ViewModeManager.Instance.OnModeChanged += OnViewModeChanged;
@@ -612,6 +705,7 @@ namespace WebGL.UI
         {
             EventBus.Unsubscribe<PartSelectedEvent>(OnPartSelected);
             EventBus.Unsubscribe<PartDoubleClickedEvent>(OnPartDoubleClicked);
+            EventBus.Unsubscribe<HotspotGroupIsolatedEvent>(OnHotspotGroupIsolated);
             EventBus.Unsubscribe<StateChangedEvent>(OnAppStateChanged);
             if (ViewModeManager.Instance != null)
                 ViewModeManager.Instance.OnModeChanged -= OnViewModeChanged;
@@ -629,7 +723,9 @@ namespace WebGL.UI
                 evt.FromHotspot,
                 evt.HotspotGroupLabel,
                 evt.HotspotGroupSummary,
-                evt.HotspotGroupMembers);
+                evt.HotspotGroupMembers,
+                evt.SelectionLabel,
+                evt.CanonicalPartName);
 
             // Show/hide FAB: visible when a part is selected OR the sheet is still open
             bool fabVisible = evt.PartData != null
@@ -648,12 +744,58 @@ namespace WebGL.UI
                 // to full-part isolation. Otherwise it clears isolation.
                 if (_isolatedSubSelection != null && _isolatedFullSelection != null)
                 {
-                    RestoreFullIsolationFromStack();
+                    switch (_subIsolationParentLayer)
+                    {
+                        case SubIsolationParentLayer.FullSelection:
+                            RestoreFullIsolationFromStack();
+                            break;
+
+                        case SubIsolationParentLayer.HotspotGroup:
+                            RestoreHotspotIsolation();
+                            break;
+
+                        default:
+                            if (HasHotspotIsolationLayer)
+                            {
+                                RestoreHotspotIsolation();
+                            }
+                            else
+                            {
+                                ClearIsolation();
+                            }
+                            break;
+                    }
                 }
                 else if (_isIsolated)
                 {
+                    if (HasHotspotIsolationLayer)
+                    {
+                        RestoreHotspotIsolation();
+                    }
+                    else
+                    {
+                        ClearIsolation();
+                    }
+                }
+                else if (HasHotspotIsolationLayer)
+                {
+                    if (PartVisibilityManager.Instance != null && PartVisibilityManager.Instance.IsGroupIsolationActive)
+                    {
+                        ClearIsolation();
+                    }
+                    else
+                    {
+                        RestoreHotspotIsolation();
+                    }
+                }
+                else if (PartVisibilityManager.Instance != null && PartVisibilityManager.Instance.HasAnyIsolationActive)
+                {
+                    // Covers hotspot-system isolation that does not use _isIsolated stack.
                     ClearIsolation();
                 }
+
+                _detailsSheet?.SetSheetState(false);
+                EnhancedInfoPanel.Instance?.Hide();
 
                 return;
             }
@@ -668,6 +810,21 @@ namespace WebGL.UI
 
             bool clickedIsSubSelection = IsSubSelection(clickedSelection, clickedFull);
 
+            Transform selectionBeforeDoubleClick = evt.SelectionBeforeFirstClick;
+            Transform fullBeforeDoubleClick = evt.FullSelectionBeforeFirstClick != null
+                ? evt.FullSelectionBeforeFirstClick
+                : ResolveFullSelection(selectionBeforeDoubleClick);
+
+            bool hadSelectionBeforeDoubleClick = evt.HadSelectionBeforeFirstClick;
+            bool wasSubSelectionBeforeDoubleClick = IsSubSelection(selectionBeforeDoubleClick, fullBeforeDoubleClick);
+            bool sameFullPartAsBefore = fullBeforeDoubleClick != null
+                && clickedFull != null
+                && fullBeforeDoubleClick == clickedFull;
+
+            bool canIsolateSubSelection = clickedIsSubSelection && (
+                (hadSelectionBeforeDoubleClick && !wasSubSelectionBeforeDoubleClick && sameFullPartAsBefore) ||
+                (hadSelectionBeforeDoubleClick && wasSubSelectionBeforeDoubleClick && selectionBeforeDoubleClick == clickedSelection));
+
             if (_isolatedSubSelection != null)
             {
                 bool sameSubSelection = clickedSelection != null && clickedSelection == _isolatedSubSelection;
@@ -679,7 +836,7 @@ namespace WebGL.UI
                     return;
                 }
 
-                if (clickedIsSubSelection)
+                if (canIsolateSubSelection)
                 {
                     IsolateSubSelection(clickedSelection, clickedFull);
                     _detailsSheet?.OpenSheet();
@@ -693,7 +850,7 @@ namespace WebGL.UI
 
             if (_isIsolated)
             {
-                if (clickedIsSubSelection)
+                if (canIsolateSubSelection)
                 {
                     IsolateSubSelection(clickedSelection, clickedFull);
                     _detailsSheet?.OpenSheet();
@@ -705,7 +862,7 @@ namespace WebGL.UI
                 return;
             }
 
-            if (clickedIsSubSelection)
+            if (canIsolateSubSelection)
             {
                 IsolateSubSelection(clickedSelection, clickedFull);
             }
@@ -716,6 +873,27 @@ namespace WebGL.UI
 
             // Double-click isolation should always reveal the details panel.
             _detailsSheet?.OpenSheet();
+        }
+
+        private void OnHotspotGroupIsolated(HotspotGroupIsolatedEvent evt)
+        {
+            _hotspotIsolationActive = evt.Members != null && evt.Members.Count > 0;
+            _hotspotIsolationMembers.Clear();
+            if (evt.Members != null)
+            {
+                _hotspotIsolationMembers.AddRange(evt.Members);
+            }
+
+            _isIsolated = false;
+            _isolatedFullSelection = null;
+            _isolatedSubSelection = null;
+            _subIsolationParentLayer = SubIsolationParentLayer.None;
+            _modeController.SetIsolateState(_hotspotIsolationActive);
+
+            if (_hotspotIsolationActive)
+            {
+                _detailsSheet?.OpenSheet();
+            }
         }
 
         private void OnAppStateChanged(StateChangedEvent evt)

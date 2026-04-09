@@ -238,9 +238,11 @@ namespace WebGL.UI.Panels
             bool fromHotspot,
             string hotspotGroupLabel = "",
             string hotspotGroupSummary = "",
-            string hotspotGroupMembers = "")
+            string hotspotGroupMembers = "",
+            string selectionLabel = "",
+            string canonicalPartName = "")
         {
-            UpdatePartIndicator(data);
+            UpdatePartIndicator(data, selectionLabel, canonicalPartName);
 
             if (data != null && !string.IsNullOrEmpty(data.partName) && data.partName != "NULL")
             {
@@ -250,7 +252,7 @@ namespace WebGL.UI.Panels
                 if (_sheetTitle != null)
                     _sheetTitle.text = !string.IsNullOrWhiteSpace(hotspotGroupLabel)
                         ? hotspotGroupLabel
-                        : CultureInfo.CurrentCulture.TextInfo.ToTitleCase(data.partName.ToLower());
+                        : CultureInfo.CurrentCulture.TextInfo.ToTitleCase(GetDisplayName(selectionLabel, canonicalPartName, data).ToLower());
                 if (_sheetCategory != null)
                     _sheetCategory.text = !string.IsNullOrWhiteSpace(hotspotGroupLabel)
                         ? "System Group"
@@ -292,7 +294,7 @@ namespace WebGL.UI.Panels
                 if (_sheetAssemblyTime != null)
                     _sheetAssemblyTime.text = data.installationTimeMinutes > 0 ? $"~{data.installationTimeMinutes:F0} min" : "N/A";
 
-                if (fromHotspot && !IsSheetOpen) OpenSheet();
+                // Hotspot single-click selection should not auto-open the details panel.
 
                 // PRE-PEEK INFO BAR LOGIC: Show when part is selected
                 if (_infoBarPeek != null && !IsSheetOpen)
@@ -323,11 +325,11 @@ namespace WebGL.UI.Panels
             }
         }
 
-        public void UpdatePartIndicator(DronePartData data)
+        public void UpdatePartIndicator(DronePartData data, string selectionLabel = "", string canonicalPartName = "")
         {
             if (data != null)
             {
-                string upperName = data.partName.ToUpper();
+            string upperName = GetDisplayName(selectionLabel, canonicalPartName, data).ToUpper();
 
                 // Bottom selection indicator — show part name
                 if (_partNameLabel != null)
@@ -356,6 +358,21 @@ namespace WebGL.UI.Panels
                     _topContextLabel.style.color = new StyleColor(_isLightBg ? MutedLight : MutedDark);
                 }
             }
+        }
+
+        private static string GetDisplayName(string selectionLabel, string canonicalPartName, DronePartData data)
+        {
+            if (!string.IsNullOrWhiteSpace(selectionLabel))
+            {
+                return selectionLabel;
+            }
+
+            if (!string.IsNullOrWhiteSpace(canonicalPartName))
+            {
+                return canonicalPartName;
+            }
+
+            return data != null ? data.partName : string.Empty;
         }
 
         // ═══════════════════════════════════════════════════════

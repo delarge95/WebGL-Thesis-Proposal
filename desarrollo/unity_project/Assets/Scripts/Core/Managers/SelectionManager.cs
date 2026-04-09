@@ -39,14 +39,21 @@ namespace WebGL.Core.Managers
         #region Private Fields
 
         private Transform currentSelection;
+        private Transform currentFullSelection;
+        private Transform currentSubSelection;
+        private bool hotspotGroupSelectionActive;
         private Transform hoveredObject;
         private Transform hoveredRawTransform;
         private HighlightSystem currentHighlight;
         private HighlightSystem hoveredHighlight;
+        private bool hoveredEffectApplied;
 
         // Double-click tracking
         private float _lastClickTime;
         private string _lastClickId;
+        private bool _lastClickHadSelection;
+        private Transform _lastClickSelection;
+        private Transform _lastClickFullSelection;
 
         #endregion
 
@@ -149,10 +156,12 @@ namespace WebGL.Core.Managers
         /// </summary>
         private void ExitCurrentHover()
         {
-            if (hoveredHighlight != null && hoveredObject != currentSelection)
+            if (hoveredEffectApplied && hoveredHighlight != null && hoveredObject != currentSelection)
             {
                 hoveredHighlight.OnHoverExit();
             }
+
+            hoveredEffectApplied = false;
         }
 
         /// <summary>
@@ -162,15 +171,22 @@ namespace WebGL.Core.Managers
         private void EnterNewHover(Transform newHover)
         {
             hoveredObject = newHover;
-            hoveredHighlight = hoveredObject.GetComponent<HighlightSystem>();
-            if (hoveredHighlight == null)
+            Transform hoverHighlightTarget = ResolveHighlightTarget(hoveredObject);
+            hoveredHighlight = hoverHighlightTarget != null ? hoverHighlightTarget.GetComponent<HighlightSystem>() : null;
+            if (hoveredHighlight == null && hoverHighlightTarget != null)
             {
-                hoveredHighlight = hoveredObject.GetComponentInParent<HighlightSystem>();
+                hoveredHighlight = hoverHighlightTarget.GetComponentInParent<HighlightSystem>();
             }
             
-            if (hoveredHighlight != null && hoveredObject != currentSelection)
+            bool suppressHoverEffect = ShouldSuppressHoverEffect(hoveredObject);
+            if (!suppressHoverEffect && hoveredHighlight != null && hoveredObject != currentSelection)
             {
                 hoveredHighlight.OnHoverEnter();
+                hoveredEffectApplied = true;
+            }
+            else
+            {
+                hoveredEffectApplied = false;
             }
 
             UpdateCursor(CursorType.Pointer);
@@ -181,7 +197,7 @@ namespace WebGL.Core.Managers
         /// </summary>
         private void ClearHover()
         {
-            if (hoveredHighlight != null && hoveredObject != currentSelection)
+            if (hoveredEffectApplied && hoveredHighlight != null && hoveredObject != currentSelection)
             {
                 hoveredHighlight.OnHoverExit();
             }
@@ -189,6 +205,7 @@ namespace WebGL.Core.Managers
             hoveredObject = null;
             hoveredRawTransform = null;
             hoveredHighlight = null;
+            hoveredEffectApplied = false;
 
             UpdateCursor(CursorType.Default);
         }
@@ -252,6 +269,10 @@ namespace WebGL.Core.Managers
 
             // ── Double-click / double-tap detection ──
             float now = Time.time;
+            Transform selectionBeforeClick = currentSelection;
+            Transform fullSelectionBeforeClick = ResolvePrimarySelection(selectionBeforeClick);
+            bool hadSelectionBeforeClick = selectionBeforeClick != null;
+
             DronePartData clickedData = null;
             Transform clickedSelection = hoveredObject;
             Transform clickedFull = ResolvePrimarySelection(hoveredRawTransform != null ? hoveredRawTransform : hoveredObject);
@@ -278,15 +299,24 @@ namespace WebGL.Core.Managers
                     clickedData,
                     clickedSelection,
                     clickedFull,
-                    clickedSelection == null));
+                    clickedSelection == null,
+                    _lastClickHadSelection,
+                    _lastClickSelection,
+                    _lastClickFullSelection));
                 _lastClickTime = 0f;
                 _lastClickId = null;
+                _lastClickHadSelection = false;
+                _lastClickSelection = null;
+                _lastClickFullSelection = null;
                 return; // Skip normal selection on double-click
             }
 
             // Track for next potential double-click
             _lastClickTime = now;
             _lastClickId = clickId;
+            _lastClickHadSelection = hadSelectionBeforeClick;
+            _lastClickSelection = selectionBeforeClick;
+            _lastClickFullSelection = fullSelectionBeforeClick;
 
             // ── Normal selection logic ──
             if (hoveredObject == null)
@@ -308,27 +338,78 @@ namespace WebGL.Core.Managers
                     return;  // Don't deselect when clicking UI
                 }
 
-                LogDebug("[SelectionManager.HandleClick] Deselecting...");
-                // Background click → deselect current selection
-                Deselect();
+                // Background click behavior:
+                // 1) If a subpiece is active, go back to full parent selection.
+                // 2) If only full parent is active, fully deselect.
+                if (currentSubSelection != null && currentFullSelection != null)
+                {
+                    LogDebug("[SelectionManager.HandleClick] Background → step back to full selection");
+                    SelectObject(currentFullSelection);
+                }
+                else
+                {
+                    LogDebug("[SelectionManager.HandleClick] Deselecting full selection...");
+                    Deselect();
+                }
                 return;
             }
 
-            if (hoveredObject == currentSelection)
+            Transform clickedRaw = hoveredObject;
+            Transform clickedFullSelection = ResolvePrimarySelection(hoveredRawTransform != null ? hoveredRawTransform : hoveredObject);
+            bool clickedIsSubSelection = clickedRaw != null
+                && clickedFullSelection != null
+                && clickedRaw != clickedFullSelection
+                && clickedRaw.IsChildOf(clickedFullSelection);
+
+            if (hotspotGroupSelectionActive)
             {
-                // Re-click on already-selected part — no-op (first click already populated UI)
+                // First mesh click after hotspot-group selection should immediately enter
+                // normal piece flow by selecting the clicked mother part.
+                hotspotGroupSelectionActive = false;
+                EventBus.Publish(new HotspotGroupVisualsClearRequestedEvent());
+                SelectObject(clickedFullSelection != null ? clickedFullSelection : clickedRaw);
                 return;
             }
 
-            // Swap Selection Logic (User Request: Don't close sheet if swapping)
-            if (currentSelection != null)
+            if (currentFullSelection == null)
             {
-                // Manually clean up old selection visual
-                if (currentHighlight != null) currentHighlight.OnDeselect();
-                // Do NOT call Deselect() here to avoid firing PartSelectedEvent(null)
+                // First click always selects full parent piece.
+                SelectObject(clickedFullSelection != null ? clickedFullSelection : clickedRaw);
+                return;
             }
 
-            SelectObject(hoveredObject);
+            if (clickedFullSelection == currentFullSelection)
+            {
+                if (currentSubSelection == null)
+                {
+                    // Parent is selected; clicking a subpiece switches to that subpiece.
+                    if (clickedIsSubSelection)
+                    {
+                        SelectObject(clickedRaw);
+                    }
+                    // Clicking parent again is a no-op.
+                    return;
+                }
+
+                // Subpiece is selected under same parent.
+                if (clickedIsSubSelection)
+                {
+                    if (clickedRaw == currentSubSelection)
+                    {
+                        return;
+                    }
+
+                    SelectObject(clickedRaw);
+                    return;
+                }
+
+                // Clicking parent while subpiece selected returns to full parent selection.
+                SelectObject(currentFullSelection);
+                return;
+            }
+
+            // Clicked another parent branch: start over with that full parent selection.
+            SelectObject(clickedFullSelection != null ? clickedFullSelection : clickedRaw);
         }
 
         #endregion
@@ -355,17 +436,41 @@ namespace WebGL.Core.Managers
                 currentHighlight.OnDeselect();
             }
 
+            Transform fullSelection = ResolvePrimarySelection(selection);
+            bool isFullPartSelection = fullSelection != null && selection == fullSelection;
+
+            currentFullSelection = fullSelection != null ? fullSelection : selection;
+            currentSubSelection = isFullPartSelection ? null : selection;
+
             currentSelection = selection;
-            currentHighlight = selection.GetComponent<HighlightSystem>();
-            if (currentHighlight == null)
+            Transform highlightTarget = isFullPartSelection ? fullSelection : ResolveHighlightTarget(selection);
+            if (highlightTarget == null)
             {
-                currentHighlight = selection.GetComponentInParent<HighlightSystem>();
+                highlightTarget = selection;
+            }
+
+            currentHighlight = highlightTarget != null ? highlightTarget.GetComponent<HighlightSystem>() : null;
+
+            // For full-part selection we can reuse parent-level highlight components.
+            // For subpiece selection we intentionally avoid parent fallback so only the
+            // clicked subpiece receives the hard highlight.
+            if (currentHighlight == null && highlightTarget != null && isFullPartSelection)
+            {
+                currentHighlight = highlightTarget.GetComponentInParent<HighlightSystem>();
+            }
+
+            if (currentHighlight == null && highlightTarget != null)
+            {
+                currentHighlight = highlightTarget.gameObject.AddComponent<HighlightSystem>();
             }
 
             // Apply highlight
             if (currentHighlight != null)
             {
-                currentHighlight.OnSelect();
+                currentHighlight.OnSelect(
+                    isFullPartSelection
+                        ? HighlightSystem.SelectionVisualMode.SoftTint
+                        : HighlightSystem.SelectionVisualMode.FillPulse);
             }
 
             // Get data and publish event
@@ -376,12 +481,22 @@ namespace WebGL.Core.Managers
             }
             if (explodable != null && explodable.Data != null)
             {
+                hotspotGroupSelectionActive = fromHotspot;
+
+                string selectionLabel = BuildSelectionLabel(selection, explodable.transform, explodable.Data.partName);
+                if (fromHotspot && !string.IsNullOrWhiteSpace(hotspotGroupLabel))
+                {
+                    selectionLabel = hotspotGroupLabel;
+                }
+
                 EventBus.Publish(new PartSelectedEvent(
                     explodable.Data,
                     fromHotspot,
                     hotspotGroupLabel,
                     hotspotGroupSummary,
-                    hotspotGroupMembers));
+                    hotspotGroupMembers,
+                    selectionLabel,
+                    explodable.Data.partName));
                 
                 // Track analytics
                 if (ServiceLocator.TryGet<AnalyticsManager>(out var analytics))
@@ -393,7 +508,28 @@ namespace WebGL.Core.Managers
             // Play feedback sound
             AudioManager.Instance?.PlayClick();
 
+            // A hover can be active on the clicked subpiece before this selection is promoted
+            // to full parent. If we keep the hover flag, the next hover-exit can clear the
+            // property block and accidentally remove the parent soft tint.
+            hoveredEffectApplied = false;
+
             LogDebug($"[SelectionManager] Selected: {selection.name}");
+        }
+
+        private static string BuildSelectionLabel(Transform selection, Transform partRoot, string canonicalPartName)
+        {
+            if (selection == null)
+            {
+                return string.Empty;
+            }
+
+            if (partRoot == null || selection == partRoot)
+            {
+                return !string.IsNullOrWhiteSpace(canonicalPartName) ? canonicalPartName : selection.name;
+            }
+
+            // For subpiece selection, show only the clicked subpiece label.
+            return selection.name;
         }
 
         private Transform ResolveSelectableTransform(Transform rawTransform)
@@ -406,6 +542,38 @@ namespace WebGL.Core.Managers
             // Preserve the exact clicked transform so parent and subpiece clicks remain distinct.
             // Data resolution and isolation continue to use the explodable root when needed.
             return rawTransform;
+        }
+
+        private static Transform ResolveHighlightTarget(Transform selection)
+        {
+            if (selection == null)
+            {
+                return null;
+            }
+
+            if (selection.GetComponent<Renderer>() != null)
+            {
+                return selection;
+            }
+
+            if (selection.GetComponent<HighlightSystem>() != null)
+            {
+                return selection;
+            }
+
+            Renderer[] renderers = selection.GetComponentsInChildren<Renderer>(true);
+            if (renderers != null)
+            {
+                foreach (Renderer renderer in renderers)
+                {
+                    if (renderer != null)
+                    {
+                        return renderer.transform;
+                    }
+                }
+            }
+
+            return selection;
         }
 
         private static Transform ResolvePrimarySelection(Transform rawTransform)
@@ -430,6 +598,27 @@ namespace WebGL.Core.Managers
             return rawTransform;
         }
 
+        private bool ShouldSuppressHoverEffect(Transform hoverTarget)
+        {
+            if (hoverTarget == null)
+            {
+                return false;
+            }
+
+            // If full parent is selected (no active subpiece), hovering descendants should not
+            // temporarily override/reset property blocks, otherwise the parent soft highlight is lost.
+            if (currentFullSelection != null
+                && currentSubSelection == null
+                && currentSelection == currentFullSelection
+                && hoverTarget != currentFullSelection
+                && hoverTarget.IsChildOf(currentFullSelection))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Deselects the currently selected object.
         /// </summary>
@@ -447,6 +636,9 @@ namespace WebGL.Core.Managers
             EventBus.Publish(new PartSelectedEvent(null));
 
             currentSelection = null;
+            currentFullSelection = null;
+            currentSubSelection = null;
+            hotspotGroupSelectionActive = false;
             currentHighlight = null;
 
             LogDebug("[SelectionManager] Deselected (Background Click)");
@@ -538,7 +730,16 @@ namespace WebGL.Core.Managers
             {
                 if (part.Data == partData)
                 {
-                    Deselect();
+                    if (currentHighlight != null)
+                    {
+                        currentHighlight.OnDeselect();
+                    }
+
+                    currentSelection = null;
+                    currentFullSelection = null;
+                    currentSubSelection = null;
+                    currentHighlight = null;
+
                     SelectObject(part.transform);
                     return;
                 }

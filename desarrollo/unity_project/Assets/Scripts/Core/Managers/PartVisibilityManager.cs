@@ -17,7 +17,13 @@ namespace WebGL.Core.Managers
         private Dictionary<ExplodablePart, Material[]> originalMaterials = new Dictionary<ExplodablePart, Material[]>();
         private ExplodablePart isolatedPart = null;
         private Transform isolatedTransform = null;
+        private bool isolatedGroup = false;
+        private readonly List<ExplodablePart> storedGroupIsolation = new List<ExplodablePart>();
         private List<ExplodablePart> allParts = new List<ExplodablePart>();
+
+        public bool HasAnyIsolationActive => isolatedPart != null || isolatedTransform != null || isolatedGroup;
+        public bool IsGroupIsolationActive => isolatedGroup;
+        public bool HasStoredGroupIsolation => storedGroupIsolation.Count > 0;
 
         protected override void Awake()
         {
@@ -36,6 +42,8 @@ namespace WebGL.Core.Managers
             originalMaterials.Clear();
             isolatedPart = null;
             isolatedTransform = null;
+            isolatedGroup = false;
+            storedGroupIsolation.Clear();
 
             allParts.AddRange(FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None));
             foreach (var part in allParts)
@@ -93,6 +101,7 @@ namespace WebGL.Core.Managers
 
             isolatedPart = part;
             isolatedTransform = null;
+            isolatedGroup = false;
 
             foreach (var p in allParts)
             {
@@ -133,6 +142,7 @@ namespace WebGL.Core.Managers
 
             isolatedPart = parentPart;
             isolatedTransform = selection;
+            isolatedGroup = false;
 
             bool anyRendererVisible = false;
 
@@ -177,10 +187,96 @@ namespace WebGL.Core.Managers
             Debug.Log($"[PartVisibility] Isolated transform: {selection.name}");
         }
 
+        public void IsolateParts(IEnumerable<ExplodablePart> parts)
+        {
+            if (parts == null)
+            {
+                ClearIsolation();
+                return;
+            }
+
+            HashSet<ExplodablePart> targets = new HashSet<ExplodablePart>();
+            foreach (ExplodablePart part in parts)
+            {
+                if (part != null)
+                {
+                    targets.Add(part);
+                }
+            }
+
+            if (targets.Count == 0)
+            {
+                ClearIsolation();
+                return;
+            }
+
+            storedGroupIsolation.Clear();
+            storedGroupIsolation.AddRange(targets);
+
+            isolatedPart = null;
+            isolatedTransform = null;
+            isolatedGroup = true;
+
+            foreach (var p in allParts)
+            {
+                if (p == null)
+                {
+                    continue;
+                }
+
+                bool shouldBeVisible = targets.Contains(p);
+
+                if (shouldBeVisible)
+                {
+                    p.gameObject.SetActive(true);
+
+                    var renderers = p.GetComponentsInChildren<Renderer>(true);
+                    foreach (var renderer in renderers)
+                    {
+                        if (renderer == null) continue;
+                        renderer.enabled = true;
+
+                        Collider collider = renderer.GetComponent<Collider>();
+                        if (collider != null)
+                        {
+                            collider.enabled = true;
+                        }
+                    }
+                }
+                else
+                {
+                    p.gameObject.SetActive(false);
+                }
+            }
+
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayClick();
+            }
+
+            Debug.Log($"[PartVisibility] Isolated group with {targets.Count} parts");
+        }
+
+        public void RestoreStoredGroupIsolation()
+        {
+            if (storedGroupIsolation.Count == 0)
+            {
+                return;
+            }
+
+            IsolateParts(storedGroupIsolation);
+        }
+
+        public void ClearStoredGroupIsolation()
+        {
+            storedGroupIsolation.Clear();
+        }
+
         public void ClearIsolation()
         {
             isolatedPart = null;
             isolatedTransform = null;
+            isolatedGroup = false;
 
             foreach (var p in allParts)
             {

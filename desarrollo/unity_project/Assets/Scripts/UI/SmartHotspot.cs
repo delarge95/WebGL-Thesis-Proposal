@@ -6,6 +6,14 @@ using WebGL.Core.Managers;
 
 public class SmartHotspot
 {
+    public enum InteractionType
+    {
+        HoverEnter,
+        HoverLeave,
+        Click,
+        DoubleClick
+    }
+
     private readonly VisualElement _root;
     private readonly VisualElement _container;
     private readonly Label _nameLabel;
@@ -16,6 +24,7 @@ public class SmartHotspot
     private readonly Renderer[] _renderers;
     private readonly string _labelOverride;
     private readonly Action _clickAction;
+    private readonly Action<InteractionType> _interactionAction;
 
     private bool _isVisible = true;
     private bool _isEnabled = true;
@@ -26,13 +35,16 @@ public class SmartHotspot
     private readonly int _frameOffset;
     private const float SmoothSpeed = 18f;
     private const int OcclusionInterval = 8;
+    private const float AnchorHeightMultiplier = 1.15f;
+    private const float AnchorMinimumOffset = 0.12f;
 
     public SmartHotspot(
         VisualElement container,
         ExplodablePart targetPart,
         Camera camera,
         string labelOverride = "",
-        Action clickAction = null)
+        Action clickAction = null,
+        Action<InteractionType> interactionAction = null)
     {
         _container = container;
         _targetPart = targetPart;
@@ -40,6 +52,7 @@ public class SmartHotspot
         _camera = camera;
         _labelOverride = labelOverride ?? string.Empty;
         _clickAction = clickAction;
+        _interactionAction = interactionAction;
         _highlight = _target != null ? _target.GetComponent<HighlightSystem>() : null;
         _renderers = _target != null ? _target.GetComponentsInChildren<Renderer>(true) : null;
         _frameOffset = UnityEngine.Random.Range(0, OcclusionInterval);
@@ -132,6 +145,7 @@ public class SmartHotspot
     {
         _root.AddToClassList("hotspot-dot--hover");
         _nameLabel.AddToClassList("hotspot-label--visible");
+        _interactionAction?.Invoke(InteractionType.HoverEnter);
         _highlight?.OnHoverEnter();
     }
 
@@ -139,12 +153,20 @@ public class SmartHotspot
     {
         _root.RemoveFromClassList("hotspot-dot--hover");
         _nameLabel.RemoveFromClassList("hotspot-label--visible");
+        _interactionAction?.Invoke(InteractionType.HoverLeave);
         _highlight?.OnHoverExit();
     }
 
     private void OnClick(ClickEvent evt)
     {
         evt.StopPropagation();
+
+        if (evt.clickCount >= 2)
+        {
+            _interactionAction?.Invoke(InteractionType.DoubleClick);
+            return;
+        }
+        _interactionAction?.Invoke(InteractionType.Click);
 
         if (_clickAction != null)
         {
@@ -264,7 +286,7 @@ public class SmartHotspot
             return false;
         }
 
-        worldPos = bounds.center + Vector3.up * Mathf.Max(bounds.extents.y * 0.75f, 0.06f);
+        worldPos = bounds.center + Vector3.up * Mathf.Max(bounds.extents.y * AnchorHeightMultiplier, AnchorMinimumOffset);
         return true;
     }
 

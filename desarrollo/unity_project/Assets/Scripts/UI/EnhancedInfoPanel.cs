@@ -236,7 +236,7 @@ namespace WebGL.UI
             if (evt.PartData != null)
             {
                 var part = FindPartByData(evt.PartData);
-                ShowPartInfo(part, evt.PartData);
+                ShowPartInfo(part, evt.PartData, evt.SelectionLabel, evt.CanonicalPartName);
             }
             else
             {
@@ -254,14 +254,18 @@ namespace WebGL.UI
             return null;
         }
 
-        public void ShowPartInfo(ExplodablePart part, DronePartData data)
+        public void ShowPartInfo(ExplodablePart part, DronePartData data, string selectionLabel = "", string canonicalPartName = "")
         {
             if (data == null) return;
 
             currentPart = part;
 
+            string displayName = !string.IsNullOrWhiteSpace(selectionLabel)
+                ? selectionLabel
+                : (!string.IsNullOrWhiteSpace(canonicalPartName) ? canonicalPartName : data.partName);
+
             // Update labels
-            titleLabel.text = data.partName;
+            titleLabel.text = displayName;
             subtitleLabel.text = data.partType;
             descriptionLabel.text = data.description;
             weightLabel.text = $"{data.weightKg:F2} kg";

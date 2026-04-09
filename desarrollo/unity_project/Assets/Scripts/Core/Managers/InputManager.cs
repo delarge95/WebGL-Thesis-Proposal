@@ -453,6 +453,11 @@ namespace WebGL.Core.Managers
 
             VisualElement root = _mainUIDocument.rootVisualElement;
 
+            if (IsPointerOverHotspotDot(root, panelPos))
+            {
+                return true;
+            }
+
             string[] namedControls =
             {
                 "HomeBtn",
@@ -495,6 +500,35 @@ namespace WebGL.Core.Managers
             }
 
             return false;
+        }
+
+        private static bool IsPointerOverHotspotDot(VisualElement root, Vector2 panelPos)
+        {
+            if (root == null)
+            {
+                return false;
+            }
+
+            bool hit = false;
+            root.Query<VisualElement>(className: "hotspot-dot").ForEach(dot =>
+            {
+                if (hit || dot == null)
+                {
+                    return;
+                }
+
+                if (!IsElementVisible(dot) || dot.ClassListContains("hotspot-dot--hidden"))
+                {
+                    return;
+                }
+
+                if (ElementContainsPoint(dot, panelPos))
+                {
+                    hit = true;
+                }
+            });
+
+            return hit;
         }
 
         private bool IsPointerOverNamedElement(string elementName, Vector2 panelPos, string requireVisibleClass = null)

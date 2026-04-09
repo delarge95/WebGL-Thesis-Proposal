@@ -30,6 +30,12 @@ public class HotspotManager : Singleton<HotspotManager>
         public List<ExplodablePart> Members;
     }
 
+    private sealed class HotspotVisualState
+    {
+        public HotspotGroupRuntime Group;
+        public List<HighlightSystem> Highlights = new List<HighlightSystem>();
+    }
+
     private static readonly HotspotSystemGroup[] GroupDefinitions =
     {
         new HotspotSystemGroup
@@ -78,6 +84,12 @@ public class HotspotManager : Singleton<HotspotManager>
     private VisualElement _container;
     private readonly List<SmartHotspot> _activeHotspots = new List<SmartHotspot>();
     private Camera _mainCamera;
+    private readonly Dictionary<string, HotspotGroupRuntime> _groupsById = new Dictionary<string, HotspotGroupRuntime>();
+    private HotspotVisualState _hoveredGroupState;
+    private HotspotVisualState _selectedGroupState;
+
+    private static readonly Color HotspotHoverColor = new Color(1.0f, 0.88f, 0.32f, 0.14f);
+    private static readonly Color HotspotSelectedColor = new Color(1.0f, 0.78f, 0.24f, 0.24f);
 
     /// <summary>
     /// Called by UIManager once the root VisualElement is ready.
@@ -111,6 +123,8 @@ public class HotspotManager : Singleton<HotspotManager>
 
     private void SpawnHotspots()
     {
+        _groupsById.Clear();
+
         ExplodablePart[] parts = FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None);
 
         if (parts.Length == 0) return;
@@ -310,6 +324,8 @@ public class HotspotManager : Singleton<HotspotManager>
                 hotspotGroupLabel: grouped.Definition.Label,
                 hotspotGroupSummary: summary,
                 hotspotGroupMembers: memberNames);
+
+            ApplySelectedGroupHighlight(grouped);
         };
 
         SmartHotspot hotspot = new SmartHotspot(
@@ -317,9 +333,11 @@ public class HotspotManager : Singleton<HotspotManager>
             grouped.Anchor,
             _mainCamera,
             grouped.Definition.Label,
-            clickAction);
+            clickAction,
+            interactionType => HandleGroupHotspotInteraction(grouped, interactionType));
 
         _activeHotspots.Add(hotspot);
+        _groupsById[grouped.Definition.Id] = grouped;
     }
 
     private static string BuildGroupMemberSummary(List<ExplodablePart> members)
@@ -353,12 +371,16 @@ public class HotspotManager : Singleton<HotspotManager>
     private void OnDisable()
     {
         EventBus.Unsubscribe<ImportedDroneRuntimeBoundEvent>(HandleImportedDroneRuntimeBound);
+        EventBus.Unsubscribe<PartSelectedEvent>(HandlePartSelected);
+        EventBus.Unsubscribe<HotspotGroupVisualsClearRequestedEvent>(HandleHotspotGroupVisualsClearRequested);
         ClearHotspots();
     }
 
     private void OnEnable()
     {
         EventBus.Subscribe<ImportedDroneRuntimeBoundEvent>(HandleImportedDroneRuntimeBound);
+        EventBus.Subscribe<PartSelectedEvent>(HandlePartSelected);
+        EventBus.Subscribe<HotspotGroupVisualsClearRequestedEvent>(HandleHotspotGroupVisualsClearRequested);
     }
 
     private void LateUpdate()
@@ -373,11 +395,15 @@ public class HotspotManager : Singleton<HotspotManager>
 
     public void ClearHotspots()
     {
+        ClearHoveredGroupHighlight();
+        ClearSelectedGroupHighlight();
+
         foreach (var hotspot in _activeHotspots)
         {
             hotspot.Destroy();
         }
         _activeHotspots.Clear();
+        _groupsById.Clear();
     }
 
     /// <summary>
@@ -407,8 +433,177 @@ public class HotspotManager : Singleton<HotspotManager>
         SetVisible(!IsVisible);
     }
 
+    public void ClearActiveGroupVisuals()
+    {
+        ClearHoveredGroupHighlight();
+        ClearSelectedGroupHighlight();
+    }
+
     private void HandleImportedDroneRuntimeBound(ImportedDroneRuntimeBoundEvent _)
     {
         RebuildHotspots();
+    }
+
+    private void HandleHotspotGroupVisualsClearRequested(HotspotGroupVisualsClearRequestedEvent _)
+    {
+        ClearActiveGroupVisuals();
+    }
+
+    private void HandlePartSelected(PartSelectedEvent evt)
+    {
+        if (evt.FromHotspot)
+        {
+            return;
+        }
+
+        if (evt.PartData == null)
+        {
+            ClearSelectedGroupHighlight();
+            return;
+        }
+
+        // Any direct mesh selection takes precedence over grouped hotspot selection.
+        ClearSelectedGroupHighlight();
+    }
+
+    private void HandleGroupHotspotInteraction(HotspotGroupRuntime group, SmartHotspot.InteractionType interactionType)
+    {
+        if (group == null)
+        {
+            return;
+        }
+
+        switch (interactionType)
+        {
+            case SmartHotspot.InteractionType.HoverEnter:
+                ApplyHoveredGroupHighlight(group);
+                break;
+
+            case SmartHotspot.InteractionType.HoverLeave:
+                ClearHoveredGroupHighlight();
+                break;
+
+            case SmartHotspot.InteractionType.DoubleClick:
+                SelectionManager.Instance?.SelectObject(
+                    group.Anchor.transform,
+                    fromHotspot: true,
+                    hotspotGroupLabel: group.Definition.Label,
+                    hotspotGroupSummary: $"{group.Definition.Summary} Includes {group.Members.Count} parts.",
+                    hotspotGroupMembers: BuildGroupMemberSummary(group.Members));
+
+                ApplySelectedGroupHighlight(group);
+                PartVisibilityManager.Instance?.IsolateParts(group.Members);
+                EventBus.Publish(new HotspotGroupIsolatedEvent(
+                    group.Definition != null ? group.Definition.Id : string.Empty,
+                    group.Members != null ? new List<ExplodablePart>(group.Members) : new List<ExplodablePart>()));
+                break;
+        }
+    }
+
+    private void ApplyHoveredGroupHighlight(HotspotGroupRuntime group)
+    {
+        if (group == null)
+        {
+            return;
+        }
+
+        if (_selectedGroupState != null
+            && _selectedGroupState.Group != null
+            && _selectedGroupState.Group.Definition != null
+            && group.Definition != null
+            && _selectedGroupState.Group.Definition.Id == group.Definition.Id)
+        {
+            // Selected group highlight already represents this group.
+            return;
+        }
+
+        if (_hoveredGroupState != null
+            && _hoveredGroupState.Group != null
+            && _hoveredGroupState.Group.Definition != null
+            && group.Definition != null
+            && _hoveredGroupState.Group.Definition.Id == group.Definition.Id)
+        {
+            return;
+        }
+
+        ClearHoveredGroupHighlight();
+        _hoveredGroupState = BuildVisualState(group, HotspotHoverColor);
+    }
+
+    private void ClearHoveredGroupHighlight()
+    {
+        ClearVisualState(_hoveredGroupState);
+        _hoveredGroupState = null;
+    }
+
+    private void ApplySelectedGroupHighlight(HotspotGroupRuntime group)
+    {
+        if (group == null)
+        {
+            return;
+        }
+
+        ClearSelectedGroupHighlight();
+        ClearHoveredGroupHighlight();
+        _selectedGroupState = BuildVisualState(group, HotspotSelectedColor);
+    }
+
+    private void ClearSelectedGroupHighlight()
+    {
+        ClearVisualState(_selectedGroupState);
+        _selectedGroupState = null;
+    }
+
+    private static HotspotVisualState BuildVisualState(HotspotGroupRuntime group, Color tintColor)
+    {
+        HotspotVisualState state = new HotspotVisualState { Group = group };
+        if (group == null || group.Members == null)
+        {
+            return state;
+        }
+
+        for (int i = 0; i < group.Members.Count; i++)
+        {
+            ExplodablePart member = group.Members[i];
+            if (member == null)
+            {
+                continue;
+            }
+
+            HighlightSystem highlight = member.GetComponent<HighlightSystem>();
+            if (highlight == null)
+            {
+                highlight = member.gameObject.AddComponent<HighlightSystem>();
+            }
+
+            if (highlight == null)
+            {
+                continue;
+            }
+
+            highlight.OnSelect(HighlightSystem.SelectionVisualMode.HotspotGroupTint, tintColor);
+            state.Highlights.Add(highlight);
+        }
+
+        return state;
+    }
+
+    private static void ClearVisualState(HotspotVisualState state)
+    {
+        if (state == null || state.Highlights == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < state.Highlights.Count; i++)
+        {
+            HighlightSystem highlight = state.Highlights[i];
+            if (highlight != null)
+            {
+                highlight.OnDeselect();
+            }
+        }
+
+        state.Highlights.Clear();
     }
 }
