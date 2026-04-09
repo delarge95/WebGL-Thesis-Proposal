@@ -229,7 +229,17 @@ namespace WebGL.Core.Utils
                 return FastenerGroupId;
             }
 
+            if (candidateName.IndexOf("x500v2_fastener.", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return FastenerGroupId;
+            }
+
             if (candidateName.StartsWith("x500v2_misc.", StringComparison.OrdinalIgnoreCase))
+            {
+                return MiscGroupId;
+            }
+
+            if (candidateName.IndexOf("x500v2_misc.", StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 return MiscGroupId;
             }

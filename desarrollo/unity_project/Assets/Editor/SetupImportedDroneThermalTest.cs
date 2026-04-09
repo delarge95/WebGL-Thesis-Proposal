@@ -119,7 +119,9 @@ public static class SetupImportedDroneThermalTest
             return;
         }
 
-        DronePartJson[] jsonParts = LoadJsonParts();
+        EnsureEditableHierarchy(root);
+
+        DronePartJson[] jsonParts = LoadJsonParts(root.transform, out string selectedSource, out int matchedPartIds);
         if (jsonParts == null || jsonParts.Length == 0)
         {
             EditorUtility.DisplayDialog("Thermal Test Setup", "No se pudo leer el dataset de piezas (synced/canonical).", "OK");
@@ -139,6 +141,9 @@ public static class SetupImportedDroneThermalTest
         int prepared = 0;
         int groupedChildren = 0;
         int auxiliaryReparented = 0;
+        int syntheticGroupReparented = 0;
+        int prefixReparented = 0;
+        int heuristicReparented = 0;
         int warnings = 0;
 
         foreach (DronePartJson jsonPart in jsonParts)
@@ -205,7 +210,13 @@ public static class SetupImportedDroneThermalTest
             prepared++;
         }
 
-        auxiliaryReparented = ReparentAuxiliaryChildren(root.transform, anchorsById, assetsById);
+        auxiliaryReparented = ReparentAuxiliaryChildren(
+            root.transform,
+            anchorsById,
+            assetsById,
+            out syntheticGroupReparented,
+            out prefixReparented,
+            out heuristicReparented);
 
         foreach (DronePartJson jsonPart in jsonParts)
         {
@@ -233,31 +244,88 @@ public static class SetupImportedDroneThermalTest
         AssetDatabase.Refresh();
 
         string message =
+            $"Fuente usada: {selectedSource} (matches: {matchedPartIds}/{jsonParts.Length})\n" +
             $"Preparadas {prepared} piezas canonicas para la prueba.\n" +
             $"Hijos agrupados: {groupedChildren}\n" +
             $"Auxiliares reasignados: {auxiliaryReparented}\n" +
+            $"  - Por grupo sintetico: {syntheticGroupReparented}\n" +
+            $"  - Por prefijo canonico: {prefixReparented}\n" +
+            $"  - Por heuristica: {heuristicReparented}\n" +
             $"Warnings: {warnings}";
 
         Debug.Log($"[SetupImportedDroneThermalTest] {message}");
         EditorUtility.DisplayDialog("Thermal Test Setup", message, "OK");
     }
 
-    private static DronePartJson[] LoadJsonParts()
+    private static DronePartJson[] LoadJsonParts(Transform root, out string selectedSource, out int matchedPartIds)
     {
-        if (TryLoadParts(SyncedJsonPath, out DronePartJson[] syncedParts, useSyncedSchema: true))
+        selectedSource = "N/A";
+        matchedPartIds = 0;
+
+        bool hasSynced = TryLoadParts(SyncedJsonPath, out DronePartJson[] syncedParts, useSyncedSchema: true);
+        bool hasCanonical = TryLoadParts(CanonicalJsonPath, out DronePartJson[] canonicalParts, useSyncedSchema: false);
+
+        int syncedMatches = hasSynced ? EstimateMatchedParts(root, syncedParts) : -1;
+        int canonicalMatches = hasCanonical ? EstimateMatchedParts(root, canonicalParts) : -1;
+
+        if (hasSynced && hasCanonical)
         {
-            Debug.Log($"[SetupImportedDroneThermalTest] Fuente de piezas: {SyncedJsonFile} ({syncedParts.Length} entradas)");
+            if (syncedMatches >= canonicalMatches)
+            {
+                selectedSource = SyncedJsonFile;
+                matchedPartIds = syncedMatches;
+                Debug.Log($"[SetupImportedDroneThermalTest] Fuente de piezas: {SyncedJsonFile} ({syncedParts.Length} entradas, matches={syncedMatches})");
+                return syncedParts;
+            }
+
+            selectedSource = CanonicalJsonFile;
+            matchedPartIds = canonicalMatches;
+            Debug.LogWarning($"[SetupImportedDroneThermalTest] Seleccion automatica de fuente: {CanonicalJsonFile} ({canonicalParts.Length} entradas, matches={canonicalMatches}) por mayor cobertura de escena frente a {SyncedJsonFile} (matches={syncedMatches}).");
+            return canonicalParts;
+        }
+
+        if (hasSynced)
+        {
+            selectedSource = SyncedJsonFile;
+            matchedPartIds = syncedMatches;
+            Debug.Log($"[SetupImportedDroneThermalTest] Fuente de piezas: {SyncedJsonFile} ({syncedParts.Length} entradas, matches={syncedMatches})");
             return syncedParts;
         }
 
-        if (TryLoadParts(CanonicalJsonPath, out DronePartJson[] canonicalParts, useSyncedSchema: false))
+        if (hasCanonical)
         {
-            Debug.LogWarning($"[SetupImportedDroneThermalTest] Fallback a {CanonicalJsonFile} ({canonicalParts.Length} entradas)");
+            selectedSource = CanonicalJsonFile;
+            matchedPartIds = canonicalMatches;
+            Debug.LogWarning($"[SetupImportedDroneThermalTest] Fallback a {CanonicalJsonFile} ({canonicalParts.Length} entradas, matches={canonicalMatches})");
             return canonicalParts;
         }
 
         Debug.LogError($"[SetupImportedDroneThermalTest] No se pudo cargar ni {SyncedJsonFile} ni {CanonicalJsonFile} en {HolybroDocsDir}");
         return null;
+    }
+
+    private static int EstimateMatchedParts(Transform root, IReadOnlyList<DronePartJson> parts)
+    {
+        if (root == null || parts == null || parts.Count == 0)
+        {
+            return 0;
+        }
+
+        int matched = 0;
+        foreach (DronePartJson part in parts)
+        {
+            if (part == null || string.IsNullOrWhiteSpace(part.id))
+            {
+                continue;
+            }
+
+            if (FindMatches(root, part).Count > 0)
+            {
+                matched++;
+            }
+        }
+
+        return matched;
     }
 
     private static bool TryLoadParts(string path, out DronePartJson[] parts, bool useSyncedSchema)
@@ -508,8 +576,17 @@ public static class SetupImportedDroneThermalTest
         return anchorObject.transform;
     }
 
-    private static int ReparentAuxiliaryChildren(Transform root, Dictionary<string, Transform> anchorsById, IReadOnlyDictionary<string, DronePartData> assetsById)
+    private static int ReparentAuxiliaryChildren(
+        Transform root,
+        Dictionary<string, Transform> anchorsById,
+        IReadOnlyDictionary<string, DronePartData> assetsById,
+        out int syntheticMoved,
+        out int prefixedMoved,
+        out int heuristicMoved)
     {
+        syntheticMoved = 0;
+        prefixedMoved = 0;
+        heuristicMoved = 0;
         int moved = 0;
         List<Transform> directChildren = new List<Transform>();
         foreach (Transform child in root)
@@ -532,6 +609,7 @@ public static class SetupImportedDroneThermalTest
                 {
                     Undo.SetTransformParent(child, syntheticAnchor, "Attach auxiliary imported part (synthetic-group)");
                     moved++;
+                    syntheticMoved++;
                     continue;
                 }
             }
@@ -541,6 +619,7 @@ public static class SetupImportedDroneThermalTest
             {
                 Undo.SetTransformParent(child, prefixedAnchor, "Attach auxiliary imported part (prefix)");
                 moved++;
+                prefixedMoved++;
                 continue;
             }
 
@@ -558,6 +637,7 @@ public static class SetupImportedDroneThermalTest
 
             Undo.SetTransformParent(child, bestAnchor, "Attach auxiliary imported part");
             moved++;
+            heuristicMoved++;
         }
 
         return moved;
@@ -575,12 +655,38 @@ public static class SetupImportedDroneThermalTest
             return FastenerGroupId;
         }
 
+        if (candidateName.IndexOf("x500v2_fastener.", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            return FastenerGroupId;
+        }
+
         if (candidateName.StartsWith("x500v2_misc.", StringComparison.OrdinalIgnoreCase))
         {
             return MiscGroupId;
         }
 
+        if (candidateName.IndexOf("x500v2_misc.", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            return MiscGroupId;
+        }
+
         return string.Empty;
+    }
+
+    private static void EnsureEditableHierarchy(GameObject root)
+    {
+        if (root == null)
+        {
+            return;
+        }
+
+        if (!PrefabUtility.IsPartOfPrefabInstance(root))
+        {
+            return;
+        }
+
+        PrefabUtility.UnpackPrefabInstance(root, PrefabUnpackMode.Completely, InteractionMode.UserAction);
+        Debug.Log("[SetupImportedDroneThermalTest] Prefab instance unpacked to allow hierarchy reparent operations.");
     }
 
     private static Transform EnsureSyntheticGroupAnchor(
