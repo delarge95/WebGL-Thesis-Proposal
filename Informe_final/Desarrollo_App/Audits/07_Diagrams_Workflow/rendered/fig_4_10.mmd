@@ -1,0 +1,45 @@
+﻿%%{init: {'theme':'base','themeVariables': {
+  'fontFamily':'system-ui, -apple-system, Segoe UI, sans-serif',
+  'background':'#0b0f17',
+  'primaryColor':'#151b2b',
+  'primaryTextColor':'#e6edf7',
+  'primaryBorderColor':'#7dd3fc',
+  'lineColor':'#8b9bb4',
+  'textColor':'#e6edf7',
+  'edgeLabelBackground':'#0f1724'
+}}}%%
+flowchart LR
+  U[Unity Project]
+  B[Build Settings WebGL2 IL2CPP]
+  O[Optimizations Brotli Stripping Hashes Cache]
+  ART[Artefactos: wasm data framework index]
+  DOCS[docs Build TemplateData]
+  GIT[GitHub repository]
+  GH[GitHub Pages]
+  ALT[Vercel o Netlify]
+  QA[Smoke test browser mobile desktop]
+
+  U --> B --> O --> ART
+  ART --> DOCS
+  DOCS --> GIT
+  GIT --> GH
+  GIT --> ALT
+  GH --> QA
+  ALT --> QA
+
+  classDef ui fill:#1b3250,stroke:#7cc8ff,color:#f0f8ff,stroke-width:1px;
+  classDef orch fill:#1f3a2b,stroke:#6ee7b7,color:#ecfff6,stroke-width:2px;
+  classDef svc fill:#4a2f26,stroke:#f6ad55,color:#fff4e6,stroke-width:1px;
+  classDef data fill:#2f2a44,stroke:#c4b5fd,color:#f5f3ff,stroke-width:1px;
+  classDef event fill:#3d2348,stroke:#e879f9,color:#fdf4ff,stroke-width:1px;
+  classDef state fill:#0b3f46,stroke:#5eead4,color:#ecfeff,stroke-width:1px;
+  classDef risk fill:#5a1c1c,stroke:#f87171,color:#fff1f2,stroke-width:2px;
+  classDef mitigation fill:#223a76,stroke:#7dd3fc,color:#f0f8ff,stroke-width:1px;
+  classDef result fill:#145f54,stroke:#34d399,color:#ecfdf5,stroke-width:1px;
+  classDef neutral fill:#2b3140,stroke:#8b9bb4,color:#e6edf7,stroke-width:1px;
+
+  class U orch;
+  class B,GIT,GH,ALT svc;
+  class O mitigation;
+  class ART,DOCS data;
+  class QA result;

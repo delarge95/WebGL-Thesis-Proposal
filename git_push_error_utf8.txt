@@ -1,0 +1,33 @@
+﻿git : remote: error: Trace: 7200601bdf3
+cad28ce36f34c03e4f9d77719a10cb5d40a4d42
+98cf86f92b254a        
+En línea: 1 Carácter: 1
++ git -C "e:\WebGL_tesis" push origin 
+docs/thesis-corrections-apr2026 2 ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpeci 
+   fied: (remote: error: ...92b254a    
+        :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCo 
+   mmandError
+ 
+remote: error: See https://gh.io/lfs 
+for more information.        
+remote: error: File blender_files/drone
+_05-decimating.blend1 is 106.89 MB; 
+this exceeds GitHub's file size limit 
+of 100.00 MB        
+remote: error: GH001: Large files 
+detected. You may want to try Git 
+Large File Storage - 
+https://git-lfs.github.com.        
+To https://github.com/delarge95/WebGL-T
+hesis-Proposal
+ ! [remote rejected] 
+docs/thesis-corrections-apr2026 -> 
+docs/thesis-corrections-apr2026 
+(pre-receive hook declined)
+error: failed to push some refs to 'htt
+ps://github.com/delarge95/WebGL-Thesis-
+Proposal'

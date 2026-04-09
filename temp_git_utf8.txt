@@ -1,0 +1,179 @@
+﻿commit 37c570ccfdd26e82d332869e8ec11f9f8205d755
+Author: delarge95 <awoodcocks@unal.edu.co>
+Date:   Wed Mar 11 10:44:51 2026 -0500
+
+    fix(input): harden UI pointer detection
+
+diff --git a/Informe_final/Desarrollo_App/BITACORA.md b/Informe_final/Desarrollo_App/BITACORA.md
+index 1bab9b1..898718b 100644
+--- a/Informe_final/Desarrollo_App/BITACORA.md
++++ b/Informe_final/Desarrollo_App/BITACORA.md
+@@ -155,6 +155,11 @@ Elevar la calidad visual y la experiencia de usuario (UX) para cumplir est├índar
+     - _Soluci├│n T├®cnica_: Se elimin├│ el bloque `drag-to-dismiss` de `UIDetailsSheet.BindInteractions()` y se sustituy├│ el toggle de `InfoBarPeek` y `ToolInfoBtn` por apertura expl├¡cita mediante `ShowInfo()`.
+     - _Resultado_: El panel conserva s├│lo los cierres permitidos por esta fase: bot├│n `X`, doble click sobre el fondo y cambio hacia otro ├¡tem/modo de la barra inferior.
+ 
++6.  **Ajuste final del icono de cierre + hardening de detecci├│n UI**:
++    - _Problema_: El nuevo icono de cierre se segu├¡a leyendo como `+` porque su estado base part├¡a sin rotaci├│n, y `InputManager.IsPointerOverUI()` depend├¡a de un `Pick()` m├¡nimo basado s├│lo en `mousePosition`.
++    - _Soluci├│n T├®cnica_: Se fij├│ una rotaci├│n base de `45┬░` en `ProceduralCloseIcon` y se reforz├│ `InputManager` para recalcular el panel activo, usar touch cuando exista y filtrar picks no interactivos o invisibles antes de bloquear input 3D.
++    - _Resultado_: La X ya se percibe correctamente como cierre y la detecci├│n de UI queda m├ís robusta para hover, selecci├│n y c├ímara cuando el puntero cae sobre controles reales.
++
+ ### Registro de Cambios (Febrero 18, 2026)
+ 
+ 1.  **Redise├▒o de Interfaz (UI Toolkit)**:
+diff --git a/Informe_final/Desarrollo_App/CHANGELOG.md b/Informe_final/Desarrollo_App/CHANGELOG.md
+index f9c01ba..b2ea5fa 100644
+--- a/Informe_final/Desarrollo_App/CHANGELOG.md
++++ b/Informe_final/Desarrollo_App/CHANGELOG.md
+@@ -26,6 +26,8 @@
+ - `fix(explode)`: Se desacopl├│ el estado de `Explode` del `AppState` global para que no se apague al cambiar entre Analyze y Studio.
+ - `fix(ui)`: Se restaur├│ la X del info panel con un icono procedimental y se reajust├│ su tama├▒o/posici├│n para alinearla con el sistema visual del top bar.
+ - `fix(ui)`: Se eliminaron cierres no permitidos del info panel, quitando el drag-to-dismiss y evitando que los accesos de info funcionen como toggle de cierre.
++- `fix(input)`: Se endureci├│ `InputManager.IsPointerOverUI()` para usar el panel activo, soportar touch y descartar picks no interactivos o invisibles.
++- `style(ui)`: Se fij├│ la rotaci├│n base del icono de cierre en `45┬░` para que la `X` no se lea como `+`.
+ - `docs`: Se a├▒adi├│ un documento t├®cnico con diagn├│stico completo y plan de implementaci├│n por fases para los siguientes problemas de la app.
+ 
+ ### Archivos Afectados
+@@ -34,6 +36,7 @@
+ - `desarrollo/unity_project/Assets/Scripts/Core/Content/ExplodedViewManager.cs`
+ - `desarrollo/unity_project/Assets/Scripts/UI/Panels/UIModeController.cs`
+ - `desarrollo/unity_project/Assets/Scripts/UI/Panels/UIDetailsSheet.cs`
++- `desarrollo/unity_project/Assets/Scripts/Core/Managers/InputManager.cs`
+ - `desarrollo/unity_project/Assets/Scripts/UI/ProceduralIcons/ProceduralCloseIcon.cs`
+ - `desarrollo/unity_project/Assets/Scripts/UI/Layouts/MainLayout.uxml`
+ - `desarrollo/unity_project/Assets/UI/Styles/Theme.uss`
+@@ -45,6 +48,7 @@
+ - La vista explosionada permanece activa al abrir otros submen├║s de Analyze y al alternar entre Analyze y Studio.
+ - El info panel vuelve a mostrar un bot├│n de cierre visible, consistente con el sistema de iconos procedurales y mejor alineado en la esquina superior derecha.
+ - El info panel ya no se cierra arrastrando el handle ni al volver a pulsar los accesos de info; su cierre queda acotado a la `X`, doble click en el fondo 3D y cambio de modo.
++- La `X` recupera una lectura visual correcta en reposo y la detecci├│n de UI queda mejor preparada para bloquear input 3D s├│lo sobre controles interactivos reales.
+ - La desactivaci├│n de `Explode` queda restringida a las dos acciones esperadas por UX:
+   - volver a pulsar el bot├│n `Explode`
+   - llevar el slider a `0`
+diff --git a/desarrollo/unity_project/Assets/Scripts/Core/Managers/InputManager.cs b/desarrollo/unity_project/Assets/Scripts/Core/Managers/InputManager.cs
+index 0d10a92..a39938d 100644
+--- a/desarrollo/unity_project/Assets/Scripts/Core/Managers/InputManager.cs
++++ b/desarrollo/unity_project/Assets/Scripts/Core/Managers/InputManager.cs
+@@ -61,21 +61,22 @@ namespace WebGL.Core.Managers
+         /// </summary>
+         public bool IsPointerOverUI()
+         {
++            CacheUIDocumentIfNeeded();
+             if (_uiPanel == null) return false;
+ 
++            Vector2 screenPos = GetCurrentPointerScreenPosition();
++            if (screenPos.x < 0f || screenPos.y < 0f) return false;
++
+             // RuntimePanelUtils.ScreenToPanel handles:
+             //  - Y-axis inversion (Screen bottom-left ÔåÆ Panel top-left)
+             //  - ScaleWithScreenSize scaling factor
+-            Vector2 panelPos = RuntimePanelUtils.ScreenToPanel(_uiPanel, Input.mousePosition);
++            Vector2 panelPos = RuntimePanelUtils.ScreenToPanel(_uiPanel, screenPos);
+             VisualElement picked = _uiPanel.Pick(panelPos);
+ 
+             // Pick() returns null if nothing with picking-mode: Position is hit
+             if (picked == null) return false;
+ 
+-            // The TemplateContainer (root's parent) is not interactive UI
+-            if (_mainUIDocument != null && picked == _mainUIDocument.rootVisualElement?.parent) return false;
+-
+-            return true;
++            return IsInteractivePick(picked);
+         }
+ 
+         // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+@@ -128,9 +129,7 @@ namespace WebGL.Core.Managers
+         /// </summary>
+         private void CacheUIDocumentIfNeeded()
+         {
+-            if (_uiPanel != null) return;
+-
+-            if (_mainUIDocument == null)
++            if (_mainUIDocument == null || _mainUIDocument.rootVisualElement == null)
+             {
+                 _mainUIDocument = Object.FindFirstObjectByType<UIDocument>();
+             }
+@@ -139,6 +138,42 @@ namespace WebGL.Core.Managers
+             {
+                 _uiPanel = _mainUIDocument.rootVisualElement.panel;
+             }
++            else
++            {
++                _uiPanel = null;
++            }
++        }
++
++        private Vector2 GetCurrentPointerScreenPosition()
++        {
++            if (Input.touchCount > 0)
++            {
++                return Input.GetTouch(0).position;
++            }
++
++            return Input.mousePosition;
++        }
++
++        private bool IsInteractivePick(VisualElement picked)
++        {
++            if (picked == null || _mainUIDocument?.rootVisualElement == null) return false;
++
++            VisualElement root = _mainUIDocument.rootVisualElement;
++            VisualElement templateRoot = root.parent;
++
++            for (VisualElement current = picked; current != null; current = current.parent)
++            {
++                if (current == root || current == templateRoot) return false;
++
++                if (current.pickingMode != PickingMode.Position) continue;
++                if (!current.enabledInHierarchy) continue;
++                if (current.resolvedStyle.display == DisplayStyle.None) continue;
++                if (current.resolvedStyle.visibility == Visibility.Hidden) continue;
++
++                return true;
++            }
++
++            return false;
+         }
+     }
+ }
+diff --git a/desarrollo/unity_project/Assets/Scripts/UI/ProceduralIcons/ProceduralCloseIcon.cs b/desarrollo/unity_project/Assets/Scripts/UI/ProceduralIcons/ProceduralCloseIcon.cs
+index f2ad52d..cb238db 100644
+--- a/desarrollo/unity_project/Assets/Scripts/UI/ProceduralIcons/ProceduralCloseIcon.cs
++++ b/desarrollo/unity_project/Assets/Scripts/UI/ProceduralIcons/ProceduralCloseIcon.cs
+@@ -6,30 +6,32 @@ namespace WebGL.UI.ProceduralIcons
+     [UxmlElement]
+     public partial class ProceduralCloseIcon : ProceduralIconBase
+     {
++        private const float BaseRotation = 45f;
++
+         private float targetScale = 1f;
+         private float currentScale = 1f;
+         private float scaleVelocity = 0f;
+ 
+-        private float targetRotation = 0f;
+-        private float currentRotation = 0f;
++        private float targetRotation = BaseRotation;
++        private float currentRotation = BaseRotation;
+         private float rotationVelocity = 0f;
+ 
+         protected override void OnHoverEnter()
+         {
+             targetScale = 1.12f;
+-            targetRotation = 8f;
++            targetRotation = BaseRotation + 8f;
+         }
+ 
+         protected override void OnHoverExit()
+         {
+             targetScale = 1f;
+-            targetRotation = 0f;
++            targetRotation = BaseRotation;
+         }
+ 
+         protected override void OnPressed()
+         {
+             targetScale = 0.82f;
+-            targetRotation = 0f;
++            targetRotation = BaseRotation;
+         }
+ 
+         protected override void OnReleased()

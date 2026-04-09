@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_telemetry_radio
+  m_EditorClassIdentifier: 
+  partName: SiK Telemetry Radio V3
+  id: x500v2_telemetry_radio
+  partType: Radio
+  description: "Radio SiK V3, 433 o 915 MHz. Potencia ~100 mW. Protocolo MAVLink.
+    UART al Pixhawk (TELEM1). Par aire+tierra de f\xE1brica. Antena omnidireccional
+    de goma. Alcance ~500 m."
+  weightKg: 0.015
+  dimensions: "~50 \xD7 25 \xD7 10 mm"
+  function: "Enlace de datos bidireccional dron-estaci\xF3n de tierra"
+  materialType: "PCB FR4 con m\xF3dulo RF y carcasa pl\xE1stica ligera"
+  materialProperties: 
+  manufacturer: Holybro
+  partNumber: SiK V3
+  powerConsumption: 1
+  maxLoad: 0
+  operatingTemp: 60
+  operatingTempMin: -20
+  operatingTempMax: 60
+  thermalPeak: 45
+  thermalHover: 32
+  thermalWarmupSeconds: 2
+  thermalExposure: 0.55
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.2
+  isThermallyCritical: 0
+  icon: {fileID: 0}
+  highlightColor: {r: 0, g: 0.9, b: 0.9, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 1
+  hotspotLabel: 
+  explosionDirection: {x: 0.4319342, y: 0.8638684, z: 0.25916052}
+  explosionDistance: 0.8
+  explosionPriority: 6
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - Brida de nylon
+  - Cinta adhesiva 3M
+  safetyWarnings:
+  - "No transmitir sin antena conectada (da\xF1o al m\xF3dulo RF)"
+  installationTips: Fijar en lateral del frame o bajo platform board. Antena hacia
+    arriba. Puerto TELEM1 del Pixhawk.
+  installationTimeMinutes: 2
+  difficultyLevel: 1
+  torqueSpec: 
+  assemblyOrder: 6
+  prerequisites:
+  - x500v2_pixhawk6c
+  connectionTypes:
+  - UART cable GH 1.25mm 6-pin
+  - SMA antenna
+  screwCount: 0
+  screwSize: 
+  subComponentNames: []
+  category: 1

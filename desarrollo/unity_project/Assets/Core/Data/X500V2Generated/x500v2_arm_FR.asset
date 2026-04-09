@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_arm_FR
+  m_EditorClassIdentifier: 
+  partName: Arm Tube Front-Right
+  id: x500v2_arm_FR
+  partType: Arm
+  description: "Tubo de fibra de carbono de 16 mm con conectores de nylon reforzado.
+    Motor 2216 y ESC BLHeli-S 20A preinstalados. Posici\xF3n frontal-derecha."
+  weightKg: 0.03
+  dimensions: "\u230016 mm \xD7 ~220 mm"
+  function: Soporte de motor y ESC; conducto de cableado; transferencia de empuje
+    al chasis
+  materialType: Fibra de carbono con conectores de nylon reforzado
+  materialProperties: "Alta rigidez/peso, absorci\xF3n parcial de vibraciones"
+  manufacturer: Holybro
+  partNumber: '#510177'
+  powerConsumption: 0
+  maxLoad: 1200
+  operatingTemp: 80
+  operatingTempMin: -20
+  operatingTempMax: 80
+  thermalPeak: 45
+  thermalHover: 30
+  thermalWarmupSeconds: 8
+  thermalExposure: 0.8
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.2
+  isThermallyCritical: 1
+  icon: {fileID: 0}
+  highlightColor: {r: 0.25, g: 0.25, b: 0.25, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 0.57735026, y: 0.57735026, z: 0.57735026}
+  explosionDistance: 1.5
+  explosionPriority: 2
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - Llave hexagonal M3
+  safetyWarnings:
+  - "Verificar orientaci\xF3n CW/CCW del motor preinstalado"
+  installationTips: Las muescas del conector de nylon se alinean con los alojamientos
+    rectangulares del bottom plate.
+  installationTimeMinutes: 3
+  difficultyLevel: 2
+  torqueSpec: 0.5 Nm
+  assemblyOrder: 2
+  prerequisites:
+  - x500v2_bottom_plate
+  connectionTypes:
+  - Screw
+  - Snap
+  screwCount: 2
+  screwSize: M3
+  subComponentNames: []
+  category: 4

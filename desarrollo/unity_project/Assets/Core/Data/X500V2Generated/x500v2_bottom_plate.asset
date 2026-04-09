@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_bottom_plate
+  m_EditorClassIdentifier: 
+  partName: Carbon Fiber Bottom Plate
+  id: x500v2_bottom_plate
+  partType: Frame
+  description: "Plato inferior de fibra de carbono twill de 2 mm de espesor y 144\xD7144
+    mm. Base r\xEDgida del fuselaje donde se fijan el tren de aterrizaje, los brazos
+    y la PDB. Incluye taladros para standoffs, XT60 holder y clips del sistema de
+    railes."
+  weightKg: 0.075
+  dimensions: "144 \xD7 144 mm, 2 mm espesor"
+  function: Base estructural del fuselaje; interfaz de montaje para PDB, brazos y
+    tren
+  materialType: Fibra de carbono twill 2 mm
+  materialProperties: Ultraligero, alta rigidez torsional, resistente a vibraciones
+  manufacturer: Holybro
+  partNumber: '#510180'
+  powerConsumption: 0
+  maxLoad: 1600
+  operatingTemp: 80
+  operatingTempMin: -20
+  operatingTempMax: 80
+  thermalPeak: 35
+  thermalHover: 25
+  thermalWarmupSeconds: 0
+  thermalExposure: 0.55
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.2
+  isThermallyCritical: 1
+  icon: {fileID: 0}
+  highlightColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: -1, z: 0}
+  explosionDistance: 0.5
+  explosionPriority: 1
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - Llave hexagonal M3
+  - Destornillador Phillips
+  safetyWarnings:
+  - Bordes de carbono pueden ser cortantes
+  installationTips: Base del montaje. Colocar primero sobre superficie plana y nivelada.
+  installationTimeMinutes: 3
+  difficultyLevel: 2
+  torqueSpec: 0.5 Nm
+  assemblyOrder: 1
+  prerequisites: []
+  connectionTypes:
+  - Screw
+  screwCount: 4
+  screwSize: M3
+  subComponentNames: []
+  category: 4

@@ -1,0 +1,58 @@
+﻿%%{init: {'theme':'base','themeVariables': {
+  'fontFamily':'system-ui, -apple-system, Segoe UI, sans-serif',
+  'background':'#0b0f17',
+  'primaryColor':'#151b2b',
+  'primaryTextColor':'#e6edf7',
+  'primaryBorderColor':'#7dd3fc',
+  'lineColor':'#8b9bb4',
+  'textColor':'#e6edf7',
+  'edgeLabelBackground':'#0f1724'
+}}}%%
+flowchart LR
+  R1[Heap de memoria limitado en navegador]
+  R2[Tamano de descarga WebAssembly y data]
+  R3[Draw calls y fillrate restringidos]
+  R4[Coste de sombras y postproceso]
+  R5[Shader stripping en build]
+  R6[Compatibilidad de texturas y dispositivos]
+
+  M1[Memory Size 512MB + Growth Geometric + Data Caching]
+  M2[Brotli + Name Files As Hashes + Stripping High]
+  M3[SRP Batcher + batching + limites de calidad]
+  M4[MSAA 2x + sombras acotadas + HDR off]
+  M5[Always Included Shaders + fallback material]
+  M6[ASTC o ETC2 + mipmaps + max size controlado]
+
+  K1[Estabilidad runtime]
+  K2[Tiempo de carga menor]
+  K3[Rendimiento sostenido en WebGL]
+  K4[Consistencia visual sin fallos de shader]
+
+  R1 --> M1
+  R2 --> M2
+  R3 --> M3
+  R4 --> M4
+  R5 --> M5
+  R6 --> M6
+
+  M1 --> K1
+  M2 --> K2
+  M3 --> K3
+  M4 --> K3
+  M5 --> K4
+  M6 --> K3
+
+  classDef ui fill:#1b3250,stroke:#7cc8ff,color:#f0f8ff,stroke-width:1px;
+  classDef orch fill:#1f3a2b,stroke:#6ee7b7,color:#ecfff6,stroke-width:2px;
+  classDef svc fill:#4a2f26,stroke:#f6ad55,color:#fff4e6,stroke-width:1px;
+  classDef data fill:#2f2a44,stroke:#c4b5fd,color:#f5f3ff,stroke-width:1px;
+  classDef event fill:#3d2348,stroke:#e879f9,color:#fdf4ff,stroke-width:1px;
+  classDef state fill:#0b3f46,stroke:#5eead4,color:#ecfeff,stroke-width:1px;
+  classDef risk fill:#5a1c1c,stroke:#f87171,color:#fff1f2,stroke-width:2px;
+  classDef mitigation fill:#223a76,stroke:#7dd3fc,color:#f0f8ff,stroke-width:1px;
+  classDef result fill:#145f54,stroke:#34d399,color:#ecfdf5,stroke-width:1px;
+  classDef neutral fill:#2b3140,stroke:#8b9bb4,color:#e6edf7,stroke-width:1px;
+
+  class R1,R2,R3,R4,R5,R6 risk;
+  class M1,M2,M3,M4,M5,M6 mitigation;
+  class K1,K2,K3,K4 result;

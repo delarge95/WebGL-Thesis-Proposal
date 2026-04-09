@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_prop_FL
+  m_EditorClassIdentifier: 
+  partName: Propeller 1045 FL
+  id: x500v2_prop_FL
+  partType: Propeller
+  description: "H\xE9lice fija 1045 (10\" di\xE1metro, 4.5\" pitch). Compuesto pl\xE1stico
+    reforzado. CW. Kit trae 6 piezas (4+2 repuesto)."
+  weightKg: 0.008
+  dimensions: "\u2300254 mm (10 in), pitch 114 mm (4.5 in)"
+  function: "Conversi\xF3n de par motor en empuje vertical (CW)"
+  materialType: "Compuesto pl\xE1stico reforzado (nylon/ABS)"
+  materialProperties: "Resistente a fatiga, balanceo de f\xE1brica"
+  manufacturer: Holybro
+  partNumber: 1045 CW
+  powerConsumption: 0
+  maxLoad: 0
+  operatingTemp: 70
+  operatingTempMin: 0
+  operatingTempMax: 0
+  thermalPeak: 22
+  thermalHover: 22
+  thermalWarmupSeconds: 0
+  thermalExposure: 0.95
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.2
+  isThermallyCritical: 0
+  icon: {fileID: 0}
+  highlightColor: {r: 0.3, g: 0.5, b: 0.9, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: 1, z: 0}
+  explosionDistance: 2.5
+  explosionPriority: 10
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - "Llave de h\xE9lice (incluida)"
+  safetyWarnings:
+  - "SIEMPRE retirar h\xE9lices durante calibraci\xF3n"
+  - Verificar CW/CCW
+  - Inspeccionar grietas antes de cada vuelo
+  installationTips: CW en motores CW (FL/BR). Apretar tuerca autoblocante a mano.
+  installationTimeMinutes: 1
+  difficultyLevel: 1
+  torqueSpec: 
+  assemblyOrder: 10
+  prerequisites:
+  - x500v2_motor_FL
+  connectionTypes:
+  - Nut (self-locking)
+  screwCount: 1
+  screwSize: 
+  subComponentNames: []
+  category: 3

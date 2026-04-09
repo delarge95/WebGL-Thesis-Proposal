@@ -1,0 +1,53 @@
+﻿%%{init: {'theme':'base','themeVariables': {
+  'fontFamily':'system-ui, -apple-system, Segoe UI, sans-serif',
+  'background':'#0b0f17',
+  'primaryColor':'#151b2b',
+  'primaryTextColor':'#e6edf7',
+  'primaryBorderColor':'#7dd3fc',
+  'lineColor':'#8b9bb4',
+  'textColor':'#e6edf7',
+  'edgeLabelBackground':'#0f1724'
+}}}%%
+flowchart TB
+  SRC[Unity Profiler + WebGL Stats + Browser tools]
+  K1[Poligonos totales]
+  K2[FPS y frame time]
+  K3[Draw calls]
+  K4[VRAM texturas]
+  K5[Tiempo de carga]
+  K6[Peso de build]
+  TH[Umbrales objetivo de tesis]
+  GAP[Desviacion vs objetivo]
+  ACT[Plan de accion de optimizacion]
+
+  SRC --> K1
+  SRC --> K2
+  SRC --> K3
+  SRC --> K4
+  SRC --> K5
+  SRC --> K6
+
+  K1 --> TH
+  K2 --> TH
+  K3 --> TH
+  K4 --> TH
+  K5 --> TH
+  K6 --> TH
+
+  TH --> GAP --> ACT
+
+  classDef ui fill:#1b3250,stroke:#7cc8ff,color:#f0f8ff,stroke-width:1px;
+  classDef orch fill:#1f3a2b,stroke:#6ee7b7,color:#ecfff6,stroke-width:2px;
+  classDef svc fill:#4a2f26,stroke:#f6ad55,color:#fff4e6,stroke-width:1px;
+  classDef data fill:#2f2a44,stroke:#c4b5fd,color:#f5f3ff,stroke-width:1px;
+  classDef event fill:#3d2348,stroke:#e879f9,color:#fdf4ff,stroke-width:1px;
+  classDef state fill:#0b3f46,stroke:#5eead4,color:#ecfeff,stroke-width:1px;
+  classDef risk fill:#5a1c1c,stroke:#f87171,color:#fff1f2,stroke-width:2px;
+  classDef mitigation fill:#223a76,stroke:#7dd3fc,color:#f0f8ff,stroke-width:1px;
+  classDef result fill:#145f54,stroke:#34d399,color:#ecfdf5,stroke-width:1px;
+  classDef neutral fill:#2b3140,stroke:#8b9bb4,color:#e6edf7,stroke-width:1px;
+
+  class SRC data;
+  class K1,K2,K3,K4,K5,K6,TH result;
+  class GAP risk;
+  class ACT mitigation;

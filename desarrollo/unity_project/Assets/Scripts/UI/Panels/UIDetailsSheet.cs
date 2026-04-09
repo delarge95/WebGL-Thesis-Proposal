@@ -233,7 +233,12 @@ namespace WebGL.UI.Panels
         }
 
         /// <summary>Populate sheet fields from part data. Pass null to show deselected state.</summary>
-        public void PopulatePartData(DronePartData data, bool fromHotspot)
+        public void PopulatePartData(
+            DronePartData data,
+            bool fromHotspot,
+            string hotspotGroupLabel = "",
+            string hotspotGroupSummary = "",
+            string hotspotGroupMembers = "")
         {
             UpdatePartIndicator(data);
 
@@ -243,11 +248,31 @@ namespace WebGL.UI.Panels
 
                 // Title Case for editorial hierarchy (not ALL CAPS)
                 if (_sheetTitle != null)
-                    _sheetTitle.text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(data.partName.ToLower());
-                if (_sheetCategory != null) _sheetCategory.text = data.category.ToString();
-                if (_sheetFunction != null) _sheetFunction.text = data.function;
+                    _sheetTitle.text = !string.IsNullOrWhiteSpace(hotspotGroupLabel)
+                        ? hotspotGroupLabel
+                        : CultureInfo.CurrentCulture.TextInfo.ToTitleCase(data.partName.ToLower());
+                if (_sheetCategory != null)
+                    _sheetCategory.text = !string.IsNullOrWhiteSpace(hotspotGroupLabel)
+                        ? "System Group"
+                        : data.category.ToString();
+                if (_sheetFunction != null)
+                    _sheetFunction.text = !string.IsNullOrWhiteSpace(hotspotGroupSummary)
+                        ? hotspotGroupSummary
+                        : data.function;
                 if (_sheetMaterial != null) _sheetMaterial.text = data.materialType;
-                if (_sheetDesc != null) _sheetDesc.text = data.description;
+                if (_sheetDesc != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(hotspotGroupLabel))
+                    {
+                        _sheetDesc.text = string.IsNullOrWhiteSpace(hotspotGroupMembers)
+                            ? data.description
+                            : $"{data.description}\n\nIncludes: {hotspotGroupMembers}";
+                    }
+                    else
+                    {
+                        _sheetDesc.text = data.description;
+                    }
+                }
                 if (_sheetWeight != null) _sheetWeight.text = $"{data.weightKg:F2} kg";
                 if (_sheetDimensions != null) _sheetDimensions.text = data.dimensions;
                 if (_sheetPower != null) _sheetPower.text = data.powerConsumption > 0 ? $"{data.powerConsumption:F1} W" : "N/A";

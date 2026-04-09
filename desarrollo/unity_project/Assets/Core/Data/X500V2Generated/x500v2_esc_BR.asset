@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_esc_BR
+  m_EditorClassIdentifier: 
+  partName: ESC BLHeli-S 20A BR
+  id: x500v2_esc_BR
+  partType: ESC
+  description: "ESC BLHeli-S 20A. Posici\xF3n BR."
+  weightKg: 0.007
+  dimensions: "~25 \xD7 13 \xD7 5 mm"
+  function: Control de velocidad del motor BR
+  materialType: PCB FR4 con MOSFETs y cobre
+  materialProperties: 
+  manufacturer: Holybro
+  partNumber: BLHeli-S ESC 20A
+  powerConsumption: 296
+  maxLoad: 0
+  operatingTemp: 80
+  operatingTempMin: 0
+  operatingTempMax: 0
+  thermalPeak: 90
+  thermalHover: 50
+  thermalWarmupSeconds: 6
+  thermalExposure: 0.8
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.92
+  isThermallyCritical: 1
+  icon: {fileID: 0}
+  highlightColor: {r: 0.6, g: 0.1, b: 0.1, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 1
+  hotspotLabel: 
+  explosionDirection: {x: 0.57735026, y: 0.57735026, z: -0.57735026}
+  explosionDistance: 1.8
+  explosionPriority: 9
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools: []
+  safetyWarnings: []
+  installationTips: 
+  installationTimeMinutes: 1
+  difficultyLevel: 1
+  torqueSpec: 
+  assemblyOrder: 2
+  prerequisites:
+  - x500v2_arm_BR
+  connectionTypes:
+  - XT30 Plug
+  - 3-wire
+  - PWM/DShot wire
+  screwCount: 0
+  screwSize: 
+  subComponentNames: []
+  category: 3

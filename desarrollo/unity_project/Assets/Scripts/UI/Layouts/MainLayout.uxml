@@ -215,7 +215,7 @@
                         </ui:Button>
                         <ui:Button name="CatBtn_Structure" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-structure" picking-mode="Ignore"/>
-                            <ui:Label text="STRUCTURE" class="submenu-label" picking-mode="Ignore"/>
+                            <ui:Label text="AIRFRAME" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="CatBtn_Propulsion" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-propulsion" picking-mode="Ignore"/>
@@ -223,15 +223,15 @@
                         </ui:Button>
                         <ui:Button name="CatBtn_Avionics" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-avionics" picking-mode="Ignore"/>
-                            <ui:Label text="ELECTRONICS" class="submenu-label" picking-mode="Ignore"/>
+                            <ui:Label text="AVIONICS" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="CatBtn_Power" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-power" picking-mode="Ignore"/>
-                            <ui:Label text="FASTENERS" class="submenu-label" picking-mode="Ignore"/>
+                            <ui:Label text="POWER" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                         <ui:Button name="CatBtn_Payload" class="submenu-card">
                             <ui:VisualElement class="submenu-icon icon-payload" picking-mode="Ignore"/>
-                            <ui:Label text="MISC" class="submenu-label" picking-mode="Ignore"/>
+                            <ui:Label text="FASTENERS" class="submenu-label" picking-mode="Ignore"/>
                         </ui:Button>
                     </ui:VisualElement>
                 </ui:VisualElement>

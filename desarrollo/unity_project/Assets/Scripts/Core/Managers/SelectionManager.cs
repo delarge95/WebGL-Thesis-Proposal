@@ -323,7 +323,12 @@ namespace WebGL.Core.Managers
         /// </summary>
         /// <param name="selection">The transform to select.</param>
         /// <param name="fromHotspot">True if triggered by a hotspot click.</param>
-        public void SelectObject(Transform selection, bool fromHotspot = false)
+        public void SelectObject(
+            Transform selection,
+            bool fromHotspot = false,
+            string hotspotGroupLabel = "",
+            string hotspotGroupSummary = "",
+            string hotspotGroupMembers = "")
         {
             selection = ResolveSelectableTransform(selection);
             if (selection == null) return;
@@ -355,7 +360,12 @@ namespace WebGL.Core.Managers
             }
             if (explodable != null && explodable.Data != null)
             {
-                EventBus.Publish(new PartSelectedEvent(explodable.Data, fromHotspot));
+                EventBus.Publish(new PartSelectedEvent(
+                    explodable.Data,
+                    fromHotspot,
+                    hotspotGroupLabel,
+                    hotspotGroupSummary,
+                    hotspotGroupMembers));
                 
                 // Track analytics
                 if (ServiceLocator.TryGet<AnalyticsManager>(out var analytics))

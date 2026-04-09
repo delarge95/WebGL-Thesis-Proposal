@@ -217,11 +217,11 @@ namespace WebGL.UI
 
             // ── Category filter buttons (inside AnalyzeModeContainer/FilterSubPanel) ──
             BindCat("CatBtn_All", "ALL");
-            BindCat("CatBtn_Structure", "Structure");
-            BindCat("CatBtn_Propulsion", "Propulsion");
-            BindCat("CatBtn_Avionics", "Electronics");
-            BindCat("CatBtn_Power", "Fasteners");
-            BindCat("CatBtn_Payload", "Misc");
+            BindCat("CatBtn_Structure", "SkeletonAirframe");
+            BindCat("CatBtn_Propulsion", "PropulsionSystem");
+            BindCat("CatBtn_Avionics", "Avionics");
+            BindCat("CatBtn_Power", "PowerDistribution");
+            BindCat("CatBtn_Payload", "Fasteners");
 
             // ── FAB (global info button) ──
             _fabContainer = root.Q<VisualElement>("GlobalActionContainer");
@@ -461,7 +461,12 @@ namespace WebGL.UI
         private void OnPartSelected(PartSelectedEvent evt)
         {
             // Delegate data display to details sheet
-            _detailsSheet.PopulatePartData(evt.PartData, evt.FromHotspot);
+            _detailsSheet.PopulatePartData(
+                evt.PartData,
+                evt.FromHotspot,
+                evt.HotspotGroupLabel,
+                evt.HotspotGroupSummary,
+                evt.HotspotGroupMembers);
 
             // Show/hide FAB: visible when a part is selected OR the sheet is still open
             bool fabVisible = evt.PartData != null

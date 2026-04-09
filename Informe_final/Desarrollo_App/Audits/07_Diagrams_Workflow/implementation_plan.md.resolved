@@ -1,0 +1,229 @@
+# Plan: Corrección Integral del Documento de Tesis (Sin Mediciones)
+
+**Principio rector:** Resolver todo lo que NO dependa de la app terminada. Dejar marcado claramente qué falta hacer cuando la app esté lista.
+
+---
+
+## Resumen de Cifras Actualizadas (Ground Truth)
+
+| Dato | Valor en Documento | Valor Real (Abr 2026) |
+|---|---|---|
+| Scripts C# | 91 | **104** |
+| LOC C# | ~14,778 | **~16,927** |
+| Commits | 240+ | **316** |
+| Piezas canónicas | 16 | **28 nodos canónicos** |
+| Año portada | 2025 | **2026** |
+
+---
+
+## Bloque 1: Portada y Formato APA
+
+### [MODIFY] [informe_final.tex](file:///e:/WebGL_tesis/Informe_final/informe_final.tex)
+
+1. **Año:** Cambiar `{2025\par}` → `{2026\par}` (línea 208)
+2. **Ciudad:** Agregar `Pasto, Colombia\par` después de `Ingeniería Multimedia\par` (línea 205)
+3. **Running head (cornisa):** Agregar `\fancyhead[L]{\footnotesize\MakeUppercase{Prototipo Web 3D Interactivo}}` en la configuración de `fancyhdr`
+4. **Lista de figuras:** Agregar `\listoffigures` después de `\listoftables` (línea 246), con `\renewcommand{\listfigurename}{Lista de Figuras}` para español
+
+---
+
+## Bloque 2: Actualización de Cifras (91→104, 14778→16927, 240→316)
+
+> [!IMPORTANT]
+> 8 ubicaciones en 5 archivos necesitan actualización. Se aplica un regex global seguro.
+
+### [MODIFY] [04_desarrollo.tex](file:///e:/WebGL_tesis/Informe_final/chapters/04_desarrollo.tex)
+- **Línea 11:** `91 scripts` → `104 scripts`, `14\,778` → `16\,927`
+- **Línea 407:** `\textbf{91}` → `\textbf{104}`
+- **Línea 409:** `14\,778` → `16\,927`
+- **Línea 412:** `240+` → `316`
+
+### [MODIFY] [03_marco_metodologico.tex](file:///e:/WebGL_tesis/Informe_final/chapters/03_marco_metodologico.tex)
+- **Línea 62:** `91 scripts` → `104 scripts`, `14\,778` → `16\,927`
+- **Línea 96:** `240+ \textit{commits}` → `316 \textit{commits}`
+
+### [MODIFY] [05_resultados.tex](file:///e:/WebGL_tesis/Informe_final/chapters/05_resultados.tex)
+- **Línea 25:** `91 scripts` → `104 scripts`
+
+### [MODIFY] [06_conclusiones.tex](file:///e:/WebGL_tesis/Informe_final/chapters/06_conclusiones.tex)
+- **Línea 24:** `91~scripts` → `104~scripts`
+- **Línea 31:** `240+~\textit{commits}` → `316~\textit{commits}`
+
+### [MODIFY] [08_apendices.tex](file:///e:/WebGL_tesis/Informe_final/chapters/08_apendices.tex)
+- **Línea 21:** `91 scripts` → `104 scripts`, `14\,778` → `16\,927`
+- **Línea 24:** `240+` → `316`
+- **Línea 74:** `91~archivos` → `104~archivos`
+- **Línea 265:** `\textbf{91}` → `\textbf{104}`
+
+### [MODIFY] [manual_tecnico.tex](file:///e:/WebGL_tesis/Informe_final/Manual_tecnico/manual_tecnico.tex)
+- **Líneas 41, 393:** `91 scripts` → `104 scripts`, `14,778` → `16,927`
+
+---
+
+## Bloque 3: Coherencia Académica (OEs)
+
+> [!WARNING]
+> El audit detectó que Cap. 6 renumeró los OEs silenciosamente. Cap. 1 define: OE1=Pipeline, OE2=Shaders/URP, OE3=Interacción C#→WASM, OE4=Validación. Pero Cap. 6 fusionó OE2+OE3 en "Arquitectura Modular" y movió OE4 a OE3.
+
+### [MODIFY] [06_conclusiones.tex](file:///e:/WebGL_tesis/Informe_final/chapters/06_conclusiones.tex)
+Alinear las conclusiones con los OEs originales del Cap. 1:
+- `\paragraph{OE1: Pipeline de Optimización 3D.}` → OK, se mantiene
+- `\paragraph{OE2: Shaders PBR en URP.}` → Reescribir para hablar específicamente de shaders (actualmente dice "Arquitectura Modular de Software")
+- `\paragraph{OE3: Sistema de Interacción C#→WASM.}` → Nuevo párrafo que cubra la interacción (orbit camera, exploded view, WebAssembly compilation)
+- `\paragraph{OE4: Validación.}` → Mantener como pendiente (este es el que requiere la app terminada)
+
+### [MODIFY] [01_introduccion.tex](file:///e:/WebGL_tesis/Informe_final/chapters/01_introduccion.tex)
+- Agregar **pregunta de investigación** explícita al final del Planteamiento del Problema (antes de Justificación):
+  > "¿Es viable desplegar un prototipo WebGL con fidelidad PBR que cumpla <100K triángulos, >30 FPS y SUS ≥ 68 para visualización de hardware de drones?"
+
+### [MODIFY] [03_marco_metodologico.tex](file:///e:/WebGL_tesis/Informe_final/chapters/03_marco_metodologico.tex)
+- Formalizar **hipótesis nula** (H₀) en la sección NASA-TLX:
+  > H₀: No existe diferencia significativa en carga cognitiva entre el visor 3D y la documentación PDF estática.
+  > H₁: El visor 3D produce carga cognitiva significativamente menor.
+
+---
+
+## Bloque 4: Sección Houdini — Decisión y Resolución
+
+> [!IMPORTANT]
+> Houdini aparece en 3 ubicaciones como "pendiente". En lugar de inventar contenido, se reconoce como herramienta evaluada pero descartada.
+
+### [MODIFY] [04_desarrollo.tex](file:///e:/WebGL_tesis/Informe_final/chapters/04_desarrollo.tex)
+- **§4.5.1 (líneas 259-265):** Reescribir como: "Se evaluó Houdini para procesamiento procedural de LODs. Sin embargo, la retopología en Blender con Decimate + remesh manual ofreció resultados superiores para el número limitado de piezas del X500 V2. Houdini se recomienda como trabajo futuro para pipelines con múltiples modelos."
+- **Eliminar los TODOs** de líneas 247, 262, 271 (reemplazar con texto concreto o remover)
+
+### [MODIFY] [08_apendices.tex](file:///e:/WebGL_tesis/Informe_final/chapters/08_apendices.tex)
+- **Apéndice N (línea 287-299):** Marcar Houdini como "[Evaluado / Descartado]" en la tabla del pipeline
+- Eliminar el TODO de línea 287
+
+---
+
+## Bloque 5: Encoding §4.8 (Subsistema Térmico)
+
+### [MODIFY] [04_desarrollo.tex](file:///e:/WebGL_tesis/Informe_final/chapters/04_desarrollo.tex)
+- Las líneas ~330-355 tienen **encoding corruption** severa (0 acentos, caracteres `�`). Reescribir toda la sección §4.8 con acentos correctos y tiempo verbal unificado (pasado).
+- Agregar mención de las 28 piezas canónicas y las 6 categorías
+- Mencionar la verificación Wolfram como soporte
+
+---
+
+## Bloque 6: TODOs No-Mediciones (Resolver Ahora)
+
+Estos TODOs pueden resolverse **sin datos de la app**:
+
+| Archivo | Línea | TODO | Acción |
+|---|---|---|---|
+| `04_desarrollo.tex` | 247 | Diagrama pipeline 3D | **ANOTAR** como placeholder con nota descriptiva |
+| `04_desarrollo.tex` | 262 | Rol de Houdini | **RESOLVER** (Bloque 4) |
+| `04_desarrollo.tex` | 271 | ¿Houdini o Blender? | **RESOLVER** (Bloque 4) |
+| `06_conclusiones.tex` | 22 | Dato polígonos | **DEJAR** — requiere app |
+| `06_conclusiones.tex` | 28 | Resultados SUS/TLX | **DEJAR** — requiere app |
+| `08_apendices.tex` | 156 | Assets de audio | **RESOLVER** — marcar como no implementados |
+| `08_apendices.tex` | 274 | URL deploy | **DEJAR** — requiere deploy |
+| `08_apendices.tex` | 287 | Pipeline Houdini | **RESOLVER** (Bloque 4) |
+
+### TODOs del Cap. 5 (TODOS requieren app) — Se dejan intactos:
+- Líneas 37, 48, 60, 82, 94, 112, 129, 140 → Se mantienen como están
+
+---
+
+## Bloque 7: Coherencia Código↔Documento
+
+### [MODIFY] [01_introduccion.tex](file:///e:/WebGL_tesis/Informe_final/chapters/01_introduccion.tex)
+- **Línea 99:** Cambiar mención de "Asset Bundles" → reconocer como "capacidad proyectada de la arquitectura" en vez de feature implementada
+
+### [MODIFY] [04_desarrollo.tex](file:///e:/WebGL_tesis/Informe_final/chapters/04_desarrollo.tex)
+- Reconciliar la tabla de 16 piezas (si existe) con las 28 piezas canónicas actuales, o agregar nota que explique la evolución
+- Actualizar tabla de resumen (líneas 396-415) con nuevos conteos
+
+### [MODIFY] [06_conclusiones.tex](file:///e:/WebGL_tesis/Informe_final/chapters/06_conclusiones.tex)
+- Agregar Asset Bundles como **trabajo futuro** explícitamente (ya la sección existe, solo falta la mención)
+- Agregar el subsistema térmico como **contribución adicional** (no como cumplimiento de un OE)
+
+---
+
+## Inventario Maestro de Figuras / Tablas / Screenshots Pendientes
+
+> [!CAUTION]
+> Actualmente hay **0 figuras reales** en todo el documento. Este es el inventario de todo lo visual que debe producirse.
+
+### Figuras que se deben crear CON la app terminada:
+| # | Figura | Capítulo | Tipo | Descripción |
+|---|---|---|---|---|
+| F1 | Screenshot: Vista Normal (modo Default) | Cap. 4 / Cap. 5 | Screenshot | Vista principal del visor con el dron |
+| F2 | Screenshot: Vista Explosionada | Cap. 4 | Screenshot | Dron en modo exploded view |
+| F3 | Screenshot: Modo X-Ray | Cap. 4 | Screenshot | Transparencia con componentes internos visibles |
+| F4 | Screenshot: Modo Wireframe | Cap. 4 | Screenshot | Renderizado wireframe del modelo |
+| F5 | Screenshot: Modo Térmico | Cap. 4 | Screenshot | Simulación térmica con escala de colores |
+| F6 | Screenshot: Corte Transversal (Cross-Section) | Cap. 4 | Screenshot | Plano de corte en eje Y |
+| F7 | Screenshot: Bottom Sheet / Info Panel | Cap. 4 / Cap. 7 | Screenshot | Panel de información de una pieza seleccionada |
+| F8 | Screenshot: Catálogo de Partes (filtros) | Cap. 4 | Screenshot | UI del catálogo con las 6 categorías |
+| F9 | Screenshot: Hotspot hover | Cap. 4 | Screenshot | Hotspot con highlight del conjunto de piezas |
+| F10 | Screenshot: Responsive (móvil) | Cap. 5 | Screenshot | Vista del visor en dispositivo móvil |
+
+### Figuras que se pueden crear SIN la app:
+| # | Figura | Capítulo | Tipo | Descripción |
+|---|---|---|---|---|
+| F11 | Diagrama: Pipeline de Optimización 3D | Cap. 4 §4.5 | Diagrama | CAD → Blender → Substance → Unity |
+| F12 | Diagrama: Arquitectura de 4 Capas | Cap. 4 §4.1 | Diagrama | Presentación → Lógica → Servicios → Datos |
+| F13 | Diagrama: State Machine (ViewModes) | Cap. 4 §4.3 | Diagrama | Estados del ViewModeManager |
+| F14 | Diagrama: Event Bus | Cap. 4 §4.2 | Diagrama | Flujo de eventos/desacoplamiento |
+| F15 | Diagrama: Grafo de Contacto Térmico | Cap. 4 §4.8 | Diagrama | Nodos térmicos y conexiones de conducción |
+| F16 | Modelo 3D: Antes/Después retopología | Cap. 4 §4.5 | Render comparativo | High-poly vs low-poly del dron |
+
+### Gráficas que requieren datos de medición (POST-APP):
+| # | Gráfica | Capítulo | Tipo | Datos Necesarios |
+|---|---|---|---|---|
+| G1 | Tabla KPIs con resultados reales | Cap. 5 | Tabla | FPS, polígonos, draw calls, VRAM, TTI |
+| G2 | Gráfica SUS por participante | Cap. 5 | Gráfico de barras/box plot | Scores SUS individuales |
+| G3 | Gráfica radar NASA-TLX (3D vs PDF) | Cap. 5 | Gráfico radar | 6 dimensiones TLX × 2 condiciones |
+| G4 | Tabla SUS detallada | Cap. 5 | Tabla | N participantes × 10 preguntas |
+| G5 | Tabla NASA-TLX detallada | Cap. 5 | Tabla | N participantes × 6 dimensiones |
+| G6 | Tabla Think-Aloud (categorías) | Cap. 5 | Tabla | Categorías + frecuencias + citas |
+| G7 | Tabla FPS por dispositivo | Cap. 5 | Tabla | Desktop vs tablet vs móvil |
+
+### Tablas que necesitan actualización (SIN app):
+| # | Tabla | Capítulo | Acción |
+|---|---|---|---|
+| T1 | Resumen de Artefactos (líneas 396-415) | Cap. 4 | Actualizar 91→104, LOC, commits |
+| T2 | Inventario de Módulos (Apéndice K) | Cap. 8 | Actualizar conteo por categoría |
+| T3 | Tabla Productos Entregados | Cap. 5 | Actualizar conteo de scripts |
+| T4 | Tabla del Pipeline 3D (Apéndice N) | Cap. 8 | Marcar Houdini como descartado |
+
+---
+
+## Resumen de Bloques
+
+| Bloque | Descripción | ¿Requiere App? | Est. Tiempo |
+|---|---|---|---|
+| 1 | Portada y formato APA | ❌ | 15 min |
+| 2 | Cifras: 91→104, LOC, commits (8 archivos) | ❌ | 30 min |
+| 3 | Coherencia OEs + pregunta investigación + H₀ | ❌ | 45 min |
+| 4 | Houdini: decisión y redacción final | ❌ | 20 min |
+| 5 | Encoding §4.8 térmico | ❌ | 30 min |
+| 6 | TODOs resolubles sin app | ❌ | 15 min |
+| 7 | Coherencia código↔documento | ❌ | 30 min |
+| — | **Total estimado** | | **~3 horas** |
+
+---
+
+## Open Questions
+
+1. **Houdini:** ¿Confirmas que Houdini NO se usó finalmente en el pipeline y debemos redactarlo como "evaluado y descartado"?
+2. **Asset Bundles:** ¿Confirmas que tratemos Asset Bundles como "trabajo futuro" en vez de feature implementada?
+3. **Catálogo de piezas:** El Cap. 4 tiene una tabla con 16 piezas. ¿Prefiero actualizarla a las 28 canónicas, o agregar una nota explicando que el catálogo creció durante la retopología final?
+4. **Assets de audio:** El Apéndice G dice que los 16 clips aún no existen. ¿Los marco como "no implementados — trabajo futuro" o los eliminamos del apéndice?
+
+---
+
+## Verification Plan
+
+### Automated
+- Compilar PDF con LaTeX (`/compile_docs`) después de cada bloque
+- Grep para `TODO` residuales en los `.tex`
+- Grep para `91` residuales en los `.tex`
+
+### Manual
+- Verificar que la Tabla de Contenidos refleje correctamente todas las secciones
+- Verificar que no haya encoding corruption (`�`) en ninguna sección
+- Verificar que la numeración de OEs en Cap. 1 ↔ Cap. 6 sea consistente
