@@ -117,6 +117,7 @@ Establecer la base fisica, visual, documental y operativa del subsistema de simu
 - Etapa 2 ya cuenta con una ruta de preprocesado offline del grafo termico en editor.
 - Etapa 3 sigue en integracion parcial a nivel visual y de authoring.
 - La siguiente prioridad tecnica es calibrar el grafo generado sobre la geometria final del X500 V2 y asignar perfiles termicos a las piezas criticas.
+
 ## Fase 1: Investigación y Conceptualización (Julio - Agosto 2025)
 
 ### Objetivo
@@ -140,7 +141,9 @@ Definir la viabilidad técnica y conceptual de un visualizador interactivo 3D pa
 ## Fase 2: Pipeline de Producción 3D (Septiembre - Octubre 2025)
 
 ### O
-### 2026-03-17: Etapa 5  Thermal Legend y Wolfram (V003, V004)
+
+### 2026-03-17: Etapa 5 Thermal Legend y Wolfram (V003, V004)
+
 - **UI Añadida**: Creado ThermalLegendContainer en MainLayout.uxml y estilos con gradiente lineal (linear-gradient) en Theme.uss.
 - **Sincronización de UI**: Actualizado UIAnalyzePanel.cs para mostrar la leyenda solo cuando el Shading Mode es "Thermal".
 - **Sincronización de Datos**: Actualizado ThermalViewController.cs para inyectar automáticamente displayMinTemperatureC y displayMaxTemperatureC en las etiquetas UI conectadas al visualizador.
@@ -177,6 +180,7 @@ Sanear la rama termica, consolidar el camino oficial del runtime y corregir la d
 - Runtime oficial: solver por 28 piezas canonicas + grafo explicito + shader espacial + leyenda UI.
 - Carga termica visible: gobernada por `DroneStateController.SystemLoadFactor` y estados del dron.
 - Pendiente real: validar la escena final retopologizada, asignar overrides manuales solo donde aporten valor y medir rendimiento en Unity Editor/build objetivo.
+
 ---
 
 ## Registro de Cambios (Marzo 31, 2026) - Integracion del dron importado y rescate de runtime

@@ -529,17 +529,47 @@ Categorías visibles actuales en Analyze:
 En el modelo temporal/importado, las causas más probables detectadas son:
 
 1. Reanclaje heurístico de nodos auxiliares:
-  - El pipeline intenta reagrupar huérfanos al "mejor anchor" por distancia/nombre.
-  - Si la heurística falla o el naming difiere, algunas mallas pueden quedar bajo anchors inesperados.
+
+- El pipeline intenta reagrupar huérfanos al "mejor anchor" por distancia/nombre.
+- Si la heurística falla o el naming difiere, algunas mallas pueden quedar bajo anchors inesperados.
 
 2. Creación de anchors en posición de fallback:
-  - Cuando no hay bounds válidos del match, el anchor nuevo puede crearse en posición raíz (centro del dron/escena), dando la sensación de piezas colapsadas al centro.
+
+- Cuando no hay bounds válidos del match, el anchor nuevo puede crearse en posición raíz (centro del dron/escena), dando la sensación de piezas colapsadas al centro.
 
 3. Selección basada en collider por renderer:
-  - Si un renderer no tiene `MeshFilter`/mesh compatible o no recibió collider en el setup, esa parte puede quedar visible pero no seleccionable.
+
+- Si un renderer no tiene `MeshFilter`/mesh compatible o no recibió collider en el setup, esa parte puede quedar visible pero no seleccionable.
 
 4. Filtros de visibilidad deshabilitan colliders:
-  - En `ExplodedViewManager`, al ocultar renderers por filtro, también se deshabilitan colliders; una pieza filtrada no se puede seleccionar hasta volver a estar visible.
+
+- En `ExplodedViewManager`, al ocultar renderers por filtro, también se deshabilitan colliders; una pieza filtrada no se puede seleccionar hasta volver a estar visible.
 
 5. Desfase entre IDs canónicos y nombres Blender:
-  - Aunque ya hay fallback por `blenderName`, aún pueden existir casos no mapeados 1:1 en este modelo provisional.
+
+- Aunque ya hay fallback por `blenderName`, aún pueden existir casos no mapeados 1:1 en este modelo provisional.
+
+### 14.7 Auditoría automática agregada (paso siguiente listo)
+
+Se agregó una auditoría de cobertura ejecutable desde Editor:
+
+- Menú: `Tools/Thermal/Audit Imported Drone Coverage`
+- Script: `Assets/Editor/ImportedDroneCoverageAudit.cs`
+- Salida: `desarrollo/unity_project/Reports/imported_drone_coverage_report.md`
+
+Qué valida en una sola ejecución:
+
+- IDs esperados desde `x500v2_blender_synced_parts.json` (fallback a `x500v2_parts_data.json`)
+- Anchors reales con `ExplodablePart` en `x500v2_Drone`
+- IDs faltantes y anchors extra
+- Renderers con/sin collider
+- Renderers fuera de layer `SelectablePart`
+- Anchors cerca del origen y anchors colapsados cerca del root
+- Objetos top-level huérfanos con renderer (sin `ExplodablePart`)
+
+Uso recomendado para retomar:
+
+1. Ejecutar `Tools/Thermal/Prepare Imported Drone For Thermal Test`.
+2. Ejecutar `Tools/Thermal/Audit Imported Drone Coverage`.
+3. Corregir primero: `IDs faltantes`, `anchors sin renderer`, `renderers sin collider`.
+4. Repetir auditoría hasta tener cobertura aceptable para cerrar esta fase.

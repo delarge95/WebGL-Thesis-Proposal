@@ -1,0 +1,631 @@
+﻿# Imported Drone Coverage Audit
+
+Fecha: 2026-04-09 10:03:21
+Escena activa: MainScene_Final
+Root auditado: x500v2_Drone
+Fuente de IDs esperados: x500v2_blender_synced_parts.json
+
+## Resumen
+
+- IDs esperados: 55
+- Anchors con ExplodablePart: 28
+- IDs faltantes en escena: 55
+- Anchors extra no esperados: 28
+- IDs canónicos faltantes en escena: 0
+- Anchors extra vs canónico: 0
+- Anchors sin renderer: 7
+- Renderers totales: 21
+- Renderers con collider: 21
+- Renderers sin collider: 0
+- Renderers en layer SelectablePart: 21
+- Renderers fuera de SelectablePart: 0
+- Anchors cerca del origen (|pos| <= 0.05): 0
+- Anchors colapsados cerca de root (dist <= 0.02): 1
+- Renderers huérfanos en primer nivel (sin ExplodablePart): 236
+- Huérfanos reparables por prefijo: 64
+- Huérfanos no resueltos por prefijo: 172
+
+## IDs faltantes
+
+- x500v2_blend_ban_dj_dian_f2
+- x500v2_blend_battery_mounting_plat
+- x500v2_blend_battery_pad
+- x500v2_blend_bm06b_wo
+- x500v2_blend_bottom_plate_x500_v5
+- x500v2_blend_carbon_fiber_tube
+- x500v2_blend_carbon_fiber_tube300
+- x500v2_blend_dike_pixhawk6c_lv_c1
+- x500v2_blend_dj_2216_kv880
+- x500v2_blend_gai_guangliu
+- x500v2_blend_gan_gpsv5_zhijia
+- x500v2_blend_gb70_m25_10
+- x500v2_blend_gb70_m25_12
+- x500v2_blend_gb70_m25_6
+- x500v2_blend_gb70_m3_21_ding
+- x500v2_blend_gb70_m3_25_ding
+- x500v2_blend_gb70_m3_38
+- x500v2_blend_gb70_m3_6
+- x500v2_blend_gb70_m3_8_ding
+- x500v2_blend_gps_zhijia_zhuanjietou
+- x500v2_blend_gps_zhijia_zuo
+- x500v2_blend_gpsv5_zhijia_luomao
+- x500v2_blend_gpsv5_zhijia_tuopan
+- x500v2_blend_guan_cheng
+- x500v2_blend_hmx5v_digai_dianjizuo_muju
+- x500v2_blend_hmx5v_guan_dingwei
+- x500v2_blend_hmx5v_jibi_jia_muju
+- x500v2_blend_hmx5v_zuo_dj_muju
+- x500v2_blend_huan_guijiao
+- x500v2_blend_imu_pixhawk6c
+- x500v2_blend_jia_guan
+- x500v2_blend_jia_lianjie
+- x500v2_blend_jiao_eva
+- x500v2_blend_jiao_lianjie
+- x500v2_blend_lm_m3_ding
+- x500v2_blend_lm_m3_nilong
+- x500v2_blend_m25_6_chen_liu
+- x500v2_blend_m3_10_pan_ding
+- x500v2_blend_m3_14_pan
+- x500v2_blend_m3_16_chen_liu
+- x500v2_blend_mao_jiao
+- x500v2_blend_mianke_pixhawk6c_lv_c1
+- x500v2_blend_nilongzhu_m25_5
+- x500v2_blend_nilongzhu_m3_5
+- x500v2_blend_pcb_pixhawk6c_f1
+- x500v2_blend_pcb_pm06
+- x500v2_blend_platform_plat_x500
+- x500v2_blend_pylons_x500
+- x500v2_blend_top_plate_x500_v5
+- x500v2_blend_tou_xt60h_m_14awg
+- x500v2_blend_x500_tao_xt60
+- x500v2_blend_zhijia_camera_intel
+- x500v2_blend_zslm_m25
+- x500v2_blend_zslm_m3_ding
+- x500v2_blend_zslm_m3_falan
+
+## Anchors extra
+
+- x500v2_arm_BL
+- x500v2_arm_BR
+- x500v2_arm_FL
+- x500v2_arm_FR
+- x500v2_battery
+- x500v2_bottom_plate
+- x500v2_esc_BL
+- x500v2_esc_BR
+- x500v2_esc_FL
+- x500v2_esc_FR
+- x500v2_gps_m10
+- x500v2_landing_gear
+- x500v2_motor_BL
+- x500v2_motor_BR
+- x500v2_motor_FL
+- x500v2_motor_FR
+- x500v2_pdb
+- x500v2_pixhawk6c
+- x500v2_platform_board
+- x500v2_power_module
+- x500v2_prop_BL
+- x500v2_prop_BR
+- x500v2_prop_FL
+- x500v2_prop_FR
+- x500v2_rails_battery
+- x500v2_rc_receiver
+- x500v2_telemetry_radio
+- x500v2_top_plate
+
+## IDs canónicos faltantes
+
+- Ninguno
+
+## Anchors extra vs canónico
+
+- Ninguno
+
+## Anchors sin renderer
+
+- x500v2_arm_FL
+- x500v2_arm_FR
+- x500v2_arm_BL
+- x500v2_arm_BR
+- x500v2_landing_gear
+- x500v2_rails_battery
+- x500v2_gps_m10
+
+## Anchors con al menos un renderer sin collider
+
+- Ninguno
+
+## Anchors cerca del origen
+
+- Ninguno
+
+## Anchors colapsados cerca del root
+
+- x500v2_bottom_plate ((0, 0,23, 0))
+
+## Objetos top-level huérfanos con renderer
+
+- x500v2_arm_BL.arm_clamp
+- x500v2_arm_BL.arm_clamp_1
+- x500v2_arm_BL.locator
+- x500v2_arm_BL.motor_cap
+- x500v2_arm_BL.motor_mount
+- x500v2_arm_BL.motor_plate
+- x500v2_arm_BL.tube_clamp
+- x500v2_arm_BR.arm_clamp
+- x500v2_arm_BR.arm_clamp_1
+- x500v2_arm_BR.locator
+- x500v2_arm_BR.motor_cap
+- x500v2_arm_BR.motor_mount
+- x500v2_arm_BR.motor_plate
+- x500v2_arm_BR.tube
+- x500v2_arm_BR.tube_clamp
+- x500v2_arm_BR.tube_clamp_1
+- x500v2_arm_BR.tube_clamp_2
+- x500v2_arm_FL.arm_clamp
+- x500v2_arm_FL.arm_clamp_1
+- x500v2_arm_FL.locator
+- x500v2_arm_FL.motor_cap
+- x500v2_arm_FL.motor_mount
+- x500v2_arm_FL.motor_plate
+- x500v2_arm_FL.tube_clamp
+- x500v2_arm_FR.arm_clamp
+- x500v2_arm_FR.arm_clamp_1
+- x500v2_arm_FR.locator
+- x500v2_arm_FR.motor_cap
+- x500v2_arm_FR.motor_mount
+- x500v2_arm_FR.motor_plate
+- x500v2_arm_FR.tube
+- x500v2_arm_FR.tube_clamp
+- x500v2_arm_FR.tube_clamp_1
+- x500v2_arm_FR.tube_clamp_2
+- x500v2_bottom_plate.xt60_holder
+- x500v2_fastener.cap_screw_M25x10_000
+- x500v2_fastener.cap_screw_M25x10_001
+- x500v2_fastener.cap_screw_M25x10_002
+- x500v2_fastener.cap_screw_M25x10_003
+- x500v2_fastener.cap_screw_M25x10_004
+- x500v2_fastener.cap_screw_M25x10_005
+- x500v2_fastener.cap_screw_M25x10_006
+- x500v2_fastener.cap_screw_M25x10_007
+- x500v2_fastener.cap_screw_M25x12_000
+- x500v2_fastener.cap_screw_M25x12_001
+- x500v2_fastener.cap_screw_M25x12_002
+- x500v2_fastener.cap_screw_M25x12_003
+- x500v2_fastener.cap_screw_M25x12_004
+- x500v2_fastener.cap_screw_M25x12_005
+- x500v2_fastener.cap_screw_M25x12_006
+- x500v2_fastener.cap_screw_M25x12_007
+- x500v2_fastener.cap_screw_M25x12_008
+- x500v2_fastener.cap_screw_M25x12_009
+- x500v2_fastener.cap_screw_M25x12_010
+- x500v2_fastener.cap_screw_M25x12_011
+- x500v2_fastener.cap_screw_M25x6_000
+- x500v2_fastener.cap_screw_M25x6_001
+- x500v2_fastener.cap_screw_M25x6_002
+- x500v2_fastener.cap_screw_M25x6_003
+- x500v2_fastener.cap_screw_M25x6_004
+- x500v2_fastener.cap_screw_M25x6_005
+- x500v2_fastener.cap_screw_M25x6_006
+- x500v2_fastener.cap_screw_M25x6_007
+- x500v2_fastener.cap_screw_M25x6_008
+- x500v2_fastener.cap_screw_M25x6_009
+- x500v2_fastener.cap_screw_M25x6_010
+- x500v2_fastener.cap_screw_M25x6_011
+- x500v2_fastener.cap_screw_M25x6_012
+- x500v2_fastener.cap_screw_M25x6_013
+- x500v2_fastener.cap_screw_M25x6_014
+- x500v2_fastener.cap_screw_M25x6_015
+- x500v2_fastener.cap_screw_M25x6_016
+- x500v2_fastener.cap_screw_M25x6_017
+- x500v2_fastener.cap_screw_M25x6_018
+- x500v2_fastener.cap_screw_M25x6_019
+- x500v2_fastener.cap_screw_M25x6_020
+- x500v2_fastener.cap_screw_M25x6_021
+- x500v2_fastener.cap_screw_M25x6_022
+- x500v2_fastener.cap_screw_M25x6_023
+- x500v2_fastener.cap_screw_M3x21_000
+- x500v2_fastener.cap_screw_M3x21_001
+- x500v2_fastener.cap_screw_M3x25_000
+- x500v2_fastener.cap_screw_M3x25_001
+- x500v2_fastener.cap_screw_M3x38_000
+- x500v2_fastener.cap_screw_M3x38_001
+- x500v2_fastener.cap_screw_M3x38_002
+- x500v2_fastener.cap_screw_M3x38_003
+- x500v2_fastener.cap_screw_M3x38_004
+- x500v2_fastener.cap_screw_M3x38_005
+- x500v2_fastener.cap_screw_M3x38_006
+- x500v2_fastener.cap_screw_M3x38_007
+- x500v2_fastener.cap_screw_M3x38_008
+- x500v2_fastener.cap_screw_M3x38_009
+- x500v2_fastener.cap_screw_M3x38_010
+- x500v2_fastener.cap_screw_M3x38_011
+- x500v2_fastener.cap_screw_M3x38_012
+- x500v2_fastener.cap_screw_M3x38_013
+- x500v2_fastener.cap_screw_M3x38_014
+- x500v2_fastener.cap_screw_M3x38_015
+- x500v2_fastener.cap_screw_M3x6_000
+- x500v2_fastener.cap_screw_M3x6_001
+- x500v2_fastener.cap_screw_M3x6_002
+- x500v2_fastener.cap_screw_M3x6_003
+- x500v2_fastener.cap_screw_M3x6_004
+- x500v2_fastener.cap_screw_M3x6_005
+- x500v2_fastener.cap_screw_M3x6_006
+- x500v2_fastener.cap_screw_M3x6_007
+- x500v2_fastener.cap_screw_M3x6_008
+- x500v2_fastener.cap_screw_M3x6_009
+- x500v2_fastener.cap_screw_M3x6_010
+- x500v2_fastener.cap_screw_M3x6_011
+- x500v2_fastener.cap_screw_M3x6_012
+- x500v2_fastener.cap_screw_M3x6_013
+- x500v2_fastener.cap_screw_M3x6_014
+- x500v2_fastener.cap_screw_M3x6_015
+- x500v2_fastener.cap_screw_M3x8_000
+- x500v2_fastener.cap_screw_M3x8_001
+- x500v2_fastener.cap_screw_M3x8_002
+- x500v2_fastener.cap_screw_M3x8_003
+- x500v2_fastener.cap_screw_M3x8_004
+- x500v2_fastener.cap_screw_M3x8_005
+- x500v2_fastener.cap_screw_M3x8_006
+- x500v2_fastener.cap_screw_M3x8_007
+- x500v2_fastener.cap_screw_M3x8_008
+- x500v2_fastener.cap_screw_M3x8_009
+- x500v2_fastener.cap_screw_M3x8_010
+- x500v2_fastener.cap_screw_M3x8_011
+- x500v2_fastener.countersunk_M25x6_000
+- x500v2_fastener.countersunk_M25x6_001
+- x500v2_fastener.countersunk_M25x6_002
+- x500v2_fastener.countersunk_M25x6_003
+- x500v2_fastener.countersunk_M25x6_004
+- x500v2_fastener.countersunk_M25x6_005
+- x500v2_fastener.countersunk_M25x6_006
+- x500v2_fastener.countersunk_M25x6_007
+- x500v2_fastener.countersunk_M25x6_008
+- x500v2_fastener.countersunk_M25x6_009
+- x500v2_fastener.countersunk_M25x6_010
+- x500v2_fastener.countersunk_M25x6_011
+- x500v2_fastener.countersunk_M3x16_000
+- x500v2_fastener.countersunk_M3x16_001
+- x500v2_fastener.flange_nut_M3_000
+- x500v2_fastener.flange_nut_M3_001
+- x500v2_fastener.flange_nut_M3_002
+- x500v2_fastener.flange_nut_M3_003
+- x500v2_fastener.flange_nut_M3_004
+- x500v2_fastener.flange_nut_M3_005
+- x500v2_fastener.flange_nut_M3_006
+- x500v2_fastener.flange_nut_M3_007
+- x500v2_fastener.flange_nut_M3_008
+- x500v2_fastener.flange_nut_M3_009
+- x500v2_fastener.flange_nut_M3_010
+- x500v2_fastener.flange_nut_M3_011
+- x500v2_fastener.flange_nut_M3_012
+- x500v2_fastener.flange_nut_M3_013
+- x500v2_fastener.flange_nut_M3_014
+- x500v2_fastener.flange_nut_M3_015
+- x500v2_fastener.lock_nut_M3_000
+- x500v2_fastener.lock_nut_M3_001
+- x500v2_fastener.lock_nut_M3_002
+- x500v2_fastener.lock_nut_M3_003
+- x500v2_fastener.lock_nut_M3_004
+- x500v2_fastener.lock_nut_M3_005
+- x500v2_fastener.lock_nut_M3_006
+- x500v2_fastener.lock_nut_M3_007
+- x500v2_fastener.nylon_lock_nut_M3_000
+- x500v2_fastener.nylon_lock_nut_M3_001
+- x500v2_fastener.nylon_standoff_M25x5_000
+- x500v2_fastener.nylon_standoff_M25x5_001
+- x500v2_fastener.nylon_standoff_M25x5_002
+- x500v2_fastener.nylon_standoff_M25x5_003
+- x500v2_fastener.nylon_standoff_M3x5_000
+- x500v2_fastener.nylon_standoff_M3x5_001
+- x500v2_fastener.nylon_standoff_M3x5_002
+- x500v2_fastener.nylon_standoff_M3x5_003
+- x500v2_fastener.pan_head_M3x10_000
+- x500v2_fastener.pan_head_M3x10_001
+- x500v2_fastener.pan_head_M3x10_002
+- x500v2_fastener.pan_head_M3x10_003
+- x500v2_fastener.pan_head_M3x14_000
+- x500v2_fastener.pan_head_M3x14_001
+- x500v2_fastener.pan_head_M3x14_002
+- x500v2_fastener.pan_head_M3x14_003
+- x500v2_fastener.rubber_grommet_000
+- x500v2_fastener.rubber_grommet_001
+- x500v2_fastener.rubber_grommet_002
+- x500v2_fastener.rubber_grommet_003
+- x500v2_fastener.rubber_grommet_004
+- x500v2_fastener.rubber_grommet_005
+- x500v2_fastener.rubber_grommet_006
+- x500v2_fastener.rubber_grommet_007
+- x500v2_fastener.self_lock_nut_M25_000
+- x500v2_fastener.self_lock_nut_M25_001
+- x500v2_fastener.self_lock_nut_M25_002
+- x500v2_fastener.self_lock_nut_M25_003
+- x500v2_fastener.self_lock_nut_M3_000
+- x500v2_fastener.self_lock_nut_M3_001
+- x500v2_fastener.self_lock_nut_M3_002
+- x500v2_fastener.self_lock_nut_M3_003
+- x500v2_fastener.self_lock_nut_M3_004
+- x500v2_fastener.self_lock_nut_M3_005
+- x500v2_fastener.self_lock_nut_M3_006
+- x500v2_fastener.self_lock_nut_M3_007
+- x500v2_gps_m10.adapter
+- x500v2_gps_m10.base
+- x500v2_gps_m10.cap
+- x500v2_gps_m10.mast
+- x500v2_gps_m10.tray
+- x500v2_landing_gear.cap_0
+- x500v2_landing_gear.cap_1
+- x500v2_landing_gear.cap_2
+- x500v2_landing_gear.cap_3
+- x500v2_landing_gear.connector_0
+- x500v2_landing_gear.connector_1
+- x500v2_landing_gear.foot_0
+- x500v2_landing_gear.foot_1
+- x500v2_landing_gear.foot_2
+- x500v2_landing_gear.foot_3
+- x500v2_landing_gear.tube_0
+- x500v2_landing_gear.tube_1
+- x500v2_misc.camera_mount
+- x500v2_misc.frame_connector_0
+- x500v2_misc.frame_connector_1
+- x500v2_misc.light_cover
+- x500v2_motor_BL.part_1
+- x500v2_motor_BR.part_1
+- x500v2_motor_FL.part_1
+- x500v2_motor_FR.part_1
+- x500v2_power_module.connector
+- x500v2_power_module.xt60
+- x500v2_rails_battery.pad
+- x500v2_rails_battery.plate
+- x500v2_rails_battery.pylon_0
+- x500v2_rails_battery.pylon_1
+- x500v2_rails_battery.rail_0
+- x500v2_rails_battery.rail_1
+
+## Objetos top-level huérfanos reparables por prefijo
+
+- x500v2_arm_BL.arm_clamp
+- x500v2_arm_BL.arm_clamp_1
+- x500v2_arm_BL.locator
+- x500v2_arm_BL.motor_cap
+- x500v2_arm_BL.motor_mount
+- x500v2_arm_BL.motor_plate
+- x500v2_arm_BL.tube_clamp
+- x500v2_arm_BR.arm_clamp
+- x500v2_arm_BR.arm_clamp_1
+- x500v2_arm_BR.locator
+- x500v2_arm_BR.motor_cap
+- x500v2_arm_BR.motor_mount
+- x500v2_arm_BR.motor_plate
+- x500v2_arm_BR.tube
+- x500v2_arm_BR.tube_clamp
+- x500v2_arm_BR.tube_clamp_1
+- x500v2_arm_BR.tube_clamp_2
+- x500v2_arm_FL.arm_clamp
+- x500v2_arm_FL.arm_clamp_1
+- x500v2_arm_FL.locator
+- x500v2_arm_FL.motor_cap
+- x500v2_arm_FL.motor_mount
+- x500v2_arm_FL.motor_plate
+- x500v2_arm_FL.tube_clamp
+- x500v2_arm_FR.arm_clamp
+- x500v2_arm_FR.arm_clamp_1
+- x500v2_arm_FR.locator
+- x500v2_arm_FR.motor_cap
+- x500v2_arm_FR.motor_mount
+- x500v2_arm_FR.motor_plate
+- x500v2_arm_FR.tube
+- x500v2_arm_FR.tube_clamp
+- x500v2_arm_FR.tube_clamp_1
+- x500v2_arm_FR.tube_clamp_2
+- x500v2_bottom_plate.xt60_holder
+- x500v2_gps_m10.adapter
+- x500v2_gps_m10.base
+- x500v2_gps_m10.cap
+- x500v2_gps_m10.mast
+- x500v2_gps_m10.tray
+- x500v2_landing_gear.cap_0
+- x500v2_landing_gear.cap_1
+- x500v2_landing_gear.cap_2
+- x500v2_landing_gear.cap_3
+- x500v2_landing_gear.connector_0
+- x500v2_landing_gear.connector_1
+- x500v2_landing_gear.foot_0
+- x500v2_landing_gear.foot_1
+- x500v2_landing_gear.foot_2
+- x500v2_landing_gear.foot_3
+- x500v2_landing_gear.tube_0
+- x500v2_landing_gear.tube_1
+- x500v2_motor_BL.part_1
+- x500v2_motor_BR.part_1
+- x500v2_motor_FL.part_1
+- x500v2_motor_FR.part_1
+- x500v2_power_module.connector
+- x500v2_power_module.xt60
+- x500v2_rails_battery.pad
+- x500v2_rails_battery.plate
+- x500v2_rails_battery.pylon_0
+- x500v2_rails_battery.pylon_1
+- x500v2_rails_battery.rail_0
+- x500v2_rails_battery.rail_1
+
+## Objetos top-level huérfanos no resueltos por prefijo
+
+- x500v2_fastener.cap_screw_M25x10_000
+- x500v2_fastener.cap_screw_M25x10_001
+- x500v2_fastener.cap_screw_M25x10_002
+- x500v2_fastener.cap_screw_M25x10_003
+- x500v2_fastener.cap_screw_M25x10_004
+- x500v2_fastener.cap_screw_M25x10_005
+- x500v2_fastener.cap_screw_M25x10_006
+- x500v2_fastener.cap_screw_M25x10_007
+- x500v2_fastener.cap_screw_M25x12_000
+- x500v2_fastener.cap_screw_M25x12_001
+- x500v2_fastener.cap_screw_M25x12_002
+- x500v2_fastener.cap_screw_M25x12_003
+- x500v2_fastener.cap_screw_M25x12_004
+- x500v2_fastener.cap_screw_M25x12_005
+- x500v2_fastener.cap_screw_M25x12_006
+- x500v2_fastener.cap_screw_M25x12_007
+- x500v2_fastener.cap_screw_M25x12_008
+- x500v2_fastener.cap_screw_M25x12_009
+- x500v2_fastener.cap_screw_M25x12_010
+- x500v2_fastener.cap_screw_M25x12_011
+- x500v2_fastener.cap_screw_M25x6_000
+- x500v2_fastener.cap_screw_M25x6_001
+- x500v2_fastener.cap_screw_M25x6_002
+- x500v2_fastener.cap_screw_M25x6_003
+- x500v2_fastener.cap_screw_M25x6_004
+- x500v2_fastener.cap_screw_M25x6_005
+- x500v2_fastener.cap_screw_M25x6_006
+- x500v2_fastener.cap_screw_M25x6_007
+- x500v2_fastener.cap_screw_M25x6_008
+- x500v2_fastener.cap_screw_M25x6_009
+- x500v2_fastener.cap_screw_M25x6_010
+- x500v2_fastener.cap_screw_M25x6_011
+- x500v2_fastener.cap_screw_M25x6_012
+- x500v2_fastener.cap_screw_M25x6_013
+- x500v2_fastener.cap_screw_M25x6_014
+- x500v2_fastener.cap_screw_M25x6_015
+- x500v2_fastener.cap_screw_M25x6_016
+- x500v2_fastener.cap_screw_M25x6_017
+- x500v2_fastener.cap_screw_M25x6_018
+- x500v2_fastener.cap_screw_M25x6_019
+- x500v2_fastener.cap_screw_M25x6_020
+- x500v2_fastener.cap_screw_M25x6_021
+- x500v2_fastener.cap_screw_M25x6_022
+- x500v2_fastener.cap_screw_M25x6_023
+- x500v2_fastener.cap_screw_M3x21_000
+- x500v2_fastener.cap_screw_M3x21_001
+- x500v2_fastener.cap_screw_M3x25_000
+- x500v2_fastener.cap_screw_M3x25_001
+- x500v2_fastener.cap_screw_M3x38_000
+- x500v2_fastener.cap_screw_M3x38_001
+- x500v2_fastener.cap_screw_M3x38_002
+- x500v2_fastener.cap_screw_M3x38_003
+- x500v2_fastener.cap_screw_M3x38_004
+- x500v2_fastener.cap_screw_M3x38_005
+- x500v2_fastener.cap_screw_M3x38_006
+- x500v2_fastener.cap_screw_M3x38_007
+- x500v2_fastener.cap_screw_M3x38_008
+- x500v2_fastener.cap_screw_M3x38_009
+- x500v2_fastener.cap_screw_M3x38_010
+- x500v2_fastener.cap_screw_M3x38_011
+- x500v2_fastener.cap_screw_M3x38_012
+- x500v2_fastener.cap_screw_M3x38_013
+- x500v2_fastener.cap_screw_M3x38_014
+- x500v2_fastener.cap_screw_M3x38_015
+- x500v2_fastener.cap_screw_M3x6_000
+- x500v2_fastener.cap_screw_M3x6_001
+- x500v2_fastener.cap_screw_M3x6_002
+- x500v2_fastener.cap_screw_M3x6_003
+- x500v2_fastener.cap_screw_M3x6_004
+- x500v2_fastener.cap_screw_M3x6_005
+- x500v2_fastener.cap_screw_M3x6_006
+- x500v2_fastener.cap_screw_M3x6_007
+- x500v2_fastener.cap_screw_M3x6_008
+- x500v2_fastener.cap_screw_M3x6_009
+- x500v2_fastener.cap_screw_M3x6_010
+- x500v2_fastener.cap_screw_M3x6_011
+- x500v2_fastener.cap_screw_M3x6_012
+- x500v2_fastener.cap_screw_M3x6_013
+- x500v2_fastener.cap_screw_M3x6_014
+- x500v2_fastener.cap_screw_M3x6_015
+- x500v2_fastener.cap_screw_M3x8_000
+- x500v2_fastener.cap_screw_M3x8_001
+- x500v2_fastener.cap_screw_M3x8_002
+- x500v2_fastener.cap_screw_M3x8_003
+- x500v2_fastener.cap_screw_M3x8_004
+- x500v2_fastener.cap_screw_M3x8_005
+- x500v2_fastener.cap_screw_M3x8_006
+- x500v2_fastener.cap_screw_M3x8_007
+- x500v2_fastener.cap_screw_M3x8_008
+- x500v2_fastener.cap_screw_M3x8_009
+- x500v2_fastener.cap_screw_M3x8_010
+- x500v2_fastener.cap_screw_M3x8_011
+- x500v2_fastener.countersunk_M25x6_000
+- x500v2_fastener.countersunk_M25x6_001
+- x500v2_fastener.countersunk_M25x6_002
+- x500v2_fastener.countersunk_M25x6_003
+- x500v2_fastener.countersunk_M25x6_004
+- x500v2_fastener.countersunk_M25x6_005
+- x500v2_fastener.countersunk_M25x6_006
+- x500v2_fastener.countersunk_M25x6_007
+- x500v2_fastener.countersunk_M25x6_008
+- x500v2_fastener.countersunk_M25x6_009
+- x500v2_fastener.countersunk_M25x6_010
+- x500v2_fastener.countersunk_M25x6_011
+- x500v2_fastener.countersunk_M3x16_000
+- x500v2_fastener.countersunk_M3x16_001
+- x500v2_fastener.flange_nut_M3_000
+- x500v2_fastener.flange_nut_M3_001
+- x500v2_fastener.flange_nut_M3_002
+- x500v2_fastener.flange_nut_M3_003
+- x500v2_fastener.flange_nut_M3_004
+- x500v2_fastener.flange_nut_M3_005
+- x500v2_fastener.flange_nut_M3_006
+- x500v2_fastener.flange_nut_M3_007
+- x500v2_fastener.flange_nut_M3_008
+- x500v2_fastener.flange_nut_M3_009
+- x500v2_fastener.flange_nut_M3_010
+- x500v2_fastener.flange_nut_M3_011
+- x500v2_fastener.flange_nut_M3_012
+- x500v2_fastener.flange_nut_M3_013
+- x500v2_fastener.flange_nut_M3_014
+- x500v2_fastener.flange_nut_M3_015
+- x500v2_fastener.lock_nut_M3_000
+- x500v2_fastener.lock_nut_M3_001
+- x500v2_fastener.lock_nut_M3_002
+- x500v2_fastener.lock_nut_M3_003
+- x500v2_fastener.lock_nut_M3_004
+- x500v2_fastener.lock_nut_M3_005
+- x500v2_fastener.lock_nut_M3_006
+- x500v2_fastener.lock_nut_M3_007
+- x500v2_fastener.nylon_lock_nut_M3_000
+- x500v2_fastener.nylon_lock_nut_M3_001
+- x500v2_fastener.nylon_standoff_M25x5_000
+- x500v2_fastener.nylon_standoff_M25x5_001
+- x500v2_fastener.nylon_standoff_M25x5_002
+- x500v2_fastener.nylon_standoff_M25x5_003
+- x500v2_fastener.nylon_standoff_M3x5_000
+- x500v2_fastener.nylon_standoff_M3x5_001
+- x500v2_fastener.nylon_standoff_M3x5_002
+- x500v2_fastener.nylon_standoff_M3x5_003
+- x500v2_fastener.pan_head_M3x10_000
+- x500v2_fastener.pan_head_M3x10_001
+- x500v2_fastener.pan_head_M3x10_002
+- x500v2_fastener.pan_head_M3x10_003
+- x500v2_fastener.pan_head_M3x14_000
+- x500v2_fastener.pan_head_M3x14_001
+- x500v2_fastener.pan_head_M3x14_002
+- x500v2_fastener.pan_head_M3x14_003
+- x500v2_fastener.rubber_grommet_000
+- x500v2_fastener.rubber_grommet_001
+- x500v2_fastener.rubber_grommet_002
+- x500v2_fastener.rubber_grommet_003
+- x500v2_fastener.rubber_grommet_004
+- x500v2_fastener.rubber_grommet_005
+- x500v2_fastener.rubber_grommet_006
+- x500v2_fastener.rubber_grommet_007
+- x500v2_fastener.self_lock_nut_M25_000
+- x500v2_fastener.self_lock_nut_M25_001
+- x500v2_fastener.self_lock_nut_M25_002
+- x500v2_fastener.self_lock_nut_M25_003
+- x500v2_fastener.self_lock_nut_M3_000
+- x500v2_fastener.self_lock_nut_M3_001
+- x500v2_fastener.self_lock_nut_M3_002
+- x500v2_fastener.self_lock_nut_M3_003
+- x500v2_fastener.self_lock_nut_M3_004
+- x500v2_fastener.self_lock_nut_M3_005
+- x500v2_fastener.self_lock_nut_M3_006
+- x500v2_fastener.self_lock_nut_M3_007
+- x500v2_misc.camera_mount
+- x500v2_misc.frame_connector_0
+- x500v2_misc.frame_connector_1
+- x500v2_misc.light_cover
+
+## ExplodablePart sin Data.id
+
+- Ninguno
+

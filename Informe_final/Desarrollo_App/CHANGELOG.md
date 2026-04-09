@@ -38,12 +38,11 @@
 
 ## [2026-03-12] Etapa 2: Bootstrap termico, verificacion Wolfram, retopologia
 
-- ix(bootstrap): SceneBootstrapper ahora inicializa ThermalSimulationManager y ThermalViewController en runtime.
+- ix(bootstrap): SceneBootstrapper ahora inicializa ThermalSimulationManager y ThermalViewController en runtime.
 - docs(thermal): Verificacion V002 de escalas de conductividad contra datos de ingenieria (7 materiales). Documentado en wolfram_verificaciones.md.
 - docs(thermal): Creada guia de retopologia RETOPOLOGIA_POR_PIEZA.md con clasificacion de 28 piezas en 3 tiers.
-- ix(docs): Corregidas afirmaciones falsas en INDICE_TERMICO.md sobre SceneBootstrapper y Thermal.shader.
+- ix(docs): Corregidas afirmaciones falsas en INDICE_TERMICO.md sobre SceneBootstrapper y Thermal.shader.
 - docs(solver): Agregado comentario V002 a EstimateMaterialConductivityScale() documentando la compresion deliberada de escalas.
-
 
 ## Leyenda de Prefijos
 
@@ -79,6 +78,7 @@
 - El grafo de contactos puede generarse en editor, pero aun falta calibrarlo sobre la geometria final retopologizada del X500 V2.
 - La simulacion no debe presentarse aun como FEA ni como modelo termodinamico cuantitativo validado.
 - La verificacion automatica con WolframAlpha sigue condicionada a la configuracion de `WOLFRAM_APP_ID`.
+
 ## 2026-03-11 � Ajustes UX: Analyze persistente + Explode desacoplado
 
 ### Trabajo Realizado
@@ -952,45 +952,59 @@
 | Escenas Unity     | 3                                                                                                                   |
 
 ## [Unreleased] - 2026-03-17
+
 ### Added
+
 - Thermal Legend UI en MainLayout.uxml con etiquetas dinámicas de temperatura y un gradiente lineal térmico en Theme.uss.
 - Sincronización automática de displayMinTemperatureC y displayMaxTemperatureC desde ThermalViewController hacia la UI.
 
 ### Changed
+
 - UIAnalyzePanel.cs ahora vincula la visibilidad de la leyenda al seleccionar la opción 'Thermal' del menú Rendering.
 
 ### Verified
+
 - Añadidas V003 y V004 en wolfram_verificaciones.md, confirmando matemática y cualitativamente la compresión de las constantes de tiempo térmico (tau) en ThermalSimulationManager.cs por razones de fluidez interactiva en WebGL vs la realidad (7 minutos).
 
 ## [Unreleased] - 2026-03-19
+
 ### Added
+
 - `ThermalCanonicalContactGraph.asset` como grafo explicito oficial para las 28 piezas canonicas del solver.
 - Presets termicos canónicos en `ThermalViewController` para motores, ESC, bateria, brazos, plates y stack central.
 - `AGENT_HANDOFF_THERMAL.md` y nueva guia `RETOPOLOGIA_POR_PIEZA.md` con enfoque hibrido 28+55.
 
 ### Changed
+
 - `ThermalSimulationManager` ahora resuelve automaticamente un grafo canonico por `Resources` antes de caer al fallback heuristico.
 - `ThermalViewController` cachea la leyenda UI y deja de buscar el `UIDocument` en cada refresh.
 - `ThermalContactGraphBuilderWindow` apunta por defecto al asset oficial en `Assets/Resources/`.
 - `ThermalTestSetup.cs` queda marcado como experimental y fuera del camino oficial.
 
 ### Docs
+
 - Sincronizados `README.md`, indices termicos, matriz documental, documentacion tecnica, bitacora, manual tecnico, capitulo 4 y referencias de portafolio.
 
 ### Notes
+
 - En esta rama la carga termica oficial sigue gobernada por `DroneStateController`; un slider UI dedicado sigue siendo mejora futura y no debe describirse como ya reintegrado.
+
 ## [Unreleased] - 2026-03-31
+
 ### Added
+
 - `ImportedDroneRuntimeBinder.cs` para reenganchar el FBX importado al runtime y recachear managers clave.
 - `PartRenderCategory.cs` para soportar categorias publicas por renderer (`Structure`, `Propulsion`, `Electronics`, `Fasteners`, `Misc`).
 - `PREPARACION_FBX_IMPORTADO.md` como guia operativa del flujo oficial para `x500v2_Drone`.
 
 ### Changed
+
 - `UIManager` ahora autocrea managers criticos tambien para escenas sin bootstrap serializado completo.
 - `SelectionManager` ahora cae por defecto a la layer `SelectablePart` si el `LayerMask` no fue configurado.
 - `SetupImportedDroneThermalTest` ahora asigna layer seleccionable, colliders tipo box, categorias auxiliares y binder runtime.
 - `ViewModeManager`, `ExplodedViewManager`, `PartVisibilityManager`, `CrossSectionManager` y `HotspotManager` exponen recacheo o refresh para el dron importado.
 
 ### Notes
+
 - `Fasteners` y `Misc` ya son categorias publicas filtrables y aislables como coleccion visual, pero siguen heredando temperatura del ensamblaje padre en el solver V1.
 - La validacion final sigue pendiente en Unity Editor con la escena retopologizada completa.
