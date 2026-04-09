@@ -157,6 +157,13 @@ namespace WebGL.Core.Utils
                     continue;
                 }
 
+                ExplodablePart prefixedAnchor = ResolveAnchorFromNamePrefix(child.name, anchorsById);
+                if (prefixedAnchor != null && !child.IsChildOf(prefixedAnchor.transform))
+                {
+                    child.SetParent(prefixedAnchor.transform, true);
+                    continue;
+                }
+
                 Renderer renderer = child.GetComponentInChildren<Renderer>(true);
                 if (renderer == null)
                 {
@@ -171,6 +178,39 @@ namespace WebGL.Core.Utils
 
                 child.SetParent(bestAnchor.transform, true);
             }
+        }
+
+        private static ExplodablePart ResolveAnchorFromNamePrefix(string candidateName, IReadOnlyDictionary<string, ExplodablePart> anchorsById)
+        {
+            if (string.IsNullOrWhiteSpace(candidateName) || anchorsById == null || anchorsById.Count == 0)
+            {
+                return null;
+            }
+
+            if (anchorsById.TryGetValue(candidateName, out ExplodablePart exact))
+            {
+                return exact;
+            }
+
+            int dot = candidateName.IndexOf('.');
+            if (dot > 0)
+            {
+                string prefix = candidateName.Substring(0, dot);
+                if (anchorsById.TryGetValue(prefix, out ExplodablePart byPrefix))
+                {
+                    return byPrefix;
+                }
+            }
+
+            foreach (KeyValuePair<string, ExplodablePart> kvp in anchorsById)
+            {
+                if (candidateName.StartsWith(kvp.Key + ".", StringComparison.OrdinalIgnoreCase))
+                {
+                    return kvp.Value;
+                }
+            }
+
+            return null;
         }
 
         private static ExplodablePart ResolveBestAnchor(Transform candidate, Renderer renderer, IReadOnlyDictionary<string, ExplodablePart> anchorsById)

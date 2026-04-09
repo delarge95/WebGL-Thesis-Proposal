@@ -517,6 +517,14 @@ public static class SetupImportedDroneThermalTest
                 continue;
             }
 
+            Transform prefixedAnchor = ResolveAnchorFromNamePrefix(child.name, anchorsById);
+            if (prefixedAnchor != null && !child.IsChildOf(prefixedAnchor))
+            {
+                Undo.SetTransformParent(child, prefixedAnchor, "Attach auxiliary imported part (prefix)");
+                moved++;
+                continue;
+            }
+
             Renderer[] renderers = child.GetComponentsInChildren<Renderer>(true);
             if (renderers == null || renderers.Length == 0)
             {
@@ -534,6 +542,39 @@ public static class SetupImportedDroneThermalTest
         }
 
         return moved;
+    }
+
+    private static Transform ResolveAnchorFromNamePrefix(string candidateName, IReadOnlyDictionary<string, Transform> anchorsById)
+    {
+        if (string.IsNullOrWhiteSpace(candidateName) || anchorsById == null || anchorsById.Count == 0)
+        {
+            return null;
+        }
+
+        if (anchorsById.TryGetValue(candidateName, out Transform exact))
+        {
+            return exact;
+        }
+
+        int dot = candidateName.IndexOf('.');
+        if (dot > 0)
+        {
+            string prefix = candidateName.Substring(0, dot);
+            if (anchorsById.TryGetValue(prefix, out Transform byPrefix))
+            {
+                return byPrefix;
+            }
+        }
+
+        foreach (KeyValuePair<string, Transform> kvp in anchorsById)
+        {
+            if (candidateName.StartsWith(kvp.Key + ".", StringComparison.OrdinalIgnoreCase))
+            {
+                return kvp.Value;
+            }
+        }
+
+        return null;
     }
 
     private static Transform ResolveBestAnchor(Transform candidate, Renderer renderer, IReadOnlyDictionary<string, Transform> anchorsById)
