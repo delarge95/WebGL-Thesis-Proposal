@@ -104,6 +104,7 @@ namespace WebGL.Core.Utils
         {
             Dictionary<string, ExplodablePart> anchorsById = BuildAnchorMap(droneRoot);
             ReparentTopLevelOrphans(droneRoot, anchorsById);
+            ReparentNestedOrphansByType(droneRoot, anchorsById);
             anchorsById = BuildAnchorMap(droneRoot);
 
             foreach (KeyValuePair<string, ExplodablePart> kvp in anchorsById)
@@ -160,6 +161,16 @@ namespace WebGL.Core.Utils
                     continue;
                 }
 
+                string expectedAnchorId = ResolveExpectedAnchorIdFromName(child.name, string.Empty);
+                if (!string.IsNullOrWhiteSpace(expectedAnchorId) &&
+                    anchorsById.TryGetValue(expectedAnchorId, out ExplodablePart expectedAnchor) &&
+                    expectedAnchor != null &&
+                    !child.IsChildOf(expectedAnchor.transform))
+                {
+                    child.SetParent(expectedAnchor.transform, true);
+                    continue;
+                }
+
                 Transform syntheticGroupAnchor = ResolveOrCreateSyntheticGroupAnchor(droneRoot, child.name);
                 if (syntheticGroupAnchor != null && !child.IsChildOf(syntheticGroupAnchor))
                 {
@@ -187,6 +198,54 @@ namespace WebGL.Core.Utils
                 }
 
                 child.SetParent(bestAnchor.transform, true);
+            }
+        }
+
+        private static void ReparentNestedOrphansByType(Transform droneRoot, IReadOnlyDictionary<string, ExplodablePart> anchorsById)
+        {
+            if (droneRoot == null || anchorsById == null || anchorsById.Count == 0)
+            {
+                return;
+            }
+
+            foreach (Renderer renderer in droneRoot.GetComponentsInChildren<Renderer>(true))
+            {
+                if (renderer == null)
+                {
+                    continue;
+                }
+
+                Transform member = renderer.transform;
+                if (member == null || member.GetComponent<ExplodablePart>() != null)
+                {
+                    continue;
+                }
+
+                ExplodablePart currentAnchor = member.GetComponentInParent<ExplodablePart>();
+                string currentAnchorId = currentAnchor != null && currentAnchor.Data != null
+                    ? currentAnchor.Data.id
+                    : (currentAnchor != null ? currentAnchor.name : string.Empty);
+
+                string expectedAnchorId = ResolveExpectedAnchorIdFromName(member.name, currentAnchorId);
+                if (string.IsNullOrWhiteSpace(expectedAnchorId))
+                {
+                    continue;
+                }
+
+                if (!anchorsById.TryGetValue(expectedAnchorId, out ExplodablePart expectedAnchor) || expectedAnchor == null)
+                {
+                    continue;
+                }
+
+                if (string.Equals(currentAnchorId, expectedAnchorId, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                if (!member.IsChildOf(expectedAnchor.transform))
+                {
+                    member.SetParent(expectedAnchor.transform, true);
+                }
             }
         }
 
@@ -289,6 +348,14 @@ namespace WebGL.Core.Utils
 
             string lowerName = candidate.name.ToLowerInvariant();
             string suffix = ResolveQuadrantSuffix(lowerName);
+            string expectedAnchorId = ResolveExpectedAnchorIdFromName(candidate.name, string.Empty);
+            if (!string.IsNullOrWhiteSpace(expectedAnchorId) &&
+                anchorsById.TryGetValue(expectedAnchorId, out ExplodablePart expectedAnchor) &&
+                expectedAnchor != null)
+            {
+                return expectedAnchor;
+            }
+
             Vector3 candidateCenter = renderer != null ? renderer.bounds.center : candidate.position;
 
             float bestScore = float.MaxValue;
@@ -533,6 +600,94 @@ namespace WebGL.Core.Utils
             if (lowerName.Contains("bottom_plate")) return "x500v2_bottom_plate";
 
             return anchorId;
+        }
+
+        private static string ResolveExpectedAnchorIdFromName(string rawName, string fallbackAnchorId)
+        {
+            if (string.IsNullOrWhiteSpace(rawName))
+            {
+                return fallbackAnchorId ?? string.Empty;
+            }
+
+            string lowerName = rawName.ToLowerInvariant();
+            string suffix = ResolveQuadrantSuffix(lowerName);
+            if (string.IsNullOrWhiteSpace(suffix) && !string.IsNullOrWhiteSpace(fallbackAnchorId))
+            {
+                suffix = ResolveQuadrantSuffix(fallbackAnchorId.ToLowerInvariant());
+            }
+
+            bool hasFastenerToken = lowerName.Contains("fastener") || lowerName.Contains("screw") || lowerName.Contains("cap_screw") ||
+                                    lowerName.Contains("bolt") || lowerName.Contains("nut") || lowerName.Contains("washer") ||
+                                    lowerName.Contains("standoff") || lowerName.Contains("spacer") ||
+                                    lowerName.Contains("gb70") || lowerName.Contains("lm-") || lowerName.Contains("zslm") ||
+                                    lowerName.Contains("nilongzhu") || lowerName.Contains("chen-liu") || lowerName.Contains("pan-ding");
+
+            // Arm-propulsion family (including their fasteners)
+            if (!string.IsNullOrWhiteSpace(suffix) &&
+                (lowerName.Contains("arm") || lowerName.Contains("carbon-fiber-tube300") || lowerName.Contains("hmx5v") ||
+                 lowerName.Contains("motor") || lowerName.Contains("dj-2216") || lowerName.Contains("ban-dj") ||
+                 lowerName.Contains("esc") || lowerName.Contains("prop") ||
+                 (hasFastenerToken && (lowerName.Contains("dian") || lowerName.Contains("hmx5v") || lowerName.Contains("tube")))))
+            {
+                return $"x500v2_arm_{suffix.ToUpperInvariant()}";
+            }
+
+            // Core electronics family
+            if (lowerName.Contains("pixhawk") || lowerName.Contains("imu-") || lowerName.Contains("pcb-pixhawk") || lowerName.Contains("bm06b"))
+            {
+                return "x500v2_pixhawk6c";
+            }
+
+            if (lowerName.Contains("gps") || lowerName.Contains("gan-gpsv5") || lowerName.Contains("zhijia"))
+            {
+                return "x500v2_gps_m10";
+            }
+
+            if (lowerName.Contains("power_module") || lowerName.Contains("pm06") || lowerName.Contains("xt60") || lowerName.Contains("pdb"))
+            {
+                return "x500v2_power_module";
+            }
+
+            if (lowerName.Contains("battery") || lowerName.Contains("pylons") || lowerName.Contains("rails") || lowerName.Contains("guan-cheng") || lowerName.Contains("strap"))
+            {
+                return "x500v2_rails_battery";
+            }
+
+            // Frame / landing family
+            if (lowerName.Contains("landing") || lowerName.Contains("jiao-") || lowerName.Contains("mao-jiao") ||
+                lowerName.Contains("carbon-fiber-tube") && !lowerName.Contains("tube300"))
+            {
+                return "x500v2_landing_gear";
+            }
+
+            if (lowerName.Contains("top-plate") || lowerName.Contains("top_plate"))
+            {
+                return "x500v2_top_plate";
+            }
+
+            if (lowerName.Contains("bottom-plate") || lowerName.Contains("bottom_plate") || lowerName.Contains("camera-intel") || lowerName.Contains("guangliu"))
+            {
+                return "x500v2_bottom_plate";
+            }
+
+            if (lowerName.Contains("platform-plat"))
+            {
+                return "x500v2_platform_board";
+            }
+
+            // Generic fasteners fallback: keep them encapsulated in the closest structural mother,
+            // preferring arm quadrant when available.
+            if (hasFastenerToken)
+            {
+                if (!string.IsNullOrWhiteSpace(suffix))
+                {
+                    return $"x500v2_arm_{suffix.ToUpperInvariant()}";
+                }
+
+                return "x500v2_bottom_plate";
+            }
+
+            return fallbackAnchorId ?? string.Empty;
         }
 
         private static string InferAuxiliaryCategory(string rawName)

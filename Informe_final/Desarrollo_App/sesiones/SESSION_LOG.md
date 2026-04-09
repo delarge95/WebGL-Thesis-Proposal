@@ -27,16 +27,16 @@
 - Setup final: `Fuente usada: x500v2_parts_data.json (matches: 28/28)`.
 - Setup final: `Preparadas 28`, `Warnings 0`.
 - Auditoría final:
-	- `Anchors sin renderer: 0`
-	- `Renderers huérfanos top-level: 0`
-	- `Huérfanos no resueltos por prefijo: 0`
+  - `Anchors sin renderer: 0`
+  - `Renderers huérfanos top-level: 0`
+  - `Huérfanos no resueltos por prefijo: 0`
 
 ### Próximo paso
 
 1. Validación funcional fina en Play Mode:
-	 - selección click/tap,
-	 - filtros Analyze (toggle + doble click exclusivo),
-	 - hotspots en Inspect/Analyze.
+   - selección click/tap,
+   - filtros Analyze (toggle + doble click exclusivo),
+   - hotspots en Inspect/Analyze.
 2. Si no hay regresiones, cierre documental de entrega final.
 
 ## Sesión 2026-04-08 (Checkpoint de Integracion y Control de Entrega)
