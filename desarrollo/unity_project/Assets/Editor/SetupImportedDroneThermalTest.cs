@@ -236,8 +236,9 @@ public static class SetupImportedDroneThermalTest
             }
         }
 
-        ProcessSyntheticGroupAnchor(anchorsById, FastenerGroupId, "Fasteners", "Fasteners Group");
-        ProcessSyntheticGroupAnchor(anchorsById, MiscGroupId, "Uncategorized", "Misc Group");
+        ProcessExistingSyntheticGroupMembers(root.transform, anchorsById, assetsById, FastenerGroupId);
+        ProcessExistingSyntheticGroupMembers(root.transform, anchorsById, assetsById, MiscGroupId);
+        NormalizeAnchorPivots(anchorsById);
 
         EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         AssetDatabase.SaveAssets();
@@ -550,20 +551,28 @@ public static class SetupImportedDroneThermalTest
         bool hasBounds = false;
         foreach (Transform match in matches)
         {
-            Renderer renderer = match.GetComponent<Renderer>();
-            if (renderer == null)
+            Renderer[] renderers = match.GetComponentsInChildren<Renderer>(true);
+            if (renderers == null || renderers.Length == 0)
             {
                 continue;
             }
 
-            if (!hasBounds)
+            foreach (Renderer renderer in renderers)
             {
-                bounds = renderer.bounds;
-                hasBounds = true;
-            }
-            else
-            {
-                bounds.Encapsulate(renderer.bounds);
+                if (renderer == null)
+                {
+                    continue;
+                }
+
+                if (!hasBounds)
+                {
+                    bounds = renderer.bounds;
+                    hasBounds = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(renderer.bounds);
+                }
             }
         }
 
@@ -572,8 +581,171 @@ public static class SetupImportedDroneThermalTest
         anchorObject.transform.SetParent(root, true);
         anchorObject.transform.localScale = Vector3.one;
         anchorObject.transform.rotation = root.rotation;
-        anchorObject.transform.position = hasBounds ? bounds.center : root.position;
+        Vector3 fallbackCenter;
+        bool hasFallbackCenter = TryComputeWorldCenterFromDescendants(root, out fallbackCenter);
+        anchorObject.transform.position = hasBounds
+            ? bounds.center
+            : (hasFallbackCenter ? fallbackCenter : root.position);
         return anchorObject.transform;
+    }
+
+    private static bool TryComputeWorldCenterFromDescendants(Transform root, out Vector3 center)
+    {
+        center = Vector3.zero;
+        if (root == null)
+        {
+            return false;
+        }
+
+        Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+        bool hasRendererBounds = false;
+        Bounds aggregate = default;
+
+        foreach (Renderer renderer in renderers)
+        {
+            if (renderer == null)
+            {
+                continue;
+            }
+
+            Transform rendererTransform = renderer.transform;
+            if (rendererTransform == root)
+            {
+                continue;
+            }
+
+            if (!hasRendererBounds)
+            {
+                aggregate = renderer.bounds;
+                hasRendererBounds = true;
+            }
+            else
+            {
+                aggregate.Encapsulate(renderer.bounds);
+            }
+        }
+
+        if (hasRendererBounds)
+        {
+            center = aggregate.center;
+            return true;
+        }
+
+        int childCount = root.childCount;
+        if (childCount == 0)
+        {
+            return false;
+        }
+
+        Vector3 accumulator = Vector3.zero;
+        int counted = 0;
+        for (int i = 0; i < childCount; i++)
+        {
+            Transform child = root.GetChild(i);
+            if (child == null)
+            {
+                continue;
+            }
+
+            accumulator += child.position;
+            counted++;
+        }
+
+        if (counted == 0)
+        {
+            return false;
+        }
+
+        center = accumulator / counted;
+        return true;
+    }
+
+    private static void NormalizeAnchorPivots(IReadOnlyDictionary<string, Transform> anchorsById)
+    {
+        if (anchorsById == null || anchorsById.Count == 0)
+        {
+            return;
+        }
+
+        foreach (KeyValuePair<string, Transform> kvp in anchorsById)
+        {
+            Transform anchor = kvp.Value;
+            if (anchor == null)
+            {
+                continue;
+            }
+
+            RecenterAnchorPivotWithoutMovingGeometry(anchor);
+        }
+    }
+
+    private static void RecenterAnchorPivotWithoutMovingGeometry(Transform anchor)
+    {
+        if (anchor == null || anchor.childCount == 0)
+        {
+            return;
+        }
+
+        Renderer[] renderers = anchor.GetComponentsInChildren<Renderer>(true);
+        Bounds aggregate = default;
+        bool hasBounds = false;
+
+        foreach (Renderer renderer in renderers)
+        {
+            if (renderer == null)
+            {
+                continue;
+            }
+
+            if (renderer.transform == anchor)
+            {
+                continue;
+            }
+
+            if (!hasBounds)
+            {
+                aggregate = renderer.bounds;
+                hasBounds = true;
+            }
+            else
+            {
+                aggregate.Encapsulate(renderer.bounds);
+            }
+        }
+
+        if (!hasBounds)
+        {
+            return;
+        }
+
+        Vector3 previous = anchor.position;
+        Vector3 target = aggregate.center;
+        Vector3 delta = target - previous;
+
+        if (delta.sqrMagnitude < 0.0000001f)
+        {
+            return;
+        }
+
+        List<Transform> directChildren = new List<Transform>();
+        foreach (Transform child in anchor)
+        {
+            directChildren.Add(child);
+        }
+
+        Undo.RecordObject(anchor, "Recenter anchor pivot");
+        Undo.RecordObjects(directChildren.ConvertAll(child => (UnityEngine.Object)child).ToArray(), "Keep child world positions");
+
+        anchor.position = target;
+        foreach (Transform child in directChildren)
+        {
+            if (child == null)
+            {
+                continue;
+            }
+
+            child.position -= delta;
+        }
     }
 
     private static int ReparentAuxiliaryChildren(
@@ -610,8 +782,10 @@ public static class SetupImportedDroneThermalTest
                     Undo.SetTransformParent(child, syntheticAnchor, "Attach auxiliary imported part (synthetic-group)");
                     moved++;
                     syntheticMoved++;
-                    continue;
                 }
+
+                EnsureSyntheticInstanceSelectable(child, syntheticGroupId);
+                continue;
             }
 
             Transform prefixedAnchor = ResolveAnchorFromNamePrefix(child.name, anchorsById);
@@ -713,7 +887,9 @@ public static class SetupImportedDroneThermalTest
             anchor = anchorObject.transform;
             anchor.SetParent(root, true);
             anchor.localScale = Vector3.one;
-            anchor.position = root.position;
+            Vector3 fallbackCenter;
+            bool hasFallbackCenter = TryComputeWorldCenterFromDescendants(root, out fallbackCenter);
+            anchor.position = hasFallbackCenter ? fallbackCenter : root.position;
         }
 
         if (anchor.GetComponent<MaterialController>() == null)
@@ -782,30 +958,168 @@ public static class SetupImportedDroneThermalTest
         assetsById[id] = asset;
     }
 
-    private static void ProcessSyntheticGroupAnchor(Dictionary<string, Transform> anchorsById, string groupId, string category, string label)
+    private static void ProcessSyntheticGroupAnchor(Transform anchor)
     {
-        if (!anchorsById.TryGetValue(groupId, out Transform anchor) || anchor == null)
+        if (anchor == null)
         {
             return;
         }
 
+        // Keep the group anchor as an empty organizational container.
+        // Individual selectable parts are attached to the child instance nodes.
+        ExplodablePart existingExplodable = anchor.GetComponent<ExplodablePart>();
+        if (existingExplodable != null)
+        {
+            Undo.DestroyObjectImmediate(existingExplodable);
+        }
+
+        MaterialController existingMaterial = anchor.GetComponent<MaterialController>();
+        if (existingMaterial != null)
+        {
+            Undo.DestroyObjectImmediate(existingMaterial);
+        }
+
+        HighlightSystem existingHighlight = anchor.GetComponent<HighlightSystem>();
+        if (existingHighlight != null)
+        {
+            Undo.DestroyObjectImmediate(existingHighlight);
+        }
+    }
+
+    private static void ProcessExistingSyntheticGroupMembers(
+        Transform root,
+        Dictionary<string, Transform> anchorsById,
+        IReadOnlyDictionary<string, DronePartData> assetsById,
+        string groupId)
+    {
+        Transform groupAnchor = EnsureSyntheticGroupAnchor(root, anchorsById, assetsById, groupId);
+        if (groupAnchor == null)
+        {
+            return;
+        }
+
+        ProcessSyntheticGroupAnchor(groupAnchor);
+
+        List<Transform> directChildren = new List<Transform>();
+        foreach (Transform child in groupAnchor)
+        {
+            directChildren.Add(child);
+        }
+
+        foreach (Transform child in directChildren)
+        {
+            if (child == null)
+            {
+                continue;
+            }
+
+            Renderer renderer = child.GetComponentInChildren<Renderer>(true);
+            if (renderer == null)
+            {
+                continue;
+            }
+
+            EnsureSyntheticInstanceSelectable(child, groupId);
+        }
+    }
+
+    private static void EnsureSyntheticInstanceSelectable(Transform child, string syntheticGroupId)
+    {
+        if (child == null || string.IsNullOrWhiteSpace(syntheticGroupId))
+        {
+            return;
+        }
+
+        string assetId = SanitizeAssetId(child.name);
+        string assetPath = $"{GeneratedDataFolder}/{assetId}.asset";
+        DronePartData asset = AssetDatabase.LoadAssetAtPath<DronePartData>(assetPath);
+        if (asset == null)
+        {
+            asset = ScriptableObject.CreateInstance<DronePartData>();
+            AssetDatabase.CreateAsset(asset, assetPath);
+        }
+
+        string readableName = child.name.Replace('_', ' ').Replace('.', ' ');
+        bool isFastenerGroup = string.Equals(syntheticGroupId, FastenerGroupId, StringComparison.OrdinalIgnoreCase);
+
+        asset.partName = readableName;
+        asset.id = assetId;
+        asset.partType = isFastenerGroup ? "Fastener" : "Misc Part";
+        asset.category = isFastenerGroup ? PartCategory.Fasteners : PartCategory.Uncategorized;
+        asset.description = isFastenerGroup
+            ? "Individual fastener instance imported from the model hierarchy."
+            : "Individual auxiliary instance imported from the model hierarchy.";
+        asset.function = isFastenerGroup ? "Fastening / mounting" : "Auxiliary support";
+        asset.weightKg = 0f;
+        asset.dimensions = string.Empty;
+        asset.materialType = isFastenerGroup ? "Metal" : "Mixed";
+        asset.requiredTools = Array.Empty<string>();
+        asset.safetyWarnings = Array.Empty<string>();
+        asset.prerequisites = Array.Empty<string>();
+        asset.connectionTypes = Array.Empty<string>();
+        asset.explosionDirection = Vector3.up;
+        asset.explosionDistance = 0.03f;
+        asset.highlightColor = isFastenerGroup
+            ? new Color(1f, 0.72f, 0.2f, 1f)
+            : new Color(0.3f, 0.8f, 1f, 1f);
+        asset.isThermallyCritical = false;
+        asset.isHotspotTarget = false;
+
         DronePartJson syntheticPart = new DronePartJson
         {
-            id = groupId,
-            partName = label,
-            category = category,
-            partType = category
+            id = assetId,
+            partName = readableName,
+            category = isFastenerGroup ? "Fasteners" : "Misc",
+            partType = asset.partType,
+            description = asset.description,
+            function = asset.function,
+            materialType = asset.materialType,
+            weightKg = asset.weightKg,
+            dimensions = asset.dimensions
         };
 
-        AnnotateRenderHierarchy(anchor, syntheticPart);
-        EnsureSelectionColliders(anchor);
-        AssignSelectableLayer(anchor);
-
-        ExplodablePart explodable = anchor.GetComponent<ExplodablePart>();
-        if (explodable != null)
+        ExplodablePart explodable = child.GetComponent<ExplodablePart>();
+        if (explodable == null)
         {
-            explodable.Initialize();
+            explodable = Undo.AddComponent<ExplodablePart>(child.gameObject);
         }
+
+        if (child.GetComponent<MaterialController>() == null)
+        {
+            Undo.AddComponent<MaterialController>(child.gameObject);
+        }
+
+        if (child.GetComponent<HighlightSystem>() == null)
+        {
+            Undo.AddComponent<HighlightSystem>(child.gameObject);
+        }
+
+        explodable.SetData(asset);
+        explodable.Initialize();
+
+        AnnotateRenderHierarchy(child, syntheticPart);
+        EnsureSelectionColliders(child);
+        AssignSelectableLayer(child);
+
+        EditorUtility.SetDirty(asset);
+        EditorUtility.SetDirty(explodable);
+    }
+
+    private static string SanitizeAssetId(string rawName)
+    {
+        if (string.IsNullOrWhiteSpace(rawName))
+        {
+            return "synthetic_instance";
+        }
+
+        char[] buffer = new char[rawName.Length];
+        int length = 0;
+        foreach (char character in rawName)
+        {
+            buffer[length++] = char.IsLetterOrDigit(character) || character == '_' || character == '-' ? character : '_';
+        }
+
+        return new string(buffer, 0, length);
     }
 
     private static Transform ResolveAnchorFromNamePrefix(string candidateName, IReadOnlyDictionary<string, Transform> anchorsById)

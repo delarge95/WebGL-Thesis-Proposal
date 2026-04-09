@@ -10,6 +10,7 @@ namespace WebGL.Core.Content
 
         private Vector3 initialPosition;
         private Vector3 targetPosition;
+        private bool initialized;
 
         public DronePartData Data => partData;
 
@@ -22,6 +23,7 @@ namespace WebGL.Core.Content
         {
             initialPosition = transform.localPosition;
             CalculateTargetPosition();
+            initialized = true;
 
             foreach (AuxiliaryExplodeOffset offset in GetComponentsInChildren<AuxiliaryExplodeOffset>(true))
             {
@@ -34,8 +36,8 @@ namespace WebGL.Core.Content
 
         private void Start()
         {
-            // If already initialized via script, this might be redundant but safe
-            if (targetPosition == Vector3.zero && transform.localPosition != Vector3.zero) 
+            // Keep initialization idempotent and independent from localPosition checks.
+            if (!initialized)
             {
                 Initialize();
             }
@@ -58,6 +60,12 @@ namespace WebGL.Core.Content
 
         public void UpdateExplosion(float factor)
         {
+            // ExplodedViewManager can call UpdateExplosion before Start; capture base pose first.
+            if (!initialized)
+            {
+                Initialize();
+            }
+
             // Linear interpolation between initial and target position
             transform.localPosition = Vector3.Lerp(initialPosition, targetPosition, factor);
 

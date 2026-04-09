@@ -104,6 +104,16 @@ namespace WebGL.Core.Content
         {
             parts.Clear();
             parts.AddRange(FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None));
+
+            // Ensure every part has captured its base local pose before first explosion update.
+            foreach (ExplodablePart part in parts)
+            {
+                if (part != null)
+                {
+                    part.Initialize();
+                }
+            }
+
             UpdateAllParts();
         }
 
