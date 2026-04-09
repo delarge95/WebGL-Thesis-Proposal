@@ -14,6 +14,8 @@ public static class SetupImportedDroneThermalTest
     private const string GeneratedDataFolder = "Assets/Core/Data/X500V2Generated";
     private const string CanonicalJsonFile = "x500v2_parts_data.json";
     private const string SyncedJsonFile = "x500v2_blender_synced_parts.json";
+    private const string FastenerGroupId = "x500v2_fastener_group";
+    private const string MiscGroupId = "x500v2_misc_group";
 
     private static string HolybroDocsDir => Path.GetFullPath(Path.Combine(Application.dataPath, "..", "..", "docs", "investigacion", "Holybro"));
     private static string CanonicalJsonPath => Path.Combine(HolybroDocsDir, CanonicalJsonFile);
@@ -130,6 +132,8 @@ public static class SetupImportedDroneThermalTest
         EnsureRuntimeBinder(root);
 
         Dictionary<string, DronePartData> assetsById = GenerateOrUpdatePartAssets(jsonParts);
+        EnsureSyntheticGroupAsset(assetsById, FastenerGroupId, "Fasteners Group", PartCategory.Fasteners);
+        EnsureSyntheticGroupAsset(assetsById, MiscGroupId, "Misc Group", PartCategory.Uncategorized);
         Dictionary<string, Transform> anchorsById = new Dictionary<string, Transform>(StringComparer.OrdinalIgnoreCase);
 
         int prepared = 0;
@@ -201,7 +205,7 @@ public static class SetupImportedDroneThermalTest
             prepared++;
         }
 
-        auxiliaryReparented = ReparentAuxiliaryChildren(root.transform, anchorsById);
+        auxiliaryReparented = ReparentAuxiliaryChildren(root.transform, anchorsById, assetsById);
 
         foreach (DronePartJson jsonPart in jsonParts)
         {
@@ -220,6 +224,9 @@ public static class SetupImportedDroneThermalTest
                 explodable.Initialize();
             }
         }
+
+        ProcessSyntheticGroupAnchor(anchorsById, FastenerGroupId, "Fasteners", "Fasteners Group");
+        ProcessSyntheticGroupAnchor(anchorsById, MiscGroupId, "Uncategorized", "Misc Group");
 
         EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         AssetDatabase.SaveAssets();
@@ -501,7 +508,7 @@ public static class SetupImportedDroneThermalTest
         return anchorObject.transform;
     }
 
-    private static int ReparentAuxiliaryChildren(Transform root, IReadOnlyDictionary<string, Transform> anchorsById)
+    private static int ReparentAuxiliaryChildren(Transform root, Dictionary<string, Transform> anchorsById, IReadOnlyDictionary<string, DronePartData> assetsById)
     {
         int moved = 0;
         List<Transform> directChildren = new List<Transform>();
@@ -515,6 +522,18 @@ public static class SetupImportedDroneThermalTest
             if (child == null || child.GetComponent<ExplodablePart>() != null)
             {
                 continue;
+            }
+
+            string syntheticGroupId = ResolveSyntheticGroupIdFromName(child.name);
+            if (!string.IsNullOrWhiteSpace(syntheticGroupId))
+            {
+                Transform syntheticAnchor = EnsureSyntheticGroupAnchor(root, anchorsById, assetsById, syntheticGroupId);
+                if (syntheticAnchor != null && !child.IsChildOf(syntheticAnchor))
+                {
+                    Undo.SetTransformParent(child, syntheticAnchor, "Attach auxiliary imported part (synthetic-group)");
+                    moved++;
+                    continue;
+                }
             }
 
             Transform prefixedAnchor = ResolveAnchorFromNamePrefix(child.name, anchorsById);
@@ -542,6 +561,145 @@ public static class SetupImportedDroneThermalTest
         }
 
         return moved;
+    }
+
+    private static string ResolveSyntheticGroupIdFromName(string candidateName)
+    {
+        if (string.IsNullOrWhiteSpace(candidateName))
+        {
+            return string.Empty;
+        }
+
+        if (candidateName.StartsWith("x500v2_fastener.", StringComparison.OrdinalIgnoreCase))
+        {
+            return FastenerGroupId;
+        }
+
+        if (candidateName.StartsWith("x500v2_misc.", StringComparison.OrdinalIgnoreCase))
+        {
+            return MiscGroupId;
+        }
+
+        return string.Empty;
+    }
+
+    private static Transform EnsureSyntheticGroupAnchor(
+        Transform root,
+        Dictionary<string, Transform> anchorsById,
+        IReadOnlyDictionary<string, DronePartData> assetsById,
+        string groupId)
+    {
+        if (root == null || string.IsNullOrWhiteSpace(groupId))
+        {
+            return null;
+        }
+
+        if (anchorsById.TryGetValue(groupId, out Transform existing) && existing != null)
+        {
+            return existing;
+        }
+
+        Transform anchor = root.Find(groupId);
+        if (anchor == null)
+        {
+            GameObject anchorObject = new GameObject(groupId);
+            Undo.RegisterCreatedObjectUndo(anchorObject, "Create synthetic group anchor");
+            anchor = anchorObject.transform;
+            anchor.SetParent(root, true);
+            anchor.localScale = Vector3.one;
+            anchor.position = root.position;
+        }
+
+        if (anchor.GetComponent<MaterialController>() == null)
+        {
+            Undo.AddComponent<MaterialController>(anchor.gameObject);
+        }
+
+        if (anchor.GetComponent<HighlightSystem>() == null)
+        {
+            Undo.AddComponent<HighlightSystem>(anchor.gameObject);
+        }
+
+        ExplodablePart explodable = anchor.GetComponent<ExplodablePart>();
+        if (explodable == null)
+        {
+            explodable = Undo.AddComponent<ExplodablePart>(anchor.gameObject);
+        }
+
+        if (assetsById.TryGetValue(groupId, out DronePartData dataAsset) && dataAsset != null)
+        {
+            explodable.SetData(dataAsset);
+            explodable.Initialize();
+            EditorUtility.SetDirty(explodable);
+        }
+
+        anchorsById[groupId] = anchor;
+        return anchor;
+    }
+
+    private static void EnsureSyntheticGroupAsset(
+        Dictionary<string, DronePartData> assetsById,
+        string id,
+        string partName,
+        PartCategory category)
+    {
+        if (assetsById.TryGetValue(id, out DronePartData existing) && existing != null)
+        {
+            return;
+        }
+
+        string assetPath = $"{GeneratedDataFolder}/{id}.asset";
+        DronePartData asset = AssetDatabase.LoadAssetAtPath<DronePartData>(assetPath);
+        if (asset == null)
+        {
+            asset = ScriptableObject.CreateInstance<DronePartData>();
+            AssetDatabase.CreateAsset(asset, assetPath);
+        }
+
+        asset.partName = partName;
+        asset.id = id;
+        asset.partType = partName;
+        asset.category = category;
+        asset.description = "Synthetic grouping anchor for imported geometry.";
+        asset.function = "Grouping anchor";
+        asset.requiredTools = Array.Empty<string>();
+        asset.safetyWarnings = Array.Empty<string>();
+        asset.prerequisites = Array.Empty<string>();
+        asset.connectionTypes = Array.Empty<string>();
+        asset.explosionDirection = Vector3.up;
+        asset.explosionDistance = 0.1f;
+        asset.highlightColor = new Color(0.3f, 0.8f, 1f, 1f);
+        asset.isThermallyCritical = false;
+        asset.isHotspotTarget = false;
+
+        EditorUtility.SetDirty(asset);
+        assetsById[id] = asset;
+    }
+
+    private static void ProcessSyntheticGroupAnchor(Dictionary<string, Transform> anchorsById, string groupId, string category, string label)
+    {
+        if (!anchorsById.TryGetValue(groupId, out Transform anchor) || anchor == null)
+        {
+            return;
+        }
+
+        DronePartJson syntheticPart = new DronePartJson
+        {
+            id = groupId,
+            partName = label,
+            category = category,
+            partType = category
+        };
+
+        AnnotateRenderHierarchy(anchor, syntheticPart);
+        EnsureSelectionColliders(anchor);
+        AssignSelectableLayer(anchor);
+
+        ExplodablePart explodable = anchor.GetComponent<ExplodablePart>();
+        if (explodable != null)
+        {
+            explodable.Initialize();
+        }
     }
 
     private static Transform ResolveAnchorFromNamePrefix(string candidateName, IReadOnlyDictionary<string, Transform> anchorsById)

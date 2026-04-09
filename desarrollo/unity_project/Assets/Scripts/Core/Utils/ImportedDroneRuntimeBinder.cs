@@ -12,6 +12,9 @@ namespace WebGL.Core.Utils
     [DisallowMultipleComponent]
     public class ImportedDroneRuntimeBinder : MonoBehaviour
     {
+        private const string FastenerGroupId = "x500v2_fastener_group";
+        private const string MiscGroupId = "x500v2_misc_group";
+
         [Header("Runtime Binding")]
         [SerializeField] private bool bindOnStart = true;
         [SerializeField] private bool rebuildHotspotsWhenReady = true;
@@ -157,6 +160,13 @@ namespace WebGL.Core.Utils
                     continue;
                 }
 
+                Transform syntheticGroupAnchor = ResolveOrCreateSyntheticGroupAnchor(droneRoot, child.name);
+                if (syntheticGroupAnchor != null && !child.IsChildOf(syntheticGroupAnchor))
+                {
+                    child.SetParent(syntheticGroupAnchor, true);
+                    continue;
+                }
+
                 ExplodablePart prefixedAnchor = ResolveAnchorFromNamePrefix(child.name, anchorsById);
                 if (prefixedAnchor != null && !child.IsChildOf(prefixedAnchor.transform))
                 {
@@ -178,6 +188,53 @@ namespace WebGL.Core.Utils
 
                 child.SetParent(bestAnchor.transform, true);
             }
+        }
+
+        private static Transform ResolveOrCreateSyntheticGroupAnchor(Transform droneRoot, string candidateName)
+        {
+            if (droneRoot == null || string.IsNullOrWhiteSpace(candidateName))
+            {
+                return null;
+            }
+
+            string groupId = ResolveSyntheticGroupIdFromName(candidateName);
+            if (string.IsNullOrWhiteSpace(groupId))
+            {
+                return null;
+            }
+
+            Transform existing = droneRoot.Find(groupId);
+            if (existing != null)
+            {
+                return existing;
+            }
+
+            GameObject group = new GameObject(groupId);
+            Transform groupTransform = group.transform;
+            groupTransform.SetParent(droneRoot, true);
+            groupTransform.localScale = Vector3.one;
+            groupTransform.position = droneRoot.position;
+            return groupTransform;
+        }
+
+        private static string ResolveSyntheticGroupIdFromName(string candidateName)
+        {
+            if (string.IsNullOrWhiteSpace(candidateName))
+            {
+                return string.Empty;
+            }
+
+            if (candidateName.StartsWith("x500v2_fastener.", StringComparison.OrdinalIgnoreCase))
+            {
+                return FastenerGroupId;
+            }
+
+            if (candidateName.StartsWith("x500v2_misc.", StringComparison.OrdinalIgnoreCase))
+            {
+                return MiscGroupId;
+            }
+
+            return string.Empty;
         }
 
         private static ExplodablePart ResolveAnchorFromNamePrefix(string candidateName, IReadOnlyDictionary<string, ExplodablePart> anchorsById)
