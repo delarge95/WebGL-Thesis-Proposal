@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using WebGL.Core.Content;
@@ -13,6 +14,8 @@ public class SmartHotspot
     private readonly Camera _camera;
     private readonly HighlightSystem _highlight;
     private readonly Renderer[] _renderers;
+    private readonly string _labelOverride;
+    private readonly Action _clickAction;
 
     private bool _isVisible = true;
     private bool _isEnabled = true;
@@ -24,15 +27,22 @@ public class SmartHotspot
     private const float SmoothSpeed = 18f;
     private const int OcclusionInterval = 8;
 
-    public SmartHotspot(VisualElement container, ExplodablePart targetPart, Camera camera)
+    public SmartHotspot(
+        VisualElement container,
+        ExplodablePart targetPart,
+        Camera camera,
+        string labelOverride = "",
+        Action clickAction = null)
     {
         _container = container;
         _targetPart = targetPart;
         _target = targetPart != null ? targetPart.transform : null;
         _camera = camera;
+        _labelOverride = labelOverride ?? string.Empty;
+        _clickAction = clickAction;
         _highlight = _target != null ? _target.GetComponent<HighlightSystem>() : null;
         _renderers = _target != null ? _target.GetComponentsInChildren<Renderer>(true) : null;
-        _frameOffset = Random.Range(0, OcclusionInterval);
+        _frameOffset = UnityEngine.Random.Range(0, OcclusionInterval);
 
         _root = new VisualElement();
         _root.AddToClassList("hotspot-dot");
@@ -135,6 +145,13 @@ public class SmartHotspot
     private void OnClick(ClickEvent evt)
     {
         evt.StopPropagation();
+
+        if (_clickAction != null)
+        {
+            _clickAction.Invoke();
+            return;
+        }
+
         SelectionManager.Instance?.SelectObject(_target, fromHotspot: true);
     }
 
@@ -192,6 +209,11 @@ public class SmartHotspot
 
     private string ResolveHotspotLabel()
     {
+        if (!string.IsNullOrWhiteSpace(_labelOverride))
+        {
+            return _labelOverride;
+        }
+
         if (_targetPart != null && _targetPart.Data != null)
         {
             if (!string.IsNullOrWhiteSpace(_targetPart.Data.hotspotLabel))

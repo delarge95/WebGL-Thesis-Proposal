@@ -209,11 +209,11 @@ namespace WebGL.UI.Panels
             }
 
             UpdateBtn("CatBtn_All", "ALL");
-            UpdateBtn("CatBtn_Structure", "Structure");
-            UpdateBtn("CatBtn_Propulsion", "Propulsion");
-            UpdateBtn("CatBtn_Avionics", "Electronics");
-            UpdateBtn("CatBtn_Power", "Fasteners");
-            UpdateBtn("CatBtn_Payload", "Misc");
+            UpdateBtn("CatBtn_Structure", "SkeletonAirframe");
+            UpdateBtn("CatBtn_Propulsion", "PropulsionSystem");
+            UpdateBtn("CatBtn_Avionics", "Avionics");
+            UpdateBtn("CatBtn_Power", "PowerDistribution");
+            UpdateBtn("CatBtn_Payload", "Fasteners");
         }
 
         // ── Legacy API ──

@@ -7,10 +7,22 @@ namespace WebGL.Core.Events
     {
         public DronePartData PartData;
         public bool FromHotspot;
-        public PartSelectedEvent(DronePartData data, bool fromHotspot = false)
+        public string HotspotGroupLabel;
+        public string HotspotGroupSummary;
+        public string HotspotGroupMembers;
+
+        public PartSelectedEvent(
+            DronePartData data,
+            bool fromHotspot = false,
+            string hotspotGroupLabel = "",
+            string hotspotGroupSummary = "",
+            string hotspotGroupMembers = "")
         {
             PartData = data;
             FromHotspot = fromHotspot;
+            HotspotGroupLabel = hotspotGroupLabel ?? string.Empty;
+            HotspotGroupSummary = hotspotGroupSummary ?? string.Empty;
+            HotspotGroupMembers = hotspotGroupMembers ?? string.Empty;
         }
     }
 
