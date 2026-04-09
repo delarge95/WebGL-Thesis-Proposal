@@ -32,6 +32,9 @@ desarrollo/unity_project/*.mdb.meta
 # Blender
 desarrollo/blender_assets/*.blend1
 desarrollo/blender_assets/*.blend2
+blender_files/**/*.blend1
+blender_files/**/*.blend2
+blender_files/**/*.blend@
 
 # LaTeX
 Propuesta/*.aux
@@ -72,6 +75,7 @@ desktop.ini
 # IDE
 .idea/
 .vs/
+.vscode/
 *.swp
 *.swo
 *~
