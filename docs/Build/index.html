@@ -26,6 +26,8 @@
     <script>
             var canvas = document.querySelector("#unity-canvas");
 
+            // Shows a temporary message banner/ribbon for a few seconds, or
+            // a permanent error message on top of the canvas if type=='error'.
             function unityShowBanner(msg, type) {
               var warningBanner = document.querySelector("#unity-warning");
               function updateBannerVisibility() {
@@ -47,9 +49,9 @@
 
             var config = {
               arguments: [],
-              dataUrl: "67bf825a9e87c7a843a0171ec8dad0da.data",
-              frameworkUrl: "8b12e289956502cb19ef4ae0d155f5c6.framework.js",
-              codeUrl: "b08f04dcb1418515312addcfcc06b03f.wasm",
+              dataUrl: "9fc82a7fbd3e71bc3bd6903d0bf0d658.data.br",
+              frameworkUrl: "ba100b54d5abae410cb1a6187616ebfa.framework.js.br",
+              codeUrl: "87cc06ac289a742fbbc8bb936abc1b42.wasm.br",
               streamingAssetsUrl: "StreamingAssets",
               companyName: "UNAD",
               productName: "WebGL Drone Viewer",
@@ -61,6 +63,7 @@
             };
 
             if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+              // Mobile device style: fill the whole browser client area with the game canvas
               var meta = document.createElement('meta');
               meta.name = 'viewport';
               meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
@@ -68,6 +71,7 @@
               document.querySelector("#unity-container").className = "unity-mobile";
               canvas.className = "unity-mobile";
             } else {
+              // Desktop style: Fill available space (matches iframe container)
               canvas.style.width = "100%";
               canvas.style.height = "100%";
             }
@@ -75,7 +79,7 @@
             document.querySelector("#unity-loading-bar").style.display = "block";
 
             var script = document.createElement("script");
-            script.src = "5fc36a9fdf31c63fd817ed0f8364b693.loader.js";
+            script.src = "4ae38918cf1f2e876cc0bc938499e029.loader.js";
             script.onload = () => {
               createUnityInstance(canvas, config, (progress) => {
                 document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
