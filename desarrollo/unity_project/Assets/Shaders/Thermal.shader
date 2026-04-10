@@ -7,7 +7,7 @@ Shader "WebGL/Thermal"
         [Header(Temperature Range)]
         _MinTemp("Min Temperature", Range(0, 1)) = 0.2
         _MaxTemp("Max Temperature", Range(0, 1)) = 0.8
-        _TempVariation("Temperature Variation", Range(0, 1)) = 0.3
+        _TempVariation("Temperature Variation", Range(0, 1)) = 0.14
         
         [Header(Colors)]
         _ColdColor("Cold Color", Color) = (0, 0, 0.5, 1)
@@ -16,9 +16,9 @@ Shader "WebGL/Thermal"
         _WhiteHotColor("White Hot Color", Color) = (1, 1, 1, 1)
         
         [Header(Effect)]
-        _NoiseScale("Noise Scale", Range(1, 50)) = 10
-        _NoiseSpeed("Noise Speed", Range(0, 2)) = 0.5
-        _EdgeGlow("Edge Glow", Range(0, 2)) = 0.5
+        _NoiseScale("Noise Scale", Range(1, 50)) = 4.25
+        _NoiseSpeed("Noise Speed", Range(0, 2)) = 0.18
+        _EdgeGlow("Edge Glow", Range(0, 2)) = 0.28
         
         [Header(Spatial Thermal)]
         _ThermalMode("Mode (0=Uniform 1=Radial 2=Axial)", Float) = 0
@@ -26,7 +26,7 @@ Shader "WebGL/Thermal"
         _ThermalDirectionOS("Direction OS", Vector) = (0, 1, 0, 0)
         _ThermalSpread("Spread", Float) = 0.1
         _ThermalEdgeCooling("Edge Cooling", Float) = 0.22
-        _ThermalBaseVariation("Base Variation", Float) = 0.08
+        _ThermalBaseVariation("Base Variation", Float) = 0.05
         _ThermalPropagation("Propagation", Float) = 1.0
         
         [HideInInspector] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
@@ -126,6 +126,14 @@ Shader "WebGL/Thermal"
                 float d = hash(i + float2(1.0, 1.0));
                 
                 return lerp(lerp(a, b, f.x), lerp(c, d, f.x), f.y);
+            }
+
+            float smoothThermalNoise(float2 baseUv, float timeOffset)
+            {
+                float primary = noise(baseUv + float2(timeOffset, timeOffset * 0.42));
+                float secondary = noise(baseUv * 0.55 + float2(12.73 - timeOffset * 0.28, -4.61 + timeOffset * 0.19));
+                float blended = lerp(primary, secondary, 0.35);
+                return smoothstep(0.2, 0.8, blended);
             }
 
             half4 GetThermalColor(half temp)
@@ -231,10 +239,10 @@ Shader "WebGL/Thermal"
                 // Edge glow: visual highlight at silhouette edges
                 half edgeGlow = (1.0 - ndotv) * _EdgeGlow;
                 
-                // Animated noise for heat shimmer (modulated by temperature, not driving it)
-                float2 noiseUV = IN.positionWS.xz * _NoiseScale;
-                noiseUV += _Time.y * _NoiseSpeed;
-                half heatNoise = (noise(noiseUV) - 0.5) * _ThermalBaseVariation;
+                // Keep shimmer broad and subtle so it reads like thermal drift, not flicker.
+                float2 noiseUV = IN.positionWS.xz * max(_NoiseScale, 0.001);
+                float noiseTime = _Time.y * _NoiseSpeed;
+                half heatNoise = (smoothThermalNoise(noiseUV, noiseTime) - 0.5) * _ThermalBaseVariation * baseTempRange * 0.55;
                 
                 // Sample base texture for micro-variation
                 half baseHeat = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv).r;
@@ -244,15 +252,15 @@ Shader "WebGL/Thermal"
                 half temperature = baseTempCenter * spatialFactor;
                 temperature -= edgeCool * baseTempRange;
                 temperature += heatNoise;
-                temperature += texVariation * baseTempRange * 0.3;
-                temperature += edgeGlow * 0.08;
+                temperature += texVariation * baseTempRange * 0.18;
                 temperature = saturate(temperature);
                 
                 // Get color from thermal gradient
                 half4 color = GetThermalColor(temperature);
+                color.rgb = lerp(color.rgb, _WhiteHotColor.rgb, edgeGlow * 0.035);
                 
                 // Subtle scanline effect for technical look
-                float scanline = sin(IN.positionCS.y * 2.0) * 0.015 + 0.985;
+                float scanline = sin(IN.positionCS.y * 2.0) * 0.008 + 0.992;
                 color.rgb *= scanline;
                 
                 // Selection/hover highlight (driven by HighlightSystem)

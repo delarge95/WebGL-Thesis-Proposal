@@ -178,3 +178,18 @@ El panel de power y el slider de carga ya existen en el modo Inspect. La leyenda
 ### Regla V1 para Fasteners y Misc
 
 `Fasteners` y `Misc` son categorias publicas de visualizacion y filtrado. En la simulacion termica V1 no son nodos independientes: heredan temperatura del ensamblaje canonico padre.
+
+## Actualizacion 2026-04-10 - Refinamiento visual final y nueva granularidad del modelo
+
+### Cierre visual del runtime
+
+- `Thermal.shader` ahora usa un shimmer de baja frecuencia, mas lento y mas suave.
+- La perturbacion animada queda subordinada a `baseTempRange`, asi que ya no compite con la temperatura calculada por el solver.
+- El edge glow deja de empujar la temperatura mostrada y pasa a ser un acento visual sutil sobre el color final.
+- `ThermalViewController` reduce la banda termica visual y la variacion base por defecto para limpiar el ruido sobre piezas secundarias.
+
+### Regla de jerarquia canonica
+
+- El aumento de piezas y subpiezas visuales en Blender no redefine el conjunto oficial de prioridad termica de la V1.
+- La simulacion sigue priorizando motores, ESC, bateria, PDB, power module, Pixhawk, brazos y plates.
+- La granularidad extra del modelo debe leerse como detalle de visualizacion o mapeo de render, no como nuevas fuentes termicas de primer orden.

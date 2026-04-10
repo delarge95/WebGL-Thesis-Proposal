@@ -29,9 +29,9 @@ namespace WebGL.Core.Thermal
         [SerializeField] private float displayMinTemperatureC = 20f;
         [SerializeField] private float displayMaxTemperatureC = 100f;
         [SerializeField] private float refreshRateHz = 12f;
-        [SerializeField] private float defaultBandHalfWidth = 0.08f;
-        [SerializeField] private float criticalBandHalfWidth = 0.14f;
-        [SerializeField] private float passiveBandHalfWidth = 0.05f;
+        [SerializeField] private float defaultBandHalfWidth = 0.07f;
+        [SerializeField] private float criticalBandHalfWidth = 0.12f;
+        [SerializeField] private float passiveBandHalfWidth = 0.035f;
 
         [Header("Debug")]
         [SerializeField] private bool logBindingSummary;
@@ -470,15 +470,25 @@ namespace WebGL.Core.Thermal
 
             if (IsCanonicalPlatePart(binding.NormalizedPartId))
             {
-                return 0.07f;
+                return 0.03f;
+            }
+
+            if (IsCanonicalArmPart(binding.NormalizedPartId) || IsBatteryRailPart(binding.NormalizedPartId))
+            {
+                return 0.04f;
             }
 
             if (IsCanonicalMotorPart(binding.NormalizedPartId) || IsCanonicalEscPart(binding.NormalizedPartId))
             {
-                return 0.16f;
+                return 0.085f;
             }
 
-            return binding.Data != null && binding.Data.isThermallyCritical ? 0.14f : 0.08f;
+            if (IsCanonicalBatteryPart(binding.NormalizedPartId) || IsCanonicalElectronicsCore(binding.NormalizedPartId))
+            {
+                return 0.055f;
+            }
+
+            return binding.Data != null && binding.Data.isThermallyCritical ? 0.06f : 0.03f;
         }
 
         private float ResolvePropagation(ThermalRendererBinding binding, float normalizedTemperature)

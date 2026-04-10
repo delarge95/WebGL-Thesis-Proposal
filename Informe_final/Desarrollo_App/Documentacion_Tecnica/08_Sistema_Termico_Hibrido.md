@@ -86,3 +86,17 @@ En la rama actual el modo Inspect ya expone un panel de power con estado textual
 ### Fasteners y Misc
 
 `Fasteners` y `Misc` ya forman parte de la taxonomia publica de filtros y pueden aislarse como coleccion visual. No amplian la granularidad fisica del solver: heredan la temperatura del ensamblaje padre.
+
+## Actualizacion 2026-04-10
+
+### Refinamiento visual de cierre
+
+La vista termica recibio un ajuste final para reducir flicker y microcontraste falso en la escena retopologizada:
+
+- ruido animado mas grande, mas lento y mas suavizado,
+- menor amplitud de variacion por defecto,
+- y brillo de borde desacoplado del valor termico mostrado.
+
+### Regla para el modelo con mas piezas
+
+El incremento de piezas y subpiezas visibles del dron no cambia la jerarquia oficial del solver V1. La lectura termica sigue anclada en los ensamblajes canonicos de mayor interes: motores, ESC, bateria, stack central, brazos y plates.

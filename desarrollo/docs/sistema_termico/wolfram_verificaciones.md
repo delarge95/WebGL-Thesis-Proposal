@@ -139,3 +139,25 @@ G_ij ~= k_eff * A_contacto / L_efectiva
 ### Conclusion
 
 El asset canonico es fisicamente coherente a nivel dimensional y metodologico, pero todavia no debe presentarse como calibracion geometrica final del X500 V2.
+
+---
+
+## V006 - Perturbacion visual subordinada a la banda termica
+
+- **Fecha**: 2026-04-10
+- **Contexto**: `Thermal.shader`, `ThermalViewController.cs` y `ThermalSurfaceProfile.cs`
+- **Proposito**: Dejar documentado que el shimmer animado del modo Thermal es una microvariacion visual y no una fuente fisica adicional de calor.
+
+### Regla usada
+
+- la perturbacion animada ahora se escala por `baseTempRange` y por `ThermalBaseVariation`,
+- el edge glow ya no altera la temperatura normalizada,
+- y los defaults de variacion fueron reducidos para evitar sobrelectura en subpiezas nuevas del modelo.
+
+### Nota sobre Wolfram
+
+No requiere query nueva en WolframAlpha porque no introduce una ecuacion fisica adicional; es una regla de presentacion visual aplicada sobre la salida ya calculada por el solver.
+
+### Conclusion
+
+La capa de shimmer queda acotada como detalle perceptual suave. No modifica la jerarquia termica oficial ni el orden relativo de piezas criticas.

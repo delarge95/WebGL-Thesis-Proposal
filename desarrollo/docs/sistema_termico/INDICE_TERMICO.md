@@ -95,3 +95,17 @@ Estado actual del flujo oficial:
 - la leyenda termica usa gradiente runtime, no depende del gradiente USS,
 - `Fasteners` y `Misc` ya forman parte de la taxonomia publica de filtros,
 - y el dron importado requiere pasar por la etapa de preparacion antes de validar thermal, cut, filter, isolate y explode.
+
+## Actualizacion 2026-04-10
+
+Revisar tambien para el cierre fino de la etapa:
+
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Shaders\Thermal.shader`
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalViewController.cs`
+- `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalSurfaceProfile.cs`
+
+Notas vigentes:
+
+- el shimmer termico final ya es mas suave y de baja frecuencia,
+- la variacion base por defecto se redujo para no sobrerrepresentar subpiezas nuevas,
+- y la prioridad termica oficial sigue concentrada en piezas canonicas aunque la malla visual aumente su granularidad.

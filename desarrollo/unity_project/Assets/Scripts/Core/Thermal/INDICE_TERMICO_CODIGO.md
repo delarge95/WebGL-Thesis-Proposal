@@ -88,3 +88,17 @@ Notas de integracion vigentes:
 - `ThermalViewController` ya genera la leyenda por textura runtime.
 - `DroneStateController` ya gobierna el panel de power y el slider de carga visible.
 - `SetupImportedDroneThermalTest` clasifica auxiliares, anade colliders, asigna layer seleccionable y coloca el binder runtime.
+
+## Actualizacion 2026-04-10
+
+Puntos de codigo que cierran esta etapa:
+
+- `Thermal.shader` reduce el ruido animado y lo subordina a la banda termica real.
+- `ThermalViewController` baja `bandHalfWidth` y `baseVariation` por defecto para limpiar la lectura en piezas no prioritarias.
+- `ThermalSurfaceProfile` hereda un default mas sobrio para nuevos overrides manuales.
+
+Regla de lectura:
+
+- mas renderers o mas subpiezas no implican mas fuentes termicas principales,
+- la jerarquia oficial sigue anclada en motores, ESC, bateria y electronica central,
+- y el detalle adicional del modelo debe mapearse visualmente sin romper esa prioridad.

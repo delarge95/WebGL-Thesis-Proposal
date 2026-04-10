@@ -166,6 +166,8 @@ Se incorpor una base de simulacin trmica hbrida orientada a WebGL mvil. Esta arq
 
 Esta V1 no debe describirse todavia como FEA en tiempo real ni como termografia validada experimentalmente; su proposito es ofrecer consistencia fisica y credibilidad visual dentro de las restricciones de Unity WebGL.
 
+En el refinamiento final de esta etapa, la capa visual termica paso a usar un shimmer mas suave, de baja frecuencia y amplitud reducida, mientras que la prioridad perceptual se mantiene en motores, ESC, bateria y electronica central. El incremento de piezas y subpiezas visibles del modelo no redefine la jerarquia termica oficial; solo aumenta la granularidad visual del ensamblaje.
+
 La ruta oficial de esta V1 ya usa un grafo de contactos explicito (\texttt{ThermalCanonicalContactGraph.asset}) y una leyenda termica visible en modo \texttt{Thermal}. En esta rama, la carga termica sigue gobernada por \texttt{DroneStateController.SystemLoadFactor} y por los estados del dron; un slider de usuario dedicado permanece como mejora futura. El archivo \texttt{ThermalTestSetup.cs} se conserva unicamente como harness experimental para CAD bruto y no forma parte del pipeline oficial.
 \subsubsection{ModularPartsSystem.cs}
 Sistema de slots para intercambio de piezas modulares con animaciones. \textit{Proyectado para futuras iteraciones; requiere configuracin de datos en Inspector.}

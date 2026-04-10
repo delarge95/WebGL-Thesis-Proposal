@@ -84,6 +84,35 @@ Cerrar la validacion operativa de jerarquia importada y eliminar falsos negativo
 
 ---
 
+## Registro de Cambios (Abril 10, 2026) - Refinamiento final del componente termico
+
+### Objetivo
+
+Cerrar la etapa de presentacion del sistema termico ajustando el acabado visual del shader y dejando alineada la documentacion con la nueva granularidad del dron importado.
+
+### Acciones Realizadas
+
+1. **Refinamiento del shimmer termico**:
+   - _Implementacion_: `Thermal.shader` ahora mezcla ruido de baja frecuencia, mas lento y mas suave.
+   - _Resultado_: El modo Thermal deja de verse nervioso o granular en exceso sobre la malla retopologizada.
+2. **Reduccion de microvariacion por defecto**:
+   - _Implementacion_: `ThermalViewController` baja `defaultBandHalfWidth`, `criticalBandHalfWidth`, `passiveBandHalfWidth` y `baseVariation` por categoria canonica; `ThermalSurfaceProfile` adopta un default mas sobrio.
+   - _Resultado_: Se conserva legibilidad en motores, ESC, bateria y stack central sin sobrerrepresentar piezas secundarias.
+3. **Separacion entre lectura y acento visual**:
+   - _Implementacion_: El edge glow deja de sumarse a la temperatura mostrada y pasa a actuar solo como realce visual.
+   - _Resultado_: La lectura termica gana coherencia y evita falsos picos en bordes.
+4. **Actualizacion documental**:
+   - _Implementacion_: Se actualizan README termico, indices, verificaciones, documentacion tecnica, tesis, manual y breakdown.
+   - _Resultado_: Queda documentado que el aumento de subpiezas visibles no redefine la jerarquia termica oficial de la V1.
+
+### Estado Actual
+
+- Refinamiento visual del sistema termico: completado a nivel de runtime.
+- Regla de prioridad: se mantiene anclada en ensamblajes canonicos aunque la escena aumente de granularidad.
+- Pendiente real: validacion final con el modelo optimizado definitivo y capturas de cierre.
+
+---
+
 ## Registro de Cambios (Marzo 12, 2026) - Etapa 2: Bootstrap termico, verificacion Wolfram, retopologia
 
 ### Objetivo

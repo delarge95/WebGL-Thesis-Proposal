@@ -77,6 +77,13 @@
 
 ---
 
+## [2026-04-10] Refinamiento final del sistema termico
+
+- `style(thermal)`: `Thermal.shader` ahora usa shimmer de baja frecuencia, mas lento y mas suavizado para evitar flicker sobre la malla final.
+- `fix(thermal)`: El edge glow deja de alterar la temperatura mostrada y pasa a funcionar como acento visual sutil.
+- `style(thermal)`: `ThermalViewController` y `ThermalSurfaceProfile` reducen la variacion base y la amplitud visual por defecto para no sobrerrepresentar subpiezas nuevas.
+- `docs(thermal)`: Actualizada la documentacion tecnica, indice termico, bitacora, verificaciones, tesis, manual tecnico y breakdown de portafolio.
+
 ## [2026-03-12] Etapa 2: Bootstrap termico, verificacion Wolfram, retopologia
 
 - ix(bootstrap): SceneBootstrapper ahora inicializa ThermalSimulationManager y ThermalViewController en runtime.

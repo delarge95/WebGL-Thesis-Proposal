@@ -24,7 +24,7 @@ namespace WebGL.Core.Thermal
         [SerializeField] private Vector3 directionLocal = Vector3.zero;
         [SerializeField, Min(0f)] private float spread;
         [SerializeField, Range(0f, 1f)] private float edgeCooling = 0.22f;
-        [SerializeField, Range(0f, 1f)] private float baseVariation = 0.18f;
+        [SerializeField, Range(0f, 1f)] private float baseVariation = 0.08f;
         [SerializeField, Range(0.25f, 2f)] private float propagation = 1f;
 
         public string PartIdOverride => partIdOverride;

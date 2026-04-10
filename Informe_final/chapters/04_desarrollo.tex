@@ -104,7 +104,7 @@ La orquestaci\'on t\'ecnica de este pipeline visual se muestra en la Figura~\ref
     \item \textbf{SolidColor.} Color slido configurable, ideal para capturas de pantalla de produccin.
     \item \textbf{Wireframe.} Renderizado exclusivo de geometra de lneas. Incluye un \textit{SubShader} alternativo para WebGL, dado que WebGL~2.0 no soporta \textit{Geometry Shaders}.
     \item \textbf{Ghosted.} Versin altamente transparente que permite ver toda la estructura simultneamente.
-    \item \textbf{Thermal.} Simulacin de vista trmica con gradiente de color, donde el color indica la temperatura de operacin esperada de cada componente.
+    \item \textbf{Thermal.} Simulacin de vista trmica con gradiente de color, donde el color indica la temperatura de operacin esperada de cada componente. En el refinamiento final, el shader adopta un shimmer de baja frecuencia y baja amplitud subordinado a la banda termica real, preservando la legibilidad de motores, ESC, bateria y stack central aun cuando el modelo incremente su cantidad de subpiezas visibles.
 \end{enumerate}
 
 % -------------------------------------------------------------------------------
