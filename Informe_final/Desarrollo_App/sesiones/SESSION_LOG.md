@@ -1,5 +1,25 @@
 # Registro de Sesiones de Desarrollo
 
+## Sesión 2026-04-10 (Blender ICP Instancer y Optimización de CAD)
+
+### Objetivos
+
+- Resolver conflicto topológico de la Versión 6 de instanciamiento en Blender debido al `Vertex Order` destructivo provocado por partes importadas desde 3D MoI (Ej: `GB70-M3-8-DING`).
+- Identificar y reemplazar instancias a nivel nube de puntos obviando variaciones menores en el Vertex Count.
+
+### Trabajo Realizado
+
+#### Tooling QA (Blender Addon)
+
+- Creación completa de archivo autónomo `cad_symmetry_addon_v7_moi.py` empleando librerías `numpy` y `mathutils.kdtree`.
+- Sustitución de Kabsch registration process (`SVD`) debido a fallo estructural por discrepancias generadas algorítmicamente en la vectorización paramétrica Nurbs > Polygons, logrando migrar el alineamiento a `ICP (Iterative Closest Point)`.
+- Se introdujo `PCA (Principal Component Analysis)` a una heurística de punto de arranque determinística para el ICP, permitiendo alinear la orientación base antes de proyectar una rotación volumétrica fina sobre cada tornillo/malla.
+
+### Próximo paso
+
+- Concluir integración en escenas finales y depuración de Draw Calls en la App general debido al nuevo nivel de optimización CAD originado.
+- Continuar pipeline de assets visuales de Unity.
+
 ## Sesión 2026-04-09 (Cierre de cobertura jerárquica + setup/auditoría adaptativos)
 
 ### Objetivos

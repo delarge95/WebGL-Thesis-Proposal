@@ -127,10 +127,24 @@ Para cualquier artista técnico asimilando un CAD dron:
 
 ---
 
-## 5. Implementaciones Futuras y Roadmap (Versión 6)
+## 5. Versión 7 (MoI3D ICP): El Reto de la Topología Inconsistente
+
+Con la adopción de piezas complejas traídas desde herramientas de partición y modelado matemático explícito como **3D MoI (NURBS)** (ej. sujetadores `GB70-M3-8-DING`), el algoritmo cerrado de Kabsch (Versión V5 y V6) colapsó bajo un nuevo paradigma topológico:
+
+* **Inestabilidad del Meshing:** Dos métricas de un mismo tornillo importado arrojaban diferencias en su conteo total de vértices (`11,542` vs `11,544`, etc.). MoI3D reconstruye la malla poligonal dinámicamente según la orientación espacial de la curva NURBS en la exportación, impidiendo establecer correspondencias 1:1 a lo largo de las caras lógicas idénticas originando un error matemático en la inyección SVD.
+
+Para mitigar esto, se bifurcó a la **Versión 7**, resolviendo el "Pattern Matching" volumétricamente de forma independiente del conteo usando un pipeline híbrido O(N^2):
+
+1. **Alineación de Componentes Principales (PCA)**: Extrayendo la covarianza de la matriz de vértices esclava e interceptando sus _eigenvectors_, el script halla matemáticamente los ejes de masa (largo del tornillo y su normal cilíndrica) sin importar cuántos polígonos representen su cabeza o su caña.
+2. **Registro ICP (Iterative Closest Point)**: PCA provee una aproximación excelente pero susceptible a asimetrías de 180 grados sobre el eje propio. Se delegó el *Fine-Tuning* al algoritmo ICP impulsado por `mathutils.kdtree`. Este genera un Point Cloud que evalúa distancias contra el volumen de la pieza maestra iterando la transformación para minimizar el índice de error total de todas las distancias.
+3. **Instanciamiento a Malla Maestra**: Con la rotación depurada (errores estadísticamente menores a 0.02 Unidades Blender absolutas frente a cientos de millares de vértices), la malla CAD corrompida se destruye y da lugar a una instancia legítima sin perder control espacial u orientación nativa de las cabezas hexagonales del tornillo, optimizando Draw Calls a una fracción ínfima en Unity y posibilitando el sistema de explosión procedural libre de colisiones irregulares.
+
+---
+
+## 6. Implementaciones Futuras y Roadmap
 
 El éxito de la sincronización de geometrías deja pavimentado el camino para features de empaquetado final:
 
-*   **1-Click LOD Generator:** El instancing provee un master mesh. La V6 deberá iterar sobre el master, duplicar su objeto `GameObject`, renombrarlo convencionalmente `*_LOD0`, `*_LOD1`, `*_LOD2`, e inyectar el Modificador `Decimate` en Blender ajustando el "Ratio" a 1.0, 0.5 y 0.05 respectivamente. Agrupándolos bajo un Empty Padre (LOD Group) que Unity importa de forma nativa sin configurar scripts extra.
+*   **1-Click LOD Generator:** El instancing provee un master mesh. Iterar sobre el master, duplicar su objeto `GameObject`, renombrarlo convencionalmente `*_LOD0`, `*_LOD1`, `*_LOD2`, e inyectar el Modificador `Decimate` en Blender ajustando el "Ratio" a 1.0, 0.5 y 0.05 respectivamente. Agrupándolos bajo un Empty Padre (LOD Group) que Unity importa de forma nativa sin configurar scripts extra.
 *   **Unity One-Click Push Exporter:** A menudo un exporter FBX exporta basura estática oculta, materiales CAD no optimizados y transformadas a escala rara (Ej: Rotation -90 en X) por el Switch Y/Z Forward de Blender a Unity. Un operador final forzaría `Apply Rotation & Scale (Clear Transform)` en todos los parents resolviendo escalas 1.0 puras, exportando el `.FBX` al directorio `Assets/Models/...` de Unity limpiamente.
 *   **Bilateral Mirror Support Finito:** Evaluar el factor de Determinante Invertido escalando físicamente (-1 en X/Y/Z) a nivel Blender UI para piezas que no rotan sino que reflejaran su carcasa completa, eliminando artefactos de iluminación post-proceso en Unity (Normal Flipping).

@@ -5,6 +5,18 @@
 
 ---
 
+## [2026-04-10] Blender Tooling: MoI3D ICP Instancer (V7)
+
+### Added
+
+- `cad_symmetry_addon_v7_moi.py`: Nuevo addon en Blender (`Holybro CAD` tab) que emplea el algoritmo Iterative Closest Point (ICP) para alinear mallas topológicamente inconsistentes y convertirlas en instancias enlazadas de manera procedural.
+- Detección de orientación volumétrica mediante Componentes Principales (PCA) actuando como precondicionador determinístico para ICP.
+
+### Changed
+
+- Actualización completa de `CAD_Symmetry_Instancer_Documentation.md` agregando la retrospectiva desde la Versión V6 a V7 (Migración de SVD Kabsch a O(N^2) Mathutils ICP).
+- Se habilitó la conversión de todos los conjuntos de fasteners asimétricos (Ej. M3x8 de piezas de hardware `GB70`) provistos originalmente desde `3D MoI` sin requerir que las tuercas o mallas contengan la misma cantidad de vértices a nivel byte.
+
 ## [2026-04-09] Cierre de cobertura jerarquica + setup/auditoria adaptativos por cobertura real
 
 ### Added
