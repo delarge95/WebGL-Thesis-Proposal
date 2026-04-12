@@ -1,6 +1,7 @@
 \documentclass[12pt,letterpaper]{article} % 12pt font, letter paper
 
 % --- PACKAGES ---
+\usepackage[T1]{fontenc} % Output encoding
 \usepackage[utf8]{inputenc} % Input encoding
 \usepackage[spanish]{babel} % Language support
 \usepackage{times} % Use Times font (approximates Times New Roman)
@@ -20,6 +21,8 @@
 \usepackage{tocloft}
 \usepackage{titletoc} % Added based on user template usage
 \usepackage{enumitem} % For customizing lists (APA 7 indentation)
+\usepackage{float} % Force table placement when needed
+\usepackage{longtable} % Allow multi-page tables
 
 % --- APA 7 List Configuration (Hanging Indent + Circular Bullets) ---
 % Note: Document uses \setstretch{2} globally, so lists inherit double spacing
@@ -70,6 +73,7 @@
 \fancyhf{} % Clear header/footer
 \renewcommand{\headrulewidth}{0pt} % No header rule
 \fancyhead[R]{\thepage} % Page number top right
+\setlength{\headheight}{14.5pt}
 \fancypagestyle{plain}{% Redefine plain style used by titlepage etc.
   \fancyhf{}%
   \renewcommand{\headrulewidth}{0pt}%
@@ -184,48 +188,51 @@
 \begin{titlepage}
     \thispagestyle{plain} % Force page number on title page
     \centering
-    {\normalfont\bfseries Diseño y Desarrollo de un Prototipo Web 3D Interactivo para la Visualización Técnica y Análisis Estructural de Hardware de Alto Rendimiento mediante Pipelines de Optimización Gráfica y WebAssembly\par}
+    {\normalfont\bfseries Dise\~no y Desarrollo de un Prototipo Web 3D Interactivo para la Visualizaci\'on T\'ecnica y An\'alisis Estructural de Hardware de Alto Rendimiento mediante Pipelines de Optimizaci\'on Gr\'afica y WebAssembly\par}
 
     \vspace{2\baselineskip}
     \vspace{2\baselineskip}
 
     {\normalfont Estudiante\par}
-    {\normalfont Alexander Woodcock Salomón\par}
+    {\normalfont Alexander Woodcock Salom\'on\par}
 
     \vspace{2\baselineskip}
     \vspace{2\baselineskip}
 
     {\normalfont Asesor\par}
-    {\normalfont Deivid Enrique Triviño Lozada\par}
+    {\normalfont Gustavo Enrique Vejarano Matiz\par}
 
     \vfill
 
     {\normalfont Universidad Nacional Abierta y a Distancia - UNAD\par
-     Escuela de Ciencias Básicas, Tecnología e Ingeniería\par
-     Ingeniería Multimedia\par}
+     Escuela de Ciencias B\'asicas, Tecnolog\'ia e Ingenier\'ia\par
+     Ingenier\'ia Multimedia\par}
 
     \vspace{1\baselineskip}
-    {2025\par}
+    {2026\par}
 \end{titlepage}
+\setcounter{page}{2}
 
 % --- MAIN CONTENT ---
 \pagestyle{fancy}
 
 % --- RESUMEN ---
 \section*{Resumen}
+\phantomsection
 \addcontentsline{toc}{section}{Resumen}
 \setlength{\parindent}{0pt} % No indent for Resumen
-El diseño de hardware de alto rendimiento (drones, sistemas robóticos) enfrenta un desafío crítico en la comunicación técnica: los medios digitales tradicionales (imágenes 2D, PDFs estáticos) imponen alta carga cognitiva para comprender estructuras tridimensionales complejas. Este proyecto aborda esta brecha mediante el diseño, desarrollo y evaluación de un prototipo web 3D interactivo basado en Unity WebGL que optimiza la visualización técnica de hardware mediante \textit{pipelines} de optimización gráfica avanzados y WebAssembly. El marco teórico integra teoría de carga cognitiva (Mayer, Paivio), interacción humano-computador en 3D (Bowman, Norman), y renderizado físicamente basado (Cook-Torrance, Burley). La metodología sigue Design Science Research con desarrollo iterativo en Sprints de 4 semanas, implementando técnicas de retopología, \textit{baking} de normales, y Asset Bundles para cumplir con KPIs cuantitativos ($<$ 100,000 polígonos, $>$ 30 FPS en móvil mid-range, $<$ 3s shell / $<$ 10s carga completa). La validación incluye \textit{profiling} de rendimiento (Unity Profiler), pruebas de usabilidad (SUS) y medición de carga cognitiva (NASA-TLX) con ingenieros/técnicos (N=8-12). El producto final es un MVP científico que valida la viabilidad técnica de WebGL para visualización de ingeniería, estableciendo un \textit{pipeline} replicable documentado según estándares académicos.
+El dise\~no de hardware de alto rendimiento, como drones y sistemas rob\'oticos, enfrenta un desaf\'io cr\'itico en la comunicaci\'on t\'ecnica: los medios digitales tradicionales, como im\'agenes 2D y documentos PDF est\'aticos, imponen una alta carga cognitiva al intentar comprender estructuras tridimensionales complejas. Este proyecto aborda esa brecha mediante el dise\~no, desarrollo y evaluaci\'on de un prototipo web 3D interactivo basado en Unity WebGL para la visualizaci\'on t\'ecnica de hardware. El marco te\'orico integra teor\'ia de carga cognitiva, interacci\'on humano-computador en entornos 3D y principios de renderizado f\'isicamente basado. Metodol\'ogicamente, la propuesta se estructura como una investigaci\'on aplicada con enfoque mixto y predominio cuantitativo, enmarcada en Design Science Research y prototipado iterativo. La validaci\'on contempla pruebas de rendimiento, evaluaci\'on de usabilidad mediante SUS y medici\'on de carga cognitiva con NASA-TLX sobre tareas representativas de exploraci\'on, identificaci\'on y an\'alisis t\'ecnico. Como resultado esperado, el proyecto busca demostrar la viabilidad de un pipeline reproducible para visualizaci\'on t\'ecnica 3D web en contexto acad\'emico y de ingenier\'ia.
 
-\hspace{1.27cm}\textit{\textbf{Palabras clave:}} WebGL, Unity, WebAssembly, Renderizado Físicamente Basado (PBR), Visualización 3D Interactiva, Optimización de Assets 3D, Carga Cognitiva, Interacción Humano-Computador, Technical Art, Hardware de Alto Rendimiento.
+\hspace{1.27cm}\textit{\textbf{Palabras clave:}} WebGL, Unity, WebAssembly, Renderizado F\'isicamente Basado (PBR), Visualizaci\'on 3D Interactiva, Optimizaci\'on de Assets 3D, Carga Cognitiva, Interacci\'on Humano-Computador, Technical Art, Hardware de Alto Rendimiento.
 
 \newpage
 
 % --- ABSTRACT ---
 \section*{Abstract}
+\phantomsection
 \addcontentsline{toc}{section}{Abstract}
 \setlength{\parindent}{0pt} % No indent for Abstract
-High-performance hardware design (drones, robotic systems) faces a critical challenge in technical communication: traditional digital media (2D images, static PDFs) impose high cognitive load for understanding complex three-dimensional structures. This project addresses this gap through the design, development, and evaluation of an interactive 3D web prototype based on Unity WebGL that optimizes technical hardware visualization through advanced graphics optimization \textit{pipelines} and WebAssembly. The theoretical framework integrates cognitive load theory (Mayer, Paivio), 3D human-computer interaction (Bowman, Norman), and physically-based rendering (Cook-Torrance, Burley). The methodology follows Design Science Research with iterative development in 4-week Sprints, implementing retopology, normal \textit{baking}, and Asset Bundles to meet quantitative KPIs ($<$ 100,000 polygons, $>$ 30 FPS on mid-range mobile, $<$ 3s shell / $<$ 10s full load). Validation includes performance \textit{profiling} (Unity Profiler), usability testing (SUS), and cognitive load measurement (NASA-TLX) with engineers/technicians (N=8-12). The final product is a scientific MVP that validates the technical feasibility of WebGL for engineering visualization, establishing a replicable, academically documented \textit{pipeline}.
+High-performance hardware design, such as drones and robotic systems, faces a critical challenge in technical communication: traditional digital media, including 2D images and static PDF documents, impose high cognitive load when users must understand complex three-dimensional structures. This project addresses that gap through the design, development, and evaluation of an interactive 3D web prototype based on Unity WebGL for technical hardware visualization. The theoretical framework integrates cognitive load theory, human-computer interaction in 3D environments, and physically based rendering principles. Methodologically, the proposal is framed as applied research with a mixed-method approach and quantitative predominance, supported by Design Science Research and iterative prototyping. Validation includes performance testing, usability evaluation through SUS, and cognitive load measurement with NASA-TLX using representative exploration, identification, and technical analysis tasks. The expected outcome is to demonstrate the viability of a reproducible pipeline for web-based 3D technical visualization in academic and engineering contexts.
 
 \hspace{1.27cm}\textit{\textbf{Keywords:}} WebGL, Unity, WebAssembly, Physically-Based Rendering (PBR), Interactive 3D Visualization, 3D Asset Optimization, Cognitive Load, Human-Computer Interaction, Technical Art, High-Performance Hardware.
 
@@ -245,46 +252,49 @@ High-performance hardware design (drones, robotic systems) faces a critical chal
 \listoftables
 \newpage
 
-% --- INFORMACIÓN GENERAL ---
+% --- INFORMACION GENERAL ---
 \newpage
-\section*{Información General de la Propuesta de Trabajo de Grado Proyecto Aplicado}
-\addcontentsline{toc}{section}{Información General de la Propuesta de Trabajo de Grado Proyecto Aplicado}
+\section*{Informaci\'on General de la Propuesta de Trabajo de Grado Proyecto Aplicado}
+\phantomsection
+\addcontentsline{toc}{section}{Informaci\'on General de la Propuesta de Trabajo de Grado Proyecto Aplicado}
 
-\subsection*{Integrantes de la Propuesta de Investigación}
-\addcontentsline{toc}{subsection}{Integrantes de la Propuesta de Investigación}
+\subsection*{Integrantes de la Propuesta de Investigaci\'on}
+\phantomsection
+\addcontentsline{toc}{subsection}{Integrantes de la Propuesta de Investigaci\'on}
 
-\textit{Nombre del estudiante:} Alexander Woodcock Salomón
+\textit{Nombre del estudiante:} Alexander Woodcock Salom\'on
 
-\textit{Identificación C.C.:} 1018474351
+\textit{Identificaci\'on C.C.:} 1018474351
 
-\textit{Programa Académico:} Ingeniería Multimedia
+\textit{Programa Acad\'emico:} Ingenier\'ia Multimedia
 
-\textit{No. de Créditos Aprobados:} 152
+\textit{No. de Cr\'editos Aprobados:} 152
 
-\textit{\% de créditos aprobados:} 92.11
+\textit{\% de cr\'editos aprobados:} 92.11
 
-\textit{Correo electrónico:} awoodcocks@unadvirtual.edu.co
+\textit{Correo electr\'onico:} awoodcocks@unadvirtual.edu.co
 
-\textit{Teléfono / Celular:} 3054396581
+\textit{Tel\'efono / Celular:} 3054396581
 
-\textit{Dirección residencia:} Finca Armenia casa 2
+\textit{Direcci\'on residencia:} Finca Armenia casa 2
 
-\textit{Municipio / Departamento:} Pasto / Nariño
+\textit{Municipio / Departamento:} Pasto / Nari\~no
 
 \textit{CENTRO:} ZCSUR
 
 \textit{ZONA:} PASTO
 
-\subsection*{Datos Específicos del Proyecto}
-\addcontentsline{toc}{subsection}{Datos Específicos del Proyecto}
+\subsection*{Datos Espec\'ificos del Proyecto}
+\phantomsection
+\addcontentsline{toc}{subsection}{Datos Espec\'ificos del Proyecto}
 
-\textit{Duración del proyecto (meses):} Seis (6)
+\textit{Duraci\'on del proyecto (meses):} Seis (6)
 
-\textit{Línea de Investigación:} Ingeniería Multimedia, Visualización Técnica 3D Web
+\textit{L\'inea de Investigaci\'on:} Ingenier\'ia Multimedia, Visualizaci\'on T\'ecnica 3D Web
 
-\textit{Escuela:} Escuela de Ciencias Básicas, Tecnología e Ingeniería (ECBTI)
+\textit{Escuela:} Escuela de Ciencias B\'asicas, Tecnolog\'ia e Ingenier\'ia (ECBTI)
 
-\textit{Descriptores palabras clave:} WebGL, Unity, WebAssembly, PBR, Visualización 3D, Optimización, Carga Cognitiva, HCI, Technical Art.
+\textit{Descriptores palabras clave:} WebGL, Unity, WebAssembly, PBR, Visualizaci\'on 3D, Optimizaci\'on, Carga Cognitiva, HCI, Technical Art.
 
 \newpage
 
@@ -300,6 +310,7 @@ High-performance hardware design (drones, robotic systems) faces a critical chal
 \input{sections/cronograma}
 \input{sections/recursos}
 \input{sections/resultados}
+\clearpage
 \input{sections/bibliografia}
 
 \end{document}

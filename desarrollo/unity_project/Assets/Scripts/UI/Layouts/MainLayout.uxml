@@ -308,7 +308,7 @@
 
             <!-- Mode Buttons Row — 3 master modes -->
             <ui:VisualElement class="actions-row" picking-mode="Ignore">
-                <ui:Button name="ModeToolsBtn" class="mode-btn" tooltip="Inspect — Pins, Isolate, Measure">
+                <ui:Button name="ModeToolsBtn" class="mode-btn" tooltip="Inspect - Pins, Isolate, Power">
                     <pi:ProceduralInspectIcon class="mode-btn-icon" picking-mode="Ignore"/>
                     <ui:Label text="INSPECT" class="mode-btn-label" picking-mode="Ignore"/>
                 </ui:Button>
@@ -339,12 +339,12 @@
     <ui:VisualElement name="HeroContainer" class="hero-container">
         <!-- Main Hero Content -->
         <ui:VisualElement name="HeroMain" style="width: 100%; height: 100%; align-items: center; justify-content: center;">
-            <ui:Label text="Drone Viewer" class="hero-title" picking-mode="Ignore" />
-            <ui:Label text="Interactive 3D Visualization" class="hero-subtitle" picking-mode="Ignore" />
+            <ui:Label text="Holybro X500 V2" class="hero-title" picking-mode="Ignore" />
+            <ui:Label text="Interactive Technical Visualization" class="hero-subtitle" picking-mode="Ignore" />
             
             <ui:VisualElement class="hero-menu">
                 <ui:Button name="HeroExploreBtn" class="btn btn-primary btn-wide" text="EXPLORE" />
-                <ui:Button name="HeroDeviceBtn" class="btn btn-ghost btn-wide" text="SELECT DEVICE" />
+                <ui:Button name="HeroDeviceBtn" class="btn btn-ghost btn-wide" text="PROJECT TARGET" />
                 <ui:Button name="HeroAboutBtn" class="btn btn-ghost btn-wide" text="ABOUT" />
                 <ui:Button name="HeroExitBtn" class="btn btn-ghost btn-wide" text="EXIT" />
             </ui:VisualElement>
@@ -353,11 +353,11 @@
         <!-- Submenu: DEVICES -->
         <ui:VisualElement name="HeroSubmenu_Devices" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
             <ui:Button name="SubmenuBackBtn_Devices" class="btn-back" text="&lt;" />
-            <ui:Label text="Select device" class="hero-title" />
+            <ui:Label text="Project target" class="hero-title" />
             <ui:ScrollView class="submenu-scroll device-scroll" mode="Vertical" touch-scroll-type="Elastic">
-                <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="🛸  DJI Phantom 4 Pro" />
-                <ui:Button name="DeviceBtn_Robot" class="device-option" text="🤖  Boston Dynamics Spot" enabled="false" />
-                <ui:Button name="DeviceBtn_Satellite" class="device-option" text="🛰️  CubeSat 3U" enabled="false" />
+                <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="Holybro X500 V2 (active case study)" />
+                <ui:Button name="DeviceBtn_Robot" class="device-option" text="Additional device slots are not used in the final build" enabled="false" />
+                <ui:Button name="DeviceBtn_Satellite" class="device-option" text="Documentation is locked to the X500 V2 final scene" enabled="false" />
             </ui:ScrollView>
         </ui:VisualElement>
 
@@ -366,9 +366,9 @@
             <ui:Button name="SubmenuBackBtn_About" class="btn-back" text="&lt;" />
             <ui:Label text="About" class="hero-title" />
             <ui:ScrollView class="submenu-scroll" mode="Vertical" touch-scroll-type="Elastic">
-                <ui:Label text="Interactive 3D drone visualization for engineering education. Built with Unity WebGL." class="about-desc" />
+                <ui:Label text="Interactive 3D technical visualization for the Holybro X500 V2 thesis prototype. Built with Unity WebGL." class="about-desc" />
                 <ui:Label text="Thesis Project — 2026" class="about-credit" />
-                <ui:Button text="VIEW PROJECT ON GITHUB" class="btn btn-ghost btn-wide" />
+                <ui:Button name="HeroGithubBtn" text="VIEW SOURCE REPOSITORY" class="btn btn-ghost btn-wide" />
                 <ui:VisualElement class="about-separator" />
                 <ui:Button name="HeroHelpBtn" text="VIEW TUTORIAL" class="btn btn-ghost btn-wide" />
             </ui:ScrollView>
@@ -417,3 +417,4 @@
     </ui:VisualElement>
 
 </ui:UXML>
+

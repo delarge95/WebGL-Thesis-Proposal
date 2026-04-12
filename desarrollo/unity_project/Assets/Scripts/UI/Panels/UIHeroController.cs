@@ -12,6 +12,8 @@ namespace WebGL.UI.Panels
     /// </summary>
     public class UIHeroController
     {
+        private const string RepositoryUrl = "https://github.com/delarge95/WebGL-Thesis-Proposal";
+
         public enum SubmenuType { Devices, About, Exit }
 
         // ── Elements ──
@@ -159,6 +161,14 @@ namespace WebGL.UI.Panels
                 System.Action onHelp = () => OnHelpRequested?.Invoke();
                 heroHelpBtn.clicked += onHelp;
                 AddCleanup(() => heroHelpBtn.clicked -= onHelp);
+            }
+
+            var heroGithubBtn = _root.Q<Button>("HeroGithubBtn");
+            if (heroGithubBtn != null)
+            {
+                System.Action onGithub = () => Application.OpenURL(RepositoryUrl);
+                heroGithubBtn.clicked += onGithub;
+                AddCleanup(() => heroGithubBtn.clicked -= onGithub);
             }
 
             // Back buttons

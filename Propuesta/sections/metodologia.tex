@@ -1,68 +1,171 @@
+\section{Metodolog\'ia}
 
-\section{Metodología}
+La propuesta se estructura como una investigaci\'on aplicada con enfoque mixto y predominio cuantitativo. El proyecto combina dise\~no, construcci\'on y evaluaci\'on de un artefacto digital, por lo que se adopta el marco de \textit{Design Science Research} (DSR) articulado con prototipado iterativo y una gesti\'on tipo Scrum adaptada a sprints acad\'emicos.
 
-Se utilizará una metodología de Investigación Aplicada con un enfoque de Design Science Research (DSR) (Hevner et al., 2004), estructurada en desarrollo Ágil (Scrum Adaptado) con Sprints de 4 semanas.
+\subsection{Tipo de investigaci\'on y enfoque}
 
-\subsection{Framework de Design Science Research}
+\begin{itemize}
+    \item \textbf{Tipo de investigaci\'on:} aplicada, porque busca resolver una necesidad concreta de visualizaci\'on t\'ecnica en entorno web.
+    \item \textbf{Enfoque:} mixto con predominio cuantitativo.
+    \item \textbf{Marco metodol\'ogico:} DSR para construir y evaluar el artefacto, complementado con observaci\'on cualitativa de uso.
+    \item \textbf{Unidad de an\'alisis:} la interacci\'on de usuarios con un prototipo WebGL de visualizaci\'on t\'ecnica del dron Holybro X500~V2.
+\end{itemize}
 
-El proyecto sigue el framework DSR de 6 etapas (Hevner et al., 2004):
+\subsection{Marco de Design Science Research}
+
+El proyecto se alinea con las seis etapas cl\'asicas del DSR (Hevner et al., 2004):
+
 \begin{enumerate}
-    \item Problem Identification: Brecha de información técnica en medios 2D.
-    \item Objectives: Prototipo que valida viabilidad de WebGL para visualización de hardware.
-    \item Design \& Development: Implementación en Unity siguiendo principios de HCI.
-    \item Demonstration: Despliegue online accesible.
-    \item Evaluation: Pruebas de usabilidad (SUS), profiling de rendimiento.
-    \item Communication: Documentación de \textit{pipeline} de optimización.
+    \item \textbf{Identificaci\'on del problema.} La documentaci\'on 2D tradicional dificulta la comprensi\'on espacial y funcional de sistemas de hardware con m\'ultiples componentes.
+    \item \textbf{Definici\'on de objetivos.} Desarrollar un visor WebGL interactivo que mejore la exploraci\'on visual y la lectura t\'ecnica del dron Holybro X500~V2.
+    \item \textbf{Dise\~no y desarrollo.} Construir el prototipo en Unity con un \textit{pipeline} CAD a WebGL, UI responsiva y herramientas de an\'alisis visual.
+    \item \textbf{Demostraci\'on.} Publicar el prototipo en entorno web y validar tareas de uso representativas.
+    \item \textbf{Evaluaci\'on.} Medir rendimiento t\'ecnico, usabilidad percibida y carga cognitiva.
+    \item \textbf{Comunicaci\'on.} Documentar el proceso, la arquitectura, las decisiones de dise\~no y los resultados obtenidos.
 \end{enumerate}
 
-\subsection{Desarrollo en Sprints}
+\subsection{Desarrollo iterativo por fases}
 
-\subsubsection{Sprint 1: Análisis y Fundamentación Técnica (Semana 1-4)}
+El desarrollo se organiza en cuatro fases de trabajo:
+
+\subsubsection{Fase 1: An\'alisis y fundamentaci\'on}
 \begin{itemize}
-    \item Selección del modelo CAD de referencia (Dron de Alta Gama).
-    \item Benchmarking: Pruebas de rendimiento en dispositivos objetivo (Snapdragon 7 series) usando \textit{Spector.js} para análisis de \textit{draw calls}.
-    \item Definición de KPIs: Polígonos ($<$100,000), \textit{Draw Calls} ($<$50), VRAM Texturas ($<$64MB).
+    \item revisi\'on bibliogr\'afica sobre WebGL, visualizaci\'on 3D, carga cognitiva y UX;
+    \item selecci\'on del caso de estudio Holybro X500~V2;
+    \item definici\'on de metas de rendimiento y alcance funcional.
 \end{itemize}
 
-\subsubsection{Sprint 2: \textit{Pipeline} de Arte Técnico (Semana 5-8)}
+\subsubsection{Fase 2: \textit{Pipeline} de activos y visualizaci\'on}
 \begin{itemize}
-    \item Retopología: Conversión de mallas CAD (NURBS) a polígonos optimizados en Blender.
-    \item Texturizado PBR: Creación de materiales realistas en Adobe Substance Painter.
-    \item Optimización: Implementación de compresión de texturas (Basis Universal/ASTC) y Baking de mapas de normales.
+    \item limpieza y optimizaci\'on del modelo proveniente de CAD;
+    \item preparaci\'on de materiales y mallas para visualizaci\'on en tiempo real;
+    \item configuraci\'on del proyecto Unity y del \textit{pipeline} WebGL.
 \end{itemize}
 
-\subsubsection{Sprint 3: Ingeniería e Implementación (Semana 9-16)}
+\subsubsection{Fase 3: Implementaci\'on del prototipo}
 \begin{itemize}
-    \item Configuración de Unity URP con soporte WebGL 2.0 e Iluminación Basada en Imágenes (IBL).
-    \item Programación de scripts C\# (compilados a WASM) para sistema de ``Despiece'' (Exploded View) para segmentación interactiva de componentes.
-    \item Implementación de UI responsiva y gestión de memoria (UnloadUnusedAssets).
+    \item desarrollo de interacciones, selecci\'on de piezas y flujo de detalle;
+    \item implementaci\'on de modos de an\'alisis visual, vista explosionada y corte transversal;
+    \item integraci\'on de interfaces responsivas y controles de navegaci\'on.
 \end{itemize}
 
-\subsubsection{Sprint 4: Validación y Despliegue (Semana 17-24)}
+\subsubsection{Fase 4: Validaci\'on y cierre}
 \begin{itemize}
-    \item Profiling: Uso de Unity Memory Profiler y RenderDoc/Spector.js para validación gráfica.
-    \item Pruebas de Usuario: Evaluación mediante cuestionarios SUS (System Usability Scale) y NASA-TLX.
-    \item Despliegue: Publicación en servidor con compresión Gzip/Brotli.
+    \item medici\'on de KPIs t\'ecnicos del build WebGL;
+    \item aplicaci\'on de SUS, NASA-TLX Raw y protocolo \textit{Think-Aloud};
+    \item consolidaci\'on del informe final, manuales y anexos.
 \end{itemize}
 
-\subsection{Tamaño de Muestra para Pruebas de Usabilidad}
+\subsection{Variables de investigaci\'on}
 
-Nielsen (2000) demostró que 5 usuarios detectan $\sim$85\% de problemas de usabilidad. Para este proyecto:
+\subsubsection{Variable independiente}
+
+\textbf{Tipo de visualizaci\'on t\'ecnica}
 \begin{itemize}
-    \item Muestra: 8-12 usuarios (target: ingenieros/técnicos).
-    \item Justificación: Supera el mínimo de Nielsen, permitiendo detección de issues menos frecuentes.
-    \item Protocolo: Think-Aloud + SUS Questionnaire + NASA-TLX.
+    \item \textbf{Definici\'on conceptual:} medio utilizado para consultar y comprender la informaci\'on del sistema.
+    \item \textbf{Definici\'on operacional:} comparaci\'on entre una visualizaci\'on 3D interactiva en WebGL y un soporte 2D tradicional de referencia.
+    \item \textbf{Niveles:} visor 3D interactivo / documentaci\'on 2D.
 \end{itemize}
 
-\subsection{KPIs Técnicos (Cuantitativos)}
+\subsubsection{Variables dependientes}
+
+\textbf{Usabilidad percibida}
+\begin{itemize}
+    \item \textbf{Definici\'on conceptual:} grado en que el usuario percibe el sistema como f\'acil de aprender, consistente y \'util.
+    \item \textbf{Definici\'on operacional:} puntaje total del cuestionario \textit{System Usability Scale} (Brooke, 1996), en escala de 0 a 100.
+    \item \textbf{Indicador esperado:} puntaje SUS mayor o igual a 68.
+\end{itemize}
+
+\textbf{Carga cognitiva}
+\begin{itemize}
+    \item \textbf{Definici\'on conceptual:} esfuerzo mental percibido durante la ejecuci\'on de tareas con el sistema.
+    \item \textbf{Definici\'on operacional:} promedio de las seis dimensiones del NASA-TLX Raw (Hart \& Staveland, 1988), en escala de 0 a 100.
+    \item \textbf{Indicador esperado:} puntaje global menor o igual a 40.
+\end{itemize}
+
+\textbf{Rendimiento t\'ecnico}
+\begin{itemize}
+    \item \textbf{Definici\'on conceptual:} desempe\~no del prototipo WebGL durante la carga y la interacci\'on en tiempo real.
+    \item \textbf{Definici\'on operacional:} medici\'on de FPS, tiempo de carga, \textit{draw calls}, memoria y presupuesto geom\'etrico.
+    \item \textbf{Indicadores esperados:} 30 FPS o m\'as en dispositivo objetivo, tiempo de carga total inferior a 10 s, \textit{draw calls} y memoria dentro del presupuesto definido.
+\end{itemize}
+
+\subsubsection{Variables de control}
+
+\begin{itemize}
+    \item experiencia previa del participante con software 3D o documentaci\'on t\'ecnica;
+    \item perfil acad\'emico o profesional;
+    \item dispositivo de prueba y resoluci\'on de pantalla;
+    \item contexto de conexi\'on y navegador utilizado.
+\end{itemize}
+
+\subsection{Muestra y perfil de participantes}
+
+Se plantea una muestra no probabil\'istica por conveniencia de entre 8 y 12 participantes con perfil af\'in al uso del sistema: estudiantes avanzados, t\'ecnicos o profesionales de ingenier\'ia, manufactura digital o mantenimiento. Este tama\~no es compatible con estudios exploratorios de usabilidad y permite combinar hallazgos cuantitativos con observaciones cualitativas.
+
+\subsection{Protocolo de tareas}
+
+Cada participante deber\'a completar una secuencia breve de tareas representativas:
 
 \begin{enumerate}
-    \item Polygon Budget: $\sum P_i < 100,000$ triángulos (Estándar Mobile High-End).
-    \item Texel Density: $\rho = 10.24 \pm 2$ px/cm (±20\% tolerancia).
-    \item \textit{Draw Calls}: $D < 50$ (GPU Instancing + Static Batching).
-    \item \textit{Frame Time}: $T_{frame} < 33.33$ms (30 FPS) en Snapdragon 7 Gen 1.
-    \item Memory: VRAM Texturas $<$ 64MB (Compresión ASTC/Basis Universal).
-    \item Load Time: TTI Shell $<$ 3s; TTI Full Model $<$ 10s en 4G.
+    \item iniciar la experiencia desde el \textit{hero} e ingresar al visor;
+    \item navegar libremente por la escena con \textit{orbit}, \textit{pan} y \textit{zoom};
+    \item seleccionar una pieza y consultar su ficha t\'ecnica en el \textit{bottom sheet};
+    \item activar una herramienta de inspecci\'on o an\'alisis visible en la build final;
+    \item utilizar la vista explosionada o el corte transversal para examinar el ensamblaje;
+    \item cambiar al menos un modo de visualizaci\'on del sistema.
+\end{enumerate}
+
+\subsection{Instrumentos de recolecci\'on}
+
+\begin{itemize}
+    \item \textbf{KPIs t\'ecnicos:} Unity Profiler, herramientas del navegador y auditor\'ias de cobertura y jerarqu\'ia.
+    \item \textbf{SUS:} cuestionario posterior a la interacci\'on para estimar usabilidad percibida mediante 10 \'items en escala Likert de 1 a 5.
+    \item \textbf{NASA-TLX Raw:} cuestionario posterior a tareas para estimar carga cognitiva percibida en seis dimensiones, cada una en escala de 0 a 100.
+    \item \textbf{Think-Aloud:} protocolo de verbalizaci\'on concurrente para registrar comentarios, dudas, errores, pausas y estrategias de exploraci\'on durante la ejecuci\'on de tareas.
+\end{itemize}
+
+\subsection{Procedimiento de an\'alisis de datos}
+
+\subsubsection{An\'alisis cuantitativo}
+
+El puntaje SUS se calcular\'a seg\'un el procedimiento est\'andar de Brooke (1996). Para los \'items impares, la contribuci\'on de cada respuesta se obtiene restando 1 al valor marcado por el participante; para los \'items pares, la contribuci\'on se obtiene restando la respuesta a 5. La suma de las diez contribuciones produce un subtotal entre 0 y 40, que luego se multiplica por 2.5 para obtener un puntaje global entre 0 y 100:
+
+\[
+SUS = \left(\sum_{j \in impares}(R_j - 1) + \sum_{j \in pares}(5 - R_j)\right)\times 2.5
+\]
+
+donde $R_j$ corresponde a la respuesta del participante en el \'item $j$. Un puntaje alto indica mejor usabilidad percibida. Como referencia interpretativa, un valor de 68 suele considerarse el umbral convencional de aceptabilidad general, aunque su lectura final debe complementarse con el contexto del estudio y con escalas adjetivales reportadas en la literatura (Bangor et al., 2009).
+
+Para NASA-TLX Raw se promediar\'an las seis dimensiones del instrumento:
+\[
+NASA\text{-}TLX_{Raw} = \frac{1}{6}\sum_{i=1}^{6} D_i
+\]
+donde $D_i$ corresponde al puntaje observado en la dimensi\'on $i$: demanda mental, demanda f\'isica, demanda temporal, rendimiento, esfuerzo y frustraci\'on. En esta propuesta se adopta la variante \textit{Raw TLX}, por lo que no se aplica ponderaci\'on por comparaciones pareadas, sino el promedio aritm\'etico simple de las seis escalas. La dimensi\'on de rendimiento se diligencia con orientaci\'on invertida (0 = desempe\~no perfecto, 100 = desempe\~no deficiente), de manera que un valor alto siga indicando mayor carga de trabajo percibida y pueda integrarse directamente al promedio global.
+
+Los KPIs t\'ecnicos se analizar\'an mediante estad\'isticos descriptivos y comparaci\'on frente a las metas del proyecto:
+\begin{itemize}
+    \item presupuesto geom\'etrico;
+    \item FPS y \textit{frame time};
+    \item \textit{draw calls};
+    \item memoria;
+    \item tiempo de carga inicial y total.
+\end{itemize}
+
+\subsubsection{An\'alisis cualitativo}
+
+El protocolo \textit{Think-Aloud} se aplicar\'a en modalidad concurrente durante la ejecuci\'on de tareas. Se solicitar\'a al participante verbalizar qu\'e intenta hacer, c\'omo interpreta la interfaz, qu\'e dudas surgen, qu\'e errores percibe y con qu\'e criterio decide su siguiente acci\'on. El evaluador registrar\'a verbalizaciones relevantes, pausas, puntos de vacilaci\'on, solicitudes de ayuda, errores de navegaci\'on y estrategias de recuperaci\'on.
+
+Posteriormente, las observaciones se codificar\'an en categor\'ias anal\'iticas: comprensi\'on espacial del ensamblaje, navegaci\'on y control de c\'amara, interpretaci\'on de la interfaz, correspondencia terminol\'ogica, errores o bloqueos y sugerencias de mejora. Este an\'alisis cualitativo complementar\'a la lectura de SUS y NASA-TLX y permitir\'a explicar por qu\'e determinadas tareas resultaron m\'as claras, ambiguas o demandantes para los usuarios (Ericsson \& Simon, 1993).
+
+\subsection{KPIs t\'ecnicos esperados}
+
+\begin{enumerate}
+    \item presupuesto geom\'etrico compatible con la build WebGL final;
+    \item \textit{frame rate} estable igual o superior a 30 FPS en el dispositivo objetivo;
+    \item tiempo de carga total menor a 10 segundos en condiciones de prueba controladas;
+    \item \textit{draw calls} y uso de memoria dentro de los umbrales definidos durante la fase de optimizaci\'on;
+    \item consistencia funcional entre escena, UI y documentaci\'on.
 \end{enumerate}
 
 \newpage

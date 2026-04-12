@@ -2,7 +2,7 @@
 
 **Fecha de creación:** 3 de marzo de 2026  
 **Autor:** Alexander Woodcock Salomón  
-**Asesor:** Deivid Enrique Triviño Lozada  
+**Asesor:** Gustavo Enrique Vejarano Matiz  
 **Título:** _Diseño y Desarrollo de un Prototipo Web 3D Interactivo para la Visualización Técnica y Análisis Estructural de Hardware de Alto Rendimiento_
 
 ---

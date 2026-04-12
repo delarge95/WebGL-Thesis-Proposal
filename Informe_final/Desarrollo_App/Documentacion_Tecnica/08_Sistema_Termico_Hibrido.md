@@ -6,7 +6,7 @@ Activo, en desarrollo tecnico. No debe describirse todavia como simulacion termo
 
 ## Objetivo
 
-Implementar una simulacion termica hibrida, fisicamente consistente y visualmente creible para el dron Holybro X500 V2 en Unity WebGL.
+Implementar una simulacion termica hibrida, fisicamente inspirada y visualmente creible para el dron Holybro X500 V2 en Unity WebGL.
 
 ## Alcance real de la V1
 
@@ -48,6 +48,52 @@ Asset canónico oficial de la V1. Define la red explicita de contactos para las 
 ### Thermal.shader
 
 Shader termico ajustado para recibir banda de temperatura normalizada, modo de propagacion visual, hotspot local, direccion axial local, spread, edge cooling y propagation.
+
+## Modelo matematico operativo
+
+La V1 usa un solver reducido por componentes, no una simulacion FEA. La cadena real del sistema es:
+
+`DroneStateController -> ThermalSimulationManager -> ThermalViewController -> Thermal.shader`
+
+### Calentamiento por equilibrio
+
+Para nodos que no son fuente de calor:
+
+```text
+T_eq = T_amb
+```
+
+Para fuentes termicas, el equilibrio se interpola entre temperatura ambiente, hover y pico segun la carga efectiva del dron.
+
+La aproximacion temporal usada en runtime es:
+
+```text
+sourceBlend = 1 - exp(-Δt / τ)
+sourceDelta = (T_eq - T_actual) * sourceBlend * sourceWeight
+```
+
+### Enfriamiento ambiental
+
+```text
+coolingDelta = (T_amb - T_actual) * coolingRate * exposure * Δt
+```
+
+### Acoplamiento entre piezas
+
+La transferencia entre nodos conectados se aproxima mediante:
+
+```text
+ΔT_ij = (T_j - T_i) * Ĝ_ij * Δt
+Ĝ_ij = max(0.001, s_ij * A_ij / L_ij)
+```
+
+donde:
+
+- `A_ij` es el area de contacto proxy,
+- `L_ij` es la longitud efectiva del camino termico,
+- `s_ij` es un factor heuristico de enlace.
+
+Esta forma comparte la estructura de una conduccion tipo Fourier, pero `s_ij` no es una conductividad termica calibrada en unidades SI. Por eso el sistema debe documentarse como simulacion hibrida heuristica.
 
 ## Integracion con el sistema existente
 

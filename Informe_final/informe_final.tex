@@ -2,6 +2,7 @@
 
 % --- PACKAGES ---
 \usepackage[utf8]{inputenc} % Input encoding
+\usepackage[T1]{fontenc} % Stable PDF accents and text extraction
 \usepackage[spanish]{babel} % Language support
 \usepackage{times} % Use Times font (approximates Times New Roman)
 \usepackage[margin=2.54cm]{geometry} % Margins 2.54 cm (1 inch)
@@ -189,7 +190,7 @@
 \begin{titlepage}
     \thispagestyle{plain} % Force page number on title page
     \centering
-    {\normalfont\bfseries Prototipo Web 3D Interactivo para la Visualización Técnica y Análisis Estructural de Hardware de Alto Rendimiento mediante Pipelines de Optimización Gráfica y WebAssembly\par}
+    {\normalfont\bfseries Diseño y Desarrollo de un Prototipo Web 3D Interactivo para la Visualización Técnica y Análisis Estructural de Hardware de Alto Rendimiento mediante Pipelines de Optimización Gráfica y WebAssembly\par}
 
     \vspace{2\baselineskip}
     \vspace{2\baselineskip}
@@ -201,7 +202,7 @@
     \vspace{2\baselineskip}
 
     {\normalfont Asesor\par}
-    {\normalfont Deivid Enrique Triviño Lozada\par}
+    {\normalfont Gustavo Enrique Vejarano Matiz\par}
 
     \vfill
 
@@ -213,6 +214,7 @@
     {Pasto, Colombia\par}
     {2026\par}
 \end{titlepage}
+\setcounter{page}{2}
 
 % --- MAIN CONTENT ---
 \pagestyle{fancy}
@@ -221,9 +223,9 @@
 \section*{Resumen}
 \addcontentsline{toc}{section}{Resumen}
 \setlength{\parindent}{0pt} % No indent for Resumen
-El diseño de hardware de alto rendimiento (drones, sistemas robóticos) enfrenta un desafío crítico en la comunicación técnica: los medios digitales tradicionales (imágenes 2D, PDFs estáticos) imponen alta carga cognitiva para comprender estructuras tridimensionales complejas. Este proyecto abordó esta brecha mediante el diseño, desarrollo y evaluación de un prototipo web 3D interactivo basado en Unity WebGL que optimiza la visualización técnica de hardware mediante \textit{pipelines} de optimización gráfica avanzados y WebAssembly. El marco teórico integró teoría de carga cognitiva (Mayer, Paivio), interacción humano-computador en 3D (Bowman, Norman), y renderizado físicamente basado (Cook-Torrance, Burley). La metodología siguió Design Science Research con desarrollo iterativo en Sprints de 4 semanas, implementando técnicas de retopología, \textit{baking} de normales, y Asset Bundles para cumplir con KPIs cuantitativos ($<$ 100,000 polígonos, $>$ 30 FPS en móvil mid-range, $<$ 3s shell / $<$ 10s carga completa). La validación incluyó \textit{profiling} de rendimiento (Unity Profiler), pruebas de usabilidad (SUS) y medición de carga cognitiva (NASA-TLX) con ingenieros/técnicos (N=8-12). El producto final es un MVP científico que valida la viabilidad técnica de WebGL para visualización de ingeniería, estableciendo un \textit{pipeline} replicable documentado según estándares académicos.
+El diseño de hardware de alto rendimiento enfrenta un desafío crítico en la comunicación técnica: los medios digitales tradicionales, como imágenes 2D y documentos estáticos, imponen una alta carga cognitiva para comprender estructuras tridimensionales complejas. Este trabajo desarrolló y documentó un prototipo web 3D interactivo basado en Unity WebGL para la visualización técnica del dron Holybro X500~V2, orientado a mejorar la exploración estructural del ensamblaje en navegadores estándar. El marco teórico integró teoría de carga cognitiva, interacción humano-computador en 3D y visualización técnica en tiempo real. La metodología se formuló como investigación aplicada de enfoque mixto con predominio cuantitativo, enmarcada en Design Science Research y prototipado iterativo. A nivel de implementación, la build final articula selección de piezas, ficha inferior de detalle, modos \texttt{Inspect}/\texttt{Analyze}/\texttt{Studio}, corte transversal, \textit{explode}, filtros por categoría y una vista térmica híbrida por componentes. La arquitectura real integra UI Toolkit, managers creados en runtime, saneamiento del modelo importado mediante \texttt{ImportedDroneRuntimeBinder} y un subsistema térmico heurístico coherente con las restricciones de WebGL. La validación contempla \textit{profiling} técnico, SUS, NASA-TLX y protocolo \textit{Think-Aloud}; no obstante, el cierre empírico definitivo del capítulo de resultados depende de la build congelada posterior a la optimización final del pipeline CAD a Unity.
 
-\hspace{1.27cm}\textit{\textbf{Palabras clave:}} WebGL, Unity, WebAssembly, Renderizado Físicamente Basado (PBR), Visualización 3D Interactiva, Optimización de Assets 3D, Carga Cognitiva, Interacción Humano-Computador, Technical Art, Hardware de Alto Rendimiento.
+\hspace{1.27cm}\textit{\textbf{Palabras clave:}} WebGL, Unity, WebAssembly, visualización técnica 3D, UI Toolkit, optimización CAD a WebGL, carga cognitiva, NASA-TLX, \textit{Technical Art}, Holybro X500~V2.
 
 \newpage
 
@@ -231,9 +233,9 @@ El diseño de hardware de alto rendimiento (drones, sistemas robóticos) enfrent
 \section*{Abstract}
 \addcontentsline{toc}{section}{Abstract}
 \setlength{\parindent}{0pt} % No indent for Abstract
-High-performance hardware design (drones, robotic systems) faces a critical challenge in technical communication: traditional digital media (2D images, static PDFs) impose high cognitive load for understanding complex three-dimensional structures. This project addressed this gap through the design, development, and evaluation of an interactive 3D web prototype based on Unity WebGL that optimizes technical hardware visualization through advanced graphics optimization \textit{pipelines} and WebAssembly. The theoretical framework integrated cognitive load theory (Mayer, Paivio), 3D human-computer interaction (Bowman, Norman), and physically-based rendering (Cook-Torrance, Burley). The methodology followed Design Science Research with iterative development in 4-week Sprints, implementing retopology, normal \textit{baking}, and Asset Bundles to meet quantitative KPIs ($<$ 100,000 polygons, $>$ 30 FPS on mid-range mobile, $<$ 3s shell / $<$ 10s full load). Validation included performance \textit{profiling} (Unity Profiler), usability testing (SUS), and cognitive load measurement (NASA-TLX) with engineers/technicians (N=8-12). The final product is a scientific MVP that validates the technical feasibility of WebGL for engineering visualization, establishing a replicable, academically documented \textit{pipeline}.
+High-performance hardware design faces a critical challenge in technical communication: traditional digital media such as 2D images and static documents impose substantial cognitive load when users must understand complex three-dimensional assemblies. This work developed and documented an interactive 3D web prototype based on Unity WebGL for the technical visualization of the Holybro X500~V2 drone, aimed at improving structural exploration in standard web browsers. The theoretical framework integrates cognitive load theory, three-dimensional human-computer interaction, and real-time technical visualization. Methodologically, the study is framed as applied research with a mixed approach and quantitative predominance, supported by Design Science Research and iterative prototyping. The implemented build combines part selection, a bottom detail sheet, \texttt{Inspect}/\texttt{Analyze}/\texttt{Studio} modes, cross-section, exploded view, category filters, and a hybrid component-based thermal view. The real architecture integrates UI Toolkit, runtime-created managers, import repair through \texttt{ImportedDroneRuntimeBinder}, and a heuristic thermal subsystem aligned with WebGL constraints. Validation is structured around technical profiling, SUS, NASA-TLX, and a Think-Aloud protocol; however, the definitive empirical closure of the results chapter still depends on the frozen build obtained after the final CAD-to-Unity optimization pass.
 
-\hspace{1.27cm}\textit{\textbf{Keywords:}} WebGL, Unity, WebAssembly, Physically-Based Rendering (PBR), Interactive 3D Visualization, 3D Asset Optimization, Cognitive Load, Human-Computer Interaction, Technical Art, High-Performance Hardware.
+\hspace{1.27cm}\textit{\textbf{Keywords:}} WebGL, Unity, WebAssembly, technical 3D visualization, UI Toolkit, CAD-to-WebGL optimization, cognitive load, NASA-TLX, Technical Art, Holybro X500~V2.
 
 \newpage
 
@@ -296,7 +298,7 @@ High-performance hardware design (drones, robotic systems) faces a critical chal
 
 \textit{Escuela:} Escuela de Ciencias Básicas, Tecnología e Ingeniería (ECBTI)
 
-\textit{Descriptores palabras clave:} WebGL, Unity, WebAssembly, PBR, Visualización 3D, Optimización, Carga Cognitiva, HCI, Technical Art.
+\textit{Descriptores palabras clave:} WebGL, Unity, WebAssembly, visualización técnica 3D, optimización, carga cognitiva, HCI, Technical Art.
 
 \newpage
 

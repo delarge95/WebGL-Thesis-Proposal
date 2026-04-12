@@ -6,21 +6,18 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{fancyhdr}
-\usepackage{titlesec}
 \usepackage{longtable}
 \usepackage{booktabs}
-\usepackage{xcolor}
 
-% Header/Footer
 \pagestyle{fancy}
 \fancyhf{}
-\rhead{Manual de Usuario - Prototipo Web 3D}
-\lhead{Ingeniería Multimedia - UNAD}
-\rfoot{Página \thepage}
+\rhead{Manual de Usuario - Holybro X500 V2}
+\lhead{Ingenieria Multimedia - UNAD}
+\rfoot{Pagina \thepage}
 
-\title{\textbf{Manual de Usuario}\\Prototipo Web 3D Interactivo para Visualización Técnica de Drones}
-\author{Alexander Woodcock Salomón}
-\date{Diciembre 2025}
+\title{\textbf{Manual de Usuario}\\Prototipo Web 3D Interactivo para Visualizacion Tecnica del Holybro X500 V2}
+\author{Alexander Woodcock Salomon}
+\date{Abril 2026}
 
 \begin{document}
 
@@ -28,264 +25,181 @@
 \tableofcontents
 \newpage
 
-\section{Introducción}
-Bienvenido al prototipo Web 3D interactivo para visualización técnica de drones. Este sistema le permite explorar, analizar y aprender sobre la estructura y componentes de drones de alto rendimiento directamente desde su navegador web, sin necesidad de instalar software adicional.
+\section{Introduccion}
+Este manual describe el uso de la build final documentada del visor WebGL del Holybro X500~V2. El documento se limita al flujo visible de la aplicacion y evita describir herramientas ocultas, experimentales o no integradas en la interfaz final.
 
-\subsection{¿Para Quién es Este Manual?}
+\subsection{Alcance}
+La aplicacion permite:
 \begin{itemize}
-    \item \textbf{Ingenieros de Ensamblaje:} Exploración del modelo con información técnica y, en futuras versiones, guías paso a paso con herramientas de medición y anotaciones.
-    \item \textbf{Estudiantes de Ingeniería:} Exploración interactiva de componentes con información técnica detallada.
-    \item \textbf{Técnicos de Mantenimiento:} Vistas de despiece, puntos de conexión y especificaciones de torque.
-    \item \textbf{Público General:} Navegación intuitiva para comprender la estructura de drones.
+    \item ingresar desde el Hero al visor principal;
+    \item navegar el modelo 3D;
+    \item seleccionar piezas y consultar su ficha tecnica en un \textit{bottom sheet};
+    \item usar herramientas de inspeccion, analisis y visualizacion.
 \end{itemize}
 
-\section{Requisitos del Sistema}
-
-\subsection{Hardware Mínimo}
+\subsection{Publico objetivo}
 \begin{itemize}
-    \item \textbf{Dispositivo:} PC, Laptop, Tablet o Smartphone (gama media-alta)
-    \item \textbf{RAM:} 4 GB mínimo, 8 GB recomendado
-    \item \textbf{GPU:} Compatible con WebGL 2.0
+    \item estudiantes e investigadores de ingenieria;
+    \item tecnicos o docentes que requieran lectura visual del ensamblaje;
+    \item evaluadores del proyecto de grado.
 \end{itemize}
 
-\subsection{Software}
+\section{Requisitos y acceso}
+
+\subsection{Requisitos minimos}
 \begin{itemize}
-    \item \textbf{Navegador:} Chrome 90+ (recomendado), Firefox 90+, Edge 90+, Safari 15+
-    \item \textbf{Conexión:} Banda ancha (5+ Mbps) para carga inicial
+    \item navegador moderno con soporte WebGL~2.0;
+    \item conexion estable para cargar la aplicacion;
+    \item mouse o pantalla tactil.
 \end{itemize}
 
-\section{Acceso al Sistema}
+\subsection{Ingreso}
 \begin{enumerate}
-    \item Abra su navegador web preferido
-    \item Ingrese a la URL: \url{https://[ENLACE\_DEL\_PROTOTIPO]}
-    \item Espere a que la barra de progreso complete la carga inicial
-    \item El modelo 3D aparecerá automáticamente
+    \item abrir la URL publica del prototipo o el build local de prueba;
+    \item esperar la carga inicial;
+    \item usar el Hero para revisar el proyecto o ingresar con el boton \texttt{EXPLORE}.
 \end{enumerate}
 
-\section{Navegación Básica}
+\section{Flujo general de uso}
 
-\subsection{Controles de Cámara}
-\begin{tabular}{|p{4cm}|p{4cm}|p{4cm}|}
-\hline
-\textbf{Acción} & \textbf{Mouse/Teclado} & \textbf{Táctil} \\
-\hline
-Rotar vista & Clic izq. + arrastrar & Un dedo + arrastrar \\
-\hline
-Panorámica (Pan) & Clic der. + arrastrar & Dos dedos + arrastrar \\
-\hline
-Zoom & Rueda del mouse & Gesto de pinza \\
-\hline
-Reset cámara & Tecla R & Botón Reset \\
-\hline
+El recorrido visible del sistema es:
+
+\begin{center}
+\texttt{Hero -> Explore -> seleccion de pieza -> bottom sheet -> Inspect / Analyze / Studio}
+\end{center}
+
+\begin{itemize}
+    \item El boton \texttt{HOME} regresa al Hero.
+    \item El boton \texttt{RESET VIEW} restablece la vista principal.
+    \item La tecla \texttt{Esc} cierra primero la ficha inferior o el subpanel activo, si existe uno abierto.
+\end{itemize}
+
+\section{Controles de camara}
+
+\begin{table}[htbp!]
+\centering
+\caption{Controles verificados en la build final}
+\begin{tabular}{p{4.2cm}p{5cm}p{4cm}}
+\toprule
+\textbf{Accion} & \textbf{Mouse} & \textbf{Tactil} \\
+\midrule
+Orbitar & clic derecho + arrastrar & un dedo + arrastrar \\
+Pan & clic central + arrastrar & dos dedos + arrastrar \\
+Zoom & rueda del mouse & gesto de pinza \\
+Cerrar panel o subpanel & tecla Esc & cerrar desde interfaz \\
+Restablecer vista & boton \texttt{RESET VIEW} & boton \texttt{RESET VIEW} \\
+\bottomrule
 \end{tabular}
+\end{table}
 
-\subsection{Atajos de Teclado}
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Tecla} & \textbf{Función} \\
-\hline
-1-6 & Vistas predefinidas (Frente, Atrás, Izq., Der., Arriba, Isométrica) \\
-\hline
-E & Activar/desactivar vista explosionada \\
-\hline
-R & Resetear vista de cámara \\
-\hline
-Esc & Volver a modo exploración \\
-\hline
-F3 & Mostrar/ocultar métricas de rendimiento \\
-\hline
-F12 & Capturar pantalla \\
-\hline
-Ctrl + / - & Aumentar/reducir escala de UI \\
-\hline
-\end{tabular}
+\noindent En esta version del manual no se documentan atajos adicionales de teclado porque no forman parte del flujo visible verificado para la build final.
 
-\section{Modos de Visualización}
-
-El sistema ofrece 7 modos de visualización diferentes, accesibles desde la barra de herramientas inferior:
+\section{Seleccion de piezas y ficha tecnica}
 
 \begin{enumerate}
-    \item \textbf{Realista:} Materiales originales con iluminación PBR
-    \item \textbf{Rayos X:} Vista semi-transparente para ver componentes internos
-    \item \textbf{Blueprint:} Estilo de plano técnico azul
-    \item \textbf{Color Sólido:} Un solo color configurable para todas las piezas
-    \item \textbf{Wireframe:} Solo las líneas de la geometría
-    \item \textbf{Fantasma:} Versión muy transparente del modelo
-    \item \textbf{Térmico:} Simulación de vista térmica
+    \item hacer clic sobre una pieza visible del dron;
+    \item el sistema resalta la seleccion;
+    \item la informacion aparece en una ficha inferior (\textit{bottom sheet});
+    \item la ficha muestra identificacion, funcion, material, peso, dimensiones y datos de ensamblaje cuando existen.
 \end{enumerate}
 
-\section{Exploración de Piezas}
+\noindent La ficha inferior es el panel oficial de consulta. Este manual no describe un panel lateral derecho porque ese flujo no corresponde a la version final documentada.
 
-\subsection{Seleccionar una Pieza}
+\section{Herramientas visibles}
+
+\subsection{Modo Inspect}
+El modo \texttt{Inspect} reune herramientas de lectura puntual:
+\begin{itemize}
+    \item \textbf{Pins:} activa o desactiva hotspots;
+    \item \textbf{Isolate:} a\'isla la seleccion actual;
+    \item \textbf{Power:} enciende o apaga el estado operativo del dron;
+    \item \textbf{Load slider:} ajusta el factor de carga asociado al estado de potencia.
+\end{itemize}
+
+\subsection{Modo Analyze}
+El modo \texttt{Analyze} concentra herramientas de lectura estructural:
+\begin{itemize}
+    \item \textbf{Cut:} habilita el corte transversal;
+    \item \textbf{Explode:} separa el ensamblaje;
+    \item \textbf{Filter:} activa o desactiva categorias funcionales.
+\end{itemize}
+
+\noindent Las categorias activas en la build final son:
+\begin{itemize}
+    \item \texttt{SkeletonAirframe}
+    \item \texttt{PropulsionSystem}
+    \item \texttt{Avionics}
+    \item \texttt{SensorsComms}
+    \item \texttt{PowerDistribution}
+    \item \texttt{Fasteners}
+\end{itemize}
+
+\subsection{Modo Studio}
+El modo \texttt{Studio} agrupa visualizacion y ambiente:
+\begin{itemize}
+    \item \textbf{Render mode:} el estado base es \texttt{Realistic}; la UI visible expone \texttt{X-Ray}, \texttt{Solid Color} y \texttt{Thermal};
+    \item \textbf{Environment:} tarjetas \texttt{Studio}, \texttt{Time} y \texttt{Color};
+    \item \textbf{Sliders:} rotacion e intensidad de luz.
+\end{itemize}
+
+\noindent Cuando se activa \texttt{Thermal}, aparece la leyenda termica visible en pantalla.
+
+\section{Corte transversal}
+
 \begin{enumerate}
-    \item Haga clic sobre cualquier componente del dron
-    \item La pieza se resaltará visualmente
-    \item Aparecerá el panel de información a la derecha
+    \item abrir \texttt{Analyze};
+    \item pulsar \texttt{Cut};
+    \item elegir el eje y mover el deslizador del plano;
+    \item volver al panel principal cuando termine la inspeccion.
 \end{enumerate}
 
-\subsection{Panel de Información}
-Al seleccionar una pieza, verá:
-\begin{itemize}
-    \item Nombre y tipo de componente
-    \item Descripción de su función
-    \item Peso y dimensiones
-    \item Tipo de material y propiedades
-    \item Botones de acción: Ocultar, Aislar, Enfocar
-\end{itemize}
+\noindent El corte puede permanecer activo hasta que el usuario lo desactive o use \texttt{RESET VIEW}.
 
-\subsection{Catálogo de Piezas}
-Acceda al catálogo completo desde el botón "Catálogo" en la barra de herramientas. El visor incluye las 16~piezas del dron Holybro X500~V2:
-\begin{itemize}
-    \item \textbf{Búsqueda:} Escriba el nombre de cualquier pieza (ej.\ ``Pixhawk'', ``Motor'', ``PDB'')
-    \item \textbf{Filtrado por categoría:}
-    \begin{itemize}
-        \item \textit{Structural} (5 piezas): placas de CF, brazos, tren de aterrizaje, plataforma, rieles
-        \item \textit{Electronics} (7 piezas): PDB, módulo de potencia, Pixhawk~6C, GPS, radio, batería, receptor RC
-        \item \textit{Propulsion} (3 piezas): motores~×4, ESCs~×4, hélices~×4
-        \item \textit{Other} (1 pieza): kit de herrajes y tornillería
-    \end{itemize}
-    \item \textbf{Visibilidad:} Toggle de ojo para ocultar/mostrar cada pieza
-    \item \textbf{Info detallada:} Al seleccionar una pieza del catálogo se muestran peso, dimensiones, material, fabricante, número de parte, función y advertencias de seguridad
-\end{itemize}
+\section{Vista explosionada}
 
-\section{Vista Explosionada (Despiece)}
-
-\subsection{Activar Vista Explosionada}
 \begin{enumerate}
-    \item Presione el botón "Explode" en la barra de herramientas
-    \item Use el deslizador para controlar el nivel de separación
-    \item Las piezas se separan animadamente según su orden de ensamblaje
+    \item abrir \texttt{Analyze};
+    \item pulsar \texttt{Explode};
+    \item ajustar el nivel de separacion con el deslizador;
+    \item volver a pulsar o llevar el valor a cero para regresar al ensamblaje.
 \end{enumerate}
 
-\subsection{Interactuar en Vista Explosionada}
+\section{Limitaciones visibles del cierre}
+
 \begin{itemize}
-    \item Las piezas siguen siendo seleccionables
-    \item La información técnica permanece accesible
-    \item Puede combinar con otros modos de visualización
+    \item la herramienta de medicion existe en codigo, pero no esta expuesta en la UI final;
+    \item el catalogo de piezas y el panel de configuracion no forman parte del flujo visible documentado;
+    \item los efectos de audio no hacen parte de la version funcional cerrada al momento de este manual;
+    \item las pruebas de usabilidad y reportes finales deben ejecutarse sobre la build congelada posterior a la optimizacion final.
 \end{itemize}
 
-\section{Cortes Transversales}
+\section{Solucion de problemas}
 
-La herramienta de corte transversal permite ver el interior del dron:
-\begin{enumerate}
-    \item Presione el botón de tijera en la barra de herramientas
-    \item Seleccione el eje de corte (X, Y o Z)
-    \item Ajuste la posición del plano de corte con el deslizador
-    \item Active "Invertir" para cambiar la dirección del corte
-\end{enumerate}
-
-\section{Encendido del Dron (Simulación)}
-
-\textit{Esta funcionalidad se encuentra en desarrollo para la versión actual del prototipo.}
-
-Simule el funcionamiento del dron:
-\begin{enumerate}
-    \item Presione el botón de encendido (Power)
-    \item Observe la secuencia de arranque:
-    \begin{itemize}
-        \item Las luces cambian de rojo a verde
-        \item Las hélices comienzan a girar
-        \item Se activan los efectos de partículas
-    \end{itemize}
-    \item En modo "Volando", el dron simula movimiento de hover
-    \item Presione nuevamente para apagar
-\end{enumerate}
-
-
-\subsection{Carga del Sistema y Vista Térmica (Estado Actual)}
-\textit{La simulación térmica se encuentra en desarrollo activo. En la versión actual, el encendido del dron ya puede complementarse con un control de carga sostenida y una base de vista térmica para pruebas internas.}
-
-Cuando la build incluya esta integración visible para el usuario:
-\begin{enumerate}
-    \item Active el botón de encendido (Power)
-    \item Ajuste el deslizador de carga del sistema
-    \item Cambie al modo de visualización \textbf{Térmico}
-    \item Observe cómo las piezas críticas aumentan o reducen su temperatura de forma progresiva
-\end{enumerate}
-
-\textbf{Nota importante:} esta vista no debe interpretarse todavía como una termografía real ni como una simulación CFD/FEA completa. Su función actual es apoyar la comprensión visual del comportamiento térmico del dron dentro del prototipo.
-\section{Herramientas de Ingeniero (Proyectadas)}
-
-\textit{Las siguientes herramientas fueron diseñadas e implementadas a nivel de código, pero no están integradas en la interfaz de usuario de la versión actual del prototipo. Se proyectan para futuras iteraciones del sistema.}
-
-Acceda desde el botón de herramientas (llave inglesa) en la esquina superior derecha:
-
-\subsection{Herramienta de Medición}
+\subsection{La aplicacion no carga}
 \begin{itemize}
-    \item \textbf{Distancia:} Mida entre dos puntos
-    \item \textbf{Ángulo:} Mida ángulos entre tres puntos
-    \item \textbf{Radio:} Mida radios, circunferencias y áreas
-\end{itemize}
-Haga clic para colocar puntos. Presione Esc para cancelar.
-
-\subsection{Puntos de Conexión}
-Visualice dónde se conectan las piezas:
-\begin{itemize}
-    \item Puntos de tornillo (gris)
-    \item Conexiones snap (verde)
-    \item Soldaduras (naranja)
-    \item Cables (azul)
+    \item verificar conexion y compatibilidad WebGL;
+    \item recargar la pagina;
+    \item probar en un navegador actualizado.
 \end{itemize}
 
-\subsection{Anotaciones}
-Añada notas directamente sobre el modelo 3D para documentación o colaboración.
-
-\subsection{Guía de Ensamblaje}
-Siga instrucciones paso a paso para ensamblar el dron:
+\subsection{No puedo cerrar un panel}
 \begin{itemize}
-    \item Navegue entre pasos con Anterior/Siguiente
-    \item Vea herramientas requeridas y tiempos estimados
-    \item Marque pasos como completados
-    \item Las piezas relevantes se resaltan automáticamente
+    \item usar el boton de cierre de la ficha;
+    \item presionar \texttt{Esc};
+    \item usar \texttt{RESET VIEW} si hay una herramienta de analisis activa.
 \end{itemize}
 
-\subsection{Lista de Materiales (BOM)}
-Consulte la lista completa de piezas con cantidades y pesos totales.
-
-\subsection{Lista de Verificación}
-Verifique cada pieza durante el ensamblaje real del dron.
-
-\section{Configuración y Accesibilidad}
-
-Acceda a Configuración desde el menú:
+\subsection{El rendimiento baja}
 \begin{itemize}
-    \item \textbf{Volumen:} Ajuste audio maestro, efectos y música
-    \item \textbf{Escala UI:} Aumente o reduzca el tamaño de la interfaz
-    \item \textbf{Alto Contraste:} Active para mejor visibilidad
-    \item \textbf{Reducir Movimiento:} Desactive animaciones para sensibilidades
+    \item cerrar otras pesta\~nas pesadas;
+    \item esperar a que termine la carga del modelo;
+    \item usar los modos visibles del sistema y evitar navegacion excesiva durante la carga inicial.
 \end{itemize}
 
-\section{Solución de Problemas}
-
-\subsection{El modelo no carga}
-\begin{itemize}
-    \item Verifique su conexión a internet
-    \item Actualice su navegador a la última versión
-    \item Visite \url{https://get.webgl.org/} para verificar compatibilidad WebGL
-    \item Recargue la página (F5 o Ctrl+R)
-\end{itemize}
-
-\subsection{Rendimiento lento}
-\begin{itemize}
-    \item Cierre otras pestañas y aplicaciones pesadas
-    \item En portátiles, conecte a la corriente eléctrica
-    \item El sistema ajusta automáticamente la calidad; espere unos segundos
-    \item Presione F3 para ver las métricas de rendimiento
-\end{itemize}
-
-\subsection{Audio no funciona}
-\begin{itemize}
-    \item Verifique que el navegador permita audio automático
-    \item Haga clic en cualquier parte de la aplicación para activar audio
-    \item Revise el volumen en Configuración
-\end{itemize}
-
-\section{Soporte y Contacto}
-
-Para reportar errores, sugerencias o solicitar ayuda:
+\section{Contacto}
 
 \textbf{Correo:} awoodcocks@unadvirtual.edu.co
 
-\textbf{Repositorio:} \url{https://github.com/[usuario]/webgl-drone-viewer}
+\textbf{Repositorio:} \url{https://github.com/delarge95/WebGL-Thesis-Proposal}
 
 \end{document}

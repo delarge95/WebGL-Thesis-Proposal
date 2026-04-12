@@ -1,55 +1,53 @@
 \subsection{Marco Conceptual}
 
-Los siguientes conceptos técnicos fundamentan el proyecto (orden alfabético):
+Los siguientes conceptos t\'ecnicos fundamentan el proyecto. Algunos corresponden a componentes efectivamente utilizados en la aplicaci\'on final y otros a estrategias de optimizaci\'on evaluadas durante el dise\~no del \textit{pipeline}; su presencia en este glosario no implica que todos est\'en expuestos como funcionalidad visible en la build final.
 
-\textit{Albedo.} Mapa de textura que define el color base de un material sin información de iluminación, input primario en workflows PBR.
+\textit{Albedo.} Mapa de textura que define el color base de un material sin incorporar iluminaci\'on. Es una de las entradas principales del flujo PBR.
 
-\textit{Asset Bundle.} Sistema de empaquetado de Unity que agrupa activos 3D en archivos comprimidos para carga dinámica, optimizando memoria.
+\textit{Asset Bundle.} Mecanismo de empaquetado de Unity para distribuir activos en bloques independientes. En este proyecto se consider\'o como alternativa de despliegue, pero no constituye el eje central documentado para la versi\'on final de la aplicaci\'on.
 
-\textit{Baking.} Proceso de pre-calcular información compleja (iluminación, geometría de alta resolución) y almacenarla en mapas de textura para reducir costo computacional en tiempo real.
+\textit{Baking.} Proceso de precalcular informaci\'on compleja, como detalle geom\'etrico o iluminaci\'on, y almacenarla en texturas para reducir costo computacional en tiempo real.
 
-\textit{BRDF (Bidirectional Reflectance Distribution Function).} Función matemática que describe cómo la luz es reflejada por una superficie en función del ángulo de incidencia y observación, fundamental para PBR.
+\textit{BRDF (\textit{Bidirectional Reflectance Distribution Function}).} Funci\'on que describe c\'omo una superficie refleja luz seg\'un la direcci\'on de incidencia y de observaci\'on. Es el fundamento matem\'atico del renderizado f\'isicamente basado.
 
-\textit{Diffuse.} Componente de reflexión mate o dispersa de un material, sin dirección preferente.
+\textit{Draw Call.} Comando emitido por la CPU para que la GPU renderice un lote de geometr\'ia con un material y una pasada concretos. Su reducci\'on es clave para el rendimiento.
 
-\textit{Draw Call.} Comando enviado desde la CPU a la GPU para renderizar un conjunto de geometría, constituyendo el principal cuello de botella en aplicaciones con muchos objetos únicos.
+\textit{Fragment Shader (\textit{Pixel Shader}).} Programa ejecutado por la GPU para cada fragmento visible, encargado de calcular el color final.
 
-\textit{Fragment Shader (Pixel Shader).} Programa ejecutado por la GPU para cada píxel visible, determinando su color final mediante ecuaciones de iluminación.
+\textit{Frame Time.} Tiempo efectivo requerido para producir un cuadro. En una aproximaci\'on operativa de perfilado suele modelarse como $T_{frame} \approx \max(T_{CPU}, T_{GPU})$, m\'as el posible costo de sincronizaci\'on entre ambos.
 
-\textit{Frame Time.} Tiempo total requerido para renderizar un cuadro de imagen, compuesto por tiempo de CPU y GPU ($T_{frame} = T_{CPU} + T_{GPU}$), inversamente proporcional a FPS.
+\textit{GPU Instancing.} T\'ecnica que permite renderizar varias instancias compatibles de una misma malla y material en menos lotes efectivos. La reducci\'on de \textit{draw calls} depende de las condiciones de compatibilidad y no de una divisi\'on exacta universal.
 
-\textit{GPU Instancing.} Técnica de optimización que renderiza múltiples copias de la misma malla con una sola llamada de dibujo, reduciendo sobrecarga de CPU en 99\% para objetos repetidos.
+\textit{IL2CPP (\textit{Intermediate Language to C++}).} \textit{Backend} de compilaci\'on de Unity que transpila \textit{bytecode} de C\# a C++, y luego a WASM en el caso de WebGL.
 
-\textit{IL2CPP (Intermediate Language to C++).} Backend de compilación de Unity que transpila bytecode de C\# a código C++, luego a código nativo (WASM para WebGL).
+\textit{LOD (\textit{Level of Detail}).} Estrategia de optimizaci\'on que intercambia versiones de diferente complejidad geom\'etrica seg\'un distancia o relevancia visual. Se considera una t\'ecnica de referencia del \textit{pipeline}, aunque su adopci\'on final depende del contenido realmente exportado y configurado.
 
-\textit{LOD (Level of Detail).} Sistema que intercambia entre versiones de diferente complejidad poligonal según distancia a la cámara, manteniendo calidad visual mientras reduce costo computacional.
+\textit{Metallic Map.} Textura que define qu\'e regiones del material deben tratarse como met\'alicas frente a diel\'ectricas, afectando la reflectancia especular base.
 
-\textit{Metallic Map.} Textura que define qué partes de un material son metálicas (1.0) vs dieléctricas (0.0), controlando la reflectancia a incidencia normal ($F_0$).
+\textit{MVP (Producto M\'inimo Viable).} Versi\'on de un producto con las funcionalidades suficientes para validar hip\'otesis esenciales con usuarios reales.
 
-\textit{MVP (Producto Mínimo Viable).} Versión de un producto con características mínimas suficientes para validar hipótesis mediante aprendizaje validado con usuarios reales (Ries, 2011).
+\textit{Normal Map.} Textura que almacena variaciones de normales para simular detalle superficial sin aumentar el conteo de tri\'angulos.
 
-\textit{Normal Map (Bump Map).} Textura que almacena información de normales de superficie para simular detalles geométricos sin aumentar conteo de polígonos, esencial para baking de alta frecuencia.
+\textit{Occlusion Culling.} T\'ecnica que evita dibujar objetos no visibles porque quedan ocultos desde la perspectiva de la c\'amara. En este proyecto se asume como principio general de optimizaci\'on, no como afirmaci\'on autom\'atica de uso en todos los escenarios de la build final.
 
-\textit{Occlusion Culling.} Técnica que evita renderizar objetos no visibles porque están bloqueados por otros objetos desde la perspectiva de la cámara.
+\textit{PBR (\textit{Physically-Based Rendering}).} Modelo de iluminaci\'on que aproxima la interacci\'on f\'isica entre luz y materiales mediante conservaci\'on de energ\'ia y teor\'ia de microfacetas.
 
-\textit{PBR (Physically-Based Rendering).} Modelo de iluminación que simula la interacción física de la luz con materiales usando conservación de energía y teoría de microfacetas.
+\textit{Retopolog\'ia.} Proceso de reconstruir la topolog\'ia de una malla para optimizar su estructura geom\'etrica y su viabilidad en tiempo real.
 
-\textit{Retopology.} Proceso de reconstruir la topología de una malla 3D para optimizar estructura poligonal, típicamente pasando de NURBS/subdivisión a quads optimizados.
+\textit{Roughness Map.} Textura que controla la rugosidad microsc\'opica de la superficie. Valores bajos producen reflejos n\'itidos; valores altos generan reflejos difusos.
 
-\textit{Roughness Map.} Textura que define la microsuperficie de un material, controlando dispersión del lóbulo especular (0.0 = espejo perfecto, 1.0 = mate total).
+\textit{Shader.} Programa ejecutado por la GPU que participa en el c\'alculo visual de v\'ertices o fragmentos.
 
-\textit{Shader.} Programa ejecutado en la GPU que determina el aspecto visual de vértices o píxeles, implementando el modelo de iluminación.
+\textit{Specular.} Componente de reflexi\'on dependiente del \'angulo de observaci\'on y de la microgeometr\'ia del material.
 
-\textit{Specular.} Componente de reflexión directa de un material, con dirección preferente hacia el ángulo de reflexión perfecto (Ley de Snell).
+\textit{Texel Density.} Relaci\'on entre la resoluci\'on efectiva de la textura y la longitud real de superficie que representa. Puede expresarse como $\rho = R_{\text{texture}} / L_{\text{mundo}}$ en p\'ixeles por cent\'imetro cuando se toma una direcci\'on o tramo de referencia.
 
-\textit{Texel Density.} Relación entre resolución de textura y área de superficie 3D que cubre ($\rho = R_{texture} / A_{UV}$), medida en píxeles por centímetro, crucial para mantener nitidez uniforme.
+\textit{UV Unwrapping.} Proceso de desplegar una superficie 3D en coordenadas 2D para aplicar texturas con la menor distorsi\'on posible.
 
-\textit{UV Unwrapping.} Proceso de proyectar la superficie 3D de un modelo en un espacio 2D (UV) para aplicar texturas, minimizando distorsión y maximizando aprovechamiento de resolución.
+\textit{Vertex Shader.} Programa ejecutado por la GPU para cada v\'ertice de la malla, responsable de transformar posiciones entre espacios geom\'etricos.
 
-\textit{Vertex Shader.} Programa ejecutado por la GPU para cada vértice de una malla, transformando su posición tridimensional a espacio de proyección.
+\textit{WebAssembly (WASM).} Formato binario ejecutable en navegadores con desempe\~no cercano al nativo, utilizado por Unity para desplegar l\'ogica C\# en WebGL.
 
-\textit{WebAssembly (WASM).} Formato binario de bajo nivel para código ejecutable diseñado para ejecución rápida en navegadores web, sirviendo como target de compilación para lenguajes como C++ y C\#.
-
-\textit{WebGL (Web Graphics Library).} API de JavaScript basada en OpenGL ES que expone funcionalidad de aceleración gráfica por hardware directamente en el navegador web sin necesidad de plugins.
+\textit{WebGL.} API gr\'afica del navegador basada en OpenGL ES para renderizado 2D y 3D acelerado por hardware sin complementos externos.
 
 \newpage

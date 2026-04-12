@@ -1,392 +1,121 @@
-% =============================================================================
-% Capítulo 8 — Apéndices
-% =============================================================================
-
 \newpage
 \section*{Apéndices}
 \addcontentsline{toc}{section}{Apéndices}
 
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice A: Repositorio de Código Fuente}
-\addcontentsline{toc}{subsection}{Apéndice A: Repositorio de Código Fuente}
+Este capítulo lista los artefactos anexos activos y aclara el estado de aquellos elementos que todavía dependen del freeze final del producto.
 
-El código fuente completo del proyecto se encuentra disponible en el siguiente repositorio público de GitHub:
+\subsection*{Apéndice A: Repositorio de código fuente}
+\addcontentsline{toc}{subsection}{Apéndice A: Repositorio de código fuente}
 
+Repositorio principal del proyecto:
 \begin{center}
 \url{https://github.com/delarge95/WebGL-Thesis-Proposal}
 \end{center}
 
-\noindent El repositorio contiene:
+\noindent Este repositorio es la fuente de verdad técnica para escena, scripts, herramientas de editor y documentación de desarrollo.
+
+\subsection*{Apéndice B: Manual de usuario}
+\addcontentsline{toc}{subsection}{Apéndice B: Manual de usuario}
+
+Ruta del manual activo:
+\begin{center}
+\texttt{Informe\_final/Manual\_de\_usuario/manual\_usuario.tex}
+\end{center}
+
+\subsection*{Apéndice C: Manual técnico}
+\addcontentsline{toc}{subsection}{Apéndice C: Manual técnico}
+
+Ruta del manual activo:
+\begin{center}
+\texttt{Informe\_final/Manual\_tecnico/manual\_tecnico.tex}
+\end{center}
+
+\subsection*{Apéndice D: Documentación técnica de arquitectura}
+\addcontentsline{toc}{subsection}{Apéndice D: Documentación técnica de arquitectura}
+
+Documentos activos:
 \begin{itemize}
-    \item 104 scripts C\# ($\sim$16\,927 líneas)
-    \item 9 \textit{shaders} HLSL/CG ($\sim$1\,749 líneas)
-    \item 5 hojas de estilo USS + 4 plantillas UXML ($\sim$4\,063 líneas)
-    \item 316 \textit{commits} con mensajes semánticos (\textit{Conventional Commits})
-    \item Rama principal de desarrollo: \texttt{feature/phase2-ux-redesign}
+    \item \texttt{Desarrollo\_App/Documentacion\_Tecnica/01\_Arquitectura\_del\_Sistema.md}
+    \item \texttt{Desarrollo\_App/Documentacion\_Tecnica/02\_Referencia\_Tecnica\_Modulos.md}
 \end{itemize}
 
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice B: Manual de Usuario}
-\addcontentsline{toc}{subsection}{Apéndice B: Manual de Usuario}
+\subsection*{Apéndice E: Matriz de desconexiones}
+\addcontentsline{toc}{subsection}{Apéndice E: Matriz de desconexiones}
 
-El manual de usuario completo (268~líneas, formato \LaTeX{} compilado a PDF) se encuentra en:
-
+La matriz maestra de desconexiones entre app y documentación se encuentra en:
 \begin{center}
-\texttt{Informe\_final/Manual\_de\_usuario/manual\_usuario.pdf}
+\texttt{Desarrollo\_App/MATRIZ\_DESCONEXIONES\_APP\_DOCUMENTACION.md}
 \end{center}
 
-\noindent Este documento guía al usuario final en el uso del visor e incluye las siguientes secciones:
+\subsection*{Apéndice F: Catálogo canónico del Holybro X500 V2}
+\addcontentsline{toc}{subsection}{Apéndice F: Catálogo canónico del Holybro X500 V2}
 
-\begin{enumerate}
-    \item Introducción y público objetivo
-    \item Requisitos del sistema (hardware y software)
-    \item Acceso al sistema
-    \item Navegación básica (controles de cámara, atajos de teclado)
-    \item Modos de visualización (7~modos con \textit{shaders} personalizados)
-    \item Exploración de piezas (selección, panel de información, catálogo)
-    \item Vista explosionada
-    \item Cortes transversales
-    \item Simulación de encendido del dron (en desarrollo)
-    \item Herramientas de ingeniero (proyectadas para futuras iteraciones)
-    \item Configuración y accesibilidad
-    \item Solución de problemas
-\end{enumerate}
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice C: Manual Técnico}
-\addcontentsline{toc}{subsection}{Apéndice C: Manual Técnico}
-
-El manual técnico completo (341~líneas, formato \LaTeX{} compilado a PDF) se encuentra en:
-
+La taxonomía semántica del proyecto se fija a partir de:
 \begin{center}
-\texttt{Informe\_final/Manual\_tecnico/manual\_tecnico.pdf}
+\texttt{desarrollo/docs/investigacion/Holybro/x500v2\_parts\_data.json}
 \end{center}
 
-\noindent Dirigido a desarrolladores que deseen mantener o extender el sistema, incluye:
+\noindent Esta fuente define 28 piezas canónicas. La escena final opera adicionalmente con 30 anchors y 257 renderers/colliders auditados.
 
-\begin{enumerate}
-    \item Arquitectura del sistema (\textit{stack} tecnológico, patrones de diseño)
-    \item Estructura del proyecto Unity
-    \item Sistemas principales (25+ \textit{managers} detallados)
-    \item \textit{ScriptableObjects} (\texttt{DronePartData}, \texttt{AssemblyGuideData})
-    \item Compilación y despliegue WebGL
-    \item Extensión del sistema (nueva pieza, nuevo modo, nuevo \textit{manager})
-    \item Resumen de scripts (inventario de 104~archivos C\#)
-\end{enumerate}
+\subsection*{Apéndice G: Validación funcional de la escena final}
+\addcontentsline{toc}{subsection}{Apéndice G: Validación funcional de la escena final}
 
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice D: Documento de Arquitectura del Sistema}
-\addcontentsline{toc}{subsection}{Apéndice D: Documento de Arquitectura del Sistema}
-
-La documentación de arquitectura detallada ($\sim$1\,060~líneas, formato Markdown) se encuentra en:
-
+El documento de referencia para la build funcional es:
 \begin{center}
-\texttt{Documentacion\_Tecnica/01\_Arquitectura\_del\_Sistema.md}
+\texttt{Desarrollo\_App/VALIDACION\_FUNCIONAL\_FINA\_2026-04-09.md}
 \end{center}
 
-\noindent Describe en profundidad:
+\subsection*{Apéndice H: Instrumentos de evaluación}
+\addcontentsline{toc}{subsection}{Apéndice H: Instrumentos de evaluación}
 
+Los instrumentos metodológicos activos del cierre son:
 \begin{itemize}
-    \item Arquitectura de 4~capas (Core, Features, UI, Data)
-    \item 6~patrones de diseño implementados: State Machine, Observer/EventBus, Singleton, Strategy, Command, Component
-    \item Flujo de estados de la aplicación
-    \item Diagrama de dependencias entre módulos
-    \item Integración con \textit{Universal Render Pipeline} (URP~17.0.3)
-    \item Sistema de optimización WebGL (\texttt{QualityManager}, \texttt{WebGLProfiler})
+    \item cuestionario SUS;
+    \item NASA-TLX Raw;
+    \item protocolo \textit{Think-Aloud};
+    \item tablas de KPIs técnicos a diligenciar post-freeze.
 \end{itemize}
 
-\noindent Documentos complementarios en la misma carpeta:
+\noindent Las tareas de prueba deben alinearse con el flujo visible final: navegar, seleccionar pieza, revisar el \textit{bottom sheet}, usar \texttt{Inspect}, aplicar \texttt{Explode} o \texttt{Cut}, y cambiar de modo visual en \texttt{Studio}.
+
+\subsection*{Apéndice I: Estado del pipeline de activos}
+\addcontentsline{toc}{subsection}{Apéndice I: Estado del pipeline de activos}
+
+Para efectos de cierre documental:
 \begin{itemize}
-    \item \texttt{02\_Referencia\_Tecnica\_Modulos.md} --- Referencia detallada de cada módulo
-    \item \texttt{03\_Pipeline\_Renderizado\_Shaders.md} --- Pipeline de \textit{rendering} y 9~\textit{shaders}
+    \item Blender y Unity conforman la ruta defendible de la versión final activa;
+    \item Houdini se mantiene como herramienta evaluada o experimental, no como pipeline oficial de la build cerrada, salvo evidencia nueva derivada del reimport final;
+    \item la optimización CAD/import pendiente debe completarse antes del freeze definitivo.
 \end{itemize}
 
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice E: Guía de Despliegue}
-\addcontentsline{toc}{subsection}{Apéndice E: Guía de Despliegue}
+\subsection*{Apéndice J: Demo público}
+\addcontentsline{toc}{subsection}{Apéndice J: Demo público}
 
-La guía de despliegue completa se encuentra en:
+La URL pública definitiva del demo debe registrarse solo cuando exista una build congelada, publicada y verificada. Este apéndice no fija una URL transitoria para evitar inconsistencias entre documento y producto.
 
-\begin{center}
-\texttt{Documentacion\_Tecnica/04\_Guia\_Despliegue.md}
-\end{center}
+\subsection*{Apéndice K: Audio y otros pendientes}
+\addcontentsline{toc}{subsection}{Apéndice K: Audio y otros pendientes}
 
-\noindent Cubre el proceso completo \textit{end-to-end}:
-
-\begin{enumerate}
-    \item Requisitos previos (software y hardware)
-    \item Clonación del repositorio (incluido Git~LFS)
-    \item Apertura del proyecto en Unity~6000.0.62f1
-    \item Configuración pre-\textit{build} (fixers automáticos, Player Settings)
-    \item Compilación: menú automatizado (\texttt{WebGL > Fix \& Build}) o build manual
-    \item Despliegue en GitHub Pages (configuración de rama y carpeta \texttt{/docs})
-    \item Pruebas post-despliegue (\textit{checklist} de verificación)
-    \item Solución de problemas comunes
-    \item Comparación Gzip vs.\ Brotli
-\end{enumerate}
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice F: Configuración WebGL}
-\addcontentsline{toc}{subsection}{Apéndice F: Configuración WebGL}
-
-La referencia completa de configuración WebGL se encuentra en:
-
-\begin{center}
-\texttt{Documentacion\_Tecnica/05\_Configuracion\_WebGL.md}
-\end{center}
-
-\noindent Documenta todos los parámetros de la plataforma WebGL~2.0:
-
+Al momento de este cierre documental:
 \begin{itemize}
-    \item \textit{Player Settings}: memoria WASM (32--256\,MB), IL2CPP Master, \textit{stripping} High
-    \item URP~Asset: escalas de render, sombras, post-procesado, anti-aliasing
-    \item \textit{Template} personalizado (loader, barra de progreso, detección WebGL)
-    \item \texttt{QualityManager}: detección de dispositivo y ajustes automáticos de calidad
-    \item \texttt{WebGLProfiler}: umbrales de rendimiento (FPS, \textit{frame time}, \textit{heap})
-    \item Importación de texturas (formatos, compresión, presupuesto)
-    \item Limitaciones de \textit{shaders} en WebGL~2.0
-    \item Configuración de audio WebGL
-    \item Compatibilidad con navegadores y APIs web utilizadas
+    \item no existen clips de audio integrados en \texttt{Assets};
+    \item por defecto, el audio se clasifica como trabajo futuro si no entra antes del freeze;
+    \item la evaluación de usabilidad y el capítulo 5 siguen condicionados a la build final optimizada.
 \end{itemize}
 
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice G: Assets de Audio}
-\addcontentsline{toc}{subsection}{Apéndice G: Assets de Audio}
+\subsection*{Apéndice L: Auditoría matemática y trazabilidad con Wolfram}
+\addcontentsline{toc}{subsection}{Apéndice L: Auditoría matemática y trazabilidad con Wolfram}
 
-El inventario de assets de audio se encuentra en:
-
+La auditoría activa de coherencia entre fórmulas documentadas, lógica de código y arquitectura real se consolida en:
 \begin{center}
-\texttt{Documentacion\_Tecnica/06\_Assets\_Audio.md}
+\texttt{Desarrollo\_App/AUDITORIA\_MATEMATICA\_Y\_ARQUITECTURA\_2026-04-12.md}
 \end{center}
 
-\noindent Los efectos de audio se implementarán como paso final del desarrollo de la aplicación. El documento define la estructura requerida:
-
-\begin{itemize}
-    \item 16~clips de audio distribuidos en 4~categorías:
-    \begin{itemize}
-        \item Sonidos de interfaz (7~clips): \textit{hover}, \textit{click}, éxito, error, \textit{toggle}, panel, \textit{tooltip}
-        \item Transiciones y animaciones (4~clips): explosionado, transición, \textit{whoosh}, \textit{snap}
-        \item Simulación del dron (4~clips): \textit{motor idle}, aceleración, apagado, \textit{boot beep}
-        \item Ambiente (1~clip): música de fondo en \textit{loop}
-    \end{itemize}
-    \item Formato: OGG Vorbis, mono (SFX) / estéreo (ambiente)
-    \item Presupuesto total: $<$~1.5\,MB
-    \item Gestión via \texttt{AudioManager} (\textit{PersistentSingleton})
-\end{itemize}
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice H: Guía de Demostración}
-\addcontentsline{toc}{subsection}{Apéndice H: Guía de Demostración}
-
-La guía de demostración para evaluadores se encuentra en:
-
+\noindent Como soporte técnico adicional, el registro histórico de verificaciones del subsistema térmico mediante el workflow local basado en WolframAlpha se conserva en:
 \begin{center}
-\texttt{Documentacion\_Tecnica/07\_Guia\_Demo.md}
+\texttt{desarrollo/docs/sistema\_termico/wolfram\_verificaciones.md}
 \end{center}
 
-\noindent Recorrido guiado de~15--20~minutos que cubre:
-
-\begin{enumerate}
-    \item Acceso al visor (URL y requisitos de navegador)
-    \item Navegación básica (órbita, zoom, pan)
-    \item Selección e información de piezas
-    \item 7~modos de visualización
-    \item Vista explosionada
-    \item Cortes transversales
-    \item Catálogo de partes
-    \item Herramientas de ensamblaje (proyectadas; véase Cap.~6)
-    \item Configuración y personalización
-\end{enumerate}
-
-\noindent Incluye preguntas frecuentes de evaluadores y métricas a observar durante la demostración.
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice I: Cuestionario SUS}
-\addcontentsline{toc}{subsection}{Apéndice I: Cuestionario SUS}
-
-Instrumento de evaluación de usabilidad \textit{System Usability Scale} (Brooke, 1996) adaptado al prototipo. Escala Likert de~5 puntos (1~=~Totalmente en desacuerdo, 5~=~Totalmente de acuerdo).
-
-\begin{enumerate}
-    \item Creo que me gustaría utilizar este visor 3D con frecuencia.
-    \item Encontré el visor innecesariamente complejo.
-    \item Pensé que el visor era fácil de usar.
-    \item Creo que necesitaría el apoyo de un experto para poder utilizar este visor.
-    \item Encontré que las diversas funciones del visor estaban bien integradas.
-    \item Pensé que había demasiada inconsistencia en el visor.
-    \item Imagino que la mayoría de las personas aprenderían a usar este visor muy rápidamente.
-    \item Encontré el visor muy engorroso de usar.
-    \item Me sentí muy confiado usando el visor.
-    \item Necesité aprender muchas cosas antes de poder empezar a usar este visor.
-\end{enumerate}
-
-\noindent \textbf{Tareas guiadas previas al cuestionario:}
-\begin{enumerate}
-    \item Navegar libremente por el modelo del dron (órbita, zoom, pan).
-    \item Seleccionar la pieza ``Motor Brushless'' y leer su información técnica.
-    \item Activar la vista explosionada y explorar la estructura interna.
-    \item Cambiar al modo de visualización ``X-Ray'' y observar los componentes internos.
-    \item Utilizar el corte transversal en el eje~Y para ver una sección del dron.
-    \item Buscar una pieza específica en el catálogo de partes.
-\end{enumerate}
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice J: Cuestionario NASA-TLX (Raw)}
-\addcontentsline{toc}{subsection}{Apéndice J: Cuestionario NASA-TLX (Raw)}
-
-Instrumento \textit{Raw Task Load Index} (Hart y Staveland, 1988) sin ponderación. Escala de~21 puntos (0--100 en incrementos de~5).
-
-\begin{enumerate}
-    \item \textbf{Exigencia Mental.} ¿Qué tan mentalmente exigente fue la tarea? (Muy baja -- Muy alta)
-    \item \textbf{Exigencia Física.} ¿Qué tan físicamente exigente fue la tarea? (Muy baja -- Muy alta)
-    \item \textbf{Exigencia Temporal.} ¿Qué tanta presión de tiempo sintió? (Muy baja -- Muy alta)
-    \item \textbf{Rendimiento.} ¿Qué tan exitoso fue en lograr el objetivo? (Perfecto -- Fallido)
-    \item \textbf{Esfuerzo.} ¿Qué tan duro tuvo que trabajar para lograr su nivel de rendimiento? (Muy bajo -- Muy alto)
-    \item \textbf{Frustración.} ¿Qué tan inseguro, desalentado, irritado o estresado se sintió? (Muy baja -- Muy alta)
-\end{enumerate}
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice K: Inventario de Módulos del Sistema}
-\addcontentsline{toc}{subsection}{Apéndice K: Inventario de Módulos del Sistema}
-
-\begin{table}[htbp!]
-\centering
-\caption{Inventario Completo de Scripts C\#}
-\small
-\begin{tabular}{llc}
-\hline
-\textbf{Categoría} & \textbf{Módulos Representativos} & \textbf{Cant.} \\ \hline
-Core Managers & GameManager, AppStateMachine, EventBus, SelectionManager & 30 \\
-UI Components & UIManager, UIDetailsSheet, UIAnalyzePanel, UIHeroController & 19 \\
-Data / Events & DronePartData, AssemblyGuideData, StateChangedEvent & 5 \\
-Utilities & TweenEngine, QualityManager, WebGLProfiler & 10 \\
-Content & DroneStateController, AnnotationSystem, ConnectionPointsViewer & 3 \\
-\hline
-\textbf{Total} & & \textbf{104} \\
-\hline
-\end{tabular}
-\end{table}
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice L: Demo Funcional}
-\addcontentsline{toc}{subsection}{Apéndice L: Demo Funcional}
-
-% TODO: Bloque B — Insertar URL del deploy WebGL final
-\textit{[URL del demo pendiente de despliegue final.]}
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice M: Bitácora de Desarrollo}
-\addcontentsline{toc}{subsection}{Apéndice M: Bitácora de Desarrollo}
-
-La bitácora completa de desarrollo se encuentra en el archivo \texttt{BITACORA.md} del repositorio. Registra cronológicamente las~11 fases de desarrollo (H01--H11), las~5 correcciones del Sprint~4 (C01--C05) y las~13 tareas de la Fase~3 (F3-00 a F3-13).
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice N: \textit{Pipeline} de Optimización de Assets~3D}
-\addcontentsline{toc}{subsection}{Apéndice N: Pipeline de Optimización de Assets 3D}
-
-El flujo de trabajo de \textit{Technical Art} para la optimización de los modelos~3D del dron comprende las siguientes herramientas y etapas:
-
-\begin{table}[htbp!]
-\centering
-\caption{Herramientas del \textit{Pipeline} de Optimización 3D}
-\small
-\begin{tabular}{clll}
-\hline
-\textbf{\#} & \textbf{Etapa} & \textbf{Herramienta} & \textbf{Estado} \\ \hline
-0 & Procesamiento procedural & SideFX Houdini & Evaluado / Descartado \\
-1 & Retopología & Blender~4.x & Completada \\
-2 & \textit{Baking} de normales & Blender~4.x & Completada \\
-3 & Texturizado PBR & Adobe Substance Painter & Completada \\
-4 & Optimización \textit{runtime} & QualityManager + WebGLProfiler (Unity) & Completada \\
-\hline
-\end{tabular}
-\end{table}
-
-\noindent Houdini fue evaluado como herramienta de procesamiento procedural (conversión CAD$\rightarrow$mesh, generación de LODs), pero se descartó en favor de Blender para el Pipeline actual, dado que el proyecto trabajó con un único modelo de dron. Se recomienda su uso para pipelines con múltiples modelos (véase Cap.~6, Trabajo Futuro).
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice O: \textit{Changelog} de Versiones}
-\addcontentsline{toc}{subsection}{Apéndice O: Changelog de Versiones}
-
-El historial de cambios completo del proyecto se encuentra en:
-
-\begin{center}
-\texttt{Desarrollo\_App/CHANGELOG.md}
-\end{center}
-
-\noindent Este documento registra todas las versiones del sistema con sus respectivas adiciones, correcciones y cambios, siguiendo el formato \textit{Keep a Changelog} y versionamiento semántico.
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection*{Apéndice P: Catálogo de Piezas del Holybro X500~V2}
-\addcontentsline{toc}{subsection}{Apéndice P: Catálogo de Piezas del Holybro X500 V2}
-
-El catálogo exhaustivo de piezas del dron Holybro X500~V2 (746~líneas, formato Markdown) se encuentra en:
-
-\begin{center}
-\texttt{docs/investigacion/09\_catalogo\_exhaustivo\_piezas\_x500v2.md}
-\end{center}
-
-\noindent Contiene la especificación completa de las~16 piezas del gemelo digital, cada una con más de~32 campos técnicos mapeados 1:1 al \texttt{ScriptableObject DronePartData.cs}. Las piezas se organizan en cuatro categorías:
-
-\begin{itemize}
-    \item \textbf{Estructurales (5):} Placas superior e inferior de fibra de carbono, tubos de brazo~×4, tren de aterrizaje, placa de plataforma, sistema de rieles y soporte de batería.
-    \item \textbf{Electrónica (7):} PDB, módulo de potencia PM02~V3, Pixhawk~6C, GPS M10, radio SiK~V3, batería LiPo~4S, receptor RC.
-    \item \textbf{Propulsión (3):} Motores brushless 2216 KV920~×4, ESC BLHeli-S 20A~×4, hélices 1045~×4.
-    \item \textbf{Otros (1):} Kit de herrajes y tornillería.
-\end{itemize}
-
-\subsubsection*{Mapa Térmico para \textit{Shader} Thermal}
-
-El perfil térmico de cada componente fue documentado a partir de datos del fabricante y referencias técnicas. Los valores alimentan el \textit{shader} \texttt{Thermal} del visor:
-
-\begin{table}[htbp!]
-\centering
-\caption{Mapa Térmico de Componentes para el \textit{Shader} Thermal}
-\small
-\begin{tabular}{lccl}
-\hline
-\textbf{Pieza} & \textbf{Hover (°C)} & \textbf{Pico (°C)} & \textbf{Color \textit{Shader}} \\ \hline
-Motores 2216 & 50--65 & $\sim$95 & Rojo intenso \\
-ESCs BLHeli-S & 45--65 & $\sim$90 & Rojo-naranja \\
-PDB & 35--45 & $\sim$60 & Naranja \\
-Power Module & 30--40 & $\sim$55 & Amarillo-verde \\
-Pixhawk 6C & 35--45 & $\sim$60 & Naranja leve \\
-Batería 4S & 30--45 & $\sim$55 & Amarillo \\
-Radio SiK & 25--35 & $\sim$45 & Verde-azul \\
-GPS M10 & 20--30 & $\sim$40 & Azul \\
-RC Receiver & 20--25 & $\sim$35 & Azul oscuro \\
-Chasis/Placas & Ambiente & $\sim$35 & Azul oscuro \\
-Brazos (gradiente) & Amb. & $\sim$45 & Azul $\rightarrow$ Verde \\
-Tren/Rieles & Ambiente & Amb. & Azul oscuro \\
-Hélices & Ambiente & Amb. & Azul (convección) \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsubsection*{Secuencia de Ensamblaje}
-
-El orden de montaje oficial guía tanto la \texttt{AssemblyGuideManager} como la animación de la vista explosionada:
-
-\begin{enumerate}
-    \item Placa inferior (\textit{Bottom Plate}) --- raíz del frame.
-    \item PDB + Módulo de Potencia + Brazos~×4 (con ESC + Motor preinstalados) --- sobre placa inferior.
-    \item Tren de aterrizaje --- sobre placa inferior (4~tornillos M3).
-    \item Placa superior (\textit{Top Plate}) --- cierra el sándwich estructural.
-    \item Pixhawk~6C --- centrado sobre placa superior con pad anti-vibración.
-    \item Receptor RC + Radio SiK --- junto al Pixhawk.
-    \item Placa de plataforma + GPS M10 --- elevada sobre \textit{standoffs}.
-    \item Sistema de rieles + soporte de batería --- bajo placa inferior.
-    \item Batería LiPo --- sobre soporte con correas de velcro.
-    \item Hélices~×4 --- \textbf{último paso}; 2~CW (FL/BR) + 2~CCW (FR/BL).
-\end{enumerate}
-
-\subsubsection*{Fuentes Verificadas del Catálogo}
-
-\begin{enumerate}
-    \item Holybro --- Documentación oficial del PX4 Dev Kit X500~V2
-    \item PX4 User Guide --- Guías de ensamblaje X500~V2 con Pixhawk~5X y 6C
-    \item Holybro --- Ficha técnica del GPS M10
-    \item Holybro Store --- Especificaciones del kit y componentes individuales
-    \item Diversas tiendas autorizadas (BalticDrones, DroneDynamics, FlyingTech) --- verificación cruzada de datos
-\end{enumerate}
+\noindent Ambos documentos respaldan la interpretación correcta del modo \texttt{Thermal} como simulación híbrida heurística y no como FEA en tiempo real.
 
 \newpage

@@ -1,197 +1,107 @@
-% =============================================================================
-% Capítulo 3 — Marco Metodológico
-% Fuentes: Propuesta/sections/metodologia.tex, BITACORA.md,
-%          TECHNOLOGY_STACK.md, validacion/CUESTIONARIO_SUS.md,
-%          validacion/CUESTIONARIO_NASA_TLX.md
-% =============================================================================
-
 \section{Marco Metodológico}
-\addcontentsline{toc}{section}{Marco Metodológico}
 
-Este capítulo describe la metodología de investigación adoptada, el proceso de desarrollo en fases iterativas, las herramientas tecnológicas empleadas, y los instrumentos de validación seleccionados para evaluar el prototipo.
+Este capítulo describe el enfoque metodológico adoptado para el desarrollo y la validación del prototipo WebGL del Holybro X500~V2. La investigación se concibe como aplicada, con enfoque mixto y predominio cuantitativo, y se apoya en Design Science Research (DSR) para justificar la construcción y evaluación del artefacto.
 
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection{Tipo y Enfoque de Investigación}
-\addcontentsline{toc}{subsection}{Tipo y Enfoque de Investigación}
+\subsection{Tipo de investigación y enfoque}
 
-Se empleó una metodología de \textbf{Investigación Aplicada} con enfoque de \textbf{Design Science Research} (DSR) (Hevner et al., 2004), orientada a la creación y evaluación de artefactos tecnológicos que resuelven problemas prácticos identificados. El \textit{framework} DSR se estructuró en seis etapas:
+\begin{itemize}
+    \item \textbf{Tipo de investigación:} aplicada.
+    \item \textbf{Enfoque:} mixto con predominio cuantitativo.
+    \item \textbf{Marco:} Design Science Research complementado con prototipado iterativo.
+    \item \textbf{Unidad de análisis:} la interacción de usuarios con un visor WebGL orientado a la exploración técnica del Holybro X500~V2.
+\end{itemize}
+
+\subsection{Fases de trabajo}
 
 \begin{enumerate}
-    \item \textbf{Identificación del problema.} Brecha de fidelidad versus rendimiento en la documentación técnica de hardware.
-    \item \textbf{Definición de objetivos.} Prototipo web~3D que validara la viabilidad de WebGL para visualización de hardware.
-    \item \textbf{Diseño y desarrollo.} Implementación iterativa en Unity siguiendo principios de HCI.
-    \item \textbf{Demostración.} Despliegue del prototipo accesible en línea mediante navegador web.
-    \item \textbf{Evaluación.} Pruebas de usabilidad (SUS), medición de carga cognitiva (NASA-TLX) y \textit{profiling} de rendimiento.
-    \item \textbf{Comunicación.} Documentación del \textit{pipeline} de optimización como artefacto replicable.
+    \item \textbf{Problema y fundamentación.} Revisión de literatura y definición de metas de visualización, rendimiento y experiencia de uso.
+    \item \textbf{Pipeline de activos.} Limpieza, optimización e integración del modelo en Unity.
+    \item \textbf{Implementación del prototipo.} Desarrollo de UI, selección de piezas, modos de análisis y visualización.
+    \item \textbf{Validación y cierre.} Auditorías funcionales, medición de KPIs y evaluación de usabilidad.
 \end{enumerate}
 
-El desarrollo se gestionó mediante un proceso \textbf{iterativo por fases}, inspirado en Scrum adaptado, con ciclos de~4~semanas (Sprints) que permitieron refinamiento continuo basado en retroalimentación y \textit{profiling}. Se realizaron 8~fases de desarrollo documentadas cronológicamente en la bitácora del proyecto.
+\subsection{Muestra y participantes}
 
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection{Fases de Desarrollo}
-\addcontentsline{toc}{subsection}{Fases de Desarrollo}
+Se plantea una muestra por conveniencia de entre 8 y 12 participantes con perfil afín al caso de estudio: estudiantes avanzados, técnicos o profesionales de ingeniería, manufactura digital, mantenimiento o áreas relacionadas. La muestra es coherente con un estudio exploratorio de usabilidad y carga cognitiva.
 
-El desarrollo se articuló en cuatro \textit{Sprints} principales, cada uno con entregables verificables:
+\subsection{Variables de investigación}
 
-\subsubsection{Sprint 1: Análisis y Fundamentación Técnica (Semanas 1--4)}
-\addcontentsline{toc}{subsubsection}{Sprint 1: Análisis y Fundamentación}
+\subsubsection{Variable independiente}
 
+\textbf{Tipo de visualización técnica.}
 \begin{itemize}
-    \item Revisión de más de~40 referencias bibliográficas sobre WebGL, carga cognitiva y renderizado PBR.
-    \item Selección del modelo CAD de referencia: dron cuadricóptero de alto rendimiento (Holybro PX4 Development Kit X500~V2).
-    \item \textit{Benchmarking} de 8~plataformas Web~3D (véase Sección Marco de Referencia, Estado del Arte).
-    \item Definición de KPIs cuantitativos: polígonos ($<$100\,000), \textit{draw calls} ($<$50), VRAM ($<$64\,MB).
+    \item nivel 1: visualización 3D interactiva WebGL;
+    \item nivel 2: soporte 2D de referencia para contraste metodológico.
 \end{itemize}
 
-\subsubsection{Sprint 2: \textit{Pipeline} de Arte Técnico (Semanas 5--8)}
-\addcontentsline{toc}{subsubsection}{Sprint 2: Pipeline de Arte Técnico}
+\subsubsection{Variables dependientes}
 
 \begin{itemize}
-    \item Retopología: conversión de mallas CAD de alta densidad ($>$2\,M polígonos NURBS) a geometría optimizada ($<$100\,K triángulos) en Blender.
-    \item Texturizado PBR: creación de materiales realistas (fibra de carbono, metales anodizados, plásticos ABS) en Adobe Substance Painter.
-    \item \textit{Baking} de mapas de normales desde geometría \textit{high-poly} a modelos \textit{low-poly} en atlas de $4096 \times 4096$.
-    \item Optimización de texturas: compresión ASTC/ETC2 para plataformas móviles.
+    \item \textbf{Usabilidad percibida:} puntaje SUS en escala 0--100.
+    \item \textbf{Carga cognitiva:} puntaje NASA-TLX Raw en escala 0--100.
+    \item \textbf{Rendimiento técnico:} FPS, tiempos de carga, draw calls, memoria y consistencia funcional del build final.
 \end{itemize}
 
-\subsubsection{Sprint 3: Ingeniería e Implementación (Semanas 9--16)}
-\addcontentsline{toc}{subsubsection}{Sprint 3: Ingeniería e Implementación}
+\subsubsection{Variables de control}
 
 \begin{itemize}
-    \item Configuración de Unity~6000.0.62f1 con URP~17.0.3 y WebGL~2.0.
-    \item Arquitectura de software: patrones Singleton, EventBus (Pub/Sub), Strategy (modos de visualización), State Machine (9~estados con transiciones validadas).
-    \item Programación de~104 scripts C\# compilados a WebAssembly vía IL2CPP ($\sim$16\,927~líneas).
-    \item Desarrollo de~9 \textit{shaders} HLSL/CG personalizados ($\sim$1\,749~líneas): ClippableLit, X-Ray, Blueprint, Thermal, Wireframe, entre otros.
-    \item Implementación de UI responsiva con UI Toolkit: 5~hojas de estilo USS ($\sim$3\,561~líneas) y 4~plantillas UXML ($\sim$502~líneas).
-    \item Implementación de 7~modos de visualización (Realistic, X-Ray, Blueprint, SolidColor, Wireframe, Ghosted, Thermal).
-    \item Gestión de memoria (\texttt{UnloadUnusedAssets}, \texttt{GC.Collect} programado, advertencias de VRAM).
+    \item experiencia previa con visualización 3D o documentación técnica;
+    \item perfil académico o profesional;
+    \item dispositivo, navegador y condiciones de conexión.
 \end{itemize}
 
-\subsubsection{Sprint 4: Validación y Despliegue (Semanas 17--24)}
-\addcontentsline{toc}{subsubsection}{Sprint 4: Validación y Despliegue}
-
-\begin{itemize}
-    \item \textit{Profiling} de rendimiento con Unity Profiler, Memory Profiler y herramientas de navegador (Chrome DevTools, Spector.js).
-    \item Aplicación de instrumentos de usabilidad con ingenieros y técnicos (véase Sección~\ref{sec:instrumentos}).
-    \item Despliegue en servidor web con compresión Brotli/Gzip.
-    \item Documentación técnica: manual de usuario, manual técnico, bitácora de desarrollo.
-\end{itemize}
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection{Herramientas y Tecnologías}
-\addcontentsline{toc}{subsection}{Herramientas y Tecnologías}
-
-\begin{table}[htbp!]
-\centering
-\caption{Stack Tecnológico del Proyecto}
-\small
-\begin{tabular}{llp{7cm}}
-\hline
-\textbf{Categoría} & \textbf{Herramienta} & \textbf{Versión / Detalle} \\ \hline
-Motor de juego & Unity & 6000.0.62f1 (URP 17.0.3) \\
-\textit{Backend} & IL2CPP & C\# $\rightarrow$ C++ $\rightarrow$ WebAssembly \\
-API gráfica & WebGL~2.0 & OpenGL ES~3.0 en navegador \\
-UI & UI Toolkit & USS + UXML (sin \textit{canvas} tradicional) \\
-Modelado 3D & Blender & Retopología, UV \textit{unwrapping} \\
-Texturizado & Substance Painter & Materiales PBR (Metallic Workflow) \\
-Control de versiones & Git + GitHub & 316 \textit{commits}, Git LFS para binarios \\
-IDE & JetBrains Rider & Análisis estático, refactoring \\
-\textit{Profiling} & Unity Profiler & CPU, GPU, Memory \\
-Navegador & Chrome DevTools & \textit{Profiling} de red y WASM \\
-\hline
-\end{tabular}
-\end{table}
-
-\paragraph{Desarrollo Asistido por IA.} El proceso de desarrollo se apoyó en herramientas de inteligencia artificial generativa como asistentes de programación:
-
-\begin{itemize}
-    \item \textbf{GitHub Copilot.} Autocompletado de código C\# y HLSL en el IDE.
-    \item \textbf{Agentes conversacionales.} Consulta de documentación técnica, depuración de \textit{shaders}, y revisión de arquitectura mediante sesiones de par asistido con IA.
-    \item \textbf{Búsqueda asistida.} Investigación de soluciones a problemas específicos de WebGL (e.g., transparencias, compresión de texturas, estrategias de carga).
-\end{itemize}
-
-Todas las decisiones de diseño y la lógica de la aplicación fueron supervisadas y validadas por el desarrollador; la IA funcionó como herramienta de productividad, no como generador autónomo.
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection{Población y Muestra}
-\addcontentsline{toc}{subsection}{Población y Muestra}
-
-\paragraph{Población objetivo.} Ingenieros, técnicos y profesionales del sector de hardware de alto rendimiento que utilizan documentación técnica en su práctica profesional.
-
-\paragraph{Muestra.} Se definió una muestra por conveniencia de $N = 8$--$12$ participantes, seleccionados según los siguientes criterios:
-
-\begin{itemize}
-    \item Perfil profesional: ingenieros mecánicos, electrónicos, de sistemas, o técnicos de ensamblaje.
-    \item Experiencia previa con documentación técnica (manuales, planos, especificaciones).
-    \item Acceso a dispositivo con navegador actualizado (Chrome, Firefox, Edge).
-\end{itemize}
-
-Nielsen (2000) demostró que~5 usuarios detectan aproximadamente el~85\,\% de los problemas de usabilidad. La muestra de~8--12 participantes permitió detección de problemas menos frecuentes manteniendo la viabilidad operativa del estudio exploratorio.
-
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection{Instrumentos de Validación}
-\addcontentsline{toc}{subsection}{Instrumentos de Validación}
+\subsection{Instrumentos}
 \label{sec:instrumentos}
 
-La evaluación del prototipo se apoyó en tres componentes: métricas de rendimiento técnico, evaluación de usabilidad percibida y medición de carga cognitiva.
-
-\subsubsection{Métricas de Rendimiento Técnico (KPIs)}
-\addcontentsline{toc}{subsubsection}{Métricas de Rendimiento Técnico}
-
-Se definieron seis KPIs cuantitativos, medibles mediante Unity Profiler y herramientas de navegador:
-
-\begin{enumerate}
-    \item \textbf{Presupuesto poligonal:} $\sum P_i < 100{,}000$ triángulos.
-    \item \textbf{Densidad de texel:} $\rho = 10.24 \pm 2$ px/cm ($\pm$20\,\% de tolerancia).
-    \item \textbf{\textit{Draw Calls}:} $D < 50$ (mediante GPU Instancing + Static Batching).
-    \item \textbf{\textit{Frame Time}:} $T_{\text{frame}} < 33.33$ ms ($>$30\,FPS) en Snapdragon~7 Gen~1.
-    \item \textbf{Memoria de texturas:} VRAM $<$ 64\,MB (compresión ASTC/Basis Universal).
-    \item \textbf{Tiempo de carga:} TTI Shell $<$~3\,s; TTI modelo completo $<$~10\,s en red~4G.
-\end{enumerate}
-
-\subsubsection{System Usability Scale --- SUS (Brooke, 1996)}
-\addcontentsline{toc}{subsubsection}{System Usability Scale (SUS)}
-
-El SUS es un cuestionario estandarizado de~10 ítems en escala Likert (1--5) que produce un puntaje de usabilidad de~0 a~100. Los ítems impares son afirmaciones positivas y los pares son negativas, controlando aquiescencia. El protocolo de aplicación diseñado fue:
-
-\begin{enumerate}
-    \item Uso libre del prototipo durante 10--15~minutos.
-    \item Ejecución de~6 tareas guiadas: (a)~navegar con ratón/\textit{touch}, (b)~seleccionar pieza y leer información, (c)~activar vista explosionada, (d)~cambiar a modo X-Ray, (e)~buscar pieza en catálogo, (f)~utilizar herramienta de corte transversal.
-    \item Respuesta inmediata del cuestionario SUS basada en primera impresión.
-    \item Recolección de datos demográficos y preguntas abiertas cualitativas.
-\end{enumerate}
-
-\textbf{Meta del proyecto:} SUS $\geq$ 68 (categoría ``Bueno''), superando el promedio de la industria.
-
-\subsubsection{NASA Task Load Index --- NASA-TLX (Hart \& Staveland, 1988)}
-\addcontentsline{toc}{subsubsection}{NASA Task Load Index (NASA-TLX)}
-
-El NASA-TLX evalúa la carga de trabajo percibida en seis dimensiones: Demanda Mental, Demanda Física, Demanda Temporal, Rendimiento, Esfuerzo y Frustración. Se utilizó la versión \textbf{Raw~TLX} (sin ponderación por pares), donde cada dimensión se evalúa en escala continua de~0 a~100 y el puntaje global es el promedio de las seis dimensiones.
-
-\paragraph{Hipótesis de contraste.} Se formularon las siguientes hipótesis:
-
 \begin{itemize}
-    \item $H_0$: No existe diferencia significativa en la carga cognitiva percibida entre el visor~3D interactivo y la consulta de documentación técnica en formato PDF~2D.
-    \item $H_1$: El visor~3D interactivo produce una carga cognitiva significativamente menor que la consulta de documentación técnica en formato PDF~2D. Se esperaba una reducción de rango Alto (60--80) a rango Bajo--Moderado (30--50).
+    \item \textbf{KPIs técnicos:} herramientas de profiling y auditoría sobre la build WebGL.
+    \item \textbf{SUS:} System Usability Scale (Brooke, 1996), aplicado como cuestionario posterior a la interacción.
+    \item \textbf{NASA-TLX Raw:} medición de carga cognitiva percibida sobre seis dimensiones (Hart \& Staveland, 1988).
+    \item \textbf{Think-Aloud:} observación cualitativa concurrente durante la ejecución de tareas.
 \end{itemize}
 
-\textbf{Meta del proyecto:} NASA-TLX $\leq$ 40 (carga ``Baja'').
+\subsection{Protocolo de tareas}
 
-\subsubsection{Protocolo Complementario}
-\addcontentsline{toc}{subsubsection}{Protocolo Complementario}
+Las tareas de validación se alinean con el flujo visible final de la aplicación:
 
-Adicionalmente se implementó un protocolo de observación basado en \textit{Think-Aloud} (Ericsson \& Simon, 1993), donde los participantes verbalizaron sus pensamientos durante la interacción. Se registraron:
+\begin{enumerate}
+    \item ingresar al visor desde el Hero;
+    \item navegar la escena con orbit, pan y zoom;
+    \item seleccionar una pieza y revisar su ficha técnica en el \textit{bottom sheet};
+    \item activar una herramienta de \texttt{Inspect};
+    \item usar \texttt{Explode} o \texttt{Cut} en \texttt{Analyze};
+    \item cambiar el modo visual a \texttt{X-Ray} o \texttt{Thermal} en \texttt{Studio}.
+\end{enumerate}
 
-\begin{itemize}
-    \item Comportamientos observados (gestos, pausas, errores de navegación).
-    \item Dificultades identificadas en la interfaz.
-    \item Aspectos percibidos como intuitivos o problemáticos.
-    \item Comentarios espontáneos sobre comparación con medios~2D tradicionales.
-\end{itemize}
+\subsection{Procedimiento de análisis}
 
-% ═══════════════════════════════════════════════════════════════════════════════
-\subsection{Consideraciones Éticas}
-\addcontentsline{toc}{subsection}{Consideraciones Éticas}
+\subsubsection{Análisis cuantitativo}
 
-La participación en las pruebas de usabilidad fue voluntaria, con consentimiento informado previo. No se recolectaron datos personales sensibles. Los resultados se reportaron de forma agregada, sin identificar a participantes individuales. El estudio no implicó riesgos físicos o psicológicos para los participantes.
+El puntaje SUS se calcula mediante el procedimiento estándar de Brooke. Para los ítems impares, la contribución de cada respuesta se obtiene restando 1 al valor marcado por el participante; para los ítems pares, la contribución se obtiene restando la respuesta a 5. La suma de las diez contribuciones produce un subtotal entre 0 y 40, que luego se multiplica por 2.5 para obtener un puntaje global entre 0 y 100:
+
+\[
+SUS = \left(\sum_{j \in impares}(R_j - 1) + \sum_{j \in pares}(5 - R_j)\right)\times 2.5
+\]
+
+donde $R_j$ es la respuesta del participante en el ítem $j$. Un valor alto indica mejor usabilidad percibida. Como referencia interpretativa, un puntaje de 68 suele considerarse el umbral convencional de aceptabilidad general, aunque la lectura final debe complementarse con el contexto del caso de uso y con escalas adjetivales como las discutidas por Bangor et al. (2009).
+
+El puntaje global de NASA-TLX Raw se obtiene mediante:
+\[
+NASA\text{-}TLX_{Raw} = \frac{1}{6}\sum_{i=1}^{6} D_i
+\]
+
+donde $D_i$ representa el puntaje asignado a la dimensión $i$ del instrumento: demanda mental, demanda física, demanda temporal, rendimiento, esfuerzo y frustración. En esta adaptación se utiliza la variante \textit{Raw TLX}, por lo que el resultado corresponde al promedio aritmético simple de las seis escalas. La dimensión de rendimiento se diligencia con orientación invertida (0 = perfecto, 100 = fallido), de modo que un valor más alto siga indicando mayor carga de trabajo percibida y pueda promediarse directamente con las demás dimensiones.
+
+Los KPIs técnicos se contrastan con las metas operativas fijadas para el proyecto, sin cerrar resultados hasta disponer del build congelado posterior a la optimización final.
+
+\subsubsection{Análisis cualitativo}
+
+El protocolo \textit{Think-Aloud} se aplica en modalidad concurrente durante la ejecución de tareas. A cada participante se le solicita verbalizar qué intenta hacer, cómo interpreta la interfaz, qué dudas le surgen, qué errores percibe y con qué criterio decide su siguiente acción. El evaluador registra verbalizaciones relevantes, pausas, puntos de vacilación, errores de navegación, solicitudes de ayuda y estrategias de recuperación.
+
+Posteriormente, las observaciones se codifican por categorías analíticas: comprensión espacial del ensamblaje, navegación y control, interpretación de la interfaz, correspondencia terminológica, errores o bloqueos y sugerencias de mejora. Esta lectura cualitativa permite triangular los resultados de SUS y NASA-TLX y explicar por qué determinadas tareas resultaron más claras, más confusas o más demandantes para el usuario (Ericsson \& Simon, 1993).
+
+\subsection{Consideraciones éticas}
+
+La participación en pruebas es voluntaria. No se recolectan datos sensibles y los resultados se reportan de forma agregada. El estudio no contempla intervenciones físicas ni exposición a riesgos adicionales para los participantes.
 
 \newpage

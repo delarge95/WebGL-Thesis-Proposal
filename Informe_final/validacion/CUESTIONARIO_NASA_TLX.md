@@ -142,6 +142,14 @@ Bajo                                                           Alto
 
 **Puntaje NASA-TLX = Suma / 6 =** _______
 
+En notación del informe:
+
+```text
+NASA-TLX_Raw = (1/6) * Σ D_i
+```
+
+donde `D_i` es el puntaje observado en cada una de las seis dimensiones: demanda mental, demanda física, demanda temporal, rendimiento, esfuerzo y frustración. En esta versión, `Rendimiento` ya está invertido (`0 = perfecto`, `100 = fallido`), por lo que puede promediarse directamente con las demás escalas.
+
 ### Interpretación
 
 | Puntaje | Nivel de Carga |

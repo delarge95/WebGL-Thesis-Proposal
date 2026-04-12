@@ -8,6 +8,8 @@
 **Plataforma:** Unity 6.0 LTS → WebGL (URP)  
 **Rama:** `feature/phase2-ux-redesign`
 
+> Nota editorial: este documento profundiza en el pipeline gráfico y en los shaders. La arquitectura canónica del cierre debe leerse junto con `01_Arquitectura_del_Sistema.md` y `02_Referencia_Tecnica_Modulos.md`.
+
 ---
 
 ## Tabla de Contenidos
@@ -72,10 +74,9 @@ Frame Loop (WebGL = single-threaded, ~60Hz target)
 ├── 4. GPU: Skybox
 │   └── AnimatedGradientSkybox → gradient radial animado
 │
-└── 5. CPU: OnGUI() [legacy IMGUI]
-    ├── FPSCounter → esquina superior
-    ├── PerformanceMonitor → overlay F3
-    └── RuntimeConsole → F1 debug console
+└── 5. Debug / overlays legados
+    ├── utilidades de inspección histórica o experimental
+    └── no forman parte del flujo visible final documentado
 ```
 
 ### 1.3 Integración Shader ↔ Manager
@@ -138,19 +139,25 @@ if (_GlobalClipEnabled2 > 0.5)
 ### 2.4 Cálculo de la Ecuación del Plano (C# — CrossSectionManager)
 
 ```csharp
-// axis: 0=X, 1=Y, 2=Z
-// position: normalizado -1 a +1
-// inverted: flip de la normal
-
-Vector3 normal = Vector3.zero;
-normal[axis] = inverted ? -1f : 1f;      // solo la componente del eje
-float d = -position * worldSpaceRange;    // desplazamiento en unidades mundo
-
-Vector4 planeEquation = new Vector4(normal.x, normal.y, normal.z, d);
+Vector3 normal = GetNormal(axis, inverted);
+Vector3 point = worldCenter + GetAxisVector(axis) * pos;
+Vector4 planeEquation = new Vector4(
+    normal.x,
+    normal.y,
+    normal.z,
+    -Vector3.Dot(normal, point));
 
 Shader.SetGlobalVector("_GlobalClipPlane", planeEquation);
 Shader.SetGlobalFloat("_GlobalClipEnabled", 1f);
 ```
+
+La forma aplicada en runtime coincide con la ecuación estándar del plano:
+
+```text
+n · x + d = 0
+```
+
+donde `d = -dot(n, point)`.
 
 ### 2.5 ¿Por qué `discard` y no Alpha Clipping?
 

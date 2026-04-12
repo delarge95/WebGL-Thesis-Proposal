@@ -1,43 +1,47 @@
 # Checklist Ejecutivo de Portafolio
 
-## Prioridad inmediata
+## Objetivo
 
-- [ ] Definir las 3 a 5 piezas principales de portafolio que saldrán de este proyecto.
-- [ ] Curar una selección mínima de screenshots o renders por pieza.
-- [ ] Identificar un clip corto para demo reel de cada pieza.
-- [ ] Redactar un resumen técnico de 3 a 5 líneas por pieza.
+Convertir la tesis en un portafolio de `junior/mid Technical Artist` enfocado en:
 
-## ArtStation
+- tools
+- shaders
+- optimization
+- technical visualization
 
-- [ ] Preparar portada principal del proyecto.
-- [ ] Preparar secuencia visual: hero shot, wireframe, breakdown, materiales, modos de visualización.
-- [ ] Redactar post con foco en pipeline CAD-to-WebGL.
-- [ ] Añadir tags técnicos consistentes.
+## Reglas de curaduria
 
-## LinkedIn
+- Mostrar solo evidencia verificable desde repo, build o capturas reales.
+- No vender como final una feature oculta, legacy o futura.
+- No usar cifras historicas (`16 piezas`, `91 scripts`, etc.) como estado final.
+- No presentar audio ni ensamblaje completo como features cerradas.
 
-- [ ] Ajustar headline profesional.
-- [ ] Redactar About orientado a Tech Artist.
-- [ ] Añadir el proyecto como experiencia destacada.
-- [ ] Preparar al menos dos posts técnicos derivados del proyecto.
+## Piezas principales
 
-## Reel
+- [ ] Visor WebGL final del Holybro X500 V2.
+- [ ] Breakdown de shaders y view modes.
+- [ ] Caso CAD -> Unity -> WebGL, condicionado al reimport final congelado.
+- [ ] Tooling de editor: `ProjectSetupWizard`, `ImportedDroneCoverageAudit`, `ThermalContactGraphBuilderWindow`.
+- [ ] Breakdown del sistema termico como visualizacion aplicada.
 
-- [ ] Definir estructura de 60 a 90 segundos.
-- [ ] Seleccionar clips de navegación, explode, cut, shaders y pipeline.
-- [ ] Reservar una sección breve para CAD-to-WebGL.
-- [ ] Preparar cierre con nombre, rol y herramientas.
+## Capturas y clips obligatorios
 
-## Breakdown técnico
+- [ ] Hero final sin placeholders.
+- [ ] Seleccion de pieza + bottom sheet.
+- [ ] Inspect: hotspots / isolate / power.
+- [ ] Analyze: explode / cut / filters.
+- [ ] Studio: X-Ray / Solid Color / Thermal.
+- [ ] Thermal con leyenda visible.
 
-- [ ] Seleccionar herramientas propias que valga la pena mostrar.
-- [ ] Elegir shaders o sistemas con mayor valor demostrable.
-- [ ] Preparar una comparación antes/después de optimización.
-- [ ] Preparar un diagrama simple del pipeline.
+## Mensaje profesional
 
-## Material pendiente por reunir
+- [ ] Posicionar el perfil como Technical Artist orientado a visualizacion tecnica interactiva.
+- [ ] Destacar arquitectura, tooling y optimizacion antes que promesas de features no expuestas.
+- [ ] Explicar el problema resuelto, no solo la lista de tecnologias.
 
-- [ ] GIF de vista explosionada.
-- [ ] GIF de cross-section.
-- [ ] Capturas de shaders clave.
-- [ ] Evidencia visual del lote Holybro y del pipeline CAD.
+## Prohibido dejar en el discurso final
+
+- [ ] Houdini como pipeline oficial de la version final.
+- [ ] Audio implementado.
+- [ ] Suite completa de ensamblaje expuesta.
+- [ ] Modulos inexistentes (`WebGLOptimizer`, `TooltipSystem`, etc.).
