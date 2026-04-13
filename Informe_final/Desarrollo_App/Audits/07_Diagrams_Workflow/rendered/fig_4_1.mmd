@@ -1,12 +1,12 @@
-﻿%%{init: {"theme":"base","themeVariables": {
-  "fontFamily":"system-ui, -apple-system, Segoe UI, sans-serif",
-  "background":"#0b0f17",
-  "primaryColor":"#151b2b",
-  "primaryTextColor":"#e6edf7",
-  "primaryBorderColor":"#7dd3fc",
-  "lineColor":"#8b9bb4",
-  "textColor":"#e6edf7",
-  "edgeLabelBackground":"#0f1724"
+﻿%%{init: {'theme':'base','themeVariables': {
+  'fontFamily':'Trebuchet MS, Segoe UI, sans-serif',
+  'background':'#fcfcf8',
+  'primaryColor':'#f5f7fb',
+  'primaryTextColor':'#102033',
+  'primaryBorderColor':'#4a6fa5',
+  'lineColor':'#617184',
+  'textColor':'#102033',
+  'edgeLabelBackground':'#f7f9fc'
 }}}%%
 flowchart TB
   BOOT[UIManager.EnsureManagers + SceneBootstrapper]
@@ -15,10 +15,10 @@ flowchart TB
     ASM[AppStateMachine]
     SEL[SelectionManager]
     VMM[ViewModeManager]
-    INP[InputRouter]
+    INP["InputManager + OrbitCameraController"]
     CUR[CursorManager]
     ANA[AnalyticsManager]
-    AUD[AudioManager]
+    AUD["Audio hooks opcionales (sin assets)"]
     EVM[ExplodedViewManager]
     CSM[CrossSectionManager]
     PCM[PartCatalogManager]
@@ -37,7 +37,7 @@ flowchart TB
     SEL --> INP
     SEL --> CUR
     SEL --> ANA
-    SEL --> AUD
+    SEL -.-> AUD
 
     ASM --> EVM
     SEL --> PART
@@ -47,20 +47,23 @@ flowchart TB
     PCM --> PART
     THR --> SHD
 
-    classDef ui fill:#1b3250,stroke:#7cc8ff,color:#f0f8ff,stroke-width:1px;
-    classDef orch fill:#1f3a2b,stroke:#6ee7b7,color:#ecfff6,stroke-width:2px;
-    classDef svc fill:#4a2f26,stroke:#f6ad55,color:#fff4e6,stroke-width:1px;
-    classDef data fill:#2f2a44,stroke:#c4b5fd,color:#f5f3ff,stroke-width:1px;
-    classDef event fill:#3d2348,stroke:#e879f9,color:#fdf4ff,stroke-width:1px;
-    classDef state fill:#0b3f46,stroke:#5eead4,color:#ecfeff,stroke-width:1px;
-    classDef risk fill:#5a1c1c,stroke:#f87171,color:#fff1f2,stroke-width:2px;
-    classDef mitigation fill:#223a76,stroke:#7dd3fc,color:#f0f8ff,stroke-width:1px;
-    classDef result fill:#145f54,stroke:#34d399,color:#ecfdf5,stroke-width:1px;
-    classDef neutral fill:#2b3140,stroke:#8b9bb4,color:#e6edf7,stroke-width:1px;
+    classDef ui fill:#eaf2fb,stroke:#3b6ea5,color:#102033,stroke-width:1.5px;
+    classDef orch fill:#e9f7ef,stroke:#2f7d4c,color:#10311c,stroke-width:2px;
+    classDef svc fill:#fff1e6,stroke:#b56a1e,color:#4b2b08,stroke-width:1.5px;
+    classDef data fill:#f2ecfb,stroke:#7a59b5,color:#281642,stroke-width:1.5px;
+    classDef event fill:#f7e9fa,stroke:#a44fb3,color:#45154a,stroke-width:1.5px;
+    classDef state fill:#e7f6f7,stroke:#21797a,color:#123536,stroke-width:1.5px;
+    classDef risk fill:#fdeaea,stroke:#c23b3b,color:#5a1515,stroke-width:2px;
+    classDef mitigation fill:#edf3ff,stroke:#5877c6,color:#1b2d57,stroke-width:1.5px;
+    classDef result fill:#e8f8ef,stroke:#2d8a57,color:#123322,stroke-width:1.5px;
+    classDef neutral fill:#f3f5f7,stroke:#677788,color:#17212b,stroke-width:1.5px;
 
     class UI ui;
     class BOOT orch;
     class EBUS event;
     class ASM,SEL,VMM orch;
-    class INP,CUR,ANA,AUD,EVM,CSM,PCM,THR,SHD svc;
+    class INP,CUR,ANA,EVM,CSM,PCM,THR,SHD svc;
+    class AUD neutral;
     class PART data;
+
+

@@ -2,130 +2,275 @@
 
 ## Objetivo
 
-Convertir la tesis en un portafolio coherente para un perfil `junior/mid Technical Artist` con foco en:
+Convertir la tesis en un portafolio coherente, verificable y competitivo para un perfil `junior/mid Technical Artist` con foco en:
 
-- tooling
+- tools
 - shaders
 - optimization
 - technical visualization
 
-## Perfil del usuario objetivo
+## Propuesta de valor
 
-### Reclutador
-Quiere entender rapido:
-- que construiste;
+> Technical Artist orientado a visualización técnica interactiva en tiempo real. Capaz de conectar normalización de activos, runtime tools, shaders, documentación y arquitectura de producto para entregar experiencias WebGL legibles y mantenibles.
+
+## A quién debe convencer el portafolio
+
+### Recruiter
+
+Quiere entender rápido:
+
+- qué construiste;
 - si corre de verdad;
-- que parte fue tuya;
-- si el proyecto tiene calidad profesional.
+- qué parte fue tuya;
+- si el proyecto se ve profesional y verificable.
 
 ### TA Lead / Hiring Manager
+
 Quiere verificar:
-- criterio tecnico;
-- capacidad de resolver restricciones reales;
-- claridad arquitectonica;
-- si distingues entre sistema final y trabajo futuro.
 
-### Equipo de arte o producto
+- criterio técnico;
+- capacidad para resolver restricciones reales;
+- valor de las herramientas creadas;
+- honestidad sobre lo que está publicado, oculto o pendiente.
+
+### Equipo de arte, producto o visualización
+
 Quiere ver:
+
 - sensibilidad visual;
-- capacidad de traducir datos tecnicos a una experiencia clara;
-- orden en pipeline y presentacion.
+- claridad de UX;
+- capacidad para traducir un sistema técnico a una experiencia entendible;
+- orden en pipeline y comunicación.
 
-## Tesis convertida en propuesta de valor
+## Fuente de verdad del discurso
 
-> Technical Artist orientado a visualizacion tecnica interactiva en tiempo real. Capaz de conectar normalizacion de activos, runtime tools, shaders y arquitectura de producto para entregar experiencias WebGL legibles y mantenibles.
+El portafolio debe apoyarse en:
 
-## Piezas principales del portafolio
+- la app real;
+- la documentación técnica activa;
+- las auditorías de coherencia;
+- las capturas y clips reales;
+- la investigación aplicada que sí tenga relación directa con el producto.
+
+No debe apoyarse en:
+
+- slides viejos;
+- claims históricos;
+- features ocultas tratadas como shipping;
+- research exploratorio como implementación real.
+
+## Paquete principal del portafolio
 
 ### 1. Visor WebGL final del Holybro X500 V2
+
 Debe ser la pieza principal porque ya existe una experiencia interactiva verificable.
 
-Mostrar:
-- Hero final
-- seleccion + bottom sheet
-- Inspect / Analyze / Studio
-- thermal legend
+#### Qué mostrar
 
-### 2. Sistema de shaders y view modes
-Presentar como una solucion de lectura visual:
+- Hero final;
+- selección + `bottom sheet`;
+- `Inspect / Analyze / Studio`;
+- leyenda térmica visible.
+
+#### Qué vender
+
+- experiencia web técnica y navegable;
+- lectura contextual del ensamblaje;
+- producto real, no solo render.
+
+#### Qué no vender
+
+- catálogo visible como feature final;
+- settings visibles;
+- measurement visible;
+- ensamblaje completo expuesto.
+
+### 2. Sistema de shaders y visualización
+
+Debe presentarse como una solución de lectura visual aplicada.
+
+#### Qué mostrar
+
 - `X-Ray`
 - `Solid Color`
 - `Thermal`
-- modos implementados pero ocultos como evidencia tecnica secundaria
+- `Realistic`
 
-No vender los modos ocultos como si fueran parte de la UI final.
+Opcional, como profundidad técnica:
 
-### 3. Tooling de editor
+- `Blueprint`
+- `Wireframe`
+- `Ghosted`
+
+#### Qué vender
+
+- lenguaje visual técnico;
+- compatibilidad WebGL;
+- combinación de URP + shaders propios + clipping.
+
+#### Qué no vender
+
+- todos los modos como si estuvieran expuestos en la UI final;
+- una BRDF completamente escrita desde cero.
+
+### 3. Sistema térmico híbrido
+
+Debe presentarse como `visualización aplicada`, no como solver físico de alta fidelidad.
+
+#### Qué mostrar
+
+- arquitectura del subsistema;
+- modo térmico con leyenda;
+- explicación corta de la lógica heurística;
+- tooling de grafo térmico.
+
+#### Qué vender
+
+- integración de estado, solver reducido, shader y UI;
+- criterio para traducir datos técnicos a lectura visual.
+
+#### Qué no vender
+
+- FEA;
+- validación experimental cerrada;
+- termografía real calibrada.
+
+### 4. Caso CAD -> Unity -> WebGL
+
+Debe presentarse como caso de pipeline y saneamiento técnico.
+
+#### Qué mostrar
+
+- problema de entrada;
+- taxonomía `28 / 30 / 257`;
+- `ImportedDroneRuntimeBinder`;
+- resultado final en navegador.
+
+#### Qué vender
+
+- normalización semántica;
+- reparación de import;
+- pensamiento sistémico sobre restricciones WebGL.
+
+#### Qué no vender
+
+- números finales de optimización si el reimport/freeze sigue pendiente;
+- pipelines exploratorios como si fueran oficiales.
+
+### 5. Tooling de editor y verificación
+
 Esta es una fortaleza diferencial real del proyecto.
 
-Mostrar:
+#### Qué mostrar
+
 - `ProjectSetupWizard`
 - `ImportedDroneCoverageAudit`
 - `ThermalContactGraphBuilderWindow`
+- `ImportedDroneRuntimeBinder`
 
-Mensaje:
-- no solo hiciste una escena; tambien construiste herramientas para configurarla y validarla.
+#### Qué vender
 
-### 4. Caso CAD -> Unity -> WebGL
-Debe presentarse como estudio de pipeline y saneamiento, condicionado al freeze del reimport final.
+- no solo se construyó una escena;
+- también se construyeron herramientas para configurarla, verificarla y mantenerla consistente.
 
-Vender:
-- normalizacion semantica `28`
-- escena `30`
-- render `257`
-- reparacion de import por `ImportedDroneRuntimeBinder`
+### 6. Comunicación técnica y arquitectura
 
-No vender:
-- cifras finales de optimizacion si aun no han sido medidas en el build congelado.
+Esta pieza no reemplaza el visor, pero suma mucho valor en entrevistas.
 
-### 5. Sistema termico hibrido
-Presentarlo como visualizacion aplicada.
+#### Qué mostrar
 
-Vender:
-- integracion solver + view controller + legend + tooling editor
+- diagrama corto de arquitectura;
+- flujo de selección;
+- pipeline de shaders;
+- diagrama del sistema térmico;
+- matriz de desconexiones o nota breve de alcance real.
 
-No vender:
-- FEA
-- validacion experimental cerrada
+#### Qué vende
 
-## Claims que si se pueden usar
+- claridad;
+- criterio editorial;
+- capacidad para documentar sistemas complejos sin sobreprometer.
 
-- construccion de un visor WebGL tecnico para un dron real;
-- integracion de UI, seleccion, modos visuales y lectura contextual;
+## Claims que sí se pueden usar
+
+- construcción de un visor WebGL técnico para un dron real;
+- integración de UI, selección, modos visuales y lectura contextual;
 - saneamiento runtime del modelo importado;
-- tooling de editor para setup, auditoria y thermal graph;
-- uso de shaders para visualizacion tecnica aplicada.
+- tooling de editor para setup, auditoría y grafo térmico;
+- uso de shaders para visualización técnica aplicada;
+- integración de documentación, arquitectura y límites del sistema.
 
 ## Claims que deben salir del discurso principal
 
 - audio implementado;
 - ensamblaje completo expuesto al usuario final;
-- catalogo visible como feature final;
+- catálogo visible como feature final;
 - settings visibles como feature final;
-- modulos inexistentes en el repo activo;
-- Houdini como pipeline central de la build final.
+- módulos inexistentes en el repo activo;
+- Houdini como pipeline central de la build final;
+- cifras históricas como `16 piezas` o `91 scripts`;
+- modos ocultos presentados como experiencia final.
+
+## Regla sobre research y blueprint
+
+El research del proyecto sí suma valor al portafolio, pero debe aparecer bien clasificado:
+
+- como fundamento técnico;
+- como diseño de pipeline;
+- como evidencia de criterio;
+- no como sinónimo automático de implementación cerrada.
+
+Esto aplica especialmente a:
+
+- `CAD-to-Unity WebGL Optimization  Complete Technical Blueprint for Drone Visualization.md`;
+- `CAD_Fastener_Optimization_Plan.md`;
+- documentos sobre PiXYZ, Simplygon, Quad Remesher o estrategias equivalentes.
 
 ## Estructura recomendada para ArtStation / sitio / README
 
-1. Problema
-2. Solucion
-3. Flujo visible del producto
-4. Arquitectura resumida
-5. Capturas y clips
-6. Tooling de soporte
-7. Limites honestos del estado final
+1. Problema.
+2. Solución.
+3. Flujo visible del producto.
+4. Arquitectura resumida.
+5. Tooling de soporte.
+6. Sistema visual y modos.
+7. Sistema térmico.
+8. Pipeline CAD -> WebGL.
+9. Límites honestos del estado final.
 
-## Lista minima de activos
+## Lista mínima de activos
 
-- screenshot del Hero final
-- screenshot de bottom sheet
-- screenshot de Inspect
-- screenshot de Analyze
-- screenshot de Studio
-- screenshot de Thermal con leyenda
-- diagrama corto de arquitectura
-- clip corto del flujo completo
+- screenshot del Hero final;
+- screenshot del `bottom sheet`;
+- screenshot de `Inspect`;
+- screenshot de `Analyze`;
+- screenshot de `Studio`;
+- screenshot de `Thermal` con leyenda;
+- clip corto del flujo completo;
+- screenshot de tooling de editor;
+- diagrama corto de arquitectura;
+- diagrama corto del subsistema térmico.
 
-## Mensaje final de posicionamiento
+## Orden recomendado de publicación
 
-Este portafolio no debe intentar venderte como todo a la vez. Su mejor lectura es la de un Technical Artist que sabe convertir un problema tecnico real en una experiencia interactiva clara, optimizada y documentada.
+### Fase 1
+
+- visor final;
+- breakdown corto del sistema interactivo;
+- breakdown corto de view modes;
+
+### Fase 2
+
+- tooling de editor;
+- sistema térmico híbrido;
+
+### Fase 3
+
+- pieza CAD -> Unity -> WebGL con métricas finales, solo cuando exista freeze;
+- breakdown más profundo de pipeline y optimización.
+
+## Principio editorial final
+
+El portafolio no debe intentar venderte como todo a la vez. Su mejor lectura es esta:
+
+> Technical Artist que sabe convertir un problema técnico real en una experiencia interactiva clara, optimizada, bien instrumentada y honestamente documentada.

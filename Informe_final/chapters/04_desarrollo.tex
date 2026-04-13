@@ -27,6 +27,29 @@ La arquitectura final puede leerse en cuatro capas:
     \item \textbf{Datos.} \texttt{DronePartData}, assets generados y catálogo canónico JSON.
 \end{enumerate}
 
+Las Figuras \ref{fig:arquitectura_capas_sistema}, \ref{fig:flujo_eventbus_sistema} y \ref{fig:app_state_machine_sistema} sintetizan la arquitectura por capas, la comunicación desacoplada por eventos y la máquina de estados que organiza el flujo principal de la aplicación.
+
+\begin{figure}[H]
+    \caption{Arquitectura por capas del sistema.}
+    \label{fig:arquitectura_capas_sistema}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_1.pdf}
+\end{figure}
+
+\begin{figure}[H]
+    \caption{Flujo de comunicación EventBus bajo el patrón \textit{publish/subscribe}.}
+    \label{fig:flujo_eventbus_sistema}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_2.pdf}
+\end{figure}
+
+\begin{figure}[H]
+    \caption{Máquina de estados de la aplicación (\texttt{AppStateMachine}).}
+    \label{fig:app_state_machine_sistema}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_3.pdf}
+\end{figure}
+
 \subsection{Bootstrap y saneamiento del import}
 
 La escena final depende de dos mecanismos complementarios.
@@ -42,6 +65,15 @@ La escena final depende de dos mecanismos complementarios.
 \end{itemize}
 
 Este saneamiento permite que la versión importada del modelo mantenga coherencia funcional con la taxonomía académica del proyecto.
+
+La Figura \ref{fig:flujo_dronepartdata_runtime} resume el tránsito de \texttt{DronePartData} desde el asset o catálogo hasta los controladores de interfaz y los servicios de escena, lo cual explica por qué la reparación de runtime es determinante para la consistencia del producto final.
+
+\begin{figure}[H]
+    \caption{Flujo de datos \texttt{DronePartData} desde asset y catálogo hasta la interfaz.}
+    \label{fig:flujo_dronepartdata_runtime}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_6.pdf}
+\end{figure}
 
 \subsection{Flujo visible de la build final}
 
@@ -59,6 +91,22 @@ El flujo principal de uso es:
 \paragraph{Analyze.} Integra corte transversal, explode y filtros por categorías funcionales. La taxonomía activa en esta vista incluye \texttt{SkeletonAirframe}, \texttt{PropulsionSystem}, \texttt{Avionics}, \texttt{SensorsComms}, \texttt{PowerDistribution} y \texttt{Fasteners}.
 
 \paragraph{Studio.} Agrupa modos visuales y control de entorno. El estado base es \texttt{Realistic}; la UI visible expone \texttt{X-Ray}, \texttt{Solid Color} y \texttt{Thermal}, junto con tarjetas de ambiente y sliders de luz.
+
+La Figura \ref{fig:flujo_seleccion_ui} muestra el recorrido de selección desde el input del usuario hasta la sincronización con el \textit{bottom sheet}, mientras que la Figura \ref{fig:pipeline_shaders_modos} resume la relación entre los modos visuales implementados y los shaders o materiales que los soportan.
+
+\begin{figure}[H]
+    \caption{Flujo de selección de piezas desde \textit{input} y \textit{raycast} hasta la interfaz.}
+    \label{fig:flujo_seleccion_ui}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_4.pdf}
+\end{figure}
+
+\begin{figure}[H]
+    \caption{Pipeline de shaders por modo de visualización, distinguiendo entre modos implementados y modos expuestos en la UI final.}
+    \label{fig:pipeline_shaders_modos}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_5.pdf}
+\end{figure}
 
 \subsection{Matriz de estado funcional}
 
@@ -93,6 +141,23 @@ El flujo principal de uso es:
     \item partes de \texttt{EnhancedInfoPanel};
     \item suite de ensamblaje, BOM, anotaciones y connections.
 \end{itemize}
+
+\begin{table}[H]
+    \caption{Inventario sintético de módulos y estado de integración}
+    \label{tab:inventario_modulos_integracion}
+    \centering
+    \small
+    \begin{tabular}{p{3.2cm}p{4.3cm}p{3.0cm}p{4.0cm}}
+        \hline
+        \textbf{Categoría} & \textbf{Componentes representativos} & \textbf{Estado} & \textbf{Lectura editorial} \\ \hline
+        Runtime principal & Orquestación UI, selección, explode, clipping, view modes y térmico & Expuesto o activo en la build final & Debe documentarse en el cuerpo principal porque soporta el flujo visible y la arquitectura operativa. \\
+        Capacidades ocultas & \texttt{MeasurementTool}; modos \texttt{Blueprint}, \texttt{Wireframe} y \texttt{Ghosted}; clipping extendido; térmico avanzado & Implementado pero oculto & Puede mencionarse como capacidad existente, pero no debe narrarse como funcionalidad publicada al usuario final. \\
+        Legado o no integrado & Catálogo legado, \texttt{SettingsPanel}, \texttt{LoadingController}, paneles legacy y suite de ensamblaje & No integrado en el flujo final & Debe permanecer separado como legado, trabajo futuro o evidencia histórica de evolución del proyecto. \\
+        Tooling de editor & Wizard de proyecto, auditoría de cobertura y constructor del grafo térmico & Soporte técnico de desarrollo & Es pertinente para la defensa técnica y la trazabilidad del pipeline, aunque no forme parte de la UI publicada. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. Esta tabla resume el criterio usado para separar funciones visibles, funciones ocultas y módulos no integrados, evitando mezclar capacidades de desarrollo con el alcance real de la build final. \textit{Fuente}. Elaboración propia a partir del código y de la validación funcional del proyecto.
+\end{table}
 
 \subsection{Sistema de visualización y shaders}
 
@@ -133,6 +198,15 @@ donde $A_{ij}$ corresponde al área de contacto proxy, $L_{ij}$ a la longitud ef
 
 La trazabilidad matemática del subsistema fue contrastada con el workflow de verificación basado en WolframAlpha utilizado por el proyecto. Dicho audit confirmó tres puntos: la estructura geométrica inspirada en $A/L$ es razonable para el acoplamiento entre nodos, los tiempos de calentamiento del solver están deliberadamente comprimidos frente a valores físicos reales para mantener legibilidad interactiva, y la tasa de enfriamiento por defecto es coherente con esa misma escala temporal acelerada. Por ello, este subsistema debe documentarse como simulación térmica híbrida y heurística, no como FEA en tiempo real.
 
+La Figura \ref{fig:subsistema_termico_hibrido} articula la relación entre el estado del dron, la simulación térmica y la traducción visual del gradiente en la build final.
+
+\begin{figure}[H]
+    \caption{Arquitectura del subsistema térmico híbrido.}
+    \label{fig:subsistema_termico_hibrido}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_7.pdf}
+\end{figure}
+
 \subsection{Tooling de editor y verificación}
 
 El proyecto conserva herramientas de editor que son defendibles como parte del cierre técnico:
@@ -145,6 +219,22 @@ El proyecto conserva herramientas de editor que son defendibles como parte del c
 
 Estas herramientas ayudan a mantener consistencia entre escena, catálogo, render y configuración de despliegue.
 
+Las Figuras \ref{fig:restricciones_webgl_mitigaciones} y \ref{fig:despliegue_artefactos_build} complementan esta lectura al mostrar, respectivamente, las restricciones técnicas del destino WebGL y el flujo de artefactos desde la build hasta la validación del despliegue.
+
+\begin{figure}[H]
+    \caption{Restricciones de WebGL y mitigaciones técnicas aplicadas al proyecto.}
+    \label{fig:restricciones_webgl_mitigaciones}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_8.pdf}
+\end{figure}
+
+\begin{figure}[H]
+    \caption{Flujo de despliegue y artefactos desde la build hasta el \textit{hosting} y QA.}
+    \label{fig:despliegue_artefactos_build}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_10.pdf}
+\end{figure}
+
 \subsection{Limitaciones activas al cierre}
 
 Al momento de esta versión documental, los siguientes frentes siguen abiertos y afectan el cierre total del producto:
@@ -156,5 +246,96 @@ Al momento de esta versión documental, los siguientes frentes siguen abiertos y
 \end{enumerate}
 
 Mientras estas tareas no concluyan, el sistema se documenta como funcional y verificable en su flujo principal, pero no como versión empíricamente cerrada.
+
+La Figura \ref{fig:herramientas_ensamblaje_proyectadas} deja explícito que el conjunto de herramientas de ensamblaje, BOM, anotaciones y conexiones pertenece a la capa proyectada o no integrada, por lo que no debe confundirse con el flujo visible de la build final.
+
+\begin{figure}[H]
+    \caption{Estado de herramientas de ensamblaje proyectadas o no integradas por módulo.}
+    \label{fig:herramientas_ensamblaje_proyectadas}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_9.pdf}
+\end{figure}
+
+\subsection{Placeholders editoriales de capturas y renders}
+
+Con el fin de dejar cerrada la maqueta editorial del capítulo 4 y preparar la captura final del producto, este informe reserva las Figuras \ref{fig:placeholder_hero_holybro} a \ref{fig:placeholder_retopologia}. Estas reservas no sustituyen evidencia; solo fijan ubicación, caption, intención narrativa y estado funcional esperado de cada captura.
+
+\placeholderfigure
+    {Pantalla Hero del visor Holybro X500~V2.}
+    {fig:placeholder_hero_holybro}
+    {Inserte aquí la captura de apertura del visor con el caso Holybro X500~V2, CTA principal y copy saneado.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Vista principal del dron en modo \texttt{Realistic}.}
+    {fig:placeholder_realistic_view}
+    {Inserte aquí una captura del estado base del visor con materialidad PBR, iluminación neutra y modelo completo.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Vista explosionada del ensamblaje.}
+    {fig:placeholder_exploded_view}
+    {Inserte aquí la captura del modo \textit{explode} mostrando separación legible de piezas y lectura de ensamblaje.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Modo \texttt{X-Ray} para inspección interna.}
+    {fig:placeholder_xray_view}
+    {Inserte aquí la captura del modo \texttt{X-Ray} con lectura clara de estructura interna y pieza seleccionada.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Modo \texttt{Wireframe} para lectura de malla.}
+    {fig:placeholder_wireframe_view}
+    {Inserte aquí una captura de referencia del modo \texttt{Wireframe}.}
+    {Estado esperado: capacidad implementada pero oculta; si no se publica, debe migrarse a anexos o trabajo futuro.}
+
+\placeholderfigure
+    {Modo \texttt{Thermal} con leyenda visible.}
+    {fig:placeholder_thermal_view}
+    {Inserte aquí la captura del gradiente térmico con componentes críticos y leyenda sincronizada.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Corte transversal con plano activo.}
+    {fig:placeholder_cross_section}
+    {Inserte aquí la captura del modo de corte mostrando el plano activo y la lectura del interior del dron.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Controles de filtros por categoría y exploración de piezas.}
+    {fig:placeholder_filters_categories}
+    {Inserte aquí la captura de los filtros funcionales disponibles en \texttt{Analyze} y su efecto sobre la escena.}
+    {Estado esperado: flujo visible de la build final; no debe confundirse con un catálogo legado no expuesto.}
+
+\placeholderfigure
+    {Ficha inferior de detalle (\textit{bottom sheet}) de una pieza.}
+    {fig:placeholder_bottom_sheet}
+    {Inserte aquí la captura de una pieza seleccionada con nombre, especificaciones y ensamblaje en la ficha inferior.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Hotspots sobre el modelo con estado de selección.}
+    {fig:placeholder_hotspots}
+    {Inserte aquí la captura de hotspots activos sobre el dron y su correspondencia con el modelo.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Comparativa de presets de entorno en \texttt{Studio}.}
+    {fig:placeholder_studio_environment}
+    {Inserte aquí una comparación entre dos presets de entorno o iluminación del modo \texttt{Studio}.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Vista responsive del prototipo en pantalla móvil.}
+    {fig:placeholder_mobile_responsive}
+    {Inserte aquí la captura del layout adaptado a móvil, con foco en legibilidad y uso táctil.}
+    {Estado esperado: evidencia de despliegue WebGL y adaptación visual post-freeze.}
+
+\placeholderfigure
+    {Comparativa de retopología entre malla de origen y versión optimizada.}
+    {fig:placeholder_retopologia}
+    {Inserte aquí una comparativa visual entre high-poly/entrada CAD y modelo optimizado para WebGL.}
+    {Estado esperado: evidencia técnica del pipeline CAD a Unity documentado en el proyecto.}
 
 \newpage

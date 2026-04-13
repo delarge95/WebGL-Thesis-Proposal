@@ -4,56 +4,131 @@
 
 - `portafolio_personal/documentacion/08_Portafolio_Tech_Artist.md`
 
-## Lote técnico Holybro
+## Fuente canónica del producto
 
-### Referencias activas
+Estas fuentes mandan sobre cualquier borrador, pitch viejo o research exploratorio:
 
-- `desarrollo/docs/investigacion/Holybro/Holybro X500 V2 Report.md`
-- `desarrollo/docs/investigacion/Holybro/holybro-x500-links.md`
-- `desarrollo/docs/investigacion/Holybro/Holybro_X500_FrameKit_AssemblyGuide.pdf`
-- `desarrollo/docs/investigacion/Holybro/Pixhawk4Mini_QAV250_Kit_QuickStartGuide.pdf`
-- `desarrollo/docs/investigacion/Holybro/X500-Kit_AssemblyManual.pdf`
-
-### Modelos y datos CAD
-
-- `desarrollo/docs/investigacion/Holybro/Holybro_X500_V2_3D Print/`
-- `desarrollo/docs/investigacion/Holybro/x500v2_blender_inventory.md`
-- `desarrollo/docs/investigacion/Holybro/x500v2_blender_synced_parts.json`
+- `desarrollo/unity_project/Assets/Scripts/UI/UIManager.cs`
+- `desarrollo/unity_project/Assets/Scripts/UI/Panels/UIHeroController.cs`
+- `desarrollo/unity_project/Assets/Scripts/UI/Panels/UIDetailsSheet.cs`
+- `desarrollo/unity_project/Assets/Scripts/Core/Managers/SelectionManager.cs`
+- `desarrollo/unity_project/Assets/Scripts/Core/Managers/ViewModeManager.cs`
+- `desarrollo/unity_project/Assets/Scripts/Core/Managers/CrossSectionManager.cs`
+- `desarrollo/unity_project/Assets/Scripts/Core/Managers/DroneStateController.cs`
+- `desarrollo/unity_project/Assets/Scripts/Core/Thermal/ThermalSimulationManager.cs`
+- `desarrollo/unity_project/Assets/Scripts/Core/Thermal/ThermalViewController.cs`
+- `desarrollo/unity_project/Assets/Scripts/Core/Utils/ImportedDroneRuntimeBinder.cs`
 - `desarrollo/docs/investigacion/Holybro/x500v2_parts_data.json`
+- `Informe_final/Desarrollo_App/VALIDACION_FUNCIONAL_FINA_2026-04-09.md`
+- `Informe_final/Desarrollo_App/MATRIZ_DESCONEXIONES_APP_DOCUMENTACION.md`
+- `Informe_final/Desarrollo_App/AUDITORIA_MATEMATICA_Y_ARQUITECTURA_2026-04-12.md`
 
-### Herramientas candidatas a breakdown
+## Investigación técnica que sí alimenta el portafolio
 
-- `desarrollo/docs/investigacion/Holybro/cad_symmetry_addon_v5_ultimate.py`
-- `desarrollo/docs/investigacion/Holybro/cad_symmetry_addon_v6_batch.py`
-- `desarrollo/docs/investigacion/Holybro/generate_inventory.py`
+### Pipeline CAD, optimización y normalización
 
-## Piezas fuertes para portafolio
+- `desarrollo/docs/investigacion/Holybro/CAD-to-Unity WebGL Optimization  Complete Technical Blueprint for Drone Visualization.md`
+- `desarrollo/docs/investigacion/Holybro/CAD_Fastener_Optimization_Plan.md`
+- `desarrollo/docs/investigacion/03_estrategia_optimizacion_webgl_2025.md`
+- `desarrollo/docs/investigacion/10_workflow_integracion_cad_unity.md`
+- `desarrollo/docs/investigacion/10_analisis_lods_y_retopologia.md`
 
-### Pieza 1: Pipeline CAD-to-WebGL
+### Visualización, shaders y arquitectura
 
-- Valor: demuestra integración de herramientas, optimización y pensamiento sistémico.
-- Fuentes iniciales: lote Holybro, documento maestro de portafolio, tesis y docs técnicas.
+- `desarrollo/docs/investigacion/02_arquitectura_shaders_visualizacion.md`
+- `Informe_final/Desarrollo_App/Documentacion_Tecnica/03_Pipeline_Renderizado_Shaders.md`
+- `Informe_final/Desarrollo_App/Documentacion_Tecnica/01_Arquitectura_del_Sistema.md`
+- `Informe_final/Desarrollo_App/Documentacion_Tecnica/02_Referencia_Tecnica_Modulos.md`
 
-### Pieza 2: Gemelo digital interactivo del drone
+### Sistema térmico y validación matemática
 
-- Valor: pieza central para demo visual y deploy jugable.
-- Fuentes iniciales: build WebGL, capturas del proyecto, README y docs de despliegue.
+- `desarrollo/docs/investigacion/09_analisis_profundo_vista_termica.md`
+- `Informe_final/Desarrollo_App/Documentacion_Tecnica/08_Sistema_Termico_Hibrido.md`
+- `desarrollo/docs/sistema_termico/wolfram_verificaciones.md`
+- `Informe_final/Desarrollo_App/AUDITORIA_MATEMATICA_Y_ARQUITECTURA_2026-04-12.md`
 
-### Pieza 3: Shaders y modos de visualización
+## Piezas principales del portafolio
 
-- Valor: demuestra Technical Art y rendering aplicado.
-- Fuentes iniciales: shaders del proyecto Unity y documentación técnica correspondiente.
+### Pieza 1: Visor WebGL final del Holybro X500 V2
 
-### Pieza 4: Herramientas de análisis y ensamblaje
+- Valor: pieza central, visible, verificable y directamente ligada al producto final.
+- Evidencia base:
+  - flujo `Hero -> Explore -> selección -> bottom sheet -> Inspect / Analyze / Studio`
+  - build funcional y capturas reales
+  - validación funcional final
 
-- Valor: muestra que el proyecto no es solo visual, sino técnico e interactivo.
-- Fuentes iniciales: sistema de explode, cut, medición, guía de ensamblaje y BOM.
+### Pieza 2: Sistema de visualización interactiva y view modes
 
-### Pieza 5: Tooling propio del pipeline
+- Valor: demuestra criterio de producto, integración UI-runtime y visualización técnica.
+- Evidencia base:
+  - `UIManager`
+  - `SelectionManager`
+  - `UIDetailsSheet`
+  - `ViewModeManager`
+  - diagramas del capítulo 4
 
-- Valor: evidencia herramientas creadas o adaptadas para producción real.
-- Fuentes iniciales: addons CAD, scripts de inventario, automatizaciones y utilidades.
+### Pieza 3: Sistema térmico híbrido
 
-## Nota operativa
+- Valor: muestra integración entre simulación heurística, shader y visualización aplicada.
+- Evidencia base:
+  - `DroneStateController`
+  - `ThermalSimulationManager`
+  - `ThermalViewController`
+  - `Thermal.shader`
+  - `ThermalContactGraphBuilderWindow`
 
-- Mientras `blender_files/` siga en trabajo activo, no usarlo como fuente de extracción para esta carpeta.
+### Pieza 4: Caso CAD -> Unity -> WebGL
+
+- Valor: demuestra pipeline, normalización semántica, lectura de restricciones WebGL y pensamiento sistémico.
+- Evidencia base:
+  - `x500v2_parts_data.json`
+  - `ImportedDroneRuntimeBinder`
+  - blueprint de Holybro
+  - plan de optimización de fasteners
+  - auditorías de escena y cobertura
+
+### Pieza 5: Tooling de editor y verificación
+
+- Valor: diferencia el proyecto de una simple demo visual.
+- Evidencia base:
+  - `ProjectSetupWizard`
+  - `ImportedDroneCoverageAudit`
+  - `ThermalContactGraphBuilderWindow`
+  - `ImportedDroneRuntimeBinder`
+
+### Pieza 6: Comunicación técnica del sistema
+
+- Valor: útil para TA leads y hiring managers que valoran documentación, pensamiento arquitectónico y honestidad técnica.
+- Evidencia base:
+  - diagramas Mermaid del informe final
+  - documentación técnica actualizada
+  - matriz de desconexiones
+  - auditoría matemática y de arquitectura
+
+## Piezas secundarias o de apoyo
+
+- breakdown de shaders individuales;
+- script o extracto corto de `SelectionManager.cs`;
+- `ClippableLit.shader`, `XRay.shader`, `Blueprint.shader`, `Thermal.shader`;
+- `cad_symmetry_addon_v5_ultimate.py`, `cad_symmetry_addon_v6_batch.py`, `generate_inventory.py` como evidencia de tooling de pipeline.
+
+Estas piezas son buenas como profundidad técnica, pero no deben competir con la pieza principal del visor.
+
+## Research exploratorio: usar con cuidado
+
+Estos documentos y herramientas sirven para contexto, investigación o diseño de futuro, pero no deben presentarse automáticamente como parte implementada de la build final:
+
+- PiXYZ, Simplygon, InstaLOD y Quad Remesher como herramientas consultadas en research;
+- Houdini como pipeline explorado;
+- sistemas de ensamblaje completos;
+- audio;
+- measurement visible;
+- view modes ocultos como si fueran UX publicada.
+
+## Regla de selección final
+
+Una pieza entra al portafolio público solo si cumple tres condiciones:
+
+1. existe evidencia verificable;
+2. su alcance es coherente con la app real;
+3. su valor profesional se entiende rápido sin necesidad de leer toda la tesis.

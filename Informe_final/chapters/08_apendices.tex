@@ -35,8 +35,8 @@ Ruta del manual activo:
 
 Documentos activos:
 \begin{itemize}
-    \item \texttt{Desarrollo\_App/Documentacion\_Tecnica/01\_Arquitectura\_del\_Sistema.md}
-    \item \texttt{Desarrollo\_App/Documentacion\_Tecnica/02\_Referencia\_Tecnica\_Modulos.md}
+    \item \path{Desarrollo_App/Documentacion_Tecnica/01_Arquitectura_del_Sistema.md}
+    \item \path{Desarrollo_App/Documentacion_Tecnica/02_Referencia_Tecnica_Modulos.md}
 \end{itemize}
 
 \subsection*{Apéndice E: Matriz de desconexiones}
@@ -78,6 +78,29 @@ Los instrumentos metodológicos activos del cierre son:
 
 \noindent Las tareas de prueba deben alinearse con el flujo visible final: navegar, seleccionar pieza, revisar el \textit{bottom sheet}, usar \texttt{Inspect}, aplicar \texttt{Explode} o \texttt{Cut}, y cambiar de modo visual en \texttt{Studio}.
 
+\paragraph{} Como apoyo editorial para el cierre del estudio, se conservan tres esquemas visuales de consolidación metodológica. Estas figuras no representan resultados observados; funcionan como guías para estructurar la presentación final de SUS, NASA-TLX Raw y KPIs una vez exista una build congelada y se complete el trabajo de campo.
+
+\begin{figure}[H]
+    \caption{Esquema de consolidación del puntaje SUS y su interpretación.}
+    \label{fig:esquema_sus_resultados}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_11.pdf}
+\end{figure}
+
+\begin{figure}[H]
+    \caption{Esquema de consolidación del puntaje NASA-TLX Raw por dimensiones.}
+    \label{fig:esquema_nasatlx_resultados}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_12.pdf}
+\end{figure}
+
+\begin{figure}[H]
+    \caption{Esquema de consolidación de KPIs técnicos frente a metas operativas.}
+    \label{fig:esquema_kpis_resultados}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_13.pdf}
+\end{figure}
+
 \subsection*{Apéndice I: Estado del pipeline de activos}
 \addcontentsline{toc}{subsection}{Apéndice I: Estado del pipeline de activos}
 
@@ -87,6 +110,24 @@ Para efectos de cierre documental:
     \item Houdini se mantiene como herramienta evaluada o experimental, no como pipeline oficial de la build cerrada, salvo evidencia nueva derivada del reimport final;
     \item la optimización CAD/import pendiente debe completarse antes del freeze definitivo.
 \end{itemize}
+
+\begin{table}[H]
+    \caption{Estado del pipeline 3D al cierre documental}
+    \label{tab:pipeline_3d_cierre}
+    \centering
+    \small
+    \begin{tabular}{p{3.1cm}p{3.1cm}p{2.8cm}p{4.6cm}}
+        \hline
+        \textbf{Etapa} & \textbf{Herramienta principal} & \textbf{Estado} & \textbf{Lectura editorial} \\ \hline
+        Preparación y limpieza de activos & Blender & Activa & Ruta defendible del cierre para ajuste de malla, organización y exportación. \\
+        Texturizado y materiales & Unity URP / materiales del proyecto & Activa & El informe final documenta el flujo material realmente visible en la build y sus restricciones WebGL. \\
+        Integración en motor & Unity & Activa & Núcleo del producto final y punto de verdad para escena, UI y runtime binding. \\
+        Auditoría de cobertura y runtime repair & Tooling de editor + \texttt{ImportedDroneRuntimeBinder} & Activa & Parte esencial del cierre técnico y de la coherencia entre escena y documentación. \\
+        Houdini & Evaluación experimental & No canónico & Puede citarse como exploración o trabajo futuro, pero no como pipeline oficial de la versión final. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. Esta tabla evita presentar como pipeline oficial herramientas que no quedaron integradas de forma cerrada en la build final. \textit{Fuente}. Elaboración propia.
+\end{table}
 
 \subsection*{Apéndice J: Demo público}
 \addcontentsline{toc}{subsection}{Apéndice J: Demo público}
@@ -117,5 +158,66 @@ La auditoría activa de coherencia entre fórmulas documentadas, lógica de cód
 \end{center}
 
 \noindent Ambos documentos respaldan la interpretación correcta del modo \texttt{Thermal} como simulación híbrida heurística y no como FEA en tiempo real.
+
+\subsection*{Apéndice M: Correlación entre la propuesta y el informe final}
+\addcontentsline{toc}{subsection}{Apéndice M: Correlación entre la propuesta y el informe final}
+
+\begin{table}[H]
+    \caption{Correlación entre tablas de la propuesta y el informe final}
+    \label{tab:correlacion_tablas_propuesta_informe}
+    \centering
+    \small
+    \begin{tabular}{p{4.1cm}p{3.6cm}p{4.8cm}}
+        \hline
+        \textbf{Tabla en la propuesta} & \textbf{Estado en el informe final} & \textbf{Justificación} \\ \hline
+        Comparativa de soluciones Web 3D & Conservada en el Capítulo 2 & Sigue siendo pertinente como sustento del estado del arte y de la selección de Unity WebGL. \\
+        Cronograma general del proyecto & Se conserva solo en la propuesta & Es un artefacto de planeación; en el informe final pierde valor analítico y se sustituye por narrativa de ejecución y cierre. \\
+        Presupuesto estimado de recursos & Se conserva solo en la propuesta & Corresponde a la viabilidad ex ante del proyecto; no es un resultado ni un artefacto técnico del cierre. \\
+        Resultados o productos esperados & Transformada en tabla de productos entregados vs.\ esperados & En el informe final se requiere contrastar expectativa inicial con estado real de entrega y pendientes. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. La ausencia de una tabla del documento final no implica incoherencia si su función era exclusivamente prospectiva en la propuesta. \textit{Fuente}. Elaboración propia.
+\end{table}
+
+\begin{table}[H]
+    \caption{Productos entregados vs.\ esperados al cierre documental}
+    \label{tab:productos_entregados_esperados}
+    \centering
+    \small
+    \begin{tabular}{p{4.3cm}p{2.5cm}p{5.5cm}}
+        \hline
+        \textbf{Producto esperado en la propuesta} & \textbf{Estado} & \textbf{Observación de cierre} \\ \hline
+        Prototipo de software WebGL funcional & Parcialmente cerrado & El flujo principal es funcional y documentable; falta freeze posterior a optimización final, auditorías rerun y reportes de usabilidad. \\
+        Sistema de shaders URP optimizados & Entregado & La arquitectura y los modos visibles/ocultos quedaron documentados; la versión final debe seguir diferenciando lo publicado de lo oculto. \\
+        Conjunto de modelos 3D optimizados & Parcialmente cerrado & Existe pipeline defendible y escena funcional, pero la optimización final CAD/import sigue abierta antes del freeze. \\
+        Documento de trabajo de grado & En cierre & Propuesta e informe final quedaron saneados; el cierre empírico definitivo depende del Capítulo 5 con datos reales. \\
+        Informe de usabilidad y carga cognitiva & Pendiente & Los instrumentos y placeholders editoriales están listos, pero la recolección de datos aún no se ejecuta sobre la build congelada. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. Esta tabla actualiza el horizonte de productos de la propuesta sin borrar la diferencia entre expectativa inicial y estado real de cierre. \textit{Fuente}. Elaboración propia.
+\end{table}
+
+\subsection*{Apéndice N: Resumen de artefactos activos del cierre}
+\addcontentsline{toc}{subsection}{Apéndice N: Resumen de artefactos activos del cierre}
+
+\begin{table}[H]
+    \caption{Resumen de artefactos activos del cierre documental}
+    \label{tab:resumen_artefactos_cierre}
+    \centering
+    \small
+    \begin{tabular}{p{4.0cm}p{3.8cm}p{2.2cm}p{4.0cm}}
+        \hline
+        \textbf{Artefacto} & \textbf{Ubicación principal} & \textbf{Estado} & \textbf{Uso en defensa o cierre} \\ \hline
+        Propuesta actualizada & \path{Propuesta/final_proposal.pdf} & Activo & Evidencia de formulación metodológica corregida. \\
+        Informe final actual & \path{Informe_final/informe_final.pdf} & Activo & Documento principal para evaluación académica. \\
+        Manual de usuario & \path{Informe_final/Manual_de_usuario/manual_usuario.tex} & Activo & Soporte al flujo visible y a la experiencia de uso final. \\
+        Manual técnico & \path{Informe_final/Manual_tecnico/manual_tecnico.tex} & Activo & Soporte de arquitectura, módulos y tooling. \\
+        Diagramas Mermaid exportados & \path{Informe_final/figures/chapter4/} & Activo & Explican arquitectura, flujo, restricciones y despliegue. \\
+        Matriz de desconexiones & \path{Informe_final/Desarrollo_App/MATRIZ_DESCONEXIONES_APP_DOCUMENTACION.md} & Activo & Justifica diferencias entre app real, propuesta y cierre documental. \\
+        Auditoría matemática y de arquitectura & \path{Informe_final/Desarrollo_App/AUDITORIA_MATEMATICA_Y_ARQUITECTURA_2026-04-12.md} & Activo & Respalda coherencia entre fórmulas, arquitectura y app real. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. Esta tabla resume únicamente artefactos activos; auditorías históricas y documentos superseded se conservan como archivo, pero no como fuente primaria del cierre. \textit{Fuente}. Elaboración propia.
+\end{table}
 
 \newpage

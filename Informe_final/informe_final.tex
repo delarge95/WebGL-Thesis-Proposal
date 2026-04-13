@@ -11,6 +11,7 @@
 \usepackage{booktabs} % For professional tables
 \usepackage{array} % Column modifiers for table alignment
 \usepackage{longtable} % For multipage tables in chapters
+\usepackage{float} % Precise float placement for thesis figures
 \usepackage{caption}  % For customizing captions
 \usepackage{amsmath} % For math symbols if needed
 \usepackage{amsfonts} % For math fonts if needed
@@ -51,8 +52,10 @@
 
 % --- Preamble Addition: Rename Table Label for Spanish ---
 \addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+\addto\captionsspanish{\renewcommand{\figurename}{Figura}}
 \addto\captionsspanish{\renewcommand{\contentsname}{Tabla de Contenido}}
 \addto\captionsspanish{\renewcommand{\listtablename}{Lista de Tablas}}
+\addto\captionsspanish{\renewcommand{\listfigurename}{Lista de Figuras}}
 
 % --- APA 7 UNAD FORMATTING ---
 
@@ -120,6 +123,13 @@
 \renewcommand{\cftlottitlefont}{\hfill\normalfont\bfseries\normalsize}
 \renewcommand{\cftafterlottitle}{\null\hfill}
 
+% --- Para la Lista de Figuras ---
+\setlength{\cftbeforeloftitleskip}{0\baselineskip}
+\setlength{\cftafterloftitleskip}{0\baselineskip}
+
+\renewcommand{\cftloftitlefont}{\hfill\normalfont\bfseries\normalsize}
+\renewcommand{\cftafterloftitle}{\null\hfill}
+
 % --- Customization for ToC Entry Fonts (No Bold for Section Titles in ToC) ---
 \renewcommand{\cftsecfont}{\normalfont}
 \renewcommand{\cftsecpagefont}{\normalfont}
@@ -142,11 +152,22 @@
 % Change the font for the table number in LoT to bold
 \renewcommand{\cfttabpresnum}{\tablename~}
 \renewcommand{\cfttabfont}{\bfseries}
+\renewcommand{\cftfigpresnum}{\figurename~}
+\renewcommand{\cftfigfont}{\bfseries}
 
 % Configuration for List of Tables (LoT) entries
 \titlecontents{table}
   [0em]
   {{\bfseries\tablename~\thecontentslabel\quad}\itshape}
+  {}
+  {}
+  {\quad\cftdotfill{\cftdotsep}\normalfont\thecontentspage}
+  [\vspace{0\baselineskip}]
+
+% Configuration for List of Figures (LoF) entries
+\titlecontents{figure}
+  [0em]
+  {{\bfseries\figurename~\thecontentslabel\quad}\itshape}
   {}
   {}
   {\quad\cftdotfill{\cftdotsep}\normalfont\thecontentspage}
@@ -181,6 +202,40 @@
     singlelinecheck=false,
     skip=\baselineskip,
     position=top
+}
+
+% Figure Caption Formatting
+\captionsetup[figure]{
+    labelformat=table_num_bold_left,
+    labelsep=mediumspace,
+    textfont=it,
+    justification=raggedright,
+    singlelinecheck=false,
+    skip=\baselineskip,
+    position=top
+}
+
+% Editorial placeholder helpers for pending screenshots and charts
+\newcommand{\editorialplaceholderbox}[2]{%
+    \fbox{%
+        \begin{minipage}[c][0.22\textheight][c]{0.88\textwidth}
+            \centering
+            \textbf{Placeholder editorial}\\[0.5\baselineskip]
+            #1\\[0.5\baselineskip]
+            \textit{#2}
+        \end{minipage}%
+    }%
+}
+
+\newcommand{\placeholderfigure}[4]{%
+    \begin{figure}[H]
+        \caption{#1}
+        \label{#2}
+        \centering
+        \editorialplaceholderbox{#3}{#4}
+        \par\vspace{0.5\baselineskip}
+        \textit{Nota}. Reserva editorial para la versión final del informe. Debe sustituirse por evidencia visual de la build congelada o, si la función no entra al alcance final, moverse a anexos o trabajo futuro.
+    \end{figure}
 }
 
 % --- DOCUMENT START ---

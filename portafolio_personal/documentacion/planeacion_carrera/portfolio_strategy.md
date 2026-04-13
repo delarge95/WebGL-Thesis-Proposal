@@ -1,89 +1,105 @@
-# PORTFOLIO STRATEGY: TECHNICAL ARTIST (2026)
+# Estrategia de Portafolio: Technical Artist 2026
 
-## Target Positioning
+## Posicionamiento objetivo
 
-Primary lane:
+Carril principal:
+
 - Technical Artist
 - tools + shaders + optimization + technical visualization
 
-Secondary lane:
+Carril secundario:
+
 - real-time visualization engineer
 - interactive 3D product visualization
 
-## What the portfolio must prove fast
+## Qué debe demostrar el portafolio en menos de dos minutos
 
-1. You build real interactive systems, not just renders.
-2. You can work between art pipeline and runtime code.
-3. You understand technical constraints and document them honestly.
-4. You know how to separate shipped features from hidden or future work.
+1. Construyes sistemas interactivos reales, no solo renders.
+2. Puedes trabajar entre pipeline artístico, runtime y tooling.
+3. Entiendes restricciones técnicas y sabes documentarlas con honestidad.
+4. Sabes separar shipping UX, capacidad oculta y trabajo futuro.
 
-## Core portfolio package
+## Paquete profesional recomendado
 
-### Package A: Final WebGL Viewer
-Primary evidence:
-- final Holybro X500 V2 viewer
-- bottom sheet flow
-- Inspect / Analyze / Studio
+### Paquete A: Visor WebGL final
 
-### Package B: Shader / Visualization Systems
-Primary evidence:
-- X-Ray
-- Solid Color
-- Thermal
-- supporting explanation of hidden modes as technical depth, not shipped UX
+Pruebas principales:
 
-### Package C: Toolsmith Value
-Primary evidence:
+- Holybro X500 V2 viewer
+- flujo `bottom sheet`
+- `Inspect / Analyze / Studio`
+
+### Paquete B: Sistema visual y shaders
+
+Pruebas principales:
+
+- `X-Ray`
+- `Solid Color`
+- `Thermal`
+- explicación breve de clipping, view modes y límites de publicación
+
+### Paquete C: Toolsmith value
+
+Pruebas principales:
+
 - `ProjectSetupWizard`
 - `ImportedDroneCoverageAudit`
 - `ThermalContactGraphBuilderWindow`
+- `ImportedDroneRuntimeBinder`
 
-### Package D: CAD-to-WebGL Study
-Primary evidence:
-- canonical taxonomy `28 / 30 / 257`
-- runtime import repair
-- final browser result
+### Paquete D: Caso CAD -> Unity -> WebGL
+
+Pruebas principales:
+
+- taxonomía `28 / 30 / 257`
+- normalización del activo
+- reparación runtime del import
+- resultado final en browser
 
 Gate:
-- do not publish final optimization numbers until the reimport freeze is complete.
 
-## Portfolio user profile
+- no publicar métricas finales de optimización hasta completar freeze y medición final.
 
-### Recruiter
-Needs:
-- quick visual proof
-- short explanation
-- clear role framing
+### Paquete E: Sistema térmico híbrido
 
-### TA Lead
-Needs:
-- system thinking
-- tooling value
-- technical honesty
-- reproducible evidence
+Pruebas principales:
 
-### Hiring Manager
-Needs:
-- confidence that the work is real
-- clean narrative
-- no thesis-only language overload
+- solver reducido + view controller + shader + leyenda
+- verificación matemática suficiente para sostener visualización aplicada
 
-## Messaging rules
+Guardrail:
 
-Always say:
-- what problem was solved
-- what part of the system is visible in the final build
-- what supporting tooling exists
+- no vender FEA ni validación experimental cerrada.
 
-Never imply:
-- audio shipped
-- full assembly suite shipped
-- Houdini as the final production pipeline
-- old counts like `16 parts` or `91 scripts`
-- fake runtime modules
+## Reglas de mensaje
 
-## Success condition
+Siempre explicar:
 
-A reviewer should be able to look at the portfolio for two minutes and conclude:
+- qué problema se resolvió;
+- qué parte del sistema es visible en la build final;
+- qué tooling o arquitectura sostiene la solución;
+- qué límites siguen abiertos.
 
-> This candidate can ship technical visualization tools, reason about runtime constraints, and communicate system boundaries clearly.
+Nunca implicar:
+
+- audio shipped;
+- full assembly suite shipped;
+- Houdini como pipeline final;
+- métricas viejas o conteos históricos;
+- módulos inexistentes;
+- research exploratorio como implementación cerrada.
+
+## Orden recomendado de publicación
+
+1. Visor WebGL final.
+2. Breakdown de sistema interactivo.
+3. Breakdown de visualización/shaders.
+4. Tooling de editor.
+5. Sistema térmico híbrido.
+6. Caso CAD -> WebGL con métricas solo cuando el freeze exista.
+
+## Condición de éxito
+
+Un reviewer debería poder concluir:
+
+> Este candidato puede entregar visualización técnica interactiva, construir herramientas de soporte, razonar sobre runtime constraints y comunicar con claridad lo que realmente está shipping.
