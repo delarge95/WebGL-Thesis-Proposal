@@ -23,8 +23,10 @@ namespace WebGL.Core.Content
 
         private MaterialController materialController;
         private Coroutine pulseCoroutine;
+        private bool isHovered = false;
         private bool isSelected = false;
         private SelectionVisualMode currentSelectionMode = SelectionVisualMode.FillPulse;
+        private Color? currentOverrideColor;
 
         private void Awake()
         {
@@ -37,15 +39,15 @@ namespace WebGL.Core.Content
 
         public void OnHoverEnter()
         {
+            isHovered = true;
             if (isSelected) return;
-            // isHovered = true;
             materialController.SetColor(hoverColor);
         }
 
         public void OnHoverExit()
         {
+            isHovered = false;
             if (isSelected) return;
-            // isHovered = false;
             materialController.ResetProperties();
         }
 
@@ -53,6 +55,63 @@ namespace WebGL.Core.Content
         {
             isSelected = true;
             currentSelectionMode = visualMode;
+            currentOverrideColor = overrideColor;
+            ApplySelectionVisual();
+        }
+
+        public void OnDeselect()
+        {
+            isSelected = false;
+            currentOverrideColor = null;
+            StopPulse();
+            if (isHovered)
+            {
+                materialController.SetColor(hoverColor);
+            }
+            else
+            {
+                materialController.ResetProperties();
+            }
+            
+            // Optional: Disable emission if it wasn't on originally, 
+            // but for safety we often leave it enabled with black color 
+            // to avoid shader variant switching cost
+        }
+
+        public void RefreshVisualTargets()
+        {
+            if (materialController == null)
+            {
+                materialController = GetComponent<MaterialController>();
+                if (materialController == null)
+                {
+                    materialController = gameObject.AddComponent<MaterialController>();
+                }
+            }
+
+            materialController.RefreshRenderers();
+
+            if (isSelected)
+            {
+                ApplySelectionVisual();
+                return;
+            }
+
+            if (isHovered)
+            {
+                materialController.SetColor(hoverColor);
+                return;
+            }
+
+            materialController.ResetProperties();
+        }
+
+        private void ApplySelectionVisual()
+        {
+            if (materialController == null)
+            {
+                return;
+            }
 
             if (currentSelectionMode == SelectionVisualMode.SoftTint)
             {
@@ -66,11 +125,11 @@ namespace WebGL.Core.Content
             {
                 StopPulse();
                 materialController.ResetProperties();
-                materialController.SetColor(overrideColor ?? hotspotGroupColor);
+                materialController.SetColor(currentOverrideColor ?? hotspotGroupColor);
                 return;
             }
 
-            Renderer[] renderers = materialController != null ? materialController.Renderers : null;
+            Renderer[] renderers = materialController.Renderers;
             if (renderers != null)
             {
                 foreach (Renderer renderer in renderers)
@@ -85,20 +144,9 @@ namespace WebGL.Core.Content
                     }
                 }
             }
-            
+
             materialController.SetColor(selectedColor);
             StartPulse();
-        }
-
-        public void OnDeselect()
-        {
-            isSelected = false;
-            StopPulse();
-            materialController.ResetProperties();
-            
-            // Optional: Disable emission if it wasn't on originally, 
-            // but for safety we often leave it enabled with black color 
-            // to avoid shader variant switching cost
         }
 
         private void StartPulse()

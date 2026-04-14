@@ -23,6 +23,11 @@ namespace WebGL.Core.Content
             _renderers = GetComponentsInChildren<Renderer>(true);
         }
 
+        public void RefreshRenderers()
+        {
+            CacheRenderers();
+        }
+
         public void SetColor(Color color)
         {
             if (_renderers == null || _renderers.Length == 0) CacheRenderers();

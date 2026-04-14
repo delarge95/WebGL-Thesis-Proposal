@@ -1,4 +1,5 @@
 using UnityEngine;
+using WebGL.Core.Content;
 using WebGL.Core.Utils;
 
 namespace WebGL.Core.Managers
@@ -14,7 +15,16 @@ namespace WebGL.Core.Managers
         private const float MOUSE_SCROLL_SCALE      = 2f;
         private const float RAYCAST_MAX_DISTANCE    = 100f;
         private const float FOCUS_SNAP_DISTANCE     = 5f;
-        private const float FOCUS_ORBIT_DISTANCE    = 6f;
+        private const float FOCUS_FALLBACK_DISTANCE = 6f;
+        private const float MIN_DISTANCE_FLOOR      = 0.05f;
+        private const float FOCUS_DISTANCE_PADDING  = 1.35f;
+        private const float FOCUS_DISTANCE_MIN      = 0.08f;
+        private const float DEFAULT_MODEL_MIN_DISTANCE = 2f;
+        private const float MIN_ADAPTIVE_ORBIT_FACTOR = 0.3f;
+        private const float MIN_ADAPTIVE_PAN_FACTOR = 0.0035f;
+        private const float ADAPTIVE_ORBIT_EXPONENT = 0.6f;
+        private const float ADAPTIVE_PAN_EXPONENT = 1.7f;
+        private const float ADAPTIVE_MAX_DISTANCE_FLOOR_MULTIPLIER = 5f;
 
         [Header("Target")]
         [SerializeField] private Transform target;
@@ -49,6 +59,11 @@ namespace WebGL.Core.Managers
 
         private float currentDistance;
         private float targetDistance;
+        private float defaultMinDistance;
+        private float defaultMaxDistance;
+        private float currentMinDistance;
+        private float currentMaxDistance;
+        private Transform defaultNavigationContext;
         
         private float currentX = 0f;
         private float currentY = DEFAULT_VERTICAL_ANGLE;
@@ -72,10 +87,23 @@ namespace WebGL.Core.Managers
             base.Awake();
             currentDistance = distance;
             targetDistance = distance;
+            defaultMinDistance = Mathf.Max(Mathf.Min(minDistance, DEFAULT_MODEL_MIN_DISTANCE), MIN_DISTANCE_FLOOR);
+            defaultMaxDistance = Mathf.Max(maxDistance, defaultMinDistance + 0.5f);
+            currentMinDistance = defaultMinDistance;
+            currentMaxDistance = defaultMaxDistance;
             
             // FORCE override inspector values that might be stale
+            minDistance = currentMinDistance;
+            maxDistance = currentMaxDistance;
             minVerticalAngle = -89f;
             maxVerticalAngle = 89f;
+
+            Camera cam = GetComponent<Camera>();
+            if (cam != null)
+            {
+                cam.nearClipPlane = Mathf.Min(cam.nearClipPlane, 0.01f);
+                cam.farClipPlane = Mathf.Max(cam.farClipPlane, 200f);
+            }
             // Render settings are handled by EnvironmentController.Start() (Phase 5 cleanup)
         }
 
@@ -83,6 +111,7 @@ namespace WebGL.Core.Managers
         {
             if (target != null)
             {
+                defaultNavigationContext = target;
                 currentFocusPoint = target.position + targetOffset;
                 targetFocusPoint = currentFocusPoint;
             }
@@ -96,6 +125,7 @@ namespace WebGL.Core.Managers
         {
             // Camera can operate without a physical target transform (using focus point).
             HandleInput();
+            RefreshAdaptiveNavigationContext();
             
             // Interpolate View Shift
             currentViewShiftRatio = Mathf.Lerp(currentViewShiftRatio, targetViewShiftRatio, Time.deltaTime * dampingFactor);
@@ -300,8 +330,9 @@ namespace WebGL.Core.Managers
         // Shared Logic
         private void ApplyOrbit(float x, float y)
         {
-            targetX += x;
-            targetY -= y;
+            float orbitFactor = GetAdaptiveOrbitFactor();
+            targetX += x * orbitFactor;
+            targetY -= y * orbitFactor;
             targetY = Mathf.Clamp(targetY, minVerticalAngle, maxVerticalAngle);
         }
 
@@ -311,7 +342,8 @@ namespace WebGL.Core.Managers
             Vector3 right = transform.right.normalized;
             Vector3 up = transform.up.normalized;
 
-            Vector3 move = (-right * x) + (-up * y);
+            float panFactor = GetAdaptivePanFactor();
+            Vector3 move = ((-right * x) + (-up * y)) * panFactor;
 
             if (target != null)
             {
@@ -331,8 +363,13 @@ namespace WebGL.Core.Managers
 
         private void ApplyZoom(float amount)
         {
-             targetDistance -= amount * zoomSpeed; 
-             targetDistance = Mathf.Clamp(targetDistance, minDistance, maxDistance);
+             float zoomMin = GetZoomMinDistance();
+             float zoomMax = GetZoomMaxDistance();
+             float zoomRange = Mathf.Max(zoomMax - zoomMin, 0.001f);
+             float zoomStep = Mathf.Max(zoomRange * 0.12f, zoomMin * 0.25f, 0.01f);
+
+             targetDistance -= amount * zoomStep;
+             targetDistance = Mathf.Clamp(targetDistance, zoomMin, zoomMax);
         }
 
         private void PickPivot(Vector2 screenPos)
@@ -345,7 +382,7 @@ namespace WebGL.Core.Managers
                 float newDist = Vector3.Distance(transform.position, newFocus);
                 
                 // Clamp distance to avoid being too close
-                if (newDist >= minDistance)
+                if (newDist >= GetZoomMinDistance())
                 {
                     if (target != null)
                     {
@@ -358,7 +395,7 @@ namespace WebGL.Core.Managers
 
                     // Smooth Transition
                     targetFocusPoint = newFocus;
-                    targetDistance = newDist;
+                    targetDistance = Mathf.Clamp(newDist, GetZoomMinDistance(), GetZoomMaxDistance());
                 }
             }
         }
@@ -418,6 +455,11 @@ namespace WebGL.Core.Managers
 
         public void SetTarget(Transform newTarget, bool snap = false)
         {
+            if (defaultNavigationContext == null && target != null)
+            {
+                defaultNavigationContext = target;
+            }
+
             target = newTarget;
             targetOffset = Vector3.zero;
             
@@ -437,10 +479,22 @@ namespace WebGL.Core.Managers
             if (objTransform == null) return;
             
             Vector3 centerOffset = Vector3.zero;
-            var rend = objTransform.GetComponent<Renderer>();
-            if (rend != null)
+            float focusDistance = FOCUS_FALLBACK_DISTANCE;
+            if (TryGetObjectBounds(objTransform, out Bounds objectBounds))
             {
-                centerOffset = rend.bounds.center - objTransform.position;
+                centerOffset = objectBounds.center - objTransform.position;
+                focusDistance = CalculateFocusDistance(objectBounds);
+                ConfigureZoomWindow(objectBounds, focusDistance);
+            }
+            else
+            {
+                var rend = objTransform.GetComponent<Renderer>();
+                if (rend != null)
+                {
+                    centerOffset = rend.bounds.center - objTransform.position;
+                }
+
+                RestoreDefaultZoomWindow();
             }
 
             // Keep current rotation angles
@@ -450,7 +504,7 @@ namespace WebGL.Core.Managers
             SetTarget(objTransform, false);
             targetOffset = centerOffset; 
             
-            targetDistance = FOCUS_ORBIT_DISTANCE;
+            targetDistance = Mathf.Clamp(focusDistance, GetZoomMinDistance(), GetZoomMaxDistance());
         }
 
         public void SetViewportShift(float shiftRatio)
@@ -464,6 +518,7 @@ namespace WebGL.Core.Managers
             targetX = 0f;
             targetY = DEFAULT_VERTICAL_ANGLE;
             targetDistance = distance;
+            RestoreDefaultZoomWindow();
 
             // Reset Pan / Focus
             targetFocusPoint = initialFocusPoint;
@@ -487,11 +542,185 @@ namespace WebGL.Core.Managers
 
         public void SetDistance(float newDistance, bool immediate = false)
         {
-            targetDistance = Mathf.Clamp(newDistance, minDistance, maxDistance);
+            targetDistance = Mathf.Clamp(newDistance, GetZoomMinDistance(), GetZoomMaxDistance());
             if (immediate)
             {
                 currentDistance = targetDistance;
             }
+        }
+
+        private float GetZoomMinDistance()
+        {
+            return Mathf.Max(currentMinDistance, MIN_DISTANCE_FLOOR);
+        }
+
+        private float GetZoomMaxDistance()
+        {
+            return Mathf.Max(currentMaxDistance, GetZoomMinDistance() + 0.01f);
+        }
+
+        private void RestoreDefaultZoomWindow()
+        {
+            currentMinDistance = defaultMinDistance;
+            currentMaxDistance = defaultMaxDistance;
+            minDistance = currentMinDistance;
+            maxDistance = currentMaxDistance;
+            targetDistance = Mathf.Clamp(targetDistance, GetZoomMinDistance(), GetZoomMaxDistance());
+        }
+
+        private void ConfigureZoomWindow(Bounds bounds, float focusDistance)
+        {
+            float dominantExtent = Mathf.Max(bounds.extents.x, Mathf.Max(bounds.extents.y, bounds.extents.z));
+            float desiredMin = Mathf.Max(dominantExtent * 0.75f, FOCUS_DISTANCE_MIN);
+            float desiredMax = Mathf.Max(focusDistance * 3.25f, desiredMin * 4f);
+            float contextualMaxFloor = Mathf.Min(defaultMaxDistance, defaultMinDistance * ADAPTIVE_MAX_DISTANCE_FLOOR_MULTIPLIER);
+            float relaxedMax = Mathf.Max(desiredMax, contextualMaxFloor, currentDistance * 1.15f);
+
+            currentMinDistance = Mathf.Clamp(desiredMin, MIN_DISTANCE_FLOOR, defaultMaxDistance);
+            currentMaxDistance = Mathf.Clamp(relaxedMax, currentMinDistance + 0.15f, defaultMaxDistance);
+            minDistance = currentMinDistance;
+            maxDistance = currentMaxDistance;
+            targetDistance = Mathf.Clamp(targetDistance, GetZoomMinDistance(), GetZoomMaxDistance());
+        }
+
+        private void RefreshAdaptiveNavigationContext()
+        {
+            Transform context = ResolveAdaptiveContextTransform();
+            if (context != null && TryGetObjectBounds(context, out Bounds bounds))
+            {
+                float focusDistance = CalculateFocusDistance(bounds);
+                ConfigureZoomWindow(bounds, focusDistance);
+                return;
+            }
+
+            RestoreDefaultZoomWindow();
+        }
+
+        private Transform ResolveAdaptiveContextTransform()
+        {
+            Transform selection = SelectionManager.Instance != null ? SelectionManager.Instance.CurrentSelection : null;
+            if (selection != null)
+            {
+                return selection;
+            }
+
+            if (PartVisibilityManager.Instance != null)
+            {
+                Transform isolated = PartVisibilityManager.Instance.GetIsolatedTransform();
+                if (isolated != null)
+                {
+                    return isolated;
+                }
+
+                ExplodablePart isolatedPart = PartVisibilityManager.Instance.GetIsolatedPart();
+                if (isolatedPart != null)
+                {
+                    return isolatedPart.transform;
+                }
+            }
+
+            if (defaultNavigationContext != null)
+            {
+                return defaultNavigationContext;
+            }
+
+            return target;
+        }
+
+        private float GetAdaptiveOrbitFactor()
+        {
+            float distanceFactor = currentDistance / Mathf.Max(defaultMinDistance, 0.001f);
+            float normalizedFactor = Mathf.Clamp01(distanceFactor);
+            float adaptiveFactor = Mathf.Pow(normalizedFactor, ADAPTIVE_ORBIT_EXPONENT);
+            return Mathf.Clamp(adaptiveFactor, MIN_ADAPTIVE_ORBIT_FACTOR, 1f);
+        }
+
+        private float GetAdaptivePanFactor()
+        {
+            float distanceFactor = currentDistance / Mathf.Max(defaultMinDistance, 0.001f);
+            float normalizedFactor = Mathf.Clamp01(distanceFactor);
+            float adaptiveFactor = Mathf.Pow(normalizedFactor, ADAPTIVE_PAN_EXPONENT);
+            return Mathf.Clamp(adaptiveFactor, MIN_ADAPTIVE_PAN_FACTOR, 1f);
+        }
+
+        private bool TryGetObjectBounds(Transform root, out Bounds bounds)
+        {
+            bounds = default;
+            if (root == null)
+            {
+                return false;
+            }
+
+            bool hasBounds = false;
+            Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                Renderer renderer = renderers[i];
+                if (renderer == null)
+                {
+                    continue;
+                }
+
+                if (!hasBounds)
+                {
+                    bounds = renderer.bounds;
+                    hasBounds = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(renderer.bounds);
+                }
+            }
+
+            if (hasBounds)
+            {
+                return true;
+            }
+
+            Collider[] colliders = root.GetComponentsInChildren<Collider>(true);
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                Collider collider = colliders[i];
+                if (collider == null)
+                {
+                    continue;
+                }
+
+                if (!hasBounds)
+                {
+                    bounds = collider.bounds;
+                    hasBounds = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(collider.bounds);
+                }
+            }
+
+            return hasBounds;
+        }
+
+        private float CalculateFocusDistance(Bounds bounds)
+        {
+            Camera cam = GetComponent<Camera>();
+            if (cam == null)
+            {
+                return FOCUS_FALLBACK_DISTANCE;
+            }
+
+            Vector3 extents = bounds.extents;
+            float halfVerticalFov = Mathf.Max(cam.fieldOfView * 0.5f * Mathf.Deg2Rad, 0.01f);
+            float halfHorizontalFov = Mathf.Max(Mathf.Atan(Mathf.Tan(halfVerticalFov) * cam.aspect), 0.01f);
+
+            float distanceForHeight = extents.y / Mathf.Tan(halfVerticalFov);
+            float distanceForWidth = extents.x / Mathf.Tan(halfHorizontalFov);
+            float distanceForDepth = extents.z;
+            float dominantExtent = Mathf.Max(extents.x, Mathf.Max(extents.y, extents.z));
+
+            float baseDistance = Mathf.Max(distanceForHeight, distanceForWidth) + distanceForDepth;
+            float paddedDistance = Mathf.Max(baseDistance * FOCUS_DISTANCE_PADDING, dominantExtent * 2.2f);
+
+            return Mathf.Clamp(paddedDistance, Mathf.Max(minDistance, FOCUS_DISTANCE_MIN), maxDistance);
         }
     }
 }

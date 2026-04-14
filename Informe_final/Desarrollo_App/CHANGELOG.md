@@ -5,6 +5,56 @@
 
 ---
 
+## [2026-04-13] Unity Fasteners: metadata modular, catalogos reconciliados e inspeccion proxy->detail
+
+### Added
+
+- `FastenerDataModels.cs`: contratos serializables para familias, instancias, recetas modulares, metadata y reconciliacion.
+- `FastenerRegistry.cs`: resolucion runtime `instanceId -> family -> recipe` desde `Resources`.
+- `FastenerInspectionManager.cs`: activacion de detalle solo para el fastener seleccionado.
+- `FastenerBuilder.cs`: placeholders modulares en Unity para screws, nuts, standoffs, grommets y stoppers.
+- `FastenerRuntimeMarker.cs`: sello runtime con `familyId`, `instanceId`, `sceneTypeKey` y flags de inspeccion.
+- `holybro_parent_subpieces.json`: catalogo de piezas madre, subpiezas documentadas y resumen de fasteners por parent canonical.
+- Catalogos versionados:
+  - `desarrollo/docs/investigacion/Holybro/holybro_fastener_families.json`
+  - `desarrollo/docs/investigacion/Holybro/holybro_fastener_instances.json`
+  - `desarrollo/docs/investigacion/Holybro/holybro_fastener_reconciliation.json`
+
+### Changed
+
+- `DronePartData.cs`: agrega `fastenerMetadata` y helpers para descripcion/assembly info enriquecidos.
+- `SetupImportedDroneThermalTest.cs`: deja de crear fasteners genericos y ahora aplica metadata real, markers y export de catalogos.
+- `ImportedDroneRuntimeBinder.cs`: garantiza `FastenerRegistry` + `FastenerInspectionManager` y sella metadata de fasteners durante el saneamiento runtime.
+- `SelectionManager.cs`: cualquier click sobre geometria de fastener se resuelve al root completo del fastener para evitar aislamientos parciales por submesh.
+- `HighlightSystem.cs`, `MaterialController.cs` y `FastenerInspectionManager.cs`: el color de hover/seleccion se reaplica sobre el detalle temporal aunque el proxy quede oculto.
+- `PartVisibilityManager.cs`: el isolate de subseleccion ahora reconoce el scope completo del fastener, evita arrastrar geometria ancestro al aislar un fastener individual y, para piezas madre, incluye los fasteners reconciliados por `parentCanonicalPartId`.
+- `OrbitCameraController.cs`: el enfoque deja de usar una distancia fija, calcula distancia por bounds reales, reduce el `near clip` y usa una ventana de zoom dinamica por seleccion para que sensibilidad y alcance cambien entre un fastener pequeno y el dron completo.
+- `OrbitCameraController.cs`: la seleccion activa ahora tambien gobierna la ventana de zoom sin exigir aislamiento previo, el dron completo recupera algo mas de acercamiento util y `pan`/`orbit` escalan segun el rango efectivo de inspeccion para no sobrerreaccionar sobre fasteners aislados.
+- `OrbitCameraController.cs`: se reemplazo la escala lineal final de `pan`/`orbit` por curvas adaptativas; el paneo queda mas contenido en fasteners aislados y la orbita recupera algo de respuesta en inspeccion cercana.
+- `OrbitCameraController.cs`: se corrige un limite falso al deshacer zoom; el contexto adaptativo deja de depender de un `target` residual cuando no hay seleccion activa y la ventana mantiene margen suficiente para volver a alejar la camara.
+- `OrbitCameraController.cs`: se reduce aun mas la sensibilidad minima de `pan` en inspeccion cercana para fasteners y piezas pequenas.
+- `PartVisibilityManager.cs`: expone `GetIsolatedTransform()` para que la camara pueda distinguir entre contexto aislado real y foco heredado de una seleccion antigua.
+- `SelectionManager.cs`: limpia el estado de hover al convertir una pieza en seleccion y evita el tinte azul residual al deseleccionar desde el background.
+- `UIDetailsSheet.cs`: muestra subtipo, metrica, longitud, drive, material, CAD source y parent canonical para selecciones de `Fasteners`; para piezas madre agrega ensamblaje y subpiezas desde `subComponentNames`.
+- `HolybroFastenerCatalogBuilder.cs`: ahora infiere `parentCanonicalPartId` por proximidad al anchor directo del dron para compensar que la escena actual agrupa los fasteners bajo `x500v2_fastener_group`.
+- `Assets/Core/Data/X500V2Generated`: los fastener assets quedaron persistidos con metadata tecnica real y las piezas madre con su desglose `madre -> subpiezas -> fasteners`.
+
+### Validation Snapshot
+
+- Catalogos generados con `20` familias, `168` instancias y `9` issues de reconciliacion.
+- Catalogo jerarquico generado con piezas madre del dron y sus subpiezas/fasteners configurados.
+- `dotnet build Core.csproj -nologo`: OK.
+- `dotnet build UI.csproj -nologo`: OK.
+- `dotnet build Assembly-CSharp-Editor.csproj -nologo`: OK.
+
+### Notes
+
+- La geometria de fasteners en `MainScene_Final` se documenta como temporal/proxy, no como malla final de entrega.
+- El reemplazo futuro por activos Blender detallados debe hacerse manteniendo `familyId`, `instanceId` y `recipeKey`.
+- El isolate por fastener ahora esta definido a nivel de pieza completa, no de submesh.
+
+---
+
 ## [2026-04-10] Blender Tooling: MoI3D ICP Instancer (V7)
 
 ### Added

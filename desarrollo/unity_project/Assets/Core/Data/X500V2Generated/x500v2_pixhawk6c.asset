@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -75,9 +75,12 @@ MonoBehaviour:
   screwCount: 4
   screwSize: M2
   subComponentNames:
-  - Pixhawk 6C Top Cover
-  - Pixels 6C Base Shell
-  - IMU Sensor Board
-  - Main PCB
-  - JST GH 6-Pin Connector
+  - DIKE-PIXHAWK6C-LV-C1
+  - IMU-PIXHAWK6C
+  - MIANKE-PIXHAWK6C-LV-C1
+  - PCB-PIXHAWK6C-F1
+  - BM06B-WO
   category: 1
+
+
+

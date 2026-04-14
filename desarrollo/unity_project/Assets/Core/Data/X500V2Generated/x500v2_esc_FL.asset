@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -68,5 +68,10 @@ MonoBehaviour:
   - PWM/DShot wire
   screwCount: 0
   screwSize: 
-  subComponentNames: []
+  subComponentNames:
+  - ESC placeholder (temporary scene)
+  - Fasteners: Socket Cap Screw M2.5 x 10 mm x2
   category: 3
+
+
+

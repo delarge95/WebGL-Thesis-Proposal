@@ -6,6 +6,83 @@
 
 ---
 
+## Registro de Cambios (Abril 13, 2026) - Fasteners Unity: metadata modular, inspeccion bajo demanda y catalogos reconciliados
+
+### Objetivo
+
+Implementar la parte Unity del plan de optimizacion de fasteners sin depender aun de la geometria final de Blender, dejando un contrato de datos estable, inspeccion detallada bajo demanda y documentacion coherente con el estado real de la app.
+
+### Acciones Realizadas
+
+1. **Capa de datos modular para fasteners**:
+   - _Implementacion_: Se agregaron `FastenerFamilyDefinition`, `FastenerInstanceDefinition`, `FastenerModularRecipe`, `FastenerMetadata` y wrappers JSON en `FastenerDataModels.cs`.
+   - _Implementacion_: `DronePartData` fue extendido con `fastenerMetadata` para evitar seguir sobrecargando descripcion, tools y dimensions con texto generico.
+   - _Resultado_: La app ya tiene un contrato runtime explicito para familias e instancias de tornilleria.
+2. **Catalogos Holybro generados y versionados**:
+   - _Implementacion_: Se creo `HolybroFastenerCatalogBuilder` en editor y se materializaron `holybro_fastener_families.json`, `holybro_fastener_instances.json` y `holybro_fastener_reconciliation.json` tanto en `desarrollo/docs/investigacion/Holybro/` como en `Assets/Resources/`.
+   - _Resultado_: Quedaron registrados `20` familias, `168` instancias y `9` entradas de reconciliacion a partir de `MainScene_Final` + `x500v2_blender_synced_parts.json`.
+3. **Integracion runtime y setup**:
+   - _Implementacion_: `SetupImportedDroneThermalTest` ahora genera metadata real por fastener, sella `FastenerRuntimeMarker` y exporta catalogos durante la preparacion de escena.
+   - _Implementacion_: `ImportedDroneRuntimeBinder` ahora asegura `FastenerRegistry`, `FastenerInspectionManager` y sella `fastenerFamilyId` / `fastenerInstanceId` sobre objetos detectados como fasteners.
+   - _Resultado_: La seleccion de fasteners deja de depender de placeholders narrativos y pasa a consumir IDs y recetas estables.
+4. **Inspeccion detallada bajo demanda**:
+   - _Implementacion_: Se agregaron `FastenerRegistry`, `FastenerInspectionManager`, `FastenerBuilder` y `FastenerRuntimeMarker`.
+   - _Implementacion_: El runtime conserva proxies ligeros en reposo y solo la instancia seleccionada oculta su proxy para mostrar un detalle procedural temporal (`socket cap`, `pan`, `countersunk`, `flange/cap/nyloc nut`, `standoff`, `grommet`, `tube stopper`).
+   - _Resultado_: Se valida el flujo de optimizacion sin bloquear el reemplazo futuro por mallas Blender finales.
+5. **UI y semantica de detalle**:
+   - _Implementacion_: `UIDetailsSheet` ahora muestra categoria/familia tecnica, metrica, longitud, drive, material, CAD source y parent canonical cuando la seleccion pertenece a `Fasteners`.
+   - _Implementacion_: La ficha ahora tambien agrega `subComponentNames` para piezas madre, permitiendo listar subpiezas documentadas y resumen de fasteners por ensamblaje.
+   - _Resultado_: La ficha ya comunica detalles tecnicos utiles por tornillo y desglose madre -> subpiezas para la jerarquia actual del dron.
+6. **Interaccion, hover e isolate cerrados para fasteners**:
+   - _Implementacion_: `SelectionManager` resuelve cualquier click sobre geometria de fastener hacia el root completo del fastener en lugar de dejar la seleccion en submeshes parciales.
+   - _Implementacion_: `HighlightSystem`, `MaterialController`, `FastenerInspectionManager` y `PartVisibilityManager` fueron ajustados para mantener hover/selected color aun cuando el proxy se oculta y para aislar cada fastener como unidad completa.
+   - _Resultado_: La seleccion visual no se pierde al activar detalle procedural y el isolate deja de cortar tornillos de forma incompleta.
+7. **Jerarquia madre -> subpiezas materializada**:
+   - _Implementacion_: Se genero `holybro_parent_subpieces.json` y se sincronizaron `subComponentNames` sobre las piezas madre en `Assets/Core/Data/X500V2Generated`.
+   - _Resultado_: La configuracion de la app ahora refleja la lista real de piezas madre con sus subpiezas documentadas y su resumen de fasteners, manteniendo explicito que la escena sigue siendo temporal/proxy.
+8. **Validacion objetiva**:
+   - _Implementacion_: Se compilaron `Core.csproj`, `UI.csproj` y `Assembly-CSharp-Editor.csproj`.
+   - _Resultado_: Las tres compilaciones cerraron sin errores; quedaron solo warnings legacy/preexistentes de dependencias Unity y complejidad arquitectonica.
+9. **Cierre correctivo sobre isolate y camara**:
+   - _Implementacion_: `PartVisibilityManager` fue ajustado para distinguir entre aislamiento de fastener individual y aislamiento de pieza madre con fasteners asociados mediante `parentCanonicalPartId`.
+   - _Implementacion_: Se elimino el caso donde un fastener aislado seguia mostrando geometria ancestro por evaluacion jerarquica demasiado amplia.
+   - _Implementacion_: `OrbitCameraController` ahora usa bounds reales de la seleccion, amplia el rango practico de zoom y reduce el `near clip` para inspeccion comoda de piezas pequenas.
+   - _Resultado_: El isolate de fastener queda unitario, el isolate de pieza madre incluye sus fasteners reconciliados y el enfoque de camara deja de quedarse excesivamente lejos en tornilleria y subpiezas pequenas.
+10. **Ajuste fino de UX sobre zoom y hover residual**:
+   - _Implementacion_: El zoom paso de un minimo global muy agresivo a una ventana dinamica por seleccion, con sensibilidad proporcional al rango disponible para cada pieza enfocada.
+   - _Implementacion_: `SelectionManager` limpia el estado de hover al promover una pieza a seleccion y solo reaplica hover despues de deseleccionar si realmente existe un objeto bajo el cursor.
+   - _Resultado_: La camara ya no sobrerreacciona en tornilleria pequena y desaparece el tinte azul residual al deseleccionar fasteners aislados desde el background.
+11. **Escala adaptativa de navegacion para zoom, pan y orbit**:
+   - _Implementacion_: `OrbitCameraController` reduce el minimo practico de acercamiento del dron completo y, cuando existe una seleccion activa, recalcula la ventana de zoom aunque la pieza no este aislada.
+   - _Implementacion_: `OrbitCameraController` ahora modula `pan` y `orbit` con base en la escala efectiva de analisis para evitar desplazamientos excesivos sobre fasteners y subpiezas pequenas aisladas.
+   - _Resultado_: El dron completo admite un acercamiento adicional controlado, la pieza seleccionada habilita un zoom mas fino incluso dentro del ensamblaje completo y la navegacion deja de perder fasteners por exceso de sensibilidad.
+12. **Retune fino de navegacion sobre fasteners aislados**:
+   - _Implementacion_: Se sustituyo la respuesta lineal de `pan` y `orbit` por curvas adaptativas en `OrbitCameraController`, reduciendo mas agresivamente el paneo en escalas pequenas y recuperando parte de la sensibilidad angular del orbit.
+   - _Resultado_: El fastener aislado deja de desplazarse con demasiada facilidad durante `pan`, mientras que el `orbit` vuelve a sentirse mas reactivo sin volver al comportamiento tosco del rango global antiguo.
+13. **Correccion del limite falso al deshacer zoom**:
+   - _Implementacion_: `OrbitCameraController` ahora separa el contexto adaptativo por prioridad (`seleccion -> isolate -> contexto base del modelo`) para no heredar una ventana estrecha desde un `target` antiguo cuando ya no corresponde.
+   - _Implementacion_: La ventana adaptativa conserva un margen minimo de alejamiento y clampa `targetDistance` al rango vigente para evitar que el zoom quede atrapado en un maximo demasiado pequeno.
+   - _Resultado_: Incluso despues de enfocar o inspeccionar piezas pequenas, el usuario puede volver a alejar la camara sin quedar bloqueado por un limite residual.
+14. **Refinamiento final de paneo sobre piezas pequenas**:
+   - _Implementacion_: Se redujo aun mas el piso y la curva adaptativa de `pan` en `OrbitCameraController` para escalas de inspeccion pequenas.
+   - _Resultado_: El desplazamiento lateral deja de sentirse nervioso cuando el usuario analiza tornillos, tuercas y subcomponentes diminutos.
+
+### Estado Actual
+
+- La parte Unity del sistema de fasteners queda implementada a nivel de datos, runtime, UI y tooling de editor.
+- La escena actual sigue tratandose como geometria temporal/proxy; el sistema fija `familyId` e `instanceId` para que el reemplazo por assets Blender no exija cambios de codigo.
+- `parentCanonicalPartId` queda inferido por proximidad al anchor directo del dron porque la escena actual agrupa fasteners bajo `x500v2_fastener_group`.
+- La interaccion actual de fasteners queda cerrada con seleccion completa, color visible durante inspeccion y aislamiento completo por tornillo.
+- La jerarquia madre -> subpiezas queda versionada en `holybro_parent_subpieces.json` y replicada en `subComponentNames` para consumo directo desde la app.
+
+### Primer Paso Al Retomar La Sesion
+
+1. Abrir Unity y ejecutar `Tools/Thermal/Prepare Imported Drone For Thermal Test` sobre la escena vigente para refrescar assets/meta si hubo cambios manuales posteriores.
+2. Validar en Play Mode seleccion individual de fasteners, detalle en `bottom sheet` y aparicion/desaparicion del placeholder detallado al seleccionar/deseleccionar.
+3. Sustituir recetas placeholder por mallas Blender finales usando el mismo `recipeKey`, sin alterar `familyId`, `instanceId` ni los JSON ya fijados.
+
+---
+
 ## Registro de Cambios (Abril 08, 2026) - Checkpoint clave de integracion runtime/UI y control de entrega
 
 ### Objetivo

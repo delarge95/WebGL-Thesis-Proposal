@@ -430,6 +430,12 @@ namespace WebGL.Core.Managers
         {
             if (selection == null) return;
 
+            if (hoveredEffectApplied && hoveredHighlight != null)
+            {
+                hoveredHighlight.OnHoverExit();
+                hoveredEffectApplied = false;
+            }
+
             // Clean up previous selection highlight before applying new one
             if (currentHighlight != null && currentSelection != selection)
             {
@@ -467,10 +473,12 @@ namespace WebGL.Core.Managers
             // Apply highlight
             if (currentHighlight != null)
             {
-                currentHighlight.OnSelect(
-                    isFullPartSelection
+                HighlightSystem.SelectionVisualMode visualMode =
+                    isFullPartSelection && !IsFastenerSelection(selection)
                         ? HighlightSystem.SelectionVisualMode.SoftTint
-                        : HighlightSystem.SelectionVisualMode.FillPulse);
+                        : HighlightSystem.SelectionVisualMode.FillPulse;
+
+                currentHighlight.OnSelect(visualMode);
             }
 
             // Get data and publish event
@@ -539,9 +547,75 @@ namespace WebGL.Core.Managers
                 return null;
             }
 
-            // Preserve the exact clicked transform so parent and subpiece clicks remain distinct.
-            // Data resolution and isolation continue to use the explodable root when needed.
+            Transform fastenerRoot = ResolveFastenerSelectionRoot(rawTransform);
+            if (fastenerRoot != null)
+            {
+                return fastenerRoot;
+            }
+
+            // Preserve the exact clicked transform for non-fastener parts so parent and
+            // subpiece clicks remain distinct.
             return rawTransform;
+        }
+
+        private static Transform ResolveFastenerSelectionRoot(Transform rawTransform)
+        {
+            if (rawTransform == null)
+            {
+                return null;
+            }
+
+            FastenerRuntimeMarker marker = rawTransform.GetComponent<FastenerRuntimeMarker>();
+            if (marker == null)
+            {
+                marker = rawTransform.GetComponentInParent<FastenerRuntimeMarker>();
+            }
+
+            if (marker != null)
+            {
+                return marker.transform;
+            }
+
+            ExplodablePart direct = rawTransform.GetComponent<ExplodablePart>();
+            if (IsFastenerPart(direct))
+            {
+                return direct.transform;
+            }
+
+            ExplodablePart parent = rawTransform.GetComponentInParent<ExplodablePart>();
+            return IsFastenerPart(parent) ? parent.transform : null;
+        }
+
+        private static bool IsFastenerPart(ExplodablePart part)
+        {
+            return part != null && part.Data != null && part.Data.category == PartCategory.Fasteners;
+        }
+
+        private static bool IsFastenerSelection(Transform selection)
+        {
+            if (selection == null)
+            {
+                return false;
+            }
+
+            FastenerRuntimeMarker marker = selection.GetComponent<FastenerRuntimeMarker>();
+            if (marker == null)
+            {
+                marker = selection.GetComponentInParent<FastenerRuntimeMarker>();
+            }
+
+            if (marker != null && !string.IsNullOrWhiteSpace(marker.FastenerInstanceId))
+            {
+                return true;
+            }
+
+            ExplodablePart part = selection.GetComponent<ExplodablePart>();
+            if (part == null)
+            {
+                part = selection.GetComponentInParent<ExplodablePart>();
+            }
+
+            return IsFastenerPart(part);
         }
 
         private static Transform ResolveHighlightTarget(Transform selection)
@@ -640,6 +714,16 @@ namespace WebGL.Core.Managers
             currentSubSelection = null;
             hotspotGroupSelectionActive = false;
             currentHighlight = null;
+
+            if (hoveredObject != null && hoveredHighlight != null)
+            {
+                hoveredHighlight.OnHoverEnter();
+                hoveredEffectApplied = true;
+            }
+            else
+            {
+                hoveredEffectApplied = false;
+            }
 
             LogDebug("[SelectionManager] Deselected (Background Click)");
         }

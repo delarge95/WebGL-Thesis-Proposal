@@ -8,6 +8,10 @@ Este documento describe la arquitectura real del visor documentado para el cierr
 - `UIManager.cs`
 - `MainLayout.uxml`
 - `x500v2_parts_data.json`
+- `holybro_fastener_families.json`
+- `holybro_fastener_instances.json`
+- `holybro_fastener_reconciliation.json`
+- `holybro_parent_subpieces.json`
 - `VALIDACION_FUNCIONAL_FINA_2026-04-09.md`
 
 ## 1. Convenciones canonicas
@@ -86,6 +90,8 @@ flowchart TD
 - `CrossSectionManager`
 - `PartVisibilityManager`
 - `ExplodedViewManager`
+- `FastenerRegistry`
+- `FastenerInspectionManager`
 - `DroneStateController`
 - `ThermalSimulationManager`
 - `ThermalViewController`
@@ -97,6 +103,7 @@ flowchart TD
 - assets generados de piezas
 - grafo termico
 - catalogo canonico JSON
+- catalogos modulares de fasteners (`families`, `instances`, `reconciliation`)
 
 ## 4. Bootstrap real
 
@@ -110,8 +117,28 @@ El runtime usa dos rutas complementarias:
    - resuelve anchors por `id`
    - reubica huerfanos
    - sintetiza grupos para fasteners y misc
+   - garantiza `FastenerRegistry` y `FastenerInspectionManager`
+   - sella `familyId` / `instanceId` sobre fasteners detectados
    - reconstruye caches dependientes
    - publica el evento de runtime bound
+
+## 4.1 Sistema de fasteners
+
+La build actual ya implementa una capa Unity especifica para tornilleria y piezas de fijacion:
+
+- `holybro_fastener_families.json` describe `20` familias modulares con metrica, longitud, receta placeholder y source Holybro.
+- `holybro_fastener_instances.json` registra `168` instancias presentes en `MainScene_Final` con pose local e `instanceId` estable.
+- `holybro_fastener_reconciliation.json` documenta aliases, overrides semanticos y discrepancias entre escena y dataset synced.
+- `FastenerRegistry` resuelve metadata sin parsing de nombres en caliente.
+- `FastenerInspectionManager` mantiene proxies ligeros en reposo y solo crea detalle procedural para la instancia seleccionada.
+- `SelectionManager` fuerza la seleccion de fasteners al root de la pieza para mantener hover, selected color e isolate completos por tornillo.
+- `holybro_parent_subpieces.json` fija el desglose madre -> subpiezas -> fasteners y se replica en `subComponentNames` de los assets generados para que la UI consuma la misma estructura.
+- `PartVisibilityManager` usa ese mismo `parentCanonicalPartId` para que aislar una pieza madre conserve tambien sus fasteners asociados, mientras que aislar un fastener individual no arrastra geometria ancestro.
+- `OrbitCameraController` calcula foco y distancia a partir de bounds reales de la seleccion para permitir inspeccion cercana de tornilleria y subpiezas pequenas.
+
+Regla editorial:
+- la geometria actual de escena sigue siendo temporal;
+- los IDs y recetas quedan estables para sustituir luego los placeholders por mallas Blender finales sin reescribir la logica runtime.
 
 ## 5. Estados de aplicacion
 

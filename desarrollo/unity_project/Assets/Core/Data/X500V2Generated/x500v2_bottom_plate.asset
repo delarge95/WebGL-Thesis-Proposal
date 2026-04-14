@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -65,5 +65,17 @@ MonoBehaviour:
   - Screw
   screwCount: 4
   screwSize: M3
-  subComponentNames: []
+  subComponentNames:
+  - BOTTOM-PLATE-X500-V5
+  - GAI-GUANGLIU
+  - ZHIJIA-CAMERA-INTEL
+  - HUAN-GUIJIAO
+  - Fasteners: Socket Cap Screw M3 x 25 mm x2
+  - Fasteners: Socket Cap Screw M3 x 8 mm x2
+  - Fasteners: Flange Nut M3 x2
+  - Fasteners: Cap Nut M3 x1
+  - Fasteners: Rubber Grommet x2
   category: 4
+
+
+

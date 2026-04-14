@@ -236,9 +236,11 @@ public static class SetupImportedDroneThermalTest
             }
         }
 
-        ProcessExistingSyntheticGroupMembers(root.transform, anchorsById, assetsById, FastenerGroupId);
         ProcessExistingSyntheticGroupMembers(root.transform, anchorsById, assetsById, MiscGroupId);
         NormalizeAnchorPivots(anchorsById);
+
+        HolybroFastenerCatalogBuildResult fastenerCatalog = HolybroFastenerCatalogBuilder.BuildAndWrite(root.transform);
+        ProcessFastenerGroupMembers(root.transform, anchorsById, assetsById, fastenerCatalog);
 
         EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         AssetDatabase.SaveAssets();
@@ -252,6 +254,8 @@ public static class SetupImportedDroneThermalTest
             $"  - Por grupo sintetico: {syntheticGroupReparented}\n" +
             $"  - Por prefijo canonico: {prefixReparented}\n" +
             $"  - Por heuristica: {heuristicReparented}\n" +
+            $"Fastener families exportadas: {fastenerCatalog?.FamiliesCatalog?.items?.Length ?? 0}\n" +
+            $"Fastener instances exportadas: {fastenerCatalog?.InstancesCatalog?.items?.Length ?? 0}\n" +
             $"Warnings: {warnings}";
 
         Debug.Log($"[SetupImportedDroneThermalTest] {message}");
@@ -1023,7 +1027,38 @@ public static class SetupImportedDroneThermalTest
         }
     }
 
-    private static void EnsureSyntheticInstanceSelectable(Transform child, string syntheticGroupId)
+    private static void ProcessFastenerGroupMembers(
+        Transform root,
+        Dictionary<string, Transform> anchorsById,
+        IReadOnlyDictionary<string, DronePartData> assetsById,
+        HolybroFastenerCatalogBuildResult fastenerCatalog)
+    {
+        Transform groupAnchor = EnsureSyntheticGroupAnchor(root, anchorsById, assetsById, FastenerGroupId);
+        if (groupAnchor == null)
+        {
+            return;
+        }
+
+        ProcessSyntheticGroupAnchor(groupAnchor);
+
+        foreach (Transform child in groupAnchor)
+        {
+            if (child == null || child.GetComponentInChildren<Renderer>(true) == null)
+            {
+                continue;
+            }
+
+            FastenerMetadata metadata = HolybroFastenerCatalogBuilder.GetMetadataForSceneObject(fastenerCatalog, child.name);
+            if (metadata == null)
+            {
+                metadata = BuildFallbackFastenerMetadata(child);
+            }
+
+            EnsureSyntheticInstanceSelectable(child, FastenerGroupId, metadata);
+        }
+    }
+
+    private static void EnsureSyntheticInstanceSelectable(Transform child, string syntheticGroupId, FastenerMetadata metadata = null)
     {
         if (child == null || string.IsNullOrWhiteSpace(syntheticGroupId))
         {
@@ -1042,33 +1077,41 @@ public static class SetupImportedDroneThermalTest
         string readableName = child.name.Replace('_', ' ').Replace('.', ' ');
         bool isFastenerGroup = string.Equals(syntheticGroupId, FastenerGroupId, StringComparison.OrdinalIgnoreCase);
 
-        asset.partName = readableName;
-        asset.id = assetId;
-        asset.partType = isFastenerGroup ? "Fastener" : "Misc Part";
-        asset.category = isFastenerGroup ? PartCategory.Fasteners : PartCategory.Uncategorized;
-        asset.description = isFastenerGroup
-            ? "Individual fastener instance imported from the model hierarchy."
-            : "Individual auxiliary instance imported from the model hierarchy.";
-        asset.function = isFastenerGroup ? "Fastening / mounting" : "Auxiliary support";
-        asset.weightKg = 0f;
-        asset.dimensions = string.Empty;
-        asset.materialType = isFastenerGroup ? "Metal" : "Mixed";
-        asset.requiredTools = Array.Empty<string>();
-        asset.safetyWarnings = Array.Empty<string>();
-        asset.prerequisites = Array.Empty<string>();
-        asset.connectionTypes = Array.Empty<string>();
-        asset.explosionDirection = Vector3.up;
-        asset.explosionDistance = 0.03f;
-        asset.highlightColor = isFastenerGroup
-            ? new Color(1f, 0.72f, 0.2f, 1f)
-            : new Color(0.3f, 0.8f, 1f, 1f);
-        asset.isThermallyCritical = false;
-        asset.isHotspotTarget = false;
+        if (isFastenerGroup && metadata != null)
+        {
+            ApplyFastenerMetadataToAsset(asset, metadata);
+        }
+        else
+        {
+            asset.partName = readableName;
+            asset.id = assetId;
+            asset.partType = isFastenerGroup ? "Fastener" : "Misc Part";
+            asset.category = isFastenerGroup ? PartCategory.Fasteners : PartCategory.Uncategorized;
+            asset.description = isFastenerGroup
+                ? "Individual fastener instance imported from the model hierarchy."
+                : "Individual auxiliary instance imported from the model hierarchy.";
+            asset.function = isFastenerGroup ? "Fastening / mounting" : "Auxiliary support";
+            asset.weightKg = 0f;
+            asset.dimensions = string.Empty;
+            asset.materialType = isFastenerGroup ? "Metal" : "Mixed";
+            asset.requiredTools = Array.Empty<string>();
+            asset.safetyWarnings = Array.Empty<string>();
+            asset.prerequisites = Array.Empty<string>();
+            asset.connectionTypes = Array.Empty<string>();
+            asset.explosionDirection = Vector3.up;
+            asset.explosionDistance = 0.03f;
+            asset.highlightColor = isFastenerGroup
+                ? new Color(1f, 0.72f, 0.2f, 1f)
+                : new Color(0.3f, 0.8f, 1f, 1f);
+            asset.isThermallyCritical = false;
+            asset.isHotspotTarget = false;
+            asset.fastenerMetadata = null;
+        }
 
         DronePartJson syntheticPart = new DronePartJson
         {
             id = assetId,
-            partName = readableName,
+            partName = asset.partName,
             category = isFastenerGroup ? "Fasteners" : "Misc",
             partType = asset.partType,
             description = asset.description,
@@ -1097,12 +1140,97 @@ public static class SetupImportedDroneThermalTest
         explodable.SetData(asset);
         explodable.Initialize();
 
+        if (isFastenerGroup && metadata != null)
+        {
+            AttachFastenerMarker(child, metadata);
+        }
+
         AnnotateRenderHierarchy(child, syntheticPart);
         EnsureSelectionColliders(child);
         AssignSelectableLayer(child);
 
         EditorUtility.SetDirty(asset);
         EditorUtility.SetDirty(explodable);
+    }
+
+    private static FastenerMetadata BuildFallbackFastenerMetadata(Transform child)
+    {
+        string sceneObjectName = child != null ? child.name : string.Empty;
+        return new FastenerMetadata
+        {
+            instanceId = SanitizeAssetId(sceneObjectName),
+            sceneObjectName = sceneObjectName,
+            sceneTypeKey = FastenerNamingUtility.ExtractSceneTypeKey(sceneObjectName),
+            parentCanonicalPartId = child != null && child.parent != null ? child.parent.name : FastenerGroupId,
+            subtype = "Unknown Fastener",
+            metric = string.Empty,
+            material = "Unknown",
+            isInspectable = false,
+            fallbackReason = "Temporary Unity proxy instance without a fully resolved Holybro family mapping yet."
+        };
+    }
+
+    private static void ApplyFastenerMetadataToAsset(DronePartData asset, FastenerMetadata metadata)
+    {
+        if (asset == null || metadata == null)
+        {
+            return;
+        }
+
+        string displayName = metadata.GetDisplayName();
+        string technicalSummary = metadata.GetTechnicalSummary();
+        string readableSubtype = FastenerNamingUtility.ToTitleCase(metadata.subtype);
+
+        asset.partName = string.IsNullOrWhiteSpace(displayName) ? "Fastener" : displayName;
+        asset.id = !string.IsNullOrWhiteSpace(metadata.instanceId) ? metadata.instanceId : asset.id;
+        asset.partType = string.IsNullOrWhiteSpace(readableSubtype) ? "Fastener" : readableSubtype;
+        asset.category = PartCategory.Fasteners;
+        asset.description = string.IsNullOrWhiteSpace(metadata.notes)
+            ? "Temporary Unity proxy fastener instance backed by Holybro family metadata."
+            : metadata.notes;
+        asset.function = string.IsNullOrWhiteSpace(technicalSummary)
+            ? "Fastening / mounting"
+            : $"Fastening / mounting | {technicalSummary}";
+        asset.weightKg = 0f;
+        asset.dimensions = FastenerNamingUtility.FormatMetricAndLength(metadata.metric, metadata.lengthMm);
+        asset.materialType = string.IsNullOrWhiteSpace(metadata.material) ? "Unknown" : metadata.material;
+        asset.materialProperties = metadata.finish;
+        asset.manufacturer = "Holybro";
+        asset.partNumber = metadata.blenderName;
+        asset.requiredTools = Array.Empty<string>();
+        asset.safetyWarnings = Array.Empty<string>();
+        asset.prerequisites = Array.Empty<string>();
+        asset.connectionTypes = new[] { "Threaded" };
+        asset.explosionDirection = Vector3.up;
+        asset.explosionDistance = 0.03f;
+        asset.highlightColor = new Color(1f, 0.72f, 0.2f, 1f);
+        asset.isThermallyCritical = false;
+        asset.isHotspotTarget = false;
+        asset.screwCount = 1;
+        asset.screwSize = metadata.metric;
+        asset.fastenerMetadata = metadata;
+    }
+
+    private static void AttachFastenerMarker(Transform child, FastenerMetadata metadata)
+    {
+        if (child == null || metadata == null)
+        {
+            return;
+        }
+
+        FastenerRuntimeMarker marker = child.GetComponent<FastenerRuntimeMarker>();
+        if (marker == null)
+        {
+            marker = Undo.AddComponent<FastenerRuntimeMarker>(child.gameObject);
+        }
+
+        marker.Configure(
+            metadata.familyId,
+            metadata.instanceId,
+            metadata.sceneTypeKey,
+            metadata.parentCanonicalPartId,
+            metadata.isInspectable,
+            metadata.fallbackReason);
     }
 
     private static string SanitizeAssetId(string rawName)

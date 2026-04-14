@@ -247,6 +247,7 @@ namespace WebGL.UI.Panels
             if (data != null && !string.IsNullOrEmpty(data.partName) && data.partName != "NULL")
             {
                 if (_infoBtn != null) _infoBtn.SetEnabled(true);
+                bool useFastenerDetails = data.HasFastenerMetadata && string.IsNullOrWhiteSpace(hotspotGroupLabel);
 
                 // Title Case for editorial hierarchy (not ALL CAPS)
                 if (_sheetTitle != null)
@@ -256,12 +257,12 @@ namespace WebGL.UI.Panels
                 if (_sheetCategory != null)
                     _sheetCategory.text = !string.IsNullOrWhiteSpace(hotspotGroupLabel)
                         ? "System Group"
-                        : data.category.ToString();
+                        : BuildCategoryText(data, useFastenerDetails);
                 if (_sheetFunction != null)
                     _sheetFunction.text = !string.IsNullOrWhiteSpace(hotspotGroupSummary)
                         ? hotspotGroupSummary
-                        : data.function;
-                if (_sheetMaterial != null) _sheetMaterial.text = data.materialType;
+                        : BuildFunctionText(data, useFastenerDetails);
+                if (_sheetMaterial != null) _sheetMaterial.text = BuildMaterialText(data, useFastenerDetails);
                 if (_sheetDesc != null)
                 {
                     if (!string.IsNullOrWhiteSpace(hotspotGroupLabel))
@@ -272,11 +273,11 @@ namespace WebGL.UI.Panels
                     }
                     else
                     {
-                        _sheetDesc.text = data.description;
+                        _sheetDesc.text = BuildDescriptionText(data, useFastenerDetails);
                     }
                 }
                 if (_sheetWeight != null) _sheetWeight.text = $"{data.weightKg:F2} kg";
-                if (_sheetDimensions != null) _sheetDimensions.text = data.dimensions;
+                if (_sheetDimensions != null) _sheetDimensions.text = BuildDimensionsText(data, useFastenerDetails);
                 if (_sheetPower != null) _sheetPower.text = data.powerConsumption > 0 ? $"{data.powerConsumption:F1} W" : "N/A";
                 if (_sheetTemp != null) _sheetTemp.text = data.operatingTemp > 0 ? $"{data.operatingTemp:F0}°C" : "N/A";
 
@@ -287,9 +288,7 @@ namespace WebGL.UI.Panels
                 }
                 if (_sheetTools != null)
                 {
-                    _sheetTools.text = (data.requiredTools != null && data.requiredTools.Length > 0)
-                        ? string.Join(", ", data.requiredTools)
-                        : "None";
+                    _sheetTools.text = BuildToolsText(data, useFastenerDetails);
                 }
                 if (_sheetAssemblyTime != null)
                     _sheetAssemblyTime.text = data.installationTimeMinutes > 0 ? $"~{data.installationTimeMinutes:F0} min" : "N/A";
@@ -373,6 +372,183 @@ namespace WebGL.UI.Panels
             }
 
             return data != null ? data.partName : string.Empty;
+        }
+
+        private static string BuildCategoryText(DronePartData data, bool useFastenerDetails)
+        {
+            if (data == null)
+            {
+                return string.Empty;
+            }
+
+            if (!useFastenerDetails || data.fastenerMetadata == null)
+            {
+                return data.category.ToString();
+            }
+
+            string subtype = FastenerNamingUtility.ToTitleCase(data.fastenerMetadata.subtype);
+            string spec = data.fastenerMetadata.GetTechnicalSummary();
+
+            if (string.IsNullOrWhiteSpace(subtype))
+            {
+                return string.IsNullOrWhiteSpace(spec) ? data.category.ToString() : $"{data.category} | {spec}";
+            }
+
+            return string.IsNullOrWhiteSpace(spec)
+                ? $"{data.category} | {subtype}"
+                : $"{data.category} | {subtype} | {spec}";
+        }
+
+        private static string BuildFunctionText(DronePartData data, bool useFastenerDetails)
+        {
+            if (data == null)
+            {
+                return string.Empty;
+            }
+
+            if (!useFastenerDetails || data.fastenerMetadata == null)
+            {
+                return data.function;
+            }
+
+            FastenerMetadata metadata = data.fastenerMetadata;
+            string parent = string.IsNullOrWhiteSpace(metadata.parentCanonicalPartId)
+                ? "Parent anchor unresolved"
+                : metadata.parentCanonicalPartId;
+
+            string detail = metadata.GetTechnicalSummary();
+            return string.IsNullOrWhiteSpace(detail)
+                ? $"Parent: {parent}"
+                : $"Parent: {parent} | {detail}";
+        }
+
+        private static string BuildMaterialText(DronePartData data, bool useFastenerDetails)
+        {
+            if (data == null)
+            {
+                return string.Empty;
+            }
+
+            if (!useFastenerDetails || data.fastenerMetadata == null)
+            {
+                return data.materialType;
+            }
+
+            string source = string.IsNullOrWhiteSpace(data.fastenerMetadata.blenderName)
+                ? string.Empty
+                : $"CAD: {data.fastenerMetadata.blenderName}";
+
+            return string.IsNullOrWhiteSpace(source)
+                ? data.materialType
+                : $"{data.materialType} | {source}";
+        }
+
+        private static string BuildDescriptionText(DronePartData data, bool useFastenerDetails)
+        {
+            if (data == null)
+            {
+                return string.Empty;
+            }
+
+            if (!useFastenerDetails || data.fastenerMetadata == null)
+            {
+                return AppendSubcomponentSummary(data.description, data.subComponentNames);
+            }
+
+            FastenerMetadata metadata = data.fastenerMetadata;
+            string description = data.description;
+
+            if (!string.IsNullOrWhiteSpace(metadata.sceneObjectName))
+            {
+                description = string.IsNullOrWhiteSpace(description)
+                    ? $"Scene instance: {metadata.sceneObjectName}"
+                    : $"Scene instance: {metadata.sceneObjectName}\n\n{description}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(metadata.notes))
+            {
+                description = string.IsNullOrWhiteSpace(description)
+                    ? metadata.notes
+                    : $"{description}\n\nNotes: {metadata.notes}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(metadata.fallbackReason))
+            {
+                description = string.IsNullOrWhiteSpace(description)
+                    ? $"Fallback: {metadata.fallbackReason}"
+                    : $"{description}\n\nFallback: {metadata.fallbackReason}";
+            }
+
+            return description;
+        }
+
+        private static string AppendSubcomponentSummary(string description, string[] subComponentNames)
+        {
+            if (subComponentNames == null || subComponentNames.Length == 0)
+            {
+                return description;
+            }
+
+            string assemblySummary = "Assembly includes:\n- " + string.Join("\n- ", subComponentNames);
+            return string.IsNullOrWhiteSpace(description)
+                ? assemblySummary
+                : $"{description}\n\n{assemblySummary}";
+        }
+
+        private static string BuildDimensionsText(DronePartData data, bool useFastenerDetails)
+        {
+            if (data == null)
+            {
+                return string.Empty;
+            }
+
+            if (!useFastenerDetails || data.fastenerMetadata == null)
+            {
+                return data.dimensions;
+            }
+
+            FastenerMetadata metadata = data.fastenerMetadata;
+            List<string> parts = new List<string>();
+
+            string spec = FastenerNamingUtility.FormatMetricAndLength(metadata.metric, metadata.lengthMm);
+            if (!string.IsNullOrWhiteSpace(spec))
+            {
+                parts.Add(spec);
+            }
+
+            if (metadata.nominalDiameterMm > 0.0001f)
+            {
+                parts.Add($"Diameter {metadata.nominalDiameterMm:0.##} mm");
+            }
+
+            if (!string.IsNullOrWhiteSpace(metadata.sceneTypeKey))
+            {
+                parts.Add($"Type Key: {metadata.sceneTypeKey}");
+            }
+
+            return parts.Count > 0 ? string.Join(" | ", parts) : data.dimensions;
+        }
+
+        private static string BuildToolsText(DronePartData data, bool useFastenerDetails)
+        {
+            if (data == null)
+            {
+                return "None";
+            }
+
+            if (data.requiredTools != null && data.requiredTools.Length > 0)
+            {
+                return string.Join(", ", data.requiredTools);
+            }
+
+            if (!useFastenerDetails || data.fastenerMetadata == null)
+            {
+                return "None";
+            }
+
+            return string.IsNullOrWhiteSpace(data.fastenerMetadata.driveType) || data.fastenerMetadata.driveType == "N/A"
+                ? "None"
+                : data.fastenerMetadata.driveType;
         }
 
         // ═══════════════════════════════════════════════════════

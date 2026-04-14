@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using WebGL.Core.Content;
+using WebGL.Core.Data;
 using WebGL.Core.Utils;
 
 namespace WebGL.Core.Managers
@@ -98,31 +100,7 @@ namespace WebGL.Core.Managers
                 ClearIsolation();
                 return;
             }
-
-            isolatedPart = part;
-            isolatedTransform = null;
-            isolatedGroup = false;
-
-            foreach (var p in allParts)
-            {
-                if (p == part)
-                {
-                    // Ensure isolated part is visible
-                    p.gameObject.SetActive(true);
-                }
-                else
-                {
-                    // Hide all other parts
-                    p.gameObject.SetActive(false);
-                }
-            }
-
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayClick();
-            }
-
-            Debug.Log($"[PartVisibility] Isolated: {part.name}");
+            IsolateTransform(part.transform);
         }
 
         public void IsolateTransform(Transform selection)
@@ -133,7 +111,15 @@ namespace WebGL.Core.Managers
                 return;
             }
 
-            ExplodablePart parentPart = selection.GetComponentInParent<ExplodablePart>();
+            Transform isolationScope = ResolveIsolationScope(selection);
+            ExplodablePart parentPart = isolationScope != null
+                ? isolationScope.GetComponent<ExplodablePart>()
+                : null;
+            if (parentPart == null && isolationScope != null)
+            {
+                parentPart = isolationScope.GetComponentInParent<ExplodablePart>();
+            }
+
             if (parentPart == null)
             {
                 ClearIsolation();
@@ -141,8 +127,15 @@ namespace WebGL.Core.Managers
             }
 
             isolatedPart = parentPart;
-            isolatedTransform = selection;
+            isolatedTransform = isolationScope != null ? isolationScope : selection;
             isolatedGroup = false;
+            bool isFastenerIsolation = TryResolveFastenerInstanceId(isolatedTransform, out string isolatedFastenerInstanceId);
+            bool includeAssociatedFasteners = !isFastenerIsolation
+                && IsFullPartIsolationScope(isolatedTransform)
+                && !string.IsNullOrWhiteSpace(ResolveCanonicalPartId(isolatedTransform));
+            string selectedCanonicalPartId = includeAssociatedFasteners
+                ? ResolveCanonicalPartId(isolatedTransform)
+                : string.Empty;
 
             bool anyRendererVisible = false;
 
@@ -156,10 +149,11 @@ namespace WebGL.Core.Managers
                 {
                     if (renderer == null) continue;
 
-                    bool visible =
-                        renderer.transform == selection ||
-                        renderer.transform.IsChildOf(selection) ||
-                        selection.IsChildOf(renderer.transform);
+                    bool visible = IsRendererVisibleForIsolation(
+                        renderer,
+                        isolatedTransform,
+                        isolatedFastenerInstanceId,
+                        selectedCanonicalPartId);
 
                     renderer.enabled = visible;
                     anyRendererVisible |= visible;
@@ -185,6 +179,176 @@ namespace WebGL.Core.Managers
             }
 
             Debug.Log($"[PartVisibility] Isolated transform: {selection.name}");
+        }
+
+        private static Transform ResolveIsolationScope(Transform selection)
+        {
+            if (selection == null)
+            {
+                return null;
+            }
+
+            FastenerRuntimeMarker marker = selection.GetComponent<FastenerRuntimeMarker>();
+            if (marker == null)
+            {
+                marker = selection.GetComponentInParent<FastenerRuntimeMarker>();
+            }
+
+            if (marker != null)
+            {
+                ExplodablePart fastenerRoot = marker.GetComponent<ExplodablePart>();
+                if (fastenerRoot == null)
+                {
+                    fastenerRoot = marker.GetComponentInParent<ExplodablePart>();
+                }
+
+                if (fastenerRoot != null &&
+                    fastenerRoot.Data != null &&
+                    fastenerRoot.Data.category == PartCategory.Fasteners)
+                {
+                    return fastenerRoot.transform;
+                }
+
+                return marker.transform;
+            }
+
+            return selection;
+        }
+
+        private static bool IsRendererVisibleForIsolation(
+            Renderer renderer,
+            Transform isolationScope,
+            string fastenerInstanceId,
+            string selectedCanonicalPartId)
+        {
+            if (renderer == null || isolationScope == null)
+            {
+                return false;
+            }
+
+            Transform rendererTransform = renderer.transform;
+            if (rendererTransform == isolationScope ||
+                rendererTransform.IsChildOf(isolationScope))
+            {
+                return true;
+            }
+
+            if (!string.IsNullOrWhiteSpace(fastenerInstanceId) &&
+                RendererBelongsToFastenerInstance(rendererTransform, fastenerInstanceId))
+            {
+                return true;
+            }
+
+            if (!string.IsNullOrWhiteSpace(selectedCanonicalPartId) &&
+                RendererBelongsToAssociatedFastener(rendererTransform, selectedCanonicalPartId))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool RendererBelongsToFastenerInstance(Transform rendererTransform, string fastenerInstanceId)
+        {
+            if (rendererTransform == null || string.IsNullOrWhiteSpace(fastenerInstanceId))
+            {
+                return false;
+            }
+
+            FastenerRuntimeMarker rendererMarker = rendererTransform.GetComponent<FastenerRuntimeMarker>();
+            if (rendererMarker == null)
+            {
+                rendererMarker = rendererTransform.GetComponentInParent<FastenerRuntimeMarker>();
+            }
+
+            return rendererMarker != null &&
+                   string.Equals(rendererMarker.FastenerInstanceId, fastenerInstanceId, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool RendererBelongsToAssociatedFastener(Transform rendererTransform, string selectedCanonicalPartId)
+        {
+            if (rendererTransform == null || string.IsNullOrWhiteSpace(selectedCanonicalPartId))
+            {
+                return false;
+            }
+
+            FastenerRuntimeMarker rendererMarker = rendererTransform.GetComponent<FastenerRuntimeMarker>();
+            if (rendererMarker == null)
+            {
+                rendererMarker = rendererTransform.GetComponentInParent<FastenerRuntimeMarker>();
+            }
+
+            return rendererMarker != null &&
+                   !string.IsNullOrWhiteSpace(rendererMarker.ParentCanonicalPartId) &&
+                   string.Equals(rendererMarker.ParentCanonicalPartId, selectedCanonicalPartId, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool TryResolveFastenerInstanceId(Transform selection, out string fastenerInstanceId)
+        {
+            fastenerInstanceId = string.Empty;
+            if (selection == null)
+            {
+                return false;
+            }
+
+            FastenerRuntimeMarker marker = selection.GetComponent<FastenerRuntimeMarker>();
+            if (marker == null)
+            {
+                marker = selection.GetComponentInParent<FastenerRuntimeMarker>();
+            }
+
+            if (marker == null || string.IsNullOrWhiteSpace(marker.FastenerInstanceId))
+            {
+                return false;
+            }
+
+            fastenerInstanceId = marker.FastenerInstanceId;
+            return true;
+        }
+
+        private static bool IsFullPartIsolationScope(Transform selection)
+        {
+            if (selection == null)
+            {
+                return false;
+            }
+
+            ExplodablePart directPart = selection.GetComponent<ExplodablePart>();
+            return directPart != null && directPart.transform == selection;
+        }
+
+        private static string ResolveCanonicalPartId(Transform selection)
+        {
+            if (selection == null)
+            {
+                return string.Empty;
+            }
+
+            PartRenderCategory directCategory = selection.GetComponent<PartRenderCategory>();
+            if (directCategory != null && !string.IsNullOrWhiteSpace(directCategory.CanonicalPartId))
+            {
+                return directCategory.CanonicalPartId;
+            }
+
+            ExplodablePart directPart = selection.GetComponent<ExplodablePart>();
+            if (directPart != null && directPart.Data != null && !string.IsNullOrWhiteSpace(directPart.Data.id))
+            {
+                return directPart.Data.id;
+            }
+
+            PartRenderCategory childCategory = selection.GetComponentInChildren<PartRenderCategory>(true);
+            if (childCategory != null && !string.IsNullOrWhiteSpace(childCategory.CanonicalPartId))
+            {
+                return childCategory.CanonicalPartId;
+            }
+
+            ExplodablePart parentPart = selection.GetComponentInParent<ExplodablePart>();
+            if (parentPart != null && parentPart.Data != null && !string.IsNullOrWhiteSpace(parentPart.Data.id))
+            {
+                return parentPart.Data.id;
+            }
+
+            return string.Empty;
         }
 
         public void IsolateParts(IEnumerable<ExplodablePart> parts)
@@ -392,5 +556,6 @@ namespace WebGL.Core.Managers
         }
 
         public ExplodablePart GetIsolatedPart() => isolatedPart;
+        public Transform GetIsolatedTransform() => isolatedTransform;
     }
 }

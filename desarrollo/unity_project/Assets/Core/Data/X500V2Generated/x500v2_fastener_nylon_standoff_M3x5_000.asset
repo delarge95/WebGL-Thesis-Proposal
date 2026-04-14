@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_nylon_standoff_M3x5_000
   m_EditorClassIdentifier: 
-  partName: x500v2 fastener nylon standoff M3x5 000
+  partName: 'Standoff M3 x 5 mm'
   id: x500v2_fastener_nylon_standoff_M3x5_000
-  partType: Fastener
-  description: Individual fastener instance imported from the model hierarchy.
+  partType: 'Standoff'
+  description: 'TornillerÃ­a rasante. Pieza modelada en base al CAD NILONGZHU-M3-5.'
   weightKg: 0
-  dimensions: 
-  function: Fastening / mounting
-  materialType: Metal
-  materialProperties: 
-  manufacturer: 
-  partNumber: 
+  dimensions: 'M3 x 5 mm'
+  function: 'Fastening / mounting | M3 x 5 mm | Standoff'
+  materialType: 'Acero Inox'
+  materialProperties: 'Stainless'
+  manufacturer: Holybro
+  partNumber: 'NILONGZHU-M3-5'
   powerConsumption: 0
   maxLoad: 0
   operatingTemp: 0
@@ -54,8 +54,35 @@ MonoBehaviour:
   torqueSpec: 
   assemblyOrder: 0
   prerequisites: []
-  connectionTypes: []
-  screwCount: 0
-  screwSize: 
+  connectionTypes:
+  - Threaded
+  screwCount: 1
+  screwSize: 'M3'
   subComponentNames: []
+  fastenerMetadata:
+    instanceId: x500v2_fastener_nylon_standoff_M3x5_000
+    familyId: holybro_nylon_standoff_m3x5
+    sourceId: x500v2_blend_nilongzhu_m3_5
+    sceneObjectName: 'x500v2_fastener.nylon_standoff_M3x5_000'
+    hierarchyPath: 'x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_standoff_M3x5_000'
+    parentCanonicalPartId: 'x500v2_power_module'
+    blenderName: 'NILONGZHU-M3-5'
+    sceneTypeKey: 'nylon_standoff_M3x5'
+    subtype: 'Standoff'
+    metric: 'M3'
+    nominalDiameterMm: 3
+    lengthMm: 5
+    headProfile: 'Standoff'
+    driveType: 'N/A'
+    threadPitchMm: 0
+    turnCount: 3
+    material: 'Acero Inox'
+    finish: 'Stainless'
+    quantityExpected: 4
+    isInspectable: 1
+    fallbackReason: ''
+    notes: 'TornillerÃ­a rasante. Pieza modelada en base al CAD NILONGZHU-M3-5.'
+    recipeKey: 'nylon_standoff_M3x5_placeholder'
+    builderType: 'Standoff'
+    orientationMode: 'LongestAxis'
   category: 5

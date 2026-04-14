@@ -1,4 +1,5 @@
-\documentclass[12pt,letterpaper]{article}
+﻿\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{times}
@@ -8,15 +9,16 @@
 \usepackage{fancyhdr}
 \usepackage{longtable}
 \usepackage{booktabs}
+\setlength{\emergencystretch}{3em}
 
 \pagestyle{fancy}
 \fancyhf{}
 \rhead{Manual de Usuario - Holybro X500 V2}
-\lhead{Ingenieria Multimedia - UNAD}
-\rfoot{Pagina \thepage}
+\lhead{IngenierÃ­a Multimedia - UNAD}
+\rfoot{PÃ¡gina \thepage}
 
-\title{\textbf{Manual de Usuario}\\Prototipo Web 3D Interactivo para Visualizacion Tecnica del Holybro X500 V2}
-\author{Alexander Woodcock Salomon}
+\title{\textbf{Manual de Usuario}\\Prototipo Web 3D Interactivo para VisualizaciÃ³n TÃ©cnica del Holybro X500 V2}
+\author{Alexander Woodcock SalomÃ³n}
 \date{Abril 2026}
 
 \begin{document}
@@ -25,181 +27,488 @@
 \tableofcontents
 \newpage
 
-\section{Introduccion}
-Este manual describe el uso de la build final documentada del visor WebGL del Holybro X500~V2. El documento se limita al flujo visible de la aplicacion y evita describir herramientas ocultas, experimentales o no integradas en la interfaz final.
+\section{IntroducciÃ³n}
+Este manual documenta el uso de la build final del visor WebGL desarrollado para la visualizaciÃ³n tÃ©cnica del dron Holybro X500~V2. Su propÃ³sito es orientar al usuario en el recorrido real de la aplicaciÃ³n, explicar quÃ© informaciÃ³n puede consultar, cÃ³mo interpretar las herramientas visibles y quÃ© lÃ­mites deben tenerse en cuenta durante la evaluaciÃ³n del sistema.
+
+El documento se concentra Ãºnicamente en el flujo verificable de la versiÃ³n final. Por esa razÃ³n no presenta como funciones de usuario herramientas ocultas, experimentales o legadas que todavÃ­a existan en cÃ³digo, pero que no formen parte de la interfaz final.
 
 \subsection{Alcance}
-La aplicacion permite:
+La aplicaciÃ³n permite:
 \begin{itemize}
-    \item ingresar desde el Hero al visor principal;
-    \item navegar el modelo 3D;
-    \item seleccionar piezas y consultar su ficha tecnica en un \textit{bottom sheet};
-    \item usar herramientas de inspeccion, analisis y visualizacion.
+    \item ingresar desde la pantalla Hero al visor 3D;
+    \item navegar el modelo del dron mediante cÃ¡mara orbital;
+    \item seleccionar piezas y consultar su ficha tÃ©cnica en una ficha inferior o \textit{bottom sheet};
+    \item inspeccionar el ensamblaje con hotspots, aislamiento y control de estado operativo;
+    \item analizar el modelo con corte transversal, vista explosionada y filtros funcionales;
+    \item cambiar modos de visualizaciÃ³n, presets de entorno e interpretaciÃ³n tÃ©rmica.
 \end{itemize}
 
-\subsection{Publico objetivo}
+\subsection{PÃºblico objetivo}
+Este manual estÃ¡ orientado a:
 \begin{itemize}
-    \item estudiantes e investigadores de ingenieria;
-    \item tecnicos o docentes que requieran lectura visual del ensamblaje;
-    \item evaluadores del proyecto de grado.
+    \item estudiantes y docentes de ingenierÃ­a multimedia o Ã¡reas afines;
+    \item evaluadores acadÃ©micos del proyecto;
+    \item usuarios que necesiten comprender la estructura y comportamiento general del dron sin abrir un entorno CAD o un motor 3D.
 \end{itemize}
+
+\section{Contexto general de la aplicaciÃ³n}
+La aplicaciÃ³n no es un catÃ¡logo genÃ©rico de mÃºltiples productos. La versiÃ³n final estÃ¡ centrada en un Ãºnico caso de estudio: el dron Holybro X500~V2. El modelo se organiza como una escena interactiva en la que el usuario puede alternar entre lectura descriptiva, anÃ¡lisis estructural y visualizaciÃ³n tÃ©cnica del estado del sistema.
+
+El flujo principal del visor es:
+
+\begin{center}
+\texttt{Hero -> Explore -> selecciÃ³n de pieza -> bottom sheet -> Inspect / Analyze / Studio}
+\end{center}
+
+\noindent Este flujo resume la estructura real de la interfaz. El botÃ³n \texttt{HOME} regresa al Hero y el botÃ³n \texttt{RESET VIEW} restablece la vista principal del dron.
 
 \section{Requisitos y acceso}
 
-\subsection{Requisitos minimos}
+\subsection{Requisitos mÃ­nimos}
 \begin{itemize}
     \item navegador moderno con soporte WebGL~2.0;
-    \item conexion estable para cargar la aplicacion;
-    \item mouse o pantalla tactil.
+    \item conexiÃ³n estable para la carga inicial del contenido;
+    \item mouse o pantalla tÃ¡ctil para navegaciÃ³n 3D;
+    \item resoluciÃ³n suficiente para leer la interfaz flotante y la leyenda tÃ©rmica.
 \end{itemize}
 
-\subsection{Ingreso}
+\subsection{Ingreso y pantalla Hero}
 \begin{enumerate}
-    \item abrir la URL publica del prototipo o el build local de prueba;
-    \item esperar la carga inicial;
-    \item usar el Hero para revisar el proyecto o ingresar con el boton \texttt{EXPLORE}.
+    \item Abrir la URL pÃºblica del prototipo o el build local de prueba.
+    \item Esperar la carga inicial del visor.
+    \item Revisar la pantalla Hero, que presenta el proyecto, el caso de estudio y accesos secundarios.
+    \item Presionar \texttt{EXPLORE} para ingresar al modelo interactivo.
 \end{enumerate}
 
-\section{Flujo general de uso}
+\noindent En la versiÃ³n final, la pantalla Hero tambiÃ©n ofrece acceso al repositorio fuente y al tutorial o ayuda inicial. El botÃ³n de tutorial activa la guÃ­a de onboarding del visor.
 
-El recorrido visible del sistema es:
-
-\begin{center}
-\texttt{Hero -> Explore -> seleccion de pieza -> bottom sheet -> Inspect / Analyze / Studio}
-\end{center}
-
-\begin{itemize}
-    \item El boton \texttt{HOME} regresa al Hero.
-    \item El boton \texttt{RESET VIEW} restablece la vista principal.
-    \item La tecla \texttt{Esc} cierra primero la ficha inferior o el subpanel activo, si existe uno abierto.
-\end{itemize}
-
-\section{Controles de camara}
+\section{Estructura general de la interfaz}
 
 \begin{table}[htbp!]
 \centering
-\caption{Controles verificados en la build final}
-\begin{tabular}{p{4.2cm}p{5cm}p{4cm}}
+\caption{Zonas principales de la interfaz final}
+\begin{tabular}{p{4.2cm}p{9.5cm}}
 \toprule
-\textbf{Accion} & \textbf{Mouse} & \textbf{Tactil} \\
+\textbf{Zona} & \textbf{FunciÃ³n} \\
 \midrule
-Orbitar & clic derecho + arrastrar & un dedo + arrastrar \\
-Pan & clic central + arrastrar & dos dedos + arrastrar \\
-Zoom & rueda del mouse & gesto de pinza \\
-Cerrar panel o subpanel & tecla Esc & cerrar desde interfaz \\
-Restablecer vista & boton \texttt{RESET VIEW} & boton \texttt{RESET VIEW} \\
+Hero & Pantalla de entrada, contexto del proyecto y accesos iniciales \\
+Viewport 3D & VisualizaciÃ³n principal del dron y de las herramientas de anÃ¡lisis \\
+Barra superior & Botones \texttt{HOME}, \texttt{RESET VIEW} y contexto de selecciÃ³n \\
+Barra inferior & Accesos a modos principales y acciones contextuales \\
+Info bar / peek bar & Indicador resumido de la pieza seleccionada cuando la ficha estÃ¡ cerrada \\
+Bottom sheet & Ficha tÃ©cnica detallada de la selecciÃ³n actual \\
+Paneles flotantes & Subpaneles de corte, filtros, visualizaciÃ³n y entorno \\
+Leyenda tÃ©rmica & Referencia visual del rango de temperatura en el modo \texttt{Thermal} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\noindent En esta version del manual no se documentan atajos adicionales de teclado porque no forman parte del flujo visible verificado para la build final.
+\noindent Cuando no hay una pieza seleccionada, la interfaz mantiene el enfoque en el modelo general. Cuando sÃ­ existe una selecciÃ³n, el sistema muestra una etiqueta contextual superior, una etiqueta inferior de selecciÃ³n y una barra de previsualizaciÃ³n que permite abrir la ficha completa.
 
-\section{Seleccion de piezas y ficha tecnica}
+\section{Controles de cÃ¡mara y navegaciÃ³n}
 
+\begin{table}[htbp!]
+\centering
+\caption{Controles verificados en la build final}
+\begin{tabular}{p{4.2cm}p{5.1cm}p{4.1cm}}
+\toprule
+\textbf{AcciÃ³n} & \textbf{Mouse} & \textbf{TÃ¡ctil} \\
+\midrule
+Orbitar & clic derecho + arrastrar & un dedo + arrastrar \\
+Pan & clic central + arrastrar & dos dedos + arrastrar \\
+Zoom & rueda del mouse & gesto de pinza \\
+Cerrar ficha o subpanel & tecla \texttt{Esc} & cierre desde la interfaz \\
+Restablecer vista & botÃ³n \texttt{RESET VIEW} & botÃ³n \texttt{RESET VIEW} \\
+Regresar al Hero & botÃ³n \texttt{HOME} & botÃ³n \texttt{HOME} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent La tecla \texttt{Esc} sigue una prioridad interna importante:
 \begin{enumerate}
-    \item hacer clic sobre una pieza visible del dron;
-    \item el sistema resalta la seleccion;
-    \item la informacion aparece en una ficha inferior (\textit{bottom sheet});
-    \item la ficha muestra identificacion, funcion, material, peso, dimensiones y datos de ensamblaje cuando existen.
+    \item primero cierra la ficha inferior si estÃ¡ abierta;
+    \item si la ficha no estÃ¡ abierta, cierra el subpanel activo o desactiva el modo actual;
+    \item si no hay paneles abiertos, no ejecuta acciones adicionales.
 \end{enumerate}
 
-\noindent La ficha inferior es el panel oficial de consulta. Este manual no describe un panel lateral derecho porque ese flujo no corresponde a la version final documentada.
+\noindent En la versiÃ³n final no se documentan atajos adicionales de teclado porque no forman parte del flujo visible verificado para la entrega.
 
-\section{Herramientas visibles}
+\section{SelecciÃ³n de piezas y consulta de informaciÃ³n}
 
-\subsection{Modo Inspect}
-El modo \texttt{Inspect} reune herramientas de lectura puntual:
-\begin{itemize}
-    \item \textbf{Pins:} activa o desactiva hotspots;
-    \item \textbf{Isolate:} a\'isla la seleccion actual;
-    \item \textbf{Power:} enciende o apaga el estado operativo del dron;
-    \item \textbf{Load slider:} ajusta el factor de carga asociado al estado de potencia.
-\end{itemize}
-
-\subsection{Modo Analyze}
-El modo \texttt{Analyze} concentra herramientas de lectura estructural:
-\begin{itemize}
-    \item \textbf{Cut:} habilita el corte transversal;
-    \item \textbf{Explode:} separa el ensamblaje;
-    \item \textbf{Filter:} activa o desactiva categorias funcionales.
-\end{itemize}
-
-\noindent Las categorias activas en la build final son:
-\begin{itemize}
-    \item \texttt{SkeletonAirframe}
-    \item \texttt{PropulsionSystem}
-    \item \texttt{Avionics}
-    \item \texttt{SensorsComms}
-    \item \texttt{PowerDistribution}
-    \item \texttt{Fasteners}
-\end{itemize}
-
-\subsection{Modo Studio}
-El modo \texttt{Studio} agrupa visualizacion y ambiente:
-\begin{itemize}
-    \item \textbf{Render mode:} el estado base es \texttt{Realistic}; la UI visible expone \texttt{X-Ray}, \texttt{Solid Color} y \texttt{Thermal};
-    \item \textbf{Environment:} tarjetas \texttt{Studio}, \texttt{Time} y \texttt{Color};
-    \item \textbf{Sliders:} rotacion e intensidad de luz.
-\end{itemize}
-
-\noindent Cuando se activa \texttt{Thermal}, aparece la leyenda termica visible en pantalla.
-
-\section{Corte transversal}
-
+\subsection{SelecciÃ³n bÃ¡sica}
 \begin{enumerate}
-    \item abrir \texttt{Analyze};
-    \item pulsar \texttt{Cut};
-    \item elegir el eje y mover el deslizador del plano;
-    \item volver al panel principal cuando termine la inspeccion.
+    \item Hacer clic sobre una pieza visible del dron.
+    \item El sistema resalta la selecciÃ³n actual.
+    \item La interfaz actualiza el contexto superior y la etiqueta inferior con el nombre de la pieza.
+    \item Si la ficha estÃ¡ cerrada, aparece una barra de previsualizaciÃ³n que permite abrir la informaciÃ³n completa.
 \end{enumerate}
 
-\noindent El corte puede permanecer activo hasta que el usuario lo desactive o use \texttt{RESET VIEW}.
+\subsection{Apertura de la ficha tÃ©cnica}
+La informaciÃ³n detallada se presenta en una ficha inferior o \textit{bottom sheet}. Esta es la superficie oficial de consulta de la build final y reemplaza cualquier referencia previa a paneles laterales no presentes en la interfaz visible.
 
-\section{Vista explosionada}
+La ficha puede abrirse de tres maneras:
+\begin{itemize}
+    \item mediante el botÃ³n global de informaciÃ³n;
+    \item desde la barra de previsualizaciÃ³n inferior;
+    \item mediante un gesto ascendente sobre el Ã¡rea de acciones cuando ya existe una selecciÃ³n.
+\end{itemize}
+
+\subsection{Contenido de la ficha}
+La ficha organiza la informaciÃ³n del componente en tres bloques editoriales:
+\begin{itemize}
+    \item \textbf{Identification:} nombre de la pieza, categorÃ­a, funciÃ³n y descripciÃ³n.
+    \item \textbf{Specifications:} material, peso, dimensiones, consumo y temperatura de operaciÃ³n cuando el dato existe.
+    \item \textbf{Assembly:} dificultad, herramientas requeridas y tiempo estimado de instalaciÃ³n.
+\end{itemize}
+
+\noindent Algunos campos pueden mostrarse como \texttt{N/A}. Esto no representa un error de la interfaz; significa que ese dato no se encuentra cargado para la pieza seleccionada dentro de \texttt{DronePartData}.
+
+\noindent Cuando la selecciÃ³n corresponde a un fastener individual, la ficha aÃ±ade datos tÃ©cnicos especÃ­ficos como familia, mÃ©trica, longitud, material, referencia CAD y pieza canÃ³nica mÃ¡s cercana dentro del dron. El detalle visual que aparece para estos fasteners en la escena actual es un placeholder ligero de Unity, no la malla final de Blender.
+
+\noindent Cuando la selecciÃ³n corresponde a una pieza madre, la ficha puede aÃ±adir el desglose del ensamblaje con subpiezas documentadas y el resumen de fasteners configurados para ese conjunto. Esta lista refleja la configuraciÃ³n actual de la app aunque parte de la geometrÃ­a visible siga siendo temporal.
+
+\noindent En los fasteners, el color de \textit{hover} y el color de selecciÃ³n deben mantenerse aunque el proxy temporal se oculte para mostrar el detalle procedural. Esto permite inspeccionar la pieza sin perder confirmaciÃ³n visual de quÃ© instancia estÃ¡ activa.
+
+\subsection{Selecciones desde hotspots}
+Cuando la selecciÃ³n proviene de un hotspot de grupo, la ficha puede resumir un sistema completo y no solo un componente individual. En ese caso:
+\begin{itemize}
+    \item el tÃ­tulo puede representar el grupo funcional;
+    \item la categorÃ­a puede mostrarse como grupo de sistema;
+    \item la descripciÃ³n puede incluir una lista resumida de componentes asociados.
+\end{itemize}
+
+\subsection{Interacciones avanzadas de selecciÃ³n}
+AdemÃ¡s del clic simple, la build final conserva dos interacciones Ãºtiles:
+\begin{itemize}
+    \item \textbf{Doble clic sobre una pieza:} aÃ­sla la pieza o subpieza y abre la ficha.
+    \item \textbf{Doble clic sobre el fondo:} retrocede un nivel de aislamiento o limpia el aislamiento actual.
+\end{itemize}
+
+\noindent Cuando la seleccion activa es un fastener, ese doble clic se interpreta sobre el fastener completo y no sobre una submalla parcial. De esta manera el aislamiento conserva visible la pieza de fijacion entera.
+
+\section{Modos principales de trabajo}
+La barra inferior organiza la experiencia en tres modos visibles: \texttt{Inspect}, \texttt{Analyze} y \texttt{Studio}. Cada modo cambia la lectura del modelo, pero el usuario puede seguir seleccionando piezas y abriendo la ficha tÃ©cnica.
+
+\begin{table}[htbp!]
+\centering
+\caption{Resumen funcional de los modos visibles}
+\begin{tabular}{p{3.2cm}p{10.6cm}}
+\toprule
+\textbf{Modo} & \textbf{PropÃ³sito principal} \\
+\midrule
+\texttt{Inspect} & Lectura puntual del ensamblaje, hotspots, aislamiento y estado operativo del dron \\
+\texttt{Analyze} & ExploraciÃ³n estructural mediante corte, explosiÃ³n y filtros por categorÃ­a \\
+\texttt{Studio} & Ajuste de visualizaciÃ³n, presets de entorno, control de iluminaciÃ³n y vista tÃ©rmica \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Modo Inspect}
+El modo \texttt{Inspect} reÃºne herramientas de lectura puntual sobre el modelo.
+
+\begin{table}[htbp!]
+\centering
+\caption{Herramientas visibles de Inspect}
+\begin{tabular}{p{3cm}p{10.8cm}}
+\toprule
+\textbf{Herramienta} & \textbf{Comportamiento} \\
+\midrule
+Pins & Activa o desactiva los hotspots visibles sobre el dron. Inicia activa por defecto al entrar por primera vez al visor. \\
+Isolate & AÃ­sla la selecciÃ³n actual del resto del ensamblaje. Si existe una subselecciÃ³n, permite aislar niveles mÃ¡s especÃ­ficos. \\
+Power & Enciende o apaga el estado operativo simulado del dron. \\
+Load & Ajusta el nivel de carga del sistema mientras el dron estÃ¡ encendido. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Hotspots}
+Los hotspots sirven como ayudas visuales para ubicar rÃ¡pidamente zonas relevantes del sistema. El botÃ³n \texttt{Pins} conmuta su visibilidad. Si el usuario prefiere una lectura limpia del modelo, puede desactivarlos temporalmente sin perder la posibilidad de seleccionar piezas manualmente.
+
+\subsection{Aislamiento}
+El botÃ³n \texttt{Isolate} oculta temporalmente el resto del modelo y conserva visible la selecciÃ³n activa. Esta funciÃ³n facilita la lectura espacial de componentes internos o de zonas que quedarÃ­an ocultas por el ensamblaje completo.
+
+\noindent Si la seleccion activa es un fastener, el aislamiento se aplica sobre la pieza completa de fijacion. El sistema mantiene visible el tornillo, tuerca, standoff o grommet completo aunque la seleccion se haya originado sobre una subparte de su geometria temporal.
+
+\noindent Si la seleccion activa es una pieza madre, el aislamiento conserva tambien los fasteners asociados que quedaron reconciliados para ese ensamblaje dentro de la configuracion actual de la app.
+
+El aislamiento puede revertirse de dos maneras:
+\begin{itemize}
+    \item pulsando nuevamente \texttt{Isolate};
+    \item haciendo doble clic sobre el fondo hasta regresar a la vista general.
+\end{itemize}
+
+\subsection{Estado operativo del dron}
+El botÃ³n \texttt{Power} no solo cambia un icono de interfaz. TambiÃ©n altera el estado operativo interno del dron y sincroniza:
+\begin{itemize}
+    \item la velocidad de hÃ©lices;
+    \item las luces de estado;
+    \item el comportamiento de vuelo simulado;
+    \item la carga del sistema usada por la visualizaciÃ³n tÃ©rmica.
+\end{itemize}
+
+\noindent La etiqueta de estado puede mostrar los siguientes valores:
+\begin{itemize}
+    \item \texttt{OFF}
+    \item \texttt{STARTING}
+    \item \texttt{IDLE}
+    \item \texttt{FLYING}
+    \item \texttt{SHUTDOWN}
+\end{itemize}
+
+\subsection{Control de carga}
+El deslizador de carga representa la intensidad operativa del sistema. Su valor se expresa en porcentaje y sirve como entrada directa para la lÃ³gica del dron:
+\begin{itemize}
+    \item valores bajos mantienen el dron encendido pero en reposo operativo;
+    \item valores mÃ¡s altos llevan el sistema al estado \texttt{FLYING};
+    \item el incremento de carga tambiÃ©n eleva la intensidad tÃ©rmica de los componentes crÃ­ticos.
+\end{itemize}
+
+\noindent En otras palabras, el usuario puede usar \texttt{Power} y \texttt{Load} como controles de contexto para estudiar cÃ³mo cambia la visualizaciÃ³n del sistema bajo distintos niveles de exigencia.
+
+\subsection{Enfoque y zoom sobre piezas pequenas}
+Cuando el usuario selecciona o aisla una pieza, la camara ajusta su enfoque con base en el tamano real de la seleccion. Esto mejora especialmente la inspeccion de fasteners y subpiezas pequenas, ya que el zoom ya no queda limitado a una distancia fija demasiado grande.
+
+\noindent La sensibilidad del zoom tambien cambia segun la seleccion activa. El dron completo, una pieza madre y una tuerca pequena no comparten la misma ventana de acercamiento ni el mismo paso de zoom.
+
+\noindent Esta adaptacion no depende del aislamiento. Si una pieza esta seleccionada dentro del dron completo, esa seleccion sigue definiendo el rango practico de acercamiento para permitir una inspeccion mas fina sin ocultar el resto del ensamblaje.
+
+\noindent El paneo y la orbita tambien reducen su sensibilidad cuando la escala observada es pequena. Esto evita que un fastener aislado o una subpieza diminuta se pierda con un gesto corto de navegacion.
+
+\noindent En esta iteracion, el paneo se amortigua mas que la orbita cuando la pieza observada es muy pequena. La intencion es conservar precision de centrado sin volver lenta la lectura angular del fastener.
+
+\noindent Si el usuario deja de seleccionar una pieza, la app vuelve a tomar como referencia el contexto general del modelo para el rango de zoom. Con esto se evita que la camara quede atrapada en un limite de alejamiento heredado desde una inspeccion anterior.
+
+\noindent El paneo fino sobre piezas muy pequenas fue reducido de nuevo en la iteracion final para privilegiar control de centrado por encima de velocidad de desplazamiento.
+
+\section{Modo Analyze}
+El modo \texttt{Analyze} agrupa herramientas de lectura estructural. Su navegaciÃ³n usa dos niveles:
+\begin{itemize}
+    \item una grilla principal de tarjetas;
+    \item un subpanel especÃ­fico cuando el usuario entra a \texttt{Cut} o \texttt{Filter}.
+\end{itemize}
+
+\subsection{Cut: corte transversal}
+La herramienta \texttt{Cut} activa el subsistema de corte transversal del modelo. EstÃ¡ pensada para explorar componentes internos sin desarmar la geometrÃ­a.
+
+\subsubsection{Comportamiento principal}
+\begin{itemize}
+    \item Al entrar al panel, el eje \texttt{Y} inicia activo por defecto.
+    \item El usuario puede activar hasta dos ejes simultÃ¡neamente.
+    \item Si activa un tercer eje, el sistema conserva solo los dos mÃ¡s recientes.
+    \item Si desactiva todos los ejes, el corte queda deshabilitado.
+    \item \texttt{RESET VIEW} tambiÃ©n limpia el corte activo.
+\end{itemize}
+
+\subsubsection{Controles disponibles}
+\begin{itemize}
+    \item botones de eje \texttt{X}, \texttt{Y} y \texttt{Z};
+    \item deslizador de posiciÃ³n del plano principal;
+    \item botÃ³n de inversiÃ³n del plano principal;
+    \item segundo conjunto de controles cuando hay dos ejes activos;
+    \item botÃ³n de combinaciÃ³n cuando existen dos planos simultÃ¡neos.
+\end{itemize}
+
+\noindent Cuando el segundo plano estÃ¡ disponible, el usuario puede construir cortes diagonales o lecturas compuestas del ensamblaje. Si el modo combinado se activa, el panel secundario se ajusta para reflejar esa lectura conjunta.
+
+\subsection{Explode: vista explosionada}
+La herramienta \texttt{Explode} separa el ensamblaje a partir de un deslizador en lÃ­nea. Su objetivo es revelar relaciones espaciales entre piezas sin abandonar la escena principal.
 
 \begin{enumerate}
-    \item abrir \texttt{Analyze};
-    \item pulsar \texttt{Explode};
-    \item ajustar el nivel de separacion con el deslizador;
-    \item volver a pulsar o llevar el valor a cero para regresar al ensamblaje.
+    \item Abrir \texttt{Analyze}.
+    \item Pulsar \texttt{Explode}.
+    \item Ajustar el nivel de separaciÃ³n con el deslizador.
+    \item Llevar el valor a cero o volver a pulsar la tarjeta para reconstruir el ensamblaje.
+\end{enumerate}
+
+\noindent El sistema recuerda el Ãºltimo valor distinto de cero. Esto significa que, si el usuario cierra temporalmente la herramienta y la vuelve a abrir, el deslizador puede restaurar el nivel previo de separaciÃ³n.
+
+\subsection{Filter: filtros por categorÃ­a}
+La herramienta \texttt{Filter} controla la visibilidad por familias funcionales del dron.
+
+\begin{table}[htbp!]
+\centering
+\caption{CategorÃ­as visibles en la build final}
+\begin{tabular}{p{5cm}p{7cm}}
+\toprule
+\textbf{Etiqueta funcional} & \textbf{CategorÃ­a interna} \\
+\midrule
+Airframe & \texttt{SkeletonAirframe} \\
+Propulsion & \texttt{PropulsionSystem} \\
+Avionics & \texttt{Avionics} \\
+Sensors & \texttt{SensorsComms} \\
+Power & \texttt{PowerDistribution} \\
+Fasteners & \texttt{Fasteners} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent Reglas importantes del filtro:
+\begin{itemize}
+    \item por defecto todas las categorÃ­as inician activas;
+    \item un clic conmuta una categorÃ­a individual;
+    \item si el usuario apaga la Ãºltima categorÃ­a activa, el sistema vuelve automÃ¡ticamente al conjunto por defecto;
+    \item un doble clic sobre una categorÃ­a activa deja visible solo esa familia funcional;
+    \item si el usuario repite el doble clic sobre la Ãºnica categorÃ­a activa, el sistema restablece el conjunto por defecto.
+\end{itemize}
+
+\noindent La categorÃ­a \texttt{Fasteners} permite localizar y seleccionar tornillerÃ­a individual. Al hacerlo, la app mantiene la escena ligera en reposo y solo genera detalle temporal para el fastener seleccionado.
+
+\section{Modo Studio}
+El modo \texttt{Studio} reÃºne herramientas de representaciÃ³n visual y control de entorno. Es el modo donde el usuario puede cambiar la lectura visual del dron sin modificar la geometrÃ­a subyacente.
+
+\subsection{Modos de visualizaciÃ³n visibles}
+La interfaz final expone tres tarjetas visibles:
+\begin{itemize}
+    \item \texttt{X-Ray}
+    \item \texttt{Solid}
+    \item \texttt{Thermal}
+\end{itemize}
+
+\noindent El estado base del visor es \texttt{Realistic}, aunque ese modo no aparece como tarjeta directa. Si el usuario pulsa nuevamente un modo que ya estÃ¡ activo, la aplicaciÃ³n regresa al modo base.
+
+\subsection{QuÃ© hace cada modo}
+\begin{itemize}
+    \item \textbf{X-Ray:} enfatiza lectura interior y transparencia tÃ©cnica del ensamblaje.
+    \item \textbf{Solid:} unifica la lectura visual en una presentaciÃ³n controlada por color sÃ³lido.
+    \item \textbf{Thermal:} activa la representaciÃ³n tÃ©rmica hÃ­brida y muestra una leyenda visible en pantalla.
+\end{itemize}
+
+\subsection{Presets de entorno}
+El panel de entorno presenta tres tarjetas: \texttt{Studio}, \texttt{Time} y \texttt{Color}. Cada una funciona como un ciclo de presets, no como un botÃ³n Ãºnico.
+
+\begin{table}[htbp!]
+\centering
+\caption{Ciclos de presets visibles en Studio}
+\begin{tabular}{p{3cm}p{10.8cm}}
+\toprule
+\textbf{Tarjeta} & \textbf{Secuencia de presets} \\
+\midrule
+\texttt{Studio} & \texttt{Studio} $\rightarrow$ \texttt{Studio Light} $\rightarrow$ \texttt{Blueprint} \\
+\texttt{Time} & \texttt{Day} $\rightarrow$ \texttt{Night} $\rightarrow$ \texttt{Sunset} \\
+\texttt{Color} & \texttt{White} $\rightarrow$ \texttt{Grey} $\rightarrow$ \texttt{Black} $\rightarrow$ \texttt{Yellow} $\rightarrow$ \texttt{Orange} $\rightarrow$ \texttt{Green} $\rightarrow$ \texttt{Blue} $\rightarrow$ \texttt{Purple} $\rightarrow$ \texttt{Red} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent Consideraciones importantes:
+\begin{itemize}
+    \item la etiqueta visible de cada tarjeta cambia para indicar el preset actual;
+    \item \texttt{Blueprint} puede activarse desde la tarjeta \texttt{Studio}, aunque no exista como botÃ³n visible de shader independiente;
+    \item al salir de \texttt{Blueprint}, el sistema retorna a la base visual normal del visor.
+\end{itemize}
+
+\subsection{IluminaciÃ³n}
+El panel tambiÃ©n expone dos deslizadores:
+\begin{itemize}
+    \item \textbf{Light Rotation:} rota la luz direccional principal;
+    \item \textbf{Light Intensity:} incrementa o disminuye la intensidad de iluminaciÃ³n.
+\end{itemize}
+
+\noindent Estos deslizadores no solo afectan la luz del modelo, sino tambiÃ©n la atmÃ³sfera general del preset activo. La interfaz adapta contraste y estilos visuales cuando detecta fondos claros para preservar legibilidad.
+
+\section{SimulaciÃ³n tÃ©rmica y lectura visual}
+La visualizaciÃ³n tÃ©rmica es uno de los modos mÃ¡s importantes del visor final, por lo que conviene usarla con un criterio claro.
+
+\subsection{CÃ³mo activarla}
+\begin{enumerate}
+    \item Ingresar a \texttt{Studio}.
+    \item Pulsar la tarjeta \texttt{Thermal}.
+    \item Confirmar que aparece la leyenda tÃ©rmica en pantalla.
+    \item Ajustar, si se desea, el estado operativo del dron desde \texttt{Inspect} para observar cambios de comportamiento tÃ©rmico.
+\end{enumerate}
+
+\subsection{CÃ³mo interpretar la leyenda}
+La leyenda visible de la interfaz muestra un rango aproximado de \textbf{20\,Â°C a 100\,Â°C}. En tÃ©rminos prÃ¡cticos:
+\begin{itemize}
+    \item los tonos mÃ¡s frÃ­os representan componentes cercanos al ambiente;
+    \item los tonos intermedios muestran elevaciÃ³n tÃ©rmica moderada;
+    \item los tonos mÃ¡s cÃ¡lidos indican componentes crÃ­ticos o mÃ¡s exigidos por la carga.
+\end{itemize}
+
+\noindent La lectura no equivale a una cÃ¡mara tÃ©rmica calibrada ni a una simulaciÃ³n FEA. Se trata de una \textbf{visualizaciÃ³n tÃ©rmica heurÃ­stica basada en componentes}, Ãºtil para comunicar zonas calientes, propagaciÃ³n relativa y comportamiento operativo general.
+
+\subsection{RelaciÃ³n con potencia y carga}
+La visualizaciÃ³n tÃ©rmica se alimenta del estado operativo del dron. Por eso:
+\begin{itemize}
+    \item con el dron apagado, las temperaturas tienden a valores cercanos al ambiente;
+    \item en \texttt{IDLE}, ciertos componentes comienzan a elevar su temperatura;
+    \item en \texttt{FLYING} y con carga alta, motores, ESC, baterÃ­a y electrÃ³nica central tienden a mostrar intensidades mÃ¡s altas;
+    \item elementos estructurales como brazos o placas pueden mostrar difusiÃ³n del calor sin convertirse necesariamente en fuentes tÃ©rmicas primarias.
+\end{itemize}
+
+\subsection{QuÃ© comunica la vista tÃ©rmica}
+La vista tÃ©rmica permite:
+\begin{itemize}
+    \item localizar rÃ¡pidamente zonas crÃ­ticas del sistema;
+    \item comparar el comportamiento relativo entre familias de componentes;
+    \item observar cÃ³mo cambia la escena al variar la carga del dron;
+    \item comunicar tÃ©rmicamente el sistema sin recurrir a una simulaciÃ³n fÃ­sica de alta fidelidad.
+\end{itemize}
+
+\subsection{QuÃ© no debe asumirse}
+El usuario no debe interpretar esta vista como:
+\begin{itemize}
+    \item una termografÃ­a medida en hardware real;
+    \item una predicciÃ³n precisa de ingenierÃ­a tÃ©rmica;
+    \item un reemplazo de validaciÃ³n experimental o simulaciÃ³n FEA.
+\end{itemize}
+
+\section{Recorrido recomendado de uso}
+Para una evaluaciÃ³n completa del visor, se sugiere el siguiente recorrido:
+\begin{enumerate}
+    \item entrar por \texttt{EXPLORE};
+    \item navegar el modelo y seleccionar piezas representativas;
+    \item abrir la ficha tÃ©cnica y revisar \textit{Identification}, \textit{Specifications} y \textit{Assembly};
+    \item usar \texttt{Inspect} para activar hotspots, aislar piezas y cambiar el estado operativo;
+    \item usar \texttt{Analyze} para aplicar corte, explosiÃ³n y filtros;
+    \item pasar a \texttt{Studio} para revisar modos de visualizaciÃ³n y presets de entorno;
+    \item finalizar con \texttt{Thermal} para interpretar el comportamiento tÃ©rmico relativo del dron.
 \end{enumerate}
 
 \section{Limitaciones visibles del cierre}
-
 \begin{itemize}
-    \item la herramienta de medicion existe en codigo, pero no esta expuesta en la UI final;
-    \item el catalogo de piezas y el panel de configuracion no forman parte del flujo visible documentado;
-    \item los efectos de audio no hacen parte de la version funcional cerrada al momento de este manual;
-    \item las pruebas de usabilidad y reportes finales deben ejecutarse sobre la build congelada posterior a la optimizacion final.
+    \item la herramienta de mediciÃ³n existe en cÃ³digo, pero no estÃ¡ expuesta en la interfaz final;
+    \item el catÃ¡logo de piezas y el panel de configuraciÃ³n no forman parte del flujo visible de usuario;
+    \item los efectos de audio no se documentan como parte del cierre funcional verificado;
+    \item la visualizaciÃ³n tÃ©rmica es heurÃ­stica y no debe presentarse como simulaciÃ³n fÃ­sica exhaustiva;
+    \item los resultados finales de usabilidad deben medirse sobre la build congelada definitiva.
 \end{itemize}
 
-\section{Solucion de problemas}
+\section{SoluciÃ³n de problemas}
 
-\subsection{La aplicacion no carga}
+\subsection{La aplicaciÃ³n no carga}
 \begin{itemize}
-    \item verificar conexion y compatibilidad WebGL;
-    \item recargar la pagina;
-    \item probar en un navegador actualizado.
+    \item verificar la compatibilidad WebGL del navegador;
+    \item recargar la pÃ¡gina;
+    \item confirmar que la conexiÃ³n no estÃ© interrumpiendo la descarga inicial de recursos.
 \end{itemize}
 
 \subsection{No puedo cerrar un panel}
 \begin{itemize}
-    \item usar el boton de cierre de la ficha;
+    \item usar el botÃ³n de cierre de la ficha;
     \item presionar \texttt{Esc};
-    \item usar \texttt{RESET VIEW} si hay una herramienta de analisis activa.
+    \item usar \texttt{RESET VIEW} si persiste una herramienta de anÃ¡lisis activa.
 \end{itemize}
 
-\subsection{El rendimiento baja}
+\subsection{No veo cambios en la vista tÃ©rmica}
 \begin{itemize}
-    \item cerrar otras pesta\~nas pesadas;
-    \item esperar a que termine la carga del modelo;
-    \item usar los modos visibles del sistema y evitar navegacion excesiva durante la carga inicial.
+    \item confirmar que el modo \texttt{Thermal} estÃ© activo;
+    \item verificar que la leyenda tÃ©rmica estÃ© visible;
+    \item encender el dron y ajustar el nivel de carga desde \texttt{Inspect};
+    \item esperar unos segundos para que la simulaciÃ³n visual actualice el comportamiento tÃ©rmico.
+\end{itemize}
+
+\subsection{El rendimiento disminuye}
+\begin{itemize}
+    \item cerrar otras pestaÃ±as pesadas del navegador;
+    \item evitar cambios bruscos de navegaciÃ³n durante la carga inicial;
+    \item esperar a que el modelo termine de estabilizarse antes de cambiar repetidamente entre herramientas.
 \end{itemize}
 
 \section{Contacto}
-
 \textbf{Correo:} awoodcocks@unadvirtual.edu.co
 
 \textbf{Repositorio:} \url{https://github.com/delarge95/WebGL-Thesis-Proposal}
 
 \end{document}
+

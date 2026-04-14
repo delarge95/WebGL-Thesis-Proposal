@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -57,5 +57,12 @@ MonoBehaviour:
   connectionTypes: []
   screwCount: 0
   screwSize: 
-  subComponentNames: []
+  subComponentNames:
+  - x500v2_misc_camera_mount
+  - x500v2_misc_frame_connector_0
+  - x500v2_misc_frame_connector_1
+  - x500v2_misc_light_cover
   category: 6
+
+
+

@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -63,7 +63,11 @@ MonoBehaviour:
   screwCount: 4
   screwSize: M3
   subComponentNames:
-  - Holybro 2216 KV880 Motor Unit
-  - Propeller Mount Set
-  - Mount Base Plate
+  - DJ-2216-KV880 motor instance
+  - Fasteners: Socket Cap Screw M2.5 x 12 mm x2
+  - Fasteners: Socket Cap Screw M2.5 x 6 mm x4
+  - Fasteners: Socket Cap Screw M3 x 6 mm x4
   category: 3
+
+
+

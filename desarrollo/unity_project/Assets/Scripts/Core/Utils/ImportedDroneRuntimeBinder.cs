@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WebGL.Core.Content;
+using WebGL.Core.Data;
 using WebGL.Core.Events;
 using WebGL.Core.Managers;
 using WebGL.Core.Thermal;
@@ -69,7 +70,8 @@ namespace WebGL.Core.Utils
                 return;
             }
 
-            RepairImportedDrone(droneRoot);
+            FastenerRegistry registry = EnsureFastenerRuntimeSystems(droneRoot);
+            RepairImportedDrone(droneRoot, registry);
             Transform[] propellers = FindPropellers(droneRoot);
 
             DroneStateController.Instance?.ConfigureRuntimeBindings(droneRoot, propellers);
@@ -100,7 +102,30 @@ namespace WebGL.Core.Utils
             }
         }
 
-        private void RepairImportedDrone(Transform droneRoot)
+        private FastenerRegistry EnsureFastenerRuntimeSystems(Transform droneRoot)
+        {
+            if (droneRoot == null)
+            {
+                return null;
+            }
+
+            FastenerRegistry registry = FindFirstObjectByType<FastenerRegistry>();
+            if (registry == null)
+            {
+                registry = droneRoot.gameObject.AddComponent<FastenerRegistry>();
+            }
+
+            registry.RebuildRegistry();
+
+            if (FindFirstObjectByType<FastenerInspectionManager>() == null)
+            {
+                droneRoot.gameObject.AddComponent<FastenerInspectionManager>();
+            }
+
+            return registry;
+        }
+
+        private void RepairImportedDrone(Transform droneRoot, FastenerRegistry registry)
         {
             Dictionary<string, ExplodablePart> anchorsById = BuildAnchorMap(droneRoot);
             ReparentTopLevelOrphans(droneRoot, anchorsById);
@@ -109,7 +134,7 @@ namespace WebGL.Core.Utils
 
             foreach (KeyValuePair<string, ExplodablePart> kvp in anchorsById)
             {
-                ConfigureAnchor(kvp.Key, kvp.Value);
+                ConfigureAnchor(kvp.Key, kvp.Value, registry);
             }
         }
 
@@ -395,7 +420,7 @@ namespace WebGL.Core.Utils
             return bestAnchor;
         }
 
-        private static void ConfigureAnchor(string anchorId, ExplodablePart anchor)
+        private static void ConfigureAnchor(string anchorId, ExplodablePart anchor, FastenerRegistry registry)
         {
             if (anchor == null)
             {
@@ -428,7 +453,65 @@ namespace WebGL.Core.Utils
                 ConfigureAuxiliaryExplode(renderer.transform, anchor, auxiliaryCategory);
             }
 
+            SealFastenerMetadata(anchor, registry);
             anchor.Initialize();
+        }
+
+        private static void SealFastenerMetadata(ExplodablePart anchor, FastenerRegistry registry)
+        {
+            if (anchor == null)
+            {
+                return;
+            }
+
+            DronePartData data = anchor.Data;
+            bool isFastener = (data != null && data.category == PartCategory.Fasteners) ||
+                              anchor.name.StartsWith("x500v2_fastener.", StringComparison.OrdinalIgnoreCase);
+            if (!isFastener)
+            {
+                return;
+            }
+
+            FastenerMetadata metadata = data != null && data.HasFastenerMetadata
+                ? data.fastenerMetadata
+                : registry != null ? registry.ResolveMetadata(anchor.transform, data) : null;
+
+            if (metadata == null)
+            {
+                metadata = new FastenerMetadata
+                {
+                    instanceId = FastenerNamingUtility.SanitizeId(anchor.name),
+                    sceneObjectName = anchor.name,
+                    sceneTypeKey = FastenerNamingUtility.ExtractSceneTypeKey(anchor.name),
+                    isInspectable = false,
+                    fallbackReason = "No fastener catalog metadata is available for this scene object yet."
+                };
+            }
+
+            if (data != null && !data.HasFastenerMetadata)
+            {
+                data.fastenerMetadata = metadata;
+            }
+
+            if (registry != null)
+            {
+                registry.SealMarker(anchor.transform, metadata);
+                return;
+            }
+
+            FastenerRuntimeMarker marker = anchor.GetComponent<FastenerRuntimeMarker>();
+            if (marker == null)
+            {
+                marker = anchor.gameObject.AddComponent<FastenerRuntimeMarker>();
+            }
+
+            marker.Configure(
+                metadata.familyId,
+                metadata.instanceId,
+                metadata.sceneTypeKey,
+                metadata.parentCanonicalPartId,
+                metadata.isInspectable,
+                metadata.fallbackReason);
         }
 
         private static void EnsureSelectableLayer(Transform root)

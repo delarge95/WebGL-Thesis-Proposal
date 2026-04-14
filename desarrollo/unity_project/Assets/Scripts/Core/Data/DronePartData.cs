@@ -81,8 +81,13 @@ namespace WebGL.Core.Data
         public string screwSize; // M2, M3, etc.
         public string[] subComponentNames;
 
+        [Header("Fastener Metadata")]
+        public FastenerMetadata fastenerMetadata;
+
         // UI category field
         public PartCategory category = PartCategory.Uncategorized;
+
+        public bool HasFastenerMetadata => fastenerMetadata != null && fastenerMetadata.HasIdentifiers();
 
         public string GetFullDescription()
         {
@@ -96,6 +101,20 @@ namespace WebGL.Core.Data
             if (subComponentNames != null && subComponentNames.Length > 0)
             {
                 desc += "\n\nAssembly includes:\n- " + string.Join("\n- ", subComponentNames);
+            }
+
+            if (HasFastenerMetadata)
+            {
+                string summary = fastenerMetadata.GetTechnicalSummary();
+                if (!string.IsNullOrWhiteSpace(summary))
+                {
+                    desc += $"\n\nFastener Spec: {summary}";
+                }
+
+                if (!string.IsNullOrWhiteSpace(fastenerMetadata.blenderName))
+                {
+                    desc += $"\nSource CAD: {fastenerMetadata.blenderName}";
+                }
             }
 
             return desc;
@@ -120,6 +139,11 @@ namespace WebGL.Core.Data
             if (screwCount > 0)
             {
                 info += $"Screws: {screwCount}x {screwSize}\n";
+            }
+
+            if (HasFastenerMetadata && !string.IsNullOrWhiteSpace(fastenerMetadata.sceneObjectName))
+            {
+                info += $"Instance: {fastenerMetadata.sceneObjectName}\n";
             }
 
             if (!string.IsNullOrEmpty(installationTips))
