@@ -34,6 +34,7 @@
 - `OrbitCameraController.cs`: se corrige un limite falso al deshacer zoom; el contexto adaptativo deja de depender de un `target` residual cuando no hay seleccion activa y la ventana mantiene margen suficiente para volver a alejar la camara.
 - `OrbitCameraController.cs`: se reduce aun mas la sensibilidad minima de `pan` en inspeccion cercana para fasteners y piezas pequenas.
 - `PartVisibilityManager.cs`: expone `GetIsolatedTransform()` para que la camara pueda distinguir entre contexto aislado real y foco heredado de una seleccion antigua.
+- `FastenerInspectionManager.cs`: pasa de una unica inspeccion por seleccion a un set activo de fasteners modulares, cubriendo fastener seleccionado, fastener aislado aun sin seleccion y fasteners asociados a una pieza madre aislada.
 - `SelectionManager.cs`: limpia el estado de hover al convertir una pieza en seleccion y evita el tinte azul residual al deseleccionar desde el background.
 - `UIDetailsSheet.cs`: muestra subtipo, metrica, longitud, drive, material, CAD source y parent canonical para selecciones de `Fasteners`; para piezas madre agrega ensamblaje y subpiezas desde `subComponentNames`.
 - `HolybroFastenerCatalogBuilder.cs`: ahora infiere `parentCanonicalPartId` por proximidad al anchor directo del dron para compensar que la escena actual agrupa los fasteners bajo `x500v2_fastener_group`.

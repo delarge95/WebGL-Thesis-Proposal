@@ -1,109 +1,117 @@
-# Breakdown: Sistema de Visualización Interactiva
+# Breakdown: Sistema de Visualizacion Interactiva
 
-## Qué debe vender esta pieza
+## Que debe vender esta pieza
 
-La pieza central del portafolio es el visor final del Holybro X500 V2. Su valor está en que integra producto, interacción 3D, shaders, arquitectura y criterio editorial en una sola experiencia WebGL.
+La pieza central del portafolio es el visor final del Holybro X500 V2. Su valor esta en que integra producto, interaccion 3D, shaders, arquitectura y criterio editorial en una sola experiencia WebGL.
 
 ## Flujo real de producto
 
 ```text
-Hero -> Explore -> selección -> bottom sheet -> Inspect / Analyze / Studio
+Hero -> Explore -> seleccion -> bottom sheet -> Inspect / Analyze / Studio
 ```
 
-Ese flujo debe ser el eje del storytelling. Todo lo demás es soporte.
+Ese flujo debe ser el eje del storytelling. Todo lo demas es soporte.
 
 ## Problema que resuelve
 
-El visor no solo “muestra un dron”. Resuelve una lectura técnica del ensamblaje al conectar:
+El visor no solo "muestra un dron". Resuelve una lectura tecnica del ensamblaje al conectar:
 
-- exploración espacial;
-- identificación de piezas;
+- exploracion espacial;
+- identificacion de piezas;
 - contexto informativo;
-- modos analíticos de visualización;
-- controles de inspección y análisis sobre un modelo complejo.
+- modos analiticos de visualizacion;
+- controles de inspeccion y analisis sobre un modelo complejo.
 
 ## Features defendibles
 
-- navegación 3D y exploración contextual;
-- selección de piezas reales;
+- navegacion 3D y exploracion contextual;
+- seleccion de piezas reales;
 - `bottom sheet` de detalle;
 - `Inspect` con hotspots, isolate y power/load;
-- `Analyze` con explode, cut y filtros por categoría;
+- `Analyze` con explode, cut y filtros por categoria;
 - `Studio` con `Realistic`, `X-Ray`, `Solid Color` y `Thermal`;
-- leyenda térmica visible;
+- leyenda termica visible;
+- fasteners seleccionables con metadata tecnica por instancia;
+- detalle bajo demanda para fasteners sin cargar malla densa globalmente;
 - Hero saneado y alineado con el caso real del Holybro X500 V2.
 
-## Features implementadas pero no publicadas
+## Features implementadas pero no publicadas como producto final
 
 - `MeasurementTool`;
 - `Blueprint`, `Wireframe` y `Ghosted` como modos implementados pero no visibles en la UI final;
-- partes avanzadas del clipping y del sistema térmico;
-- paneles o módulos legacy.
+- partes avanzadas del clipping y del sistema termico;
+- paneles o modulos legacy.
 
-Estas capacidades sirven como profundidad técnica secundaria, no como narrativa principal de producto.
+Estas capacidades sirven como profundidad tecnica secundaria, no como narrativa principal de producto.
 
 ## Features que no deben venderse como finales
 
-- catálogo visible;
+- catalogo visible;
 - settings visibles;
 - suite completa de ensamblaje;
 - audio como parte cerrada del producto;
-- atajos de teclado no verificados como experiencia final.
+- atajos de teclado no verificados como experiencia final;
+- mallas Blender finales de fasteners si la escena demostrada aun usa placeholders temporales.
 
-## Arquitectura mínima que conviene explicar
+## Arquitectura minima que conviene explicar
 
-### Capa de UI y orquestación
+### Capa de UI y orquestacion
 
 - `UIManager`
 - `UIHeroController`
 - `UIDetailsSheet`
 
-### Capa de interacción
+### Capa de interaccion
 
 - `SelectionManager`
 - `InputManager`
 - `OrbitCameraController`
 
-### Capa de visualización
+### Capa de visualizacion
 
 - `ViewModeManager`
 - `CrossSectionManager`
 - `ExplodedViewManager`
 - `PartVisibilityManager`
+- `FastenerInspectionManager`
 
 ### Capa de estado y servicios
 
 - `DroneStateController`
 - `HotspotManager`
-- subsistema térmico
+- `FastenerRegistry`
+- subsistema termico
 
-## Qué mostrar en el breakdown
+## Que mostrar en el breakdown
 
-1. Problema de UX y lectura técnica.
+1. Problema de UX y lectura tecnica.
 2. Flujo real del visor.
-3. Cómo la selección conecta escena y UI.
-4. Cómo los modos analíticos cambian la lectura del objeto.
-5. Qué parte del sistema es visible y qué parte es soporte técnico.
+3. Como la seleccion conecta escena y UI.
+4. Como los modos analiticos cambian la lectura del objeto.
+5. Como los fasteners se mantienen ligeros en reposo y solo muestran detalle al seleccionarse.
+6. Que parte del sistema es visible y que parte es soporte tecnico.
 
 ## Evidencia recomendada
 
 - captura del Hero final;
-- captura de selección + `bottom sheet`;
+- captura de seleccion + `bottom sheet`;
 - grid o clip corto de `Inspect / Analyze / Studio`;
-- vista térmica con leyenda;
-- un diagrama corto de flujo de selección o arquitectura por capas;
-- una referencia puntual a `SelectionManager`, `UIDetailsSheet` y `ViewModeManager`.
+- vista termica con leyenda;
+- una captura de fastener seleccionado con detalle procedural activo;
+- un diagrama corto de flujo de seleccion o arquitectura por capas;
+- una referencia puntual a `SelectionManager`, `UIDetailsSheet`, `ViewModeManager`, `FastenerRegistry` y `FastenerInspectionManager`.
 
-## Mensaje técnico central
+## Mensaje tecnico central
 
 El valor no es solo visual. El visor demuestra capacidad para conectar:
 
 - UI de producto;
 - runtime interactivo;
-- modos de visualización;
+- modos de visualizacion;
 - arquitectura mantenible;
-- documentación honesta sobre alcance real.
+- optimizacion consciente para fasteners y subpiezas;
+- documentacion honesta sobre alcance real.
 
 ## Pitch corto recomendado
 
-> Diseñé y desarrollé un visor WebGL técnico para el Holybro X500 V2 que permite explorar componentes, inspeccionar piezas, aplicar modos analíticos y mantener coherencia entre UI, escena y sistema visual dentro de las restricciones reales de Unity WebGL.
+> Diseñe y desarrolle un visor WebGL tecnico para el Holybro X500 V2 que permite explorar componentes, inspeccionar piezas, aplicar modos analiticos y mantener coherencia entre UI, escena y sistema visual dentro de las restricciones reales de Unity WebGL.

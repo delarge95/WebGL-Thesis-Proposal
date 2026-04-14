@@ -312,9 +312,9 @@ La optimizacion de fasteners no se resuelve cargando mallas densas todo el tiemp
 \begin{enumerate}
     \item la escena permanece en reposo con proxies ligeros;
     \item al seleccionar un fastener, \texttt{FastenerRegistry} resuelve su metadata tecnica;
-    \item \texttt{FastenerInspectionManager} oculta solo el proxy seleccionado;
-    \item \texttt{FastenerBuilder} crea un detalle procedural temporal para esa unica instancia;
-    \item al deseleccionar, el detalle se destruye y el proxy original se restaura.
+    \item \texttt{FastenerInspectionManager} puede activar un conjunto acotado de detalles temporales segun contexto;
+    \item \texttt{FastenerBuilder} crea detalle procedural para el fastener seleccionado, para un fastener aislado aunque ya no permanezca seleccionado y para los fasteners asociados a una pieza madre aislada;
+    \item al salir del contexto correspondiente, cada detalle se destruye y su proxy original se restaura.
 \end{enumerate}
 
 \noindent Esta decision mantiene bajo el costo visual de la escena actual y, al mismo tiempo, valida el flujo de inspeccion detallada que luego recibira las mallas finales producidas en Blender.

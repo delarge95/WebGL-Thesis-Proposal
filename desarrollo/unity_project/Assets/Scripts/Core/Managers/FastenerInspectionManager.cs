@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using WebGL.Core.Content;
@@ -10,65 +11,245 @@ namespace WebGL.Core.Managers
     [DisallowMultipleComponent]
     public class FastenerInspectionManager : Singleton<FastenerInspectionManager>
     {
-        private readonly List<Renderer> hiddenProxyRenderers = new List<Renderer>();
+        private sealed class ActiveInspection
+        {
+            public Transform ProxyRoot;
+            public GameObject DetailRoot;
+            public readonly List<Renderer> HiddenProxyRenderers = new List<Renderer>();
+        }
 
-        private Transform currentProxyRoot;
-        private GameObject currentDetailRoot;
+        private readonly Dictionary<Transform, ActiveInspection> activeInspections = new Dictionary<Transform, ActiveInspection>();
+        private readonly List<Transform> cachedFastenerRoots = new List<Transform>();
+        private readonly Dictionary<string, List<Transform>> fastenersByParentCanonical = new Dictionary<string, List<Transform>>(StringComparer.OrdinalIgnoreCase);
+        private readonly HashSet<Transform> desiredProxyRoots = new HashSet<Transform>();
+
+        private bool cacheInitialized;
 
         private void OnEnable()
         {
             EventBus.Subscribe<PartSelectedEvent>(HandlePartSelected);
+            cacheInitialized = false;
         }
 
         private void OnDisable()
         {
             EventBus.Unsubscribe<PartSelectedEvent>(HandlePartSelected);
-            ClearCurrentInspection();
+            ClearAllInspections();
+        }
+
+        private void LateUpdate()
+        {
+            RefreshFastenerCacheIfNeeded();
+            ReconcileInspectionSet();
         }
 
         private void HandlePartSelected(PartSelectedEvent evt)
         {
-            if (evt.PartData == null || evt.PartData.category != PartCategory.Fasteners)
+            // Selection events are still useful to invalidate the desired set
+            // immediately, but the effective replacement policy is now resolved
+            // every frame from selection + isolation state.
+        }
+
+        private void ReconcileInspectionSet()
+        {
+            desiredProxyRoots.Clear();
+            CollectSelectedFastener(desiredProxyRoots);
+            CollectIsolatedFasteners(desiredProxyRoots);
+
+            if (desiredProxyRoots.Count == 0)
             {
-                ClearCurrentInspection();
+                ClearAllInspections();
                 return;
             }
 
+            List<Transform> rootsToRemove = null;
+            foreach (KeyValuePair<Transform, ActiveInspection> pair in activeInspections)
+            {
+                if (pair.Key != null && desiredProxyRoots.Contains(pair.Key))
+                {
+                    continue;
+                }
+
+                rootsToRemove ??= new List<Transform>();
+                rootsToRemove.Add(pair.Key);
+            }
+
+            if (rootsToRemove != null)
+            {
+                for (int i = 0; i < rootsToRemove.Count; i++)
+                {
+                    ClearInspection(rootsToRemove[i]);
+                }
+            }
+
+            foreach (Transform proxyRoot in desiredProxyRoots)
+            {
+                if (proxyRoot == null || activeInspections.ContainsKey(proxyRoot))
+                {
+                    continue;
+                }
+
+                FastenerMetadata metadata = ResolveInspectableMetadata(proxyRoot);
+                if (metadata == null)
+                {
+                    continue;
+                }
+
+                ShowInspection(proxyRoot, metadata);
+            }
+        }
+
+        private void CollectSelectedFastener(HashSet<Transform> targets)
+        {
             Transform selection = SelectionManager.Instance != null ? SelectionManager.Instance.CurrentSelection : null;
             if (selection == null)
             {
-                ClearCurrentInspection();
                 return;
+            }
+
+            if (TryResolveFastenerRoot(selection, out Transform fastenerRoot))
+            {
+                targets.Add(fastenerRoot);
+            }
+        }
+
+        private void CollectIsolatedFasteners(HashSet<Transform> targets)
+        {
+            PartVisibilityManager visibilityManager = PartVisibilityManager.Instance;
+            if (visibilityManager == null)
+            {
+                return;
+            }
+
+            Transform isolatedTransform = visibilityManager.GetIsolatedTransform();
+            if (isolatedTransform == null)
+            {
+                return;
+            }
+
+            if (TryResolveFastenerRoot(isolatedTransform, out Transform isolatedFastenerRoot))
+            {
+                targets.Add(isolatedFastenerRoot);
+                return;
+            }
+
+            string parentCanonicalPartId = ResolveCanonicalPartId(isolatedTransform);
+            if (string.IsNullOrWhiteSpace(parentCanonicalPartId) ||
+                !fastenersByParentCanonical.TryGetValue(parentCanonicalPartId, out List<Transform> associatedFasteners))
+            {
+                return;
+            }
+
+            for (int i = 0; i < associatedFasteners.Count; i++)
+            {
+                Transform fastenerRoot = associatedFasteners[i];
+                if (fastenerRoot == null)
+                {
+                    continue;
+                }
+
+                targets.Add(fastenerRoot);
+            }
+        }
+
+        private FastenerMetadata ResolveInspectableMetadata(Transform proxyRoot)
+        {
+            if (proxyRoot == null)
+            {
+                return null;
             }
 
             FastenerRegistry registry = FastenerRegistry.Instance;
-            FastenerMetadata metadata = registry != null
-                ? registry.ResolveMetadata(selection, evt.PartData)
-                : evt.PartData.fastenerMetadata;
-
-            if (metadata == null || !metadata.isInspectable)
+            if (registry == null)
             {
-                ClearCurrentInspection();
-                return;
+                return null;
             }
 
-            ShowInspection(selection, metadata);
+            FastenerMetadata metadata = registry.ResolveMetadata(proxyRoot);
+            return metadata != null && metadata.isInspectable ? metadata : null;
+        }
+
+        private static bool TryResolveFastenerRoot(Transform candidate, out Transform fastenerRoot)
+        {
+            fastenerRoot = null;
+            if (candidate == null)
+            {
+                return false;
+            }
+
+            FastenerRuntimeMarker marker = candidate.GetComponent<FastenerRuntimeMarker>();
+            if (marker == null)
+            {
+                marker = candidate.GetComponentInParent<FastenerRuntimeMarker>();
+            }
+
+            if (marker == null)
+            {
+                return false;
+            }
+
+            Transform resolvedRoot = ResolveProxyRoot(marker);
+            if (resolvedRoot == null)
+            {
+                return false;
+            }
+
+            fastenerRoot = resolvedRoot;
+            return true;
+        }
+
+        private static Transform ResolveProxyRoot(FastenerRuntimeMarker marker)
+        {
+            if (marker == null)
+            {
+                return null;
+            }
+
+            ExplodablePart fastenerPart = marker.GetComponent<ExplodablePart>();
+            if (fastenerPart == null)
+            {
+                fastenerPart = marker.GetComponentInParent<ExplodablePart>();
+            }
+
+            if (fastenerPart != null &&
+                fastenerPart.Data != null &&
+                fastenerPart.Data.category == PartCategory.Fasteners)
+            {
+                return fastenerPart.transform;
+            }
+
+            return marker.transform;
+        }
+
+        private static string ResolveCanonicalPartId(Transform target)
+        {
+            if (target == null)
+            {
+                return string.Empty;
+            }
+
+            ExplodablePart part = target.GetComponent<ExplodablePart>();
+            if (part == null)
+            {
+                part = target.GetComponentInParent<ExplodablePart>();
+            }
+
+            return part != null && part.Data != null
+                ? part.Data.id ?? string.Empty
+                : string.Empty;
         }
 
         private void ShowInspection(Transform proxyRoot, FastenerMetadata metadata)
         {
             if (proxyRoot == null || metadata == null)
             {
-                ClearCurrentInspection();
                 return;
             }
 
-            if (currentProxyRoot == proxyRoot && currentDetailRoot != null)
+            ActiveInspection inspection = new ActiveInspection
             {
-                return;
-            }
-
-            ClearCurrentInspection();
+                ProxyRoot = proxyRoot
+            };
 
             Renderer[] proxyRenderers = proxyRoot.GetComponentsInChildren<Renderer>(true);
             for (int i = 0; i < proxyRenderers.Length; i++)
@@ -80,44 +261,133 @@ namespace WebGL.Core.Managers
                 }
 
                 renderer.enabled = false;
-                hiddenProxyRenderers.Add(renderer);
+                inspection.HiddenProxyRenderers.Add(renderer);
             }
 
-            currentProxyRoot = proxyRoot;
-            currentDetailRoot = FastenerBuilder.BuildDetailVisual(proxyRoot, metadata);
-            RefreshHighlightState(currentProxyRoot);
+            inspection.DetailRoot = FastenerBuilder.BuildDetailVisual(proxyRoot, metadata);
+            activeInspections[proxyRoot] = inspection;
+            RefreshHighlightState(proxyRoot);
         }
 
-        private void ClearCurrentInspection()
+        private void ClearInspection(Transform proxyRoot)
         {
-            Transform previousProxyRoot = currentProxyRoot;
-
-            for (int i = 0; i < hiddenProxyRenderers.Count; i++)
+            if (proxyRoot == null || !activeInspections.TryGetValue(proxyRoot, out ActiveInspection inspection))
             {
-                Renderer renderer = hiddenProxyRenderers[i];
+                return;
+            }
+
+            RestoreProxyRenderers(inspection);
+            DestroyDetailRoot(inspection.DetailRoot);
+            activeInspections.Remove(proxyRoot);
+            RefreshHighlightState(proxyRoot);
+        }
+
+        private void ClearAllInspections()
+        {
+            if (activeInspections.Count == 0)
+            {
+                return;
+            }
+
+            List<Transform> proxyRoots = new List<Transform>(activeInspections.Keys);
+            for (int i = 0; i < proxyRoots.Count; i++)
+            {
+                ClearInspection(proxyRoots[i]);
+            }
+        }
+
+        private static void RestoreProxyRenderers(ActiveInspection inspection)
+        {
+            if (inspection == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < inspection.HiddenProxyRenderers.Count; i++)
+            {
+                Renderer renderer = inspection.HiddenProxyRenderers[i];
                 if (renderer != null)
                 {
                     renderer.enabled = true;
                 }
             }
 
-            hiddenProxyRenderers.Clear();
-            currentProxyRoot = null;
+            inspection.HiddenProxyRenderers.Clear();
+        }
 
-            if (currentDetailRoot != null)
+        private static void DestroyDetailRoot(GameObject detailRoot)
+        {
+            if (detailRoot == null)
             {
-                if (Application.isPlaying)
+                return;
+            }
+
+            if (Application.isPlaying)
+            {
+                Destroy(detailRoot);
+            }
+            else
+            {
+                DestroyImmediate(detailRoot);
+            }
+        }
+
+        private void RefreshFastenerCacheIfNeeded()
+        {
+            if (cacheInitialized)
+            {
+                if (cachedFastenerRoots.Count == 0)
                 {
-                    Destroy(currentDetailRoot);
+                    cacheInitialized = false;
                 }
-                else
+
+                bool hasNullRoot = false;
+                for (int i = 0; i < cachedFastenerRoots.Count; i++)
                 {
-                    DestroyImmediate(currentDetailRoot);
+                    if (cachedFastenerRoots[i] == null)
+                    {
+                        hasNullRoot = true;
+                        break;
+                    }
+                }
+
+                if (!hasNullRoot)
+                {
+                    return;
+                }
+
+                cacheInitialized = false;
+            }
+
+            cachedFastenerRoots.Clear();
+            fastenersByParentCanonical.Clear();
+
+            FastenerRuntimeMarker[] markers = FindObjectsByType<FastenerRuntimeMarker>(FindObjectsSortMode.None);
+            HashSet<Transform> uniqueRoots = new HashSet<Transform>();
+            for (int i = 0; i < markers.Length; i++)
+            {
+                FastenerRuntimeMarker marker = markers[i];
+                Transform proxyRoot = ResolveProxyRoot(marker);
+                if (proxyRoot == null || !uniqueRoots.Add(proxyRoot))
+                {
+                    continue;
+                }
+
+                cachedFastenerRoots.Add(proxyRoot);
+
+                if (!string.IsNullOrWhiteSpace(marker.ParentCanonicalPartId))
+                {
+                    if (!fastenersByParentCanonical.TryGetValue(marker.ParentCanonicalPartId, out List<Transform> roots))
+                    {
+                        roots = new List<Transform>();
+                        fastenersByParentCanonical[marker.ParentCanonicalPartId] = roots;
+                    }
+
+                    roots.Add(proxyRoot);
                 }
             }
 
-            currentDetailRoot = null;
-            RefreshHighlightState(previousProxyRoot);
+            cacheInitialized = true;
         }
 
         private static void RefreshHighlightState(Transform proxyRoot)

@@ -229,7 +229,11 @@ El botÃ³n \texttt{Isolate} oculta temporalmente el resto del modelo y conserva
 
 \noindent Si la seleccion activa es un fastener, el aislamiento se aplica sobre la pieza completa de fijacion. El sistema mantiene visible el tornillo, tuerca, standoff o grommet completo aunque la seleccion se haya originado sobre una subparte de su geometria temporal.
 
+\noindent Ademas, cuando ese fastener queda aislado, la app fuerza su reemplazo por el detalle modular temporal aunque la seleccion se limpie despues. De esta forma el aislamiento conserva una lectura detallada y no vuelve al proxy ligero mientras el isolate siga activo.
+
 \noindent Si la seleccion activa es una pieza madre, el aislamiento conserva tambien los fasteners asociados que quedaron reconciliados para ese ensamblaje dentro de la configuracion actual de la app.
+
+\noindent En ese caso, los fasteners asociados a la pieza madre aislada tambien pueden pasar a su representacion modular temporal. El resto de la tornilleria del dron permanece en proxy para no expandir innecesariamente el costo visual.
 
 El aislamiento puede revertirse de dos maneras:
 \begin{itemize}
