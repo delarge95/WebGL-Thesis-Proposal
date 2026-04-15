@@ -1,39 +1,43 @@
 \section{Justificaci\'on}
 
-La elecci\'on de Unity WebGL sobre librer\'ias nativas de JavaScript (Three.js, Babylon.js) o soluciones de \textit{streaming} remoto (Unreal Pixel Streaming) responde a requisitos concretos de visualizaci\'on t\'ecnica, desempe\~no web y viabilidad del \textit{pipeline} de arte t\'ecnico. El objetivo del proyecto no es solo mostrar un modelo 3D, sino construir un prototipo navegable, mantenible y evaluable acad\'emicamente, con interacciones t\'ecnicas, modos anal\'iticos y documentaci\'on consistente.
+La elecci\'on de Unity WebGL sobre librer\'ias nativas de JavaScript, como Three.js o Babylon.js, y sobre soluciones de \textit{streaming} remoto, como Unreal Pixel Streaming, responde a requisitos concretos de visualizaci\'on t\'ecnica, integraci\'on del \textit{pipeline} y viabilidad de desarrollo acad\'emico. El objetivo del proyecto no es solo mostrar un modelo 3D, sino construir un prototipo navegable, mantenible y evaluable, con interacciones t\'ecnicas, modos anal\'iticos y documentaci\'on consistente.
 
 \subsection{Criterios t\'ecnicos de selecci\'on}
 
-\subsubsection{Ejecuci\'on de l\'ogica en WebAssembly}
+\subsubsection{Trade-off expl\'icito entre tooling y huella inicial}
 
-Unity utiliza IL2CPP para transpilar c\'odigo C\# a C++ y posteriormente a WebAssembly (WASM). Esto permite ejecutar la l\'ogica de interacci\'on y orquestaci\'on del prototipo en un entorno compilado y predecible dentro del navegador, con una arquitectura m\'as robusta para sistemas con m\'ultiples managers, estados de interfaz y herramientas de visualizaci\'on t\'ecnica.
+Unity WebGL no se selecciona por ofrecer el menor tama\~no de descarga inicial. En t\'erminos de huella de build, las bibliotecas nativas del navegador suelen ser m\'as ligeras. La decisi\'on se justifica, en cambio, por el valor de su ecosistema de autor\'ia: editor integrado, perfilado de rendimiento, flujo de materiales, UI Toolkit, sistema de escenas y facilidad para extender el comportamiento mediante C\# y shaders personalizados (Unity Technologies, 2024d). En otras palabras, el proyecto acepta un costo inicial mayor de empaquetado a cambio de una plataforma de desarrollo m\'as coherente para un caso de visualizaci\'on t\'ecnica compleja.
+
+\subsubsection{Ejecuci\'on de l\'ogica compilada en WebAssembly}
+
+Unity utiliza IL2CPP para convertir c\'odigo intermedio de .NET a C++ y, en el target Web, ese resultado se compila posteriormente a WebAssembly (WASM) mediante el \textit{toolchain} del build. Esto permite ejecutar la l\'ogica de interacci\'on y orquestaci\'on del prototipo en un entorno compilado y de tipado est\'atico dentro del navegador, lo que facilita manejar m\'ultiples \textit{managers}, estados de interfaz y herramientas de visualizaci\'on t\'ecnica sin reimplementar manualmente todo el esqueleto de la aplicaci\'on (Unity Technologies, 2024d; Unity Technologies, s. f.). En t\'erminos de memoria, la restricci\'on relevante no es un l\'imite fijo universal, sino la necesidad de administrar una memoria lineal y una huella inicial de datos compatibles con asignaciones contiguas dentro del navegador, lo que refuerza la importancia de optimizar activos y empaquetado desde el dise\~no del build (Unity Technologies, 2024a; WebAssembly Community Group, s. f.).
 
 \subsubsection{\textit{Pipeline} integrado de importaci\'on y renderizado}
 
-A diferencia de un enfoque puramente manual en bibliotecas de bajo nivel, Unity ofrece un entorno integrado para importar geometr\'ia, gestionar materiales, perfilar rendimiento y desplegar un build WebGL desde una misma base de trabajo. Esta integraci\'on es especialmente valiosa cuando el proyecto requiere coordinar limpieza de activos CAD, shaders personalizados, UI responsiva y pruebas funcionales sin fragmentar el flujo entre demasiadas herramientas.
+A diferencia de un enfoque puramente manual en bibliotecas de bajo nivel, Unity ofrece un entorno integrado para importar geometr\'ia, gestionar materiales, perfilar rendimiento y desplegar un build WebGL desde una misma base de trabajo. Esta integraci\'on es especialmente valiosa cuando el proyecto requiere coordinar limpieza de activos CAD, shaders personalizados, UI responsiva y pruebas funcionales sin fragmentar el flujo entre demasiadas herramientas (Unity Technologies, 2024d).
 
 \subsubsection{Capacidad de extensi\'on para visualizaci\'on t\'ecnica}
 
-El proyecto exige combinar renderizado realista con modos de inspecci\'on y an\'alisis. Unity URP permite aprovechar un flujo PBR consolidado y, al mismo tiempo, extender el sistema con shaders personalizados para corte transversal, vista \textit{X-Ray}, visualizaci\'on t\'ermica y otros modos anal\'iticos. Esta flexibilidad es determinante porque la versi\'on final del prototipo no depende de una sola visualizaci\'on, sino de una familia de modos con prop\'ositos distintos.
+El proyecto exige combinar renderizado realista con modos de inspecci\'on y an\'alisis. Unity URP permite aprovechar un flujo PBR consolidado y, al mismo tiempo, extender el sistema con shaders personalizados para corte transversal, vista \textit{X-Ray}, visualizaci\'on t\'ermica y otros modos anal\'iticos (Unity Technologies, 2024b). Esta flexibilidad es determinante porque la versi\'on final del prototipo no depende de una sola visualizaci\'on, sino de una familia de modos con prop\'ositos distintos.
 
 \subsubsection{Herramientas para colaboraci\'on entre programaci\'on y arte t\'ecnico}
 
 El flujo de trabajo requiere colaboraci\'on entre programadores y artistas t\'ecnicos. Unity facilita esta articulaci\'on mediante materiales editables, inspecci\'on visual del contenido, herramientas de editor y un ecosistema orientado a iteraci\'on r\'apida. Esto reduce fricci\'on en tareas como ajuste de mallas, configuraci\'on de materiales, depuraci\'on de escenas y afinaci\'on de la experiencia visual.
 
-\subsubsection{Escalabilidad y pertinencia disciplinar}
+\subsubsection{Pertinencia disciplinar y viabilidad acad\'emica}
 
-El uso de un motor ampliamente adoptado permite que el prototipo sea mantenible, replicable y escalable. Desde la perspectiva de Ingenier\'ia Multimedia, esta decisi\'on tambi\'en es pertinente porque conecta modelado 3D, optimizaci\'on gr\'afica, dise\~no de interfaz, evaluaci\'on con usuarios y publicaci\'on web en un mismo caso de estudio.
+El uso de un motor ampliamente adoptado permite que el prototipo sea mantenible, documentable y ampliable dentro del alcance del proyecto. Desde la perspectiva de Ingenier\'ia Multimedia, esta decisi\'on tambi\'en es pertinente porque conecta modelado 3D, optimizaci\'on gr\'afica, dise\~no de interfaz, evaluaci\'on con usuarios y publicaci\'on web en un mismo caso de estudio.
 
 \subsubsection{Ventana de oportunidad tecnol\'ogica}
 
-La convergencia entre WebAssembly, WebGL 2.0 y \textit{pipelines} modernos de renderizado abre una oportunidad concreta para democratizar el acceso a visualizaciones t\'ecnicas interactivas desde el navegador. El valor del proyecto no radica solo en optimizar recursos, sino en demostrar que una aplicaci\'on web puede soportar un caso de visualizaci\'on t\'ecnica con criterios reales de claridad espacial, usabilidad y rendimiento.
+La convergencia entre WebAssembly, WebGL~2.0 y \textit{pipelines} modernos de renderizado abre una oportunidad concreta para ampliar el acceso a visualizaciones t\'ecnicas interactivas desde el navegador (Khronos Group, 2011; Unity Technologies, 2024d). En su estado actual, la plataforma Web de Unity contempla navegadores compatibles de escritorio y algunos navegadores m\'oviles, aunque el comportamiento efectivo depende del navegador, su versi\'on, la memoria disponible y el nivel de optimizaci\'on del build (Unity Technologies, s. f.). El valor del proyecto no radica en afirmar una superioridad universal del motor seleccionado, sino en documentar bajo qu\'e condiciones una aplicaci\'on web puede sostener un caso realista de visualizaci\'on t\'ecnica con criterios verificables de desempe\~no en tareas de inspecci\'on, usabilidad, carga de trabajo percibida y rendimiento.
 
 \subsection{Aporte a la Ingenier\'ia Multimedia}
 \begin{itemize}
-    \item documentar un \textit{pipeline} replicable para llevar activos CAD a un visor WebGL interactivo;
-    \item validar el rol del ingeniero multimedia como puente entre complejidad t\'ecnica y experiencia de usuario;
+    \item documentar un procedimiento t\'ecnico replicable para llevar activos CAD a un visor WebGL interactivo;
+    \item documentar el aporte del ingeniero multimedia como puente entre complejidad t\'ecnica y experiencia de usuario;
     \item generar criterios verificables de rendimiento y consistencia funcional para visualizaci\'on web 3D;
-    \item articular fundamentos de computaci\'on gr\'afica, UX y carga cognitiva en un proyecto aplicado.
+    \item articular fundamentos de computaci\'on gr\'afica, UX, teor\'ia de la carga cognitiva y carga de trabajo percibida en un proyecto aplicado.
 \end{itemize}
 
 \newpage

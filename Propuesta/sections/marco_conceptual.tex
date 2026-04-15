@@ -18,13 +18,15 @@ Los siguientes conceptos t\'ecnicos fundamentan el proyecto. Algunos corresponde
 
 \textit{GPU Instancing.} T\'ecnica que permite renderizar varias instancias compatibles de una misma malla y material en menos lotes efectivos. La reducci\'on de \textit{draw calls} depende de las condiciones de compatibilidad y no de una divisi\'on exacta universal.
 
-\textit{IL2CPP (\textit{Intermediate Language to C++}).} \textit{Backend} de compilaci\'on de Unity que transpila \textit{bytecode} de C\# a C++, y luego a WASM en el caso de WebGL.
+\textit{Hardware complejo.} Categor\'ia operativa utilizada en esta propuesta para referirse a sistemas electromec\'anicos multicomponente con integraci\'on estructural, energ\'etica, electr\'onica y de control, alta densidad de relaciones espaciales entre piezas y necesidad de inspecci\'on visual detallada del ensamblaje.
+
+\textit{IL2CPP (\textit{Intermediate Language to C++}).} \textit{Backend} de compilaci\'on de Unity que transforma el c\'odigo intermedio (IL) de .NET generado a partir de C\# en C++. En el target Web, ese c\'odigo C++ se compila posteriormente a WebAssembly mediante el \textit{toolchain} correspondiente del build.
 
 \textit{LOD (\textit{Level of Detail}).} Estrategia de optimizaci\'on que intercambia versiones de diferente complejidad geom\'etrica seg\'un distancia o relevancia visual. Se considera una t\'ecnica de referencia del \textit{pipeline}, aunque su adopci\'on final depende del contenido realmente exportado y configurado.
 
 \textit{Metallic Map.} Textura que define qu\'e regiones del material deben tratarse como met\'alicas frente a diel\'ectricas, afectando la reflectancia especular base.
 
-\textit{MVP (Producto M\'inimo Viable).} Versi\'on de un producto con las funcionalidades suficientes para validar hip\'otesis esenciales con usuarios reales.
+\textit{MVP (Producto M\'inimo Viable).} Versi\'on de un producto con las funcionalidades suficientes para poner a prueba supuestos esenciales con usuarios reales y orientar iteraciones posteriores.
 
 \textit{Normal Map.} Textura que almacena variaciones de normales para simular detalle superficial sin aumentar el conteo de tri\'angulos.
 
@@ -46,7 +48,7 @@ Los siguientes conceptos t\'ecnicos fundamentan el proyecto. Algunos corresponde
 
 \textit{Vertex Shader.} Programa ejecutado por la GPU para cada v\'ertice de la malla, responsable de transformar posiciones entre espacios geom\'etricos.
 
-\textit{WebAssembly (WASM).} Formato binario ejecutable en navegadores con desempe\~no cercano al nativo, utilizado por Unity para desplegar l\'ogica C\# en WebGL.
+\textit{WebAssembly (WASM).} Formato binario ejecutable en navegadores que permite desplegar l\'ogica compilada dentro de un modelo de memoria lineal, utilizado por Unity para ejecutar en WebGL el c\'odigo generado a partir de C\#.
 
 \textit{WebGL.} API gr\'afica del navegador basada en OpenGL ES para renderizado 2D y 3D acelerado por hardware sin complementos externos.
 

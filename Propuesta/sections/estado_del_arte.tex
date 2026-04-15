@@ -1,18 +1,18 @@
 \subsection{Estado del Arte}
 
-El estado del arte analiza las tecnolog\'ias actuales de visualizaci\'on 3D en la web, evaluando sus capacidades, limitaciones y pertinencia para la visualizaci\'on t\'ecnica de hardware de alto rendimiento. Se examinan bibliotecas nativas, motores de juego, plataformas \textit{SaaS} y soluciones de \textit{streaming} para identificar la herramienta m\'as adecuada en t\'erminos de fidelidad visual, interactividad y viabilidad de desarrollo.
+El estado del arte analiza tecnolog\'ias actuales de visualizaci\'on 3D en la web, evaluando sus capacidades, limitaciones y pertinencia para la visualizaci\'on t\'ecnica de hardware complejo. Se examinan bibliotecas nativas, motores de juego, plataformas \textit{SaaS} y soluciones de \textit{streaming} para identificar la herramienta m\'as adecuada en t\'erminos de control del \textit{pipeline}, capacidad de extensi\'on y viabilidad de desarrollo.
 
 \subsubsection{Benchmarking de soluciones Web 3D}
 
-La visualizaci\'on 3D en la web ha evolucionado significativamente desde la introducci\'on de WebGL en 2011 (Khronos Group). Yu et al. (2023) identifican WebGL como la tecnolog\'ia dominante para renderizado 3D en navegadores, con creciente competencia de WebGPU. A continuaci\'on se presentan las principales alternativas evaluadas:
+La visualizaci\'on 3D en la web ha evolucionado significativamente desde la introducci\'on de WebGL en 2011 (Khronos Group, 2011). Yu et al. (2023) identifican WebGL como la tecnolog\'ia dominante para renderizado 3D en navegadores, con creciente competencia de WebGPU. A continuaci\'on se presentan las principales alternativas evaluadas:
 
-\paragraph{Three.js.} Biblioteca ligera construida sobre WebGL, ampliamente adoptada por la comunidad. Destaca por su curva de aprendizaje accesible, tama\~no de \textit{bundle} reducido y documentaci\'on extensa. Como desventaja, exige construir de forma manual gran parte del \textit{pipeline} de importaci\'on, gesti\'on de memoria e integraci\'on avanzada de herramientas.
+\paragraph{Three.js.} Biblioteca ligera construida sobre WebGL, ampliamente adoptada por la comunidad. Destaca por su curva de aprendizaje accesible, tama\~no de \textit{bundle} relativamente reducido y documentaci\'on extensa. Como desventaja, exige construir de forma manual gran parte del \textit{pipeline} de importaci\'on, gesti\'on de memoria e integraci\'on avanzada de herramientas.
 
-\paragraph{Babylon.js.} Motor WebGL/WebGPU con enfoque \textit{enterprise}, con soporte s\'olido para GUI, f\'isica y escenas complejas. Ofrece una base muy completa, pero su tama\~no de \textit{runtime} y el esfuerzo de configuraci\'on para un flujo t\'ecnico muy personalizado siguen siendo mayores que los de una biblioteca m\'inima.
+\paragraph{Babylon.js.} Motor WebGL/WebGPU con enfoque \textit{enterprise}, soporte para GUI, f\'isica y escenas complejas. Ofrece una base muy completa, pero el esfuerzo de configuraci\'on para un flujo t\'ecnico altamente personalizado sigue siendo considerable.
 
-\paragraph{Unity WebGL.} Motor con compilaci\'on a WebGL mediante IL2CPP y WebAssembly. Su ecosistema integra editor visual, profiler, \textit{pipeline} de materiales, herramientas para UI y soporte para extensi\'on mediante c\'odigo C\# y shaders personalizados. Su principal costo es un tama\~no de build inicial superior al de librer\'ias puramente web.
+\paragraph{Unity WebGL.} Motor con compilaci\'on a Web mediante IL2CPP, WebAssembly y el \textit{toolchain} del build. Su ecosistema integra editor visual, profiler, \textit{pipeline} de materiales, herramientas para UI y soporte para extensi\'on mediante c\'odigo C\# y shaders personalizados (Unity Technologies, 2024b, 2024d). La documentaci\'on actual de Unity 6 contempla soporte para navegadores compatibles de escritorio y algunos navegadores m\'oviles, aunque el comportamiento efectivo depende del navegador, la versi\'on, la memoria disponible y el nivel de optimizaci\'on del proyecto (Unity Technologies, s. f.). Su principal costo es una huella inicial de build mayor que la de bibliotecas puramente web.
 
-\paragraph{Unreal Engine Pixel Streaming.} Soluci\'on de \textit{streaming} remoto que ofrece la m\'axima fidelidad visual a cambio de depender de infraestructura GPU del lado del servidor. Aunque es poderosa para demostraciones fotorrealistas, su latencia y costo operativo la hacen menos adecuada para un prototipo acad\'emico de acceso web directo.
+\paragraph{Unreal Engine Pixel Streaming.} Soluci\'on de \textit{streaming} remoto que ofrece muy alta fidelidad visual a cambio de depender de infraestructura GPU del lado del servidor. Aunque es potente para demostraciones fotorrealistas, su latencia y costo operativo la hacen menos adecuada para un prototipo acad\'emico de acceso web directo.
 
 \paragraph{Spline.} Herramienta \textit{web-first} orientada a dise\~no iterativo y colaboraci\'on. Es apropiada para presentaci\'on de piezas 3D ligeras y experiencias visuales sencillas, pero no est\'a pensada para sistemas t\'ecnicos con l\'ogica de interacci\'on compleja.
 
@@ -24,22 +24,24 @@ La visualizaci\'on 3D en la web ha evolucionado significativamente desde la intr
 
 \begin{table}[H]
 \centering
-\caption{Comparativa de soluciones Web 3D}
+\caption{Comparativa cualitativa de soluciones Web 3D}
 \small
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lcccccc}
 \hline
-\textbf{Tecnolog\'ia} & \textbf{Build} & \textbf{Load} & \textbf{PBR} & \textbf{Lenguaje} & \textbf{Interact.} & \textbf{Costo} \\ \hline
-Three.js & 600\,KB & $<$2\,s & Manual & JS & Total & Gratis \\
-Babylon.js & 2\,MB & $\sim$3\,s & \textit{Built-in} & TS/JS & Total & Gratis \\
-Unity & 5--15\,MB & 5--7\,s & URP & C\# (WASM) & Total & Gratis$^*$ \\
-UE Pixel & 5\,MB & $\sim$2\,s & Fotoreal & C++/BP & Latencia & \textit{Cloud} \\
-Spline & 1\,MB & $\sim$2\,s & B\'asico & Visual & Limitada & Gratis/Pro \\
-Marmoset & 800\,KB & $\sim$3\,s & Avanzado & Visual & Rotaci\'on & Licencia \\
-Sketchfab & 3\,MB & $\sim$4\,s & Bueno & N/A & Media & Gratis/Pro \\
-PlayCanvas & 500\,KB & $<$2\,s & \textit{Built-in} & JS & Total & Gratis/Pro \\ \hline
+\textbf{Tecnolog\'ia} & \textbf{Huella inicial} & \textbf{Control del pipeline} & \textbf{PBR} & \textbf{Interactividad} & \textbf{Infraestructura externa} & \textbf{Pertinencia} \\ \hline
+Three.js & Baja & Alto, pero manual & Manual/extendible & Total & No & Alta para desarrollo web a medida \\
+Babylon.js & Media & Alto & Integrado & Total & No & Alta para apps web 3D complejas \\
+Unity WebGL & Alta & Alto e integrado & URP & Total & No & Alta para prototipos t\'ecnicos con tooling \\
+UE Pixel Streaming & Media/Alta & Alto & Muy alto & Alta con latencia & S\'i & Media para acceso web directo \\
+Spline & Baja & Bajo & B\'asico & Limitada & No & Media para presentaci\'on ligera \\
+Marmoset Viewer & Baja/Media & Bajo & Alto & Baja/Media & No & Media para exhibici\'on visual \\
+Sketchfab & Media & Medio & Bueno & Media & Parcial & Media para publicaci\'on r\'apida \\
+PlayCanvas & Baja & Alto & Integrado & Total & No & Alta para experiencias web nativas \\ \hline
 \end{tabular}
+}
 \par\vspace{0.5\baselineskip}
-\textit{Nota}. $^*$Unity gratuito para ingresos menores a \$100\,K/a\~no. \textit{Load Time} medido en red 4G. \textit{Build Size} corresponde a configuraciones t\'ipicas con compresi\'on. \textit{Fuente}. Elaboraci\'on propia con base en documentaci\'on oficial y literatura revisada.
+\textit{Nota}. La tabla presenta una comparaci\'on cualitativa construida a partir de documentaci\'on oficial y literatura revisada; no corresponde a un benchmark uniforme ejecutado experimentalmente por el autor bajo un mismo protocolo. \textit{Fuente}. Elaboraci\'on propia con base en documentaci\'on oficial y literatura revisada.
 \end{table}
 
 \subsubsection{Brecha identificada y selecci\'on de Unity WebGL}
@@ -49,15 +51,15 @@ La evaluaci\'on t\'ecnica identific\'o limitaciones cr\'iticas en tres grupos de
 \begin{itemize}
     \item \textbf{Pixel Streaming.} Latencia de red y dependencia de infraestructura \textit{cloud} poco compatibles con un prototipo acad\'emico de acceso directo en navegador.
     \item \textbf{Spline, Marmoset y Sketchfab.} Restricciones para integrar l\'ogica de inspecci\'on t\'ecnica, flujo de detalle, modos de an\'alisis y arquitectura propia del sistema.
-    \item \textbf{Three.js, Babylon.js y PlayCanvas.} Mayor tiempo de desarrollo para implementar desde cero un \textit{pipeline} integral de importaci\'on, materiales, controles, clipping global, modos de visualizaci\'on t\'ecnica y herramientas auxiliares de auditor\'ia.
+    \item \textbf{Three.js, Babylon.js y PlayCanvas.} Mayor esfuerzo de implementaci\'on para construir desde cero un \textit{pipeline} integral de importaci\'on, materiales, controles, clipping global, modos de visualizaci\'on t\'ecnica y herramientas auxiliares de auditor\'ia.
 \end{itemize}
 
-Unity WebGL fue seleccionado por el equilibrio entre cuatro factores:
+Unity WebGL fue seleccionado no por ofrecer la huella inicial m\'as baja, sino por el equilibrio entre cuatro factores:
 \begin{itemize}
-    \item \textbf{Balance fidelidad-tama\~no.} Permite iterar sobre compresi\'on, contenido y configuraci\'on del build desde un mismo entorno.
-    \item \textbf{Herramientas visuales.} Facilita el trabajo conjunto entre programaci\'on, dise\~no y arte t\'ecnico.
-    \item \textbf{Rendimiento predecible.} La cadena C\# $\rightarrow$ IL2CPP $\rightarrow$ WASM ofrece una base robusta para la l\'ogica interactiva del prototipo.
-    \item \textbf{Ecosistema maduro.} Reduce riesgo t\'ecnico y acelera la construcci\'on de un prototipo complejo dentro del tiempo acad\'emico disponible.
+    \item \textbf{Integraci\'on del tooling.} Permite concentrar importaci\'on, materiales, UI, perfilado y build en un mismo entorno.
+    \item \textbf{Herramientas visuales y de editor.} Facilita el trabajo conjunto entre programaci\'on, dise\~no y arte t\'ecnico.
+    \item \textbf{Arquitectura tipada y extensible.} La cadena C\# $\rightarrow$ IL2CPP $\rightarrow$ WASM ofrece una base estructurada para la l\'ogica interactiva del prototipo (Unity Technologies, 2024d).
+    \item \textbf{Soporte para modos anal\'iticos.} Reduce el riesgo t\'ecnico al implementar corte transversal, visualizaci\'on t\'ermica, vista \textit{X-Ray} y otras herramientas especializadas dentro del tiempo acad\'emico disponible.
 \end{itemize}
 
 \newpage

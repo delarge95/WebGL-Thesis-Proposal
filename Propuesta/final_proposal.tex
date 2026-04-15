@@ -10,11 +10,13 @@
 \usepackage{graphicx} % If you need images later
 \usepackage{booktabs} % For professional tables
 \usepackage{caption}  % For customizing captions
+\usepackage{array}
 \usepackage{amsmath} % For math symbols if needed
 \usepackage{amsfonts} % For math fonts if needed
 \usepackage{amssymb} % For math symbols if needed
 \usepackage{xurl} % Better URL breaking (replaces url package)
 \usepackage[hidelinks]{hyperref} % For clickable URLs (optional)
+\usepackage{bookmark}
 \usepackage{ragged2e} % For RaggedRight justification (simulates flush left)
 \usepackage{indentfirst} % Indent the first paragraph after a section heading
 \usepackage{titlesec} % For customizing section titles
@@ -23,6 +25,7 @@
 \usepackage{enumitem} % For customizing lists (APA 7 indentation)
 \usepackage{float} % Force table placement when needed
 \usepackage{longtable} % Allow multi-page tables
+\usepackage{tabularx}
 
 % --- APA 7 List Configuration (Hanging Indent + Circular Bullets) ---
 % Note: Document uses \setstretch{2} globally, so lists inherit double spacing
@@ -66,8 +69,14 @@
 % Disable Section Numbering (Fixes ToC Overlap)
 \setcounter{secnumdepth}{0}
 
-% Include Level 4 Headings (paragraph) in Table of Contents
-\setcounter{tocdepth}{4}
+% Include up to level 3 headings in Table of Contents
+\setcounter{tocdepth}{3}
+
+% Unique hyperref anchors for unnumbered headings
+\renewcommand{\theHsection}{\arabic{section}}
+\renewcommand{\theHsubsection}{\arabic{section}.\arabic{subsection}}
+\renewcommand{\theHsubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+\renewcommand{\theHparagraph}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.\arabic{paragraph}}
 
 % Page Numbering (Top Right)
 \usepackage{fancyhdr}
@@ -103,6 +112,7 @@
 
 % Justification (Flush Left - Ragged Right)
 \RaggedRight % Apply ragged right justification globally
+\emergencystretch=2em
 
 % --- Customization for ToC and LoT Titles (Combined for Centering and Size) ---
 
@@ -190,7 +200,7 @@
 \begin{titlepage}
     \thispagestyle{plain} % Force page number on title page
     \centering
-    {\normalfont\bfseries Dise\~no y Desarrollo de un Prototipo Web 3D Interactivo para la Visualizaci\'on T\'ecnica y An\'alisis Estructural de Hardware de Alto Rendimiento mediante Pipelines de Optimizaci\'on Gr\'afica y WebAssembly\par}
+    {\normalfont\bfseries Dise\~no y desarrollo de un prototipo web 3D interactivo para la visualizaci\'on t\'ecnica, inspecci\'on y an\'alisis visual del ensamblaje de hardware complejo mediante \textit{pipelines} de optimizaci\'on gr\'afica y WebAssembly\par}
 
     \vspace{2\baselineskip}
     \vspace{2\baselineskip}
@@ -223,9 +233,9 @@
 \phantomsection
 \addcontentsline{toc}{section}{Resumen}
 \setlength{\parindent}{0pt} % No indent for Resumen
-El dise\~no de hardware de alto rendimiento, como drones y sistemas rob\'oticos, enfrenta un desaf\'io cr\'itico en la comunicaci\'on t\'ecnica: los medios digitales tradicionales, como im\'agenes 2D y documentos PDF est\'aticos, imponen una alta carga cognitiva al intentar comprender estructuras tridimensionales complejas. Este proyecto aborda esa brecha mediante el dise\~no, desarrollo y evaluaci\'on de un prototipo web 3D interactivo basado en Unity WebGL para la visualizaci\'on t\'ecnica de hardware. El marco te\'orico integra teor\'ia de carga cognitiva, interacci\'on humano-computador en entornos 3D y principios de renderizado f\'isicamente basado. Metodol\'ogicamente, la propuesta se estructura como una investigaci\'on aplicada con enfoque mixto y predominio cuantitativo, enmarcada en Design Science Research y prototipado iterativo. La validaci\'on contempla pruebas de rendimiento, evaluaci\'on de usabilidad mediante SUS y medici\'on de carga cognitiva con NASA-TLX sobre tareas representativas de exploraci\'on, identificaci\'on y an\'alisis t\'ecnico. Como resultado esperado, el proyecto busca demostrar la viabilidad de un pipeline reproducible para visualizaci\'on t\'ecnica 3D web en contexto acad\'emico y de ingenier\'ia.
+La documentaci\'on de hardware t\'ecnico complejo, como drones y otros sistemas electromec\'anicos multicomponente, enfrenta un desaf\'io persistente de comunicaci\'on espacial cuando depende de im\'agenes 2D y documentos PDF est\'aticos. Este proyecto aborda esa brecha mediante el dise\~no, desarrollo y evaluaci\'on de un prototipo web 3D interactivo basado en Unity Web para la visualizaci\'on t\'ecnica, inspecci\'on y an\'alisis visual del ensamblaje del dron Holybro X500~V2. El marco te\'orico integra teor\'ia de la carga cognitiva como lente interpretativa, interacci\'on humano-computador en entornos 3D y principios de renderizado f\'isicamente basado. Metodol\'ogicamente, la propuesta se estructura como una investigaci\'on aplicada con enfoque mixto y predominio cualitativo-formativo, enmarcada en Design Science Research y prototipado iterativo. La evaluaci\'on contempla pruebas de rendimiento bajo condiciones controladas, registro de desempe\~no en tareas, estimaciones descriptivas de usabilidad mediante SUS, medici\'on de carga de trabajo percibida con NASA-TLX por condici\'on y observaci\'on \textit{Think-Aloud} sobre tareas representativas contrastadas con un soporte 2D de referencia. El prototipo se concibe para ejecutarse en navegadores web compatibles de escritorio y m\'oviles, reconociendo que la compatibilidad efectiva depende del navegador, su versi\'on, la memoria disponible y el nivel de optimizaci\'on del build. Como resultado esperado, el proyecto busca documentar las condiciones t\'ecnicas y metodol\'ogicas bajo las cuales un procedimiento de optimizaci\'on y visualizaci\'on 3D web resulta operativamente viable en contexto acad\'emico y de ingenier\'ia.
 
-\hspace{1.27cm}\textit{\textbf{Palabras clave:}} WebGL, Unity, WebAssembly, Renderizado F\'isicamente Basado (PBR), Visualizaci\'on 3D Interactiva, Optimizaci\'on de Assets 3D, Carga Cognitiva, Interacci\'on Humano-Computador, Technical Art, Hardware de Alto Rendimiento.
+\hspace{1.27cm}\textit{\textbf{Palabras clave:}} WebGL, Unity, WebAssembly, Renderizado F\'isicamente Basado (PBR), Visualizaci\'on 3D Interactiva, Optimizaci\'on de Assets 3D, Carga de Trabajo Percibida, Interacci\'on Humano-Computador, Technical Art, Hardware Complejo.
 
 \newpage
 
@@ -234,9 +244,9 @@ El dise\~no de hardware de alto rendimiento, como drones y sistemas rob\'oticos,
 \phantomsection
 \addcontentsline{toc}{section}{Abstract}
 \setlength{\parindent}{0pt} % No indent for Abstract
-High-performance hardware design, such as drones and robotic systems, faces a critical challenge in technical communication: traditional digital media, including 2D images and static PDF documents, impose high cognitive load when users must understand complex three-dimensional structures. This project addresses that gap through the design, development, and evaluation of an interactive 3D web prototype based on Unity WebGL for technical hardware visualization. The theoretical framework integrates cognitive load theory, human-computer interaction in 3D environments, and physically based rendering principles. Methodologically, the proposal is framed as applied research with a mixed-method approach and quantitative predominance, supported by Design Science Research and iterative prototyping. Validation includes performance testing, usability evaluation through SUS, and cognitive load measurement with NASA-TLX using representative exploration, identification, and technical analysis tasks. The expected outcome is to demonstrate the viability of a reproducible pipeline for web-based 3D technical visualization in academic and engineering contexts.
+Technical communication around complex hardware, such as multicomponent drones and related electromechanical systems, still faces substantial spatial interpretation challenges when it relies on static 2D images and PDF documents. This project addresses that gap through the design, development, and evaluation of an interactive 3D web prototype based on Unity Web for technical visualization, inspection, and visual analysis of the Holybro X500~V2 assembly. The theoretical framework combines cognitive load theory as an interpretive lens, human-computer interaction in 3D environments, and physically based rendering principles. Methodologically, the proposal is framed as applied research with a mixed-method approach and qualitative-formative predominance, supported by Design Science Research and iterative prototyping. Validation includes performance testing under controlled conditions, task-performance recording, descriptive usability estimation through SUS, condition-specific perceived workload measurement with NASA-TLX, and concurrent Think-Aloud observation using representative tasks contrasted against a 2D reference medium. The prototype is intended for compatible desktop and mobile web browsers, while recognizing that effective compatibility depends on browser version, available memory, and build optimization. The expected outcome is to document the technical and methodological conditions under which a web-based 3D optimization and visualization workflow remains operationally viable in academic and engineering contexts.
 
-\hspace{1.27cm}\textit{\textbf{Keywords:}} WebGL, Unity, WebAssembly, Physically-Based Rendering (PBR), Interactive 3D Visualization, 3D Asset Optimization, Cognitive Load, Human-Computer Interaction, Technical Art, High-Performance Hardware.
+\hspace{1.27cm}\textit{\textbf{Keywords:}} WebGL, Unity, WebAssembly, Physically-Based Rendering (PBR), Interactive 3D Visualization, 3D Asset Optimization, Perceived Workload, Human-Computer Interaction, Technical Art, Complex Hardware.
 
 \newpage
 
@@ -296,7 +306,7 @@ High-performance hardware design, such as drones and robotic systems, faces a cr
 
 \textit{Escuela:} Escuela de Ciencias B\'asicas, Tecnolog\'ia e Ingenier\'ia (ECBTI)
 
-\textit{Descriptores palabras clave:} WebGL, Unity, WebAssembly, PBR, Visualizaci\'on 3D, Optimizaci\'on, Carga Cognitiva, HCI, Technical Art.
+\textit{Descriptores palabras clave:} WebGL, Unity, WebAssembly, PBR, Visualizaci\'on 3D, Optimizaci\'on, Carga de Trabajo Percibida, HCI, Technical Art, Hardware Complejo.
 
 \newpage
 

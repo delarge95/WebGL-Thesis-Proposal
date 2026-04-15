@@ -1,55 +1,53 @@
 \section{Metodolog\'ia}
 
-La propuesta se estructura como una investigaci\'on aplicada con enfoque mixto y predominio cuantitativo. El proyecto combina dise\~no, construcci\'on y evaluaci\'on de un artefacto digital, por lo que se adopta el marco de \textit{Design Science Research} (DSR) articulado con prototipado iterativo y una gesti\'on tipo Scrum adaptada a sprints acad\'emicos.
+La propuesta se estructura como una investigaci\'on aplicada con enfoque mixto y predominio cualitativo-formativo. El proyecto combina dise\~no, construcci\'on y evaluaci\'on de un artefacto digital, por lo que adopta la epistemolog\'ia de \textit{Design Science Research} (DSR) articulada con prototipado iterativo y una gesti\'on tipo Scrum adaptada a sprints acad\'emicos.
 
 \subsection{Tipo de investigaci\'on y enfoque}
 
 \begin{itemize}
     \item \textbf{Tipo de investigaci\'on:} aplicada, porque busca resolver una necesidad concreta de visualizaci\'on t\'ecnica en entorno web.
-    \item \textbf{Enfoque:} mixto con predominio cuantitativo.
-    \item \textbf{Marco metodol\'ogico:} DSR para construir y evaluar el artefacto, complementado con observaci\'on cualitativa de uso.
-    \item \textbf{Unidad de an\'alisis:} la interacci\'on de usuarios con un prototipo WebGL de visualizaci\'on t\'ecnica del dron Holybro X500~V2.
+    \item \textbf{Enfoque:} mixto, con predominio cualitativo-formativo y un componente cuantitativo descriptivo y exploratorio.
+    \item \textbf{Marco metodol\'ogico:} DSR para construir y evaluar el artefacto, complementado con observaci\'on cualitativa de uso, cuestionarios estandarizados y medici\'on de KPIs t\'ecnicos.
+    \item \textbf{Unidad de an\'alisis:} la interacci\'on de usuarios con un prototipo WebGL de visualizaci\'on t\'ecnica del dron Holybro X500~V2, contrastada con un soporte 2D de referencia para tareas equivalentes.
 \end{itemize}
 
 \subsection{Marco de Design Science Research}
 
-El proyecto se alinea con las seis etapas cl\'asicas del DSR (Hevner et al., 2004):
+La investigaci\'on se enmarca en la epistemolog\'ia de \textit{Design Science Research} (DSR). En t\'erminos procedimentales, el proyecto adopta el modelo de seis fases del DSRM propuesto por Peffers et al. (2007), mientras que la evaluaci\'on de rigor y relevancia del artefacto se fundamenta en las siete directrices establecidas por Hevner et al. (2004). De este modo, el proceso de construcci\'on y evaluaci\'on del artefacto queda diferenciado de las pautas con las que se juzga su consistencia metodol\'ogica y su aporte disciplinar.
 
 \begin{enumerate}
-    \item \textbf{Identificaci\'on del problema.} La documentaci\'on 2D tradicional dificulta la comprensi\'on espacial y funcional de sistemas de hardware con m\'ultiples componentes.
-    \item \textbf{Definici\'on de objetivos.} Desarrollar un visor WebGL interactivo que mejore la exploraci\'on visual y la lectura t\'ecnica del dron Holybro X500~V2.
+    \item \textbf{Identificaci\'on del problema y motivaci\'on.} La documentaci\'on 2D tradicional dificulta la comprensi\'on espacial y funcional de sistemas de hardware con m\'ultiples componentes.
+    \item \textbf{Definici\'on de objetivos de la soluci\'on.} Desarrollar un visor WebGL interactivo orientado a facilitar la exploraci\'on y lectura t\'ecnica del dron Holybro X500~V2 bajo restricciones reales de rendimiento web.
     \item \textbf{Dise\~no y desarrollo.} Construir el prototipo en Unity con un \textit{pipeline} CAD a WebGL, UI responsiva y herramientas de an\'alisis visual.
-    \item \textbf{Demostraci\'on.} Publicar el prototipo en entorno web y validar tareas de uso representativas.
-    \item \textbf{Evaluaci\'on.} Medir rendimiento t\'ecnico, usabilidad percibida y carga cognitiva.
+    \item \textbf{Demostraci\'on.} Publicar el prototipo en entorno web y ejecutar tareas representativas de exploraci\'on, identificaci\'on y an\'alisis.
+    \item \textbf{Evaluaci\'on.} Analizar de forma formativa el rendimiento t\'ecnico, la usabilidad percibida y la carga de trabajo percibida del prototipo.
     \item \textbf{Comunicaci\'on.} Documentar el proceso, la arquitectura, las decisiones de dise\~no y los resultados obtenidos.
 \end{enumerate}
 
 \subsection{Desarrollo iterativo por fases}
 
-El desarrollo se organiza en cuatro fases de trabajo:
-
-\subsubsection{Fase 1: An\'alisis y fundamentaci\'on}
+\subsubsection{Fase de an\'alisis y fundamentaci\'on}
 \begin{itemize}
-    \item revisi\'on bibliogr\'afica sobre WebGL, visualizaci\'on 3D, carga cognitiva y UX;
+    \item revisi\'on bibliogr\'afica sobre WebGL, visualizaci\'on 3D, teor\'ia de la carga cognitiva, carga de trabajo percibida y UX;
     \item selecci\'on del caso de estudio Holybro X500~V2;
     \item definici\'on de metas de rendimiento y alcance funcional.
 \end{itemize}
 
-\subsubsection{Fase 2: \textit{Pipeline} de activos y visualizaci\'on}
+\subsubsection{Fase de \textit{pipeline} de activos y visualizaci\'on}
 \begin{itemize}
     \item limpieza y optimizaci\'on del modelo proveniente de CAD;
     \item preparaci\'on de materiales y mallas para visualizaci\'on en tiempo real;
     \item configuraci\'on del proyecto Unity y del \textit{pipeline} WebGL.
 \end{itemize}
 
-\subsubsection{Fase 3: Implementaci\'on del prototipo}
+\subsubsection{Fase de implementaci\'on del prototipo}
 \begin{itemize}
     \item desarrollo de interacciones, selecci\'on de piezas y flujo de detalle;
     \item implementaci\'on de modos de an\'alisis visual, vista explosionada y corte transversal;
     \item integraci\'on de interfaces responsivas y controles de navegaci\'on.
 \end{itemize}
 
-\subsubsection{Fase 4: Validaci\'on y cierre}
+\subsubsection{Fase de evaluaci\'on formativa y cierre}
 \begin{itemize}
     \item medici\'on de KPIs t\'ecnicos del build WebGL;
     \item aplicaci\'on de SUS, NASA-TLX Raw y protocolo \textit{Think-Aloud};
@@ -63,7 +61,7 @@ El desarrollo se organiza en cuatro fases de trabajo:
 \textbf{Tipo de visualizaci\'on t\'ecnica}
 \begin{itemize}
     \item \textbf{Definici\'on conceptual:} medio utilizado para consultar y comprender la informaci\'on del sistema.
-    \item \textbf{Definici\'on operacional:} comparaci\'on entre una visualizaci\'on 3D interactiva en WebGL y un soporte 2D tradicional de referencia.
+    \item \textbf{Definici\'on operacional:} comparaci\'on entre el visor 3D interactivo en WebGL y un soporte 2D de referencia.
     \item \textbf{Niveles:} visor 3D interactivo / documentaci\'on 2D.
 \end{itemize}
 
@@ -72,22 +70,29 @@ El desarrollo se organiza en cuatro fases de trabajo:
 \textbf{Usabilidad percibida}
 \begin{itemize}
     \item \textbf{Definici\'on conceptual:} grado en que el usuario percibe el sistema como f\'acil de aprender, consistente y \'util.
-    \item \textbf{Definici\'on operacional:} puntaje total del cuestionario \textit{System Usability Scale} (Brooke, 1996), en escala de 0 a 100.
-    \item \textbf{Indicador esperado:} puntaje SUS mayor o igual a 68.
+    \item \textbf{Definici\'on operacional:} puntaje total del cuestionario \textit{System Usability Scale} (Brooke, 1996), aplicado al prototipo 3D interactivo y expresado en escala de 0 a 100.
+    \item \textbf{Criterio de interpretaci\'on:} el valor 68 se tomar\'a como referencia del promedio hist\'orico del instrumento y no como sin\'onimo de usabilidad alta. Como gu\'ia contextual, puntajes en el rango de 70 a 72 se interpretar\'an como favorables o por encima del centro de referencia, mientras que puntajes en los ochenta corresponder\'an a niveles claramente superiores de aceptaci\'on, siempre con criterio descriptivo y no como validaci\'on concluyente absoluta.
 \end{itemize}
 
-\textbf{Carga cognitiva}
+\textbf{Carga de trabajo percibida (workload subjetivo)}
 \begin{itemize}
-    \item \textbf{Definici\'on conceptual:} esfuerzo mental percibido durante la ejecuci\'on de tareas con el sistema.
-    \item \textbf{Definici\'on operacional:} promedio de las seis dimensiones del NASA-TLX Raw (Hart \& Staveland, 1988), en escala de 0 a 100.
-    \item \textbf{Indicador esperado:} puntaje global menor o igual a 40.
+    \item \textbf{Definici\'on conceptual:} percepci\'on subjetiva de demanda y esfuerzo durante la ejecuci\'on de tareas, incluyendo demanda mental, demanda temporal, esfuerzo, frustraci\'on y percepci\'on de rendimiento.
+    \item \textbf{Definici\'on operacional:} promedio de las seis dimensiones del NASA-TLX Raw (Hart y Staveland, 1988), en escala de 0 a 100.
+    \item \textbf{Criterio de interpretaci\'on:} describir la magnitud del \textit{workload} percibido y contrastar si el prototipo 3D tiende a producir una carga de trabajo igual o menor que el soporte 2D de referencia en tareas comparables. En esta propuesta, NASA-TLX no se interpreta como una medici\'on directa de las categor\'ias intr\'inseca, extr\'inseca y germana de la Teor\'ia de la Carga Cognitiva, sino como un indicador de carga de trabajo subjetiva percibida durante la tarea.
+\end{itemize}
+
+\textbf{Desempe\~no en tareas de inspecci\'on}
+\begin{itemize}
+    \item \textbf{Definici\'on conceptual:} capacidad del usuario para completar tareas representativas de identificaci\'on, ubicaci\'on y consulta t\'ecnica sobre el ensamblaje.
+    \item \textbf{Definici\'on operacional:} tasa de tareas completadas sin ayuda, tiempo de ejecuci\'on por tarea, n\'umero de errores observados y solicitudes de ayuda registradas por condici\'on.
+    \item \textbf{Criterio de interpretaci\'on:} se considerar\'a un desempe\~no m\'as favorable cuando una condici\'on permita completar un mayor porcentaje de tareas con igual o menor tiempo, menos errores y menor intervenci\'on del moderador.
 \end{itemize}
 
 \textbf{Rendimiento t\'ecnico}
 \begin{itemize}
     \item \textbf{Definici\'on conceptual:} desempe\~no del prototipo WebGL durante la carga y la interacci\'on en tiempo real.
-    \item \textbf{Definici\'on operacional:} medici\'on de FPS, tiempo de carga, \textit{draw calls}, memoria y presupuesto geom\'etrico.
-    \item \textbf{Indicadores esperados:} 30 FPS o m\'as en dispositivo objetivo, tiempo de carga total inferior a 10 s, \textit{draw calls} y memoria dentro del presupuesto definido.
+    \item \textbf{Definici\'on operacional:} medici\'on de FPS, \textit{frame time}, tiempo de carga, \textit{draw calls}, memoria y presupuesto geom\'etrico sobre el build WebGL, siempre acompa\~nada del registro expl\'icito del equipo, navegador, resoluci\'on, estado de cach\'e y condici\'on de red.
+    \item \textbf{Metas operativas de referencia:} 30 FPS o m\'as y tiempo de primera interacci\'on inferior a 10 s en el entorno de prueba controlado definido para la validaci\'on, diferenciando entre primera carga documentada y cargas posteriores con cach\'e, adem\'as de uso de recursos dentro del presupuesto fijado durante la fase de optimizaci\'on.
 \end{itemize}
 
 \subsubsection{Variables de control}
@@ -95,55 +100,78 @@ El desarrollo se organiza en cuatro fases de trabajo:
 \begin{itemize}
     \item experiencia previa del participante con software 3D o documentaci\'on t\'ecnica;
     \item perfil acad\'emico o profesional;
-    \item dispositivo de prueba y resoluci\'on de pantalla;
-    \item contexto de conexi\'on y navegador utilizado.
+    \item equipo de prueba identificado nominalmente, resoluci\'on de pantalla y perif\'ericos de entrada utilizados;
+    \item navegador, versi\'on y sistema operativo;
+    \item contexto de conexi\'on y condici\'on de cach\'e al momento de medir la carga inicial;
+    \item tipo de build utilizado para la medici\'on t\'ecnica (desarrollo o liberaci\'on);
+    \item orden de exposici\'on a las condiciones 3D y 2D.
 \end{itemize}
 
 \subsection{Muestra y perfil de participantes}
 
-Se plantea una muestra no probabil\'istica por conveniencia de entre 8 y 12 participantes con perfil af\'in al uso del sistema: estudiantes avanzados, t\'ecnicos o profesionales de ingenier\'ia, manufactura digital o mantenimiento. Este tama\~no es compatible con estudios exploratorios de usabilidad y permite combinar hallazgos cuantitativos con observaciones cualitativas.
+Se proyecta una muestra no probabil\'istica por conveniencia compuesta idealmente por al menos 30 participantes, con el fin de fortalecer la lectura descriptiva de los instrumentos estandarizados de usabilidad y carga de trabajo percibida. No obstante, dado el contexto log\'istico del estudio, se establece como escenario m\'inimo operativo una muestra de entre 8 y 12 participantes con perfil af\'in al uso del sistema: estudiantes avanzados, t\'ecnicos o profesionales de ingenier\'ia, manufactura digital o mantenimiento. Esta decisi\'on se apoya en la tradici\'on de evaluaciones formativas en HCI y UX, donde muestras reducidas permiten identificar problemas recurrentes de interacci\'on y generar insumos de redise\~no, aun cuando no sustenten inferencias poblacionales amplias (Nielsen, 2000; Lazar et al., 2017).
+
+Si no se alcanza el umbral deseable de 30 participantes, la propuesta sigue siendo metodol\'ogicamente viable porque el eje principal del estudio es cualitativo-formativo. En ese escenario, los resultados de SUS y NASA-TLX se interpretar\'an exclusivamente de forma descriptiva y exploratoria, sin pretensi\'on de inferencia estad\'istica poblacional. Incluso si se alcanza una muestra de 30 o m\'as participantes, la interpretaci\'on cuantitativa seguir\'a siendo cautelosa, dado que la selecci\'on continuar\'a siendo no probabil\'istica.
+
+\subsection{Dise\~no comparativo y condiciones de prueba}
+
+La evaluaci\'on con usuarios se plantea como un dise\~no intra-sujeto de car\'acter formativo. Cada participante interactuar\'a con dos condiciones funcionalmente equivalentes: \textbf{Condici\'on A}, correspondiente al prototipo 3D interactivo en navegador, y \textbf{Condici\'on B}, correspondiente a un soporte 2D de referencia construido a partir de documentaci\'on t\'ecnica est\'atica del mismo sistema. La comparaci\'on no pretende probar causalidad psicol\'ogica concluyente, sino describir diferencias observables de percepci\'on y uso entre ambos medios.
+
+Para mitigar sesgos de aprendizaje o fatiga, el orden de exposici\'on se contrabalancear\'a mediante dos secuencias posibles: AB y BA. Las tareas mantendr\'an el mismo objetivo funcional en ambas condiciones y variar\'an \'unicamente en el medio de representaci\'on. El moderador emplear\'a instrucciones equivalentes, tiempos de observaci\'on comparables y una misma matriz de registro.
+
+El entorno de prueba se documentar\'a de forma expl\'icita en cada sesi\'on, incluyendo equipo, sistema operativo, navegador y versi\'on, resoluci\'on, tipo de conexi\'on y estado de cach\'e. Los KPIs t\'ecnicos del build WebGL se interpretar\'an solo junto con esas condiciones de ejecuci\'on. En particular, el indicador de tiempo de carga distinguir\'a entre primera carga documentada sin cach\'e precargada y cargas posteriores con cach\'e disponible, para evitar interpretaciones ambiguas del desempe\~no.
+
+En cuanto al alcance de plataforma, el prototipo se concibe para ejecutarse en navegadores web compatibles de escritorio y m\'oviles soportados por la plataforma Web de Unity. Sin embargo, la compatibilidad efectiva depende del navegador, su versi\'on, la memoria disponible y el nivel de optimizaci\'on del build. Por ello, en esta propuesta la compatibilidad m\'ovil se declara como compatibilidad esperada y no como una validaci\'on exhaustiva por matriz cerrada de dispositivos; la validaci\'on emp\'irica exacta se documentar\'a en la fase de evaluaci\'on y en el informe final (Unity Technologies, s. f.).
+
+En este dise\~no, una mejora operativa de la condici\'on 3D frente a la referencia 2D no se definir\'a por una sola cifra aislada, sino por la convergencia descriptiva de varios indicadores: mayor porcentaje de \'exito en tareas, tiempos equivalentes o menores, menos errores o ayudas requeridas, carga de trabajo percibida igual o inferior, usabilidad satisfactoria del sistema interactivo y verbalizaciones cualitativas que indiquen mejor orientaci\'on durante la inspecci\'on. Si las evidencias no convergen, la interpretaci\'on final reportar\'a esa divergencia de forma expl\'icita.
 
 \subsection{Protocolo de tareas}
 
-Cada participante deber\'a completar una secuencia breve de tareas representativas:
+Cada participante deber\'a completar una secuencia breve de tareas representativas sobre el prototipo 3D y sobre un soporte 2D de referencia equivalente:
 
 \begin{enumerate}
     \item iniciar la experiencia desde el \textit{hero} e ingresar al visor;
-    \item navegar libremente por la escena con \textit{orbit}, \textit{pan} y \textit{zoom};
+    \item navegar por la escena con \textit{orbit}, \textit{pan} y \textit{zoom};
     \item seleccionar una pieza y consultar su ficha t\'ecnica en el \textit{bottom sheet};
     \item activar una herramienta de inspecci\'on o an\'alisis visible en la build final;
     \item utilizar la vista explosionada o el corte transversal para examinar el ensamblaje;
-    \item cambiar al menos un modo de visualizaci\'on del sistema.
+    \item cambiar al menos un modo de visualizaci\'on del sistema;
+    \item resolver tareas equivalentes de identificaci\'on o comprensi\'on espacial con un soporte 2D de referencia para contrastar desempe\~no y percepci\'on.
 \end{enumerate}
 
 \subsection{Instrumentos de recolecci\'on}
 
 \begin{itemize}
-    \item \textbf{KPIs t\'ecnicos:} Unity Profiler, herramientas del navegador y auditor\'ias de cobertura y jerarqu\'ia.
-    \item \textbf{SUS:} cuestionario posterior a la interacci\'on para estimar usabilidad percibida mediante 10 \'items en escala Likert de 1 a 5.
-    \item \textbf{NASA-TLX Raw:} cuestionario posterior a tareas para estimar carga cognitiva percibida en seis dimensiones, cada una en escala de 0 a 100.
-    \item \textbf{Think-Aloud:} protocolo de verbalizaci\'on concurrente para registrar comentarios, dudas, errores, pausas y estrategias de exploraci\'on durante la ejecuci\'on de tareas.
+    \item \textbf{KPIs t\'ecnicos:} Unity Profiler mediante \textit{Development Build} y \textit{Autoconnect Profiler} cuando corresponda, herramientas del navegador y auditor\'ias de cobertura y jerarqu\'ia.
+    \item \textbf{Registro de desempe\~no en tareas:} matriz estructurada por condici\'on para documentar tiempo, porcentaje de \'exito, errores observables y ayudas requeridas en cada tarea.
+    \item \textbf{SUS:} cuestionario posterior a la interacci\'on con el prototipo 3D para estimar usabilidad percibida mediante 10 \'items en escala Likert de 1 a 5. Se aplica sobre el sistema interactivo principal y no como comparaci\'on sim\'etrica con el soporte 2D, dado que su uso can\'onico eval\'ua la usabilidad global de un sistema interactivo.
+    \item \textbf{NASA-TLX Raw:} cuestionario posterior a tareas para estimar carga de trabajo percibida en seis dimensiones, cada una en escala de 0 a 100. Se emplea en su variante sin ponderaci\'on pareada (\textit{Raw TLX}) por su idoneidad operativa para evaluaciones comparativas r\'apidas, manteniendo expl\'icita la decisi\'on de promediar las seis subescalas con igual peso (Hart y Staveland, 1988; Hart, 2006). En esta propuesta se usa como medida de \textit{workload} subjetivo y no como medici\'on directa de la Teor\'ia de la Carga Cognitiva. Se diligenciar\'a al finalizar cada condici\'on, de modo que el contraste 3D/2D se apoye en medidas separadas y comparables de carga de trabajo.
+    \item \textbf{Think-Aloud:} protocolo de verbalizaci\'on concurrente para registrar comentarios, dudas, errores, pausas y estrategias de exploraci\'on durante la ejecuci\'on de tareas. Cada sesi\'on iniciar\'a con una instrucci\'on estandarizada breve y un recordatorio de que el participante debe verbalizar qu\'e intenta hacer y c\'omo interpreta la interfaz. El moderador solo podr\'a usar recordatorios neutrales del tipo ``contin\'ua verbalizando lo que est\'as pensando'', evitando inducir respuestas o resolver la tarea, en coherencia con la metodolog\'ia de an\'alisis de protocolos de Ericsson y Simon (1993). Se proyecta registrar la sesi\'on mediante matriz de observaci\'on, audio y captura de pantalla cuando las condiciones del piloto lo permitan.
 \end{itemize}
 
 \subsection{Procedimiento de an\'alisis de datos}
 
 \subsubsection{An\'alisis cuantitativo}
 
-El puntaje SUS se calcular\'a seg\'un el procedimiento est\'andar de Brooke (1996). Para los \'items impares, la contribuci\'on de cada respuesta se obtiene restando 1 al valor marcado por el participante; para los \'items pares, la contribuci\'on se obtiene restando la respuesta a 5. La suma de las diez contribuciones produce un subtotal entre 0 y 40, que luego se multiplica por 2.5 para obtener un puntaje global entre 0 y 100:
+El componente cuantitativo de la propuesta tendr\'a car\'acter descriptivo y exploratorio. No se plantea como base suficiente para inferencia estad\'istica poblacional, especialmente si la muestra final se mantiene por debajo del umbral deseable de 30 participantes. La lectura cuantitativa se organizar\'a por tipo de dato: desempe\~no en tareas por condici\'on, usabilidad global del prototipo 3D, carga de trabajo percibida por condici\'on y KPIs t\'ecnicos del build WebGL bajo entorno controlado.
+
+El desempe\~no en tareas se resumir\'a mediante porcentaje de \'exito, tiempo medio por tarea, errores observados y ayudas requeridas. Estos indicadores permitir\'an operacionalizar de manera prudente si la condici\'on 3D facilita o no la exploraci\'on y la identificaci\'on t\'ecnica frente a la referencia 2D, sin convertir esa diferencia en una pretensi\'on de demostraci\'on causal fuerte.
+
+El puntaje SUS se calcular\'a seg\'un el procedimiento est\'andar de Brooke (1996) y se aplicar\'a exclusivamente al prototipo 3D interactivo, que constituye el sistema principal cuya usabilidad global interesa estimar. Para los \'items impares, la contribuci\'on de cada respuesta se obtiene restando 1 al valor marcado por el participante; para los \'items pares, la contribuci\'on se obtiene restando la respuesta a 5. La suma de las diez contribuciones produce un subtotal entre 0 y 40, que luego se multiplica por 2.5 para obtener un puntaje global entre 0 y 100:
 
 \[
 SUS = \left(\sum_{j \in impares}(R_j - 1) + \sum_{j \in pares}(5 - R_j)\right)\times 2.5
 \]
 
-donde $R_j$ corresponde a la respuesta del participante en el \'item $j$. Un puntaje alto indica mejor usabilidad percibida. Como referencia interpretativa, un valor de 68 suele considerarse el umbral convencional de aceptabilidad general, aunque su lectura final debe complementarse con el contexto del estudio y con escalas adjetivales reportadas en la literatura (Bangor et al., 2009).
+donde $R_j$ corresponde a la respuesta del participante en el \'item $j$. Un puntaje alto indica mejor usabilidad percibida. Para la interpretaci\'on, se considerar\'a que 68 representa aproximadamente el promedio hist\'orico del instrumento y no una usabilidad alta en s\'i misma. Como referencia contextual, valores en el rango de 70 a 72 indican una experiencia percibida por encima del centro de referencia y pueden leerse como favorables en t\'erminos descriptivos, mientras que puntajes en los ochenta corresponden a niveles claramente m\'as altos de aceptaci\'on (Bangor et al., 2008, 2009; Sauro y Lewis, 2016). Estos valores se usar\'an como referentes orientadores y no como umbrales absolutos de validaci\'on.
 
-Para NASA-TLX Raw se promediar\'an las seis dimensiones del instrumento:
+Para NASA-TLX Raw se promediar\'an las seis dimensiones del instrumento y se obtendr\'a un resultado independiente para cada condici\'on de prueba:
 \[
 NASA\text{-}TLX_{Raw} = \frac{1}{6}\sum_{i=1}^{6} D_i
 \]
-donde $D_i$ corresponde al puntaje observado en la dimensi\'on $i$: demanda mental, demanda f\'isica, demanda temporal, rendimiento, esfuerzo y frustraci\'on. En esta propuesta se adopta la variante \textit{Raw TLX}, por lo que no se aplica ponderaci\'on por comparaciones pareadas, sino el promedio aritm\'etico simple de las seis escalas. La dimensi\'on de rendimiento se diligencia con orientaci\'on invertida (0 = desempe\~no perfecto, 100 = desempe\~no deficiente), de manera que un valor alto siga indicando mayor carga de trabajo percibida y pueda integrarse directamente al promedio global.
+donde $D_i$ corresponde al puntaje observado en la dimensi\'on $i$: demanda mental, demanda f\'isica, demanda temporal, rendimiento, esfuerzo y frustraci\'on. En esta propuesta se adopta la variante \textit{Raw TLX}, por lo que no se aplica ponderaci\'on por comparaciones pareadas, sino el promedio aritm\'etico simple de las seis escalas. La dimensi\'on de rendimiento se diligencia con orientaci\'on invertida (0 = desempe\~no perfecto, 100 = desempe\~no deficiente), de manera que un valor alto siga indicando mayor carga de trabajo percibida y pueda integrarse directamente al promedio global. Adem\'as del promedio agregado, se reportar\'an las subescalas para evitar interpretaciones reductivas del resultado global. La interpretaci\'on se centrar\'a en diferencias descriptivas entre la condici\'on 3D y la condici\'on 2D, no en pruebas inferenciales fuertes.
 
-Los KPIs t\'ecnicos se analizar\'an mediante estad\'isticos descriptivos y comparaci\'on frente a las metas del proyecto:
+Los KPIs t\'ecnicos se analizar\'an mediante estad\'isticos descriptivos y contraste frente a las metas operativas del proyecto. Las mediciones se reportar\'an junto con la identificaci\'on del entorno de prueba para hacer falsables los resultados:
 \begin{itemize}
     \item presupuesto geom\'etrico;
     \item FPS y \textit{frame time};
@@ -152,18 +180,24 @@ Los KPIs t\'ecnicos se analizar\'an mediante estad\'isticos descriptivos y compa
     \item tiempo de carga inicial y total.
 \end{itemize}
 
+Si la muestra final alcanza o supera 30 participantes, se podr\'an complementar estas lecturas con comparaciones descriptivas de tendencia central y dispersi\'on entre condiciones; aun as\'i, la interpretaci\'on seguir\'a siendo prudente por el car\'acter no probabil\'istico del muestreo.
+
 \subsubsection{An\'alisis cualitativo}
 
-El protocolo \textit{Think-Aloud} se aplicar\'a en modalidad concurrente durante la ejecuci\'on de tareas. Se solicitar\'a al participante verbalizar qu\'e intenta hacer, c\'omo interpreta la interfaz, qu\'e dudas surgen, qu\'e errores percibe y con qu\'e criterio decide su siguiente acci\'on. El evaluador registrar\'a verbalizaciones relevantes, pausas, puntos de vacilaci\'on, solicitudes de ayuda, errores de navegaci\'on y estrategias de recuperaci\'on.
+El protocolo \textit{Think-Aloud} se aplicar\'a en modalidad concurrente durante la ejecuci\'on de tareas. Se solicitar\'a al participante verbalizar qu\'e intenta hacer, c\'omo interpreta la interfaz, qu\'e dudas surgen, qu\'e errores percibe y con qu\'e criterio decide su siguiente acci\'on. El evaluador registrar\'a verbalizaciones relevantes, pausas, puntos de vacilaci\'on, solicitudes de ayuda, errores de navegaci\'on y estrategias de recuperaci\'on mediante una matriz de observaci\'on estructurada por tarea y por condici\'on, complementada con audio y captura de pantalla cuando el entorno de prueba lo permita.
 
-Posteriormente, las observaciones se codificar\'an en categor\'ias anal\'iticas: comprensi\'on espacial del ensamblaje, navegaci\'on y control de c\'amara, interpretaci\'on de la interfaz, correspondencia terminol\'ogica, errores o bloqueos y sugerencias de mejora. Este an\'alisis cualitativo complementar\'a la lectura de SUS y NASA-TLX y permitir\'a explicar por qu\'e determinadas tareas resultaron m\'as claras, ambiguas o demandantes para los usuarios (Ericsson \& Simon, 1993).
+Posteriormente, las observaciones se codificar\'an en categor\'ias anal\'iticas: comprensi\'on espacial del ensamblaje, navegaci\'on y control de c\'amara, interpretaci\'on de la interfaz, correspondencia terminol\'ogica, errores o bloqueos y sugerencias de mejora. Este an\'alisis cualitativo complementar\'a la lectura de SUS y NASA-TLX y permitir\'a explicar por qu\'e determinadas tareas resultaron m\'as claras, ambiguas o demandantes para los usuarios (Ericsson y Simon, 1993). Asimismo, permitir\'a distinguir si una diferencia num\'erica entre condiciones responde a hallazgos observables de interfaz, de navegaci\'on o de interpretaci\'on del contenido. Si la codificaci\'on se realiza por una sola persona, se dejar\'a trazabilidad de decisiones anal\'iticas mediante una segunda pasada de revisi\'on y un memo de codificaci\'on para fortalecer la consistencia interpretativa.
 
-\subsection{KPIs t\'ecnicos esperados}
+\subsubsection{Triangulaci\'on de hallazgos}
+
+La integraci\'on final de resultados seguir\'a una l\'ogica de triangulaci\'on convergente. En primer lugar, los indicadores de desempe\~no en tareas y los KPIs t\'ecnicos describir\'an la viabilidad operativa del build WebGL en el entorno de prueba documentado. En segundo lugar, SUS aportar\'a una lectura global de usabilidad del prototipo 3D, mientras que NASA-TLX permitir\'a comparar la carga de trabajo percibida entre la condici\'on interactiva y la referencia 2D. En tercer lugar, el \textit{Think-Aloud} y la observaci\'on estructurada explicar\'an por qu\'e determinadas tareas producen fricci\'on, claridad o ambig\"uedad. Un hallazgo se considerar\'a m\'as s\'olido cuando muestre consistencia entre estas capas de evidencia; si los resultados divergen, la interpretaci\'on final explicitar\'a esa tensi\'on en lugar de forzar una conclusi\'on no respaldada.
+
+\subsection{KPIs t\'ecnicos de referencia}
 
 \begin{enumerate}
     \item presupuesto geom\'etrico compatible con la build WebGL final;
-    \item \textit{frame rate} estable igual o superior a 30 FPS en el dispositivo objetivo;
-    \item tiempo de carga total menor a 10 segundos en condiciones de prueba controladas;
+    \item \textit{frame rate} estable igual o superior a 30 FPS en el entorno de prueba controlado definido para la validaci\'on;
+    \item tiempo de primera interacci\'on menor a 10 segundos en condiciones de prueba controladas, diferenciando primera carga documentada y cargas posteriores con cach\'e;
     \item \textit{draw calls} y uso de memoria dentro de los umbrales definidos durante la fase de optimizaci\'on;
     \item consistencia funcional entre escena, UI y documentaci\'on.
 \end{enumerate}

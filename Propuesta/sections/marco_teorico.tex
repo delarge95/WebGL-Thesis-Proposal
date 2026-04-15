@@ -1,8 +1,8 @@
 \subsection{Marco Te\'orico}
 
-El dise\~no, desarrollo y evaluaci\'on de la plataforma web 3D se fundamenta en un marco te\'orico multidisciplinario que integra conocimientos de ingenier\'ia, dise\~no, psicolog\'ia cognitiva e inform\'atica gr\'afica. El proyecto no se limita a mostrar un modelo tridimensional: busca demostrar que una visualizaci\'on t\'ecnica interactiva puede mejorar la comprensi\'on espacial del hardware, sostener un rendimiento web aceptable y articular una experiencia de usuario m\'as clara que la documentaci\'on 2D est\'atica.
+El dise\~no, desarrollo y evaluaci\'on de la plataforma web 3D se fundamenta en un marco te\'orico multidisciplinario que integra conocimientos de ingenier\'ia, dise\~no, psicolog\'ia cognitiva e inform\'atica gr\'afica. El proyecto no se limita a mostrar un modelo tridimensional: busca examinar de forma formativa en qu\'e medida una visualizaci\'on t\'ecnica interactiva puede facilitar la exploraci\'on espacial del hardware, sostener un rendimiento web aceptable y articular una experiencia de usuario m\'as clara que la documentaci\'on 2D est\'atica.
 
-\paragraph{Hip\'otesis de usabilidad y carga cognitiva.} La visualizaci\'on 3D interactiva gestiona la carga cognitiva intr\'inseca mediante segmentaci\'on del contenido y reduce la carga extr\'inseca al externalizar operaciones de rotaci\'on mental que en soportes 2D deben resolverse internamente por el usuario. Esta hip\'otesis se validar\'a mediante tareas representativas, KPIs t\'ecnicos, SUS, NASA-TLX y observaci\'on \textit{Think-Aloud}.
+\paragraph{Proposici\'on de trabajo sobre usabilidad y carga de trabajo percibida.} La visualizaci\'on 3D interactiva se plantea como un medio que puede reducir parte de la carga extr\'inseca asociada a la reconstrucci\'on espacial que en soportes 2D debe resolverse mentalmente por el usuario. Esta proposici\'on se explorar\'a mediante tareas representativas, registro de desempe\~no en tareas, KPIs t\'ecnicos, SUS aplicado al prototipo interactivo, NASA-TLX por condici\'on y observaci\'on \textit{Think-Aloud}, sin asumir de antemano una demostraci\'on causal concluyente.
 
 El uso de una estrategia tipo MVP justifica la exclusi\'on intencional de caracter\'isticas no esenciales para la validaci\'on acad\'emica inmediata, como persistencia avanzada, instrumentaci\'on anal\'itica compleja o variantes de producto no integradas en la versi\'on final del prototipo.
 
@@ -16,9 +16,9 @@ Sweller, van Merri\"enboer y Paas (2019) distinguen tres tipos de carga:
 
 \paragraph{Carga extr\'inseca.} Es la carga innecesaria generada por una presentaci\'on deficiente. En documentaci\'on 2D est\'atica, el usuario debe imaginar relaciones tridimensionales no visibles, lo cual incrementa la necesidad de rotaci\'on mental y consume recursos cognitivos que no est\'an dirigidos al objetivo t\'ecnico principal.
 
-\paragraph{Carga germana.} Es el esfuerzo que s\'i contribuye a construir esquemas mentales \'utiles. En una interfaz 3D bien dise\~nada, los recursos cognitivos liberados por la reducci\'on de carga extr\'inseca pueden redirigirse a comprender mejor la funci\'on, ubicaci\'on y relaci\'on entre componentes.
+\paragraph{Carga germana.} Es el esfuerzo que s\'i contribuye a construir esquemas mentales \'utiles. En una interfaz 3D bien dise\~nada, los recursos cognitivos liberados por la reducci\'on de carga extr\'inseca pueden redirigirse a comprender mejor la funci\'on, ubicaci\'on y relaci\'on entre componentes del ensamblaje.
 
-En el contexto del prototipo, la interfaz 3D orbital y la consulta contextual de piezas buscan precisamente reducir la carga extr\'inseca y favorecer una carga germana orientada a comprensi\'on estructural.
+En el contexto del prototipo, la interfaz 3D orbital y la consulta contextual de piezas buscan precisamente reducir la carga extr\'inseca y favorecer una carga germana orientada a la comprensi\'on espacial y funcional del ensamblaje.
 
 \subsubsection{Navegaci\'on espacial e interacci\'on 3D}
 
@@ -46,7 +46,7 @@ Las heur\'isticas de Nielsen orientan la construcci\'on de la interfaz:
 
 \subsubsection{Rotaci\'on mental y visualizaci\'on espacial}
 
-Hegarty y Waller (2004) muestran que la interpretaci\'on de estructuras tridimensionales depende de habilidades espaciales que no se distribuyen homog\'eneamente entre usuarios. Bartlett y Dorribo Camba (2023) refuerzan que los modelos 3D interactivos pueden disminuir esta barrera al facilitar interpretaci\'on gr\'afica y comprensi\'on estructural. En consecuencia, el visor no se justifica solo por atractivo visual, sino como apoyo cognitivo para usuarios con distintos niveles de habilidad espacial.
+Hegarty y Waller (2004) muestran que la interpretaci\'on de estructuras tridimensionales depende de habilidades espaciales que no se distribuyen homog\'eneamente entre usuarios. Bartlett y Dorribo Camba (2023) refuerzan que los modelos 3D interactivos pueden disminuir esta barrera al facilitar interpretaci\'on gr\'afica y comprensi\'on del ensamblaje. En consecuencia, el visor no se justifica solo por atractivo visual, sino como apoyo cognitivo para usuarios con distintos niveles de habilidad espacial.
 
 \subsubsection{Percepci\'on visual y organizaci\'on de la informaci\'on}
 
@@ -73,7 +73,7 @@ La densidad de texel busca que la nitidez percibida de las texturas sea coherent
 \[
 \rho = \frac{R_{\text{texture}}}{L_{\text{mundo}}}
 \]
-donde $R_{\text{texture}}$ es la resoluci\'on efectiva aplicada sobre una direcci\'on o tramo de referencia, y $L_{\text{mundo}}$ es la longitud real correspondiente en el modelo. Si $\rho$ cambia bruscamente entre piezas, algunas se perciben borrosas y otras innecesariamente costosas en memoria.
+donde $R_{\text{texture}}$ es la resoluci\'on efectiva aplicada sobre un tramo de referencia y $L_{\text{mundo}}$ es la longitud real correspondiente en el modelo. Si $\rho$ cambia bruscamente entre piezas, algunas se perciben borrosas y otras resultan innecesariamente costosas en memoria.
 
 \paragraph{Costo de dibujo y agrupaci\'on de mallas.}
 El costo de renderizado no depende solo del n\'umero de tri\'angulos, sino tambi\'en del n\'umero de lotes o \textit{draw calls}. Sin agrupaci\'on, una aproximaci\'on simple es:
@@ -99,7 +99,7 @@ Esto traduce el rendimiento a una restricci\'on directamente medible en navegado
 
 \subsubsection{Modelo matem\'atico de renderizado f\'isicamente basado (PBR)}
 
-El renderizado f\'isicamente basado parte de la ecuaci\'on de render:
+El renderizado f\'isicamente basado parte de la \textit{rendering equation}, formulada por Kajiya (1986) y adoptada como fundamento general de los modelos BRDF utilizados en renderizado en tiempo real (Akenine-M\"oller et al., 2018):
 \[
 L_o(\omega_o) = \int_{\Omega} f_r(\omega_i,\omega_o)\, L_i(\omega_i)\, (\mathbf{n}\cdot\omega_i)\, d\omega_i
 \]
@@ -118,20 +118,20 @@ donde $\mathbf{l}$ es la direcci\'on de la luz, $\mathbf{v}$ la direcci\'on de v
 \end{itemize}
 
 \paragraph{Aproximaci\'on de Fresnel de Schlick.}
-Para reducir costo computacional, el t\'ermino de Fresnel suele aproximarse mediante:
+Para reducir costo computacional, el t\'ermino de Fresnel suele aproximarse mediante la expresi\'on de Schlick (1994):
 \[
 F = F_0 + (1 - F_0)(1 - \cos\theta)^5
 \]
 donde $F_0$ es la reflectancia a incidencia normal y $\theta$ es el \'angulo entre la direcci\'on de vista y el vector mitad. Esta aproximaci\'on permite obtener un comportamiento visualmente cre\'ible con un costo bajo en tiempo real.
 
 \paragraph{Distribuci\'on GGX.}
-La distribuci\'on de microfacetas adoptada com\'unmente en PBR en tiempo real es GGX:
+La distribuci\'on de microfacetas adoptada com\'unmente en PBR en tiempo real es GGX (Walter et al., 2007; Karis, 2013):
 \[
 D_{\text{GGX}} = \frac{\alpha^2}{\pi\left((\mathbf{n}\cdot\mathbf{h})^2(\alpha^2 - 1) + 1\right)^2}
 \]
 donde $\alpha$ controla la amplitud del l\'obulo especular y suele derivarse de la rugosidad como $\alpha = roughness^2$. Valores bajos producen reflejos concentrados y valores altos reflejos anchos y difusos.
 
-\paragraph{Separaci\'on difusa-especular y conservaci\'on de energ\'ia.}
+\paragraph{Conservaci\'on de energ\'ia.}
 En un flujo \textit{metallic-roughness}, la energ\'ia reflejada debe mantenerse acotada. De manera simplificada:
 \[
 k_d + k_s \leq 1
@@ -139,7 +139,7 @@ k_d + k_s \leq 1
 donde $k_d$ representa la fracci\'on difusa y $k_s$ la especular. En materiales met\'alicos, la componente difusa tiende a desaparecer y el color especular toma protagonismo; en diel\'ectricos ocurre lo contrario.
 
 \paragraph{Relaci\'on con la app real.}
-En la aplicaci\'on final, el modo \texttt{Realistic} no reimplementa manualmente toda la BRDF microfacetada desde cero. El proyecto delega el c\'alculo PBR base al \textit{pipeline} de Unity URP mediante la funci\'on \texttt{UniversalFragmentPBR}, mientras que los shaders propios a\~naden l\'ogica espec\'ifica del sistema, como planos de corte globales y modos de inspecci\'on. Por ello, las ecuaciones anteriores se presentan como fundamento matem\'atico del modelo de iluminaci\'on empleado por URP y no como afirmaci\'on de un solver BRDF completamente escrito desde cero dentro del proyecto.
+En la aplicaci\'on final, el modo \texttt{Realistic} no reimplementa manualmente toda la BRDF microfacetada desde cero. El proyecto delega el c\'alculo PBR base al \textit{pipeline} de Unity URP, mientras que los shaders propios a\~naden l\'ogica espec\'ifica del sistema, como planos de corte globales y modos de inspecci\'on (Unity Technologies, 2024b). Por ello, las ecuaciones anteriores se presentan como fundamento matem\'atico del modelo de iluminaci\'on empleado por URP y no como afirmaci\'on de un \textit{solver} BRDF completamente escrito desde cero dentro del proyecto.
 
 \paragraph{Iluminaci\'on basada en im\'agenes (IBL).}
 La iluminaci\'on ambiental en PBR se apoya en mapas de entorno precalculados. Conceptualmente, la integral ambiental se aproxima mediante dos componentes: un mapa de irradiancia para la parte difusa y un mapa de entorno prefiltrado para la parte especular. Esto permite aproximar reflejos y contribuci\'on ambiental con costo constante por p\'ixel, sin necesidad de \textit{ray tracing} completo en tiempo real.
