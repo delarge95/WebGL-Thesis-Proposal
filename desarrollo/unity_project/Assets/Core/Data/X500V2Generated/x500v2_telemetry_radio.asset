@@ -18,7 +18,7 @@ MonoBehaviour:
   description: "Radio SiK V3, 433 o 915 MHz. Potencia ~100 mW. Protocolo MAVLink.
     UART al Pixhawk (TELEM1). Par aire+tierra de f\xE1brica. Antena omnidireccional
     de goma. Alcance ~500 m."
-  weightKg: 0.015
+  weightKg: 0.019
   dimensions: "~50 \xD7 25 \xD7 10 mm"
   function: "Enlace de datos bidireccional dron-estaci\xF3n de tierra"
   materialType: "PCB FR4 con m\xF3dulo RF y carcasa pl\xE1stica ligera"

@@ -259,25 +259,25 @@ namespace WebGL.UI.Panels
                         ? "System Group"
                         : BuildCategoryText(data, useFastenerDetails);
                 if (_sheetFunction != null)
-                    _sheetFunction.text = !string.IsNullOrWhiteSpace(hotspotGroupSummary)
+                    _sheetFunction.text = FormatTextOrND(!string.IsNullOrWhiteSpace(hotspotGroupSummary)
                         ? hotspotGroupSummary
-                        : BuildFunctionText(data, useFastenerDetails);
-                if (_sheetMaterial != null) _sheetMaterial.text = BuildMaterialText(data, useFastenerDetails);
+                        : BuildFunctionText(data, useFastenerDetails));
+                if (_sheetMaterial != null) _sheetMaterial.text = FormatTextOrND(BuildMaterialText(data, useFastenerDetails));
                 if (_sheetDesc != null)
                 {
                     if (!string.IsNullOrWhiteSpace(hotspotGroupLabel))
                     {
                         _sheetDesc.text = string.IsNullOrWhiteSpace(hotspotGroupMembers)
-                            ? data.description
-                            : $"{data.description}\n\nIncludes: {hotspotGroupMembers}";
+                            ? FormatTextOrND(data.description)
+                            : $"{FormatTextOrND(data.description)}\n\nIncludes: {hotspotGroupMembers}";
                     }
                     else
                     {
-                        _sheetDesc.text = BuildDescriptionText(data, useFastenerDetails);
+                        _sheetDesc.text = FormatTextOrND(BuildDescriptionText(data, useFastenerDetails));
                     }
                 }
-                if (_sheetWeight != null) _sheetWeight.text = $"{data.weightKg:F2} kg";
-                if (_sheetDimensions != null) _sheetDimensions.text = BuildDimensionsText(data, useFastenerDetails);
+                if (_sheetWeight != null) _sheetWeight.text = FormatWeight(data.weightKg);
+                if (_sheetDimensions != null) _sheetDimensions.text = FormatTextOrND(BuildDimensionsText(data, useFastenerDetails));
                 if (_sheetPower != null) _sheetPower.text = data.powerConsumption > 0 ? $"{data.powerConsumption:F1} W" : "N/A";
                 if (_sheetTemp != null) _sheetTemp.text = data.operatingTemp > 0 ? $"{data.operatingTemp:F0}°C" : "N/A";
 
@@ -549,6 +549,37 @@ namespace WebGL.UI.Panels
             return string.IsNullOrWhiteSpace(data.fastenerMetadata.driveType) || data.fastenerMetadata.driveType == "N/A"
                 ? "None"
                 : data.fastenerMetadata.driveType;
+        }
+
+        private static string FormatWeight(float weightKg)
+        {
+            if (weightKg <= 0f)
+            {
+                return "N/D";
+            }
+
+            if (weightKg < 0.01f)
+            {
+                return $"{weightKg * 1000f:F1} g";
+            }
+
+            return $"{weightKg:F2} kg";
+        }
+
+        private static string FormatTextOrND(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return "N/D";
+            }
+
+            string normalized = value.Trim();
+            if (normalized == "-" || normalized.Equals("N/A", System.StringComparison.OrdinalIgnoreCase))
+            {
+                return "N/D";
+            }
+
+            return normalized;
         }
 
         // ═══════════════════════════════════════════════════════

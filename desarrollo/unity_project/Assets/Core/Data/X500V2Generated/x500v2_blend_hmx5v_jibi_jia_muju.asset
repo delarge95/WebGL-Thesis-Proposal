@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_blend_hmx5v_jibi_jia_muju
   m_EditorClassIdentifier: 
-  partName: Tube Frame Clamp Connector
+  partName: 'Tube Frame Clamp Connector'
   id: x500v2_blend_hmx5v_jibi_jia_muju
-  partType: Structure
-  description: Abrazadera brazo a chasis. Pieza modelada en base al CAD HMX5V-JIBI-JIA-MUJU.
+  partType: 'Structure'
+  description: 'Abrazadera brazo a chasis. Pieza modelada en base al CAD HMX5V-JIBI-JIA-MUJU.'
   weightKg: 0.015
-  dimensions: P/ Tubo 16mm
-  function: Abrazadera brazo a chasis
-  materialType: Nylon
+  dimensions: 'P/ Tubo 16mm'
+  function: 'Abrazadera brazo a chasis'
+  materialType: 'Nylon'
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -39,8 +39,7 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.8, b: 1, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

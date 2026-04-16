@@ -19,7 +19,7 @@ MonoBehaviour:
     XT30 para ESCs y perif\xE9ricos. Hasta 100A r\xE1faga. Montaje directo sobre
     bottom plate. Sin conversi\xF3n de tensi\xF3n activa, bus de potencia puro. Sistema
     plug-and-play sin soldadura."
-  weightKg: 0.02
+  weightKg: 0.012
   dimensions: "~50 \xD7 50 mm"
   function: "Bus central de distribuci\xF3n de potencia desde bater\xEDa hacia ESCs
     y perif\xE9ricos"

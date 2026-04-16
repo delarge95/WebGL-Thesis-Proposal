@@ -18,7 +18,7 @@ MonoBehaviour:
   description: "Tubo de fibra de carbono de 16 mm con conectores de nylon reforzado.
     Motor 2216 y ESC BLHeli-S 20A preinstalados. Cableado XT30 interno hacia PDB.
     Posici\xF3n frontal-izquierda, configuraci\xF3n quad-X."
-  weightKg: 0.03
+  weightKg: 0.036
   dimensions: "\u230016 mm \xD7 ~220 mm"
   function: Soporte de motor y ESC; conducto de cableado; transferencia de empuje
     al chasis

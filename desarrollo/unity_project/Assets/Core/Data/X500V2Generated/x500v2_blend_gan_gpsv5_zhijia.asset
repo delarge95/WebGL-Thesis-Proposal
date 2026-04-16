@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_blend_gan_gpsv5_zhijia
   m_EditorClassIdentifier: 
-  partName: Holybro M10 GPS Antenna
+  partName: 'Holybro M10 GPS Antenna'
   id: x500v2_blend_gan_gpsv5_zhijia
-  partType: Electronics
-  description: "Posicionamiento GNSS Multiconstelaci\xF3n. Pieza modelada en base
+  partType: 'Electronics'
+  description: 'Posicionamiento GNSS Multiconstelación. Pieza modelada en base al CAD GAN-GPSV5-ZHIJIA.'
     al CAD GAN-GPSV5-ZHIJIA."
   weightKg: 0.032
-  dimensions: "\u230050\xD714 mm"
-  function: "Posicionamiento GNSS Multiconstelaci\xF3n"
-  materialType: "Cer\xE1mica y PCB"
+  dimensions: '⌀50×14 mm'
+  function: 'Posicionamiento GNSS Multiconstelación'
+  materialType: 'Cerámica y PCB'
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -40,7 +40,7 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.8, b: 1, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 1
-  hotspotLabel: GNSS & Compass
+  hotspotLabel: 'GNSS & Compass'
   explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0

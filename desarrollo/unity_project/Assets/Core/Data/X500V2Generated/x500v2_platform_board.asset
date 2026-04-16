@@ -18,7 +18,7 @@ MonoBehaviour:
   description: "Placa separada del top plate por standoffs M2.5. Taladros preperforados
     para GPS M10/M8N y companion computers (Raspberry Pi 4, Jetson Nano). A\xEDsla
     magn\xE9ticamente el GPS de la PDB."
-  weightKg: 0.015
+  weightKg: 0.083
   dimensions: "~80 \xD7 80 mm"
   function: Plataforma elevada para GPS y companion computer
   materialType: "Fibra de carbono / compuesto pl\xE1stico"

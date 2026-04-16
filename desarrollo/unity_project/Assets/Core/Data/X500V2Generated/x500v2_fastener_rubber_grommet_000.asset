@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_rubber_grommet_000
   m_EditorClassIdentifier: 
-  partName: 'Rubber Grommet'
+  partName: 'Silicone Mount Dampener'
   id: x500v2_fastener_rubber_grommet_000
-  partType: 'Rubber Grommet'
-  description: 'Aislante anti-vibraciÃ³n para hardware. Pieza modelada en base al CAD HUAN-GUIJIAO.'
-  weightKg: 0
-  dimensions: ''
-  function: 'Fastening / mounting | Dampener'
+  partType: 'Structure'
+  description: 'Aislante anti-vibración para hardware. Pieza modelada en base al CAD HUAN-GUIJIAO.'
+  weightKg: 0.001
+  dimensions: 'M3-M4'
+  function: 'Aislante anti-vibración para hardware'
   materialType: 'Silicona'
   materialProperties: 'Silicone'
   manufacturer: Holybro
@@ -39,8 +39,7 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -81,7 +80,7 @@ MonoBehaviour:
     quantityExpected: 8
     isInspectable: 1
     fallbackReason: ''
-    notes: 'Aislante anti-vibraciÃ³n para hardware. Pieza modelada en base al CAD HUAN-GUIJIAO.'
+    notes: 'Aislante anti-vibracion para hardware. Pieza modelada en base al CAD HUAN-GUIJIAO.'
     recipeKey: 'rubber_grommet_placeholder'
     builderType: 'RubberGrommet'
     orientationMode: 'ShortestAxis'

@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_lock_nut_M3_003
   m_EditorClassIdentifier: 
-  partName: 'Cap Nut M3'
+  partName: 'M3 Dome/Cap Nut'
   id: x500v2_fastener_lock_nut_M3_003
-  partType: 'Cap Nut'
+  partType: 'Structure'
   description: 'Tuerca ciega. Pieza modelada en base al CAD LM-M3-DING.'
-  weightKg: 0
+  weightKg: 0.001
   dimensions: 'M3'
-  function: 'Fastening / mounting | M3 | Cap'
-  materialType: 'LatÃ³n'
+  function: 'Tuerca ciega'
+  materialType: 'Latón'
   materialProperties: 'Brass'
   manufacturer: Holybro
   partNumber: 'LM-M3-DING'
@@ -39,8 +39,7 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -76,7 +75,7 @@ MonoBehaviour:
     driveType: 'N/A'
     threadPitchMm: 0
     turnCount: 0
-    material: 'LatÃ³n'
+    material: 'Laton'
     finish: 'Brass'
     quantityExpected: 8
     isInspectable: 1

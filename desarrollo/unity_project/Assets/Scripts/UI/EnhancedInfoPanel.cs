@@ -266,15 +266,46 @@ namespace WebGL.UI
 
             // Update labels
             titleLabel.text = displayName;
-            subtitleLabel.text = data.partType;
-            descriptionLabel.text = data.description;
-            weightLabel.text = $"{data.weightKg:F2} kg";
-            dimensionsLabel.text = data.dimensions;
-            functionLabel.text = data.function;
-            materialTypeLabel.text = data.materialType;
-            materialPropsLabel.text = data.materialProperties;
+            subtitleLabel.text = FormatTextOrND(data.partType);
+            descriptionLabel.text = FormatTextOrND(data.description);
+            weightLabel.text = FormatWeight(data.weightKg);
+            dimensionsLabel.text = FormatTextOrND(data.dimensions);
+            functionLabel.text = FormatTextOrND(data.function);
+            materialTypeLabel.text = FormatTextOrND(data.materialType);
+            materialPropsLabel.text = FormatTextOrND(data.materialProperties);
 
             Show();
+        }
+
+        private static string FormatWeight(float weightKg)
+        {
+            if (weightKg <= 0f)
+            {
+                return "N/D";
+            }
+
+            if (weightKg < 0.01f)
+            {
+                return $"{weightKg * 1000f:F1} g";
+            }
+
+            return $"{weightKg:F2} kg";
+        }
+
+        private static string FormatTextOrND(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return "N/D";
+            }
+
+            string normalized = value.Trim();
+            if (normalized == "-" || normalized.Equals("N/A", System.StringComparison.OrdinalIgnoreCase))
+            {
+                return "N/D";
+            }
+
+            return normalized;
         }
 
         public void Show()

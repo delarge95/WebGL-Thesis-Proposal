@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_cap_screw_M3x38_012
   m_EditorClassIdentifier: 
-  partName: 'Socket Cap Screw M3 x 38 mm'
+  partName: 'Socket Head Cap Screw'
   id: x500v2_fastener_cap_screw_M3x38_012
-  partType: 'Socket Cap Screw'
-  description: 'FijaciÃ³n y apriete del chasis. Pieza modelada en base al CAD GB70-M3-38.'
-  weightKg: 0
-  dimensions: 'M3 x 38 mm'
-  function: 'Fastening / mounting | M3 x 38 mm | Socket Cap | Hex Socket'
+  partType: 'Structure'
+  description: 'Fijación y apriete del chasis. Pieza modelada en base al CAD GB70-M3-38.'
+  weightKg: 0.001
+  dimensions: 'Milimétrico'
+  function: 'Fijación y apriete del chasis'
   materialType: 'Acero Inox'
   materialProperties: 'Stainless'
   manufacturer: Holybro
@@ -39,8 +39,7 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -81,7 +80,7 @@ MonoBehaviour:
     quantityExpected: 16
     isInspectable: 1
     fallbackReason: ''
-    notes: 'FijaciÃ³n y apriete del chasis. Pieza modelada en base al CAD GB70-M3-38.'
+    notes: 'Fijacion y apriete del chasis. Pieza modelada en base al CAD GB70-M3-38.'
     recipeKey: 'cap_screw_M3x38_placeholder'
     builderType: 'SocketCapScrew'
     orientationMode: 'LongestAxis'

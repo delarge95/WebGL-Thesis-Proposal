@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_blend_battery_mounting_plat
   m_EditorClassIdentifier: 
-  partName: Battery Mounting Board
+  partName: 'Battery Mounting Board'
   id: x500v2_blend_battery_mounting_plat
-  partType: Structure
-  description: "Placa ajustable p/correas de bater\xEDa. Pieza modelada en base al
+  partType: 'Structure'
+  description: 'Placa ajustable p/correas de batería. Pieza modelada en base al CAD BATTERY-MOUNTING-PLAT.'
     CAD BATTERY-MOUNTING-PLAT."
   weightKg: 0.025
-  dimensions: Variable
-  function: "Placa ajustable p/correas de bater\xEDa"
-  materialType: "Fibra / Pl\xE1stico"
+  dimensions: 'Variable'
+  function: 'Placa ajustable p/correas de batería'
+  materialType: 'Fibra / Plástico'
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -40,7 +40,7 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.8, b: 1, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 1
-  hotspotLabel: Battery (LiPo 4S)
+  hotspotLabel: 'Battery (LiPo 4S)'
   explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0

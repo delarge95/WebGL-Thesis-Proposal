@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_blend_gpsv5_zhijia_tuopan
   m_EditorClassIdentifier: 
-  partName: GPS Top Mounting Tray
+  partName: 'GPS Top Mounting Tray'
   id: x500v2_blend_gpsv5_zhijia_tuopan
-  partType: Structure
-  description: Bandeja circular superior del GPS. Pieza modelada en base al CAD GPSV5-ZHIJIA-TUOPAN.
+  partType: 'Structure'
+  description: 'Bandeja circular superior del GPS. Pieza modelada en base al CAD GPSV5-ZHIJIA-TUOPAN.'
   weightKg: 0.005
-  dimensions: "\u230050 mm"
-  function: Bandeja circular superior del GPS
-  materialType: "Pl\xE1stico ABS"
+  dimensions: '⌀50 mm'
+  function: 'Bandeja circular superior del GPS'
+  materialType: 'Plástico ABS'
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -39,8 +39,7 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.8, b: 1, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

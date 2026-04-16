@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_bottom_plate
   m_EditorClassIdentifier: 
-  partName: Carbon Fiber Bottom Plate
+  partName: 'Carbon Fiber Bottom Plate'
   id: x500v2_bottom_plate
-  partType: Frame
-  description: "Plato inferior de fibra de carbono twill de 2 mm de espesor y 144\xD7144
+  partType: 'Structure'
+  description: 'Interfase de tren, brazos y PDB. Pieza modelada en base al CAD BOTTOM-PLATE-X500-V5.'
     mm. Base r\xEDgida del fuselaje donde se fijan el tren de aterrizaje, los brazos
     y la PDB. Incluye taladros para standoffs, XT60 holder y clips del sistema de
     railes."
-  weightKg: 0.075
-  dimensions: "144 \xD7 144 mm, 2 mm espesor"
-  function: Base estructural del fuselaje; interfaz de montaje para PDB, brazos y
+  weightKg: 0.093
+  dimensions: '144×144 mm'
+  function: 'Interfase de tren, brazos y PDB'
     tren
-  materialType: Fibra de carbono twill 2 mm
+  materialType: 'Fibra Carbono Twill 2mm'
   materialProperties: Ultraligero, alta rigidez torsional, resistente a vibraciones
   manufacturer: Holybro
   partNumber: '#510180'
@@ -43,8 +43,7 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: -1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.5
   explosionPriority: 1
   isModular: 0

@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_pan_head_M3x10_000
   m_EditorClassIdentifier: 
-  partName: 'Pan Head Screw M3 x 10 mm'
+  partName: 'M3 Pan/Countersunk Screw'
   id: x500v2_fastener_pan_head_M3x10_000
-  partType: 'Pan Head Screw'
-  description: 'TornillerÃ­a rasante. Pieza modelada en base al CAD M3-10-PAN-DING.'
-  weightKg: 0
-  dimensions: 'M3 x 10 mm'
-  function: 'Fastening / mounting | M3 x 10 mm | Pan/Button | Unknown'
+  partType: 'Structure'
+  description: 'Tornillería rasante. Pieza modelada en base al CAD M3-10-PAN-DING.'
+  weightKg: 0.001
+  dimensions: 'M3'
+  function: 'Tornillería rasante'
   materialType: 'Acero Inox'
   materialProperties: 'Stainless'
   manufacturer: Holybro
@@ -39,8 +39,7 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -81,7 +80,7 @@ MonoBehaviour:
     quantityExpected: 4
     isInspectable: 1
     fallbackReason: ''
-    notes: 'TornillerÃ­a rasante. Pieza modelada en base al CAD M3-10-PAN-DING.'
+    notes: 'Tornilleria rasante. Pieza modelada en base al CAD M3-10-PAN-DING.'
     recipeKey: 'pan_head_M3x10_placeholder'
     builderType: 'PanHeadScrew'
     orientationMode: 'LongestAxis'

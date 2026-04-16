@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_blend_battery_pad
   m_EditorClassIdentifier: 
-  partName: Battery Silicone Pad
+  partName: 'Battery Silicone Pad'
   id: x500v2_blend_battery_pad
-  partType: Structure
-  description: "Superficie antideslizante para bater\xEDa 4S. Pieza modelada en base
+  partType: 'Structure'
+  description: 'Superficie antideslizante para batería 4S. Pieza modelada en base al CAD BATTERY-PAD.'
     al CAD BATTERY-PAD."
   weightKg: 0.008
-  dimensions: Universal
-  function: "Superficie antideslizante para bater\xEDa 4S"
-  materialType: Silicona adherente
+  dimensions: 'Universal'
+  function: 'Superficie antideslizante para batería 4S'
+  materialType: 'Silicona adherente'
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -40,8 +40,7 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.8, b: 1, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

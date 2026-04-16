@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_countersunk_M25x6_010
   m_EditorClassIdentifier: 
-  partName: 'Countersunk Screw M2.5 x 6 mm'
+  partName: 'M2.5 Micro Screw'
   id: x500v2_fastener_countersunk_M25x6_010
-  partType: 'Countersunk Screw'
-  description: 'TornillerÃ­a instrumento. Pieza modelada en base al CAD M25-6-CHEN-LIU.'
-  weightKg: 0
-  dimensions: 'M2.5 x 6 mm'
-  function: 'Fastening / mounting | M2.5 x 6 mm | Countersunk | Unknown'
+  partType: 'Structure'
+  description: 'Tornillería instrumento. Pieza modelada en base al CAD M25-6-CHEN-LIU.'
+  weightKg: 0.001
+  dimensions: 'M2.5'
+  function: 'Tornillería instrumento'
   materialType: 'Acero'
   materialProperties: 'Standard'
   manufacturer: Holybro
@@ -39,8 +39,7 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -81,7 +80,7 @@ MonoBehaviour:
     quantityExpected: 12
     isInspectable: 1
     fallbackReason: ''
-    notes: 'TornillerÃ­a instrumento. Pieza modelada en base al CAD M25-6-CHEN-LIU.'
+    notes: 'Tornilleria instrumento. Pieza modelada en base al CAD M25-6-CHEN-LIU.'
     recipeKey: 'countersunk_M25x6_placeholder'
     builderType: 'CountersunkScrew'
     orientationMode: 'LongestAxis'

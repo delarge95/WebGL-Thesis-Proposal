@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_countersunk_M3x16_000
   m_EditorClassIdentifier: 
-  partName: 'Countersunk Screw M3 x 16 mm'
+  partName: 'M3 Pan/Countersunk Screw'
   id: x500v2_fastener_countersunk_M3x16_000
-  partType: 'Countersunk Screw'
-  description: 'TornillerÃ­a rasante. Pieza modelada en base al CAD M3-16-CHEN-LIU.'
-  weightKg: 0
-  dimensions: 'M3 x 16 mm'
-  function: 'Fastening / mounting | M3 x 16 mm | Countersunk | Unknown'
+  partType: 'Structure'
+  description: 'Tornillería rasante. Pieza modelada en base al CAD M3-16-CHEN-LIU.'
+  weightKg: 0.001
+  dimensions: 'M3'
+  function: 'Tornillería rasante'
   materialType: 'Acero Inox'
   materialProperties: 'Stainless'
   manufacturer: Holybro
@@ -39,8 +39,7 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -81,7 +80,7 @@ MonoBehaviour:
     quantityExpected: 2
     isInspectable: 1
     fallbackReason: ''
-    notes: 'TornillerÃ­a rasante. Pieza modelada en base al CAD M3-16-CHEN-LIU.'
+    notes: 'Tornilleria rasante. Pieza modelada en base al CAD M3-16-CHEN-LIU.'
     recipeKey: 'countersunk_M3x16_placeholder'
     builderType: 'CountersunkScrew'
     orientationMode: 'LongestAxis'

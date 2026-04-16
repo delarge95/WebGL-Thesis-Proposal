@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_blend_pylons_x500
   m_EditorClassIdentifier: 
-  partName: Payload 10mm Carbon Rails
+  partName: 'Payload 10mm Carbon Rails'
   id: x500v2_blend_pylons_x500
-  partType: Structure
-  description: Riel inferior porta-elementos 10mm. Pieza modelada en base al CAD
+  partType: 'Structure'
+  description: 'Riel inferior porta-elementos 10mm. Pieza modelada en base al CAD PYLONS-X500.'
     PYLONS-X500.
   weightKg: 0.015
-  dimensions: "\u230010\xD7250 mm"
-  function: Riel inferior porta-elementos 10mm
-  materialType: Fibra de carbono
+  dimensions: '⌀10×250 mm'
+  function: 'Riel inferior porta-elementos 10mm'
+  materialType: 'Fibra de carbono'
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -40,8 +40,7 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.8, b: 1, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

@@ -51,6 +51,7 @@ namespace WebGL.Core.Managers
             {
                 var first = group.First();
                 var data = first.Data;
+                float safeUnitWeight = data.weightKg > 0f ? data.weightKg : 0f;
 
                 var item = new BOMItem
                 {
@@ -59,8 +60,8 @@ namespace WebGL.Core.Managers
                     partNumber = data.partNumber,
                     category = data.partType,
                     quantity = group.Count(),
-                    unitWeight = data.weightKg,
-                    totalWeight = data.weightKg * group.Count(),
+                    unitWeight = safeUnitWeight,
+                    totalWeight = safeUnitWeight * group.Count(),
                     material = data.materialType,
                     supplier = data.manufacturer,
                     isAvailable = true
@@ -91,7 +92,9 @@ namespace WebGL.Core.Managers
             
             foreach (var item in bomItems)
             {
-                csv += $"{item.partId},{item.partName},{item.partNumber},{item.category},{item.quantity},{item.unitWeight:F3},{item.totalWeight:F3},{item.material},{item.supplier}\n";
+                string unitWeight = item.unitWeight > 0f ? item.unitWeight.ToString("F3") : "N/D";
+                string totalWeight = item.unitWeight > 0f ? item.totalWeight.ToString("F3") : "N/D";
+                csv += $"{item.partId},{item.partName},{item.partNumber},{item.category},{item.quantity},{unitWeight},{totalWeight},{item.material},{item.supplier}\n";
             }
 
             csv += $"\nTotal Parts:,{TotalParts}\n";

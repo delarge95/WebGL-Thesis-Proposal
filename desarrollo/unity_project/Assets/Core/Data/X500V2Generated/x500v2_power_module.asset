@@ -18,7 +18,7 @@ MonoBehaviour:
   description: "M\xF3dulo en serie entre bater\xEDa (XT60) y PDB. Regulador 5.2V
     para Pixhawk. Sensor de corriente y voltaje del sistema. Compatible hasta 12S.
     Conectado al Pixhawk v\xEDa GH 1.25mm 6-pin."
-  weightKg: 0.028
+  weightKg: 0.056
   dimensions: "~55 \xD7 17 \xD7 8 mm"
   function: "Regulaci\xF3n 5V para autopiloto y medici\xF3n de voltaje/corriente
     del sistema"

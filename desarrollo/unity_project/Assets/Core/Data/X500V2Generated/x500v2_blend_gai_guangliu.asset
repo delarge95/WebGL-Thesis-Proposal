@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_blend_gai_guangliu
   m_EditorClassIdentifier: 
-  partName: Optical Flow Bottom Cover
+  partName: 'Optical Flow Bottom Cover'
   id: x500v2_blend_gai_guangliu
-  partType: Structure
-  description: Cubierta protectora de sensor. Pieza modelada en base al CAD GAI-GUANGLIU.
+  partType: 'Structure'
+  description: 'Cubierta protectora de sensor. Pieza modelada en base al CAD GAI-GUANGLIU.'
   weightKg: 0.003
-  dimensions: "Peque\xF1o"
-  function: Cubierta protectora de sensor
-  materialType: ABS
+  dimensions: 'Pequeño'
+  function: 'Cubierta protectora de sensor'
+  materialType: 'ABS'
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -39,8 +39,7 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.8, b: 1, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

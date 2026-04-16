@@ -19,7 +19,7 @@ MonoBehaviour:
     + BMI055), bar\xF3metro MS5611, interfaces UART/CAN/I2C/SPI/PWM. Firmware PX4
     o ArduPilot. Carcasa de aluminio anodizado. Genera comandos PWM/DShot para los
     4 ESCs."
-  weightKg: 0.035
+  weightKg: 0.051
   dimensions: "84.8 \xD7 44 \xD7 12.4 mm"
   function: "Procesamiento de vuelo, fusi\xF3n de sensores, control de motores y
     navegaci\xF3n aut\xF3noma"

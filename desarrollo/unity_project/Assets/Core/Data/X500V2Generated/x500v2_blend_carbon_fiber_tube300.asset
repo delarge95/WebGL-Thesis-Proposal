@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_blend_carbon_fiber_tube300
   m_EditorClassIdentifier: 
-  partName: Arm 16mm Carbon Tube (Long)
+  partName: 'Arm 16mm Carbon Tube (Long)'
   id: x500v2_blend_carbon_fiber_tube300
-  partType: Structure
-  description: Brazo extendido diagonal de empuje. Pieza modelada en base al CAD
+  partType: 'Structure'
+  description: 'Brazo extendido diagonal de empuje. Pieza modelada en base al CAD CARBON-FIBER-TUBE300.'
     CARBON-FIBER-TUBE300.
   weightKg: 0.03
-  dimensions: "\u230016\xD7300 mm"
-  function: Brazo extendido diagonal de empuje
-  materialType: Fibra de carbono
+  dimensions: '⌀16×300 mm'
+  function: 'Brazo extendido diagonal de empuje'
+  materialType: 'Fibra de carbono'
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -40,8 +40,7 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.8, b: 1, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

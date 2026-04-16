@@ -16,7 +16,7 @@ MonoBehaviour:
   id: x500v2_esc_FR
   partType: ESC
   description: "ESC BLHeli-S 20A. Posici\xF3n FR. Mismo spec que FL."
-  weightKg: 0.007
+  weightKg: 0.011
   dimensions: "~25 \xD7 13 \xD7 5 mm"
   function: Control de velocidad del motor FR
   materialType: PCB FR4 con MOSFETs y cobre

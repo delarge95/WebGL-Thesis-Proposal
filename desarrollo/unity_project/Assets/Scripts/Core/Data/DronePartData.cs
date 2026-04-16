@@ -91,13 +91,19 @@ namespace WebGL.Core.Data
 
         public string GetFullDescription()
         {
+             string displayWeight = FormatWeightForDisplay(weightKg);
+             string displayDimensions = NormalizeTextForDisplay(dimensions);
+             string displayMaterial = NormalizeTextForDisplay(materialType);
+             string displayFunction = NormalizeTextForDisplay(function);
+             string displayDescription = NormalizeTextForDisplay(description);
+
             string desc = $"{partName}\n\n" +
                    $"Type: {partType}\n" +
-                   $"Material: {materialType}\n" +
-                   $"Weight: {weightKg:F2} kg\n" +
-                   $"Dimensions: {dimensions}\n\n" +
-                   $"Function: {function}\n\n" +
-                   $"{description}";
+                 $"Material: {displayMaterial}\n" +
+                 $"Weight: {displayWeight}\n" +
+                 $"Dimensions: {displayDimensions}\n\n" +
+                 $"Function: {displayFunction}\n\n" +
+                 $"{displayDescription}";
             if (subComponentNames != null && subComponentNames.Length > 0)
             {
                 desc += "\n\nAssembly includes:\n- " + string.Join("\n- ", subComponentNames);
@@ -152,6 +158,32 @@ namespace WebGL.Core.Data
             }
 
             return info;
+        }
+
+        private static string FormatWeightForDisplay(float valueKg)
+        {
+            if (valueKg <= 0f)
+            {
+                return "N/D";
+            }
+
+            if (valueKg < 0.01f)
+            {
+                return $"{valueKg * 1000f:F1} g";
+            }
+
+            return $"{valueKg:F2} kg";
+        }
+
+        private static string NormalizeTextForDisplay(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return "N/D";
+            }
+
+            string normalized = value.Trim();
+            return normalized == "-" ? "N/D" : normalized;
         }
     }
 }

@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_blend_dike_pixhawk6c_lv_c1
   m_EditorClassIdentifier: 
-  partName: Pixhawk 6C Top Cover
+  partName: 'Pixhawk 6C Top Cover'
   id: x500v2_blend_dike_pixhawk6c_lv_c1
-  partType: Electronics
-  description: Carcasa superior del controlador. Pieza modelada en base al CAD DIKE-PIXHAWK6C-LV-C1.
+  partType: 'Electronics'
+  description: 'Carcasa superior del controlador. Pieza modelada en base al CAD DIKE-PIXHAWK6C-LV-C1.'
   weightKg: 0.015
-  dimensions: "85\xD744 mm"
-  function: Carcasa superior del controlador
-  materialType: Aluminio CNC
+  dimensions: '85×44 mm'
+  function: 'Carcasa superior del controlador'
+  materialType: 'Aluminio CNC'
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -39,7 +39,7 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.8, b: 1, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 1
-  hotspotLabel: Flight Controller
+  hotspotLabel: 'Flight Controller'
   explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0

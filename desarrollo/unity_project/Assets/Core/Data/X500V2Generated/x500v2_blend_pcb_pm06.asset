@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_blend_pcb_pm06
   m_EditorClassIdentifier: 
-  partName: Power Module PM02/PM06 Board
+  partName: 'Power Module PM02/PM06 Board'
   id: x500v2_blend_pcb_pm06
-  partType: Electronics
-  description: Distribuye 5V al Pixhawk y sensa V/I. Pieza modelada en base al CAD
+  partType: 'Electronics'
+  description: 'Distribuye 5V al Pixhawk y sensa V/I. Pieza modelada en base al CAD PCB-PM06.'
     PCB-PM06.
   weightKg: 0.02
-  dimensions: "55\xD717 mm"
-  function: Distribuye 5V al Pixhawk y sensa V/I
-  materialType: PCB FR4
+  dimensions: '55×17 mm'
+  function: 'Distribuye 5V al Pixhawk y sensa V/I'
+  materialType: 'PCB FR4'
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -40,8 +40,7 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.8, b: 1, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

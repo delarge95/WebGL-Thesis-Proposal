@@ -16,7 +16,7 @@ MonoBehaviour:
   id: x500v2_motor_BR
   partType: Motor
   description: "Motor brushless outrunner 2216 KV920. Posici\xF3n: Back-Right (CW)."
-  weightKg: 0.063
+  weightKg: 0.083
   dimensions: "\u230028 mm \xD7 ~32 mm"
   function: "Generaci\xF3n de empuje principal (CW)"
   materialType: "Aleaci\xF3n de aluminio CNC, acero, cobre esmaltado"

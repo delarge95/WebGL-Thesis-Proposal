@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_blend_dj_2216_kv880
   m_EditorClassIdentifier: 
-  partName: Holybro 2216 KV880 Motor
+  partName: 'Holybro 2216 KV880 Motor'
   id: x500v2_blend_dj_2216_kv880
-  partType: Propulsion
-  description: "Generaci\xF3n del empuje aerodin\xE1mico. Pieza modelada en base
+  partType: 'Propulsion'
+  description: 'Generación del empuje aerodinámico. Pieza modelada en base al CAD DJ-2216-KV880.'
     al CAD DJ-2216-KV880."
   weightKg: 0.063
-  dimensions: "\u230028\xD732 mm"
-  function: "Generaci\xF3n del empuje aerodin\xE1mico"
-  materialType: "Aleaci\xF3n de Aluminio / Acero"
+  dimensions: '⌀28×32 mm'
+  function: 'Generación del empuje aerodinámico'
+  materialType: 'Aleación de Aluminio / Acero'
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -40,7 +40,7 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.8, b: 1, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 1
-  hotspotLabel: Propulsion System
+  hotspotLabel: 'Propulsion System'
   explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0

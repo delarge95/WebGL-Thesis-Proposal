@@ -16,11 +16,11 @@ MonoBehaviour:
   id: x500v2_misc_light_cover
   partType: Misc Part
   description: Individual auxiliary instance imported from the model hierarchy.
-  weightKg: 0
-  dimensions: 
+  weightKg: -1
+  dimensions: N/D
   function: Auxiliary support
   materialType: Mixed
-  materialProperties: 
+  materialProperties: N/D
   manufacturer: 
   partNumber: 
   powerConsumption: 0

@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_flange_nut_M3_010
   m_EditorClassIdentifier: 
-  partName: 'Flange Nut M3'
+  partName: 'Self-Locking Flange Nut'
   id: x500v2_fastener_flange_nut_M3_010
-  partType: 'Flange Nut'
+  partType: 'Structure'
   description: 'Tuerca con brida. Pieza modelada en base al CAD ZSLM-M3-FALAN.'
-  weightKg: 0
-  dimensions: 'M3'
-  function: 'Fastening / mounting | M3 | Flange'
+  weightKg: 0.001
+  dimensions: 'M3/M2.5'
+  function: 'Tuerca con brida'
   materialType: 'Acero'
   materialProperties: 'Standard'
   manufacturer: Holybro
@@ -39,8 +39,7 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: 
-  explosionDirection: {x: 0, y: 1, z: 0}
+  hotspotLabel: ''
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
