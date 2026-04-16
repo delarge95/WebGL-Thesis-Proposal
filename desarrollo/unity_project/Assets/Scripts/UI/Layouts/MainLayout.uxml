@@ -396,9 +396,10 @@
             <!-- Step counter -->
             <ui:Label name="OnboardStepCounter" text="1 / 8" class="onboard-counter" picking-mode="Ignore" />
 
-            <!-- Icon area -->
-            <ui:VisualElement name="OnboardStepIcon" class="onboard-icon-area" picking-mode="Ignore">
+            <!-- Visual area -->
+            <ui:VisualElement name="OnboardStepIcon" class="onboard-icon-area onboard-media onboard-media--static" picking-mode="Ignore">
                 <ui:Label name="OnboardIconLabel" text="🖱" class="onboard-icon" picking-mode="Ignore" />
+                <ui:Label name="OnboardMediaCaption" text="GESTURE" class="onboard-media-caption" picking-mode="Ignore" />
             </ui:VisualElement>
 
             <!-- Title + Description -->

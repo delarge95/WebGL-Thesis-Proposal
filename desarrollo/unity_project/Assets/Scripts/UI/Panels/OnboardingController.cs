@@ -16,6 +16,7 @@ namespace WebGL.UI.Panels
         // ── Elements ──
         private readonly VisualElement _overlay;
         private readonly Label _stepCounter;
+        private readonly Label _mediaCaption;
         private readonly Label _stepTitle;
         private readonly Label _stepDescription;
         private readonly VisualElement _stepIcon;
@@ -23,12 +24,20 @@ namespace WebGL.UI.Panels
         private readonly Button _skipBtn;
         private readonly VisualElement _dotsContainer;
 
+        private enum StepVisualMode
+        {
+            Static,
+            Animated
+        }
+
         // ── Steps definition ──
         private struct Step
         {
             public string icon;
+            public string caption;
             public string title;
             public string description;
+            public StepVisualMode visualMode;
         }
 
         private readonly List<Step> _steps = new List<Step>
@@ -36,50 +45,66 @@ namespace WebGL.UI.Panels
             new Step
             {
                 icon = "🖱",
+                caption = "GESTURE",
                 title = "ORBIT & ZOOM",
-                description = "Right-drag to orbit the drone.\nMiddle-drag to pan.\nUse the mouse wheel to zoom."
+                description = "Right-drag to orbit the drone.\nMiddle-drag to pan.\nUse the mouse wheel to zoom.",
+                visualMode = StepVisualMode.Animated
             },
             new Step
             {
                 icon = "👆",
+                caption = "SELECTION",
                 title = "SELECT PARTS",
-                description = "Click a visible mesh to select its mother part.\nClick a child mesh to drill into a subpiece.\nDouble-click the current selection to open details."
+                description = "Click a visible mesh to select its mother part.\nClick a child mesh to drill into a subpiece.\nDouble-click the current selection to open details.",
+                visualMode = StepVisualMode.Animated
             },
             new Step
             {
                 icon = "📍",
+                caption = "PINS",
                 title = "HOTSPOTS",
-                description = "Use PINS to show hotspot markers on hotspot-enabled parts.\nHotspot selections can resolve to grouped assemblies.\nSelecting a hotspot updates the inspected part record."
+                description = "Use PINS to show hotspot markers on hotspot-enabled parts.\nHotspot selections can resolve to grouped assemblies.\nSelecting a hotspot updates the inspected part record.",
+                visualMode = StepVisualMode.Static
             },
             new Step
             {
                 icon = "🔍",
+                caption = "DETAILS",
                 title = "INSPECT",
-                description = "Use INSPECT to read the selected part record.\nUse ISOLATE to focus on the current selection.\nUse POWER to open the drone power controls."
+                description = "Use INSPECT to read the selected part record.\nUse ISOLATE to focus on the current selection.\nUse POWER to open the drone power controls.",
+                visualMode = StepVisualMode.Static
             },
             new Step
             {
                 icon = "⏻",
+                caption = "LOAD",
                 title = "POWER",
-                description = "The power control sets the drone load from 0% to 100%.\nThe state label switches between OFF and ON.\nUse it to simulate the powered state shown in the panel."
+                description = "The power control sets the drone load from 0% to 100%.\nThe state label switches between OFF and ON.\nUse it to simulate the powered state shown in the panel.",
+                visualMode = StepVisualMode.Static
             },
             new Step
             {
                 icon = "⚙",
+                caption = "CUT / EXPLODE",
                 title = "ANALYZE",
-                description = "Use ANALYZE for cut planes, exploded views, and category filters.\nThe cut tool supports axis selection and inversion.\nThe explode slider controls separation strength."
+                description = "Use ANALYZE for cut planes, exploded views, and category filters.\nThe cut tool supports axis selection and inversion.\nThe explode slider controls separation strength.",
+                visualMode = StepVisualMode.Static
             },
             new Step
             {
                 icon = "🌡",
+                caption = "HEAT MAP",
                 title = "THERMAL",
-                description = "THERMAL switches the scene to thermal shading.\nThe legend shows the active temperature range.\nThis mode uses the thermal data bound to each part."
+                description = "THERMAL switches the scene to thermal shading.\nThe legend shows the active temperature range.\nThis mode uses the thermal data bound to each part.",
+                visualMode = StepVisualMode.Static
             },
             new Step
             {
                 icon = "🎨",
+                caption = "RENDER",
                 title = "STUDIO",
-                description = "Use STUDIO to switch render modes,\npick an environment preset, and tune lighting.\nBlueprint is available from the Studio environment cycle."
+                description = "Use STUDIO to switch render modes,\npick an environment preset, and tune lighting.\nBlueprint is available from the Studio environment cycle.",
+                visualMode = StepVisualMode.Static
             }
         };
 
@@ -97,6 +122,7 @@ namespace WebGL.UI.Panels
             if (_overlay == null) return;
 
             _stepCounter = _overlay.Q<Label>("OnboardStepCounter");
+            _mediaCaption = _overlay.Q<Label>("OnboardMediaCaption");
             _stepTitle = _overlay.Q<Label>("OnboardStepTitle");
             _stepDescription = _overlay.Q<Label>("OnboardStepDesc");
             _stepIcon = _overlay.Q<VisualElement>("OnboardStepIcon");
@@ -194,7 +220,12 @@ namespace WebGL.UI.Panels
                 // Clear previous icon label and set new one
                 var iconLabel = _stepIcon.Q<Label>("OnboardIconLabel");
                 if (iconLabel != null) iconLabel.text = step.icon;
+
+                _stepIcon.EnableInClassList("onboard-media--animated", step.visualMode == StepVisualMode.Animated);
+                _stepIcon.EnableInClassList("onboard-media--static", step.visualMode == StepVisualMode.Static);
             }
+
+            if (_mediaCaption != null) _mediaCaption.text = step.caption;
 
             if (_stepTitle != null) _stepTitle.text = step.title;
             if (_stepDescription != null) _stepDescription.text = step.description;
