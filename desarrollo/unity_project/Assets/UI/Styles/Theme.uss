@@ -1682,10 +1682,33 @@
     border-color: rgba(70, 175, 255, 0.30);
 }
 
+.onboard-media--phase-alt {
+    background-color: rgba(70, 175, 255, 0.16);
+    border-color: rgba(70, 175, 255, 0.52);
+    scale: 1.02 1.02;
+}
+
+.onboard-visual-stage {
+    width: 84px;
+    height: 84px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
 .onboard-icon {
     font-size: 42px;
     -unity-text-align: middle-center;
     color: white;
+}
+
+.onboard-procedural-icon {
+    width: 72px;
+    height: 72px;
+}
+
+.onboard-procedural-icon--hidden {
+    display: none;
 }
 
 .onboard-media-caption {
@@ -1695,6 +1718,15 @@
     -unity-font-style: bold;
     -unity-text-align: upper-center;
     margin-top: 8px;
+}
+
+.onboard-media-cue {
+    font-size: 12px;
+    color: rgba(70, 175, 255, 0.95);
+    letter-spacing: 1.2px;
+    -unity-font-style: bold;
+    -unity-text-align: upper-center;
+    margin-top: 4px;
 }
 
 /* Text --------------------------------------- */

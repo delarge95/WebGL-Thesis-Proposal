@@ -398,8 +398,17 @@
 
             <!-- Visual area -->
             <ui:VisualElement name="OnboardStepIcon" class="onboard-icon-area onboard-media onboard-media--static" picking-mode="Ignore">
-                <ui:Label name="OnboardIconLabel" text="🖱" class="onboard-icon" picking-mode="Ignore" />
+                <ui:VisualElement name="OnboardVisualStage" class="onboard-visual-stage" picking-mode="Ignore">
+                    <ui:Label name="OnboardIconLabel" text="🖱" class="onboard-icon" picking-mode="Ignore" />
+                    <pi:ProceduralPinsIcon name="OnboardVisualHotspots" class="onboard-procedural-icon onboard-procedural-icon--hidden" picking-mode="Ignore" />
+                    <pi:ProceduralInspectIcon name="OnboardVisualInspect" class="onboard-procedural-icon onboard-procedural-icon--hidden" picking-mode="Ignore" />
+                    <pi:ProceduralPowerIcon name="OnboardVisualPower" class="onboard-procedural-icon onboard-procedural-icon--hidden" picking-mode="Ignore" />
+                    <pi:ProceduralAnalyzeIcon name="OnboardVisualAnalyze" class="onboard-procedural-icon onboard-procedural-icon--hidden" picking-mode="Ignore" />
+                    <pi:ProceduralShadersIcon name="OnboardVisualThermal" class="onboard-procedural-icon onboard-procedural-icon--hidden" picking-mode="Ignore" />
+                    <pi:ProceduralStudioIcon name="OnboardVisualStudio" class="onboard-procedural-icon onboard-procedural-icon--hidden" picking-mode="Ignore" />
+                </ui:VisualElement>
                 <ui:Label name="OnboardMediaCaption" text="GESTURE" class="onboard-media-caption" picking-mode="Ignore" />
+                <ui:Label name="OnboardMediaCue" text="ORBIT" class="onboard-media-cue" picking-mode="Ignore" />
             </ui:VisualElement>
 
             <!-- Title + Description -->
