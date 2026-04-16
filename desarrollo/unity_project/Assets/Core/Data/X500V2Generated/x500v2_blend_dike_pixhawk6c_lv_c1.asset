@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,9 +15,9 @@ MonoBehaviour:
   partName: 'Pixhawk 6C Top Cover'
   id: x500v2_blend_dike_pixhawk6c_lv_c1
   partType: 'Electronics'
-  description: 'Carcasa superior del controlador. Pieza modelada en base al CAD DIKE-PIXHAWK6C-LV-C1.'
+  description: 'Carcasa superior del controlador. Part modeled based on CAD DIKE-PIXHAWK6C-LV-C1.'
   weightKg: 0.015
-  dimensions: '85×44 mm'
+  dimensions: '85Ã—44 mm'
   function: 'Carcasa superior del controlador'
   materialType: 'Aluminio CNC'
   materialProperties: 
@@ -59,3 +59,4 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 1
+

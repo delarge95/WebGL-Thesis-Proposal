@@ -15,11 +15,11 @@ MonoBehaviour:
   partName: 'M3 Dome/Cap Nut'
   id: x500v2_fastener_lock_nut_M3_007
   partType: 'Structure'
-  description: 'Tuerca ciega. Pieza modelada en base al CAD LM-M3-DING.'
+  description: 'Cap nut. Part modeled based on CAD LM-M3-DING.'
   weightKg: 0.001
   dimensions: 'M3'
-  function: 'Tuerca ciega'
-  materialType: 'Latón'
+  function: 'Cap nut'
+  materialType: 'Brass'
   materialProperties: 'Brass'
   manufacturer: Holybro
   partNumber: 'LM-M3-DING'
@@ -80,8 +80,10 @@ MonoBehaviour:
     quantityExpected: 8
     isInspectable: 1
     fallbackReason: ''
-    notes: 'Tuerca ciega. Pieza modelada en base al CAD LM-M3-DING.'
+    notes: 'Cap nut. Part modeled based on CAD LM-M3-DING.'
     recipeKey: 'lock_nut_M3_placeholder'
     builderType: 'CapNut'
     orientationMode: 'ShortestAxis'
   category: 5
+
+

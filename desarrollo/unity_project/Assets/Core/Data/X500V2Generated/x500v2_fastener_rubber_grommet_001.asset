@@ -15,10 +15,10 @@ MonoBehaviour:
   partName: 'Silicone Mount Dampener'
   id: x500v2_fastener_rubber_grommet_001
   partType: 'Structure'
-  description: 'Aislante anti-vibración para hardware. Pieza modelada en base al CAD HUAN-GUIJIAO.'
+  description: 'Anti-vibration isolator para hardware. Part modeled based on CAD HUAN-GUIJIAO.'
   weightKg: 0.001
   dimensions: 'M3-M4'
-  function: 'Aislante anti-vibración para hardware'
+  function: 'Anti-vibration isolator para hardware'
   materialType: 'Silicona'
   materialProperties: 'Silicone'
   manufacturer: Holybro
@@ -80,8 +80,10 @@ MonoBehaviour:
     quantityExpected: 8
     isInspectable: 1
     fallbackReason: ''
-    notes: 'Aislante anti-vibracion para hardware. Pieza modelada en base al CAD HUAN-GUIJIAO.'
+    notes: 'Anti-vibration isolator para hardware. Part modeled based on CAD HUAN-GUIJIAO.'
     recipeKey: 'rubber_grommet_placeholder'
     builderType: 'RubberGrommet'
     orientationMode: 'ShortestAxis'
   category: 5
+
+

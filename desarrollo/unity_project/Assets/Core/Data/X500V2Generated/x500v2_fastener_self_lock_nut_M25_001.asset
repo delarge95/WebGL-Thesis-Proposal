@@ -15,10 +15,10 @@ MonoBehaviour:
   partName: 'Self-Locking Flange Nut'
   id: x500v2_fastener_self_lock_nut_M25_001
   partType: 'Structure'
-  description: 'Tuerca con brida. Pieza modelada en base al CAD ZSLM-M25.'
+  description: 'Flange nut. Part modeled based on CAD ZSLM-M25.'
   weightKg: 0.001
   dimensions: 'M3/M2.5'
-  function: 'Tuerca con brida'
+  function: 'Flange nut'
   materialType: 'Acero'
   materialProperties: 'Standard'
   manufacturer: Holybro
@@ -80,8 +80,10 @@ MonoBehaviour:
     quantityExpected: 4
     isInspectable: 1
     fallbackReason: ''
-    notes: 'Tuerca con brida. Pieza modelada en base al CAD ZSLM-M25.'
+    notes: 'Flange nut. Part modeled based on CAD ZSLM-M25.'
     recipeKey: 'self_lock_nut_M25_placeholder'
     builderType: 'CapNut'
     orientationMode: 'ShortestAxis'
   category: 5
+
+

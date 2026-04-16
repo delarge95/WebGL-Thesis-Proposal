@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,7 +15,7 @@ MonoBehaviour:
   partName: 'Pixhawk 6C Main PCB'
   id: x500v2_blend_pcb_pixhawk6c_f1
   partType: 'Electronics'
-  description: 'Circuito integrado STM32H743. Pieza modelada en base al CAD PCB-PIXHAWK6C-F1.'
+  description: 'Circuito integrado STM32H743. Part modeled based on CAD PCB-PIXHAWK6C-F1.'
   weightKg: 0.01
   dimensions: 'Interno'
   function: 'Circuito integrado STM32H743'
@@ -58,3 +58,4 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 1
+

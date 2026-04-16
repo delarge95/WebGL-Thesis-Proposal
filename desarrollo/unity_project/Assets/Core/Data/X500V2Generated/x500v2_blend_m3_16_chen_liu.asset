@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,11 +15,11 @@ MonoBehaviour:
   partName: 'M3 Pan/Countersunk Screw'
   id: x500v2_blend_m3_16_chen_liu
   partType: 'Structure'
-  description: 'Tornillería rasante. Pieza modelada en base al CAD M3-16-CHEN-LIU.'
+  description: 'Countersunk fastening hardware. Part modeled based on CAD M3-16-CHEN-LIU.'
   weightKg: 0.001
   dimensions: 'M3'
-  function: 'Tornillería rasante'
-  materialType: 'Acero Inox'
+  function: 'Countersunk fastening hardware'
+  materialType: 'Stainless Steel'
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -58,3 +58,6 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
+
+

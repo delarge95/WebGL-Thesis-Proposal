@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,11 +15,11 @@ MonoBehaviour:
   partName: 'Silicone Mount Dampener'
   id: x500v2_blend_huan_guijiao
   partType: 'Structure'
-  description: 'Aislante anti-vibración para hardware. Pieza modelada en base al CAD HUAN-GUIJIAO.'
+  description: 'Anti-vibration isolator for hardware. Part modeled based on CAD HUAN-GUIJIAO.'
     al CAD HUAN-GUIJIAO."
   weightKg: 0.001
   dimensions: 'M3-M4'
-  function: 'Aislante anti-vibración para hardware'
+  function: 'Anti-vibration isolator for hardware'
   materialType: 'Silicona'
   materialProperties: 
   manufacturer: Holybro
@@ -59,3 +59,5 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
+

@@ -11,7 +11,7 @@ Renderizado programatico (no UXML), seccion Overview y Materials.
 | selectionLabel / canonicalPartName / partName | Titulo del panel | Prioridad: selectionLabel > canonicalPartName > partName | EnhancedInfoPanel.cs:268 |
 | partType | Subtitulo (Category) | FormatTextOrND: vacio, '-', 'N/A' => N/D | EnhancedInfoPanel.cs:269, EnhancedInfoPanel.cs:295 |
 | description | Overview > Description | FormatTextOrND | EnhancedInfoPanel.cs:270, EnhancedInfoPanel.cs:295 |
-| weightKg | Overview > Weight | FormatWeight: <=0 => N/D, <0.01 => g, resto => kg | EnhancedInfoPanel.cs:271, EnhancedInfoPanel.cs:280 |
+| weightKg | Overview > Weight | FormatWeight: <=0 => N/A, <0.01 => g, resto => kg | EnhancedInfoPanel.cs:271, EnhancedInfoPanel.cs:280 |
 | dimensions | Overview > Dimensions | FormatTextOrND | EnhancedInfoPanel.cs:272, EnhancedInfoPanel.cs:295 |
 | function | Overview > Function | FormatTextOrND | EnhancedInfoPanel.cs:273, EnhancedInfoPanel.cs:295 |
 | materialType | Materials > Type | FormatTextOrND | EnhancedInfoPanel.cs:274, EnhancedInfoPanel.cs:295 |
@@ -60,7 +60,7 @@ El UXML define placeholders y el script enlaza y rellena valores.
 | function / hotspotGroupSummary | PartFunction | FormatTextOrND + BuildFunctionText | UIDetailsSheet.cs:262 |
 | materialType (+ blenderName si aplica) | PartMaterial | FormatTextOrND + BuildMaterialText | UIDetailsSheet.cs:265 |
 | description | PartDescription | FormatTextOrND; para hotspot agrega Includes | UIDetailsSheet.cs:270, UIDetailsSheet.cs:276 |
-| weightKg | PartWeight | FormatWeight: <=0 => N/D, <0.01 => g, resto => kg | UIDetailsSheet.cs:279, UIDetailsSheet.cs:554 |
+| weightKg | PartWeight | FormatWeight: <=0 => N/A, <0.01 => g, resto => kg | UIDetailsSheet.cs:279, UIDetailsSheet.cs:554 |
 | dimensions | PartDimensions | FormatTextOrND + BuildDimensionsText | UIDetailsSheet.cs:280, UIDetailsSheet.cs:569 |
 | powerConsumption | PartPower | >0 => W, si no N/A | UIDetailsSheet.cs:281 |
 | operatingTemp | PartTemp | >0 => C, si no N/A | UIDetailsSheet.cs:282 |
@@ -77,9 +77,9 @@ El UXML define placeholders y el script enlaza y rellena valores.
 ## 4) Resultado de validacion
 - No se detectaron cruces de campo incorrectos en los bindings revisados.
 - Peso se presenta de forma consistente en panel superior, sheet inferior y descripcion textual.
-- Campos vacios/placeholders se normalizan a N/D en vistas principales.
+- Campos vacios/placeholders se normalizan a N/A en vistas principales.
 - CSV de BOM evita reportar pesos invalidos como numericos.
 
 ## 5) Nota de gobernanza de datos
-- Valores de peso <= 0 se tratan como dato no disponible para visualizacion (N/D).
+- Valores de peso <= 0 se tratan como dato no disponible para visualizacion (N/A).
 - En el dataset actual: 5 registros quedan como desconocidos intencionales (sentinela -1), y 0 registros quedan en cero.

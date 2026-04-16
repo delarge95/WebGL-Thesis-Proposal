@@ -6,7 +6,7 @@ namespace WebGL.UI.DevTools
     [RequireComponent(typeof(UIDocument))]
     public class UIGalleryLoader : MonoBehaviour
     {
-        [Tooltip("Arrastra aquí el archivo IconGallery.uxml desde la carpeta Assets/UI")]
+        [Tooltip("Drag the IconGallery.uxml file here from the Assets/UI folder")]
         public VisualTreeAsset galleryUXML;
 
         void Start()
@@ -26,7 +26,7 @@ namespace WebGL.UI.DevTools
             }
             else
             {
-                Debug.LogError("Error: Asegúrate de asignar el archivo IconGallery.uxml en el inspector de este script.");
+                Debug.LogError("Error: Make sure the IconGallery.uxml file is assigned in this script's inspector.");
             }
         }
     }

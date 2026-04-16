@@ -15,11 +15,11 @@ MonoBehaviour:
   partName: 'M3 Pan/Countersunk Screw'
   id: x500v2_fastener_nylon_standoff_M3x5_001
   partType: 'Structure'
-  description: 'Tornillería rasante. Pieza modelada en base al CAD NILONGZHU-M3-5.'
+  description: 'Countersunk fastening hardware. Part modeled based on CAD NILONGZHU-M3-5.'
   weightKg: 0.001
   dimensions: 'M3'
-  function: 'Tornillería rasante'
-  materialType: 'Acero Inox'
+  function: 'Countersunk fastening hardware'
+  materialType: 'Stainless Steel'
   materialProperties: 'Stainless'
   manufacturer: Holybro
   partNumber: 'NILONGZHU-M3-5'
@@ -75,13 +75,15 @@ MonoBehaviour:
     driveType: 'N/A'
     threadPitchMm: 0
     turnCount: 3
-    material: 'Acero Inox'
+    material: 'Stainless Steel'
     finish: 'Stainless'
     quantityExpected: 4
     isInspectable: 1
     fallbackReason: ''
-    notes: 'Tornilleria rasante. Pieza modelada en base al CAD NILONGZHU-M3-5.'
+    notes: 'Countersunk fastening hardware. Part modeled based on CAD NILONGZHU-M3-5.'
     recipeKey: 'nylon_standoff_M3x5_placeholder'
     builderType: 'Standoff'
     orientationMode: 'LongestAxis'
   category: 5
+
+

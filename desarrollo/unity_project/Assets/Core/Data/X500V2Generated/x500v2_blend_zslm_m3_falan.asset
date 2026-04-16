@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,10 +15,10 @@ MonoBehaviour:
   partName: 'Self-Locking Flange Nut'
   id: x500v2_blend_zslm_m3_falan
   partType: 'Structure'
-  description: 'Tuerca con brida. Pieza modelada en base al CAD ZSLM-M3-FALAN.'
+  description: 'Flange nut. Part modeled based on CAD ZSLM-M3-FALAN.'
   weightKg: 0.001
   dimensions: 'M3/M2.5'
-  function: 'Tuerca con brida'
+  function: 'Flange nut'
   materialType: 'Acero'
   materialProperties: 
   manufacturer: Holybro
@@ -58,3 +58,5 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
+

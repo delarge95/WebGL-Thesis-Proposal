@@ -15,7 +15,7 @@ MonoBehaviour:
   partName: 'Carbon Fiber Bottom Plate'
   id: x500v2_bottom_plate
   partType: 'Structure'
-  description: 'Interfase de tren, brazos y PDB. Pieza modelada en base al CAD BOTTOM-PLATE-X500-V5.'
+  description: 'Interfase de tren, brazos y PDB. Part modeled based on CAD BOTTOM-PLATE-X500-V5.'
     mm. Base r\xEDgida del fuselaje donde se fijan el tren de aterrizaje, los brazos
     y la PDB. Incluye taladros para standoffs, XT60 holder y clips del sistema de
     railes."
@@ -51,7 +51,7 @@ MonoBehaviour:
   alternativeParts: []
   requiredTools:
   - Llave hexagonal M3
-  - Destornillador Phillips
+  - Phillips screwdriver
   safetyWarnings:
   - Bordes de carbono pueden ser cortantes
   installationTips: Base del montaje. Colocar primero sobre superficie plana y nivelada.
@@ -75,6 +75,7 @@ MonoBehaviour:
   - Fasteners: Cap Nut M3 x1
   - Fasteners: Rubber Grommet x2
   category: 4
+
 
 
 

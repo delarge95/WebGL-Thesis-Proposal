@@ -52,7 +52,7 @@ MonoBehaviour:
   compatibleSlots: []
   alternativeParts: []
   requiredTools:
-  - Destornillador M2
+  - M2 screwdriver
   - "Pad espuma anti-vibraci\xF3n"
   - "Pulsera antiest\xE1tica"
   safetyWarnings:
@@ -81,6 +81,7 @@ MonoBehaviour:
   - PCB-PIXHAWK6C-F1
   - BM06B-WO
   category: 1
+
 
 
 

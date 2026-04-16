@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,11 +15,11 @@ MonoBehaviour:
   partName: 'XT60 Male Connector Plug'
   id: x500v2_blend_tou_xt60h_m_14awg
   partType: 'Structure'
-  description: 'Unión eléctrica de potencia. Pieza modelada en base al CAD TOU-XT60H-M-14AWG.'
+  description: 'Power electrical junction. Part modeled based on CAD TOU-XT60H-M-14AWG.'
     TOU-XT60H-M-14AWG."
   weightKg: 0.005
-  dimensions: 'Estándar'
-  function: 'Unión eléctrica de potencia'
+  dimensions: 'Standard'
+  function: 'Power electrical junction'
   materialType: 'Nylon / Oro'
   materialProperties: 
   manufacturer: Holybro
@@ -59,3 +59,5 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
+

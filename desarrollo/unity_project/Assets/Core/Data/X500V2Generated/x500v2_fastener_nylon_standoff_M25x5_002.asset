@@ -15,10 +15,10 @@ MonoBehaviour:
   partName: 'M2.5 Micro Screw'
   id: x500v2_fastener_nylon_standoff_M25x5_002
   partType: 'Structure'
-  description: 'Tornillería instrumento. Pieza modelada en base al CAD NILONGZHU-M25-5.'
+  description: 'Instrument mounting hardware. Part modeled based on CAD NILONGZHU-M25-5.'
   weightKg: 0.001
   dimensions: 'M2.5'
-  function: 'Tornillería instrumento'
+  function: 'Instrument mounting hardware'
   materialType: 'Acero'
   materialProperties: 'Standard'
   manufacturer: Holybro
@@ -80,8 +80,10 @@ MonoBehaviour:
     quantityExpected: 4
     isInspectable: 1
     fallbackReason: ''
-    notes: 'Tornilleria instrumento. Pieza modelada en base al CAD NILONGZHU-M25-5.'
+    notes: 'Instrument mounting hardware. Part modeled based on CAD NILONGZHU-M25-5.'
     recipeKey: 'nylon_standoff_M25x5_placeholder'
     builderType: 'Standoff'
     orientationMode: 'LongestAxis'
   category: 5
+
+

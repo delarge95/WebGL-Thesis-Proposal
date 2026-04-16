@@ -164,7 +164,7 @@ namespace WebGL.Core.Data
         {
             if (valueKg <= 0f)
             {
-                return "N/D";
+                return "N/A";
             }
 
             if (valueKg < 0.01f)
@@ -179,11 +179,11 @@ namespace WebGL.Core.Data
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                return "N/D";
+                return "N/A";
             }
 
             string normalized = value.Trim();
-            return normalized == "-" ? "N/D" : normalized;
+            return normalized == "-" ? "N/A" : normalized;
         }
     }
 }

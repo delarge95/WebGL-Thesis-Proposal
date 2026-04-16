@@ -92,8 +92,8 @@ namespace WebGL.Core.Managers
             
             foreach (var item in bomItems)
             {
-                string unitWeight = item.unitWeight > 0f ? item.unitWeight.ToString("F3") : "N/D";
-                string totalWeight = item.unitWeight > 0f ? item.totalWeight.ToString("F3") : "N/D";
+                string unitWeight = item.unitWeight > 0f ? item.unitWeight.ToString("F3") : "N/A";
+                string totalWeight = item.unitWeight > 0f ? item.totalWeight.ToString("F3") : "N/A";
                 csv += $"{item.partId},{item.partName},{item.partNumber},{item.category},{item.quantity},{unitWeight},{totalWeight},{item.material},{item.supplier}\n";
             }
 

@@ -21,7 +21,7 @@ MonoBehaviour:
     de fibra de carbono incluido."
   weightKg: 0.032
   dimensions: "\u230050 \xD7 14.4 mm (m\xF3dulo), m\xE1stil ~100 mm"
-  function: "Posicionamiento 3D, velocidad, rumbo; br\xFAjula para orientaci\xF3n
+  function: "Positionamiento 3D, velocidad, rumbo; br\xFAjula para orientaci\xF3n
     absoluta"
   materialType: "PCB con antena cer\xE1mica GNSS, carcasa pl\xE1stica, m\xE1stil
     de fibra de carbono"
@@ -52,7 +52,7 @@ MonoBehaviour:
   compatibleSlots: []
   alternativeParts: []
   requiredTools:
-  - Destornillador M2.5
+  - M2.5 screwdriver
   safetyWarnings:
   - "Alejar de fuentes de interferencia magn\xE9tica (PDB, cables de alta corriente)"
   installationTips: "Montar centrado en platform board sobre m\xE1stil de carbono.
@@ -76,6 +76,7 @@ MonoBehaviour:
   - GPSV5-ZHIJIA-LUOMAO
   - GPSV5-ZHIJIA-TUOPAN
   category: 1
+
 
 
 

@@ -17,10 +17,10 @@ MonoBehaviour:
   partType: Misc Group
   description: Synthetic grouping anchor for imported geometry.
   weightKg: -1
-  dimensions: N/D
+  dimensions: N/A
   function: Grouping anchor
-  materialType: N/D
-  materialProperties: N/D
+  materialType: N/A
+  materialProperties: N/A
   manufacturer: 
   partNumber: 
   powerConsumption: 0
@@ -63,6 +63,7 @@ MonoBehaviour:
   - x500v2_misc_frame_connector_1
   - x500v2_misc_light_cover
   category: 6
+
 
 
 

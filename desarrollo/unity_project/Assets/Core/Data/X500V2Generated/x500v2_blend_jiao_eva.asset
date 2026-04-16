@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,10 +15,10 @@ MonoBehaviour:
   partName: 'Landing Gear Foam Pad'
   id: x500v2_blend_jiao_eva
   partType: 'Structure'
-  description: 'Almohadilla amortiguadora inferior. Pieza modelada en base al CAD JIAO-EVA.'
+  description: 'Almohadilla amortiguadora inferior. Part modeled based on CAD JIAO-EVA.'
     JIAO-EVA.
   weightKg: 0.002
-  dimensions: '⌀10 Ext'
+  dimensions: 'âŒ€10 Ext'
   function: 'Almohadilla amortiguadora inferior'
   materialType: 'Espuma EVA'
   materialProperties: 
@@ -59,3 +59,4 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+

@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,9 +15,9 @@ MonoBehaviour:
   partName: 'Upper Platform Board'
   id: x500v2_blend_platform_plat_x500
   partType: 'Structure'
-  description: 'Montura elevada del GPS M10. Pieza modelada en base al CAD PLATFORM-PLAT-X500.'
+  description: 'Montura elevada del GPS M10. Part modeled based on CAD PLATFORM-PLAT-X500.'
   weightKg: 0.015
-  dimensions: '80×80 mm'
+  dimensions: '80Ã—80 mm'
   function: 'Montura elevada del GPS M10'
   materialType: 'Fibra de Carbono'
   materialProperties: 
@@ -58,3 +58,4 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+

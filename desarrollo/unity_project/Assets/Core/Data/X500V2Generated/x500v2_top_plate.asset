@@ -15,7 +15,7 @@ MonoBehaviour:
   partName: 'Carbon Fiber Top Plate'
   id: x500v2_top_plate
   partType: 'Structure'
-  description: 'Interfase de vuelo, Pixhawk, Radio. Pieza modelada en base al CAD TOP-PLATE-X500-V5.'
+  description: 'Interfase de vuelo, Pixhawk, Radio. Part modeled based on CAD TOP-PLATE-X500-V5.'
     Cierra el s\xE1ndwich estructural con 28 mm de separaci\xF3n respecto al bottom
     plate. Superficie de montaje para el Pixhawk, radio, receptor RC y standoffs
     de la platform board."
@@ -69,6 +69,7 @@ MonoBehaviour:
   subComponentNames:
   - TOP-PLATE-X500-V5
   category: 4
+
 
 
 

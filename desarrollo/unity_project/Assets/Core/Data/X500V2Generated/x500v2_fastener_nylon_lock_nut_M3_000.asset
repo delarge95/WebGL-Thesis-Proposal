@@ -15,7 +15,7 @@ MonoBehaviour:
   partName: 'M3 Nyloc Nut'
   id: x500v2_fastener_nylon_lock_nut_M3_000
   partType: 'Structure'
-  description: 'Tuerca autoblocante. Pieza modelada en base al CAD LM-M3-NILONG.'
+  description: 'Tuerca autoblocante. Part modeled based on CAD LM-M3-NILONG.'
   weightKg: 0.001
   dimensions: 'M3'
   function: 'Tuerca autoblocante'
@@ -80,8 +80,9 @@ MonoBehaviour:
     quantityExpected: 2
     isInspectable: 1
     fallbackReason: ''
-    notes: 'Tuerca autoblocante. Pieza modelada en base al CAD LM-M3-NILONG.'
+    notes: 'Tuerca autoblocante. Part modeled based on CAD LM-M3-NILONG.'
     recipeKey: 'nylon_lock_nut_M3_placeholder'
     builderType: 'NylocNut'
     orientationMode: 'ShortestAxis'
   category: 5
+

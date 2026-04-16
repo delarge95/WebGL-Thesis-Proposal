@@ -15,11 +15,11 @@ MonoBehaviour:
   partName: 'M3 Pan/Countersunk Screw'
   id: x500v2_fastener_pan_head_M3x14_001
   partType: 'Structure'
-  description: 'Tornillería rasante. Pieza modelada en base al CAD M3-14-PAN.'
+  description: 'Countersunk fastening hardware. Part modeled based on CAD M3-14-PAN.'
   weightKg: 0.001
   dimensions: 'M3'
-  function: 'Tornillería rasante'
-  materialType: 'Acero Inox'
+  function: 'Countersunk fastening hardware'
+  materialType: 'Stainless Steel'
   materialProperties: 'Stainless'
   manufacturer: Holybro
   partNumber: 'M3-14-PAN'
@@ -75,13 +75,15 @@ MonoBehaviour:
     driveType: 'Unknown'
     threadPitchMm: 0.5
     turnCount: 12
-    material: 'Acero Inox'
+    material: 'Stainless Steel'
     finish: 'Stainless'
     quantityExpected: 4
     isInspectable: 1
     fallbackReason: ''
-    notes: 'Tornilleria rasante. Pieza modelada en base al CAD M3-14-PAN.'
+    notes: 'Countersunk fastening hardware. Part modeled based on CAD M3-14-PAN.'
     recipeKey: 'pan_head_M3x14_placeholder'
     builderType: 'PanHeadScrew'
     orientationMode: 'LongestAxis'
   category: 5
+
+

@@ -15,11 +15,11 @@ MonoBehaviour:
   partName: 'Socket Head Cap Screw'
   id: x500v2_fastener_cap_screw_M3x8_001
   partType: 'Structure'
-  description: 'Fijación y apriete del chasis. Pieza modelada en base al CAD GB70-M3-8-DING.'
+  description: 'Chassis fastening and tightening. Part modeled based on CAD GB70-M3-8-DING.'
   weightKg: 0.001
-  dimensions: 'Milimétrico'
-  function: 'Fijación y apriete del chasis'
-  materialType: 'Acero Inox'
+  dimensions: 'Metric'
+  function: 'Chassis fastening and tightening'
+  materialType: 'Stainless Steel'
   materialProperties: 'Stainless'
   manufacturer: Holybro
   partNumber: 'GB70-M3-8-DING'
@@ -75,13 +75,15 @@ MonoBehaviour:
     driveType: 'Hex Socket'
     threadPitchMm: 0.5
     turnCount: 12
-    material: 'Acero Inox'
+    material: 'Stainless Steel'
     finish: 'Stainless'
     quantityExpected: 12
     isInspectable: 1
     fallbackReason: ''
-    notes: 'Fijacion y apriete del chasis. Pieza modelada en base al CAD GB70-M3-8-DING.'
+    notes: 'Chassis fastening and tightening. Part modeled based on CAD GB70-M3-8-DING.'
     recipeKey: 'cap_screw_M3x8_placeholder'
     builderType: 'SocketCapScrew'
     orientationMode: 'LongestAxis'
   category: 5
+
+

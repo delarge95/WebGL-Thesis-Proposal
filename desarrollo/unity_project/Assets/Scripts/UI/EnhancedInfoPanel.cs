@@ -281,7 +281,7 @@ namespace WebGL.UI
         {
             if (weightKg <= 0f)
             {
-                return "N/D";
+                return "N/A";
             }
 
             if (weightKg < 0.01f)
@@ -296,13 +296,13 @@ namespace WebGL.UI
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                return "N/D";
+                return "N/A";
             }
 
             string normalized = value.Trim();
             if (normalized == "-" || normalized.Equals("N/A", System.StringComparison.OrdinalIgnoreCase))
             {
-                return "N/D";
+                return "N/A";
             }
 
             return normalized;

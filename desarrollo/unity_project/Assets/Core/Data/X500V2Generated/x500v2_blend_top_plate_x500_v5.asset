@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,10 +15,10 @@ MonoBehaviour:
   partName: 'Carbon Fiber Top Plate'
   id: x500v2_blend_top_plate_x500_v5
   partType: 'Structure'
-  description: 'Interfase de vuelo, Pixhawk, Radio. Pieza modelada en base al CAD TOP-PLATE-X500-V5.'
+  description: 'Interfase de vuelo, Pixhawk, Radio. Part modeled based on CAD TOP-PLATE-X500-V5.'
     TOP-PLATE-X500-V5.
   weightKg: 0.075
-  dimensions: '144×144 mm'
+  dimensions: '144Ã—144 mm'
   function: 'Interfase de vuelo, Pixhawk, Radio'
   materialType: 'Fibra Carbono Twill 2mm'
   materialProperties: 
@@ -59,3 +59,4 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+

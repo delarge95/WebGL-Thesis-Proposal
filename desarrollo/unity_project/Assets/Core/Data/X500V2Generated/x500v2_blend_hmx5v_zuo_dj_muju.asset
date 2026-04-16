@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,10 +15,10 @@ MonoBehaviour:
   partName: 'Arm Tube Motor Mount (Top Hub)'
   id: x500v2_blend_hmx5v_zuo_dj_muju
   partType: 'Structure'
-  description: 'Abrazadera superior del motor. Pieza modelada en base al CAD HMX5V-ZUO-DJ-MUJU.'
+  description: 'Upper motor clamp. Part modeled based on CAD HMX5V-ZUO-DJ-MUJU.'
   weightKg: 0.008
   dimensions: 'P/ Tubo 16mm'
-  function: 'Abrazadera superior del motor'
+  function: 'Upper motor clamp'
   materialType: 'Nylon'
   materialProperties: 
   manufacturer: Holybro
@@ -58,3 +58,4 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+

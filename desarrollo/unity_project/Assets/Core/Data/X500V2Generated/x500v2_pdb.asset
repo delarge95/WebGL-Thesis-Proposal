@@ -51,7 +51,7 @@ MonoBehaviour:
   compatibleSlots: []
   alternativeParts: []
   requiredTools:
-  - Destornillador Phillips
+  - Phillips screwdriver
   - Llave hexagonal M3
   safetyWarnings:
   - "No conectar bater\xEDa hasta completar todo el cableado"
@@ -76,6 +76,7 @@ MonoBehaviour:
   - Fasteners: Pan Head Screw M3 x 14 mm x2
   - Fasteners: Cap Nut M3 x2
   category: 1
+
 
 
 
