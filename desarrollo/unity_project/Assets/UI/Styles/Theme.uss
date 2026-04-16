@@ -1632,7 +1632,7 @@
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
     padding: 44px 44px 32px 44px;
-    width: 440px;
+    width: 480px;
     max-width: 92vw;
     min-width: 320px;
     align-items: center;
@@ -1686,7 +1686,7 @@
     -unity-text-align: upper-center;
     white-space: normal;
     margin-bottom: 28px;
-    max-width: 340px;
+    max-width: 380px;
 }
 
 /* Progress dots ------------------------------ */

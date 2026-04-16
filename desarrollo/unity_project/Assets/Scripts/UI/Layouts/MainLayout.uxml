@@ -394,7 +394,7 @@
     <ui:VisualElement name="OnboardingOverlay" class="onboard-overlay" style="display: none;">
         <ui:VisualElement class="onboard-card">
             <!-- Step counter -->
-            <ui:Label name="OnboardStepCounter" text="1 / 5" class="onboard-counter" picking-mode="Ignore" />
+            <ui:Label name="OnboardStepCounter" text="1 / 8" class="onboard-counter" picking-mode="Ignore" />
 
             <!-- Icon area -->
             <ui:VisualElement name="OnboardStepIcon" class="onboard-icon-area" picking-mode="Ignore">

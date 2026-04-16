@@ -43,25 +43,43 @@ namespace WebGL.UI.Panels
             {
                 icon = "👆",
                 title = "SELECT PARTS",
-                description = "Click any component to select it.\nDouble-click a selected part to open its details."
+                description = "Click a visible mesh to select its mother part.\nClick a child mesh to drill into a subpiece.\nDouble-click the current selection to open details."
+            },
+            new Step
+            {
+                icon = "📍",
+                title = "HOTSPOTS",
+                description = "Use PINS to show hotspot markers on hotspot-enabled parts.\nHotspot selections can resolve to grouped assemblies.\nSelecting a hotspot updates the inspected part record."
             },
             new Step
             {
                 icon = "🔍",
                 title = "INSPECT",
-                description = "Use INSPECT to read the part record,\nshow hotspot markers, or isolate a selection."
+                description = "Use INSPECT to read the selected part record.\nUse ISOLATE to focus on the current selection.\nUse POWER to open the drone power controls."
+            },
+            new Step
+            {
+                icon = "⏻",
+                title = "POWER",
+                description = "The power control sets the drone load from 0% to 100%.\nThe state label switches between OFF and ON.\nUse it to simulate the powered state shown in the panel."
             },
             new Step
             {
                 icon = "⚙",
                 title = "ANALYZE",
-                description = "Use ANALYZE to reveal cross-sections,\nexploded views, and category filters."
+                description = "Use ANALYZE for cut planes, exploded views, and category filters.\nThe cut tool supports axis selection and inversion.\nThe explode slider controls separation strength."
+            },
+            new Step
+            {
+                icon = "🌡",
+                title = "THERMAL",
+                description = "THERMAL switches the scene to thermal shading.\nThe legend shows the active temperature range.\nThis mode uses the thermal data bound to each part."
             },
             new Step
             {
                 icon = "🎨",
                 title = "STUDIO",
-                description = "Use STUDIO to switch render modes,\npick an environment, and tune lighting."
+                description = "Use STUDIO to switch render modes,\npick an environment preset, and tune lighting.\nBlueprint is available from the Studio environment cycle."
             }
         };
 
