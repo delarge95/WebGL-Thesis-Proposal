@@ -37,31 +37,31 @@ namespace WebGL.UI.Panels
             {
                 icon = "🖱",
                 title = "ORBIT & ZOOM",
-                description = "Right-click drag to rotate the model.\nScroll to zoom in and out.\nMiddle-click drag to pan."
+                description = "Right-drag to orbit the drone.\nMiddle-drag to pan.\nUse the mouse wheel to zoom."
             },
             new Step
             {
                 icon = "👆",
                 title = "SELECT PARTS",
-                description = "Click on any part of the drone to select it.\nDouble-click to open detailed information."
+                description = "Click any component to select it.\nDouble-click a selected part to open its details."
             },
             new Step
             {
                 icon = "🔍",
                 title = "INSPECT",
-                description = "Use the INSPECT mode to view part info,\ntoggle hotspot pins, or isolate a selection."
+                description = "Use INSPECT to read the part record,\nshow hotspot markers, or isolate a selection."
             },
             new Step
             {
                 icon = "⚙",
                 title = "ANALYZE",
-                description = "Use ANALYZE mode to activate cross-sections,\nexploded views, and category filters."
+                description = "Use ANALYZE to reveal cross-sections,\nexploded views, and category filters."
             },
             new Step
             {
                 icon = "🎨",
                 title = "STUDIO",
-                description = "Switch render modes, change environments,\nand adjust lighting from the STUDIO panel."
+                description = "Use STUDIO to switch render modes,\npick an environment, and tune lighting."
             }
         };
 

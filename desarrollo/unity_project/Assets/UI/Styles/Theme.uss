@@ -745,7 +745,7 @@
     -unity-text-align: middle-right;
 }
 
-/* Sheet Close Button — see canonical definition at bottom of file */
+/* Sheet Close Button ï¿½ see canonical definition at bottom of file */
 
 .sheet-scroll {
     flex-grow: 1;
@@ -761,7 +761,7 @@
 /* UI Soft Shift (When Peek Bar spawns) â€” nudges bottom bar slightly up */
 .ui-shifted-soft {
     bottom: 48px;
-    translate: 0 -16px; /* 16px gap above InfoBarPeek — Material 2× base-unit breathing room */
+    translate: 0 -16px; /* 16px gap above InfoBarPeek ï¿½ Material 2ï¿½ base-unit breathing room */
 }
 
 /* Pill bar becomes opaque when sheet is open to prevent content bleeding through */
@@ -1266,7 +1266,7 @@
     color: rgba(255, 255, 255, 0.65);
 }
 
-/* Sheet description — editorial subtitle below part name */
+/* Sheet description ï¿½ editorial subtitle below part name */
 .sheet-description {
     color: rgba(255, 255, 255, 0.45);
     font-size: 16px;
@@ -1631,38 +1631,40 @@
     border-radius: 20px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
-    padding: 36px 40px 28px 40px;
-    width: 380px;
+    padding: 44px 44px 32px 44px;
+    width: 440px;
+    max-width: 92vw;
+    min-width: 320px;
     align-items: center;
 }
 
 /* Step counter ------------------------------- */
 
 .onboard-counter {
-    font-size: 12px;
+    font-size: 13px;
     color: rgba(255, 255, 255, 0.4);
     letter-spacing: 2px;
     -unity-text-align: upper-center;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     -unity-font-style: bold;
 }
 
 /* Icon area ---------------------------------- */
 
 .onboard-icon-area {
-    width: 88px;
-    height: 88px;
-    border-radius: 44px;
+    width: 96px;
+    height: 96px;
+    border-radius: 48px;
     background-color: rgba(255, 255, 255, 0.06);
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.06);
     align-items: center;
     justify-content: center;
-    margin-bottom: 24px;
+    margin-bottom: 26px;
 }
 
 .onboard-icon {
-    font-size: 36px;
+    font-size: 40px;
     -unity-text-align: middle-center;
     color: white;
 }
@@ -1670,21 +1672,21 @@
 /* Text --------------------------------------- */
 
 .onboard-title {
-    font-size: 18px;
+    font-size: 20px;
     color: white;
     -unity-font-style: bold;
-    letter-spacing: 1px;
+    letter-spacing: 1.25px;
     -unity-text-align: upper-center;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .onboard-desc {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.6);
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.72);
     -unity-text-align: upper-center;
     white-space: normal;
-    margin-bottom: 24px;
-    max-width: 300px;
+    margin-bottom: 28px;
+    max-width: 340px;
 }
 
 /* Progress dots ------------------------------ */
@@ -1693,13 +1695,13 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-bottom: 28px;
+    margin-bottom: 30px;
 }
 
 .onboard-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 4px;
+    width: 9px;
+    height: 9px;
+    border-radius: 4.5px;
     background-color: rgba(255, 255, 255, 0.15);
     margin-left: 4px;
     margin-right: 4px;
@@ -1721,16 +1723,16 @@
 }
 
 .onboard-skip-btn {
-    min-width: 100px;
-    height: 44px;
+    min-width: 112px;
+    height: 48px;
     margin-right: 12px;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .onboard-next-btn {
-    min-width: 140px;
-    height: 44px;
-    font-size: 14px;
+    min-width: 156px;
+    height: 48px;
+    font-size: 15px;
 }
 
 /* --- Info Bar Peek (Bottom Sheet Pre-peek) --- */
@@ -1844,9 +1846,9 @@
 }
 
 /* ------------------------------------------------------
-   Light Background Overrides — Adaptive UI Contrast
+   Light Background Overrides ï¿½ Adaptive UI Contrast
    Toggled via .ui-light-bg on root when the environment
-   preset produces a bright gradient (White, Day, Yellow…)
+   preset produces a bright gradient (White, Day, Yellowï¿½)
    ------------------------------------------------------ */
 
 /* -- Top Bar -- */
@@ -2081,7 +2083,7 @@
     background-color: rgba(18, 18, 24, 0.66);
 }
 
-/* -- Actions Row — opaque pill when sheet is open -- */
+/* -- Actions Row ï¿½ opaque pill when sheet is open -- */
 .ui-light-bg .actions-row--sheet-open {
     background-color: rgba(18, 18, 24, 0.7);
     border-color: rgba(255, 255, 255, 0.16);

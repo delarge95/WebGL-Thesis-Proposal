@@ -403,7 +403,7 @@
 
             <!-- Title + Description -->
             <ui:Label name="OnboardStepTitle" text="ORBIT &amp; ZOOM" class="onboard-title" picking-mode="Ignore" />
-            <ui:Label name="OnboardStepDesc" text="Click and drag to rotate the model." class="onboard-desc" picking-mode="Ignore" />
+            <ui:Label name="OnboardStepDesc" text="Right-drag to orbit the drone. Middle-drag to pan. Use the mouse wheel to zoom." class="onboard-desc" picking-mode="Ignore" />
 
             <!-- Progress dots -->
             <ui:VisualElement name="OnboardDots" class="onboard-dots" picking-mode="Ignore" />
