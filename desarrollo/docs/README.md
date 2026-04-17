@@ -1,3 +1,8 @@
+﻿---
+tipo: sistema
+estado: mantenido
+---
+#sistema #configuracion_tecnica
 # desarrollo/docs
 
 This folder is the working technical documentation layer of the repository.
@@ -28,3 +33,4 @@ This folder is the working technical documentation layer of the repository.
 - `Informe_final/` is for the academic delivery package.
 
 When a document is duplicated in `docs/manuals/`, that duplication should be read as a publication mirror, not as a second independent documentation source.
+

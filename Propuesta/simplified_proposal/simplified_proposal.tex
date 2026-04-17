@@ -1,0 +1,294 @@
+\documentclass[12pt,letterpaper]{article}
+
+% --- PACKAGES ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{times}
+\usepackage[margin=2.54cm]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\usepackage{bookmark}
+\usepackage{ragged2e}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{titletoc}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{tabularx}
+
+% --- APA 7 List Configuration ---
+\setlist[itemize]{
+    leftmargin=1.9cm,
+    itemindent=0pt,
+    labelsep=0.63cm,
+    label=\textbullet,
+    itemsep=0pt,
+    parsep=0pt,
+    topsep=0pt
+}
+\setlist[enumerate]{
+    leftmargin=1.9cm,
+    itemindent=0pt,
+    labelsep=0.63cm,
+    itemsep=0pt,
+    parsep=0pt,
+    topsep=0pt
+}
+
+% --- Spanish labels ---
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+\addto\captionsspanish{\renewcommand{\figurename}{Figura}}
+\addto\captionsspanish{\renewcommand{\contentsname}{Tabla de Contenido}}
+\addto\captionsspanish{\renewcommand{\listtablename}{Lista de Tablas}}
+\addto\captionsspanish{\renewcommand{\listfigurename}{Lista de Figuras}}
+
+% --- APA 7 FORMATTING ---
+\setstretch{2}
+\setlength{\parindent}{1.27cm}
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{3}
+
+\renewcommand{\theHsection}{\arabic{section}}
+\renewcommand{\theHsubsection}{\arabic{section}.\arabic{subsection}}
+\renewcommand{\theHsubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+\renewcommand{\theHparagraph}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.\arabic{paragraph}}
+
+% Page Numbering (Top Right)
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[R]{\thepage}
+\setlength{\headheight}{14.5pt}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancyhead[R]{\thepage}%
+}
+
+% ToC formatting
+\renewcommand{\cftsecpresnum}{\relax}
+\renewcommand{\cftsecnumwidth}{0pt}
+\renewcommand{\cftsubsecpresnum}{\relax}
+\renewcommand{\cftsubsecnumwidth}{0pt}
+\renewcommand{\cftsubsubsecpresnum}{\relax}
+\renewcommand{\cftsubsubsecnumwidth}{0pt}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftdotsep}}
+
+\RaggedRight
+\emergencystretch=2em
+
+\setlength{\cftbeforetoctitleskip}{0\baselineskip}
+\setlength{\cftaftertoctitleskip}{0\baselineskip}
+\renewcommand{\cfttoctitlefont}{\hfill\normalfont\bfseries\normalsize}
+\renewcommand{\cftaftertoctitle}{\null\hfill}
+
+\setlength{\cftbeforelottitleskip}{0\baselineskip}
+\setlength{\cftafterlottitleskip}{0\baselineskip}
+\renewcommand{\cftlottitlefont}{\hfill\normalfont\bfseries\normalsize}
+\renewcommand{\cftafterlottitle}{\null\hfill}
+
+\renewcommand{\cftsecfont}{\normalfont}
+\renewcommand{\cftsecpagefont}{\normalfont}
+\renewcommand{\cftsubsecfont}{\normalfont}
+\renewcommand{\cftsubsecpagefont}{\normalfont}
+\renewcommand{\cftsubsubsecfont}{\normalfont}
+\renewcommand{\cftsubsubsecpagefont}{\normalfont}
+
+\setlength{\cftsecindent}{0em}
+\setlength{\cftsubsecindent}{1.5em}
+\setlength{\cftsubsubsecindent}{3em}
+
+\newlength{\mytocskip}
+\setlength{\mytocskip}{0\baselineskip}
+\setlength{\cftbeforesecskip}{\mytocskip}
+\setlength{\cftbeforesubsecskip}{\mytocskip}
+\setlength{\cftbeforesubsubsecskip}{\mytocskip}
+
+\renewcommand{\cfttabpresnum}{\tablename~}
+\renewcommand{\cfttabfont}{\bfseries}
+
+\titlecontents{table}
+  [0em]
+  {{\bfseries\tablename~\thecontentslabel\quad}\itshape}
+  {}
+  {}
+  {\quad\cftdotfill{\cftdotsep}\normalfont\thecontentspage}
+  [\vspace{0\baselineskip}]
+
+% Section headings
+\titleformat{\section}{\normalfont\bfseries\centering}{}{0em}{}
+\titlespacing*{\section}{0pt}{0\baselineskip}{0\baselineskip}
+\titleformat{\subsection}{\normalfont\bfseries}{}{0em}{}
+\titlespacing*{\subsection}{0pt}{0\baselineskip}{0\baselineskip}
+\titleformat{\subsubsection}{\normalfont\bfseries\itshape}{}{0em}{}
+\titlespacing*{\subsubsection}{0pt}{0\baselineskip}{0\baselineskip}
+\titleformat{\paragraph}[runin]{\normalfont\bfseries}{}{0em}{}[.]
+\titlespacing*{\paragraph}{1.27cm}{0\baselineskip}{1em}
+\titleformat{\subparagraph}[runin]{\normalfont\bfseries\itshape}{}{0em}{}[.]
+\titlespacing*{\subparagraph}{1.27cm}{0\baselineskip}{1em}
+
+% Table caption formatting
+\DeclareCaptionLabelFormat{table_num_bold_left}{\textbf{#1~#2}}
+\DeclareCaptionLabelSeparator{mediumspace}{\par\vspace{0.5\baselineskip}}
+\captionsetup[table]{
+    labelformat=table_num_bold_left,
+    labelsep=mediumspace,
+    textfont=it,
+    justification=raggedright,
+    singlelinecheck=false,
+    skip=\baselineskip,
+    position=top
+}
+
+% --- DOCUMENT START ---
+\begin{document}
+
+% --- TITLE PAGE ---
+\begin{titlepage}
+    \thispagestyle{plain}
+    \centering
+    {\normalfont\bfseries Dise\~no y desarrollo de un prototipo web 3D interactivo para la visualizaci\'on t\'ecnica, inspecci\'on y an\'alisis visual del ensamblaje de hardware complejo mediante \textit{pipelines} de optimizaci\'on gr\'afica y WebAssembly\par}
+
+    \vspace{2\baselineskip}
+    \vspace{2\baselineskip}
+
+    {\normalfont Estudiante\par}
+    {\normalfont Alexander Woodcock Salom\'on\par}
+
+    \vspace{2\baselineskip}
+    \vspace{2\baselineskip}
+
+    {\normalfont Asesor\par}
+    {\normalfont Gustavo Enrique Vejarano Matiz\par}
+
+    \vfill
+
+    {\normalfont Universidad Nacional Abierta y a Distancia - UNAD\par
+     Escuela de Ciencias B\'asicas, Tecnolog\'ia e Ingenier\'ia\par
+     Ingenier\'ia Multimedia\par}
+
+    \vspace{1\baselineskip}
+    {2026\par}
+\end{titlepage}
+\setcounter{page}{2}
+
+% --- MAIN CONTENT ---
+\pagestyle{fancy}
+
+% --- RESUMEN ---
+\section*{Resumen}
+\phantomsection
+\addcontentsline{toc}{section}{Resumen}
+\setlength{\parindent}{0pt}
+La documentaci\'on t\'ecnica de hardware complejo, como drones multicomponente, enfrenta un l\'imite claro cuando depende de im\'agenes 2D y PDF est\'aticos: el usuario debe reconstruir mentalmente las relaciones espaciales entre piezas, lo que aumenta la carga cognitiva y reduce la capacidad de inspecci\'on. Este proyecto propone una soluci\'on concreta: un visor web 3D interactivo, construido con Unity y desplegado en el navegador mediante WebGL y WebAssembly, aplicado al dron Holybro X500~V2.
+
+El marco te\'orico se apoya en tres pilares: teor\'ia de la carga cognitiva (Sweller, 1988), principios de interacci\'on humano-computador en entornos 3D y renderizado f\'isicamente basado. El enfoque metodol\'ogico es \textit{Design Science Research} (DSR), que orienta la construcci\'on iterativa del artefacto y su evaluaci\'on formativa con usuarios reales.
+
+La evaluaci\'on combina medici\'on de rendimiento t\'ecnico (FPS, carga, uso de memoria), desempe\~no en tareas, usabilidad percibida mediante el cuestionario SUS y carga de trabajo percibida con NASA-TLX, contrastando el visor 3D con un soporte 2D de referencia. El resultado esperado es documentar bajo qu\'e condiciones t\'ecnicas y metodol\'ogicas una aplicaci\'on web 3D resulta operativamente viable para la visualizaci\'on t\'ecnica en contexto acad\'emico e ingenieril.
+
+\hspace{1.27cm}\textit{\textbf{Palabras clave:}} WebGL, Unity, WebAssembly, Renderizado F\'isicamente Basado (PBR), Visualizaci\'on 3D Interactiva, Optimizaci\'on de Assets 3D, Carga de Trabajo Percibida, Interacci\'on Humano-Computador.
+
+\newpage
+
+% --- ABSTRACT ---
+\section*{Abstract}
+\phantomsection
+\addcontentsline{toc}{section}{Abstract}
+\setlength{\parindent}{0pt}
+Technical documentation of complex hardware, such as multi-component drones, faces a clear limitation when it relies on static 2D images and PDF files: users must mentally reconstruct spatial relationships between parts, which increases cognitive load and reduces inspection accuracy. This project proposes a concrete solution: an interactive 3D web viewer, built with Unity and deployed in the browser via WebGL and WebAssembly, applied to the Holybro X500~V2 drone.
+
+The theoretical framework rests on three pillars: cognitive load theory (Sweller, 1988), human-computer interaction principles in 3D environments, and physically based rendering. The methodological approach is Design Science Research (DSR), which guides the iterative construction of the artifact and its formative evaluation with real users.
+
+Evaluation combines technical performance measurement (FPS, load time, memory usage), task performance, perceived usability through the SUS questionnaire, and perceived workload through NASA-TLX, contrasting the 3D viewer against a 2D reference medium. The expected outcome is to document the technical and methodological conditions under which a 3D web application is operationally viable for technical visualization in academic and engineering contexts.
+
+\hspace{1.27cm}\textit{\textbf{Keywords:}} WebGL, Unity, WebAssembly, Physically-Based Rendering (PBR), Interactive 3D Visualization, 3D Asset Optimization, Perceived Workload, Human-Computer Interaction.
+
+\newpage
+
+\setlength{\parindent}{1.27cm}
+
+% --- TABLE OF CONTENTS ---
+\newpage
+\tableofcontents
+\newpage
+
+% --- LIST OF TABLES ---
+\newpage
+\renewcommand{\listtablename}{Lista de Tablas}
+\listoftables
+\newpage
+
+% --- INFORMACION GENERAL ---
+\newpage
+\section*{Informaci\'on General de la Propuesta de Trabajo de Grado Proyecto Aplicado}
+\phantomsection
+\addcontentsline{toc}{section}{Informaci\'on General de la Propuesta de Trabajo de Grado Proyecto Aplicado}
+
+\subsection*{Integrantes de la Propuesta de Investigaci\'on}
+\phantomsection
+\addcontentsline{toc}{subsection}{Integrantes de la Propuesta de Investigaci\'on}
+
+\textit{Nombre del estudiante:} Alexander Woodcock Salom\'on
+
+\textit{Identificaci\'on C.C.:} 1018474351
+
+\textit{Programa Acad\'emico:} Ingenier\'ia Multimedia
+
+\textit{No. de Cr\'editos Aprobados:} 152
+
+\textit{\% de cr\'editos aprobados:} 92.11
+
+\textit{Correo electr\'onico:} awoodcocks@unadvirtual.edu.co
+
+\textit{Tel\'efono / Celular:} 3054396581
+
+\textit{Direcci\'on residencia:} Finca Armenia casa 2
+
+\textit{Municipio / Departamento:} Pasto / Nari\~no
+
+\textit{CENTRO:} ZCSUR
+
+\textit{ZONA:} PASTO
+
+\subsection*{Datos Espec\'ificos del Proyecto}
+\phantomsection
+\addcontentsline{toc}{subsection}{Datos Espec\'ificos del Proyecto}
+
+\textit{Duraci\'on del proyecto (meses):} Seis (6)
+
+\textit{L\'inea de Investigaci\'on:} Ingenier\'ia Multimedia, Visualizaci\'on T\'ecnica 3D Web
+
+\textit{Escuela:} Escuela de Ciencias B\'asicas, Tecnolog\'ia e Ingenier\'ia (ECBTI)
+
+\textit{Descriptores palabras clave:} WebGL, Unity, WebAssembly, PBR, Visualizaci\'on 3D, Optimizaci\'on, Carga de Trabajo Percibida, HCI, Technical Art, Hardware Complejo.
+
+\newpage
+
+% --- SECTIONS ---
+\input{sections/planteamiento_problema}
+\input{sections/justificacion}
+\input{sections/objetivos}
+\section{Marco de Referencia}
+\input{sections/estado_del_arte}
+\input{sections/marco_teorico}
+\input{sections/marco_conceptual}
+\input{sections/metodologia}
+\input{sections/cronograma}
+\input{sections/recursos}
+\input{sections/resultados}
+\clearpage
+\input{sections/bibliografia}
+
+\end{document}

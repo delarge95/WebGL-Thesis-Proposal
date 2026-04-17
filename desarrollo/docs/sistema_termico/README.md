@@ -1,3 +1,8 @@
+﻿---
+tipo: sistema
+estado: mantenido
+---
+#sistema #configuracion_tecnica
 # Sistema térmico del dron
 
 ## Objetivo
@@ -193,3 +198,4 @@ El panel de power y el slider de carga ya existen en el modo Inspect. La leyenda
 - El aumento de piezas y subpiezas visuales en Blender no redefine el conjunto oficial de prioridad termica de la V1.
 - La simulacion sigue priorizando motores, ESC, bateria, PDB, power module, Pixhawk, brazos y plates.
 - La granularidad extra del modelo debe leerse como detalle de visualizacion o mapeo de render, no como nuevas fuentes termicas de primer orden.
+

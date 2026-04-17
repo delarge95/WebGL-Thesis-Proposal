@@ -1,0 +1,89 @@
+\section{Metodolog\'ia}
+
+La propuesta se enmarca en una investigaci\'on aplicada con enfoque mixto. El componente cualitativo-formativo es predominante, ya que el inter\'es principal es comprender c\'omo los usuarios interact\'uan con el visor y qu\'e problemas encuentran. El componente cuantitativo es descriptivo y exploratorio: permite cuantificar el rendimiento t\'ecnico y la percepci\'on de usabilidad, pero sin pretensi\'on de inferencia estad\'istica a una poblaci\'on m\'as amplia.
+
+\subsection{Enfoque Metodol\'ogico: Design Science Research (DSR)}
+
+El marco que organiza el proyecto es \textit{Design Science Research} (DSR), un enfoque ampliamente utilizado en ingenier\'ia y sistemas de informaci\'on cuando el objetivo es construir y evaluar un \textbf{artefacto} — en este caso, el visor web 3D — para resolver un problema pr\'actico verificable (Peffers et al., 2007; Hevner et al., 2004).
+
+En t\'erminos simples, DSR propone: identificar el problema $\rightarrow$ definir qu\'e debe hacer la soluci\'on $\rightarrow$ construirla $\rightarrow$ demostrarla con usuarios reales $\rightarrow$ evaluarla $\rightarrow$ documentar los resultados. Esta l\'ogica conecta directamente con las cuatro fases de desarrollo del proyecto:
+
+\begin{enumerate}
+    \item \textbf{An\'alisis:} revisi\'on de literatura, benchmarking de herramientas y definici\'on de metas de rendimiento.
+    \item \textbf{Arte t\'ecnico y \textit{pipeline}:} optimizaci\'on del modelo CAD, preparaci\'on de materiales y configuraci\'on del proyecto Unity.
+    \item \textbf{Implementaci\'on:} desarrollo de interacciones, modos de visualizaci\'on e interfaz responsiva.
+    \item \textbf{Evaluaci\'on:} pruebas de rendimiento, pruebas con usuarios, cuestionarios y cierre documental.
+\end{enumerate}
+
+\subsection{Variables del Estudio}
+
+\begin{table}[H]
+\centering
+\caption{Variables de investigaci\'on, instrumentos y criterios de interpretaci\'on}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{p{3.2cm}p{4cm}p{4cm}p{4.2cm}}
+\hline
+\textbf{Variable} & \textbf{Tipo} & \textbf{Instrumento} & \textbf{Interpretaci\'on} \\ \hline
+Tipo de visualizaci\'on & Independiente & --- & Condici\'on A: visor 3D. Condici\'on B: soporte 2D de referencia. \\
+Usabilidad percibida & Dependiente & Cuestionario SUS & Escala 0-100. Referencia orientativa: 68 (promedio hist\'orico del instrumento). \\
+Carga de trabajo percibida & Dependiente & NASA-TLX Raw & Promedio de 6 dimensiones en escala 0-100. Se compara entre condiciones. \\
+Desempe\~no en tareas & Dependiente & Matriz de observaci\'on & Tasa de \'exito, tiempo por tarea, errores y ayudas requeridas. \\
+Rendimiento t\'ecnico & Dependiente & Unity Profiler + navegador & FPS, tiempo de carga, draw calls y uso de memoria. Meta: 30+ FPS, carga $<$ 10 s. \\ \hline
+\end{tabular}
+}
+\par\vspace{0.5\baselineskip}
+\textit{Nota}. Las variables cuantitativas se interpretan de forma descriptiva y exploratoria. \textit{Fuente}. Autor\'ia propia.
+\end{table}
+
+\subsection{Participantes}
+
+Se proyecta una muestra no probabil\'istica por conveniencia de idealmente 30 participantes con perfil acad\'emico o profesional afin: estudiantes avanzados, t\'ecnicos o ingenieros con experiencia en manufactura, electr\'onica o mantenimiento. Si por razones log\'isticas la muestra final queda entre 8 y 12 participantes, el estudio sigue siendo metodol\'ogicamente viable: el eje del an\'alisis es cualitativo-formativo, por lo que los resultados de SUS y NASA-TLX se reportar\'an de forma descriptiva sin inferencia poblacional.
+
+\subsection{Dise\~no de Evaluaci\'on}
+
+Cada participante interactuar\'a con las dos condiciones en orden contrabalanceado (AB o BA) para mitigar efectos de aprendizaje. Las tareas ser\'an funcionalmente equivalentes en ambas condiciones y variar\'an \'unicamente en el medio de representaci\'on:
+
+\begin{enumerate}
+    \item Acceder al visor desde la pantalla inicial.
+    \item Navegar la escena 3D (orbitar, desplazar, hacer zoom).
+    \item Seleccionar una pieza y leer su informaci\'on t\'ecnica.
+    \item Usar una herramienta de an\'alisis (vista explosionada o corte transversal).
+    \item Cambiar el modo de visualizaci\'on.
+    \item Completar las mismas tareas de identificaci\'on con el soporte 2D de referencia.
+\end{enumerate}
+
+Al finalizar cada condici\'on, el participante completa el NASA-TLX. Al terminar la sesi\\'on completa, responde el SUS sobre el visor 3D y participa en una breve conversaci\'on de cierre.
+
+\subsection{Instrumentos}
+
+\begin{itemize}
+    \item \textbf{SUS (System Usability Scale):} cuestionario de 10 preguntas que produce un puntaje de usabilidad percibida entre 0 y 100. Se aplica solo al visor 3D, que es el sistema cuya usabilidad interesa evaluar (Brooke, 1996).
+    \item \textbf{NASA-TLX Raw:} cuestionario de 6 dimensiones (demanda mental, f\'isica, temporal, esfuerzo, frustraci\'on y rendimiento percibido) que estima qu\'e tanto esfuerzo demand\'o completar las tareas. Se aplica al finalizar cada condici\'on para poder comparar (Hart y Staveland, 1988).
+    \item \textbf{Think-Aloud:} protocolo en que el participante verbaliza en voz alta lo que piensa y hace mientras interact\'ua. Permite identificar puntos de fricci\'on, confusi\'on y estrategias de uso que los cuestionarios no capturan (Ericsson y Simon, 1993).
+    \item \textbf{Matriz de observaci\'on:} registro estructurado de tiempo, \'exito, errores y solicitudes de ayuda por tarea y condici\'on.
+    \item \textbf{Unity Profiler y herramientas del navegador:} para medir FPS, tiempo de cuadro, draw calls, memoria y tiempo de carga.
+\end{itemize}
+
+\subsection{An\'alisis de Datos}
+
+Los datos cuantitativos (SUS, NASA-TLX, KPIs t\'ecnicos, desempe\~no en tareas) se analizar\'an mediante estad\'isticos descriptivos — promedios, rangos y comparaciones entre condiciones — sin pruebas de inferencia estad\'istica poblacional, dado el car\'acter no probabil\'istico del muestreo.
+
+Los datos cualitativos (Think-Aloud, observaciones) se codificar\'an en categor\'ias: comprensi\'on espacial, navegaci\'on, interpretaci\'on de la interfaz, dificultades y sugerencias. Este an\'alisis explicar\'a por qu\'e determinadas tareas resultaron m\'as f\'aciles o dif\'iciles en cada condici\'on.
+
+La interpretaci\'on final integrar\'a las dos fuentes de evidencia. Un hallazgo se considerar\'a m\'as robusto cuando SUS, NASA-TLX, desempe\~no en tareas y observaci\'on cualitativa apunten en la misma direcci\'on. Cuando los resultados sean contradictorios, se reportar\'a esa tensi\'on de forma expl\'icita.
+
+\subsection{KPIs T\'ecnicos de Referencia}
+
+Las metas t\'ecnicas del prototipo son:
+
+\begin{itemize}
+    \item 30 FPS o m\'as durante la interacci\'on en el entorno de prueba controlado.
+    \item Tiempo de primera interacci\'on inferior a 10 segundos (primera carga documentada, sin cach\'e).
+    \item Uso de memoria y draw calls dentro del presupuesto definido durante la fase de optimizaci\'on.
+    \item Consistencia funcional entre la escena, la interfaz y la documentaci\'on de piezas.
+\end{itemize}
+
+Estos indicadores se medir\'an siempre junto con el registro expl\'icito del entorno de prueba (equipo, navegador, resoluci\'on, condici\'on de red), para que los resultados sean reproducibles y comparables.
+
+\newpage

@@ -1,0 +1,21 @@
+\section{Planteamiento del Problema}
+
+La documentaci\'on de hardware t\'ecnico complejo — sistemas electromec\'anicos con m\'ultiples componentes integrados, como el dron Holybro X500~V2 — sigue apoyada principalmente en im\'agenes 2D, planos PDF y l\'aminas de ensamblaje. Estos formatos est\'aticos presentan un l\'imite funcional claro: obligan al usuario a reconstruir mentalmente las relaciones espaciales entre piezas, lo que incrementa la demanda cognitiva durante tareas de inspecci\'on y consulta t\'ecnica (Sweller, 1988).
+
+El paso hacia entornos 3D interactivos en el navegador no es inmediato. Los modelos CAD de origen tienen una geometr\'ia muy densa, incompatible con las limitaciones de memoria y rendimiento de una aplicaci\'on web. Convertirlos en un visor web operativo requiere un proceso de optimizaci\'on art\'iculado — retopolog\'ia, \textit{baking} de texturas, control del presupuesto de renderizado — que a\'un no est\'a documentado con criterios verificables para casos de hardware complejo en contexto acad\'emico.
+
+El problema central puede resumirse en tres restricciones concretas:
+
+\begin{itemize}
+    \item \textbf{Tama\~no de los modelos.} Los archivos CAD originales pueden pesar varias decenas o cientos de megabytes; sin reducci\'on geom\'etrica y empaquetado eficiente, la carga en navegador resulta inviable.
+    \item \textbf{Rendimiento en tiempo real.} Mantener una experiencia fluida (30 FPS o m\'as) exige controlar la cantidad de objetos, materiales y estados de renderizado activos simult\'aneamente.
+    \item \textbf{Alternativas con limitaciones.} Las soluciones de \textit{streaming} remoto (como Unreal Pixel Streaming) ofrecen alta calidad visual pero dependen de servidores con GPU y presentan latencia, lo que las hace poco pr\'acticas para un prototipo acad\'emico de acceso directo desde el navegador.
+\end{itemize}
+
+Existe, por tanto, la necesidad de construir y evaluar un \textit{pipeline} de optimizaci\'on que permita desplegar hardware complejo en un visor 3D web, con capacidad de inspecci\'on t\'ecnica real, rendimiento controlado y accesibilidad desde cualquier navegador compatible.
+
+\subsection{Pregunta de Investigaci\'on}
+
+\noindent \textbf{Pregunta principal.} \textquestiondown Qu\'e diferencias se observan en el desempe\~no de tareas, la usabilidad percibida y la carga de trabajo cuando usuarios con perfil t\'ecnico-acad\'emico realizan actividades de exploraci\'on e identificaci\'on del dron Holybro X500~V2 mediante un prototipo web 3D interactivo, comparado con un soporte 2D de referencia, y bajo qu\'e condiciones t\'ecnicas ese prototipo resulta viable en el navegador?
+
+\newpage

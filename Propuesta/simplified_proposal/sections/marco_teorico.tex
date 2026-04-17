@@ -1,0 +1,58 @@
+\subsection{Marco Te\'orico}
+
+El proyecto se fundamenta en tres \'areas del conocimiento que juntas explican \textit{por qu\'e} un visor 3D interactivo puede mejorar la experiencia de inspecci\'on t\'ecnica frente a la documentaci\'on 2D est\'atica y \textit{c\'omo} construirlo con criterios de calidad visual y rendimiento web.
+
+\subsubsection{Teor\'ia de la Carga Cognitiva}
+
+Cuando un usuario revisa documentaci\'on t\'ecnica compleja, su memoria de trabajo — que tiene una capacidad limitada (Cowan, 2001) — debe repartirse entre entender el contenido y reconstruir mentalmente la geometr\'ia espacial que el formato 2D no muestra directamente. Esto es lo que Sweller (1988) denomina \textbf{carga extr\'inseca}: esfuerzo mental que no contribuye al aprendizaje real sino que lo obstaculiza.
+
+Una interfaz 3D interactiva bien dise\~nada puede reducir esta carga extr\'inseca al externalizar la rotaci\'on mental: el usuario orbita el modelo en lugar de imaginarlo. De esta forma, los recursos cognitivos liberados pueden redirigirse a comprender la funci\'on y relaci\'on de los componentes — lo que Sweller denomina \textbf{carga germana}, el esfuerzo que s\'i construye conocimiento.
+
+Esta proposici\'on no se asume como verdad absoluta, sino como hip\'otesis de trabajo que se explorar\'a durante la evaluaci\'on con usuarios.
+
+\subsubsection{Interacci\'on 3D y Navegaci\'on Espacial}
+
+Bowman et al. (2004) definen la interacci\'on 3D como aquella en que las tareas del usuario ocurren directamente en un espacio tridimensional. Para que esa interacci\'on sea efectiva, la c\'amara debe seguir principios dise\~nados para evitar desorientaci\'on:
+
+\begin{itemize}
+    \item rotar siempre alrededor de un punto de inter\'es fijo;
+    \item separar las operaciones de rotaci\'on, desplazamiento y zoom;
+    \item recentrar autom\'aticamente cuando el usuario selecciona una pieza.
+\end{itemize}
+
+Adem\'as, la interfaz funciona como un \textit{artefacto cognitivo} (Hutchins, 1995): la c\'amara orbital externaliza la rotaci\'on mental, las fichas de pieza hacen las veces de memoria externa y los modos de an\'alisis convierten procesos de inspecci\'on complejos en operaciones visuales guiadas.
+
+\subsubsection{Usabilidad y Heur\'isticas de Dise\~no}
+
+Las heur\'isticas de Nielsen (1994) orientan el dise\~no de la interfaz del visor. Las cuatro m\'as relevantes para este caso son:
+
+\begin{enumerate}
+    \item \textbf{Visibilidad del estado del sistema:} el usuario siempre debe saber qu\'e pieza est\'a seleccionada y qu\'e modo de visualizaci\'on est\'a activo.
+    \item \textbf{Correspondencia con el mundo real:} los nombres y categor\'ias de componentes deben alinearse con la terminolog\'ia t\'ecnica del dron.
+    \item \textbf{Control y libertad:} el usuario puede salir de cualquier modo o panel de forma directa y previsible.
+    \item \textbf{Reconocimiento antes que memoria:} la interfaz reduce la necesidad de recordar ubicaciones o secuencias de interacci\'on, apoy\'andose en estados visuales expl\'icitos.
+\end{enumerate}
+
+Hegarty y Waller (2004) y Bartlett y Dorribo Camba (2023) refuerzan que los modelos 3D interactivos pueden disminuir la barrera de comprensi\'on espacial para usuarios con distintos niveles de habilidad, lo cual hace el visor relevante m\'as all\'a de expertos en el hardware.
+
+\subsubsection{Renderizado F\'isicamente Basado (PBR)}
+
+El renderizado basado en f\'isica es el modelo de iluminaci\'on que permite que los materiales del visor se vean como aluminio, pl\'astico o fibra de carbono de forma convincente y coherente bajo cualquier condici\'on de luz. Se basa en la ecuaci\'on de renderizado de Kajiya (1986), que describe c\'omo la luz incidente sobre una superficie se redistribuye en funci\'on de sus propiedades materiales.
+
+En la pr\'actica, el proyecto delega este c\'alculo al \textit{pipeline} de Unity URP, que implementa un modelo PBR est\'andar con los mapas \textit{albedo}, \textit{metallic}, \textit{roughness} y \textit{normal}. Los shaders propios del proyecto a\~naden la l\'ogica espec\'ifica de los modos de inspecci\'on: planos de corte global, vista X-Ray, contornos de silueta y visualizaci\'on t\'ermica.
+
+Los fundamentos matem\'aticos del PBR — como la funci\'on BRDF de Cook-Torrance, la aproximaci\'on de Fresnel de Schlick o la distribuci\'on GGX de microfacetas — est\'an disponibles en el anexo t\'ecnico del informe final para quienes deseen profundizar en el modelo de iluminaci\'on empleado.
+
+\subsubsection{Optimizaci\'on Gr\'afica para Web}
+
+El rendimiento del visor en el navegador depende de controlar tres variables principales:
+
+\begin{itemize}
+    \item \textbf{Presupuesto poligonal:} la cantidad total de tri\'angulos visibles en escena, que se reduce mediante retopolog\'ia y simplificaci\'on del modelo CAD original.
+    \item \textbf{\textit{Draw calls}:} el n\'umero de instrucciones que la CPU env\'ia a la GPU por cuadro; menos instrucciones equivalen a mayor fluidez.
+    \item \textbf{\textit{Frame time}:} el tiempo que toma producir cada imagen. Para sostener 30 FPS debe mantenerse por debajo de 33 ms.
+\end{itemize}
+
+Estas variables son los KPIs t\'ecnicos centrales del proyecto y se medir\'an con las herramientas de perfilado de Unity y del navegador.
+
+\newpage

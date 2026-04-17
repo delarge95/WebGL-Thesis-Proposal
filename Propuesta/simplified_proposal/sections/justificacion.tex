@@ -1,0 +1,28 @@
+\section{Justificaci\'on}
+
+El proyecto adopta Unity WebGL como plataforma de desarrollo. Esta elecci\'on no se basa en que Unity ofrezca el menor tama\~no de descarga — las bibliotecas JavaScript nativas, como Three.js, suelen ser m\'as ligeras en ese aspecto — sino en que concentra en un solo entorno todo lo necesario para construir, perfilar y publicar un visor t\'ecnico complejo: editor visual, sistema de materiales, herramientas de interfaz, compilaci\'on a WebAssembly y soporte para shaders personalizados (Unity Technologies, 2024d).
+
+\subsection{Por qu\'e Unity WebGL y no otras alternativas}
+
+\begin{itemize}
+    \item \textbf{Frente a Three.js y Babylon.js.} Son herramientas capaces, pero construir desde cero el \textit{pipeline} de importaci\'on, los modos de inspecci\'on, la interfaz y las herramientas de perfilado habr\'ia demandado un tiempo de desarrollo significativamente mayor dentro del alcance acad\'emico del proyecto.
+    \item \textbf{Frente a Unreal Pixel Streaming.} Ofrece calidad visual muy alta, pero requiere servidores con GPU dedicada y genera latencia de red, lo que lo hace poco pr\'actico para un prototipo de acceso directo desde el navegador.
+    \item \textbf{Frente a plataformas como Sketchfab o Spline.} Son convenientes para exhibir modelos, pero no permiten integrar l\'ogica de inspecci\'on propia, flujo de estados ni arquitectura personalizada.
+\end{itemize}
+
+Unity acepta un costo inicial de carga mayor a cambio de un entorno integrado que reduce el riesgo t\'ecnico al desarrollar interacciones complejas, modos de an\'alisis visual y herramientas de inspecci\'on dentro de los tiempos del proyecto.
+
+\subsection{Pertinencia para la Ingenier\'ia Multimedia}
+
+Este proyecto articula varias competencias propias de la Ingenier\'ia Multimedia en un caso aplicado coherente:
+
+\begin{itemize}
+    \item documenta un procedimiento t\'ecnico replicable para transformar activos CAD en un visor WebGL interactivo;
+    \item posiciona al ingeniero multimedia como puente entre la complejidad t\'ecnica del hardware y la experiencia del usuario final;
+    \item genera criterios de rendimiento y usabilidad verificables para visualizaci\'on web 3D;
+    \item integra computaci\'on gr\'afica, dise\~no de interacci\'on, teor\'ia cognitiva y evaluaci\'on con usuarios en un mismo proyecto aplicado.
+\end{itemize}
+
+La convergencia actual entre WebAssembly, WebGL~2.0 y motores modernos abre una oportunidad concreta para llevar visualizaciones t\'ecnicas interactivas al navegador sin depender de instalaciones adicionales. El valor del proyecto reside en documentar, con criterios verificables, bajo qu\'e condiciones esa oportunidad es realmente viable.
+
+\newpage

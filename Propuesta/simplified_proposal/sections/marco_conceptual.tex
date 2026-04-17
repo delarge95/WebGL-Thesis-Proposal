@@ -1,0 +1,37 @@
+\subsection{Marco Conceptual}
+
+Los siguientes t\'erminos son centrales en el proyecto. Se presentan en forma de glosario breve para facilitar la lectura del documento a quienes no est\'an familiarizados con el campo de la gr\'afica 3D y el desarrollo web interactivo.
+
+\textit{Albedo.} Textura que define el color base de un material, sin considerar c\'omo le afecta la iluminaci\'on.
+
+\textit{Baking.} Proceso de precalcular informaci\'on visual compleja — como detalle superficial o sombras — y guardarla en una textura, reduciendo el costo de c\'alculo en tiempo real.
+
+\textit{BRDF.} Funci\'on que describe c\'omo un material refleja la luz seg\'un el \'angulo de incidencia y de observaci\'on. Es el fundamento del renderizado f\'isicamente basado.
+
+\textit{Draw Call.} Instrucci\'on que la CPU env\'ia a la GPU para renderizar un conjunto de geometr\'ia. Reducirlos es clave para mantener buen rendimiento.
+
+\textit{Frame Time.} Tiempo necesario para producir un cuadro de imagen. Para lograr 30 FPS, debe mantenerse en menos de 33 milisegundos.
+
+\textit{GPU Instancing.} T\'ecnica que permite renderizar m\'ultiples c\'opias de un mismo objeto en menos instrucciones, mejorando la eficiencia.
+
+\textit{Hardware complejo.} En este proyecto, se refiere a sistemas electromec\'anicos con m\'ultiples componentes integrados — estructurales, electr\'onicos y de control — con relaciones espaciales densas entre s\'i, como el dron Holybro X500~V2.
+
+\textit{IL2CPP.} Proceso interno de Unity que convierte el c\'odigo C\# en C++ y luego en WebAssembly para su ejecuci\'on en el navegador.
+
+\textit{LOD (Level of Detail).} T\'ecnica que intercambia la complejidad geom\'etrica de un modelo seg\'un qu\'e tan lejos est\'a de la c\'amara, ahorrando recursos.
+
+\textit{Normal Map.} Textura que simula detalle tridimensional en la superficie de un objeto sin aumentar la cantidad de pol\'igonos.
+
+\textit{PBR (Physically-Based Rendering).} Modelo de iluminaci\'on que imita el comportamiento f\'isico real de la luz sobre los materiales, produciendo resultados visualmente coherentes y cre\'ibles.
+
+\textit{Pipeline.} En este contexto, se refiere a la cadena de pasos que transforma el modelo CAD original en un activo optimizado listo para el visor web.
+
+\textit{Retopolog\'ia.} Proceso de reconstruir la geometr\'ia de un modelo para reducir su complejidad manteniendo su forma visual.
+
+\textit{Shader.} Programa que se ejecuta directamente en la GPU y determina c\'omo se ve cada p\'ixel o v\'ertice de una escena.
+
+\textit{WebAssembly (WASM).} Formato de c\'odigo binario que permite ejecutar l\'ogica compilada (como C++) dentro del navegador con alto rendimiento.
+
+\textit{WebGL.} API del navegador que permite renderizado 3D acelerado por hardware, sin necesidad de instalar complementos externos.
+
+\newpage

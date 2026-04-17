@@ -1,0 +1,50 @@
+\subsection{Estado del Arte}
+
+Esta secci\'on revisa las principales tecnolog\'ias disponibles para visualizaci\'on 3D en navegador y explica por qu\'e Unity WebGL fue la opci\'on seleccionada para este proyecto.
+
+\subsubsection{Panorama de soluciones Web 3D}
+
+Desde la introducci\'on de WebGL en 2011, la capacidad de los navegadores para mostrar contenido 3D en tiempo real ha crecido de forma sostenida (Khronos Group, 2011). Hoy existen varias alternativas con distintos perfiles de uso:
+
+\begin{itemize}
+    \item \textbf{Three.js} es una biblioteca liviana y muy popular, ideal para experiencias web a medida. Su limitaci\'on para este proyecto es que exige construir manualmente todo el sistema de importaci\'on, materiales e interacci\'on.
+    \item \textbf{Babylon.js} ofrece mayores herramientas integradas y soporte empresarial, pero el esfuerzo de configuraci\'on para un flujo personalizado sigue siendo considerable.
+    \item \textbf{Unity WebGL} compila el c\'odigo C\# a WebAssembly mediante IL2CPP y ofrece un entorno integrado de editor, materiales, UI y perfilado. Su costo es una huella de descarga inicial mayor (Unity Technologies, 2024d).
+    \item \textbf{Unreal Pixel Streaming} ofrece calidad fotorrealista, pero depende de servidores con GPU y genera latencia de red que dificulta la inspecci\'on t\'ecnica precisa.
+    \item \textbf{Sketchfab, Spline y Marmoset Viewer} son plataformas convenientes para publicar modelos, pero limitan la posibilidad de integrar l\'ogica propia de inspecci\'on y an\'alisis.
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\caption{Comparativa de soluciones Web 3D}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+\hline
+\textbf{Tecnolog\'ia} & \textbf{Huella inicial} & \textbf{Control del pipeline} & \textbf{PBR} & \textbf{Interactividad} & \textbf{Infraestructura externa} & \textbf{Pertinencia} \\ \hline
+Three.js & Baja & Alto, pero manual & Manual & Total & No & Alta para desarrollo web a medida \\
+Babylon.js & Media & Alto & Integrado & Total & No & Alta para apps web 3D complejas \\
+Unity WebGL & Alta & Alto e integrado & URP & Total & No & Alta para prototipos t\'ecnicos \\
+UE Pixel Streaming & Media/Alta & Alto & Muy alto & Alta con latencia & S\'i & Media para acceso web directo \\
+Spline & Baja & Bajo & B\'asico & Limitada & No & Media para presenta\-ci\'on ligera \\
+Marmoset Viewer & Baja/Media & Bajo & Alto & Baja/Media & No & Media para exhibici\'on visual \\
+Sketchfab & Media & Medio & Bueno & Media & Parcial & Media para publicaci\'on r\'apida \\
+PlayCanvas & Baja & Alto & Integrado & Total & No & Alta para experiencias web nativas \\ \hline
+\end{tabular}
+}
+\par\vspace{0.5\baselineskip}
+\textit{Nota}. Comparaci\'on cualitativa basada en documentaci\'on oficial y literatura revisada; no es un benchmark experimental controlado. \textit{Fuente}. Elaboraci\'on propia.
+\end{table}
+
+\subsubsection{Justificaci\'on de la selecci\'on}
+
+Unity WebGL fue seleccionado no por ser la opci\'on m\'as ligera, sino por el mejor equilibrio entre cuatro factores cr\'iticos para este proyecto:
+
+\begin{enumerate}
+    \item \textbf{Tooling integrado:} importaci\'on, materiales, UI, perfilado y build en un mismo entorno.
+    \item \textbf{Extensibilidad:} soporte para shaders personalizados que habilitan modos de inspecci\'on como corte transversal, vista t\'ermica y X-Ray.
+    \item \textbf{Arquitectura tipada:} la cadena C\# $\rightarrow$ IL2CPP $\rightarrow$ WASM ofrece una base estructurada para la l\'ogica interactiva.
+    \item \textbf{Riesgo reducido:} el ecosistema consolidado disminuye el tiempo requerido para implementar funcionalidades complejas dentro del alcance acad\'emico disponible.
+\end{enumerate}
+
+\newpage
