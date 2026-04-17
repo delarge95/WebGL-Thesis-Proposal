@@ -1,0 +1,267 @@
+{
+  "main": {
+    "id": "a944b627b212e646",
+    "type": "split",
+    "children": [
+      {
+        "id": "93218dfed7e27225",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f7627176a46871ce",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Vista gráfica"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "dcc257201014db4d",
+    "type": "split",
+    "children": [
+      {
+        "id": "1521a3a21f49aa81",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bef54734d979b7b3",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "bf245e81dbf1b2ad",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "cdbb3945537787b0",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "e6fb34a38eaac8cc",
+    "type": "split",
+    "children": [
+      {
+        "id": "71c1b00a5c60a316",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a572aa1eb988a8c8",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes"
+            }
+          },
+          {
+            "id": "017b964b806bd33a",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes"
+            }
+          },
+          {
+            "id": "c9cc2e74af13efd5",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "dac743ee1ccad2ba",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas las propiedades"
+            }
+          },
+          {
+            "id": "30ec98d8c4f026e2",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema"
+            }
+          },
+          {
+            "id": "00ba03b026f07e78",
+            "type": "leaf",
+            "state": {
+              "type": "footnotes",
+              "state": {},
+              "icon": "lucide-file-signature",
+              "title": "Notas al pie"
+            }
+          },
+          {
+            "id": "fe5fa95362951813",
+            "type": "leaf",
+            "state": {
+              "type": "juggl_nodes",
+              "state": {},
+              "icon": "ag-node-list",
+              "title": "Juggl nodes"
+            }
+          },
+          {
+            "id": "6793184b235aedc4",
+            "type": "leaf",
+            "state": {
+              "type": "juggl_style",
+              "state": {},
+              "icon": "ag-style",
+              "title": "Juggl style"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Crear nueva base": false,
+      "omnisearch:Omnisearch": false,
+      "obsidian-git:Open Git source control": false,
+      "marp-slides:Show Slide Preview": false,
+      "zk-prefixer:Crear nueva nota única": false,
+      "audio-recorder:Iniciar/Detener la grabación": false,
+      "markdown-importer:Abrir el importador de Markdown": false,
+      "random-note:Abrir nota al azar": false,
+      "obsidian-excalidraw-plugin:Nuevo Bosquejo": false,
+      "juggl:Juggl global graph": false,
+      "templater-obsidian:Templater": false,
+      "pdf-plus:PDF++: Toggle auto-copy": false,
+      "pdf-plus:PDF++: Toggle auto-focus": false,
+      "pdf-plus:PDF++: Toggle auto-paste": false
+    }
+  },
+  "active": "f7627176a46871ce",
+  "lastOpenFiles": [
+    "desarrollo/docs/REPORTE_CIERRE_OBSIDIAN_Y_PROPUESTA_SIMPLIFICADA_2026-04-16.md",
+    "Cerebro_Digital/Wiki/Concepts/ANEXO_CRUCE_BIBLIOGRAFIA_DESCARGADA_2026-04-16.md",
+    "External_docs/Bibliografia/kajiya1986.pdf",
+    "External_docs/Bibliografia/dokumen.pub_quantifying-the-user-experience-practical-statistics-for-user-research-2nd.pdf",
+    "External_docs/Bibliografia/realtime_rendering_4ed.pdf",
+    "External_docs/Bibliografia/WebGL Specification Khronos_files/WebGL-Logo.svg",
+    "External_docs/Bibliografia/WebGL Specification Khronos_files/saved_resource.html",
+    "External_docs/Bibliografia/WebGL Specification Khronos_files/Khronos.svg",
+    "External_docs/Bibliografia/WebGL Specification Khronos_files/Khronos-WD.css",
+    "External_docs/Bibliografia/WebGL Specification Khronos_files/jquery-1.3.2.min.js.descarga",
+    "External_docs/Bibliografia/WebGL Specification Khronos_files/generateTOC.js.descarga",
+    "External_docs/Bibliografia/WebGL Specification Khronos_files",
+    "External_docs/Bibliografia/dokumen.pub_usability-engineering-0125184069-9780125184069.pdf",
+    "External_docs/Bibliografia",
+    "Cerebro_Digital/Wiki/Concepts/GOBERNANZA_CALIDAD_WIKI.md",
+    "Cerebro_Digital/Wiki/Concepts/REGISTRO_ADJUNTOS_GLOBAL.md",
+    "Cerebro_Digital/Wiki/Concepts/TAXONOMIA_METADATA_WIKI.md",
+    "Cerebro_Digital/Wiki/Concepts/MOC_Consolidacion_Drone.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_053_Flight_Controller_PCB.md",
+    "Informe_final/presentation/ASSETS_REQUIREMENTS.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_135_ViewMode_Switching_Tests.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_126_Thermal_System_Development_Log.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_125_Thermal_System_Demo_Assets.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_122_Thermal_Simulation_Tests.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_132_User_Journey_Mapping.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_142_XRay_Mode_Implementation.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_141_Workload_Assessment_Methodology.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_139_webgl_scanner.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_138_webgl_optimizer.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_140_Wireframe_Mode_Spec.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_137_WASM_Memory_Limits.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_143_XRay_Performance_Analysis.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_129_Usability_Issue_Clustering.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_134_Validacion_Results_Analysis.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_133_User_Testing_Summary_Report.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_136_Viewport_Management.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_131_Usability_Metrics_Report.md",
+    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_130_Usability_Issues_Log.md",
+    "archive/logs_historicos/tmp_gemini_audit/word/media/image3.png",
+    "archive/logs_historicos/tmp_gemini_audit/word/media/image1.png",
+    "archive/logs_historicos/tmp_gemini_audit/word/media/image2.png",
+    "archive/logs_historicos/tmp_gemini_audit/word/media/image4.png"
+  ]
+}

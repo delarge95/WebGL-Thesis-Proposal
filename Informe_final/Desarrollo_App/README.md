@@ -1,3 +1,8 @@
+﻿---
+tipo: sistema
+estado: mantenido
+---
+#sistema #configuracion_tecnica
 # Desarrollo de la Aplicación — Registro
 
 Este directorio contiene la documentación completa del proceso de desarrollo de la aplicación WebGL Drone Viewer.
@@ -22,3 +27,4 @@ Desarrollo_App/
 - **Trazabilidad**: Cada cambio está documentado con hash de commit, fecha y descripción
 - **Reproducibilidad**: El sistema de diseño permite recrear la UI de forma consistente
 - **Académico**: Sirve como evidencia del proceso de desarrollo para el informe final
+

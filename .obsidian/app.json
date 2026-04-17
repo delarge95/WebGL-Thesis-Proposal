@@ -1,0 +1,19 @@
+{
+  "userIgnoreFilters": [
+    ".obsidian/",
+    ".agent/",
+    ".kilo/",
+    ".planning/",
+    "archive/",
+    "trash/",
+    "desarrollo/unity_project/Library/",
+    "desarrollo/unity_project/Packages/",
+    "desarrollo/unity_project/Logs/",
+    "desarrollo/unity_project/obj/",
+    "desarrollo/unity_project/Temp/",
+    "docs/node_modules/",
+    "node_modules/",
+    "dist/",
+    ".venv/"
+  ]
+}

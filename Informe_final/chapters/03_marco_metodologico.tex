@@ -1,63 +1,118 @@
 \section{Marco Metodológico}
 
-Este capítulo describe el enfoque metodológico adoptado para el desarrollo y la validación del prototipo WebGL del Holybro X500~V2. La investigación se concibe como aplicada, con enfoque mixto y predominio cuantitativo, y se apoya en Design Science Research (DSR) para justificar la construcción y evaluación del artefacto.
+Este capítulo describe el diseño metodológico adoptado para el desarrollo y la evaluación del prototipo web del Holybro X500~V2. La investigación se formuló como aplicada, con enfoque mixto y predominio cualitativo-formativo. El trabajo articuló diseño, construcción y evaluación de un artefacto digital, por lo que se apoyó en \textit{Design Science Research} (DSR) complementado con prototipado iterativo y una gestión tipo Scrum adaptada al contexto académico.
 
 \subsection{Tipo de investigación y enfoque}
 
 \begin{itemize}
-    \item \textbf{Tipo de investigación:} aplicada.
-    \item \textbf{Enfoque:} mixto con predominio cuantitativo.
-    \item \textbf{Marco:} Design Science Research complementado con prototipado iterativo.
-    \item \textbf{Unidad de análisis:} la interacción de usuarios con un visor WebGL orientado a la exploración técnica del Holybro X500~V2.
+    \item \textbf{Tipo de investigación:} aplicada, porque busca resolver una necesidad concreta de visualización técnica en entorno web.
+    \item \textbf{Enfoque:} mixto, con predominio cualitativo-formativo y un componente cuantitativo descriptivo y exploratorio.
+    \item \textbf{Marco metodológico:} DSR para construir y evaluar el artefacto, complementado con observación cualitativa de uso, cuestionarios estandarizados y medición de KPIs técnicos.
+    \item \textbf{Unidad de análisis:} la interacción de usuarios con un prototipo web de visualización técnica del dron Holybro X500~V2, contrastada con un soporte 2D de referencia para tareas equivalentes.
 \end{itemize}
+
+\subsection{Marco de Design Science Research}
+
+La investigación se enmarcó en la epistemología de \textit{Design Science Research}. En términos procedimentales, el proyecto adoptó el modelo de seis fases del DSRM propuesto por Peffers et al. (2007), mientras que la evaluación de rigor y relevancia del artefacto se fundamentó en las siete directrices establecidas por Hevner et al. (2004). De este modo, el proceso de construcción y evaluación del artefacto quedó diferenciado de las pautas con las que se juzga su consistencia metodológica y su aporte disciplinar.
+
+\begin{enumerate}
+    \item \textbf{Identificación del problema y motivación.} La documentación 2D tradicional dificulta la comprensión espacial y funcional de sistemas de hardware con múltiples componentes.
+    \item \textbf{Definición de objetivos de la solución.} Desarrollar un visor web interactivo orientado a facilitar la exploración y lectura técnica del dron Holybro X500~V2 bajo restricciones reales de rendimiento.
+    \item \textbf{Diseño y desarrollo.} Construir el prototipo en Unity con un \textit{pipeline} CAD a web, UI responsiva y herramientas de análisis visual.
+    \item \textbf{Demostración.} Publicar el prototipo en entorno web y ejecutar tareas representativas de exploración, identificación y análisis.
+    \item \textbf{Evaluación.} Analizar de forma formativa el rendimiento técnico, la usabilidad percibida y la carga de trabajo percibida del prototipo.
+    \item \textbf{Comunicación.} Documentar el proceso, la arquitectura, las decisiones de diseño y los resultados obtenidos.
+\end{enumerate}
 
 \subsection{Fases de trabajo}
 
 \begin{enumerate}
-    \item \textbf{Problema y fundamentación.} Revisión de literatura y definición de metas de visualización, rendimiento y experiencia de uso.
-    \item \textbf{Pipeline de activos.} Limpieza, optimización e integración del modelo en Unity.
-    \item \textbf{Implementación del prototipo.} Desarrollo de UI, selección de piezas, modos de análisis y visualización.
-    \item \textbf{Validación y cierre.} Auditorías funcionales, medición de KPIs y evaluación de usabilidad.
+    \item \textbf{Análisis y fundamentación.} Revisión bibliográfica sobre WebGL, visualización 3D, teoría de la carga cognitiva, carga de trabajo percibida y UX; selección del caso de estudio; definición de metas de rendimiento y alcance funcional.
+    \item \textbf{Pipeline de activos y visualización.} Limpieza, optimización e integración del modelo CAD; preparación de materiales y mallas para visualización en tiempo real; configuración del proyecto Unity y del \textit{pipeline} web.
+    \item \textbf{Implementación del prototipo.} Desarrollo de interacciones, selección de piezas, flujo de detalle, modos de análisis visual, vista explosionada, corte transversal e interfaces responsivas.
+    \item \textbf{Evaluación formativa y cierre.} Medición de KPIs técnicos, aplicación de SUS, NASA-TLX Raw y \textit{Think-Aloud}, y consolidación del informe, manuales y anexos.
 \end{enumerate}
 
-\subsection{Muestra y participantes}
+\subsection{Muestra y perfil de participantes}
 
-Se plantea una muestra por conveniencia de entre 8 y 12 participantes con perfil afín al caso de estudio: estudiantes avanzados, técnicos o profesionales de ingeniería, manufactura digital, mantenimiento o áreas relacionadas. La muestra es coherente con un estudio exploratorio de usabilidad y carga cognitiva.
+Se proyectó una muestra no probabilística por conveniencia compuesta idealmente por al menos 30 participantes, con el fin de fortalecer la lectura descriptiva de los instrumentos estandarizados de usabilidad y carga de trabajo percibida. No obstante, dado el contexto logístico del estudio, se estableció como escenario mínimo operativo una muestra de entre 8 y 12 participantes con perfil afín al uso del sistema: estudiantes avanzados, técnicos o profesionales de ingeniería, manufactura digital o mantenimiento. Esta decisión se apoyó en la tradición de evaluaciones formativas en HCI y UX, donde muestras reducidas permiten identificar problemas recurrentes de interacción y generar insumos de rediseño, aun cuando no sustenten inferencias poblacionales amplias (Nielsen, 2000; Lazar et al., 2017). En consecuencia, el tamaño mínimo operativo se justifica aquí para detección formativa de problemas y lectura descriptiva, no para afirmar comparaciones concluyentes entre condiciones.
+
+Si no se alcanza el umbral deseable de 30 participantes, los resultados de SUS y NASA-TLX se interpretarán exclusivamente de forma descriptiva y exploratoria, sin pretensión de inferencia estadística poblacional. Incluso si se alcanza una muestra de 30 o más participantes, la interpretación cuantitativa seguirá siendo prudente por el carácter no probabilístico del muestreo.
 
 \subsection{Variables de investigación}
 
 \subsubsection{Variable independiente}
 
-\textbf{Tipo de visualización técnica.}
+\textbf{Tipo de visualización técnica}
 \begin{itemize}
-    \item nivel 1: visualización 3D interactiva WebGL;
-    \item nivel 2: soporte 2D de referencia para contraste metodológico.
+    \item \textbf{Definición conceptual:} medio utilizado para consultar y comprender la información del sistema.
+    \item \textbf{Definición operacional:} comparación entre el visor 3D interactivo en web y un soporte 2D de referencia.
+    \item \textbf{Niveles:} visor 3D interactivo / documentación 2D.
 \end{itemize}
 
 \subsubsection{Variables dependientes}
 
+\textbf{Usabilidad percibida}
 \begin{itemize}
-    \item \textbf{Usabilidad percibida:} puntaje SUS en escala 0--100.
-    \item \textbf{Carga cognitiva:} puntaje NASA-TLX Raw en escala 0--100.
-    \item \textbf{Rendimiento técnico:} FPS, tiempos de carga, draw calls, memoria y consistencia funcional del build final.
+    \item \textbf{Definición conceptual:} grado en que el usuario percibe el sistema como fácil de aprender, consistente y útil.
+    \item \textbf{Definición operacional:} puntaje total del cuestionario \textit{System Usability Scale} (Brooke, 1996), aplicado únicamente al prototipo 3D interactivo y expresado en escala de 0 a 100.
+    \item \textbf{Criterio de interpretación:} 68 se toma como referencia del promedio histórico del instrumento y no como sinónimo de usabilidad alta. Como guía contextual, puntajes en el rango de 70 a 72 se interpretan como favorables o por encima del centro de referencia, mientras que puntajes en los ochenta corresponden a niveles claramente superiores de aceptación. Estas lecturas se usan solo como contextualización descriptiva y se respaldan en Bangor et al. (2008, 2009) y Sauro y Lewis (2016), no como umbrales absolutos de validación.
+\end{itemize}
+
+\textbf{Carga de trabajo percibida (\textit{workload} subjetivo)}
+\begin{itemize}
+    \item \textbf{Definición conceptual:} percepción subjetiva de demanda y esfuerzo durante la ejecución de tareas, incluyendo demanda mental, demanda temporal, esfuerzo, frustración y percepción de rendimiento.
+    \item \textbf{Definición operacional:} promedio de las seis dimensiones del NASA-TLX Raw (Hart \& Staveland, 1988), en escala de 0 a 100.
+    \item \textbf{Criterio de interpretación:} describir la magnitud del \textit{workload} percibido y contrastar si el prototipo 3D tiende a producir una carga de trabajo igual o menor que el soporte 2D de referencia en tareas comparables. En este informe, NASA-TLX no se interpreta como una medición directa de las categorías intrínseca, extrínseca y germana de la Teoría de la Carga Cognitiva, sino como un indicador de carga de trabajo subjetiva percibida durante la tarea.
+\end{itemize}
+
+\textbf{Desempeño en tareas de inspección}
+\begin{itemize}
+    \item \textbf{Definición conceptual:} capacidad del usuario para completar tareas representativas de identificación, ubicación y consulta técnica sobre el ensamblaje.
+    \item \textbf{Definición operacional:} tasa de tareas completadas sin ayuda, tiempo de ejecución por tarea, número de errores observados y solicitudes de ayuda registradas por condición.
+    \item \textbf{Criterio de interpretación:} se considerará un desempeño más favorable cuando una condición permita completar un mayor porcentaje de tareas con igual o menor tiempo, menos errores y menor intervención del moderador.
+\end{itemize}
+
+\textbf{Rendimiento técnico}
+\begin{itemize}
+    \item \textbf{Definición conceptual:} desempeño del prototipo web durante la carga y la interacción en tiempo real.
+    \item \textbf{Definición operacional:} medición de FPS, \textit{frame time}, tiempo de carga, \textit{draw calls}, memoria y presupuesto geométrico sobre la build web, siempre acompañada del registro explícito del equipo, navegador, resolución, estado de caché y condición de red.
+    \item \textbf{Metas operativas de referencia:} 30 FPS o más y tiempo de primera interacción inferior a 10 s en el entorno de prueba controlado definido para la validación, diferenciando entre primera carga documentada y cargas posteriores con caché, además de uso de recursos dentro del presupuesto fijado durante la fase de optimización.
 \end{itemize}
 
 \subsubsection{Variables de control}
 
 \begin{itemize}
-    \item experiencia previa con visualización 3D o documentación técnica;
+    \item experiencia previa del participante con software 3D o documentación técnica;
     \item perfil académico o profesional;
-    \item dispositivo, navegador y condiciones de conexión.
+    \item equipo de prueba identificado nominalmente, resolución de pantalla y periféricos de entrada utilizados;
+    \item navegador, versión y sistema operativo;
+    \item contexto de conexión y condición de caché al momento de medir la carga inicial;
+    \item tipo de build utilizado para la medición técnica (desarrollo o liberación);
+    \item orden de exposición a las condiciones 3D y 2D.
 \end{itemize}
+
+\subsection{Diseño comparativo y condiciones de prueba}
+
+La evaluación con usuarios se planteó como un diseño intra-sujeto de carácter formativo. Cada participante debe interactuar con dos condiciones funcionalmente equivalentes: \textbf{Condición A}, correspondiente al prototipo 3D interactivo en navegador, y \textbf{Condición B}, correspondiente a un soporte 2D de referencia construido a partir de documentación técnica estática del mismo sistema. La comparación no pretende probar causalidad psicológica concluyente, sino describir diferencias observables de percepción y uso entre ambos medios.
+
+Para mitigar sesgos de aprendizaje o fatiga, el orden de exposición se contrabalancea mediante dos secuencias posibles: AB y BA. Las tareas mantienen el mismo objetivo funcional en ambas condiciones y varían únicamente en el medio de representación. El moderador emplea instrucciones equivalentes, tiempos de observación comparables y una misma matriz de registro.
+
+El entorno de prueba debe documentarse de forma explícita en cada sesión, incluyendo equipo, sistema operativo, navegador y versión, resolución, tipo de conexión y estado de caché. Los KPIs técnicos del build web se interpretan solo junto con esas condiciones de ejecución. En particular, el indicador de tiempo de carga distingue entre primera carga documentada sin caché precargada y cargas posteriores con caché disponible, para evitar interpretaciones ambiguas del desempeño.
+
+En cuanto al alcance de plataforma, el prototipo se concibió para ejecutarse en navegadores web compatibles de escritorio y móviles soportados por la plataforma web de Unity. Sin embargo, la compatibilidad efectiva depende del navegador, su versión, la memoria disponible y el nivel de optimización del build. Por ello, en este informe la compatibilidad móvil se documenta como compatibilidad esperada y no como una validación exhaustiva por matriz cerrada de dispositivos; la validación empírica exacta se reportará en el capítulo de resultados cuando exista una build congelada y medidas fechadas (Unity Technologies, s. f.).
+
+Una mejora operativa de la condición 3D frente a la referencia 2D no se definirá por una sola cifra aislada, sino por la convergencia descriptiva de varios indicadores: mayor porcentaje de éxito en tareas, tiempos equivalentes o menores, menos errores o ayudas requeridas, carga de trabajo percibida igual o inferior y verbalizaciones cualitativas que indiquen mejor orientación durante la inspección. El SUS se utilizará por separado como lectura global de usabilidad del prototipo 3D y no como métrica comparativa entre condiciones.
 
 \subsection{Instrumentos}
 \label{sec:instrumentos}
 
 \begin{itemize}
-    \item \textbf{KPIs técnicos:} herramientas de profiling y auditoría sobre la build WebGL.
-    \item \textbf{SUS:} System Usability Scale (Brooke, 1996), aplicado como cuestionario posterior a la interacción.
-    \item \textbf{NASA-TLX Raw:} medición de carga cognitiva percibida sobre seis dimensiones (Hart \& Staveland, 1988).
-    \item \textbf{Think-Aloud:} observación cualitativa concurrente durante la ejecución de tareas.
+    \item \textbf{KPIs técnicos:} Unity Profiler mediante \textit{Development Build} y \textit{Autoconnect Profiler} cuando corresponda, herramientas del navegador y auditorías de cobertura y jerarquía.
+    \item \textbf{Registro de desempeño en tareas:} matriz estructurada por condición para documentar tiempo, porcentaje de éxito, errores observables y ayudas requeridas.
+    \item \textbf{SUS:} cuestionario posterior a la interacción con el prototipo 3D para estimar usabilidad percibida mediante 10 ítems en escala Likert de 1 a 5.
+    \item \textbf{NASA-TLX Raw:} cuestionario posterior a tareas para estimar carga de trabajo percibida en seis dimensiones, cada una en escala de 0 a 100. Se usa como medida de \textit{workload} subjetivo y no como medición directa de la Teoría de la Carga Cognitiva. En este informe se adopta la variante \textit{Raw TLX} por su pertinencia para lectura formativa rápida sin ponderación pareada adicional (Hart \& Staveland, 1988; Hart, 2006).
+    \item \textbf{Think-Aloud:} protocolo de verbalización concurrente con instrucción estandarizada, intervención neutral del moderador y apoyo de matriz de observación, audio y captura de pantalla cuando el entorno lo permita.
 \end{itemize}
 
 \subsection{Protocolo de tareas}
@@ -66,42 +121,46 @@ Las tareas de validación se alinean con el flujo visible final de la aplicació
 
 \begin{enumerate}
     \item ingresar al visor desde el Hero;
-    \item navegar la escena con orbit, pan y zoom;
+    \item navegar por la escena con \textit{orbit}, \textit{pan} y \textit{zoom};
     \item seleccionar una pieza y revisar su ficha técnica en el \textit{bottom sheet};
-    \item activar una herramienta de \texttt{Inspect};
+    \item activar una herramienta visible del modo \texttt{Inspect};
     \item usar \texttt{Explode} o \texttt{Cut} en \texttt{Analyze};
-    \item cambiar el modo visual a \texttt{X-Ray} o \texttt{Thermal} en \texttt{Studio}.
+    \item cambiar el modo visual a \texttt{X-Ray} o \texttt{Thermal} en \texttt{Studio};
+    \item resolver tareas equivalentes de identificación o comprensión espacial con un soporte 2D de referencia para contrastar desempeño y percepción.
 \end{enumerate}
 
 \subsection{Procedimiento de análisis}
 
 \subsubsection{Análisis cuantitativo}
 
-El puntaje SUS se calcula mediante el procedimiento estándar de Brooke. Para los ítems impares, la contribución de cada respuesta se obtiene restando 1 al valor marcado por el participante; para los ítems pares, la contribución se obtiene restando la respuesta a 5. La suma de las diez contribuciones produce un subtotal entre 0 y 40, que luego se multiplica por 2.5 para obtener un puntaje global entre 0 y 100:
+El componente cuantitativo del estudio tiene carácter descriptivo y exploratorio. La lectura cuantitativa se organiza por tipo de dato: desempeño en tareas por condición, usabilidad global del prototipo 3D, carga de trabajo percibida por condición y KPIs técnicos de la build web bajo entorno controlado.
 
+El puntaje SUS se calcula según el procedimiento estándar de Brooke:
 \[
 SUS = \left(\sum_{j \in impares}(R_j - 1) + \sum_{j \in pares}(5 - R_j)\right)\times 2.5
 \]
+donde $R_j$ corresponde a la respuesta del participante en el ítem $j$. Un puntaje alto indica mejor usabilidad percibida. Para su lectura, 68 se considera una referencia histórica aproximada del instrumento, mientras que puntajes en el rango 70--72 se interpretan como favorables o por encima del centro de referencia y los valores en los ochenta como claramente superiores, siempre de forma descriptiva y no como umbral absoluto (Bangor et al., 2008, 2009; Sauro \& Lewis, 2016). En este estudio, el SUS se reportará únicamente para la condición 3D.
 
-donde $R_j$ es la respuesta del participante en el ítem $j$. Un valor alto indica mejor usabilidad percibida. Como referencia interpretativa, un puntaje de 68 suele considerarse el umbral convencional de aceptabilidad general, aunque la lectura final debe complementarse con el contexto del caso de uso y con escalas adjetivales como las discutidas por Bangor et al. (2009).
-
-El puntaje global de NASA-TLX Raw se obtiene mediante:
+Para NASA-TLX Raw se promedian las seis dimensiones del instrumento y se obtiene un resultado independiente para cada condición de prueba:
 \[
 NASA\text{-}TLX_{Raw} = \frac{1}{6}\sum_{i=1}^{6} D_i
 \]
+donde $D_i$ corresponde al puntaje observado en demanda mental, demanda física, demanda temporal, rendimiento, esfuerzo y frustración. En esta adaptación se utiliza la variante \textit{Raw TLX}, por lo que no se aplica ponderación por comparaciones pareadas. La dimensión de rendimiento se diligencia con orientación invertida (0 = desempeño perfecto, 100 = desempeño deficiente) para conservar coherencia direccional en el promedio global. Además del promedio agregado, deben reportarse las subescalas para evitar interpretaciones excesivamente reductivas (Hart \& Staveland, 1988; Hart, 2006).
 
-donde $D_i$ representa el puntaje asignado a la dimensión $i$ del instrumento: demanda mental, demanda física, demanda temporal, rendimiento, esfuerzo y frustración. En esta adaptación se utiliza la variante \textit{Raw TLX}, por lo que el resultado corresponde al promedio aritmético simple de las seis escalas. La dimensión de rendimiento se diligencia con orientación invertida (0 = perfecto, 100 = fallido), de modo que un valor más alto siga indicando mayor carga de trabajo percibida y pueda promediarse directamente con las demás dimensiones.
-
-Los KPIs técnicos se contrastan con las metas operativas fijadas para el proyecto, sin cerrar resultados hasta disponer del build congelado posterior a la optimización final.
+Los KPIs técnicos se contrastan con las metas operativas del proyecto y solo pueden cerrarse con datos obtenidos sobre la build congelada posterior a la optimización final.
 
 \subsubsection{Análisis cualitativo}
 
-El protocolo \textit{Think-Aloud} se aplica en modalidad concurrente durante la ejecución de tareas. A cada participante se le solicita verbalizar qué intenta hacer, cómo interpreta la interfaz, qué dudas le surgen, qué errores percibe y con qué criterio decide su siguiente acción. El evaluador registra verbalizaciones relevantes, pausas, puntos de vacilación, errores de navegación, solicitudes de ayuda y estrategias de recuperación.
+El protocolo \textit{Think-Aloud} se aplica en modalidad concurrente durante la ejecución de tareas. A cada participante se le solicita verbalizar qué intenta hacer, cómo interpreta la interfaz, qué dudas le surgen, qué errores percibe y con qué criterio decide su siguiente acción. El evaluador registra verbalizaciones relevantes, pausas, puntos de vacilación, errores de navegación, solicitudes de ayuda y estrategias de recuperación mediante una matriz estructurada por tarea y por condición.
 
-Posteriormente, las observaciones se codifican por categorías analíticas: comprensión espacial del ensamblaje, navegación y control, interpretación de la interfaz, correspondencia terminológica, errores o bloqueos y sugerencias de mejora. Esta lectura cualitativa permite triangular los resultados de SUS y NASA-TLX y explicar por qué determinadas tareas resultaron más claras, más confusas o más demandantes para el usuario (Ericsson \& Simon, 1993).
+Posteriormente, las observaciones se codifican por categorías analíticas: comprensión espacial del ensamblaje, navegación y control de cámara, interpretación de la interfaz, correspondencia terminológica, errores o bloqueos y sugerencias de mejora. Esta lectura cualitativa permite triangular los resultados de SUS y NASA-TLX y explicar por qué determinadas tareas resultan más claras, ambiguas o demandantes para el usuario (Ericsson \& Simon, 1993). Si la codificación se realiza por una sola persona, debe dejarse trazabilidad mediante una segunda pasada de revisión y un memo de codificación.
+
+\subsubsection{Triangulación de hallazgos}
+
+La integración final de resultados seguirá una lógica de triangulación convergente. En primer lugar, los indicadores de desempeño en tareas y los KPIs técnicos describirán la viabilidad operativa de la build web en el entorno de prueba documentado. En segundo lugar, SUS aportará una lectura global de usabilidad del prototipo 3D, mientras que NASA-TLX permitirá comparar la carga de trabajo percibida entre la condición interactiva y la referencia 2D. En tercer lugar, el \textit{Think-Aloud} y la observación estructurada explicarán por qué determinadas tareas producen fricción, claridad o ambigüedad. Un hallazgo se considerará más sólido cuando muestre consistencia entre estas capas de evidencia, teniendo en cuenta que la comparación entre 3D y 2D se apoyará en desempeño y \textit{workload} percibido, mientras que la usabilidad global se informará para el prototipo interactivo.
 
 \subsection{Consideraciones éticas}
 
-La participación en pruebas es voluntaria. No se recolectan datos sensibles y los resultados se reportan de forma agregada. El estudio no contempla intervenciones físicas ni exposición a riesgos adicionales para los participantes.
+La participación en pruebas es voluntaria. No se recolectan datos sensibles y los resultados se reportan de forma agregada o anonimizada. El estudio no contempla intervenciones físicas ni exposición a riesgos adicionales para los participantes.
 
 \newpage

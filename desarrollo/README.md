@@ -1,3 +1,8 @@
+﻿---
+tipo: sistema
+estado: mantenido
+---
+#sistema #configuracion_tecnica
 # 📚 Guía Rápida de Referencia - Proyecto WebGL
 
 ## 🎯 Información Esencial
@@ -231,3 +236,4 @@ Antes de comenzar cada Sprint, verificar:
 **Última actualización:** 2025-11-30  
 **Versión:** 1.0  
 **Estado:** Planificación Completa ✅
+

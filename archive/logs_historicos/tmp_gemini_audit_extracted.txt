@@ -1,0 +1,223 @@
+﻿Reporte de Auditoría Académica y Metodológica de Propuesta de Grado
+A. Veredicto General
+Tras someter la propuesta de trabajo de grado titulada "Diseño y Desarrollo de un Prototipo Web 3D Interactivo para la Visualización Técnica y Análisis Estructural de Hardware de Alto Rendimiento mediante Pipelines de Optimización Gráfica y WebAssembly" a un escrutinio exhaustivo bajo los estándares más estrictos de evaluación de posgrado, el veredicto global determina que el documento se encuentra parcialmente sólido.
+La propuesta exhibe un dominio conceptual avanzado en las áreas de computación gráfica, particularmente en la articulación del modelo de renderizado físicamente basado (PBR). La inclusión de las ecuaciones de reflectancia bidireccional (BRDF) de Cook-Torrance, la aproximación de Fresnel mediante el método de Schlick y la distribución de microfacetas GGX demuestra una comprensión matemática rigurosa que justifica adecuadamente el uso del Universal Render Pipeline (URP).1 Asimismo, la identificación del problema central, la fricción cognitiva generada por la documentación bidimensional en el hardware de alto rendimiento, está bien fundamentada en la Teoría de la Carga Cognitiva, proporcionando una base teórica válida para la investigación aplicada.4
+No obstante, la fundamentación científica y metodológica del proyecto presenta fracturas críticas que comprometen la viabilidad, la validez interna y la defensa académica del trabajo. La deficiencia más grave radica en una profunda confusión epistemológica y bibliográfica respecto al marco de Design Science Research (DSR). El autor atribuye un modelo procesal de seis etapas a Hevner et al. (2004), cuando la literatura canónica de sistemas de información establece de manera inequívoca que Hevner propuso un conjunto de siete directrices filosóficas, mientras que el modelo secuencial de seis fases corresponde a Peffers et al. (2007).6 Esta falacia de atribución es inaceptable en el nivel de posgrado.
+En segundo lugar, el diseño metodológico adolece de una desconexión insalvable entre el enfoque declarado y la muestra poblacional. La propuesta afirma tener un predominio cuantitativo y busca validar estadísticamente hipótesis de usabilidad y carga cognitiva mediante los instrumentos estandarizados SUS (System Usability Scale) y NASA-TLX. Sin embargo, propone una muestra no probabilística de entre ocho y doce participantes. La literatura psicométrica y de interacción humano-computador dictamina que las muestras inferiores a treinta sujetos carecen de la potencia estadística necesaria para realizar inferencias cuantitativas válidas con estos instrumentos, relegando cualquier hallazgo numérico a un plano meramente descriptivo o anecdótico.11 A esto se suma una interpretación errónea de las escalas de calificación, donde el autor define un puntaje SUS de 68 como un indicador de buena usabilidad, ignorando que los estudios de normalización percentil demuestran que 68 representa exactamente la media histórica, catalogada categóricamente como una usabilidad marginal o apenas aceptable.14
+Finalmente, el documento recurre a un lenguaje técnico frecuentemente exagerado y desactualizado. La premisa de que los navegadores móviles imponen un límite estricto de memoria temporal inferior a 150 megabytes ignora las capacidades de compilación modernas de WebAssembly, donde el verdadero cuello de botella es la fragmentación de la memoria y la incapacidad del navegador para asignar bloques contiguos, no un límite absoluto predefinido.17 Además, el benchmarking tecnológico exhibe un sesgo promocional hacia la tecnología Unity, intentando justificar su selección con argumentos de tamaño de archivo que son empíricamente falsos al compararse con bibliotecas nativas más ligeras como Three.js.18
+Para que la propuesta alcance el grado de solidez requerido para su aprobación y posterior ejecución, es imperativo reestructurar el marco metodológico, sincerar el alcance cualitativo de la validación empírica, corregir las imprecisiones técnicas sobre la arquitectura web y neutralizar la retórica de sobreventa a lo largo de todo el manuscrito.
+B. Hallazgos Prioritarios
+Este apartado detalla las vulnerabilidades más severas detectadas en la propuesta. Cada hallazgo se presenta mediante una exposición narrativa continua que contextualiza el error, argumenta su gravedad bajo el escrutinio científico y provee la enmienda técnica correspondiente.
+Atribución Errónea del Marco Metodológico Design Science Research
+El grado de severidad de este hallazgo es Crítico. Se localiza en la sección de Metodología, específicamente en el apartado denominado "Marco de Design Science Research". La afirmación problemática sostiene textualmente que el proyecto se alinea con las seis etapas clásicas del DSR atribuidas a Hevner et al. (2004), enumerando pasos desde la identificación del problema hasta la comunicación. Esta declaración es bibliográfica y conceptualmente falsa. El error es problemático porque demuestra una falta de revisión de fuentes primarias en la metodología central de la tesis. En la disciplina de Sistemas de Información, el artículo seminal de Hevner et al. (2004) estableció siete directrices (guidelines) para evaluar el rigor y la relevancia de un artefacto de TI, pero no propuso un proceso secuencial de investigación. El modelo procesal de seis fases (DSRM) que el autor describe fue estructurado y publicado años después por Peffers, Tuunanen, Rothenberger y Chatterjee en 2007. Confundir el marco evaluativo de Hevner con el marco metodológico procedimental de Peffers invalida el sustento epistemológico del diseño de la investigación.6 La redacción corregida propuesta exige sustituir la premisa inicial para reflejar precisión histórica: "El diseño metodológico se enmarca en la epistemología de Design Science Research (DSR). Operativamente, el proyecto adopta el modelo de proceso de seis etapas propuesto por Peffers et al. (2007), asegurando simultáneamente el cumplimiento de las siete directrices de rigor y relevancia establecidas por Hevner et al. (2004)". Las fuentes primarias que respaldan categóricamente esta corrección son los textos originales de Peffers et al. (2007) y Hevner et al. (2004).8
+Invalidez Estadística del Diseño Muestral para Pruebas Cuantitativas
+El grado de severidad de este hallazgo es Crítico. Se encuentra transversalmente en la sección de Metodología, abarcando los apartados de Tipo de investigación, Muestra y perfil de participantes, y Variables dependientes. La propuesta clasifica la investigación con un "predominio cuantitativo" y promete validar estadísticamente hipótesis mediante la aplicación de las escalas SUS y NASA-TLX en una muestra de 8 a 12 participantes. Esta aproximación es incompleta y metodológicamente no respaldada. La problemática subyace en la incapacidad matemática de derivar significancia estadística de una muestra tan reducida utilizando cuestionarios estandarizados de naturaleza paramétrica o cuasi-paramétrica. Mientras que pioneros de la usabilidad como Nielsen postulan que cinco usuarios bastan para identificar la mayoría de los problemas cualitativos en pruebas formativas, la investigación cuantitativa enfocada en métricas continuas exige muestras considerablemente mayores. La literatura especializada en la medición de usabilidad percibida y carga cognitiva dictamina que los instrumentos cuantitativos requieren típicamente un mínimo de 30 a 40 participantes para estabilizar los intervalos de confianza y generalizar los resultados de manera defendible.11 Mantener el documento actual expondría al autor a un fracaso irremediable durante la defensa de los resultados estadísticos. La redacción corregida propuesta debe alterar el alcance del estudio: "Dada la restricción logística que limita la muestra a un rango de 8 a 12 participantes, la investigación adopta un enfoque mixto con predominio cualitativo-formativo. Los instrumentos estandarizados SUS y NASA-TLX se aplicarán con un propósito estrictamente descriptivo y exploratorio para complementar el protocolo de observación clínica (Think-Aloud), sin pretensiones de inferencia estadística poblacional". Esta corrección se fundamenta en las guías de estandarización psicométrica y tamaño de muestra para UX cuantitativo publicadas por el Nielsen Norman Group y Sauro.11
+Interpretación Sesgada de la Escala de Usabilidad del Sistema (SUS)
+El grado de severidad asignado a este hallazgo es Alto. Se ubica en la sección de Metodología, dentro de la descripción de las Variables dependientes y el Procedimiento de análisis de datos. La afirmación problemática asevera que un puntaje SUS mayor o igual a 68 indica una "mejor usabilidad percibida" y lo define como "el umbral convencional de aceptabilidad general". Esta declaración es exagerada y científicamente engañosa. El error radica en una comprensión superficial de la normalización histórica del instrumento. Tras décadas de aplicación, investigaciones exhaustivas lideradas por Bangor, Kortum y Miller (2008, 2009), y posteriormente por Lewis y Sauro (2016), demostraron que 68 es exactamente el percentil 50 de una inmensa base de datos de pruebas de sistemas. Por consiguiente, un valor de 68 no representa una usabilidad "buena" ni "aceptable", sino una usabilidad marginal, promedio o equivalente a una calificación escolar de "C". Prometer como meta académica un puntaje de 68 significa, en términos prácticos, aspirar a un producto de rendimiento mediocre.14 Para calificar una experiencia como genuinamente aceptable o buena dentro de la escala de adjetivos correlacionados, el sistema debe superar los 71 o 72 puntos, y para considerarse excelente debe acercarse a los 85 puntos.14 La redacción corregida propuesta exige elevar el estándar del proyecto: "Indicador esperado: puntaje global SUS igual o superior a 72. La literatura estandarizada determina que el valor histórico de 68 corresponde únicamente al percentil 50 (usabilidad marginal), por lo que este proyecto define un umbral de 72 para categorizar empíricamente la interfaz 3D como 'Buena' y operativamente aceptable". Las fuentes que respaldan esta rectificación son los estudios de estandarización percentil de Bangor et al. (2009) y los análisis de Sauro.14
+Premisas Desactualizadas sobre la Gestión de Memoria en WebAssembly
+El nivel de severidad de este hallazgo es Alto. El problema emerge en el Planteamiento del Problema, donde la propuesta sostiene que el ecosistema web móvil se encuentra "restringido por anchos de banda limitados y presupuestos de memoria estrictos (<150MB Heap)". Esta afirmación técnica es falsa y desactualizada. El ecosistema web ha evolucionado sustancialmente desde las eras de asm.js y las primeras iteraciones de WebGL. La documentación oficial de motores de renderizado como Unity, bajo los estándares modernos de WebAssembly, detalla que el heap de memoria asignado al aplicativo no posee un límite inamovible de 150 megabytes; por el contrario, la memoria es un bloque contiguo que soporta redimensión automática y puede teóricamente expandirse hasta 2 gigabytes en dispositivos móviles y 4 gigabytes en escritorio. El desafío real que provoca colapsos (crashes) en navegadores móviles no es el tope arbitrario de tamaño, sino la incapacidad del motor de JavaScript del navegador para encontrar y asignar un bloque de memoria física contigua dentro de un espacio de direcciones altamente fragmentado.17 Presentar un límite técnico obsoleto debilita la justificación de las estrategias de optimización geométrica. La redacción corregida propuesta debe apuntar al verdadero fenómeno arquitectónico: "Los modelos CAD de ingeniería imponen una carga computacional inviable para el ecosistema web móvil. Aunque el estándar WebAssembly soporta la redimensión dinámica de memoria, la fragmentación inherente a los navegadores móviles frecuentemente impide la asignación de grandes bloques de memoria contigua, provocando excepciones de desbordamiento (Out of Memory) y el colapso de la aplicación si no se optimiza radicalmente la huella de datos inicial". Esta enmienda se respalda explícitamente en los manuales de gestión de memoria en plataformas Web de Unity Technologies.17
+Inconsistencia Argumentativa y Sesgo de Sobreventa en el Benchmarking
+Este hallazgo presenta una severidad de nivel Medio. Se localiza en la sección Estado del Arte, particularmente en el Benchmarking de soluciones Web 3D y la posterior Brecha identificada. El documento expone en su tabla comparativa que bibliotecas puras como Three.js poseen tamaños de empaquetado (build) cercanos a los 600 KB, mientras que Unity exige descargas iniciales de 5 a 15 MB. A pesar de esta evidencia empírica que desfavorece enormemente al motor seleccionado en términos de latencia de red, la propuesta justifica la elección de Unity afirmando que ofrece un "Balance fidelidad-tamaño". Esta aseveración es exagerada y contradictoria. La penalización en el tiempo de carga introducida por la capa de emulación de Emscripten, la transpiliación de IL2CPP y la sobrecarga de instanciación del motor en WebAssembly es un detrimento comprobado del uso de Unity para la web en contraste con el rendimiento de bibliotecas nativas de JavaScript o TypeScript.18 La adopción de Unity WebGL es lícita, pero debe defenderse por sus verdaderas fortalezas operativas y no por una supuesta eficiencia de tamaño. La redacción corregida propuesta requiere eliminar el sesgo promocional y admitir la compensación tecnológica: "A pesar de que Unity WebGL impone una carga de red inicial considerablemente mayor que bibliotecas nativas como Three.js (5-15 MB frente a <1 MB), su selección se fundamenta en la superioridad de su ecosistema de Technical Art. La integración nativa de un pipeline de renderizado físicamente basado (URP), herramientas visuales para el diseño de shaders analíticos y un motor de físicas determinista, justifican la penalización en latencia inicial a cambio de viabilizar el desarrollo acelerado de interacciones estructurales complejas requeridas por la ingeniería". Esta narrativa objetiva se sustenta en análisis comparativos contemporáneos de rendimiento de renderizado en tiempo real para aplicaciones Web3D.18
+C. Matriz Exhaustiva de Afirmaciones Auditadas
+La siguiente matriz despliega una revisión forense de las premisas individuales a lo largo de la propuesta, contrastándolas con la literatura técnica primaria, los estándares de usabilidad vigentes y las especificaciones de la arquitectura web.
+Sección
+Afirmación original
+Estado
+Explicación
+Redacción corregida propuesta
+Fuente recomendada o confirmatoria
+Acción
+Resumen
+"imponen una alta carga cognitiva al intentar comprender estructuras tridimensionales"
+Verificada
+El uso del término "carga cognitiva" para describir el esfuerzo de traducción mental bidimensional a tridimensional está respaldado teóricamente por la literatura de la Teoría de la Carga Cognitiva.
+Mantener la redacción original. El uso conceptual es metodológicamente robusto.
+Sweller (1988), Literatura sobre carga cognitiva en HCI 4
+Mantener
+Planteamiento del problema
+"barrera técnica monumental"
+Exagerada
+El adjetivo "monumental" pertenece al lenguaje sensacionalista. La redacción académica exige neutralidad descriptiva basada en la magnitud del desafío computacional, no en impresiones dramáticas.
+"barrera técnica significativa" o "restricciones arquitectónicas severas"
+Estándar de redacción científica APA 7
+Atenuar
+Planteamiento del problema
+"optimización extrema"
+Ambigua
+En la ingeniería gráfica, la optimización no es "extrema"; es un proceso algorítmico y matemático cuantificable basado en presupuestos poligonales y conteo de llamadas de dibujo.
+"estrategias rigurosas de optimización geométrica y reducción de llamadas de dibujo (draw calls)"
+Documentación de optimización WebGL 24
+Corregir
+Justificación
+"arquitectura más robusta para sistemas con múltiples managers"
+Exagerada
+"Robusta" es un término de marketing indefinido en este contexto. Se debe especificar que la ventaja proviene del paradigma de orientación a objetos y el tipado estático del lenguaje subyacente transpilado a WASM.
+"una arquitectura de ejecución estructurada y de tipado estático que facilita el manejo de sistemas con múltiples gestores y dependencias complejas"
+Arquitectura de compilación IL2CPP de Unity 22
+Corregir
+Marco Teórico
+"Tframe  33,33 ms (30 FPS o más)"
+Verificada
+La aserción matemática sobre el presupuesto de tiempo de cuadro para mantener 30 fotogramas por segundo es exacta.
+Mantener redacción original.
+Principios de renderizado en tiempo real 27
+Mantener
+Marco Teórico
+Ecuación de Cook-Torrance:
+Verificada
+La formulación de la función de distribución de reflectancia bidireccional especular coincide con el estándar adoptado por pipelines PBR de la industria (URP, Unreal, Filament).
+Mantener redacción original. Es prudente enfatizar que el motor abstrae esta ecuación.
+Cook & Torrance (1982), Literatura PBR 2
+Mantener
+Marco Teórico
+Ecuación de aproximación de Schlick:
+Verificada
+La aproximación computacionalmente económica del efecto Fresnel descrita corresponde fielmente a la deducción matemática de Christophe Schlick y es estándar en WebGL.
+Mantener redacción original.
+Schlick (1994) 1
+Mantener
+Metodología
+"El proyecto se alinea con las seis etapas clásicas del DSR (Hevner et al., 2004)"
+Falsa
+Representa el error bibliográfico más grave de la propuesta. Hevner formuló siete directrices; las seis etapas procedimentales de diseño pertenecen inequívocamente a Peffers et al. (2007).
+"El proyecto estructura su fase procedimental basándose en las seis etapas del DSRM propuestas por Peffers et al. (2007)."
+Peffers et al. (2007) 8
+Sustituir
+Metodología
+"enfoque mixto y predominio cuantitativo" basado en muestra de 8 a 12 sujetos.
+Falsa
+El bajo tamaño de la muestra anula la posibilidad estadística de realizar pruebas inferenciales paramétricas, invalidando la premisa de "predominio cuantitativo" que requiere un N mayor a 30.
+"enfoque mixto con predominio cualitativo-formativo, utilizando métricas numéricas de manera exploratoria"
+Recomendaciones de tamaño de muestra para UX cuantitativo 11
+Corregir
+Metodología
+"umbral convencional de aceptabilidad general" asignado al valor SUS de 68.
+Incompleta
+La literatura estandarizada postula que 68 representa el percentil 50 de la distribución, constituyendo un rendimiento apenas marginal o "OK". El umbral de "buena" aceptabilidad supera los 71 puntos.
+"Para considerar la usabilidad como buena o aceptable, se establece la meta empírica de superar los 71 puntos, dado que el valor de 68 solo representa la media estadística poblacional."
+Bangor et al. (2009), Sauro & Lewis (2016) 14
+Corregir
+Metodología
+"promedio de las seis dimensiones del NASA-TLX Raw"
+Verificada
+El uso del formato "Raw" (no ponderado por pares comparativos) sumando y promediando aritméticamente las seis escalas es un método validado y aceptado en la literatura moderna de factores humanos para evaluaciones de carga rápidas.
+Mantener redacción original.
+Literatura sobre NASA-TLX Raw 32
+Mantener
+Resultados Esperados
+"cumplimiento de KPIs de rendimiento y carga"
+Ambigua
+Establecer a priori el éxito empírico en la tabla de productos esperados infringe el método científico; un proyecto de investigación evalúa hipótesis, no garantiza infalibilidad técnica antes de la experimentación.
+"reporte empírico de evaluación de los KPIs técnicos de rendimiento y estimación de carga cognitiva"
+Estándares de redacción de proyectos de investigación DSR.
+Atenuar
+D. Matriz de Coherencia Interna
+La robustez de una tesis de posgrado descansa en la concatenación inquebrantable de sus elementos constitutivos. Esta matriz audita si las declaraciones de la propuesta conforman un hilo conductor lógico desde el génesis del problema hasta la entrega de los resultados proyectados.
+Componente del Documento
+Enunciado Sintetizado del Proyecto
+Análisis de Coherencia y Tensión Argumentativa
+Acción Correctiva Exigida
+Planteamiento del Problema
+Los ingenieros padecen carga cognitiva alta intentando descifrar diagramas técnicos estáticos en 2D. A su vez, los modelos CAD nativos (NURBS) son gigantescos e impiden su carga directa en la web debido a limitaciones arquitectónicas y de banda ancha de los navegadores.
+Coherencia Fuerte. El problema articula con precisión un desafío dual: uno de naturaleza psicométrica (fatiga cognitiva) y otro de naturaleza computacional (el costo de renderizado de modelos industriales).
+N/A. El planteamiento base está sólidamente estructurado y justificado.
+Pregunta de Investigación
+Implícita: ¿Cómo diseñar un pipeline WebGL que despliegue modelos técnicos con alto rendimiento reduciendo la fricción cognitiva del usuario?
+Desconexión Menor. Aunque la pregunta se infiere de la lectura de todo el texto, el documento omite formularla explícitamente de manera independiente. En los protocolos de tesis, saltar del problema a los objetivos sin establecer formalmente la pregunta matriz es un error procedimental.
+Formular la pregunta de investigación de forma explícita en un párrafo dedicado inmediatamente después del cierre del planteamiento del problema.
+Objetivos
+1. Optimizar CAD topológicamente. 2. Integrar URP y shaders analíticos asegurando al menos 30 FPS. 3. Programar interacción WASM. 4. Validar usabilidad (SUS) y carga cognitiva (NASA-TLX).
+Desconexión Metodológica Grave. Los objetivos 1, 2 y 3 reflejan perfectamente el desafío técnico y la solución tecnológica propuesta. Sin embargo, el objetivo 4 (validación formal) colisiona catastróficamente con la metodología de recolección de datos descrita páginas más adelante. No se puede "validar" la usabilidad como métrica universal utilizando ocho individuos evaluados bajo métodos de autopercepción.11
+Reestructurar el alcance del Objetivo 4 para alinear la expectativa con la viabilidad estadística: "Evaluar cualitativamente la interacción del usuario e indexar métricas preliminares descriptivas de carga cognitiva y percepción de usabilidad utilizando NASA-TLX y SUS".
+Justificación
+Defiende la elección de Unity WebGL aduciendo su convergencia tecnológica, su capacidad para orquestar la compilación a WebAssembly y la oportunidad de proveer acceso democratizado desde navegadores móviles a sistemas de ingeniería complejos.
+Inconsistencia de Escala Operativa. Prometer la "democratización" del acceso desde navegadores móviles genera una trampa argumentativa. La realidad técnica dictamina que el tamaño inherente de las aplicaciones Unity y la sobrecarga de CPU por la ejecución de Emscripten en dispositivos móviles restringen severamente la accesibilidad en dispositivos de gama baja o conexiones lentas.22
+Moderar el tono en la justificación. Especificar que el prototipo validará la factibilidad operativa principalmente en plataformas de escritorio y dispositivos móviles de segmentos superiores (ej. procesadores Snapdragon de última generación), admitiendo las latencias de carga inicial inherentes a la solución adoptada.
+Metodología
+Implementación cíclica amparada bajo el paradigma Design Science Research (DSR), utilizando un enfoque mixto que presume de "predominio cuantitativo", recolectando datos mediante perfiles de rendimiento del motor (profiling) y escalas psicométricas (SUS, TLX) en grupos diminutos de prueba (Think-Aloud).
+Inconsistencia Interna Severa. Es el punto de falla más notable del diseño de la propuesta. El "predominio cuantitativo" es una afirmación matemáticamente insostenible cuando el bloque central de la investigación con usuarios depende de un tamaño de muestra marginal ().11 Los datos técnicos (FPS, tiempo de ejecución, polígonos) sí son cuantitativos, pero la rama de factores humanos de la tesis es obligatoriamente cualitativa bajo este diseño.
+Eliminar la frase "predominio cuantitativo". Replantear la naturaleza de la investigación declarándola como: "Enfoque mixto con predominio empírico-descriptivo para el desempeño computacional, y cualitativo-formativo para la interacción de los usuarios". Reconocer el Think-Aloud como la fuente de datos primaria de la experiencia.
+Resultados Esperados
+Entrega de un artefacto de software (prototipo WebGL funcional), un sistema validado de shaders analíticos, activos 3D optimizados para web y un informe comprobado de evaluación que certifica el cumplimiento de los indicadores de usabilidad, eficiencia y carga.
+Desconexión Lógica. Un trabajo de grado riguroso no puede predeterminar el éxito absoluto de la experimentación en su matriz de proyección. Afirmar en la etapa de propuesta el "cumplimiento de KPIs" sesga la naturaleza de la comprobación hipotética. Asimismo, un informe derivado de una muestra no probabilística no puede extrapolar hallazgos estadísticos categóricos sobre el comportamiento de medios convencionales frente a los medios 3D en poblaciones globales.
+Transmutar el lenguaje predictivo hacia uno de consolidación de hallazgos. Reemplazar "cumplimiento de KPIs" por "reporte exhaustivo de desempeño técnico contrastado contra las métricas objetivo (benchmark)". Cambiar la expectativa de validación total de usabilidad por un "diagnóstico formativo de usabilidad percibida y evaluación comparativa exploratoria".
+E. Bibliografía Faltante o Mejorable
+Para solventar las deficiencias epistemológicas, metodológicas y técnicas señaladas en el presente análisis y brindar un blindaje argumentativo inexpugnable ante un panel evaluador de posgrado, el documento requiere imperativamente la inclusión y referenciación activa en el texto de las siguientes fuentes académicas y documentos oficiales. La adopción de esta bibliografía transformará las conjeturas debilitadas en premisas comprobadas científicamente.
+1. Para la enmienda del marco metodológico procedimental (Las seis fases del DSRM):
+El autor ha cometido el grave error de atribuir a Hevner et al. (2004) un modelo secuencial de desarrollo. Para documentar el proceso iterativo que va desde la identificación del problema hasta la comunicación, se debe incorporar la cita original que consolidó este paradigma en la investigación de Sistemas de Información.
+Peffers, K., Tuunanen, T., Rothenberger, M. A., & Chatterjee, S. (2007). A design science research methodology for information systems research. Journal of Management Information Systems, 24(3), 45-77. https://doi.org/10.2753/MIS0742-1222240302
+2. Para la fundamentación empírica y la justificación de la interpretación percentil del SUS:
+El documento alude a un puntaje de 68 como sinónimo de éxito o buena usabilidad, fundamentándose parcialmente en interpretaciones primitivas de la escala. Las fuentes listadas a continuación demuestran a través del análisis de miles de estudios que 68 representa una usabilidad meramente marginal, proporcionando la base teórica para exigirle al artefacto propuesto un umbral mínimo de 72.
+Bangor, A., Kortum, P. T., & Miller, J. T. (2009). Determining what individual SUS scores mean: Adding an adjective rating scale. Journal of Usability Studies, 4(3), 114-123.
+Sauro, J., & Lewis, J. R. (2016). Quantifying the User Experience: Practical Statistics for User Research (2nd ed.). Morgan Kaufmann.
+3. Para la corrección de las afirmaciones tecnológicas sobre los límites del ecosistema WebGL móvil:
+El argumento central de optimización de la propuesta asume de forma especulativa que el ecosistema móvil bloquea estrictamente los heaps por encima de los 150 MB. La documentación contemporánea aclara que el mecanismo de fallo es topológico (fragmentación y asignación de bloques contiguos en el espacio virtual). Para dotar de rigor esta sección de la tesis, se debe referenciar la documentación directa de la arquitectura empleada.
+Unity Technologies. (2024). Memory in WebGL. Unity Documentation. Recuperado de https://docs.unity3d.com/Manual/webgl-memory.html
+4. Para robustecer el análisis comparativo del Estado del Arte y justificar las cargas computacionales de CPU/GPU:
+El benchmarking actual delinea superficialmente las distinciones de tamaño de descarga, sin penetrar en las diferencias inherentes de costo computacional de renderizado a nivel navegador. El siguiente artículo revisado por pares analiza la sobrecarga gráfica web y contextualiza por qué soluciones emergentes son relevantes o por qué WebGL tradicional exige optimizaciones tan severas como las planteadas en la investigación.
+Fransson, E., Hermansson, J., & Hu, Y. (2024). A Comparison of Performance on WebGPU and WebGL in the Godot Game Engine. 2024 IEEE Gaming, Entertainment, and Media Conference (GEM), 1-8. https://doi.org/10.1109/GEM61861.2024.10585437
+F. Reescrituras Listas para Usar
+Las secciones del documento original con fallas más prevalentes en términos de rigor, tono y factualidad han sido rediseñadas íntegramente. Los siguientes fragmentos, provistos en español académico estándar para instituciones de educación superior en Colombia, suprimen adjetivos sensacionalistas, reparan las debilidades argumentativas previamente auditadas y proyectan un estándar metodológico maduro, listo para ser integrado directamente en el manuscrito final.
+Bloque de Reescritura 1: Planteamiento del Problema (Refactorización del contexto de memoria e incompatibilidad web)
+(Debe reemplazar los párrafos referidos a la "barrera técnica monumental" y al límite especulativo de memoria en la página 10 del documento original).
+"Sin embargo, la migración del escrutinio técnico hacia entornos 3D interactivos en la red enfrenta restricciones arquitectónicas significativas impuestas por el entorno de ejecución computacional de los navegadores. Los modelos CAD originales empleados rutinariamente en la ingeniería de diseño (estructuras basadas en mallas NURBS de alta densidad, con tamaños de archivo frecuentemente superiores a gigabytes) son geométrica y computacionalmente incompatibles con las plataformas web de acceso directo. A esta problemática se suma la gestión volátil de la memoria en dispositivos de hardware portátil. El despliegue de aplicaciones gráficas precompiladas a WebAssembly no está constreñido por topes de memoria fijos absolutos, dado que la tecnología soporta la redimensión dinámica del heap de ejecución; no obstante, la fragmentación intrínseca de la memoria física en navegadores móviles recurrentemente impide la asignación ininterrumpida de bloques de memoria contigua en el espacio de direcciones. Como consecuencia, si la huella inicial de los activos no es drásticamente minimizada, se originan excepciones críticas de desbordamiento (Unity Technologies, 2024), precipitando el colapso del sistema.
+En la actualidad, el entorno académico carece de un pipeline documentado y estandarizado de arte técnico (Technical Art) que permita asimilar, optimizar y transmutar de forma segura esta volumetría de datos industriales complejos hacia arquitecturas modulares web. El problema estructural del diseño de este prototipo radica en sortear la 'Brecha de Fidelidad contra Rendimiento', requiriendo la ejecución de estrategias rigurosas de optimización geométrica, baking de texturas y reducción selectiva de las llamadas de dibujo (draw calls), sin destruir la precisión analítica y topológica demandada por la disciplina ingenieril."
+Bloque de Reescritura 2: Justificación (Corrección del enfoque tecnológico y eliminación del sesgo promocional)
+(Debe reemplazar la argumentación subjetiva y el benchmarking descontextualizado en la página 12 y la sección de Estado del Arte).
+"La selección del motor de desarrollo Unity WebGL por encima de ecosistemas basados en bibliotecas puras de JavaScript y WebGL directo (como Three.js o Babylon.js) no obedece a una presunción de optimización en la huella de datos inicial. Empíricamente, las soluciones escritas de forma nativa sobre el modelo de objetos del documento (DOM) y WebGL resultan sustancialmente más eficientes en tiempos de descarga transaccional y tamaño de empaquetado, reportando pesos frecuentemente inferiores al megabyte (Fransson et al., 2024; Yu et al., 2023). Por el contrario, el modelo de Unity impone una penalización insoslayable en términos de latencia de red, requiriendo la descarga y compilación local de la capa de emulación Emscripten y del núcleo del motor transpilado desde C#.
+La justificación para absorber este costo computacional recae íntegramente en la cohesión y robustez de la arquitectura de autoría subyacente. Las implementaciones nativas en JavaScript exigen la programación fragmentada y desde cero de los canalizadores (pipelines) de importación geométrica, la orquestación manual de las interacciones espaciales jerárquicas y la codificación algorítmica de los métodos de físicas e iluminación. En contraste, la ruta de compilación adoptada (IL2CPP a WebAssembly) confiere al prototipo las ventajas del tipado estático, una previsibilidad en el ciclo de actualización de objetos lógicos y la integración nativa de un sistema de renderizado universalmente estructurado (URP). Esta decisión sacrifica intencionalmente tiempos mínimos de carga inicial en navegadores móviles de gama baja, en aras de propiciar un desarrollo ágil, iterativo y escalable, capaz de soportar la intrincada matemática detrás de las sombras de corte transversal y los sistemas de inspección visual dictaminados por los objetivos de ingeniería del proyecto."
+Bloque de Reescritura 3: Marco Metodológico (Saneamiento de la paradoja bibliográfica en Design Science)
+(Debe reemplazar totalmente la sección de Marco de Design Science Research en la página 33 y la falsa atribución de Hevner).
+"Arquitectura Epistemológica y Marco Metodológico
+La investigación se cimenta paradigmáticamente bajo el enfoque de Design Science Research (DSR), disciplina epistemológica postulada sobre la premisa de que los vacíos en los dominios de conocimiento pueden resolverse mediante la invención, construcción e iteración evaluativa de artefactos innovadores diseñados para fines prácticos. El desarrollo integral del proyecto se articula en concordancia ineludible con las siete directrices de rigor, utilidad, evaluación e iteración de búsqueda científica estipuladas por Hevner et al. (2004).
+Operativamente, para dotar de trazabilidad a la ejecución temporal de la investigación, el cronograma y el diseño de la investigación asumen el modelo estructurado de procesos metodológicos (DSRM) conceptualizado y formulado por Peffers, Tuunanen, Rothenberger y Chatterjee (2007). Esta secuencia procesal se materializa en las siguientes fases interconectadas:
+Identificación del problema y derivación de motivación: Formulación de la brecha cognitiva del diseño CAD bidimensional frente a sus exigencias geométricas web.
+Definición teleológica de los objetivos de la solución: Conceptualización de parámetros de rendimiento y latencia admisibles (e.g., cuota presupuestal geométrica capaz de sostener frecuencias superiores a los 30 cuadros por segundo).
+Diseño, orquestación y desarrollo de ingeniería: Estructuración tangible del activo mediante optimización topológica y compilación del entorno interactivo dentro de Unity WebGL.
+Fase de demostración empírica: Publicación y despliegue del prototipo compilado en servidores de almacenamiento accesibles mediante navegadores comerciales estándar.
+Evaluación de viabilidad y asimilación humana: Auscultación diagnóstica del comportamiento en entorno real, aplicando protocolos cualitativos y registros exploratorios numéricos orientados a validar el impacto percibido en la carga cognitiva y el grado de usabilidad.
+Diseminación y comunicación científica: Consolidación de la evidencia algorítmica y conductual recolectada para la socialización rigurosa de los aportes disciplinares de la ingeniería multimedia."
+Bloque de Reescritura 4: Muestra, Variables y Diseño Experimental (Rectificación de falacia estadística)
+(Debe sustituir las secciones referidas al diseño cuantitativo en las páginas 35 a la 38 para prevenir objeciones sobre la potencia de la prueba psicométrica).
+"Dimensión del Diseño Experimental y Perfil de la Muestra Poblacional
+Con el propósito de escudriñar la interacción de usuarios reales frente al entorno tridimensional propuesto, se define la participación de una muestra de conveniencia no probabilística integrada por entre ocho y doce sujetos, seleccionados según criterios de afinidad técnica (estudiantes, operarios o profesionales inmersos en sectores de mantenimiento o manufactura digital).
+Debido a que las dimensiones reducidas del bloque muestral inhiben la posibilidad matemática de consolidar intervalos de confianza rigurosos y anulan el poder estadístico necesario para ejercer contrastes inferenciales poblacionales con métricas paramétricas (Sauro & Lewis, 2016), este estudio se desvincula de las pretensiones de validación cuantitativa universal. La investigación adoptará, en su lugar, un diseño metodológico mixto con fuerte predominio cualitativo y formativo orientado al comportamiento del usuario.
+El instrumento central para la evaluación empírica radicará en la implementación de una sesión estructurada bajo el protocolo de verbalización concurrente (Think-Aloud). Esta técnica fenomenológica posibilita registrar de primera mano modelos mentales fracturados, pausas analíticas prolongadas y la estructuración de la navegación tridimensional.
+Utilización Exploratoria de Herramientas Psicométricas (SUS y NASA-TLX)
+Los cuestionarios estandarizados de validación System Usability Scale (SUS) y el Índice de Carga de Tareas NASA-TLX (en su variante Raw, evaluado como un promedio aritmético de las seis dimensiones crudas) no serán suprimidos del diseño experimental. Serán implementados como instrumentos de tabulación descriptiva para proveer una métrica secundaria complementaria (triangulación metodológica superficial). En lugar de procesar los datos resultantes buscando correlaciones paramétricas (ej., coeficientes de Pearson o regresiones lineales), los hallazgos numéricos aportarán índices exploratorios direccionales que se adjuntarán a los registros del Think-Aloud.
+Finalmente, a nivel referencial respecto a la escala de usabilidad SUS, la investigación corrige el umbral de aceptación dictaminado tradicionalmente. La vasta literatura normativa contemporánea (Bangor et al., 2009; Sauro & Lewis, 2016) estipula que una puntuación de 68 no representa un producto 'bueno' o 'exitoso', sino que es la manifestación exacta del percentil cincuenta poblacional, describiendo un sistema de usabilidad marginal. Bajo este mandato, los resultados de usabilidad de la herramienta tridimensional propuesta se interpretarán como un indicador positivo o de calidad 'Aceptable-Buena' únicamente si logran sobrepasar la meta empírica direccional de 72 puntos ponderados."
+Obras citadas
+Schlick's approximation - Wikipedia, fecha de acceso: abril 14, 2026, https://en.wikipedia.org/wiki/Schlick%27s_approximation
+Importance Sampling techniques for GGX with Smith Masking-Shadowing: Part 1, fecha de acceso: abril 14, 2026, https://schuttejoe.github.io/post/ggximportancesamplingpart1/
+Article - Physically Based Rendering - Cook–Torrance - Coding Labs, fecha de acceso: abril 14, 2026, https://www.codinglabs.net/article_physically_based_rendering_cook_torrance.aspx
+Usability Testing and the System Usability Scale Effectiveness ..., fecha de acceso: abril 14, 2026, https://pmc.ncbi.nlm.nih.gov/articles/PMC12845781/
+final_proposal.pdf
+Design Science Research Methodology Overview | PDF - Scribd, fecha de acceso: abril 14, 2026, https://www.scribd.com/document/724877871/DESIGN-SCIENCE-RESEARCH-METHODOLOGY
+DESIGN SCIENCE RESEARCH IN ACTION – ANATOMY OF SUCCESS CRITICAL ACTIVITIES FOR RIGOR AND RELEVANCE, fecha de acceso: abril 14, 2026, https://publikationen.bibliothek.kit.edu/1000055012/3873928
+Design Science Research Methodology | PDF - Scribd, fecha de acceso: abril 14, 2026, https://www.scribd.com/document/214843195/Peffers-Et-Al-2007-a-Design-Science-Research-Methodology-for-Information-Systems-Research
+Design science (methodology) - Wikipedia, fecha de acceso: abril 14, 2026, https://en.wikipedia.org/wiki/Design_science_(methodology)
+Design Science Research according to Peffers et al, fecha de acceso: abril 14, 2026, https://wiki.mydesignprocess.com/index.php?title=Design_Science_Research_according_to_Peffers_et_al
+Beyond the NPS: Measuring Perceived Usability with the SUS, NASA-TLX, and the Single Ease Question After Tasks and Usability Tests - NN/G, fecha de acceso: abril 14, 2026, https://www.nngroup.com/articles/measuring-perceived-usability/
+fecha de acceso: abril 14, 2026, https://www.nngroup.com/articles/measuring-perceived-usability/#:~:text=It%20is%20critical%20to%20note,confident%20that%20their%20results%20generalize.
+Sample size recommendations - UserTesting Knowledge Base, fecha de acceso: abril 14, 2026, https://help.usertesting.com/hc/en-us/articles/14820712486941-Sample-size-recommendations
+5 Ways to Interpret a SUS Score - MeasuringU, fecha de acceso: abril 14, 2026, https://measuringu.com/interpret-sus-score/
+Measuring Usability - Test Science, fecha de acceso: abril 14, 2026, https://testscience.org/measuring-usability/
+An Overview of the System Usability Scale in Library Website and System Usability Testing | Weave - Michigan Publishing, fecha de acceso: abril 14, 2026, https://journals.publishing.umich.edu/weaveux/article/pubid/12535642.0001.602/
+Manual: Memory in Unity Web, fecha de acceso: abril 14, 2026, https://docs.unity3d.com/Manual/webgl-memory.html
+Three.js vs Unity for Web | Comparison Guide 2026 - Utsubo, fecha de acceso: abril 14, 2026, https://www.utsubo.com/blog/threejs-vs-unity-web-comparison
+Needle vs. three.js vs. Unity WebGL, fecha de acceso: abril 14, 2026, https://cloud.needle.tools/compare/needle-vs-threejs-vs-unity-webgl
+Memory and Performance Issues in Unity WebGL Builds | Backtrace Blog, fecha de acceso: abril 14, 2026, https://backtrace.io/blog/memory-and-performance-issues-in-unity-webgl-builds
+Memory in WebGL - Unity - Manual, fecha de acceso: abril 14, 2026, https://docs.unity3d.com/2020.1/Documentation/Manual/webgl-memory.html
+Web runtime updates are here: Take your browser to the next level - Unity, fecha de acceso: abril 14, 2026, https://unity.com/blog/engine-platform/web-runtime-updates-enhance-browser-experience
+A survey of real-time rendering on Web3D application | Request PDF - ResearchGate, fecha de acceso: abril 14, 2026, https://www.researchgate.net/publication/375260125_A_survey_of_real-time_rendering_on_Web3D_application
+WebGL best practices - Web APIs | MDN, fecha de acceso: abril 14, 2026, https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices
+WebGL vs Canvas: Best Choice for Browser-Based CAD Tools - AlterSquare, fecha de acceso: abril 14, 2026, https://www.altersquare.io/webgl-vs-canvas-best-choice-for-browser-based-cad-tools/
+IL2CPP, but better - Sebastian Schöner, fecha de acceso: abril 14, 2026, https://blog.s-schoener.com/2025-04-07-cpp2better/
+Unity optimization for webgl mobile - Reddit, fecha de acceso: abril 14, 2026, https://www.reddit.com/r/unity/comments/1r8klkb/unity_optimization_for_webgl_mobile/
+GPU Benchmarks Hierarchy 2026 - Graphics Card Rankings | Tom's Hardware, fecha de acceso: abril 14, 2026, https://www.tomshardware.com/reviews/gpu-hierarchy,4388.html
+A quick look at Physically-Based Rendering (Part 1 of a series), fecha de acceso: abril 14, 2026, https://www.nickiebba.com/single-post/2017/03/29/a-quick-look-at-physically-based-rendering-part-1-of-a-series
+A Design Science Research Methodology for Information Systems Research - CERN Indico, fecha de acceso: abril 14, 2026, https://indico.cern.ch/event/1542774/contributions/6494311/attachments/3080345/5465431/Peffers_2007_A%20Design%20Science%20Research%20Methodology%20for%20Information%20Systems%20Research.pdf
+How Many Participants for Quantitative Usability Studies: A Summary of Sample-Size Recommendations - NN/G, fecha de acceso: abril 14, 2026, https://www.nngroup.com/articles/summary-quant-sample-sizes/
+Measuring Workload - Test Science, fecha de acceso: abril 14, 2026, https://testscience.org/measuring-workload/
+JOB SATISFACTION AND ITS RELATION WITH PERCEIVED WORKLOAD: AN APPLICATION IN A RESEARCH INSTITUTION A THESIS SUBMITTED TO THE GR, fecha de acceso: abril 14, 2026, https://etd.lib.metu.edu.tr/upload/12618134/index.pdf
+Unity WebGL - Benchmarks, Limitations and Suggestions : r/Unity3D - Reddit, fecha de acceso: abril 14, 2026, https://www.reddit.com/r/Unity3D/comments/4dl8dl/unity_webgl_benchmarks_limitations_and_suggestions/

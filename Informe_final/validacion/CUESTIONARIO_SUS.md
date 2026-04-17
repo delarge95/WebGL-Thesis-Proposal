@@ -3,44 +3,55 @@
 
 ---
 
-## Instrucciones para el Evaluador
+## Instrucciones para el evaluador
 
-Este cuestionario utiliza la escala **System Usability Scale (SUS)** desarrollada por John Brooke (1986). Es una herramienta validada internacionalmente para medir la usabilidad percibida de un sistema.
+Este cuestionario utiliza la escala **System Usability Scale (SUS)** desarrollada por John Brooke (1996). Es una herramienta validada internacionalmente para medir la usabilidad percibida de un sistema.
 
 ### Aplicación
-1. El participante usa el prototipo por **10-15 minutos** realizando las tareas asignadas
-2. Inmediatamente después, completa este cuestionario
-3. Debe responder basándose en su **primera impresión**
-4. No se permite volver atrás ni cambiar respuestas
+1. El participante usa el prototipo por **10 a 15 minutos** realizando las tareas asignadas.
+2. Inmediatamente después, completa este cuestionario.
+3. Debe responder basándose en su experiencia reciente con el sistema.
+4. No se deben modificar respuestas una vez registradas.
 
-### Cálculo del Puntaje
-1. Para ítems impares (1, 3, 5, 7, 9): restar 1 al valor marcado
-2. Para ítems pares (2, 4, 6, 8, 10): restar el valor de 5
-3. Sumar todos los valores ajustados
-4. Multiplicar por 2.5
-5. Resultado: puntaje de 0 a 100
+### Cálculo del puntaje
+1. Para ítems impares (1, 3, 5, 7, 9): restar 1 al valor marcado.
+2. Para ítems pares (2, 4, 6, 8, 10): calcular `5 - valor marcado`.
+3. Sumar los diez valores ajustados.
+4. Multiplicar la suma por 2.5.
+5. El resultado final es un puntaje entre 0 y 100.
 
-### Interpretación
-| Puntaje | Calificación | Percentil |
-|---------|--------------|-----------|
-| 0-25 | Inaceptable | Peor |
-| 26-50 | Pobre | Bajo |
-| 51-67 | OK | Promedio |
-| 68-80 | Bueno | Por encima |
-| 81-100 | Excelente | Superior |
+En notación del informe:
 
-**Meta del proyecto: SUS ≥ 68 (Bueno)**
+```text
+SUS = 2.5 * Σ S_i
+```
+
+donde `S_i` corresponde al valor ajustado de cada ítem.
+
+### Interpretación orientadora
+
+| Puntaje | Lectura aproximada |
+|---------|--------------------|
+| 0-25 | Inaceptable |
+| 26-50 | Pobre |
+| 51-67 | Bajo / cercano al promedio inferior |
+| 68 | Promedio histórico del instrumento |
+| 69-72 | Aceptable / favorable |
+| 73-80 | Bueno |
+| 81-100 | Muy bueno a excelente |
+
+**Nota metodológica:** el valor 68 se toma como referencia de promedio histórico del instrumento y no como prueba automática de “buena usabilidad”. Para este proyecto, valores iguales o superiores a 72 se consideran una referencia más favorable, pero siempre deben interpretarse junto con observación cualitativa, desempeño en tareas y comentarios de usuarios.
 
 ---
 
-## Datos del Participante
+## Datos del participante
 
-**Código de Participante:** _____________ (ej: P01, P02...)
+**Código de participante:** _____________ (ej.: P01, P02...)
 
 **Fecha:** _____________
 
 **Perfil:**
-- [ ] Ingeniero/Técnico en hardware
+- [ ] Ingeniero o técnico en hardware
 - [ ] Estudiante de ingeniería
 - [ ] Profesional de diseño 3D
 - [ ] Otro: _____________
@@ -48,7 +59,7 @@ Este cuestionario utiliza la escala **System Usability Scale (SUS)** desarrollad
 **Experiencia con visualizadores 3D:**
 - [ ] Ninguna
 - [ ] Básica (menos de 1 año)
-- [ ] Intermedia (1-3 años)
+- [ ] Intermedia (1 a 3 años)
 - [ ] Avanzada (más de 3 años)
 
 **Dispositivo utilizado:**
@@ -57,20 +68,21 @@ Este cuestionario utiliza la escala **System Usability Scale (SUS)** desarrollad
 - [ ] Tablet
 - [ ] Smartphone
 
+**Navegador utilizado:** ______________________
+
 ---
 
-## Tareas Completadas
+## Tareas completadas
 
-Antes del cuestionario, el participante debe completar las siguientes tareas:
+Antes del cuestionario, el participante debe completar las siguientes tareas sobre la build evaluada:
 
 | # | Tarea | Completada |
 |---|-------|------------|
-| 1 | Navegar alrededor del drone usando el mouse | [ ] Sí [ ] No |
-| 2 | Seleccionar una pieza y ver su información | [ ] Sí [ ] No |
-| 3 | Activar la vista explosionada | [ ] Sí [ ] No |
-| 4 | Cambiar a modo de visualización X-Ray | [ ] Sí [ ] No |
-| 5 | Usar la herramienta de medición | [ ] Sí [ ] No |
-| 6 | Buscar una pieza en el catálogo | [ ] Sí [ ] No |
+| 1 | Navegar alrededor del dron usando los controles disponibles del sistema | [ ] Sí [ ] No |
+| 2 | Seleccionar una pieza y revisar su información en el \textit{bottom sheet} | [ ] Sí [ ] No |
+| 3 | Utilizar una herramienta de \texttt{Inspect} o \texttt{Analyze} (por ejemplo, \texttt{Isolate}, \texttt{Explode} o \texttt{Cut}) | [ ] Sí [ ] No |
+| 4 | Cambiar de modo visual en \texttt{Studio} | [ ] Sí [ ] No |
+| 5 | Interpretar la vista térmica y su leyenda, si estuvo incluida en la condición de prueba | [ ] Sí [ ] No |
 
 **Tiempo total de exploración:** _______ minutos
 
@@ -81,7 +93,7 @@ Antes del cuestionario, el participante debe completar las siguientes tareas:
 Por favor, marque el número que mejor represente su opinión para cada afirmación.
 
 **Escala:**
-```
+```text
 1 = Totalmente en desacuerdo
 2 = En desacuerdo
 3 = Neutral
@@ -93,7 +105,7 @@ Por favor, marque el número que mejor represente su opinión para cada afirmaci
 
 ### 1. Creo que me gustaría usar este sistema con frecuencia.
 
-```
+```text
 Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuerdo
 ```
 
@@ -101,7 +113,7 @@ Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuer
 
 ### 2. Encontré el sistema innecesariamente complejo.
 
-```
+```text
 Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuerdo
 ```
 
@@ -109,7 +121,7 @@ Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuer
 
 ### 3. Pensé que el sistema era fácil de usar.
 
-```
+```text
 Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuerdo
 ```
 
@@ -117,7 +129,7 @@ Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuer
 
 ### 4. Creo que necesitaría el apoyo de un técnico para poder usar este sistema.
 
-```
+```text
 Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuerdo
 ```
 
@@ -125,7 +137,7 @@ Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuer
 
 ### 5. Encontré que las diversas funciones de este sistema estaban bien integradas.
 
-```
+```text
 Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuerdo
 ```
 
@@ -133,7 +145,7 @@ Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuer
 
 ### 6. Pensé que había demasiada inconsistencia en este sistema.
 
-```
+```text
 Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuerdo
 ```
 
@@ -141,7 +153,7 @@ Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuer
 
 ### 7. Imagino que la mayoría de las personas aprenderían a usar este sistema muy rápidamente.
 
-```
+```text
 Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuerdo
 ```
 
@@ -149,7 +161,7 @@ Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuer
 
 ### 8. Encontré el sistema muy difícil de usar.
 
-```
+```text
 Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuerdo
 ```
 
@@ -157,7 +169,7 @@ Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuer
 
 ### 9. Me sentí muy confiado usando el sistema.
 
-```
+```text
 Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuerdo
 ```
 
@@ -165,15 +177,15 @@ Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuer
 
 ### 10. Necesité aprender muchas cosas antes de poder empezar a usar este sistema.
 
-```
+```text
 Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuerdo
 ```
 
 ---
 
-## Cálculo del Puntaje (Uso del Evaluador)
+## Cálculo del puntaje (uso del evaluador)
 
-| Ítem | Respuesta | Cálculo | Valor Ajustado |
+| Ítem | Respuesta | Cálculo | Valor ajustado |
 |------|-----------|---------|----------------|
 | 1 | ___ | ___ - 1 = | ___ |
 | 2 | ___ | 5 - ___ = | ___ |
@@ -192,7 +204,7 @@ Totalmente en desacuerdo  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  Totalmente de acuer
 
 ---
 
-## Comentarios Adicionales (Opcional)
+## Comentarios adicionales (opcional)
 
 **¿Qué fue lo que más le gustó del sistema?**
 
@@ -222,5 +234,5 @@ _________________________________________________________________
 
 ---
 
-*Instrumento basado en: Brooke, J. (1986). SUS: A quick and dirty usability scale.*
-*Versión adaptada para el proyecto WebGL Drone Viewer - UNAD 2025*
+*Instrumento basado en Brooke, J. (1996). SUS: A quick and dirty usability scale.*  
+*Versión adaptada para el proyecto de visualización técnica web 3D - UNAD 2026.*

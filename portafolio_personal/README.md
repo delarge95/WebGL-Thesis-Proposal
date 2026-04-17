@@ -1,3 +1,8 @@
+﻿---
+tipo: sistema
+estado: mantenido
+---
+#sistema #configuracion_tecnica
 # Portafolio Personal
 
 Carpeta de curaduría personal para extraer piezas de portafolio a partir de este proyecto sin mezclar ese material con la tesis, el build WebGL o la documentación técnica operativa.
@@ -57,3 +62,4 @@ Carpeta de curaduría personal para extraer piezas de portafolio a partir de est
 - `documentacion/07_Breakdown_Sistema_Termico_Hibrido.md`: breakdown tecnico vivo del sistema termico hibrido, ya alineado con el grafo canonico, la leyenda UI y la frontera entre flujo oficial y tooling experimental.
 - `assets_fuente/README.md`: guía mínima para almacenar y clasificar capturas, clips, heroes y diagramas.
 - `herramientas_fuente/README.md`: manifiesto de la curaduría técnica inicial y listado de scripts, shaders y componentes ya staged.
+

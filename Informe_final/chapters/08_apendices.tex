@@ -2,7 +2,7 @@
 \section*{Apéndices}
 \addcontentsline{toc}{section}{Apéndices}
 
-Este capítulo lista los artefactos anexos activos y aclara el estado de aquellos elementos que todavía dependen del freeze final del producto.
+Este capítulo lista los artefactos anexos activos y aclara el estado de aquellos elementos que todavía dependen del \textit{freeze} final del producto.
 
 \subsection*{Apéndice A: Repositorio de código fuente}
 \addcontentsline{toc}{subsection}{Apéndice A: Repositorio de código fuente}
@@ -55,7 +55,7 @@ La taxonomía semántica del proyecto se fija a partir de:
 \texttt{desarrollo/docs/investigacion/Holybro/x500v2\_parts\_data.json}
 \end{center}
 
-\noindent Esta fuente define 28 piezas canónicas. La escena final opera adicionalmente con 30 anchors y 257 renderers/colliders auditados.
+\noindent Esta fuente define 28 piezas canónicas. La escena final opera adicionalmente con 30 \textit{anchors} y 257 \textit{renderers}/\textit{colliders} auditados.
 
 \subsection*{Apéndice G: Validación funcional de la escena final}
 \addcontentsline{toc}{subsection}{Apéndice G: Validación funcional de la escena final}
@@ -73,10 +73,19 @@ Los instrumentos metodológicos activos del cierre son:
     \item cuestionario SUS;
     \item NASA-TLX Raw;
     \item protocolo \textit{Think-Aloud};
-    \item tablas de KPIs técnicos a diligenciar post-freeze.
+    \item guía de tareas comparativas 3D vs.\ 2D;
+    \item tablas de KPIs técnicos a diligenciar post-\textit{freeze}.
 \end{itemize}
 
 \noindent Las tareas de prueba deben alinearse con el flujo visible final: navegar, seleccionar pieza, revisar el \textit{bottom sheet}, usar \texttt{Inspect}, aplicar \texttt{Explode} o \texttt{Cut}, y cambiar de modo visual en \texttt{Studio}.
+
+\noindent Las versiones activas y versionadas de estos instrumentos se conservan en:
+\begin{itemize}
+    \item \path{validacion/CUESTIONARIO_SUS.md}
+    \item \path{validacion/CUESTIONARIO_NASA_TLX.md}
+    \item \path{validacion/GUIA_TAREAS_VALIDACION.md}
+    \item \path{validacion/PROTOCOLO_THINK_ALOUD.md}
+\end{itemize}
 
 \paragraph{} Como apoyo editorial para el cierre del estudio, se conservan tres esquemas visuales de consolidación metodológica. Estas figuras no representan resultados observados; funcionan como guías para estructurar la presentación final de SUS, NASA-TLX Raw y KPIs una vez exista una build congelada y se complete el trabajo de campo.
 
@@ -108,7 +117,7 @@ Para efectos de cierre documental:
 \begin{itemize}
     \item Blender y Unity conforman la ruta defendible de la versión final activa;
     \item Houdini se mantiene como herramienta evaluada o experimental, no como pipeline oficial de la build cerrada, salvo evidencia nueva derivada del reimport final;
-    \item la optimización CAD/import pendiente debe completarse antes del freeze definitivo.
+    \item la optimización CAD/import pendiente debe completarse antes del \textit{freeze} definitivo.
 \end{itemize}
 
 \begin{table}[H]
@@ -120,9 +129,9 @@ Para efectos de cierre documental:
         \hline
         \textbf{Etapa} & \textbf{Herramienta principal} & \textbf{Estado} & \textbf{Lectura editorial} \\ \hline
         Preparación y limpieza de activos & Blender & Activa & Ruta defendible del cierre para ajuste de malla, organización y exportación. \\
-        Texturizado y materiales & Unity URP / materiales del proyecto & Activa & El informe final documenta el flujo material realmente visible en la build y sus restricciones WebGL. \\
-        Integración en motor & Unity & Activa & Núcleo del producto final y punto de verdad para escena, UI y runtime binding. \\
-        Auditoría de cobertura y runtime repair & Tooling de editor + \texttt{ImportedDroneRuntimeBinder} & Activa & Parte esencial del cierre técnico y de la coherencia entre escena y documentación. \\
+        Texturizado y materiales & Unity URP / materiales del proyecto & Activa & El informe final documenta el flujo material realmente visible en la build y sus restricciones web. \\
+        Integración en motor & Unity & Activa & Núcleo del producto final y punto de verdad para escena, UI y \textit{runtime binding}. \\
+        Auditoría de cobertura y \textit{runtime repair} & Tooling de editor + binder de runtime importado & Activa & Parte esencial del cierre técnico y de la coherencia entre escena y documentación. \\
         Houdini & Evaluación experimental & No canónico & Puede citarse como exploración o trabajo futuro, pero no como pipeline oficial de la versión final. \\ \hline
     \end{tabular}
     \par\vspace{0.5\baselineskip}
@@ -140,7 +149,7 @@ La URL pública definitiva del demo debe registrarse solo cuando exista una buil
 Al momento de este cierre documental:
 \begin{itemize}
     \item no existen clips de audio integrados en \texttt{Assets};
-    \item por defecto, el audio se clasifica como trabajo futuro si no entra antes del freeze;
+    \item por defecto, el audio se clasifica como trabajo futuro si no entra antes del \textit{freeze};
     \item la evaluación de usabilidad y el capítulo 5 siguen condicionados a la build final optimizada.
 \end{itemize}
 
@@ -152,7 +161,7 @@ La auditoría activa de coherencia entre fórmulas documentadas, lógica de cód
 \texttt{Desarrollo\_App/AUDITORIA\_MATEMATICA\_Y\_ARQUITECTURA\_2026-04-12.md}
 \end{center}
 
-\noindent Como soporte técnico adicional, el registro histórico de verificaciones del subsistema térmico mediante el workflow local basado en WolframAlpha se conserva en:
+\noindent Como soporte técnico adicional, el registro histórico de verificaciones del subsistema térmico mediante el \textit{workflow} local basado en WolframAlpha se conserva en:
 \begin{center}
 \texttt{desarrollo/docs/sistema\_termico/wolfram\_verificaciones.md}
 \end{center}
@@ -170,7 +179,7 @@ La auditoría activa de coherencia entre fórmulas documentadas, lógica de cód
     \begin{tabular}{p{4.1cm}p{3.6cm}p{4.8cm}}
         \hline
         \textbf{Tabla en la propuesta} & \textbf{Estado en el informe final} & \textbf{Justificación} \\ \hline
-        Comparativa de soluciones Web 3D & Conservada en el Capítulo 2 & Sigue siendo pertinente como sustento del estado del arte y de la selección de Unity WebGL. \\
+        Comparativa de soluciones Web 3D & Conservada en el Capítulo 2 & Sigue siendo pertinente como sustento del estado del arte y de la selección de Unity Web. \\
         Cronograma general del proyecto & Se conserva solo en la propuesta & Es un artefacto de planeación; en el informe final pierde valor analítico y se sustituye por narrativa de ejecución y cierre. \\
         Presupuesto estimado de recursos & Se conserva solo en la propuesta & Corresponde a la viabilidad ex ante del proyecto; no es un resultado ni un artefacto técnico del cierre. \\
         Resultados o productos esperados & Transformada en tabla de productos entregados vs.\ esperados & En el informe final se requiere contrastar expectativa inicial con estado real de entrega y pendientes. \\ \hline
@@ -187,11 +196,11 @@ La auditoría activa de coherencia entre fórmulas documentadas, lógica de cód
     \begin{tabular}{p{4.3cm}p{2.5cm}p{5.5cm}}
         \hline
         \textbf{Producto esperado en la propuesta} & \textbf{Estado} & \textbf{Observación de cierre} \\ \hline
-        Prototipo de software WebGL funcional & Parcialmente cerrado & El flujo principal es funcional y documentable; falta freeze posterior a optimización final, auditorías rerun y reportes de usabilidad. \\
+        Prototipo de software web funcional & Parcialmente cerrado & El flujo principal es funcional y documentable; falta \textit{freeze} posterior a optimización final, auditorías rerun y reportes de usabilidad. \\
         Sistema de shaders URP optimizados & Entregado & La arquitectura y los modos visibles/ocultos quedaron documentados; la versión final debe seguir diferenciando lo publicado de lo oculto. \\
-        Conjunto de modelos 3D optimizados & Parcialmente cerrado & Existe pipeline defendible y escena funcional, pero la optimización final CAD/import sigue abierta antes del freeze. \\
+        Conjunto de modelos 3D optimizados & Parcialmente cerrado & Existe pipeline defendible y escena funcional, pero la optimización final CAD/import sigue abierta antes del \textit{freeze}. \\
         Documento de trabajo de grado & En cierre & Propuesta e informe final quedaron saneados; el cierre empírico definitivo depende del Capítulo 5 con datos reales. \\
-        Informe de usabilidad y carga cognitiva & Pendiente & Los instrumentos y placeholders editoriales están listos, pero la recolección de datos aún no se ejecuta sobre la build congelada. \\ \hline
+        Informe de usabilidad y carga de trabajo percibida & Pendiente & Los instrumentos y placeholders editoriales están listos, pero la recolección de datos aún no se ejecuta sobre la build congelada. \\ \hline
     \end{tabular}
     \par\vspace{0.5\baselineskip}
     \textit{Nota}. Esta tabla actualiza el horizonte de productos de la propuesta sin borrar la diferencia entre expectativa inicial y estado real de cierre. \textit{Fuente}. Elaboración propia.
@@ -217,7 +226,7 @@ La auditoría activa de coherencia entre fórmulas documentadas, lógica de cód
         Auditoría matemática y de arquitectura & \path{Informe_final/Desarrollo_App/AUDITORIA_MATEMATICA_Y_ARQUITECTURA_2026-04-12.md} & Activo & Respalda coherencia entre fórmulas, arquitectura y app real. \\ \hline
     \end{tabular}
     \par\vspace{0.5\baselineskip}
-    \textit{Nota}. Esta tabla resume únicamente artefactos activos; auditorías históricas y documentos superseded se conservan como archivo, pero no como fuente primaria del cierre. \textit{Fuente}. Elaboración propia.
+    \textit{Nota}. Esta tabla resume únicamente artefactos activos; auditorías históricas y documentos \textit{superseded} se conservan como archivo, pero no como fuente primaria del cierre. \textit{Fuente}. Elaboración propia.
 \end{table}
 
 \newpage

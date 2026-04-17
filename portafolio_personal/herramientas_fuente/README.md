@@ -1,3 +1,8 @@
+﻿---
+tipo: sistema
+estado: mantenido
+---
+#sistema #configuracion_tecnica
 # Herramientas Fuente Curadas
 
 Staging técnico para reunir piezas reutilizables del proyecto que sirven como evidencia de pipeline, shader work y UI técnica en portafolio profesional.
@@ -60,3 +65,4 @@ Esta selección concentra piezas útiles para explicar interacción, navegación
 ## Restricción vigente
 
 - Esta curaduría no toca `blender_files/` mientras siga siendo zona activa de preparación de meshes para Unity.
+

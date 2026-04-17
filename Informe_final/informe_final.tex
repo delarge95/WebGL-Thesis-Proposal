@@ -1,136 +1,102 @@
-\documentclass[12pt,letterpaper]{article} % 12pt font, letter paper
+\documentclass[12pt,letterpaper]{article}
 
 % --- PACKAGES ---
-\usepackage[utf8]{inputenc} % Input encoding
-\usepackage[T1]{fontenc} % Stable PDF accents and text extraction
-\usepackage[spanish]{babel} % Language support
-\usepackage{times} % Use Times font (approximates Times New Roman)
-\usepackage[margin=2.54cm]{geometry} % Margins 2.54 cm (1 inch)
-\usepackage{setspace} % For line spacing
-\usepackage{graphicx} % If you need images later
-\usepackage{booktabs} % For professional tables
-\usepackage{array} % Column modifiers for table alignment
-\usepackage{longtable} % For multipage tables in chapters
-\usepackage{float} % Precise float placement for thesis figures
-\usepackage{caption}  % For customizing captions
-\usepackage{amsmath} % For math symbols if needed
-\usepackage{amsfonts} % For math fonts if needed
-\usepackage{amssymb} % For math symbols if needed
-\usepackage{xurl} % Better URL breaking (replaces url package)
-\usepackage[hidelinks]{hyperref} % For clickable URLs (optional)
-\usepackage{ragged2e} % For RaggedRight justification (simulates flush left)
-\usepackage{indentfirst} % Indent the first paragraph after a section heading
-\usepackage{titlesec} % For customizing section titles
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{times}
+\usepackage[margin=2.54cm]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\usepackage{ragged2e}
+\usepackage{indentfirst}
+\usepackage{titlesec}
 \usepackage{tocloft}
-\usepackage{titletoc} % Added based on user template usage
-\usepackage{enumitem} % For customizing lists (APA 7 indentation)
+\usepackage{titletoc}
+\usepackage{enumitem}
 
-% --- APA 7 List Configuration (Hanging Indent + Circular Bullets) ---
-% Note: Document uses \setstretch{2} globally, so lists inherit double spacing
-% We set itemsep, parsep, topsep to 0pt to avoid EXTRA spacing beyond the global setting
-
-% Itemize (Bulleted Lists)
+% --- APA 7 List Configuration ---
 \setlist[itemize]{
-    leftmargin=1.9cm,      % Total left margin (1.27cm + 0.63cm space)
-    itemindent=0pt,        % No additional indent for the bullet
-    labelsep=0.63cm,       % Space between bullet and text
-    label=\textbullet,     % Force circular bullets (not squares)
-    itemsep=0pt,           % No extra spacing between items (uses global double spacing)
-    parsep=0pt,            % No extra spacing between paragraphs within items
-    topsep=0pt             % No extra spacing before/after list (uses global double spacing)
+    leftmargin=1.9cm,
+    itemindent=0pt,
+    labelsep=0.63cm,
+    label=\textbullet,
+    itemsep=0pt,
+    parsep=0pt,
+    topsep=0pt
 }
 
-% Enumerate (Numbered Lists)
 \setlist[enumerate]{
-    leftmargin=1.9cm,      % Total left margin (1.27cm + 0.63cm space)
-    itemindent=0pt,        % No additional indent for the number
-    labelsep=0.63cm,       % Space between number and text
-    itemsep=0pt,           % No extra spacing between items (uses global double spacing)
-    parsep=0pt,            % No extra spacing between paragraphs within items
-    topsep=0pt             % No extra spacing before/after list (uses global double spacing)
+    leftmargin=1.9cm,
+    itemindent=0pt,
+    labelsep=0.63cm,
+    itemsep=0pt,
+    parsep=0pt,
+    topsep=0pt
 }
 
-% --- Preamble Addition: Rename Table Label for Spanish ---
 \addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
 \addto\captionsspanish{\renewcommand{\figurename}{Figura}}
 \addto\captionsspanish{\renewcommand{\contentsname}{Tabla de Contenido}}
 \addto\captionsspanish{\renewcommand{\listtablename}{Lista de Tablas}}
 \addto\captionsspanish{\renewcommand{\listfigurename}{Lista de Figuras}}
 
-% --- APA 7 UNAD FORMATTING ---
-
 \setstretch{2}
-
-% Paragraph Indentation (0.5 inches = 1.27 cm)
 \setlength{\parindent}{1.27cm}
 \setlength{\emergencystretch}{3em}
-
-% Disable Section Numbering (Fixes ToC Overlap)
 \setcounter{secnumdepth}{0}
-
-% Include Level 4 Headings (paragraph) in Table of Contents
 \setcounter{tocdepth}{4}
 
-% Page Numbering (Top Right)
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\fancyhf{} % Clear header/footer
-\renewcommand{\headrulewidth}{0pt} % No header rule
-\setlength{\headheight}{14.5pt} % Avoid fancyhdr headheight warning
-\fancyhead[L]{\footnotesize\MakeUppercase{Prototipo Web 3D Interactivo}} % Running head APA 7
-\fancyhead[R]{\thepage} % Page number top right
-\fancypagestyle{plain}{% Redefine plain style used by titlepage etc.
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\setlength{\headheight}{14.5pt}
+\fancyhead[L]{\footnotesize\MakeUppercase{Prototipo Web 3D Interactivo}}
+\fancyhead[R]{\thepage}
+\fancypagestyle{plain}{%
   \fancyhf{}%
   \renewcommand{\headrulewidth}{0pt}%
   \fancyhead[R]{\thepage}%
 }
 
-% --- Preamble: Customization for Table of Contents (No Section Numbers in ToC) ---
-
-% Remove numbering for sections in ToC
-\renewcommand{\cftsecpresnum}{\relax} % No prefix for section number
-\renewcommand{\cftsecnumwidth}{0pt}   % No space reserved for section number
-
-% Remove numbering for subsections in ToC
+\renewcommand{\cftsecpresnum}{\relax}
+\renewcommand{\cftsecnumwidth}{0pt}
 \renewcommand{\cftsubsecpresnum}{\relax}
 \renewcommand{\cftsubsecnumwidth}{0pt}
-
-% Remove numbering for subsubsections in ToC
 \renewcommand{\cftsubsubsecpresnum}{\relax}
 \renewcommand{\cftsubsubsecnumwidth}{0pt}
-
-% Ensure only the title and page number appear, with leaders (dots)
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
 \renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftdotsep}}
 
-% Justification (Flush Left - Ragged Right)
-\RaggedRight % Apply ragged right justification globally
+\RaggedRight
 
-% --- Customization for ToC and LoT Titles (Combined for Centering and Size) ---
-
-% --- Para la Tabla de Contenido ---
 \setlength{\cftbeforetoctitleskip}{0\baselineskip}
 \setlength{\cftaftertoctitleskip}{0\baselineskip}
-
 \renewcommand{\cfttoctitlefont}{\hfill\normalfont\bfseries\normalsize}
 \renewcommand{\cftaftertoctitle}{\null\hfill}
 
-% --- Para la Lista de Tablas ---
 \setlength{\cftbeforelottitleskip}{0\baselineskip}
 \setlength{\cftafterlottitleskip}{0\baselineskip}
-
 \renewcommand{\cftlottitlefont}{\hfill\normalfont\bfseries\normalsize}
 \renewcommand{\cftafterlottitle}{\null\hfill}
 
-% --- Para la Lista de Figuras ---
 \setlength{\cftbeforeloftitleskip}{0\baselineskip}
 \setlength{\cftafterloftitleskip}{0\baselineskip}
-
 \renewcommand{\cftloftitlefont}{\hfill\normalfont\bfseries\normalsize}
 \renewcommand{\cftafterloftitle}{\null\hfill}
 
-% --- Customization for ToC Entry Fonts (No Bold for Section Titles in ToC) ---
 \renewcommand{\cftsecfont}{\normalfont}
 \renewcommand{\cftsecpagefont}{\normalfont}
 \renewcommand{\cftsubsecfont}{\normalfont}
@@ -138,7 +104,6 @@
 \renewcommand{\cftsubsubsecfont}{\normalfont}
 \renewcommand{\cftsubsubsecpagefont}{\normalfont}
 
-% --- Indentation for ToC entries ---
 \setlength{\cftsecindent}{0em}
 \setlength{\cftsubsecindent}{1.5em}
 \setlength{\cftsubsubsecindent}{3em}
@@ -149,13 +114,11 @@
 \setlength{\cftbeforesubsecskip}{\mytocskip}
 \setlength{\cftbeforesubsubsecskip}{\mytocskip}
 
-% Change the font for the table number in LoT to bold
 \renewcommand{\cfttabpresnum}{\tablename~}
 \renewcommand{\cfttabfont}{\bfseries}
 \renewcommand{\cftfigpresnum}{\figurename~}
 \renewcommand{\cftfigfont}{\bfseries}
 
-% Configuration for List of Tables (LoT) entries
 \titlecontents{table}
   [0em]
   {{\bfseries\tablename~\thecontentslabel\quad}\itshape}
@@ -164,7 +127,6 @@
   {\quad\cftdotfill{\cftdotsep}\normalfont\thecontentspage}
   [\vspace{0\baselineskip}]
 
-% Configuration for List of Figures (LoF) entries
 \titlecontents{figure}
   [0em]
   {{\bfseries\figurename~\thecontentslabel\quad}\itshape}
@@ -173,7 +135,6 @@
   {\quad\cftdotfill{\cftdotsep}\normalfont\thecontentspage}
   [\vspace{0\baselineskip}]
 
-% Section Title Formatting
 \titleformat{\section}{\normalfont\bfseries\centering}{}{0em}{}
 \titlespacing*{\section}{0pt}{0\baselineskip}{0\baselineskip}
 
@@ -183,15 +144,12 @@
 \titleformat{\subsubsection}{\normalfont\bfseries\itshape}{}{0em}{}
 \titlespacing*{\subsubsection}{0pt}{0\baselineskip}{0\baselineskip}
 
-% Level 4 Heading: Indented 1.27cm, Bold, Title Case, Period, Runin
 \titleformat{\paragraph}[runin]{\normalfont\bfseries}{}{0em}{}[.]
 \titlespacing*{\paragraph}{1.27cm}{0\baselineskip}{1em}
 
-% Level 5 Heading: Indented 1.27cm, Bold Italic, Title Case, Period, Runin
 \titleformat{\subparagraph}[runin]{\normalfont\bfseries\itshape}{}{0em}{}[.]
 \titlespacing*{\subparagraph}{1.27cm}{0\baselineskip}{1em}
 
-% Table Caption Formatting
 \DeclareCaptionLabelFormat{table_num_bold_left}{\textbf{#1~#2}}
 \DeclareCaptionLabelSeparator{mediumspace}{\par\vspace{0.5\baselineskip}}
 \captionsetup[table]{
@@ -204,7 +162,6 @@
     position=top
 }
 
-% Figure Caption Formatting
 \captionsetup[figure]{
     labelformat=table_num_bold_left,
     labelsep=mediumspace,
@@ -215,7 +172,6 @@
     position=top
 }
 
-% Editorial placeholder helpers for pending screenshots and charts
 \newcommand{\editorialplaceholderbox}[2]{%
     \fbox{%
         \begin{minipage}[c][0.22\textheight][c]{0.88\textwidth}
@@ -238,14 +194,12 @@
     \end{figure}
 }
 
-% --- DOCUMENT START ---
 \begin{document}
 
-% --- TITLE PAGE ---
 \begin{titlepage}
-    \thispagestyle{plain} % Force page number on title page
+    \thispagestyle{plain}
     \centering
-    {\normalfont\bfseries Diseño y Desarrollo de un Prototipo Web 3D Interactivo para la Visualización Técnica y Análisis Estructural de Hardware de Alto Rendimiento mediante Pipelines de Optimización Gráfica y WebAssembly\par}
+    {\normalfont\bfseries Diseño y desarrollo de un prototipo web 3D interactivo para la visualización técnica, inspección y análisis visual del ensamblaje de hardware complejo mediante \textit{pipelines} de optimización gráfica y WebAssembly\par}
 
     \vspace{2\baselineskip}
     \vspace{2\baselineskip}
@@ -271,50 +225,42 @@
 \end{titlepage}
 \setcounter{page}{2}
 
-% --- MAIN CONTENT ---
 \pagestyle{fancy}
 
-% --- RESUMEN ---
 \section*{Resumen}
 \addcontentsline{toc}{section}{Resumen}
-\setlength{\parindent}{0pt} % No indent for Resumen
-El diseño de hardware de alto rendimiento enfrenta un desafío crítico en la comunicación técnica: los medios digitales tradicionales, como imágenes 2D y documentos estáticos, imponen una alta carga cognitiva para comprender estructuras tridimensionales complejas. Este trabajo desarrolló y documentó un prototipo web 3D interactivo basado en Unity WebGL para la visualización técnica del dron Holybro X500~V2, orientado a mejorar la exploración estructural del ensamblaje en navegadores estándar. El marco teórico integró teoría de carga cognitiva, interacción humano-computador en 3D y visualización técnica en tiempo real. La metodología se formuló como investigación aplicada de enfoque mixto con predominio cuantitativo, enmarcada en Design Science Research y prototipado iterativo. A nivel de implementación, la build final articula selección de piezas, ficha inferior de detalle, modos \texttt{Inspect}/\texttt{Analyze}/\texttt{Studio}, corte transversal, \textit{explode}, filtros por categoría y una vista térmica híbrida por componentes. La arquitectura real integra UI Toolkit, managers creados en runtime, saneamiento del modelo importado mediante \texttt{ImportedDroneRuntimeBinder} y un subsistema térmico heurístico coherente con las restricciones de WebGL. La validación contempla \textit{profiling} técnico, SUS, NASA-TLX y protocolo \textit{Think-Aloud}; no obstante, el cierre empírico definitivo del capítulo de resultados depende de la build congelada posterior a la optimización final del pipeline CAD a Unity.
+\setlength{\parindent}{0pt}
+La documentación de hardware técnico complejo, como drones y otros sistemas electromecánicos multicomponente, enfrenta un desafío persistente de comunicación espacial cuando depende de imágenes 2D y documentos PDF estáticos. Este informe desarrolla y documenta la construcción de un prototipo web 3D interactivo basado en Unity Web para la visualización técnica, inspección y análisis visual del ensamblaje del dron Holybro X500~V2. El marco teórico integra la Teoría de la Carga Cognitiva como lente interpretativa, principios de interacción humano-computador en entornos 3D y fundamentos de renderizado físicamente basado. Metodológicamente, el trabajo se estructura como investigación aplicada con enfoque mixto y predominio cualitativo-formativo, enmarcado en Design Science Research, prototipado iterativo y evaluación comparativa frente a un soporte 2D de referencia. La build funcional integra selección de piezas, \textit{bottom sheet} de detalle, modos \texttt{Inspect}/\texttt{Analyze}/\texttt{Studio}, corte transversal, \textit{explode}, filtros por categoría y una visualización térmica híbrida por componentes. La arquitectura final articula UI Toolkit, gestores creados en \textit{runtime}, saneamiento del modelo importado mediante \texttt{ImportedDroneRuntimeBinder} y un subsistema térmico heurístico coherente con las restricciones de Unity Web y WebAssembly. La validación contempla \textit{profiling} técnico, desempeño en tareas, SUS aplicado al prototipo 3D, NASA-TLX Raw por condición y protocolo \textit{Think-Aloud}; sin embargo, el cierre empírico definitivo del capítulo de resultados depende de la build congelada posterior a la optimización final del \textit{pipeline} CAD a Unity.
 
-\hspace{1.27cm}\textit{\textbf{Palabras clave:}} WebGL, Unity, WebAssembly, visualización técnica 3D, UI Toolkit, optimización CAD a WebGL, carga cognitiva, NASA-TLX, \textit{Technical Art}, Holybro X500~V2.
+\hspace{1.27cm}\textit{\textbf{Palabras clave:}} WebGL, Unity, WebAssembly, visualización técnica 3D, UI Toolkit, optimización CAD a WebGL, carga de trabajo percibida, NASA-TLX, \textit{Technical Art}, hardware complejo.
 
 \newpage
 
-% --- ABSTRACT ---
 \section*{Abstract}
 \addcontentsline{toc}{section}{Abstract}
-\setlength{\parindent}{0pt} % No indent for Abstract
-High-performance hardware design faces a critical challenge in technical communication: traditional digital media such as 2D images and static documents impose substantial cognitive load when users must understand complex three-dimensional assemblies. This work developed and documented an interactive 3D web prototype based on Unity WebGL for the technical visualization of the Holybro X500~V2 drone, aimed at improving structural exploration in standard web browsers. The theoretical framework integrates cognitive load theory, three-dimensional human-computer interaction, and real-time technical visualization. Methodologically, the study is framed as applied research with a mixed approach and quantitative predominance, supported by Design Science Research and iterative prototyping. The implemented build combines part selection, a bottom detail sheet, \texttt{Inspect}/\texttt{Analyze}/\texttt{Studio} modes, cross-section, exploded view, category filters, and a hybrid component-based thermal view. The real architecture integrates UI Toolkit, runtime-created managers, import repair through \texttt{ImportedDroneRuntimeBinder}, and a heuristic thermal subsystem aligned with WebGL constraints. Validation is structured around technical profiling, SUS, NASA-TLX, and a Think-Aloud protocol; however, the definitive empirical closure of the results chapter still depends on the frozen build obtained after the final CAD-to-Unity optimization pass.
+\setlength{\parindent}{0pt}
+Complex hardware documentation, especially for multicomponent electromechanical systems such as drones, still faces persistent spatial communication challenges when it relies on static 2D images and PDF documents. This report develops and documents an interactive 3D web prototype based on Unity Web for the technical visualization, inspection, and visual analysis of the Holybro X500~V2 assembly. The theoretical framework combines cognitive load theory as an interpretive lens, human-computer interaction in 3D environments, and physically based rendering principles. Methodologically, the work is framed as applied research with a mixed-method approach and qualitative-formative predominance, supported by Design Science Research, iterative prototyping, and comparative evaluation against a 2D reference medium. The functional build integrates part selection, a bottom detail sheet, \texttt{Inspect}/\texttt{Analyze}/\texttt{Studio} modes, cross-section, exploded view, category filters, and a hybrid component-based thermal visualization. The final architecture combines UI Toolkit, runtime-created managers, import repair through \texttt{ImportedDroneRuntimeBinder}, and a heuristic thermal subsystem aligned with the constraints of Unity Web and WebAssembly. Validation is structured around technical profiling, task performance, SUS applied to the 3D prototype, condition-specific NASA-TLX Raw, and a Think-Aloud protocol; however, the definitive empirical closure of the results chapter still depends on the frozen build obtained after the final CAD-to-Unity optimization pass.
 
-\hspace{1.27cm}\textit{\textbf{Keywords:}} WebGL, Unity, WebAssembly, technical 3D visualization, UI Toolkit, CAD-to-WebGL optimization, cognitive load, NASA-TLX, Technical Art, Holybro X500~V2.
+\hspace{1.27cm}\textit{\textbf{Keywords:}} WebGL, Unity, WebAssembly, technical 3D visualization, UI Toolkit, CAD-to-WebGL optimization, perceived workload, NASA-TLX, Technical Art, complex hardware.
 
 \newpage
 
-% Restore indentation for the rest of the document
 \setlength{\parindent}{1.27cm}
 
-% --- TABLE OF CONTENTS ---
 \newpage
 \tableofcontents
 \newpage
 
-% --- LIST OF TABLES ---
 \newpage
 \renewcommand{\listtablename}{Lista de Tablas}
 \listoftables
 \newpage
 
-% --- LIST OF FIGURES ---
 \newpage
 \renewcommand{\listfigurename}{Lista de Figuras}
 \listoffigures
 \newpage
 
-% --- INFORMACIÓN GENERAL ---
 \newpage
 \section*{Información General del Trabajo de Grado}
 \addcontentsline{toc}{section}{Información General del Trabajo de Grado}
@@ -353,7 +299,7 @@ High-performance hardware design faces a critical challenge in technical communi
 
 \textit{Escuela:} Escuela de Ciencias Básicas, Tecnología e Ingeniería (ECBTI)
 
-\textit{Descriptores palabras clave:} WebGL, Unity, WebAssembly, visualización técnica 3D, optimización, carga cognitiva, HCI, Technical Art.
+\textit{Descriptores palabras clave:} WebGL, Unity, WebAssembly, visualización técnica 3D, optimización, carga de trabajo percibida, HCI, Technical Art, hardware complejo.
 
 \newpage
 
@@ -369,5 +315,4 @@ High-performance hardware design faces a critical challenge in technical communi
 \input{chapters/07_referencias}
 \input{chapters/08_apendices}
 
-% === FIN DEL DOCUMENTO ===
 \end{document}

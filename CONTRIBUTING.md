@@ -1,3 +1,8 @@
+﻿---
+tipo: sistema
+estado: mantenido
+---
+#sistema #configuracion_tecnica
 # Contributing to WebGL Drone Visualization
 
 Thank you for your interest in contributing to this project!
@@ -118,3 +123,4 @@ refactor: Simplify event handling
 ## 📄 License
 
 This is an academic project. Contact the author for licensing inquiries.
+

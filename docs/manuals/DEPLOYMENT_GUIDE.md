@@ -1,17 +1,30 @@
+---
+tipo: entregable
+area: manuales
+estado: activo
+trace_id: TRC-MAN-DEP-0001
+entregable_ids: ["MAN-DEPLOY", "INF-TEC-DESPLIEGUE"]
+script_ids: ["SCR-PERF-001"]
+bib_keys:
+  ["unity2024webglgettingstarted", "unity2024webglinterop", "unity2024memory"]
+resumen: "Guia de despliegue WebGL para ambientes academicos y productivos."
+---
+
 # WebGL Deployment Guide
+
 ## Hosting the Drone Viewer on the Web
 
 ---
 
 ## Deployment Options
 
-| Platform | Cost | Difficulty | Best For |
-|----------|------|------------|----------|
-| **GitHub Pages** | Free | Easy | Static hosting, academic demos |
-| **Vercel** | Free tier | Easy | Custom domains, CDN |
-| **Netlify** | Free tier | Easy | Continuous deployment |
-| **AWS S3 + CloudFront** | Pay-per-use | Medium | Production, global CDN |
-| **University Server** | Free | Medium | Academic requirement |
+| Platform                | Cost        | Difficulty | Best For                       |
+| ----------------------- | ----------- | ---------- | ------------------------------ |
+| **GitHub Pages**        | Free        | Easy       | Static hosting, academic demos |
+| **Vercel**              | Free tier   | Easy       | Custom domains, CDN            |
+| **Netlify**             | Free tier   | Easy       | Continuous deployment          |
+| **AWS S3 + CloudFront** | Pay-per-use | Medium     | Production, global CDN         |
+| **University Server**   | Free        | Medium     | Academic requirement           |
 
 ---
 
@@ -27,6 +40,7 @@ File > Build Settings
 ```
 
 ### Player Settings
+
 ```
 Edit > Project Settings > Player > WebGL
 ├── Resolution: Default Canvas Width/Height
@@ -41,6 +55,7 @@ Edit > Project Settings > Player > WebGL
 ### Step 2: Configure Repository
 
 1. Build output to `/docs` folder:
+
 ```
 WebGL_tesis/
 ├── docs/              ← WebGL build output
@@ -52,6 +67,7 @@ WebGL_tesis/
 ```
 
 2. Commit and push:
+
 ```bash
 git add docs/
 git commit -m "build: Add WebGL build for GitHub Pages"
@@ -151,11 +167,11 @@ Player Settings > Other Settings:
 ### Build Size Targets
 
 | Component | Target Size |
-|-----------|-------------|
-| .wasm | < 15 MB |
-| .data | < 20 MB |
-| .js | < 2 MB |
-| **Total** | < 40 MB |
+| --------- | ----------- |
+| .wasm     | < 15 MB     |
+| .data     | < 20 MB     |
+| .js       | < 2 MB      |
+| **Total** | < 40 MB     |
 
 ---
 
@@ -182,35 +198,35 @@ Assets/WebGLTemplates/DroneViewer/
 ```html
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebGL Drone Viewer</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div id="unity-container">
-    <canvas id="unity-canvas"></canvas>
-    <div id="unity-loading-bar">
-      <div id="unity-logo"></div>
-      <div id="unity-progress-bar-empty">
-        <div id="unity-progress-bar-full"></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebGL Drone Viewer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="unity-container">
+      <canvas id="unity-canvas"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
       </div>
     </div>
-  </div>
-  <script src="Build/{{{ LOADER_FILENAME }}}"></script>
-  <script>
-    createUnityInstance(document.querySelector("#unity-canvas"), {
-      dataUrl: "Build/{{{ DATA_FILENAME }}}",
-      frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
-      codeUrl: "Build/{{{ CODE_FILENAME }}}",
-      streamingAssetsUrl: "StreamingAssets",
-      companyName: "UNAD",
-      productName: "WebGL Drone Viewer",
-      productVersion: "1.0.0",
-    });
-  </script>
-</body>
+    <script src="Build/{{{ LOADER_FILENAME }}}"></script>
+    <script>
+      createUnityInstance(document.querySelector("#unity-canvas"), {
+        dataUrl: "Build/{{{ DATA_FILENAME }}}",
+        frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
+        codeUrl: "Build/{{{ CODE_FILENAME }}}",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "UNAD",
+        productName: "WebGL Drone Viewer",
+        productVersion: "1.0.0",
+      });
+    </script>
+  </body>
 </html>
 ```
 
@@ -264,7 +280,7 @@ location / {
     application/wasm wasm;
     application/octet-stream data;
   }
-  
+
   gzip_static on;
   brotli_static on;
 }
@@ -280,11 +296,13 @@ If loading external assets:
 <script>
   // In index.html before Unity loader
   window.unityWebRequestOverrides = {
-    ModifyUrl: function(url) { return url; },
-    ModifyHeaders: function(headers) {
-      headers['Access-Control-Allow-Origin'] = '*';
+    ModifyUrl: function (url) {
+      return url;
+    },
+    ModifyHeaders: function (headers) {
+      headers["Access-Control-Allow-Origin"] = "*";
       return headers;
-    }
+    },
   };
 </script>
 ```
@@ -297,7 +315,7 @@ If loading external assets:
 
 ```javascript
 // After Unity loads
-unityInstance.Module.printErr = function(message) {
+unityInstance.Module.printErr = function (message) {
   console.error(message);
   // Send to analytics
 };
@@ -305,29 +323,30 @@ unityInstance.Module.printErr = function(message) {
 
 ### Lighthouse Targets
 
-| Metric | Target |
-|--------|--------|
-| First Contentful Paint | < 3s |
-| Time to Interactive | < 10s |
-| Performance Score | > 60 |
+| Metric                 | Target |
+| ---------------------- | ------ |
+| First Contentful Paint | < 3s   |
+| Time to Interactive    | < 10s  |
+| Performance Score      | > 60   |
 
 ---
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Blank screen | Check browser console for MIME type errors |
-| Loading stuck | Verify all .br files are served correctly |
-| Low FPS | Reduce quality settings, check GPU support |
-| Memory error | Increase memory size in Player Settings |
-| Mobile issues | Test WebGL support at webglreport.com |
+| Issue         | Solution                                   |
+| ------------- | ------------------------------------------ |
+| Blank screen  | Check browser console for MIME type errors |
+| Loading stuck | Verify all .br files are served correctly  |
+| Low FPS       | Reduce quality settings, check GPU support |
+| Memory error  | Increase memory size in Player Settings    |
+| Mobile issues | Test WebGL support at webglreport.com      |
 
 ---
 
 ## SSL/HTTPS Requirement
 
 WebGL requires HTTPS for:
+
 - SharedArrayBuffer (for threading)
 - Service Workers
 - Certain APIs
@@ -339,17 +358,20 @@ GitHub Pages and Vercel provide HTTPS automatically.
 ## Sharing the Demo
 
 ### Academic Presentation
+
 ```
 https://delarge95.github.io/WebGL_tesis/
 ```
 
 ### QR Code Generator
+
 Use [qr-code-generator.com](https://www.qr-code-generator.com/) to create QR for the URL.
 
 ### Embed in Slides
+
 For presentations, consider a screen recording backup in case of network issues.
 
 ---
 
-*Deployment Guide Version: 1.0*
-*Last Updated: December 2024*
+_Deployment Guide Version: 1.0_
+_Last Updated: December 2024_

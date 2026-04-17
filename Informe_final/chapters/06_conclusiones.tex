@@ -1,18 +1,18 @@
 \section{Conclusiones}
 
-Las conclusiones del proyecto deben leerse a la luz de una distinción central: el prototipo funcional existe y ya demuestra viabilidad técnica y coherencia arquitectónica, pero la validación empírica final depende de la ejecución posterior de pruebas de usabilidad sobre la build congelada.
+Las conclusiones del proyecto deben leerse a la luz de una distinción central: el prototipo funcional existe y su arquitectura muestra viabilidad funcional preliminar y coherencia arquitectónica, pero la validación empírica final depende de la ejecución posterior de pruebas de usabilidad y rendimiento sobre la build congelada.
 
 \subsection{Respecto al objetivo general}
 
-Se logró construir un visor WebGL interactivo para la visualización técnica del Holybro X500~V2, accesible desde navegador y capaz de integrar navegación 3D, selección de piezas, información contextual y herramientas de análisis visual. Esta base confirma la viabilidad del enfoque para el programa de Ingeniería Multimedia y para escenarios de visualización técnica en la web.
+Se logró construir un visor web interactivo para la visualización técnica del Holybro X500~V2, accesible desde navegador y capaz de integrar navegación 3D, selección de piezas, información contextual y herramientas de análisis visual. Esta base respalda la viabilidad funcional del enfoque para el programa de Ingeniería Multimedia y para escenarios de visualización técnica en la web, aunque su viabilidad técnica final en términos de KPIs debe cerrarse con la build congelada y las mediciones pendientes.
 
 \subsection{Respecto a los objetivos específicos}
 
-\paragraph{OE1: pipeline de optimización y preparación de activos.} Se consolidaron el caso de estudio, la taxonomía canónica y el flujo CAD $\rightarrow$ Unity $\rightarrow$ WebGL. No obstante, el reimport optimizado final y su medición posterior siguen siendo un pendiente técnico del cierre.
+\paragraph{OE1: pipeline de optimización y preparación de activos.} Se consolidaron el caso de estudio, la taxonomía canónica y el flujo CAD $\rightarrow$ Unity $\rightarrow$ Web. No obstante, el reimport optimizado final y su medición posterior siguen siendo un pendiente técnico del cierre.
 
-\paragraph{OE2: arquitectura e implementación del prototipo.} Se obtuvo una arquitectura funcional basada en UI Toolkit, orquestación de modos, managers de escena y saneamiento del import mediante \texttt{ImportedDroneRuntimeBinder}. La separación entre UI visible, código oculto y código no integrado mejora la trazabilidad del sistema y evita sobre-documentar capacidades que no forman parte de la versión publicada.
+\paragraph{OE2: arquitectura e implementación del prototipo.} Se obtuvo una arquitectura funcional basada en UI Toolkit, orquestación de modos, gestores de escena y saneamiento del import mediante \texttt{ImportedDroneRuntimeBinder}. La separación entre UI visible, código oculto y código no integrado mejora la trazabilidad del sistema y evita sobre-documentar capacidades que no forman parte de la versión publicada.
 
-\paragraph{OE3: evaluación de usabilidad y carga cognitiva.} Los instrumentos metodológicos quedaron definidos y alineados con el flujo final visible de la aplicación. Sin embargo, la ejecución de SUS, NASA-TLX Raw y \textit{Think-Aloud} debe realizarse sobre la build congelada posterior a la optimización final; por ello este objetivo no se presenta como empíricamente cerrado en esta versión documental.
+\paragraph{OE3: evaluación de usabilidad y carga de trabajo percibida.} Los instrumentos metodológicos quedaron definidos y alineados con el flujo final visible de la aplicación. Sin embargo, la ejecución de SUS, NASA-TLX Raw y \textit{Think-Aloud} debe realizarse sobre la build congelada posterior a la optimización final; por ello este objetivo no se presenta como empíricamente cerrado en esta versión documental.
 
 \paragraph{OE4: documentación y transferencia.} Se dejó una base documental más consistente entre propuesta, informe, manuales, arquitectura y app real. La normalización de conteos, escenas y estados funcionales reduce contradicciones y fortalece el cierre académico del proyecto.
 
@@ -31,7 +31,7 @@ Se logró construir un visor WebGL interactivo para la visualización técnica d
     \item completar la optimización final de piezas del dron e importarlas a Unity;
     \item rerun de auditorías de cobertura y jerarquía sobre la build final;
     \item ejecutar pruebas de usabilidad y consolidar el capítulo de resultados;
-    \item integrar audio solo si entra antes del freeze definitivo; en caso contrario, mantenerlo como trabajo futuro;
+    \item integrar audio solo si entra antes del \textit{freeze} definitivo; en caso contrario, mantenerlo como trabajo futuro;
     \item evaluar la exposición controlada de herramientas actualmente ocultas, como medición, modos visuales adicionales y componentes de ensamblaje;
     \item calibrar y validar con datos experimentales el subsistema térmico en iteraciones posteriores.
 \end{enumerate}
@@ -39,9 +39,9 @@ Se logró construir un visor WebGL interactivo para la visualización técnica d
 \subsection{Recomendaciones}
 
 \begin{enumerate}
-    \item mantener una única taxonomía documental para piezas, anchors y renderers;
+    \item mantener una única taxonomía documental para piezas, \textit{anchors} y \textit{renderers};
     \item documentar como finales solo las funciones visibles y verificables de la build congelada;
-    \item cerrar la narrativa de resultados solo con datos reales y fechados;
+    \item cerrar la narrativa de resultados solo con datos reales, fechados y trazables;
     \item preservar el resto del código como base técnica, pero distinguiendo siempre entre integrado, oculto y futuro.
 \end{enumerate}
 

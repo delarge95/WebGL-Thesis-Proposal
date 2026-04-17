@@ -1,3 +1,8 @@
+﻿---
+tipo: sistema
+estado: mantenido
+---
+#sistema #configuracion_tecnica
 # WebGL Drone Visualization Prototype
 
 > Interactive 3D web prototype for technical visualization of high-performance drones using Unity WebGL, optimized graphics pipelines, and WebAssembly.
@@ -205,3 +210,4 @@ This project is part of an academic thesis. All rights reserved.
 **Author**: Alexander Woodcock Salomón  
 **Program**: Multimedia Engineering  
 **Year**: 2025
+

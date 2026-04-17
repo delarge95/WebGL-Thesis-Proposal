@@ -1,3 +1,8 @@
+﻿---
+tipo: sistema
+estado: mantenido
+---
+#sistema #configuracion_tecnica
 # Assets Fuente para Portafolio
 
 Carpeta de staging para producir y clasificar el material visual derivado del proyecto.
@@ -46,3 +51,4 @@ Carpeta de staging para producir y clasificar el material visual derivado del pr
 ## Documento de referencia
 
 - Consultar `portafolio_personal/documentacion/06_Plan_Activos_Visuales_Portafolio.md` antes de empezar a poblar esta carpeta.
+

@@ -1,3 +1,8 @@
+﻿---
+tipo: sistema
+estado: mantenido
+---
+#sistema #configuracion_tecnica
 # Hojas de Ruta e Histórico Metodológico
 
 Este directorio concentra la planeación operativa y el histórico metodológico del proyecto.
@@ -28,3 +33,4 @@ La normalización documental actual distingue entre:
 - funcionalidades visibles en el prototipo final entregable,
 - módulos presentes en código pero no integrados en la UI final,
 - y pendientes prioritarios, entre ellos la integración del flujo de encendido con animación y propagación térmica progresiva en la vista Thermal.
+

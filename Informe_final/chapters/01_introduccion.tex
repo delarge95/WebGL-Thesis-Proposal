@@ -1,95 +1,92 @@
-﻿% =============================================================================
+% =============================================================================
 % Capítulo 1 — Introducción
-% Fuentes: Propuesta/sections/planteamiento_problema.tex, justificacion.tex,
-%          objetivos.tex  (adaptados a tiempo pasado para informe final)
+% Base saneada desde la propuesta final y adaptada al estado real del informe
 % =============================================================================
 
 \section{Introducción}
 
-En la industria de hardware de alto rendimiento ---drones, sistemas robóticos, dispositivos electrónicos complejos--- la documentación técnica permanece anclada en paradigmas estáticos: hojas de datos en PDF, fotografías bidimensionales y planos de ingeniería convencionales (Mayer, 2005, 2021). Estos medios, aunque funcionales para la transmisión de especificaciones individuales, disocian la información visual de su contexto espacial tridimensional, generando una \textbf{fricción cognitiva crítica} que obliga a ingenieros y técnicos a realizar procesos mentales de reconstrucción volumétrica ---tarea documentada como altamente exigente en recursos de memoria de trabajo (Sweller, 1988; Hegarty \& Waller, 2004).
+La documentación de hardware técnico complejo, como drones y otros sistemas electromecánicos multicomponente, sigue enfrentando un desafío persistente de comunicación espacial cuando depende de imágenes 2D, planos convencionales y documentos PDF estáticos. En este trabajo, \textit{hardware complejo} designa sistemas con integración estructural, energética, electrónica y de control, alta densidad de relaciones espaciales entre piezas y necesidad de inspección visual detallada del ensamblaje. Bajo estas condiciones, los medios estáticos obligan a ingenieros y técnicos a reconstruir mentalmente relaciones tridimensionales que no se presentan de forma explícita, lo que incrementa la demanda cognitiva asociada a la tarea y dificulta la lectura técnica del sistema (Sweller, 1988; Hegarty \& Waller, 2004).
 
-La convergencia reciente de tecnologías web de bajo nivel ---WebAssembly (WASM), WebGL 2.0 y \textit{pipelines} de renderizado físicamente basado (PBR)--- abrió una ventana de oportunidad para abordar esta brecha (Yu et al., 2023). Este proyecto se propuso explotar dicha convergencia mediante el diseño, desarrollo y evaluación de un prototipo web 3D interactivo que permitiera la exploración técnica de hardware de alto rendimiento directamente en el navegador, sin instalaciones ni plugins, optimizado para dispositivos móviles de gama media.
+La convergencia entre WebAssembly, WebGL y \textit{pipelines} contemporáneos de renderizado físicamente basado abrió una oportunidad concreta para trasladar parte de esa interpretación espacial al propio sistema interactivo (Yu et al., 2023). Sobre esa base, el proyecto se orientó al diseño, desarrollo y documentación de un prototipo web 3D interactivo para la visualización técnica, inspección y análisis visual del ensamblaje del dron Holybro X500~V2, buscando un equilibrio entre claridad técnica, rendimiento web y coherencia de experiencia de usuario.
 
-% —— Planteamiento del Problema ——
-\subsection{Planteamiento del Problema}
+\subsection{Planteamiento del problema}
 
-La migración de la documentación técnica a entornos 3D interactivos en la web enfrentaba una barrera técnica fundamental: la \textbf{incompatibilidad de formatos}. Los modelos CAD de ingeniería, basados en superficies NURBS con archivos que superan los 2\,GB, resultaban matemática y computacionalmente inviables para el ecosistema web móvil, restringido por anchos de banda limitados y presupuestos de memoria estrictos ($<$\,150\,MB de Heap) (Unity Technologies, 2024a).
+La migración de documentación técnica a entornos 3D interactivos no depende solo de una mejor presentación visual. También exige resolver restricciones reales de despliegue web. Los modelos CAD de ingeniería, basados en NURBS, ensamblajes extensos y activos de alta densidad geométrica, no son directamente compatibles con las condiciones de ejecución de una aplicación web. Aunque WebAssembly permite crecimiento dinámico de la memoria lineal, la viabilidad práctica del producto depende de controlar la huella inicial de los activos y de configurar un \textit{heap} contiguo suficientemente grande para sostener datos, geometría y ejecución estable en el navegador (Unity Technologies, 2024a; WebAssembly Community Group, s. f.).
 
-No existía un \textit{pipeline} estandarizado de \textit{Technical Art} que permitiera cerrar la brecha de fidelidad versus rendimiento sin sacrificar la precisión técnica funcional necesaria para aplicaciones de ingeniería. El problema técnico se articuló en tres dimensiones:
+En este proyecto, el problema técnico se articuló en tres dimensiones complementarias:
 
 \begin{itemize}
-    \item \textbf{Tamaño de archivo.} Los modelos CAD originales (STEP, IGES), con millones de superficies NURBS, eran incompatibles con las limitaciones de ancho de banda web (meta: $<$\,50\,MB de \textit{build} inicial).
-    \item \textbf{Rendimiento en tiempo real.} Mantener más de 30\,FPS (33.33\,ms de \textit{frame time}) en dispositivos móviles de gama media (e.g., Snapdragon serie~7) exigía una optimización de geometría, texturas y \textit{draw calls} sustancial.
-    \item \textbf{Latencia de interacción.} Las soluciones alternativas de \textit{Pixel Streaming} introducían latencia de red superior a 100\,ms, inaceptable para la interacción precisa con puntos técnicos (\textit{hotspots}).
+    \item \textbf{Huella inicial de datos.} Los modelos CAD originales pueden alcanzar decenas o cientos de megabytes, e incluso más en ensamblajes extensos, por lo que requieren limpieza, simplificación geométrica, \textit{baking} y empaquetado selectivo para ser viables en web.
+    \item \textbf{Rendimiento en tiempo real.} Mantener 30 FPS o más, equivalente a un \textit{frame time} de aproximadamente 33.33\,ms, exige controlar presupuesto geométrico, materiales, \textit{draw calls} y estados de render.
+    \item \textbf{Latencia de interacción.} Alternativas como \textit{Pixel Streaming} pueden ofrecer alta fidelidad visual, pero introducen dependencia de red y latencias poco adecuadas para inspección técnica precisa.
 \end{itemize}
 
-Se identificó, por tanto, la necesidad de un \textit{pipeline} de \textit{Technical Art} que permitiera desplegar modelos de hardware con alta fidelidad perceptual y bajo costo computacional, validando la viabilidad de WebGL/WebAssembly para aplicaciones de ingeniería.
+Se identificó, por tanto, la necesidad de documentar un \textit{pipeline} de \textit{Technical Art} que permitiera desplegar hardware complejo en un visor 3D web con orientación espacial suficiente para tareas de inspección, costo computacional controlado y capacidad de análisis visual del ensamblaje para propósitos académicos e ingenieriles.
 
-La pregunta de investigación que guió el proyecto fue: \textbf{¿Es viable desplegar un prototipo WebGL con fidelidad PBR que cumpla un presupuesto inferior a 100\,000 triángulos, mantenga más de 30\,FPS en dispositivos móviles de gama media y alcance un puntaje SUS $\geq$ 68 para la visualización técnica interactiva de hardware de drones?}
+La pregunta de investigación que orientó el proyecto fue la siguiente: \textbf{¿Qué diferencias descriptivas se observan en desempeño de tareas y carga de trabajo percibida cuando usuarios con perfil afín realizan actividades de exploración e identificación del dron Holybro X500~V2 mediante un prototipo web 3D interactivo, en comparación con un soporte 2D de referencia, y bajo qué condiciones de rendimiento y memoria resulta técnicamente viable dicho prototipo en el navegador? Adicionalmente, ¿cuál es el nivel de usabilidad percibida del prototipo 3D medido con SUS tras su uso?}
 
-% —— Justificación ——
 \subsection{Justificación}
 
-La selección de Unity WebGL como plataforma de desarrollo respondió a requisitos cuantitativos de computación de alto rendimiento en la web y a las necesidades específicas del \textit{pipeline} de arte técnico. A continuación se exponen los criterios técnicos que sustentaron esta decisión.
+La elección de Unity Web frente a bibliotecas nativas de JavaScript o soluciones de \textit{streaming} remoto no respondió a una promesa simplista de menor tamaño de \textit{build}. La decisión se justificó por la integración del \textit{pipeline}, la capacidad de extensión técnica, el soporte para materiales y shaders, y la posibilidad de mantener un flujo coherente entre programación, arte técnico y evaluación del prototipo.
 
-\subsubsection{Rendimiento de CPU: WASM frente a JavaScript}
+\subsubsection{Trade-off explícito entre tooling y huella inicial}
 
-Unity utiliza el \textit{backend} IL2CPP para transpilar código C\# a C++ y, posteriormente, a WebAssembly. Esto permite que la lógica de interacción y los algoritmos de renderizado se ejecuten a velocidad casi nativa, evitando la sobrecarga del \textit{Garbage Collector} de JavaScript, que puede introducir pausas superiores a 16\,ms ---provocando caídas por debajo de 60\,FPS en aplicaciones complejas (Unity Technologies, 2024a).
+Unity no fue seleccionado por ofrecer la descarga inicial más ligera. Por el contrario, el proyecto aceptó una huella inicial mayor a cambio de un ecosistema de autoría más consistente: editor integrado, \textit{profiling}, flujo de materiales, UI Toolkit, sistema de escenas y facilidad para extender el comportamiento mediante C\# y shaders personalizados (Unity Technologies, 2024b, 2024d).
 
-\subsubsection{\textit{Pipeline} de Assets Integrado}
+\subsubsection{Ejecución de lógica compilada en WebAssembly}
 
-A diferencia de Three.js, que requiere la construcción manual de cargadores y gestores de memoria, Unity ofrece un ecosistema integrado de importación, compresión de texturas y herramientas de profiling. En este proyecto, el cierre técnico se apoyó en la optimización del pipeline CAD$\rightarrow$Unity, el control del build WebGL y el saneamiento del modelo importado en runtime; por tanto, no se documenta \textit{Asset Bundles} como una capacidad implementada en la versión final.
+En el target web, Unity convierte código intermedio de .NET a C++ mediante IL2CPP y posteriormente compila ese resultado a WebAssembly usando el \textit{toolchain} del \textit{build}. Esto permitió sostener una base tipada para la lógica interactiva del prototipo y mantener el proyecto dentro de un entorno técnico unificado, sin atribuir a IL2CPP, por sí solo, todo el salto a Wasm (Unity Technologies, 2024c; Unity Technologies, s. f.).
 
-\subsubsection{Capacidad de optimización y depuración}
+\subsubsection{\textit{Pipeline} integrado de importación y renderizado}
 
-El proyecto requirió una base sólida para optimizar geometría, materiales, tiempos de carga y modos de visualización sin fragmentar el flujo entre múltiples herramientas. Unity ofreció un entorno coherente para perfilar rendimiento, inspeccionar escenas, extender shaders y evaluar estrategias como LOD, \textit{batching} u otras optimizaciones, sin afirmar que todas quedaran integradas de forma cerrada en la build final.
+El proyecto exigía coordinar limpieza de activos CAD, materiales PBR, UI responsiva, modos analíticos y validación funcional sin fragmentar el flujo entre demasiadas herramientas. Unity aportó un entorno integrado para importar geometría, gestionar materiales, perfilar rendimiento y desplegar un \textit{build} web desde una misma base de trabajo.
 
-\subsubsection{Herramientas Visuales para Artistas Técnicos}
+\subsubsection{Capacidad de extensión para visualización técnica}
 
-El flujo de trabajo requirió colaboración entre programación y arte técnico. Unity Shader Graph permitió crear materiales PBR complejos de forma visual, mientras que Timeline facilitó la animación del despiece (\textit{exploded view}) sin código imperativo.
+La build final no se limitó a mostrar un modelo 3D. Integró selección de piezas, ficha inferior de detalle, modos \texttt{Inspect}/\texttt{Analyze}/\texttt{Studio}, \textit{explode}, corte transversal, filtros por categoría y una vista térmica híbrida por componentes. Esta familia de herramientas hizo necesaria una plataforma capaz de combinar renderizado realista con inspección técnica y visualización analítica dentro del mismo producto.
 
-\subsubsection{Escalabilidad Industrial}
+\subsubsection{Compatibilidad esperada de la plataforma web}
 
-El uso de un motor comercial estandarizó el flujo de trabajo, alineándose con las prácticas de la Industria~4.0. El prototipo puede evolucionar a una aplicación de producción sin cambiar el \textit{stack} tecnológico.
+La plataforma web de Unity contempla navegadores compatibles de escritorio y algunos navegadores móviles, aunque el comportamiento efectivo depende del navegador, su versión, la memoria disponible y el nivel de optimización del \textit{build} (Unity Technologies, s. f.). Por ello, en este trabajo la compatibilidad móvil se documenta como \textit{compatibilidad esperada} y no como garantía universal ni como validación exhaustiva por matriz cerrada de dispositivos.
 
 \subsubsection{Aporte a la Ingeniería Multimedia}
 
-El proyecto aportó al campo de la Ingeniería Multimedia al:
+El proyecto aporta al programa por al menos cuatro vías:
+
 \begin{itemize}
-    \item Documentar un \textit{pipeline} técnico replicable para la optimización de activos CAD a WebGL.
-    \item Validar el rol del ingeniero multimedia como puente entre la complejidad técnica y la experiencia de usuario final.
-    \item Generar conocimiento sobre métricas cuantitativas (KPIs) para rendimiento en Web~3D.
-    \item Aplicar teoría cognitiva (Mayer, 2005; Paivio, 1986) a casos de uso reales de visualización de ingeniería.
+    \item documenta un \textit{pipeline} técnico para llevar activos CAD a un visor web interactivo;
+    \item articula computación gráfica, experiencia de usuario, documentación técnica y arte técnico en un mismo caso aplicado;
+    \item traduce restricciones reales de rendimiento web a criterios verificables de diseño y optimización;
+    \item consolida un caso de estudio pertinente para la Ingeniería Multimedia, donde la claridad técnica del ensamblaje es tan importante como la calidad visual del resultado.
 \end{itemize}
 
-% —— Objetivos ——
 \subsection{Objetivos}
 
-\subsubsection{Objetivo General}
-Desarrollar un prototipo de visualización Web~3D interactiva basado en Unity WebGL, enfocado en la exploración técnica y despiece funcional de hardware de alto rendimiento, optimizado mediante técnicas de \textit{Technical Art} para su despliegue eficiente en navegadores web estándar y dispositivos móviles.
+\subsubsection{Objetivo general}
 
-\subsubsection{Objetivos Específicos}
+Desarrollar un prototipo de visualización web 3D interactiva basado en Unity Web, enfocado en la exploración técnica, la inspección y el análisis visual del ensamblaje de hardware complejo, optimizado mediante criterios de \textit{Technical Art} para su despliegue eficiente en navegadores web compatibles.
+
+\subsubsection{Objetivos específicos}
 
 \begin{enumerate}
-    \item Diseñar un \textit{pipeline} de optimización de activos 3D que reduzca la carga poligonal de modelos CAD originales en un 90\,\% (KPI: $P_{\text{total}} < 100{,}000$ triángulos) manteniendo la fidelidad visual mediante técnicas de \textit{baking} de mapas normales y retopología.
-    \item Integrar en Unity URP un sistema de materiales y modos de visualización que combine renderizado realista con herramientas de inspección técnica, procurando un \textit{frame time} igual o inferior a 33.33\,ms (30\,FPS o más) en el dispositivo objetivo.
-    \item Programar un sistema de interacción en C\# compilado a WebAssembly que permita manipulación orbital de cámara y ejecución paramétrica de vista explosiva (\textit{exploded view}), facilitando la comprensión espacial de ensamblajes complejos.
-    \item Validar el rendimiento, la usabilidad y la carga cognitiva del prototipo mediante herramientas de perfilado, cuestionarios SUS, NASA-TLX Raw y protocolo \textit{Think-Aloud} con ingenieros y técnicos ($N=8$--$12$), contrastando los resultados frente a las metas operativas definidas para el proyecto.
+    \item Diseñar un \textit{pipeline} de optimización de activos 3D que reduzca la carga poligonal de modelos CAD originales hasta un presupuesto geométrico compatible con WebGL, manteniendo fidelidad visual mediante retopología, limpieza de mallas y \textit{baking} de texturas.
+    \item Integrar en Unity URP un sistema de materiales y modos de visualización que combine renderizado realista con herramientas de inspección técnica, procurando un \textit{frame time} igual o inferior a 33.33\,ms (30 FPS o más) bajo el entorno de prueba controlado definido para la validación del \textit{build} web.
+    \item Programar un sistema de interacción en C\# compilado a WebAssembly que permita navegación orbital, selección de piezas, consulta contextual de información y uso de herramientas como vista explosionada, corte transversal y modos analíticos del prototipo final.
+    \item Evaluar de manera formativa el desempeño en tareas y la carga de trabajo percibida por condición (3D vs.\ 2D) mediante pruebas con usuarios, NASA-TLX Raw y protocolo \textit{Think-Aloud}, y estimar adicionalmente la usabilidad percibida del prototipo 3D mediante SUS tras su uso; todo ello contrastado de forma descriptiva y frente a las metas operativas definidas para el proyecto.
 \end{enumerate}
 
-% —— Alcance y Limitaciones ——
-\subsection{Alcance y Limitaciones}
+\subsection{Alcance y limitaciones}
 
-El alcance del presente trabajo se circunscribió al desarrollo de un \textbf{Producto Mínimo Viable} (MVP; Ries, 2011) científico que demostrara la factibilidad técnica de la visualización web 3D interactiva para hardware de alto rendimiento. El modelo de referencia seleccionado fue un dron de tipo cuadricóptero, representativo de la complejidad estructural, la diversidad de materiales y las relaciones de ensamblaje propias de este dominio.
+El alcance del presente trabajo se circunscribió al desarrollo de un \textbf{Producto Mínimo Viable} (MVP) técnico y académico orientado a documentar la viabilidad de un visor web 3D interactivo para hardware complejo. El caso de estudio seleccionado fue el dron Holybro X500~V2, representativo por su densidad de relaciones espaciales, diversidad de materiales y combinación de subsistemas estructurales, electrónicos y de potencia.
 
 Las principales delimitaciones fueron las siguientes:
 
 \begin{itemize}
-    \item \textbf{Modelo único.} El prototipo se desarrolló con un solo modelo de hardware (Holybro X500~V2). La arquitectura, sin embargo, se diseñó para ser extensible a múltiples modelos mediante catálogos de datos, \texttt{ScriptableObjects} y saneamiento de runtime, sin afirmar una integración cerrada de \textit{Asset Bundles} en la build final.
-    \item \textbf{Plataforma web.} El \textit{build} se compiló exclusivamente para WebGL~2.0 con WebAssembly. No se incluyeron versiones nativas de escritorio ni móviles.
-    \item \textbf{Muestra de validación.} La evaluación de usabilidad se orientó a un grupo reducido ($N=8$--$12$) de ingenieros o técnicos, suficiente para un estudio exploratorio pero sin alcanzar significancia estadística generalizable.
-    \item \textbf{Herramienta de medición.} Si bien se implementó una herramienta de medición (distancia, ángulo, radio) con soporte para tres modos de \textit{raycast}, su funcionalidad se limitó a medición relativa dentro de la escena, dado que el modelo 3D no posee escala~1:1 calibrada respecto a dimensiones reales. Esta funcionalidad fue ocultada en la versión actual y se incluye como trabajo futuro (véase Sección Conclusiones y Trabajo Futuro).
-    \item \textbf{Sin \textit{backend}.} El prototipo opera como una aplicación puramente \textit{front-end}, sin servidor ni base de datos. La gestión de contenidos se realiza mediante carga estática.
+    \item \textbf{Modelo único.} El prototipo se desarrolló sobre un único modelo de referencia, aunque la arquitectura quedó preparada para generalizar catálogos, datos y saneamiento de runtime.
+    \item \textbf{Plataforma web.} El producto se concentró en la plataforma web compilada con WebAssembly. No se desarrollaron \textit{builds} nativas independientes de escritorio o móvil.
+    \item \textbf{Compatibilidad móvil no cerrada.} El producto se concibió para navegadores compatibles de escritorio y móviles, pero la validación empírica exacta por dispositivo quedó pendiente del \textit{freeze} final.
+    \item \textbf{Muestra de validación.} Se estableció como meta deseable un grupo de 30 participantes, con un escenario mínimo operativo de entre 8 y 12 participantes para evaluación formativa. Al momento de esta versión documental, la aplicación de instrumentos finales sigue pendiente.
+    \item \textbf{Herramientas ocultas o no integradas.} Algunas capacidades permanecen en código, pero no forman parte de la UI final visible ni del flujo funcional documentado como estado final del producto.
 \end{itemize}
 
 \newpage

@@ -1,3 +1,8 @@
+﻿---
+tipo: sistema
+estado: mantenido
+---
+#sistema #configuracion_tecnica
 # External Docs
 
 Repositorio de referencias externas utilizadas como apoyo académico, visual o técnico.
@@ -25,3 +30,4 @@ Repositorio de referencias externas utilizadas como apoyo académico, visual o t
 - `docs/manuals/`: manuales y documentos listos para publicación o consulta operativa.
 - `Informe_final/`: entregables formales de tesis y defensa.
 - `Informe_final/Desarrollo_App/`: bitácora, auditoría, consolidaciones y control de reestructuración.
+
