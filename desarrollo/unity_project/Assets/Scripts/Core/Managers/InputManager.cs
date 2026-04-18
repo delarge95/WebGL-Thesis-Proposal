@@ -12,7 +12,7 @@ namespace WebGL.Core.Managers
     /// </summary>
     public class InputManager : PersistentSingleton<InputManager>
     {
-        private const bool EnableDebugLogs = false;
+        private static readonly bool EnableDebugLogs = false;
 
         [Header("Settings")]
         [SerializeField] private float mouseSensitivity = 1.0f;

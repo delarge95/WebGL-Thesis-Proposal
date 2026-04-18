@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_bm06b_wo
   partType: 'Electronics'
   description: 'Internal/external telemetry port. Part modeled based on CAD BM06B-WO.'
-    CAD BM06B-WO."
   weightKg: 0.001
   dimensions: 'Miniatura'
   function: 'Internal/external telemetry port'
@@ -59,5 +58,6 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 1
+
 
 

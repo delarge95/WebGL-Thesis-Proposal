@@ -16,13 +16,9 @@ MonoBehaviour:
   id: x500v2_bottom_plate
   partType: 'Structure'
   description: 'Interfase de tren, brazos y PDB. Part modeled based on CAD BOTTOM-PLATE-X500-V5.'
-    mm. Base r\xEDgida del fuselaje donde se fijan el tren de aterrizaje, los brazos
-    y la PDB. Incluye taladros para standoffs, XT60 holder y clips del sistema de
-    railes."
   weightKg: 0.093
   dimensions: '144×144 mm'
   function: 'Interfase de tren, brazos y PDB'
-    tren
   materialType: 'Fibra Carbono Twill 2mm'
   materialProperties: Ultraligero, alta rigidez torsional, resistente a vibraciones
   manufacturer: Holybro
@@ -75,6 +71,7 @@ MonoBehaviour:
   - Fasteners: Cap Nut M3 x1
   - Fasteners: Rubber Grommet x2
   category: 4
+
 
 
 

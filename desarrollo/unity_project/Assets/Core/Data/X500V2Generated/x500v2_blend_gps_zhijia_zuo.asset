@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_gps_zhijia_zuo
   partType: 'Structure'
   description: 'Soporte atornillable del mÃ¡stil del GPS. Part modeled based on CAD GPS-ZHIJIA-ZUO.'
-    al CAD GPS-ZHIJIA-ZUO."
   weightKg: 0.005
   dimensions: 'MÃ¡stil M3'
   function: 'Soporte atornillable del mÃ¡stil del GPS'
@@ -59,5 +58,6 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 
 

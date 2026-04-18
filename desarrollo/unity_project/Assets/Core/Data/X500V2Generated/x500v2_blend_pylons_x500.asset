@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_pylons_x500
   partType: 'Structure'
   description: 'Riel inferior porta-elementos 10mm. Part modeled based on CAD PYLONS-X500.'
-    PYLONS-X500.
   weightKg: 0.015
   dimensions: 'âŒ€10Ã—250 mm'
   function: 'Riel inferior porta-elementos 10mm'
@@ -59,4 +58,5 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 

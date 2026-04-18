@@ -310,8 +310,9 @@ namespace WebGL.UI.Panels
                 }
             }
 
+            _visualGlyphs.TryGetValue(step.visualGlyph, out var activeGlyph);
+
             bool hasProceduralGlyph = step.visualGlyph != StepVisualGlyph.None
-                && _visualGlyphs.TryGetValue(step.visualGlyph, out var activeGlyph)
                 && activeGlyph != null;
 
             if (hasProceduralGlyph)

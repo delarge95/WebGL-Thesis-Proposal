@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_battery_mounting_plat
   partType: 'Structure'
   description: 'Placa ajustable p/correas de battery. Part modeled based on CAD BATTERY-MOUNTING-PLAT.'
-    CAD BATTERY-MOUNTING-PLAT."
   weightKg: 0.025
   dimensions: 'Variable'
   function: 'Placa ajustable p/correas de battery'
@@ -60,5 +59,6 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 
 

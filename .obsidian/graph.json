@@ -1,5 +1,5 @@
 {
-  "collapse-filter": false,
+  "collapse-filter": true,
   "search": "-tag:#sistema -path:.obsidian -path:archive -path:trash -path:desarrollo/unity_project/Library -path:desarrollo/unity_project/Packages -path:docs/node_modules -file:README -file:readme -file:CHANGELOG -file:LICENSE -file:TableOfContents -file:ext.nunit -file:TextMeshPro -file:\"Third Party Notices\"",
   "showTags": true,
   "showAttachments": true,
@@ -7,7 +7,7 @@
   "showOrphans": false,
   "collapse-color-groups": true,
   "colorGroups": [],
-  "collapse-display": false,
+  "collapse-display": true,
   "showArrow": false,
   "textFadeMultiplier": 0,
   "nodeSizeMultiplier": 0.993229166666667,
@@ -17,6 +17,6 @@
   "repelStrength": 10,
   "linkStrength": 1,
   "linkDistance": 250,
-  "scale": 0.1316872427983452,
-  "close": true
+  "scale": 0.13168724279834515,
+  "close": false
 }

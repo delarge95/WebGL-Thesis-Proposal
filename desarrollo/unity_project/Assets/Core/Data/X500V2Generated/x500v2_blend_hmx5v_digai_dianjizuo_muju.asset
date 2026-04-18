@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_hmx5v_digai_dianjizuo_muju
   partType: 'Structure'
   description: 'Plastic motor-to-tube mount. Part modeled based on CAD HMX5V-DIGAI-DIANJIZUO-MUJU.'
-    HMX5V-DIGAI-DIANJIZUO-MUJU."
   weightKg: 0.012
   dimensions: 'P/ Tubo 16mm'
   function: 'Plastic motor-to-tube mount'
@@ -59,5 +58,6 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 
 

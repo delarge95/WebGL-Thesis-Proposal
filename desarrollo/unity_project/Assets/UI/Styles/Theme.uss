@@ -91,8 +91,8 @@
 .hero-title {
     font-size: 64px;
     -unity-font-definition: initial;
-    -unity-font: resource("Fonts/SpaceGrotesk/SpaceGrotesk-Light");
-    -unity-font-style: bold;
+    -unity-font: resource("Fonts/SpaceGrotesk/SpaceGrotesk-SemiBold");
+    -unity-font-style: normal;
     color: white;
     margin-bottom: 16px;
     letter-spacing: -1px;
@@ -1273,7 +1273,6 @@
     white-space: normal;
     margin-bottom: 20px;
     padding-right: 48px;
-    line-height: 22px;
 }
 
 
@@ -1633,7 +1632,7 @@
     border-color: rgba(255, 255, 255, 0.08);
     padding: 44px 44px 32px 44px;
     width: 480px;
-    max-width: 92vw;
+    max-width: 92%;
     min-width: 320px;
     align-items: center;
 }
@@ -1838,14 +1837,12 @@
 .info-bar-peek--hidden {
     translate: -50% 100%;
     opacity: 0;
-    pointer-events: none;
 }
 
 /* When sheet is fully open, peek slides up behind the pill bar (hidden under it) */
 .info-bar-peek--sheet-open {
     translate: -50% -100%;
     opacity: 0;
-    pointer-events: none;
 }
 
 .peek-handle {
@@ -2252,7 +2249,5 @@
     margin-top: 8px;
     margin-bottom: 8px;
     border-radius: 8px;
-    /* Thermal shader color ramp from bottom (cold) to top (hot)
-       Cold: Blue/Purple -> Green -> Yellow -> Red -> White :Hot */
-    background-image: linear-gradient(to top, rgba(20,0,50,1) 0%, rgba(30,50,200,1) 20%, rgba(20,200,200,1) 40%, rgba(200,250,50,1) 60%, rgba(250,50,20,1) 85%, rgba(255,255,255,1) 100%);
+    background-color: rgba(255, 255, 255, 0.15);
 }

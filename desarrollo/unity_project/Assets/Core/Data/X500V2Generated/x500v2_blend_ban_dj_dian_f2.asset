@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_ban_dj_dian_f2
   partType: 'Propulsion'
   description: 'Montura disipadora inferior p/Motor. Part modeled based on CAD BAN-DJ-DIAN-F2.'
-    BAN-DJ-DIAN-F2.
   weightKg: 0.005
   dimensions: '16Ã—19 mm base'
   function: 'Montura disipadora inferior p/Motor'
@@ -59,4 +58,5 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 3
+
 

@@ -15,7 +15,7 @@ namespace WebGL.Core.Managers
     /// </summary>
     public class SelectionManager : Singleton<SelectionManager>
     {
-        private const bool EnableDebugLogs = false;
+        private static readonly bool EnableDebugLogs = false;
 
         #region Constants
 

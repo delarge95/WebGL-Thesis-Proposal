@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_tou_xt60h_m_14awg
   partType: 'Structure'
   description: 'Power electrical junction. Part modeled based on CAD TOU-XT60H-M-14AWG.'
-    TOU-XT60H-M-14AWG."
   weightKg: 0.005
   dimensions: 'Standard'
   function: 'Power electrical junction'
@@ -59,5 +58,6 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 
 

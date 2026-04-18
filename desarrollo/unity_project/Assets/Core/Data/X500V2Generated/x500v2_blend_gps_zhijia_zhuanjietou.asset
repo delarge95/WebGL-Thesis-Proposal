@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_gps_zhijia_zhuanjietou
   partType: 'Structure'
   description: 'ArticulaciÃ³n del mÃ¡stil abatible del GPS. Part modeled based on CAD GPS-ZHIJIA-ZHUANJIETOU.'
-    base al CAD GPS-ZHIJIA-ZHUANJIETOU."
   weightKg: 0.005
   dimensions: 'MÃ¡stil M3'
   function: 'ArticulaciÃ³n del mÃ¡stil abatible del GPS'
@@ -59,5 +58,6 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 
 

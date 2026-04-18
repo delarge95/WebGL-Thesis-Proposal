@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_hmx5v_guan_dingwei
   partType: 'Structure'
   description: 'Tope interior para la abrazadera central. Part modeled based on CAD HMX5V-GUAN-DINGWEI.'
-    CAD HMX5V-GUAN-DINGWEI.
   weightKg: 0.002
   dimensions: 'Interno 16mm'
   function: 'Tope interior para la abrazadera central'
@@ -59,4 +58,5 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 

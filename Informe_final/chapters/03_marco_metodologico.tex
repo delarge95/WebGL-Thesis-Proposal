@@ -1,6 +1,6 @@
 \section{Marco Metodológico}
 
-Este capítulo describe el diseño metodológico adoptado para el desarrollo y la evaluación del prototipo web del Holybro X500~V2. La investigación se formuló como aplicada, con enfoque mixto y predominio cualitativo-formativo. El trabajo articuló diseño, construcción y evaluación de un artefacto digital, por lo que se apoyó en \textit{Design Science Research} (DSR) complementado con prototipado iterativo y una gestión tipo Scrum adaptada al contexto académico.
+Este capítulo describe el diseño metodológico adoptado para el desarrollo y la evaluación del prototipo web del Holybro X500~V2. La investigación se formuló como aplicada, con enfoque mixto y predominio cualitativo-formativo. El trabajo articuló diseño, construcción y evaluación de un artefacto digital, por lo que se apoyó en \textit{Design Science Research} (DSR) complementado con prototipado iterativo, observación de uso, cuestionarios estandarizados y medición de KPIs técnicos.
 
 \subsection{Tipo de investigación y enfoque}
 
@@ -73,11 +73,11 @@ Si no se alcanza el umbral deseable de 30 participantes, los resultados de SUS y
     \item \textbf{Criterio de interpretación:} se considerará un desempeño más favorable cuando una condición permita completar un mayor porcentaje de tareas con igual o menor tiempo, menos errores y menor intervención del moderador.
 \end{itemize}
 
-\textbf{Rendimiento técnico}
+\textbf{Rendimiento técnico y uso de memoria}
 \begin{itemize}
-    \item \textbf{Definición conceptual:} desempeño del prototipo web durante la carga y la interacción en tiempo real.
-    \item \textbf{Definición operacional:} medición de FPS, \textit{frame time}, tiempo de carga, \textit{draw calls}, memoria y presupuesto geométrico sobre la build web, siempre acompañada del registro explícito del equipo, navegador, resolución, estado de caché y condición de red.
-    \item \textbf{Metas operativas de referencia:} 30 FPS o más y tiempo de primera interacción inferior a 10 s en el entorno de prueba controlado definido para la validación, diferenciando entre primera carga documentada y cargas posteriores con caché, además de uso de recursos dentro del presupuesto fijado durante la fase de optimización.
+    \item \textbf{Definición conceptual:} desempeño del prototipo web durante la carga y la interacción en tiempo real, junto con el comportamiento de memoria asociado al despliegue en navegador.
+    \item \textbf{Definición operacional:} medición de FPS, \textit{frame time}, tiempo de carga, \textit{draw calls}, presupuesto geométrico, tamaño de artefactos de \textit{build} relevantes para la carga inicial (especialmente archivos \texttt{.data} y asociados), tamaño del \textit{heap} configurado para Web, crecimiento efectivo del \textit{heap} durante la sesión y memoria total observada del proceso en navegador, siempre acompañada del registro explícito del equipo, navegador, resolución, estado de caché y condición de red.
+    \item \textbf{Metas operativas de referencia:} 30 FPS o más y tiempo de primera interacción inferior a 10 s en el entorno de prueba controlado definido para la validación, diferenciando entre primera carga documentada y cargas posteriores con caché. Los indicadores de memoria se reportarán de forma trazable y contextualizada, evitando reducirlos a una única cifra desanclada del dispositivo y del navegador.
 \end{itemize}
 
 \subsubsection{Variables de control}
@@ -95,6 +95,8 @@ Si no se alcanza el umbral deseable de 30 participantes, los resultados de SUS y
 \subsection{Diseño comparativo y condiciones de prueba}
 
 La evaluación con usuarios se planteó como un diseño intra-sujeto de carácter formativo. Cada participante debe interactuar con dos condiciones funcionalmente equivalentes: \textbf{Condición A}, correspondiente al prototipo 3D interactivo en navegador, y \textbf{Condición B}, correspondiente a un soporte 2D de referencia construido a partir de documentación técnica estática del mismo sistema. La comparación no pretende probar causalidad psicológica concluyente, sino describir diferencias observables de percepción y uso entre ambos medios.
+
+\paragraph{Definición operativa de la condición 2D.} La condición 2D se implementará mediante un paquete documental controlado, fijo para todos los participantes, derivado de los manuales del fabricante \textit{X500 Kit Assembly Manual} y \textit{Holybro X500 Frame Kit Assembly Guide}, complementado con una lámina de rotulado de componentes alineada con la taxonomía canónica del proyecto (Holybro, s. f.-a, s. f.-b). Para mantener equivalencia informativa suficiente con la condición 3D, dicho paquete deberá incluir al menos: una vista general del ensamblaje, una secuencia o despiece del frame, una lámina de identificación de subsistemas de propulsión y electrónica, y una ficha textual de componentes o categorías utilizadas por las tareas. Durante la prueba, los participantes podrán consultar únicamente ese paquete estático mediante lectura, desplazamiento o cambio de página, sin rotación 3D, filtros interactivos ni herramientas analíticas propias de la condición 3D.
 
 Para mitigar sesgos de aprendizaje o fatiga, el orden de exposición se contrabalancea mediante dos secuencias posibles: AB y BA. Las tareas mantienen el mismo objetivo funcional en ambas condiciones y varían únicamente en el medio de representación. El moderador emplea instrucciones equivalentes, tiempos de observación comparables y una misma matriz de registro.
 

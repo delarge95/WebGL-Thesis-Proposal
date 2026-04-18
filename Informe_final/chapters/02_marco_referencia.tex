@@ -14,23 +14,23 @@ El estado del arte analiza tecnologías actuales de visualización 3D en la web,
 
 \subsubsection{Benchmarking de soluciones Web 3D}
 
-La visualización 3D en la web ha evolucionado de forma significativa desde la introducción de WebGL (Khronos Group, 2011). Yu et al. (2023) identifican a WebGL como la tecnología dominante para renderizado 3D en navegadores, con la aparición progresiva de nuevos \textit{backends} como WebGPU. En este contexto, se revisaron las principales alternativas relevantes para el caso de estudio.
+La visualización 3D en la web ha evolucionado de forma significativa desde la introducción de WebGL (Khronos Group, 2011). Yu et al. (2023) identifican a WebGL como la tecnología dominante para renderizado 3D en navegadores, con la aparición progresiva de nuevos \textit{backends} como WebGPU. En este contexto, se revisaron las principales alternativas relevantes para el caso de estudio usando criterios explícitos de comparación: control del \textit{pipeline}, posibilidad de lógica propia, integración de materiales y UI, necesidad de infraestructura externa, compatibilidad con despliegue web directo y esfuerzo de adopción dentro del alcance académico del proyecto.
 
-\paragraph{Three.js.} Biblioteca ligera construida sobre WebGL y ampliamente adoptada por la comunidad de desarrollo web. Destaca por su curva de aprendizaje relativamente accesible, su huella inicial reducida y su extensa documentación. Como contrapartida, exige construir de forma manual gran parte del \textit{pipeline} de importación, gestión de memoria e integración avanzada de herramientas.
+\paragraph{Three.js.} Biblioteca ligera construida sobre WebGL y ampliamente adoptada por la comunidad de desarrollo web. Destaca por su huella inicial reducida y su flexibilidad para construir visualización 3D a medida; como contrapartida, exige ensamblar de forma más manual la importación, el manejo de escenas, la UI técnica y varias capas del \textit{pipeline} que en este proyecto se resolvieron dentro de un entorno integrado (Cabello, 2024).
 
-\paragraph{Babylon.js.} Motor WebGL/WebGPU con enfoque \textit{enterprise}, soporte de GUI, física y escenas complejas. Proporciona una base madura para aplicaciones 3D web, aunque el esfuerzo de configuración para un flujo técnico altamente personalizado sigue siendo considerable.
+\paragraph{Babylon.js.} Motor WebGL/WebGPU con soporte para escenas complejas, GUI, física y control amplio del \textit{pipeline}. Su documentación oficial muestra una base madura para aplicaciones web 3D avanzadas; sin embargo, para este proyecto seguía implicando construir y mantener más piezas del flujo técnico fuera de un editor unificado, especialmente en importación CAD, perfilado y tooling auxiliar del visor (Babylon.js, s. f.).
 
 \paragraph{Unity Web.} Motor con compilación a web mediante la cadena C\# $\rightarrow$ IL2CPP $\rightarrow$ C++ $\rightarrow$ WebAssembly. Su ecosistema integra editor visual, \textit{profiler}, \textit{pipeline} de materiales, herramientas para UI y soporte para extensión mediante código C\# y shaders personalizados (Unity Technologies, 2024a, 2024b, 2024c). La documentación actual de Unity 6 contempla compatibilidad con navegadores compatibles de escritorio y algunos navegadores móviles, aunque el comportamiento efectivo depende del navegador, la versión, la memoria disponible y el nivel de optimización del proyecto (Unity Technologies, s. f.). Su principal costo técnico es una huella inicial de \textit{build} mayor que la de bibliotecas puramente web.
 
-\paragraph{Unreal Engine Pixel Streaming.} Solución de \textit{streaming} remoto que ofrece muy alta fidelidad visual a cambio de depender de infraestructura GPU del lado del servidor. Aunque resulta potente para demostraciones fotorrealistas, su latencia y costo operativo la hacen menos adecuada para un prototipo académico de acceso web directo.
+\paragraph{Unreal Engine Pixel Streaming.} Solución de \textit{streaming} remoto que depende de infraestructura GPU, servidores de señalización y render del lado del servidor. Resulta potente para experiencias de alto costo gráfico, pero para este proyecto añadía una capa de infraestructura, red y latencia que se alejaba del objetivo de un \textit{build} web de acceso directo en navegador (Epic Games, s. f.-a, s. f.-b).
 
-\paragraph{Spline.} Herramienta \textit{web-first} orientada a diseño iterativo y colaboración. Es apropiada para presentación de piezas 3D ligeras y experiencias visuales sencillas, pero no está pensada para sistemas técnicos con lógica de interacción compleja.
+\paragraph{Spline.} Herramienta \textit{web-first} orientada a diseño iterativo, escenas embebidas y publicación rápida. Sus exportaciones, visores y modos de publicación son útiles para experiencias visuales ligeras; no obstante, su modelo de trabajo está más centrado en escenas y \textit{embeds} que en un sistema técnico con saneamiento de escena, lógica runtime propia y tooling especializado como el requerido aquí (Spline, s. f.-a, s. f.-b, s. f.-c).
 
-\paragraph{Marmoset Viewer.} Visor especializado en presentación PBR de alta calidad. Su fortaleza es la exhibición visual del modelo, pero su margen de personalización funcional es limitado para casos de inspección técnica.
+\paragraph{Marmoset Viewer.} Visor WebGL especializado en presentación PBR de alta calidad. Su documentación oficial muestra un conjunto de funciones orientadas a exhibición visual del modelo y un subconjunto específico de características soportadas; para este proyecto, ese enfoque resultaba insuficiente frente a necesidades como lógica contextual, instrumentación de tareas, clipping global y acoplamiento profundo con UI y datos del sistema (Marmoset, s. f.).
 
-\paragraph{Sketchfab.} Plataforma de \textit{hosting} y visualización 3D con anotaciones y publicación rápida. Aunque es conveniente para difusión, presenta menor control sobre arquitectura, lógica e integración profunda de herramientas personalizadas.
+\paragraph{Sketchfab.} Plataforma de \textit{hosting} y visualización 3D con publicación rápida y una Viewer API capaz de controlar cámara, materiales, anotaciones y eventos. Aun así, su integración se organiza alrededor de un visor embebido y no de un \textit{runtime} integral del proyecto, por lo que ofrecía menos alineación con la necesidad de una arquitectura propia, un \textit{bottom sheet} técnico y herramientas analíticas específicas del artefacto (Sketchfab, s. f.).
 
-\paragraph{PlayCanvas.} Plataforma de desarrollo web con editor colaborativo y \textit{runtime} ligero. Resulta atractiva para proyectos nativos del navegador, pero su ecosistema y documentación para casos técnicos muy específicos siguen siendo menores que los de Unity.
+\paragraph{PlayCanvas.} Plataforma de desarrollo web con editor colaborativo, \textit{runtime} ligero, scripting integrado y fuerte orientación web nativa. Es una alternativa seria para experiencias 3D en navegador; sin embargo, para este caso seguía implicando adoptar otro entorno, reconstituir el \textit{pipeline} de importación y rehacer parte del tooling técnico ya consolidado en Unity para inspección, profiling y organización del proyecto (PlayCanvas, s. f.-a, s. f.-b, s. f.-c).
 
 \begin{table}[H]
 \centering
@@ -40,18 +40,18 @@ La visualización 3D en la web ha evolucionado de forma significativa desde la i
 \begin{tabular}{lcccccc}
 \hline
 \textbf{Tecnología} & \textbf{Huella inicial} & \textbf{Control del pipeline} & \textbf{PBR} & \textbf{Interactividad} & \textbf{Infraestructura externa} & \textbf{Pertinencia} \\ \hline
-Three.js & Baja & Alto, pero manual & Manual/extendible & Total & No & Alta para desarrollo web a medida \\
-Babylon.js & Media & Alto & Integrado & Total & No & Alta para apps web 3D complejas \\
-Unity Web & Alta & Alto e integrado & URP & Total & No & Alta para prototipos técnicos con tooling \\
-UE Pixel Streaming & Media/Alta & Alto & Muy alto & Alta con latencia & Sí & Media para acceso web directo \\
-Spline & Baja & Bajo & Básico & Limitada & No & Media para presentación ligera \\
-Marmoset Viewer & Baja/Media & Bajo & Alto & Baja/Media & No & Media para exhibición visual \\
-Sketchfab & Media & Medio & Bueno & Media & Parcial & Media para publicación rápida \\
-PlayCanvas & Baja & Alto & Integrado & Total & No & Alta para experiencias web nativas \\ \hline
+Three.js & Baja & Alto, pero manual & Manual/extendible & Total & No & Alta para desarrollo a medida \\
+Babylon.js & Media & Alto & Integrado & Total & No & Media/alta para un stack web propio \\
+Unity Web & Alta & Alto e integrado & URP & Total & No & Alta para este caso de estudio \\
+UE Pixel Streaming & Media/Alta & Alto & Muy alto & Alta con latencia & Sí & Baja/media para acceso web directo \\
+Spline & Baja & Bajo & Básico & Limitada & No & Baja/media para este caso \\
+Marmoset Viewer & Baja/Media & Bajo & Alto & Baja/Media & No & Baja/media para este caso \\
+Sketchfab & Media & Medio & Bueno & Media & Parcial & Media para publicación guiada \\
+PlayCanvas & Baja & Alto & Integrado & Total & No & Media/alta para experiencias web nativas \\ \hline
 \end{tabular}
 }
 \par\vspace{0.5\baselineskip}
-\textit{Nota}. La tabla presenta una comparación cualitativa construida a partir de documentación oficial y literatura revisada; no corresponde a un benchmark uniforme ejecutado experimentalmente por el autor bajo un mismo protocolo. \textit{Fuente}. Elaboración propia con base en documentación oficial y literatura revisada.
+\textit{Nota}. La tabla presenta una comparación cualitativa construida a partir de documentación oficial, literatura revisada y requerimientos concretos del proyecto; no corresponde a un benchmark uniforme ejecutado experimentalmente por el autor bajo un mismo protocolo. Los juicios de pertinencia se refieren a este caso de estudio, no a una superioridad universal entre plataformas. \textit{Fuente}. Elaboración propia con base en documentación oficial y literatura revisada.
 \end{table}
 
 \subsubsection{Brecha identificada y selección de Unity Web}
@@ -59,9 +59,9 @@ PlayCanvas & Baja & Alto & Integrado & Total & No & Alta para experiencias web n
 La evaluación técnica identificó limitaciones críticas en tres grupos de soluciones:
 
 \begin{itemize}
-    \item \textbf{Pixel Streaming.} Latencia de red y dependencia de infraestructura \textit{cloud} poco compatibles con un prototipo académico de acceso directo en navegador.
-    \item \textbf{Spline, Marmoset y Sketchfab.} Restricciones para integrar lógica de inspección técnica, flujo de detalle, modos de análisis y arquitectura propia del sistema.
-    \item \textbf{Three.js, Babylon.js y PlayCanvas.} Mayor esfuerzo de implementación para construir desde cero un \textit{pipeline} integral de importación, materiales, controles, clipping global, modos de visualización técnica y herramientas auxiliares de auditoría.
+    \item \textbf{Pixel Streaming.} Dependencia de infraestructura de render remoto, red y configuración externa poco compatibles con un prototipo académico de acceso directo en navegador.
+    \item \textbf{Spline, Marmoset y Sketchfab.} Menor alineación con una arquitectura propia que exigía lógica de inspección técnica, flujo de detalle, modos analíticos y control fino del sistema.
+    \item \textbf{Three.js, Babylon.js y PlayCanvas.} Mayor esfuerzo de adopción para reconstruir un \textit{pipeline} integral de importación, materiales, controles, clipping global, modos de visualización técnica y herramientas auxiliares de auditoría dentro del tiempo académico disponible.
 \end{itemize}
 
 Unity Web fue seleccionado no por ofrecer la huella inicial más baja, sino por el equilibrio entre cuatro factores:
@@ -243,9 +243,9 @@ donde $p$ controla la dureza del borde. Cuando la normal es casi perpendicular a
 \paragraph{Mapeo visual del modo térmico.}
 La vista térmica del prototipo no corresponde a un \textit{solver} FEA completo, sino a una visualización híbrida inspirada en un estado térmico simplificado. A nivel visual, la temperatura normalizada puede expresarse como:
 \[
-T_{\text{vis}} = saturate\left(T_{\text{base}}\, s(\mathbf{x}) - e(\mathbf{x},\mathbf{v}) + \eta(\mathbf{x},t) + \delta_{\text{textura}}\right)
+  T_{\text{vis}} = saturate\left(T_{\text{base}}\, s(\mathbf{x}) - \phi_{\text{edge}}(\mathbf{x},\mathbf{v}) + \eta(\mathbf{x},t) + \delta_{\text{textura}}\right)
 \]
-donde $T_{\text{base}}$ proviene del subsistema térmico, $s(\mathbf{x})$ representa el factor espacial radial o axial, $e(\mathbf{x},\mathbf{v})$ modela enfriamiento de borde, $\eta(\mathbf{x},t)$ introduce variación procedural suave y $\delta_{\text{textura}}$ incorpora microvariaciones visuales de la textura base. Esta ecuación describe una capa de visualización, no una simulación termo-mecánica completa.
+donde $T_{\text{base}}$ proviene del subsistema térmico, $s(\mathbf{x})$ representa el factor espacial radial o axial, $\phi_{\text{edge}}(\mathbf{x},\mathbf{v})$ modela el enfriamiento visual de borde, $\eta(\mathbf{x},t)$ introduce variación procedural suave y $\delta_{\text{textura}}$ incorpora microvariaciones visuales de la textura base. Esta ecuación describe una capa de visualización, no una simulación termo-mecánica completa.
 
 \subsection{Marco Conceptual}
 

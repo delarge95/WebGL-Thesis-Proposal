@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_zhijia_camera_intel
   partType: 'Structure'
   description: 'Montura frontal para sistema estÃ©reo. Part modeled based on CAD ZHIJIA-CAMERA-INTEL.'
-    CAD ZHIJIA-CAMERA-INTEL."
   weightKg: 0.015
   dimensions: 'A medida'
   function: 'Montura frontal para sistema estÃ©reo'
@@ -59,5 +58,6 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 
 

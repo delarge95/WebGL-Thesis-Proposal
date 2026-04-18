@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_huan_guijiao
   partType: 'Structure'
   description: 'Anti-vibration isolator for hardware. Part modeled based on CAD HUAN-GUIJIAO.'
-    al CAD HUAN-GUIJIAO."
   weightKg: 0.001
   dimensions: 'M3-M4'
   function: 'Anti-vibration isolator for hardware'
@@ -59,5 +58,6 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 
 

@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_top_plate_x500_v5
   partType: 'Structure'
   description: 'Interfase de vuelo, Pixhawk, Radio. Part modeled based on CAD TOP-PLATE-X500-V5.'
-    TOP-PLATE-X500-V5.
   weightKg: 0.075
   dimensions: '144Ã—144 mm'
   function: 'Interfase de vuelo, Pixhawk, Radio'
@@ -59,4 +58,5 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 

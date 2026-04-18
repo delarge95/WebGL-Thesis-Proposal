@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_jiao_eva
   partType: 'Structure'
   description: 'Almohadilla amortiguadora inferior. Part modeled based on CAD JIAO-EVA.'
-    JIAO-EVA.
   weightKg: 0.002
   dimensions: 'âŒ€10 Ext'
   function: 'Almohadilla amortiguadora inferior'
@@ -59,4 +58,5 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 

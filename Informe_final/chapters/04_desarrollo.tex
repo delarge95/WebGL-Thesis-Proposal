@@ -1,6 +1,19 @@
-﻿\section{Desarrollo e Implementación}
+\section{Desarrollo e Implementación}
 
-Este capítulo documenta la versión funcional visible del prototipo y separa con claridad lo expuesto en la UI final de lo que permanece oculto, legado o proyectado. La escena oficial de referencia es \texttt{MainScene\_Final}.
+Este capítulo debe leerse como una versión técnica en desarrollo del cierre del proyecto. Su objetivo no es fingir que el producto ya concluyó empíricamente, sino documentar con precisión quirúrgica qué se implementó, qué se evaluó como parte del proceso y qué frentes siguen abiertos antes del \textit{freeze} definitivo de la build. Para evitar sobrepromesas, cada decisión de producción se narra usando tres estados editoriales: \textbf{Ejecutado}, \textbf{Evaluado} y \textbf{Descartado o reemplazado}. La escena oficial de referencia sigue siendo \texttt{MainScene\_Final}.
+
+\subsection{Estado editorial del desarrollo}
+
+El desarrollo del proyecto no se redujo a la construcción de una arquitectura de software. También involucró decisiones acumulativas de modelado, importación CAD, automatización, UI/UX, shaders, visualización analítica, saneamiento de escenas, organización de datos y validación técnica. En consecuencia, este capítulo se organiza para explicar el producto como un \textit{pipeline} completo de \textit{Technical Art} y desarrollo interactivo, no solo como un inventario de scripts.
+
+La lógica editorial adoptada es la siguiente:
+\begin{itemize}
+    \item \textbf{Ejecutado:} procesos, herramientas y flujos que dejaron huella verificable en la app, la escena, el código o los artefactos activos.
+    \item \textbf{Evaluado:} rutas técnicas estudiadas, probadas parcialmente o utilizadas como soporte de decisión, aunque no constituyan el estado final consolidado.
+    \item \textbf{Descartado o reemplazado:} enfoques tempranos que ayudaron a tomar decisiones, pero ya no representan la versión defendible del producto.
+\end{itemize}
+
+Esta distinción es especialmente importante porque el informe final todavía no está cerrado por completo: faltan la optimización final del \textit{pipeline} CAD a Unity, el rerun de auditorías posteriores al reimport, el \textit{freeze} de la build y el trabajo de campo del capítulo 5.
 
 \subsection{Normalización editorial del sistema}
 
@@ -14,14 +27,309 @@ Para evitar contradicciones entre código, escena y documentación, este informe
     \item inventario de scripts expresado con tres niveles: 95 runtime propios, 103 bajo \texttt{Assets} excluyendo tests, y 129 archivos \texttt{.cs} totales incluyendo editor/plugins.
 \end{itemize}
 
-La cifra histórica de ``16 piezas'' se conserva solo como antecedente de etapas previas del proyecto y no como conteo final del sistema documentado.
+La cifra histórica de ``16 piezas'' se conserva solo como antecedente temprano del proyecto. Corresponde a una etapa de prototipo y de simplificación del ensamblaje, útil para validar la arquitectura inicial del visor, pero insuficiente para describir el sistema final. El cierre documental utiliza la taxonomía estabilizada de 28 piezas semánticas y su traducción a 30 \textit{anchors} y 257 elementos renderizables.
+
+\begin{table}[H]
+    \caption{Reconciliación entre conteos históricos y convenciones finales del proyecto}
+    \label{tab:reconciliacion_conteos_sistema}
+    \centering
+    \small
+    \begin{tabular}{p{2.6cm}p{3.1cm}p{2.2cm}p{5.5cm}}
+        \hline
+        \textbf{Conteo} & \textbf{Nivel de lectura} & \textbf{Estado} & \textbf{Interpretación correcta} \\ \hline
+        16 piezas & Prototipo temprano y simplificación del ensamblaje & Histórico & Útil para entender la etapa inicial del visor, pero no describe la escena ni la taxonomía final del proyecto. \\
+        28 piezas & Taxonomía semántica de investigación & Canónico & Corresponde al catálogo académico principal utilizado para narrativa, hotspots, fichas y documentación. \\
+        30 \textit{anchors} & Organización de escena en Unity & Canónico técnico & Añade \texttt{x500v2\_fastener\_group} y \texttt{x500v2\_misc\_group} como grupos sintéticos de operación de runtime. \\
+        257 \textit{renderers}/\textit{colliders} & Fragmentación geométrica y cobertura de escena & Canónico técnico & Describe la granularidad renderizable/auditable del ensamblaje final, no una nueva taxonomía semántica. \\
+        257 assets generados & Capa de datos derivada del runtime & Canónico técnico & Representa la producción de \texttt{DronePartData} y assets auxiliares alineados con la escena final. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. Esta tabla evita interpretar como equivalentes niveles de conteo que pertenecen a momentos y capas distintas del proyecto. \textit{Fuente}. Elaboración propia a partir del catálogo canónico, la escena final y los activos generados.
+\end{table}
+
+\subsection{Evolución del proyecto y consolidación del caso de estudio}
+
+El desarrollo del prototipo atravesó varias reformulaciones antes de llegar al estado actual. En una fase inicial, el producto se entendía como un visor 3D con pocas piezas funcionales y fuerte énfasis en la arquitectura de interacción. Más adelante, el proyecto se desplazó hacia un caso de estudio técnicamente más exigente: el dron Holybro X500~V2 como ejemplo de \textit{hardware complejo}, entendido aquí como un sistema electromecánico multicomponente con integración estructural, energética, electrónica y de control, alta densidad de relaciones espaciales entre piezas y necesidad de inspección visual del ensamblaje.
+
+Ese cambio de foco alteró tanto la producción de activos como la app. La transición implicó abandonar una lectura reducida del sistema, ampliar la taxonomía, reestructurar la escena, redefinir el flujo de selección y replantear la interfaz desde una lógica \textit{mobile-first}. También obligó a distinguir con más honestidad entre lo ya visible en la build y lo que permanece oculto, legado o pendiente.
+
+\begin{table}[H]
+    \caption{Hitos editoriales y técnicos del desarrollo del proyecto}
+    \label{tab:hitos_desarrollo_proyecto}
+    \centering
+    \small
+    \begin{tabular}{p{2.8cm}p{4.0cm}p{2.6cm}p{5.0cm}}
+        \hline
+        \textbf{Etapa} & \textbf{Foco principal} & \textbf{Estado} & \textbf{Lectura para el informe} \\ \hline
+        Prototipo temprano & Arquitectura base del visor y conteo reducido de piezas & Histórica & Explica el antecedente de ``16 piezas'', pero no representa el cierre documental. \\
+        Consolidación del caso Holybro & Selección del X500~V2 y ampliación de taxonomía semántica & Ejecutado & Fija el marco real del proyecto y el cambio hacia \textit{hardware complejo}. \\
+        Saneamiento de activos y escena & Reorganización de piezas, grupos sintéticos y reparación de runtime & Ejecutado & Sustenta la convención 28/30/257 y el flujo final de la app. \\
+        Rediseño UI \textit{mobile-first} & Bottom sheet, navegación inferior, modos y responsive base & Ejecutado & Aporta la capa de diseño con respaldo teórico más fuerte del producto. \\
+        Cierre técnico & Optimización final, reimport, \textit{freeze} y validación empírica & Pendiente & Condiciona el cierre definitivo del capítulo 5 y de las conclusiones empíricas. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. Esta tabla resume la evolución del proyecto para justificar por qué el informe final no debe leer como contemporáneas todas las cifras o decisiones presentes en documentos tempranos. \textit{Fuente}. Elaboración propia a partir del código, la documentación activa y la propuesta corregida.
+\end{table}
+
+\subsection{Pipeline 3D, importación CAD y saneamiento geométrico}
+
+El \textit{pipeline} de activos combinó ingeniería inversa visual, importación CAD, remodelado hard-surface, limpieza topológica, modularización de repetitivos y adaptación progresiva a un objetivo WebGL. El objetivo no fue conservar intacta la geometría de origen, sino traducirla a un activo navegable, seleccionable, explicable y desplegable en navegador bajo restricciones reales de memoria, \textit{draw calls} y presupuesto geométrico.
+
+\subsubsection{Métodos de importación CAD y criterio de uso}
+
+Durante el proyecto se estudiaron y utilizaron múltiples rutas de entrada para convertir información CAD en geometría útil para Blender y Unity. La decisión no fue única ni rígida: algunas piezas respondían mejor a importación directa, mientras que otras requerían un paso intermedio para controlar mejor la teselación o reconstruir piezas problemáticas.
+
+\begin{table}[H]
+    \caption{Métodos de importación CAD considerados en el proyecto}
+    \label{tab:metodos_importacion_cad}
+    \centering
+    \small
+    \begin{tabular}{p{3.3cm}p{3.4cm}p{2.4cm}p{4.6cm}}
+        \hline
+        \textbf{Ruta técnica} & \textbf{Uso principal} & \textbf{Estado} & \textbf{Lectura editorial} \\ \hline
+        STEP $\rightarrow$ Blender directo & Inspección rápida de piezas y lectura geométrica inicial & Evaluado y usado de forma exploratoria & Útil para abrir piezas o familias sencillas, pero no siempre ofrece control suficiente sobre la teselación final. \\
+        STEP $\rightarrow$ MoI3D $\rightarrow$ exportación poligonal $\rightarrow$ Blender & Conversión de superficies NURBS/CAD con control más fino de salida & Ejecutado & Se utilizó para casos donde la importación directa producía mallas difíciles de reutilizar o inconsistentes en topología. \\
+        Re-modelado sobre referencia CAD en Blender & Reconstrucción de piezas con topología defendible para tiempo real & Ejecutado & Fue la ruta dominante para piezas críticas, especialmente cuando la malla de origen no era apta para WebGL. \\
+        Sustitución modular de repetitivos & Tornillería, arandelas y elementos similares de alta repetición & Ejecutado & Redujo redundancia geométrica y abrió la puerta a instanciación, familias y proxies ligeros. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. La coexistencia de varias rutas no implica inconsistencia metodológica; refleja la necesidad de adaptar el pipeline a distintos tipos de geometría CAD. \textit{Fuente}. Elaboración propia a partir de la investigación técnica y del pipeline activo del proyecto.
+\end{table}
+
+\placeholderfigure
+    {Ruta de importación directa de archivos STEP a Blender para inspección inicial.}
+    {fig:placeholder_import_step_blender}
+    {Inserte aquí una secuencia o comparativa del flujo STEP directo a Blender, destacando ventajas y límites de la malla resultante.}
+    {Estado esperado: evidencia del pipeline CAD evaluado durante el desarrollo.}
+
+\placeholderfigure
+    {Ruta STEP $\rightarrow$ MoI3D $\rightarrow$ Blender con control de teselación.}
+    {fig:placeholder_import_moi3d}
+    {Inserte aquí una secuencia del flujo con MoI3D, mostrando exportaciones poligonales y diferencias frente a la importación directa.}
+    {Estado esperado: evidencia del pipeline CAD ejecutado o evaluado para piezas complejas.}
+
+\subsubsection{MAD-T como marco adaptado para remodelado y preparación de activos}
+
+Como referencia de producción hard-surface se adoptó de manera adaptada el marco MAD-T divulgado por Blender Bros, cuyo acrónimo corresponde a \textit{Modeling, Automation, Decimation, Triangulation} (Blender Bros, 2022). En el proyecto, MAD-T no se usó como receta literal cerrada, sino como guía práctica para traducir piezas complejas a activos aptos para motor en tiempo real.
+
+Su adaptación operó de la siguiente manera:
+\begin{itemize}
+    \item \textbf{Modeling.} Re-modelado de piezas sobre referencia CAD cuando la malla de origen no ofrecía una topología defendible o interfería con la inspección visual del ensamblaje.
+    \item \textbf{Automation.} Automatización del trabajo repetitivo en selección de familias, instanciación de piezas hermanas, proxies y sustitución de geometría redundante.
+    \item \textbf{Decimation.} Reducción de complejidad geométrica cuando la malla de origen excedía el presupuesto razonable para WebGL.
+    \item \textbf{Triangulation.} Cierre de una geometría exportable hacia motor, evitando depender de triangulaciones implícitas o inestables en tiempo de importación.
+\end{itemize}
+
+La adaptación fue necesaria porque el proyecto no partía de un activo hard-surface tradicional diseñado desde cero para videojuego, sino de información CAD industrial heterogénea. En la práctica, esto produjo tres estrategias de trabajo complementarias: piezas que solo sirvieron como referencia volumétrica, piezas rehechas por completo y piezas modeladas desde cero cuando la fuente original no era usable o no existía con el nivel de detalle necesario.
+
+\begin{table}[H]
+    \caption{Trazabilidad representativa entre familia CAD, acción aplicada y salida runtime}
+    \label{tab:trazabilidad_familias_pipeline}
+    \centering
+    \small
+    \begin{tabular}{p{2.8cm}p{3.6cm}p{3.0cm}p{3.5cm}p{1.9cm}}
+        \hline
+        \textbf{Familia o pieza} & \textbf{Entrada o referencia principal} & \textbf{Acción aplicada} & \textbf{Salida runtime o canónica} & \textbf{Estado} \\ \hline
+        Placas del frame & Piezas CAD del kit X500 (\texttt{BOTTOM-PLATE}, \texttt{TOP-PLATE}, \texttt{PLATFORM-PLAT}) & Limpieza, renombrado y adaptación para escena & \texttt{x500v2\_bottom\_plate}, \texttt{x500v2\_top\_plate}, \texttt{x500v2\_platform\_board} & Ejecutado \\
+        Brazos y soportes de motor & Tubo de carbono + montajes + clamps del frame & Merge por familia e instanciación por cuadrante & \texttt{x500v2\_arm\_FL/FR/BL/BR} & Ejecutado \\
+        Pixhawk 6C & Carcasa, PCB e IMU separados en CAD & Encapsulado y merge de subpiezas & \texttt{x500v2\_pixhawk6c} & Ejecutado \\
+        GPS M10 & Antena, mástil, base, bandeja y tuerca & Merge de subpartes y normalización semántica & \texttt{x500v2\_gps\_m10} & Ejecutado \\
+        Motores & Un CAD maestro de motor + replicación por cuadrante & Instanciación sobre un modelo base & \texttt{x500v2\_motor\_FL/FR/BL/BR} & Ejecutado \\
+        ESC, hélices, batería y radio & Manuales, referencia CAD parcial o proxies de trabajo & Proxy temporal o pendiente de sustitución por modelo definitivo & Nodos canónicos con cobertura parcial & Parcial / evaluado \\
+        Fasteners repetitivos & Familias CAD GB70 y repetitivos del frame & Sustitución modular, metadatos de familia y reconciliación por instancia & \texttt{x500v2\_fastener\_group} + metadata runtime & Ejecutado \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. La tabla resume casos representativos y no pretende listar cada subpieza del pipeline. Su función es hacer auditable la relación entre fuente geométrica, operación aplicada y destino runtime. \textit{Fuente}. Elaboración propia con base en `x500v2\_blender\_unity\_crossref.md`, inventarios Blender y scene binding del proyecto.
+\end{table}
+
+\placeholderfigure
+    {Comparativa de retopología entre malla de origen y versión optimizada.}
+    {fig:placeholder_retopologia}
+    {Inserte aquí una comparativa visual entre high-poly/entrada CAD y modelo optimizado para WebGL.}
+    {Estado esperado: evidencia técnica del pipeline CAD a Unity documentado en el proyecto.}
+
+\begin{table}[H]
+    \caption{Reserva editorial para comparativa antes/después del saneamiento geométrico}
+    \label{tab:comparativa_saneamiento_geometrico_cap4}
+    \centering
+    \small
+    \begin{tabular}{p{3.0cm}p{2.2cm}p{2.2cm}p{2.2cm}p{4.6cm}}
+        \hline
+        \textbf{Familia o caso} & \textbf{Antes} & \textbf{Después} & \textbf{Reducción} & \textbf{Lectura técnica esperada} \\ \hline
+        Brazo o soporte crítico & [pendiente] & [pendiente] & [pendiente] & Comparar geometría de origen frente a versión apta para runtime. \\
+        Motor o carcasa compleja & [pendiente] & [pendiente] & [pendiente] & Mostrar efecto de instancia, limpieza o reconstrucción. \\
+        Fasteners repetitivos & [pendiente] & [pendiente] & [pendiente] & Evidenciar ahorro geométrico y semántico por familias. \\
+        Ensamble o subsistema representativo & [pendiente] & [pendiente] & [pendiente] & Relacionar saneamiento con presupuesto Web y legibilidad técnica. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. Esta tabla se diligenciará con datos reales cuando se cierre el reimport optimizado final. En capítulo 4 funciona como reserva editorial de trazabilidad del pipeline. \textit{Fuente}. Elaboración propia.
+\end{table}
+
+\subsubsection{Sistema modular de tornillería y ahorro geométrico}
+
+Uno de los problemas más costosos del pipeline fue la tornillería. Los modelos CAD tienden a repetir pernos, tuercas, arandelas y sujetadores como mallas únicas, aunque geométrica y funcionalmente pertenezcan a familias repetidas. Si esa estructura se conserva sin filtrar, se dispara el costo en vértices, \textit{draw calls}, inspección y mantenimiento.
+
+La respuesta del proyecto fue construir una capa modular para fasteners. En lugar de documentar cada tornillo como pieza semántica independiente, se organizaron familias reutilizables y una capa de correspondencia entre \texttt{instanceId}, familia y receta. En la escena documentada quedaron versionadas \textbf{20 familias}, \textbf{168 instancias} y \textbf{9} entradas de reconciliación. Este trabajo no solo alivió el presupuesto geométrico, sino que permitió que el \textit{runtime} mostrara metadatos de familia, métrica, longitud, material y anclaje sin duplicar la lógica por instancia.
+
+\begin{table}[H]
+    \caption{Lectura editorial del sistema modular de fasteners}
+    \label{tab:fasteners_modulares_runtime}
+    \centering
+    \small
+    \begin{tabular}{p{3.2cm}p{2.7cm}p{2.8cm}p{4.9cm}}
+        \hline
+        \textbf{Componente} & \textbf{Magnitud} & \textbf{Estado} & \textbf{Función en el proyecto} \\ \hline
+        Familias de fasteners & 20 & Ejecutado & Reducen repetición conceptual y permiten sustituir o mejorar geometría sin romper el runtime. \\
+        Instancias registradas & 168 & Ejecutado & Conservan trazabilidad espacial y semántica sobre la escena. \\
+        Entradas de reconciliación & 9 & Ejecutado & Resuelven diferencias entre nomenclatura de escena, catálogo y metadatos. \\
+        Geometría final Blender & Pendiente de cierre & Parcial & La capa de datos y runtime está lista; la sustitución final de mallas sigue abierta hasta el reimport definitivo. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. La modularización de fasteners debe leerse como solución de datos, escena y optimización, no únicamente como agrupación visual. \textit{Fuente}. Elaboración propia a partir de la escena y del runtime de fasteners del proyecto.
+\end{table}
+
+\placeholderfigure
+    {Sistema modular de tornillería y familias repetidas del ensamblaje.}
+    {fig:placeholder_fasteners_modulares}
+    {Inserte aquí una comparativa entre la repetición CAD original y la organización por familias o proxies en Blender/Unity.}
+    {Estado esperado: evidencia del ahorro geométrico y de la normalización semántica de fasteners.}
+
+\subsubsection{Software especializado y costo editorial del pipeline}
+
+La producción de activos combinó herramientas libres, licencias comerciales especializadas y addons de Blender. Para no fijar precios exactos potencialmente desactualizados en el cuerpo del informe, la siguiente tabla registra tipo de licencia y rango editorial de costo.
+
+\begin{table}[H]
+    \caption{Software y addons del pipeline 3D}
+    \label{tab:software_pipeline_3d}
+    \centering
+    \small
+    \begin{tabular}{p{2.8cm}p{3.2cm}p{2.5cm}p{2.2cm}p{3.7cm}}
+        \hline
+        \textbf{Herramienta} & \textbf{Rol principal} & \textbf{Licencia} & \textbf{Rango} & \textbf{Lectura editorial} \\ \hline
+        Blender & Modelado, limpieza, organización y exportación & Libre / gratuita & Sin costo directo & Núcleo ejecutado del pipeline de producción. \\
+        Unity & Integración, UI, shaders y despliegue web & Motor con plan de uso académico/personal & Sin costo directo en esta etapa & Punto de verdad del producto final. \\
+        MoI3D & Conversión CAD y control de salida poligonal & Comercial especializada & Medio / alto & Usada como apoyo para piezas donde la teselación requería mayor control. \\
+        Hard Ops & Modelado hard-surface y booleans & Addon comercial & Bajo / medio & Complementó el re-modelado y la reconstrucción de piezas. \\
+        Box Cutter & Corte rápido y booleans de precisión & Addon comercial & Bajo / medio & Aceleró iteraciones de remodelado y corrección. \\
+        Mesh Machine & Limpieza de bevels y tratamiento hard-surface & Addon comercial & Bajo / medio & Se evaluó y aprovechó para limpieza de superficies duras y resolución de detalles. \\
+        Marmoset Toolbag & Apoyo para bake/lookdev puntual & Comercial especializada & Medio / alto & Herramienta auxiliar del pipeline, no eje del runtime final. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. ``Rango'' clasifica el tipo de inversión requerida sin fijar precios exactos sujetos a cambios comerciales. \textit{Fuente}. Elaboración propia a partir del pipeline del proyecto y de la investigación técnica asociada.
+\end{table}
+
+\subsubsection{Automatización y addons creados para el proyecto}
+
+El volumen y la naturaleza de la geometría CAD hicieron inviable un flujo puramente manual. Por ello se desarrollaron y documentaron herramientas auxiliares para selección de hermanos, instanciación, proxies, sustitución de mallas y resolución de inconsistencias topológicas.
+
+\begin{table}[H]
+    \caption{Automatizaciones y addons asociados al pipeline}
+    \label{tab:addons_automatizacion_pipeline}
+    \centering
+    \small
+    \begin{tabular}{p{3.3cm}p{3.8cm}p{2.4cm}p{4.1cm}}
+        \hline
+        \textbf{Herramienta} & \textbf{Propósito} & \textbf{Estado} & \textbf{Lectura editorial} \\ \hline
+        CAD Symmetry Instancer & Detectar familias hermanas e instanciar geometría repetida conservando transformaciones útiles & Ejecutado / iterado & Fue central para tratar repetitivos y reducir trabajo manual sobre piezas CAD similares. \\
+        Variante MoI3D ICP del instancer & Resolver inconsistencias topológicas cuando la exportación de MoI3D alteraba el conteo de vértices & Evaluado y documentado & Aporta una ruta técnica específica para piezas con salida poligonal irregular. \\
+        Proxy automator y mesh swapper & Sustituir geometría pesada por proxies o mallas saneadas & Ejecutado de forma puntual & Apoyan el ahorro geométrico sin romper la lógica del ensamblaje. \\
+        Scripts de saneamiento de threads/fasteners & Tratar tornillería, roscas o repetitivos de bajo valor visual relativo & Ejecutado / evaluado & Forman parte del esfuerzo de optimización del pipeline CAD a WebGL. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. La documentación de estas herramientas se conserva como parte del desarrollo porque su valor está en la automatización del pipeline, aunque no formen parte directa de la UI publicada. \textit{Fuente}. Elaboración propia a partir de los addons, scripts y documentos técnicos del proyecto.
+\end{table}
+
+\placeholderfigure
+    {Addons y scripts de automatización del pipeline CAD.}
+    {fig:placeholder_addons_pipeline}
+    {Inserte aquí capturas o diagramas breves del CAD Symmetry Instancer, automatizaciones de proxies y herramientas auxiliares de Blender.}
+    {Estado esperado: evidencia del soporte técnico de automatización aplicado al proyecto.}
+
+\subsubsection{Evolución de la estrategia de LOD y migración técnica evaluada}
+
+La planificación inicial contemplaba generar LODs manuales desde Blender, exportarlos por jerarquía y configurarlos mediante grupos tradicionales. Esa estrategia sigue siendo válida conceptualmente: reducir triángulos en mallas lejanas disminuye trabajo de render y ayuda a controlar el presupuesto visual. Sin embargo, la investigación técnica del proyecto llevó a evaluar una migración posterior hacia Unity 6.3 para aprovechar herramientas nativas de \textit{Mesh LOD} dentro del ecosistema Unity 6.x.
+
+Es importante dejar una precisión de estado: al momento de esta versión documental, el proyecto activo aún registra \texttt{6000.0.62f1} como versión de editor. Por tanto, la migración a Unity 6.3 y la adopción plena del flujo nativo de LOD deben describirse como una \textbf{decisión técnica evaluada y parcialmente preparada}, no como un cambio ya cerrado en la build documentada. Lo defendible académicamente es explicar por qué esa migración se volvió razonable: reducir la complejidad de mantenimiento frente a LODs manuales por pieza, alinear mejor el reimport final con un workflow nativo de motor y minimizar retrabajo si el cierre del pipeline exige nuevas iteraciones sobre la geometría.
+
+\placeholderfigure
+    {Evolución de la estrategia de LOD: de la planificación manual a la ruta nativa evaluada en Unity 6.x.}
+    {fig:placeholder_lod_migration}
+    {Inserte aquí una comparativa editorial entre la planeación inicial de LODs manuales y la evaluación de la ruta nativa en Unity 6.x.}
+    {Estado esperado: evidencia del cambio de planeación técnica y de sus implicaciones para el cierre del pipeline.}
+
+\subsection{UX/UI, diseño visual y enfoque \textit{mobile-first}}
+
+El diseño de la interfaz no fue un añadido cosmético posterior a la arquitectura, sino una capa de decisión con respaldo teórico y consecuencias directas sobre la comprensión del ensamblaje. La versión con sustento de diseño mejor fundamentado es la interfaz \textit{mobile-first}. La aplicación en escritorio existe, funciona y se mantiene correcta para uso y demostración; sin embargo, no fue re-diseñada con el mismo nivel de rigor sistémico específico para \textit{desktop}. Por limitaciones de tiempo, la versión de escritorio se conservó como una adaptación funcional del layout móvil.
+
+La interfaz móvil se apoyó en varios principios convergentes:
+\begin{itemize}
+    \item jerarquía visual clara para separar navegación primaria, acciones de modo y detalle contextual (Norman, 2013);
+    \item agrupación por proximidad, similitud y continuidad para evitar dispersión visual en paneles y tarjetas (Wertheimer, 1923; Köhler, 1929);
+    \item soporte a la lectura técnica mediante color, contraste y consistencia visual (Ware, 2012);
+    \item control de navegación y selección en entornos 3D con foco en orientación y reducción de fricción operativa (Bowman et al., 2004; Darken \& Sibert, 1996).
+\end{itemize}
+
+En la práctica, estas decisiones se tradujeron en una barra inferior persistente de modos, un \textit{bottom sheet} como contenedor principal de detalle, tarjetas de acción compactas y un flujo que minimiza los cambios bruscos de contexto.
+
+\begin{table}[H]
+    \caption{Criterios de diseño aplicados a la UI del prototipo}
+    \label{tab:criterios_uix_mobile_first}
+    \centering
+    \small
+    \begin{tabular}{p{3.0cm}p{3.8cm}p{2.5cm}p{4.4cm}}
+        \hline
+        \textbf{Criterio} & \textbf{Aplicación en la app} & \textbf{Estado} & \textbf{Lectura editorial} \\ \hline
+        Jerarquía visual & Separación entre Hero, navegación inferior, modos y ficha inferior & Ejecutado & Permite que el usuario identifique el flujo principal sin depender de menús complejos. \\
+        Diseño \textit{mobile-first} & Bottom bar, \textit{bottom sheet}, tarjetas táctiles y scroll elástico & Ejecutado & Es la capa de UI con respaldo teórico más consistente del proyecto. \\
+        Adaptación a escritorio & Reacomodo funcional del layout móvil & Ejecutado, pero no cerrado como sistema desktop & Debe narrarse con honestidad: es utilizable, pero no responde a un sistema de diseño de escritorio plenamente desarrollado. \\
+        Consistencia cromática y de estados & Paleta contenida, retroalimentación de selección y lectura por modos & Ejecutado & Refuerza comprensión del sistema y evita ruido visual innecesario. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. Esta tabla evita presentar la versión de escritorio como si hubiera recibido el mismo nivel de diseño sistémico específico que la interfaz móvil. \textit{Fuente}. Elaboración propia.
+\end{table}
+
+\placeholderfigure
+    {Evolución de la interfaz desde versiones tempranas hasta el layout \textit{mobile-first} actual.}
+    {fig:placeholder_ui_evolution}
+    {Inserte aquí una comparación entre iteraciones tempranas de UI y la interfaz final basada en bottom bar y bottom sheet.}
+    {Estado esperado: evidencia del proceso de diseño visual y de la consolidación del flujo móvil.}
+
+\placeholderfigure
+    {Vista responsive del prototipo en pantalla móvil.}
+    {fig:placeholder_mobile_responsive}
+    {Inserte aquí la captura del layout adaptado a móvil, con foco en legibilidad y uso táctil.}
+    {Estado esperado: evidencia de despliegue WebGL y adaptación visual post-freeze.}
+
+\placeholderfigure
+    {Comparativa entre la interfaz móvil y su adaptación funcional a escritorio.}
+    {fig:placeholder_mobile_desktop_compare}
+    {Inserte aquí una lámina paralela con la UI móvil final y la adaptación de escritorio, destacando continuidades y límites del traslado entre factores de forma.}
+    {Estado esperado: evidencia del carácter \textit{mobile-first} y de la adaptación funcional a escritorio.}
+
+\placeholderfigure
+    {Ficha inferior de detalle (\textit{bottom sheet}) de una pieza.}
+    {fig:placeholder_bottom_sheet}
+    {Inserte aquí la captura de una pieza seleccionada con nombre, especificaciones y ensamblaje en la ficha inferior.}
+    {Estado esperado: flujo visible de la build final.}
+
+\subsubsection{Sistema de iconos procedurales y microinteracciones}
+
+Una decisión distintiva del proyecto fue evitar un sistema de iconos basado en texturas o sprites tradicionales y reemplazarlo por iconografía procedural generada en código. La implementación actual usa UI Toolkit con \texttt{Painter2D} y \texttt{MeshGenerationContext} para dibujar trayectorias vectoriales y animarlas mediante una física ligera tipo resorte en \texttt{ProceduralIconBase}. Esta estrategia permitió conservar nitidez vectorial, evitar hojas de sprites y mantener control fino sobre \textit{hover}, \textit{press} y respiración visual de los botones, dentro del mismo sistema de UI runtime (Unity Technologies, 2024d).
+
+En términos conceptuales, el sistema evolucionó desde un plan inicial de iconografía SVG hacia una suite procedural escrita en C\#. Los iconos de \texttt{Home}, \texttt{Reset}, \texttt{Inspect}, \texttt{Cut}, \texttt{Explode}, \texttt{Filter}, \texttt{Isolate}, \texttt{Power}, \texttt{Shaders}, \texttt{Studio} y otros botones ya existen como clases independientes, y su microinteracción se apoya en desplazamientos, escalados, rotaciones o separaciones controladas por una función \texttt{SpringFloat}. En consecuencia, el trabajo visual del proyecto no se limita a elegir íconos: incorpora geometría procedural, interpolación amortiguada y coherencia entre metáfora visual y función interactiva.
+
+\placeholderfigure
+    {Sistema de iconos procedurales y microinteracciones implementadas en código.}
+    {fig:placeholder_icons_microinteractions}
+    {Inserte aquí una lámina comparativa de iconos procedurales, su geometría base y una secuencia corta de microinteracción.}
+    {Estado esperado: evidencia del diseño visual codificado con \texttt{Painter2D} y física ligera.}
 
 \subsection{Arquitectura operativa}
 
 La arquitectura final puede leerse en cuatro capas:
 
 \begin{enumerate}
-    \item \textbf{Presentación.} UI Toolkit mediante \texttt{MainLayout.uxml}, USS y controladores de interfaz.
+    \item \textbf{Presentación.} UI Toolkit mediante \texttt{MainLayout.uxml}, USS, \textit{bottom sheet} y controladores de interfaz.
     \item \textbf{Orquestación.} \texttt{UIManager}, \texttt{AppStateMachine} y \texttt{UIModeController}.
     \item \textbf{Servicios de escena.} selección, explode, clipping, visibilidad, view modes, entorno y subsistema térmico.
     \item \textbf{Datos.} \texttt{DronePartData}, assets generados, catálogo canónico JSON y catálogos modulares de fasteners.
@@ -50,7 +358,7 @@ Las Figuras \ref{fig:arquitectura_capas_sistema}, \ref{fig:flujo_eventbus_sistem
     \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_3.pdf}
 \end{figure}
 
-\subsection{Bootstrap y saneamiento del import}
+\subsubsection{Bootstrap y saneamiento del import}
 
 La escena final depende de dos mecanismos complementarios.
 
@@ -64,11 +372,9 @@ La escena final depende de dos mecanismos complementarios.
     \item reconstruir cachés de \texttt{ExplodedViewManager}, \texttt{PartVisibilityManager}, \texttt{PartCatalogManager}, \texttt{CrossSectionManager}, \texttt{ViewModeManager} y el subsistema térmico.
 \end{itemize}
 
-Este saneamiento permite que la versión importada del modelo mantenga coherencia funcional con la taxonomía académica del proyecto.
+Este saneamiento es decisivo porque traduce la taxonomía académica del proyecto a una escena navegable por la app. Sin esa reparación, la coherencia entre selección, \textit{bottom sheet}, categorías, vistas analíticas y estado térmico se rompería.
 
-Sobre esa misma base se implementó una capa Unity específica para fasteners. Dicha capa incorpora tres catálogos JSON de soporte, un registro \textit{runtime} para resolver la relación \texttt{instanceId -> family -> recipe} y un flujo de inspección bajo demanda que conserva proxies ligeros en reposo. En la escena documentada quedaron versionadas \textbf{20 familias}, \textbf{168 instancias} y \textbf{9} entradas de reconciliación. Debe aclararse que la geometría visible actual sigue siendo temporal; el aporte implementado en Unity fija el contrato de datos y la lógica de inspección para que las mallas Blender finales puedan reemplazar los placeholders sin reescribir el runtime.
-
-La Figura \ref{fig:flujo_dronepartdata_runtime} resume el tránsito de \texttt{DronePartData} desde el asset o catálogo hasta los controladores de interfaz y los servicios de escena, lo cual explica por qué la reparación de runtime es determinante para la consistencia del producto final.
+La Figura \ref{fig:flujo_dronepartdata_runtime} resume el tránsito de \texttt{DronePartData} desde el asset o catálogo hasta los controladores de interfaz y los servicios de escena.
 
 \begin{figure}[H]
     \caption{Flujo de datos \texttt{DronePartData} desde asset y catálogo hasta la interfaz.}
@@ -94,7 +400,7 @@ El flujo principal de uso es:
 
 \paragraph{Studio.} Agrupa modos visuales y control de entorno. El estado base es \texttt{Realistic}; la UI visible expone \texttt{X-Ray}, \texttt{Solid Color} y \texttt{Thermal}, junto con tarjetas de ambiente y sliders de luz.
 
-La Figura \ref{fig:flujo_seleccion_ui} muestra el recorrido de selección desde el input del usuario hasta la sincronización con el \textit{bottom sheet}, mientras que la Figura \ref{fig:pipeline_shaders_modos} resume la relación entre los modos visuales implementados y los shaders o materiales que los soportan.
+La Figura \ref{fig:flujo_seleccion_ui} muestra el recorrido de selección desde el input del usuario hasta la sincronización con el \textit{bottom sheet}.
 
 \begin{figure}[H]
     \caption{Flujo de selección de piezas desde \textit{input} y \textit{raycast} hasta la interfaz.}
@@ -103,11 +409,155 @@ La Figura \ref{fig:flujo_seleccion_ui} muestra el recorrido de selección desde 
     \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_4.pdf}
 \end{figure}
 
+\placeholderfigure
+    {Pantalla Hero del visor Holybro X500~V2.}
+    {fig:placeholder_hero_holybro}
+    {Inserte aquí la captura de apertura del visor con el caso Holybro X500~V2, CTA principal y copy saneado.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Vista principal del dron en modo \texttt{Realistic}.}
+    {fig:placeholder_realistic_view}
+    {Inserte aquí una captura del estado base del visor con materialidad PBR, iluminación neutra y modelo completo.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Hotspots sobre el modelo con estado de selección.}
+    {fig:placeholder_hotspots}
+    {Inserte aquí la captura de hotspots activos sobre el dron y su correspondencia con el modelo.}
+    {Estado esperado: flujo visible de la build final.}
+
+\subsection{Sistema de visualización, shaders y entornos}
+
+\texttt{ViewModeManager} implementa siete modos de vista: \texttt{Realistic}, \texttt{XRay}, \texttt{Blueprint}, \texttt{SolidColor}, \texttt{Wireframe}, \texttt{Ghosted} y \texttt{Thermal}. La UI visible no expone todos los modos al mismo tiempo; por ello el informe diferencia entre capacidad implementada y capacidad publicada en la build final.
+
+La Figura \ref{fig:pipeline_shaders_modos} resume esta relación entre modos visuales, materiales o shaders de soporte y condición de visibilidad pública.
+
 \begin{figure}[H]
     \caption{Pipeline de shaders por modo de visualización, distinguiendo entre modos implementados y modos expuestos en la UI final.}
     \label{fig:pipeline_shaders_modos}
     \centering
     \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_5.pdf}
+\end{figure}
+
+\subsubsection{Modo Blueprint y lectura analítica}
+
+El modo \texttt{Blueprint} merece una aclaración específica. Aunque la UI final no lo publica como tarjeta visible, el sistema ya implementa una lectura técnica basada en material propio, color de línea, color de fondo, umbral de borde, grilla y detección de contornos. En términos de diseño visual, este modo se concibió para convertir la escena en una lectura de planos y siluetas técnicas sin perder la posibilidad de inspección 3D. Por ello funciona como puente entre un lenguaje de representación casi diagramático y el modelo navegable en tiempo real.
+
+\placeholderfigure
+    {Modo \texttt{Blueprint} para lectura técnica del ensamblaje.}
+    {fig:placeholder_blueprint_view}
+    {Inserte aquí la captura del modo \texttt{Blueprint}, mostrando líneas, contornos y fondo asociado al preset correspondiente.}
+    {Estado esperado: capacidad implementada pero no expuesta en la UI final.}
+
+\subsubsection{Entornos, presets y color base}
+
+La capa de entorno combina dos ciclos. El primero organiza la lectura temporal de iluminación con presets \texttt{Day}, \texttt{Sunset} y \texttt{Night}. El segundo introduce presets de estudio y apariencia general, entre ellos \texttt{Studio}, \texttt{Studio Light} y \texttt{Blueprint}. Adicionalmente, la UI permite recorrer una base cromática compuesta por blanco, gris, negro, amarillo, naranja, verde, azul, púrpura y rojo. Esta capa fue útil para dos tareas: controlar el contraste visual del modelo y evaluar cómo la interfaz y los iconos procedurales responden a fondos claros u oscuros.
+
+\begin{table}[H]
+    \caption{Modos visuales, publicación en UI y lectura técnica}
+    \label{tab:modos_visuales_publicacion}
+    \centering
+    \small
+    \begin{tabular}{p{2.6cm}p{2.5cm}p{3.2cm}p{4.6cm}}
+        \hline
+        \textbf{Modo o preset} & \textbf{Estado UI} & \textbf{Rol visual} & \textbf{Lectura editorial} \\ \hline
+        Realistic & Visible & Estado base PBR & Referencia principal del visor para lectura material y navegación general. \\
+        X-Ray & Visible & Inspección interna & Aporta transparencia y lectura estructural sin desmontaje completo. \\
+        Solid Color & Visible & Aislamiento material simplificado & Útil para lectura formal y evaluación de contraste. \\
+        Thermal & Visible & Análisis visual guiado por temperatura heurística & Debe documentarse como simulación híbrida, no FEA. \\
+        Blueprint & Oculto & Lectura técnico-diagramática & Implementado, pero no publicado en la UI final. \\
+        Wireframe & Oculto & Lectura de malla & Debe tratarse como capacidad implementada no publicada. \\
+        Ghosted & Oculto & Visualización analítica adicional & Se conserva como capacidad técnica no expuesta. \\
+        Day / Sunset / Night & Visible & Variación temporal de ambiente & Afectan contraste, percepción volumétrica y presentación. \\
+        Studio / Studio Light / Blueprint & Visible parcial & Presets de estudio e iluminación & Sirven para presentación, lectura técnica y control visual del modelo. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. La tabla distingue expresamente entre capacidad implementada y publicación en la UI final, evitando sobre-documentar funciones ocultas como si fueran alcance visible. \textit{Fuente}. Elaboración propia a partir del código y de la validación funcional del proyecto.
+\end{table}
+
+\placeholderfigure
+    {Modo \texttt{X-Ray} para inspección interna.}
+    {fig:placeholder_xray_view}
+    {Inserte aquí la captura del modo \texttt{X-Ray} con lectura clara de estructura interna y pieza seleccionada.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Vista explosionada del ensamblaje.}
+    {fig:placeholder_exploded_view}
+    {Inserte aquí la captura del modo \textit{explode} mostrando separación legible de piezas y lectura de ensamblaje.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Modo \texttt{Wireframe} para lectura de malla.}
+    {fig:placeholder_wireframe_view}
+    {Inserte aquí una captura de referencia del modo \texttt{Wireframe}.}
+    {Estado esperado: capacidad implementada pero oculta; si no se publica, debe migrarse a anexos o trabajo futuro.}
+
+\placeholderfigure
+    {Modo \texttt{Thermal} con leyenda visible.}
+    {fig:placeholder_thermal_view}
+    {Inserte aquí la captura del gradiente térmico con componentes críticos y leyenda sincronizada.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Corte transversal con plano activo.}
+    {fig:placeholder_cross_section}
+    {Inserte aquí la captura del modo de corte mostrando el plano activo y la lectura del interior del dron.}
+    {Estado esperado: flujo visible de la build final.}
+
+\placeholderfigure
+    {Controles de filtros por categoría y exploración de piezas.}
+    {fig:placeholder_filters_categories}
+    {Inserte aquí la captura de los filtros funcionales disponibles en \texttt{Analyze} y su efecto sobre la escena.}
+    {Estado esperado: flujo visible de la build final; no debe confundirse con un catálogo legado no expuesto.}
+
+\placeholderfigure
+    {Comparativa de presets de entorno en \texttt{Studio}.}
+    {fig:placeholder_studio_environment}
+    {Inserte aquí una comparación entre dos presets de entorno o iluminación del modo \texttt{Studio}.}
+    {Estado esperado: flujo visible de la build final.}
+
+\subsection{Modelo matemático operativo del subsistema térmico}
+
+El modo \texttt{Thermal} no implementa una simulación FEA ni una solución termodinámica de alta fidelidad. La versión final usa un solver reducido por componentes (\textit{lumped-component model}) coherente con la arquitectura real del código: \texttt{DroneStateController} aporta el factor de carga, \texttt{ThermalSimulationManager} resuelve temperaturas por nodo y \texttt{ThermalViewController} traduce esas temperaturas a bandas visuales para shader y leyenda.
+
+Para cada nodo térmico, la temperatura de equilibrio depende de la carga efectiva del dron. Si la pieza no es fuente de calor, se toma:
+\[
+T_{eq} = T_{amb}
+\]
+
+Para fuentes térmicas, el equilibrio se interpola entre temperatura ambiente, temperatura de hover y temperatura pico según el factor de carga efectivo del sistema. La aproximación temporal hacia ese equilibrio se modela como:
+\[
+\Delta T_{\text{source}} = \left(T_{eq} - T_{actual}\right)\left(1 - e^{-\Delta t / \tau}\right)w_s
+\]
+donde $\tau$ es el tiempo de calentamiento configurado para la pieza y $w_s$ es su peso relativo como fuente térmica.
+
+El enfriamiento ambiental se aplica como:
+\[
+\Delta T_{\text{cooling}} = \left(T_{amb} - T_{actual}\right)\, c_r \, \phi_{\text{exp}} \, \Delta t
+\]
+donde $c_r$ es la tasa de enfriamiento y $\phi_{\text{exp}}$ el factor de exposición convectiva.
+
+La transferencia entre piezas conectadas por el grafo térmico se aproxima mediante:
+\[
+\Delta T_{ij} = \left(T_j - T_i\right)\hat{G}_{ij}\Delta t
+\]
+con un coeficiente de acoplamiento geométrico definido como:
+\[
+\hat{G}_{ij} = \max\left(0.001,\; s_{ij}\frac{A_{ij}}{L_{ij}}\right)
+\]
+donde $A_{ij}$ corresponde al área de contacto proxy, $L_{ij}$ a la longitud efectiva del camino térmico y $s_{ij}$ a un factor heurístico de enlace. En consecuencia, el sistema comparte la lógica de una conducción tipo Fourier, pero no debe interpretarse como una conductancia física calibrada en unidades SI.
+
+La trazabilidad matemática del subsistema fue contrastada con el workflow de verificación basado en WolframAlpha utilizado por el proyecto. Dicho audit confirmó tres puntos: la estructura geométrica inspirada en $A/L$ es razonable para el acoplamiento entre nodos, los tiempos de calentamiento del solver están deliberadamente comprimidos frente a valores físicos reales para mantener legibilidad interactiva, y la tasa de enfriamiento por defecto es coherente con esa misma escala temporal acelerada. Por ello, este subsistema debe documentarse como simulación térmica híbrida y heurística, no como FEA en tiempo real.
+
+La Figura \ref{fig:subsistema_termico_hibrido} articula la relación entre el estado del dron, la simulación térmica y la traducción visual del gradiente en la build final.
+
+\begin{figure}[H]
+    \caption{Arquitectura del subsistema térmico híbrido.}
+    \label{fig:subsistema_termico_hibrido}
+    \centering
+    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_7.pdf}
 \end{figure}
 
 \subsection{Matriz de estado funcional}
@@ -161,57 +611,9 @@ La Figura \ref{fig:flujo_seleccion_ui} muestra el recorrido de selección desde 
     \textit{Nota}. Esta tabla resume el criterio usado para separar funciones visibles, funciones ocultas y módulos no integrados, evitando mezclar capacidades de desarrollo con el alcance real de la build final. \textit{Fuente}. Elaboración propia a partir del código y de la validación funcional del proyecto.
 \end{table}
 
-\subsection{Sistema de visualización y shaders}
+\subsection{Tooling de editor, automatización y verificación}
 
-\texttt{ViewModeManager} implementa siete modos de vista: \texttt{Realistic}, \texttt{XRay}, \texttt{Blueprint}, \texttt{SolidColor}, \texttt{Wireframe}, \texttt{Ghosted} y \texttt{Thermal}. La UI visible no expone todos los modos al mismo tiempo; por ello el informe diferencia entre capacidad implementada y capacidad publicada en la build final.
-
-En particular, el modo \texttt{Thermal} se apoya en \texttt{ThermalSimulationManager} y \texttt{ThermalViewController}, y utiliza una leyenda visual en interfaz para mantener lectura clara del gradiente de temperatura.
-
-\subsection{Modelo matemático operativo del subsistema térmico}
-
-El modo \texttt{Thermal} no implementa una simulación FEA ni una solución termodinámica de alta fidelidad. La versión final usa un solver reducido por componentes (\textit{lumped-component model}) coherente con la arquitectura real del código: \texttt{DroneStateController} aporta el factor de carga, \texttt{ThermalSimulationManager} resuelve temperaturas por nodo y \texttt{ThermalViewController} traduce esas temperaturas a bandas visuales para shader y leyenda.
-
-Para cada nodo térmico, la temperatura de equilibrio depende de la carga efectiva del dron. Si la pieza no es fuente de calor, se toma:
-\[
-T_{eq} = T_{amb}
-\]
-
-Para fuentes térmicas, el equilibrio se interpola entre temperatura ambiente, temperatura de hover y temperatura pico según el factor de carga efectivo del sistema. La aproximación temporal hacia ese equilibrio se modela como:
-\[
-\Delta T_{\text{source}} = \left(T_{eq} - T_{actual}\right)\left(1 - e^{-\Delta t / \tau}\right)w_s
-\]
-donde $\tau$ es el tiempo de calentamiento configurado para la pieza y $w_s$ es su peso relativo como fuente térmica.
-
-El enfriamiento ambiental se aplica como:
-\[
-\Delta T_{\text{cooling}} = \left(T_{amb} - T_{actual}\right)c_r e \Delta t
-\]
-donde $c_r$ es la tasa de enfriamiento y $e$ el factor de exposición convectiva.
-
-La transferencia entre piezas conectadas por el grafo térmico se aproxima mediante:
-\[
-\Delta T_{ij} = \left(T_j - T_i\right)\hat{G}_{ij}\Delta t
-\]
-con un coeficiente de acoplamiento geométrico definido como:
-\[
-\hat{G}_{ij} = \max\left(0.001,\; s_{ij}\frac{A_{ij}}{L_{ij}}\right)
-\]
-donde $A_{ij}$ corresponde al área de contacto proxy, $L_{ij}$ a la longitud efectiva del camino térmico y $s_{ij}$ a un factor heurístico de enlace. En consecuencia, el sistema comparte la lógica de una conducción tipo Fourier, pero no debe interpretarse como una conductancia física calibrada en unidades SI.
-
-La trazabilidad matemática del subsistema fue contrastada con el workflow de verificación basado en WolframAlpha utilizado por el proyecto. Dicho audit confirmó tres puntos: la estructura geométrica inspirada en $A/L$ es razonable para el acoplamiento entre nodos, los tiempos de calentamiento del solver están deliberadamente comprimidos frente a valores físicos reales para mantener legibilidad interactiva, y la tasa de enfriamiento por defecto es coherente con esa misma escala temporal acelerada. Por ello, este subsistema debe documentarse como simulación térmica híbrida y heurística, no como FEA en tiempo real.
-
-La Figura \ref{fig:subsistema_termico_hibrido} articula la relación entre el estado del dron, la simulación térmica y la traducción visual del gradiente en la build final.
-
-\begin{figure}[H]
-    \caption{Arquitectura del subsistema térmico híbrido.}
-    \label{fig:subsistema_termico_hibrido}
-    \centering
-    \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_7.pdf}
-\end{figure}
-
-\subsection{Tooling de editor y verificación}
-
-El proyecto conserva herramientas de editor que son defendibles como parte del cierre técnico:
+El proyecto conserva herramientas de editor y verificación que sí son defendibles como parte del desarrollo real:
 \begin{itemize}
     \item \texttt{ProjectSetupWizard};
     \item \texttt{ImportedDroneCoverageAudit};
@@ -219,7 +621,7 @@ El proyecto conserva herramientas de editor que son defendibles como parte del c
     \item fixers de configuración y build WebGL.
 \end{itemize}
 
-Estas herramientas ayudan a mantener consistencia entre escena, catálogo, render y configuración de despliegue.
+Estas herramientas ayudan a mantener consistencia entre escena, catálogo, render y configuración de despliegue. No forman parte de la UI visible, pero sí del soporte técnico que hizo viable el proyecto.
 
 Las Figuras \ref{fig:restricciones_webgl_mitigaciones} y \ref{fig:despliegue_artefactos_build} complementan esta lectura al mostrar, respectivamente, las restricciones técnicas del destino WebGL y el flujo de artefactos desde la build hasta la validación del despliegue.
 
@@ -243,8 +645,10 @@ Al momento de esta versión documental, los siguientes frentes siguen abiertos y
 \begin{enumerate}
     \item aplicar la optimización final del pipeline CAD $\rightarrow$ Unity según los planes de Holybro;
     \item rerun de auditorías jerárquicas y de cobertura tras el reimport final;
-    \item decidir si el audio entra antes del freeze o queda como trabajo futuro;
-    \item congelar la build definitiva para ejecutar pruebas de usabilidad y reportes finales.
+    \item decidir si el audio entra antes del \textit{freeze} o queda como trabajo futuro;
+    \item congelar la build definitiva para ejecutar pruebas de usabilidad y reportes finales;
+    \item cerrar la decisión sobre migración a Unity 6.3 y verificar si la ruta nativa de LOD se integra realmente al cierre del pipeline;
+    \item reconocer que la interfaz de escritorio es una adaptación funcional del sistema \textit{mobile-first}, no un sistema desktop rediseñado con el mismo nivel de rigor teórico.
 \end{enumerate}
 
 Mientras estas tareas no concluyan, el sistema se documenta como funcional y verificable en su flujo principal, pero no como versión empíricamente cerrada.
@@ -257,87 +661,5 @@ La Figura \ref{fig:herramientas_ensamblaje_proyectadas} deja explícito que el c
     \centering
     \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/chapter4/fig_4_9.pdf}
 \end{figure}
-
-\subsection{Placeholders editoriales de capturas y renders}
-
-Con el fin de dejar cerrada la maqueta editorial del capítulo 4 y preparar la captura final del producto, este informe reserva las Figuras \ref{fig:placeholder_hero_holybro} a \ref{fig:placeholder_retopologia}. Estas reservas no sustituyen evidencia; solo fijan ubicación, caption, intención narrativa y estado funcional esperado de cada captura.
-
-\placeholderfigure
-    {Pantalla Hero del visor Holybro X500~V2.}
-    {fig:placeholder_hero_holybro}
-    {Inserte aquí la captura de apertura del visor con el caso Holybro X500~V2, CTA principal y copy saneado.}
-    {Estado esperado: flujo visible de la build final.}
-
-\placeholderfigure
-    {Vista principal del dron en modo \texttt{Realistic}.}
-    {fig:placeholder_realistic_view}
-    {Inserte aquí una captura del estado base del visor con materialidad PBR, iluminación neutra y modelo completo.}
-    {Estado esperado: flujo visible de la build final.}
-
-\placeholderfigure
-    {Vista explosionada del ensamblaje.}
-    {fig:placeholder_exploded_view}
-    {Inserte aquí la captura del modo \textit{explode} mostrando separación legible de piezas y lectura de ensamblaje.}
-    {Estado esperado: flujo visible de la build final.}
-
-\placeholderfigure
-    {Modo \texttt{X-Ray} para inspección interna.}
-    {fig:placeholder_xray_view}
-    {Inserte aquí la captura del modo \texttt{X-Ray} con lectura clara de estructura interna y pieza seleccionada.}
-    {Estado esperado: flujo visible de la build final.}
-
-\placeholderfigure
-    {Modo \texttt{Wireframe} para lectura de malla.}
-    {fig:placeholder_wireframe_view}
-    {Inserte aquí una captura de referencia del modo \texttt{Wireframe}.}
-    {Estado esperado: capacidad implementada pero oculta; si no se publica, debe migrarse a anexos o trabajo futuro.}
-
-\placeholderfigure
-    {Modo \texttt{Thermal} con leyenda visible.}
-    {fig:placeholder_thermal_view}
-    {Inserte aquí la captura del gradiente térmico con componentes críticos y leyenda sincronizada.}
-    {Estado esperado: flujo visible de la build final.}
-
-\placeholderfigure
-    {Corte transversal con plano activo.}
-    {fig:placeholder_cross_section}
-    {Inserte aquí la captura del modo de corte mostrando el plano activo y la lectura del interior del dron.}
-    {Estado esperado: flujo visible de la build final.}
-
-\placeholderfigure
-    {Controles de filtros por categoría y exploración de piezas.}
-    {fig:placeholder_filters_categories}
-    {Inserte aquí la captura de los filtros funcionales disponibles en \texttt{Analyze} y su efecto sobre la escena.}
-    {Estado esperado: flujo visible de la build final; no debe confundirse con un catálogo legado no expuesto.}
-
-\placeholderfigure
-    {Ficha inferior de detalle (\textit{bottom sheet}) de una pieza.}
-    {fig:placeholder_bottom_sheet}
-    {Inserte aquí la captura de una pieza seleccionada con nombre, especificaciones y ensamblaje en la ficha inferior.}
-    {Estado esperado: flujo visible de la build final.}
-
-\placeholderfigure
-    {Hotspots sobre el modelo con estado de selección.}
-    {fig:placeholder_hotspots}
-    {Inserte aquí la captura de hotspots activos sobre el dron y su correspondencia con el modelo.}
-    {Estado esperado: flujo visible de la build final.}
-
-\placeholderfigure
-    {Comparativa de presets de entorno en \texttt{Studio}.}
-    {fig:placeholder_studio_environment}
-    {Inserte aquí una comparación entre dos presets de entorno o iluminación del modo \texttt{Studio}.}
-    {Estado esperado: flujo visible de la build final.}
-
-\placeholderfigure
-    {Vista responsive del prototipo en pantalla móvil.}
-    {fig:placeholder_mobile_responsive}
-    {Inserte aquí la captura del layout adaptado a móvil, con foco en legibilidad y uso táctil.}
-    {Estado esperado: evidencia de despliegue WebGL y adaptación visual post-freeze.}
-
-\placeholderfigure
-    {Comparativa de retopología entre malla de origen y versión optimizada.}
-    {fig:placeholder_retopologia}
-    {Inserte aquí una comparativa visual entre high-poly/entrada CAD y modelo optimizado para WebGL.}
-    {Estado esperado: evidencia técnica del pipeline CAD a Unity documentado en el proyecto.}
 
 \newpage

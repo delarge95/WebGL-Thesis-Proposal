@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_carbon_fiber_tube
   partType: 'Structure'
   description: 'Main vertical skid/leg. Part modeled based on CAD CARBON-FIBER-TUBE.'
-    CARBON-FIBER-TUBE."
   weightKg: 0.02
   dimensions: 'âŒ€16 mm'
   function: 'Main vertical skid/leg'
@@ -59,5 +58,6 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 
 

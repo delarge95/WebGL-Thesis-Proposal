@@ -1,6 +1,6 @@
 \section{Resultados y Análisis}
 
-Este capítulo permanece abierto hasta completar el congelamiento de la build final y la ejecución de las mediciones definidas en la metodología. Con el fin de mantener coherencia entre propuesta, informe y evidencia empírica, aquí se conserva una estructura editorial explícita de tablas y figuras pendientes, sin diligenciar valores que todavía no hayan sido obtenidos.
+Este capítulo permanece abierto hasta completar el congelamiento de la build final y la ejecución de las mediciones definidas en la metodología. Con el fin de mantener coherencia entre propuesta, informe, desarrollo técnico y evidencia empírica, aquí se conserva una estructura editorial explícita de tablas y figuras pendientes, sin diligenciar valores que todavía no hayan sido obtenidos.
 
 \subsection{Condiciones para cerrar el capítulo}
 
@@ -9,10 +9,32 @@ El capítulo 5 solo debe consolidarse cuando existan, en la misma versión conge
 \begin{enumerate}
     \item build web final posterior a la optimización CAD/import;
     \item rerun de auditorías de jerarquía y cobertura sobre la escena congelada;
+    \item consolidación de la comparación pre/post-optimización del pipeline de activos;
     \item KPIs técnicos medidos sobre esa build;
     \item aplicación de SUS, NASA-TLX Raw por condición y protocolo \textit{Think-Aloud};
     \item tablas y figuras diligenciadas con datos reproducibles, fechados y trazables.
 \end{enumerate}
+
+\subsection{Reserva editorial para resultados del pipeline de activos}
+
+Antes de cerrar el capítulo deben existir métricas trazables del efecto del saneamiento geométrico y del reimport final. Estas tablas no sustituyen la explicación del capítulo 4; reservan el lugar donde se reportarán resultados observados del pipeline.
+
+\begin{table}[H]
+    \caption{Comparativa de reducción geométrica por familia o pieza crítica}
+    \label{tab:reduccion_geometrica_familias_placeholder}
+    \centering
+    \small
+    \begin{tabular}{p{3.0cm}p{2.4cm}p{2.4cm}p{2.4cm}p{3.6cm}}
+        \hline
+        \textbf{Familia o pieza} & \textbf{Origen CAD} & \textbf{Versión optimizada} & \textbf{Reducción} & \textbf{Lectura técnica} \\ \hline
+        Brazo / soporte principal & [pendiente] & [pendiente] & [pendiente] & [pendiente] \\
+        Motor o carcasa crítica & [pendiente] & [pendiente] & [pendiente] & [pendiente] \\
+        Fasteners / repetitivos & [pendiente] & [pendiente] & [pendiente] & [pendiente] \\
+        Ensamble completo & [pendiente] & [pendiente] & [pendiente] & [pendiente] \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. Placeholder editorial. La tabla final debe usar familias o piezas realmente auditadas en la build congelada y no categorías inventadas a posteriori. \textit{Fuente}. Elaboración propia.
+\end{table}
 
 \subsection{Reserva editorial para resultados técnicos}
 
@@ -54,9 +76,25 @@ Las Tablas \ref{tab:kpis_tecnicos_post_freeze} y \ref{tab:fps_por_dispositivo_po
     \textit{Nota}. Placeholder editorial para la tabla comparativa de desempeño por dispositivo. Los escenarios deben definirse de manera consistente con las tareas del protocolo de validación y con la compatibilidad web realmente verificada. \textit{Fuente}. Elaboración propia.
 \end{table}
 
+\begin{table}[H]
+    \caption{Compatibilidad por factor de forma, navegador y estado de validación}
+    \label{tab:compatibilidad_factor_forma_placeholder}
+    \centering
+    \scriptsize
+    \begin{tabular}{p{2.8cm}p{3.0cm}p{2.3cm}p{2.3cm}p{3.4cm}}
+        \hline
+        \textbf{Factor de forma} & \textbf{Navegador} & \textbf{Compatibilidad esperada} & \textbf{Validado} & \textbf{Observaciones} \\ \hline
+        Escritorio & [pendiente] & [pendiente] & [pendiente] & [pendiente] \\
+        Tablet & [pendiente] & [pendiente] & [pendiente] & [pendiente] \\
+        Móvil & [pendiente] & [pendiente] & [pendiente] & [pendiente] \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \textit{Nota}. Placeholder editorial. Esta tabla debe cerrar la diferencia entre compatibilidad esperada y compatibilidad verificada sobre la build final, sin extrapolar resultados a dispositivos no probados. \textit{Fuente}. Elaboración propia.
+\end{table}
+
 \subsection{Reserva editorial para resultados de usabilidad}
 
-La evaluación con usuarios debe incluir el puntaje SUS agregado, la distribución por participante y una visualización sintética que facilite su interpretación frente a referencias de benchmark reportadas en la literatura.
+La evaluación con usuarios debe incluir el puntaje SUS agregado, la distribución por participante y una visualización sintética que facilite su interpretación frente a referencias de benchmark reportadas en la literatura. En coherencia con la metodología vigente, el SUS se aplicará únicamente al prototipo 3D y no a la comparación 3D vs.\ 2D.
 
 \begin{table}[H]
     \caption{Resultados SUS por participante}

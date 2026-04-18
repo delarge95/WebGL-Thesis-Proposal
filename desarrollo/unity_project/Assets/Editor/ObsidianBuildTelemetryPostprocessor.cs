@@ -26,7 +26,7 @@ public class ObsidianBuildTelemetryPostprocessor : IPostprocessBuildWithReport
             bool success = report.summary.result == BuildResult.Succeeded;
             string status = success ? "SUCCESS" : "FAILED";
             double buildTimeMs = report.summary.totalTime.TotalMilliseconds;
-            long totalSizeBytes = report.summary.totalSize;
+            ulong totalSizeBytes = report.summary.totalSize;
 
             // Placeholder: implementar contador real de vertices segun escena/pipeline.
             int totalVertices = -1;

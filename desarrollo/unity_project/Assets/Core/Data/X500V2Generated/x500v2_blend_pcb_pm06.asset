@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_pcb_pm06
   partType: 'Electronics'
   description: 'Distribuye 5V al Pixhawk y sensa V/I. Part modeled based on CAD PCB-PM06.'
-    PCB-PM06.
   weightKg: 0.02
   dimensions: '55Ã—17 mm'
   function: 'Distribuye 5V al Pixhawk y sensa V/I'
@@ -59,4 +58,5 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 1
+
 

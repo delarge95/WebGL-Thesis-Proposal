@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_carbon_fiber_tube300
   partType: 'Structure'
   description: 'Brazo extendido diagonal de empuje. Part modeled based on CAD CARBON-FIBER-TUBE300.'
-    CARBON-FIBER-TUBE300.
   weightKg: 0.03
   dimensions: 'âŒ€16Ã—300 mm'
   function: 'Brazo extendido diagonal de empuje'
@@ -59,4 +58,5 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 

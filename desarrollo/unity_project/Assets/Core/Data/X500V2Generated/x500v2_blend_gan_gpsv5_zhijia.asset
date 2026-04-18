@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_gan_gpsv5_zhijia
   partType: 'Electronics'
   description: 'Positionamiento GNSS MulticonstelaciÃ³n. Part modeled based on CAD GAN-GPSV5-ZHIJIA.'
-    al CAD GAN-GPSV5-ZHIJIA."
   weightKg: 0.032
   dimensions: 'âŒ€50Ã—14 mm'
   function: 'Positionamiento GNSS MulticonstelaciÃ³n'
@@ -60,5 +59,6 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 1
+
 
 

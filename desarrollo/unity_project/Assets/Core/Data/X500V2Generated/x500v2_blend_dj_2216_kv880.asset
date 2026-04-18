@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_dj_2216_kv880
   partType: 'Propulsion'
   description: 'Aerodynamic thrust generation. Part modeled based on CAD DJ-2216-KV880.'
-    al CAD DJ-2216-KV880."
   weightKg: 0.063
   dimensions: 'âŒ€28Ã—32 mm'
   function: 'Aerodynamic thrust generation'
@@ -60,5 +59,6 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 3
+
 
 

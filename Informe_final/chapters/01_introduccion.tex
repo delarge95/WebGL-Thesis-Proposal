@@ -18,7 +18,7 @@ En este proyecto, el problema técnico se articuló en tres dimensiones compleme
 \begin{itemize}
     \item \textbf{Huella inicial de datos.} Los modelos CAD originales pueden alcanzar decenas o cientos de megabytes, e incluso más en ensamblajes extensos, por lo que requieren limpieza, simplificación geométrica, \textit{baking} y empaquetado selectivo para ser viables en web.
     \item \textbf{Rendimiento en tiempo real.} Mantener 30 FPS o más, equivalente a un \textit{frame time} de aproximadamente 33.33\,ms, exige controlar presupuesto geométrico, materiales, \textit{draw calls} y estados de render.
-    \item \textbf{Latencia de interacción.} Alternativas como \textit{Pixel Streaming} pueden ofrecer alta fidelidad visual, pero introducen dependencia de red y latencias poco adecuadas para inspección técnica precisa.
+    \item \textbf{Latencia de interacción.} Alternativas como \textit{Pixel Streaming} pueden ofrecer render remoto de alta calidad visual, pero introducen dependencia de infraestructura, red y latencias poco adecuadas para inspección técnica precisa (Epic Games, s. f.-a, s. f.-b).
 \end{itemize}
 
 Se identificó, por tanto, la necesidad de documentar un \textit{pipeline} de \textit{Technical Art} que permitiera desplegar hardware complejo en un visor 3D web con orientación espacial suficiente para tareas de inspección, costo computacional controlado y capacidad de análisis visual del ensamblaje para propósitos académicos e ingenieriles.
@@ -69,9 +69,9 @@ Desarrollar un prototipo de visualización web 3D interactiva basado en Unity We
 \subsubsection{Objetivos específicos}
 
 \begin{enumerate}
-    \item Diseñar un \textit{pipeline} de optimización de activos 3D que reduzca la carga poligonal de modelos CAD originales hasta un presupuesto geométrico compatible con WebGL, manteniendo fidelidad visual mediante retopología, limpieza de mallas y \textit{baking} de texturas.
+    \item Diseñar un \textit{pipeline} de optimización de activos 3D que reduzca la carga poligonal de modelos CAD originales hasta un presupuesto geométrico compatible con WebGL, preservando la legibilidad formal del ensamblaje, la identificación correcta de piezas y la lectura espacial suficiente para inspección técnica mediante retopología, limpieza de mallas y \textit{baking} de texturas.
     \item Integrar en Unity URP un sistema de materiales y modos de visualización que combine renderizado realista con herramientas de inspección técnica, procurando un \textit{frame time} igual o inferior a 33.33\,ms (30 FPS o más) bajo el entorno de prueba controlado definido para la validación del \textit{build} web.
-    \item Programar un sistema de interacción en C\# compilado a WebAssembly que permita navegación orbital, selección de piezas, consulta contextual de información y uso de herramientas como vista explosionada, corte transversal y modos analíticos del prototipo final.
+    \item Implementar el prototipo interactivo en la plataforma web de Unity, con lógica desarrollada en C\# y desplegada mediante la cadena de compilación del motor para \textit{build} web, incluyendo conversión de ensamblados administrados, generación intermedia de C++ y ejecución final en entorno WebAssembly, de modo que habilite navegación orbital, selección de piezas, consulta contextual de información y uso de herramientas como vista explosionada, corte transversal y modos analíticos del prototipo final.
     \item Evaluar de manera formativa el desempeño en tareas y la carga de trabajo percibida por condición (3D vs.\ 2D) mediante pruebas con usuarios, NASA-TLX Raw y protocolo \textit{Think-Aloud}, y estimar adicionalmente la usabilidad percibida del prototipo 3D mediante SUS tras su uso; todo ello contrastado de forma descriptiva y frente a las metas operativas definidas para el proyecto.
 \end{enumerate}
 

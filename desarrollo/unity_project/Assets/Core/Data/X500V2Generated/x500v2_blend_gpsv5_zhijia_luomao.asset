@@ -16,7 +16,6 @@ MonoBehaviour:
   id: x500v2_blend_gpsv5_zhijia_luomao
   partType: 'Structure'
   description: 'Tuerca o pieza enroscable del mÃ¡stil. Part modeled based on CAD GPSV5-ZHIJIA-LUOMAO.'
-    CAD GPSV5-ZHIJIA-LUOMAO."
   weightKg: 0.002
   dimensions: 'Manual'
   function: 'Tuerca o pieza enroscable del mÃ¡stil'
@@ -59,5 +58,6 @@ MonoBehaviour:
   screwSize: 
   subComponentNames: []
   category: 4
+
 
 
