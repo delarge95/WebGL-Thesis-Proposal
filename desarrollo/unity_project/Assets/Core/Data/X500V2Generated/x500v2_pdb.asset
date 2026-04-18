@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -72,11 +72,33 @@ MonoBehaviour:
   screwSize: M3
   subComponentNames:
   - PDB placeholder (temporary scene)
-  - Fasteners: Standoff M3 x 5 mm x2
-  - Fasteners: Pan Head Screw M3 x 14 mm x2
-  - Fasteners: Cap Nut M3 x2
+  - 
+  - 
+  - 
+  fastenerMetadata:
+    instanceId: 
+    familyId: 
+    sourceId: 
+    sceneObjectName: 
+    hierarchyPath: 
+    parentCanonicalPartId: 
+    blenderName: 
+    sceneTypeKey: 
+    subtype: 
+    metric: 
+    nominalDiameterMm: 0
+    lengthMm: 0
+    headProfile: 
+    driveType: 
+    threadPitchMm: 0
+    turnCount: 0
+    material: 
+    finish: 
+    quantityExpected: 0
+    isInspectable: 0
+    fallbackReason: 
+    notes: 
+    recipeKey: 
+    builderType: 
+    orientationMode: 
   category: 1
-
-
-
-

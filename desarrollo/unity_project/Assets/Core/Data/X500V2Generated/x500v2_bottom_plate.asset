@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_bottom_plate
   m_EditorClassIdentifier: 
-  partName: 'Carbon Fiber Bottom Plate'
+  partName: Carbon Fiber Bottom Plate
   id: x500v2_bottom_plate
-  partType: 'Structure'
-  description: 'Interfase de tren, brazos y PDB. Part modeled based on CAD BOTTOM-PLATE-X500-V5.'
+  partType: Structure
+  description: Interfase de tren, brazos y PDB. Part modeled based on CAD BOTTOM-PLATE-X500-V5.
   weightKg: 0.093
-  dimensions: '144×144 mm'
-  function: 'Interfase de tren, brazos y PDB'
-  materialType: 'Fibra Carbono Twill 2mm'
+  dimensions: "144\xD7144 mm"
+  function: Interfase de tren, brazos y PDB
+  materialType: Fibra Carbono Twill 2mm
   materialProperties: Ultraligero, alta rigidez torsional, resistente a vibraciones
   manufacturer: Holybro
   partNumber: '#510180'
@@ -39,7 +39,8 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: ''
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: 0, z: 0}
   explosionDistance: 0.5
   explosionPriority: 1
   isModular: 0
@@ -65,14 +66,35 @@ MonoBehaviour:
   - GAI-GUANGLIU
   - ZHIJIA-CAMERA-INTEL
   - HUAN-GUIJIAO
-  - Fasteners: Socket Cap Screw M3 x 25 mm x2
-  - Fasteners: Socket Cap Screw M3 x 8 mm x2
-  - Fasteners: Flange Nut M3 x2
-  - Fasteners: Cap Nut M3 x1
-  - Fasteners: Rubber Grommet x2
+  - 
+  - 
+  - 
+  - 
+  - 
+  fastenerMetadata:
+    instanceId: 
+    familyId: 
+    sourceId: 
+    sceneObjectName: 
+    hierarchyPath: 
+    parentCanonicalPartId: 
+    blenderName: 
+    sceneTypeKey: 
+    subtype: 
+    metric: 
+    nominalDiameterMm: 0
+    lengthMm: 0
+    headProfile: 
+    driveType: 
+    threadPitchMm: 0
+    turnCount: 0
+    material: 
+    finish: 
+    quantityExpected: 0
+    isInspectable: 0
+    fallbackReason: 
+    notes: 
+    recipeKey: 
+    builderType: 
+    orientationMode: 
   category: 4
-
-
-
-
-

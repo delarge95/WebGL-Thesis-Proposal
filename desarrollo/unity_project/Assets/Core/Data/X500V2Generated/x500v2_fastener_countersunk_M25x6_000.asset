@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_countersunk_M25x6_000
   m_EditorClassIdentifier: 
-  partName: 'M2.5 Micro Screw'
+  partName: M2.5 Micro Screw
   id: x500v2_fastener_countersunk_M25x6_000
-  partType: 'Structure'
-  description: 'Instrument mounting hardware. Part modeled based on CAD M25-6-CHEN-LIU.'
+  partType: Structure
+  description: Instrument mounting hardware. Part modeled based on CAD M25-6-CHEN-LIU.
   weightKg: 0.001
-  dimensions: 'M2.5'
-  function: 'Instrument mounting hardware'
-  materialType: 'Acero'
-  materialProperties: 'Standard'
+  dimensions: M2.5
+  function: Instrument mounting hardware
+  materialType: Acero
+  materialProperties: Standard
   manufacturer: Holybro
-  partNumber: 'M25-6-CHEN-LIU'
+  partNumber: M25-6-CHEN-LIU
   powerConsumption: 0
   maxLoad: 0
   operatingTemp: 0
@@ -39,7 +39,8 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: ''
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: 0, z: 0}
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -56,34 +57,32 @@ MonoBehaviour:
   connectionTypes:
   - Threaded
   screwCount: 1
-  screwSize: 'M2.5'
+  screwSize: M2.5
   subComponentNames: []
   fastenerMetadata:
     instanceId: x500v2_fastener_countersunk_M25x6_000
     familyId: holybro_countersunk_m25x6
     sourceId: x500v2_blend_m25_6_chen_liu
-    sceneObjectName: 'x500v2_fastener.countersunk_M25x6_000'
-    hierarchyPath: 'x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_000'
-    parentCanonicalPartId: 'x500v2_platform_board'
-    blenderName: 'M25-6-CHEN-LIU'
-    sceneTypeKey: 'countersunk_M25x6'
-    subtype: 'CountersunkScrew'
-    metric: 'M2.5'
+    sceneObjectName: x500v2_fastener.countersunk_M25x6_000
+    hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_000
+    parentCanonicalPartId: x500v2_platform_board
+    blenderName: M25-6-CHEN-LIU
+    sceneTypeKey: countersunk_M25x6
+    subtype: CountersunkScrew
+    metric: M2.5
     nominalDiameterMm: 2.5
     lengthMm: 6
-    headProfile: 'Countersunk'
-    driveType: 'Unknown'
+    headProfile: Countersunk
+    driveType: Unknown
     threadPitchMm: 0.45
     turnCount: 12
-    material: 'Acero'
-    finish: 'Standard'
+    material: Acero
+    finish: Standard
     quantityExpected: 12
     isInspectable: 1
-    fallbackReason: ''
-    notes: 'Instrument mounting hardware. Part modeled based on CAD M25-6-CHEN-LIU.'
-    recipeKey: 'countersunk_M25x6_placeholder'
-    builderType: 'CountersunkScrew'
-    orientationMode: 'LongestAxis'
+    fallbackReason: 
+    notes: Instrument mounting hardware. Part modeled based on CAD M25-6-CHEN-LIU.
+    recipeKey: countersunk_M25x6_placeholder
+    builderType: CountersunkScrew
+    orientationMode: LongestAxis
   category: 5
-
-

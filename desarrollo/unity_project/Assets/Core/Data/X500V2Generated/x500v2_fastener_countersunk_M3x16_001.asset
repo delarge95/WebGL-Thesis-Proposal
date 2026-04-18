@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_countersunk_M3x16_001
   m_EditorClassIdentifier: 
-  partName: 'M3 Pan/Countersunk Screw'
+  partName: M3 Pan/Countersunk Screw
   id: x500v2_fastener_countersunk_M3x16_001
-  partType: 'Structure'
-  description: 'Countersunk fastening hardware. Part modeled based on CAD M3-16-CHEN-LIU.'
+  partType: Structure
+  description: Countersunk fastening hardware. Part modeled based on CAD M3-16-CHEN-LIU.
   weightKg: 0.001
-  dimensions: 'M3'
-  function: 'Countersunk fastening hardware'
-  materialType: 'Stainless Steel'
-  materialProperties: 'Stainless'
+  dimensions: M3
+  function: Countersunk fastening hardware
+  materialType: Stainless Steel
+  materialProperties: Stainless
   manufacturer: Holybro
-  partNumber: 'M3-16-CHEN-LIU'
+  partNumber: M3-16-CHEN-LIU
   powerConsumption: 0
   maxLoad: 0
   operatingTemp: 0
@@ -39,7 +39,8 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: ''
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: 0, z: 0}
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -56,34 +57,32 @@ MonoBehaviour:
   connectionTypes:
   - Threaded
   screwCount: 1
-  screwSize: 'M3'
+  screwSize: M3
   subComponentNames: []
   fastenerMetadata:
     instanceId: x500v2_fastener_countersunk_M3x16_001
     familyId: holybro_countersunk_m3x16
     sourceId: x500v2_blend_m3_16_chen_liu
-    sceneObjectName: 'x500v2_fastener.countersunk_M3x16_001'
-    hierarchyPath: 'x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M3x16_001'
-    parentCanonicalPartId: 'x500v2_arm_FL'
-    blenderName: 'M3-16-CHEN-LIU'
-    sceneTypeKey: 'countersunk_M3x16'
-    subtype: 'CountersunkScrew'
-    metric: 'M3'
+    sceneObjectName: x500v2_fastener.countersunk_M3x16_001
+    hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M3x16_001
+    parentCanonicalPartId: x500v2_arm_FL
+    blenderName: M3-16-CHEN-LIU
+    sceneTypeKey: countersunk_M3x16
+    subtype: CountersunkScrew
+    metric: M3
     nominalDiameterMm: 3
     lengthMm: 16
-    headProfile: 'Countersunk'
-    driveType: 'Unknown'
+    headProfile: Countersunk
+    driveType: Unknown
     threadPitchMm: 0.5
     turnCount: 12
-    material: 'Stainless Steel'
-    finish: 'Stainless'
+    material: Stainless Steel
+    finish: Stainless
     quantityExpected: 2
     isInspectable: 1
-    fallbackReason: ''
-    notes: 'Countersunk fastening hardware. Part modeled based on CAD M3-16-CHEN-LIU.'
-    recipeKey: 'countersunk_M3x16_placeholder'
-    builderType: 'CountersunkScrew'
-    orientationMode: 'LongestAxis'
+    fallbackReason: 
+    notes: Countersunk fastening hardware. Part modeled based on CAD M3-16-CHEN-LIU.
+    recipeKey: countersunk_M3x16_placeholder
+    builderType: CountersunkScrew
+    orientationMode: LongestAxis
   category: 5
-
-

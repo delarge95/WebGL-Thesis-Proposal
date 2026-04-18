@@ -145,30 +145,6 @@ namespace WebGL.Core.Rendering
                 }
             }
 
-            // ── Legacy path (Compatibility Mode fallback) ──
-            [System.Obsolete("Kept for Compatibility Mode only")]
-            public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
-            {
-                var mat = settings.edgeDetectionMaterial;
-                if (mat == null) return;
-
-                var cmd = CommandBufferPool.Get("Edge Detection");
-                SetMaterialProperties(mat);
-
-                var source = renderingData.cameraData.renderer.cameraColorTargetHandle;
-                var desc = renderingData.cameraData.cameraTargetDescriptor;
-                desc.depthBufferBits = 0;
-                desc.msaaSamples = 1;
-                var tempId = Shader.PropertyToID("_EdgeDetectionTemp");
-                cmd.GetTemporaryRT(tempId, desc, FilterMode.Bilinear);
-
-                cmd.Blit(source, tempId, mat, 0);
-                cmd.Blit(tempId, source);
-
-                cmd.ReleaseTemporaryRT(tempId);
-                context.ExecuteCommandBuffer(cmd);
-                CommandBufferPool.Release(cmd);
-            }
         }
     }
 }

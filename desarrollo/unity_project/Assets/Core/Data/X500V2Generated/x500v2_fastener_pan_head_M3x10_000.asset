@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_pan_head_M3x10_000
   m_EditorClassIdentifier: 
-  partName: 'M3 Pan/Countersunk Screw'
+  partName: M3 Pan/Countersunk Screw
   id: x500v2_fastener_pan_head_M3x10_000
-  partType: 'Structure'
-  description: 'Countersunk fastening hardware. Part modeled based on CAD M3-10-PAN-DING.'
+  partType: Structure
+  description: Countersunk fastening hardware. Part modeled based on CAD M3-10-PAN-DING.
   weightKg: 0.001
-  dimensions: 'M3'
-  function: 'Countersunk fastening hardware'
-  materialType: 'Stainless Steel'
-  materialProperties: 'Stainless'
+  dimensions: M3
+  function: Countersunk fastening hardware
+  materialType: Stainless Steel
+  materialProperties: Stainless
   manufacturer: Holybro
-  partNumber: 'M3-10-PAN-DING'
+  partNumber: M3-10-PAN-DING
   powerConsumption: 0
   maxLoad: 0
   operatingTemp: 0
@@ -39,7 +39,8 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: ''
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: 0, z: 0}
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -56,34 +57,32 @@ MonoBehaviour:
   connectionTypes:
   - Threaded
   screwCount: 1
-  screwSize: 'M3'
+  screwSize: M3
   subComponentNames: []
   fastenerMetadata:
     instanceId: x500v2_fastener_pan_head_M3x10_000
     familyId: holybro_pan_head_m3x10
     sourceId: x500v2_blend_m3_10_pan_ding
-    sceneObjectName: 'x500v2_fastener.pan_head_M3x10_000'
-    hierarchyPath: 'x500v2_Drone/x500v2_fastener_group/x500v2_fastener.pan_head_M3x10_000'
-    parentCanonicalPartId: 'x500v2_platform_board'
-    blenderName: 'M3-10-PAN-DING'
-    sceneTypeKey: 'pan_head_M3x10'
-    subtype: 'PanHeadScrew'
-    metric: 'M3'
+    sceneObjectName: x500v2_fastener.pan_head_M3x10_000
+    hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.pan_head_M3x10_000
+    parentCanonicalPartId: x500v2_platform_board
+    blenderName: M3-10-PAN-DING
+    sceneTypeKey: pan_head_M3x10
+    subtype: PanHeadScrew
+    metric: M3
     nominalDiameterMm: 3
     lengthMm: 10
-    headProfile: 'Pan/Button'
-    driveType: 'Unknown'
+    headProfile: Pan/Button
+    driveType: Unknown
     threadPitchMm: 0.5
     turnCount: 12
-    material: 'Stainless Steel'
-    finish: 'Stainless'
+    material: Stainless Steel
+    finish: Stainless
     quantityExpected: 4
     isInspectable: 1
-    fallbackReason: ''
-    notes: 'Countersunk fastening hardware. Part modeled based on CAD M3-10-PAN-DING.'
-    recipeKey: 'pan_head_M3x10_placeholder'
-    builderType: 'PanHeadScrew'
-    orientationMode: 'LongestAxis'
+    fallbackReason: 
+    notes: Countersunk fastening hardware. Part modeled based on CAD M3-10-PAN-DING.
+    recipeKey: pan_head_M3x10_placeholder
+    builderType: PanHeadScrew
+    orientationMode: LongestAxis
   category: 5
-
-

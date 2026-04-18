@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_nylon_standoff_M3x5_003
   m_EditorClassIdentifier: 
-  partName: 'M3 Pan/Countersunk Screw'
+  partName: M3 Pan/Countersunk Screw
   id: x500v2_fastener_nylon_standoff_M3x5_003
-  partType: 'Structure'
-  description: 'Countersunk fastening hardware. Part modeled based on CAD NILONGZHU-M3-5.'
+  partType: Structure
+  description: Countersunk fastening hardware. Part modeled based on CAD NILONGZHU-M3-5.
   weightKg: 0.001
-  dimensions: 'M3'
-  function: 'Countersunk fastening hardware'
-  materialType: 'Stainless Steel'
-  materialProperties: 'Stainless'
+  dimensions: M3
+  function: Countersunk fastening hardware
+  materialType: Stainless Steel
+  materialProperties: Stainless
   manufacturer: Holybro
-  partNumber: 'NILONGZHU-M3-5'
+  partNumber: NILONGZHU-M3-5
   powerConsumption: 0
   maxLoad: 0
   operatingTemp: 0
@@ -39,7 +39,8 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: ''
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: 0, z: 0}
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -56,34 +57,32 @@ MonoBehaviour:
   connectionTypes:
   - Threaded
   screwCount: 1
-  screwSize: 'M3'
+  screwSize: M3
   subComponentNames: []
   fastenerMetadata:
     instanceId: x500v2_fastener_nylon_standoff_M3x5_003
     familyId: holybro_nylon_standoff_m3x5
     sourceId: x500v2_blend_nilongzhu_m3_5
-    sceneObjectName: 'x500v2_fastener.nylon_standoff_M3x5_003'
-    hierarchyPath: 'x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_standoff_M3x5_003'
-    parentCanonicalPartId: 'x500v2_power_module'
-    blenderName: 'NILONGZHU-M3-5'
-    sceneTypeKey: 'nylon_standoff_M3x5'
-    subtype: 'Standoff'
-    metric: 'M3'
+    sceneObjectName: x500v2_fastener.nylon_standoff_M3x5_003
+    hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_standoff_M3x5_003
+    parentCanonicalPartId: x500v2_power_module
+    blenderName: NILONGZHU-M3-5
+    sceneTypeKey: nylon_standoff_M3x5
+    subtype: Standoff
+    metric: M3
     nominalDiameterMm: 3
     lengthMm: 5
-    headProfile: 'Standoff'
-    driveType: 'N/A'
+    headProfile: Standoff
+    driveType: N/A
     threadPitchMm: 0
     turnCount: 3
-    material: 'Stainless Steel'
-    finish: 'Stainless'
+    material: Stainless Steel
+    finish: Stainless
     quantityExpected: 4
     isInspectable: 1
-    fallbackReason: ''
-    notes: 'Countersunk fastening hardware. Part modeled based on CAD NILONGZHU-M3-5.'
-    recipeKey: 'nylon_standoff_M3x5_placeholder'
-    builderType: 'Standoff'
-    orientationMode: 'LongestAxis'
+    fallbackReason: 
+    notes: Countersunk fastening hardware. Part modeled based on CAD NILONGZHU-M3-5.
+    recipeKey: nylon_standoff_M3x5_placeholder
+    builderType: Standoff
+    orientationMode: LongestAxis
   category: 5
-
-

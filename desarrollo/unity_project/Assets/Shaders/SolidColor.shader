@@ -13,7 +13,7 @@ Shader "WebGL/SolidColor"
         [Header(Outline)]
         [Toggle(_OUTLINE_ON)] _OutlineOn("Enable Outline", Float) = 1
         _OutlineColor("Outline Color", Color) = (0.2, 0.2, 0.2, 1.0)
-        _OutlineWidth("Outline Width", Range(0, 0.05)) = 0.005
+        _OutlineWidth("Outline Width", Range(0, 0.05)) = 0.0015
     }
 
     SubShader

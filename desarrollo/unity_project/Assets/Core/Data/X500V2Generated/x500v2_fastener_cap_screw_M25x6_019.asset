@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_cap_screw_M25x6_019
   m_EditorClassIdentifier: 
-  partName: 'Socket Head Cap Screw'
+  partName: Socket Head Cap Screw
   id: x500v2_fastener_cap_screw_M25x6_019
-  partType: 'Structure'
-  description: 'Chassis fastening and tightening. Part modeled based on CAD GB70-M25-6.'
+  partType: Structure
+  description: Chassis fastening and tightening. Part modeled based on CAD GB70-M25-6.
   weightKg: 0.001
-  dimensions: 'Metric'
-  function: 'Chassis fastening and tightening'
-  materialType: 'Stainless Steel'
-  materialProperties: 'Stainless'
+  dimensions: Metric
+  function: Chassis fastening and tightening
+  materialType: Stainless Steel
+  materialProperties: Stainless
   manufacturer: Holybro
-  partNumber: 'GB70-M25-6'
+  partNumber: GB70-M25-6
   powerConsumption: 0
   maxLoad: 0
   operatingTemp: 0
@@ -39,7 +39,8 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: ''
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: 0, z: 0}
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -56,34 +57,32 @@ MonoBehaviour:
   connectionTypes:
   - Threaded
   screwCount: 1
-  screwSize: 'M2.5'
+  screwSize: M2.5
   subComponentNames: []
   fastenerMetadata:
     instanceId: x500v2_fastener_cap_screw_M25x6_019
     familyId: holybro_cap_screw_m25x6
     sourceId: x500v2_blend_gb70_m25_6
-    sceneObjectName: 'x500v2_fastener.cap_screw_M25x6_019'
-    hierarchyPath: 'x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_019'
-    parentCanonicalPartId: 'x500v2_power_module'
-    blenderName: 'GB70-M25-6'
-    sceneTypeKey: 'cap_screw_M25x6'
-    subtype: 'SocketCapScrew'
-    metric: 'M2.5'
+    sceneObjectName: x500v2_fastener.cap_screw_M25x6_019
+    hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_019
+    parentCanonicalPartId: x500v2_power_module
+    blenderName: GB70-M25-6
+    sceneTypeKey: cap_screw_M25x6
+    subtype: SocketCapScrew
+    metric: M2.5
     nominalDiameterMm: 2.5
     lengthMm: 6
-    headProfile: 'Socket Cap'
-    driveType: 'Hex Socket'
+    headProfile: Socket Cap
+    driveType: Hex Socket
     threadPitchMm: 0.45
     turnCount: 12
-    material: 'Stainless Steel'
-    finish: 'Stainless'
+    material: Stainless Steel
+    finish: Stainless
     quantityExpected: 24
     isInspectable: 1
-    fallbackReason: ''
-    notes: 'Chassis fastening and tightening. Part modeled based on CAD GB70-M25-6.'
-    recipeKey: 'cap_screw_M25x6_placeholder'
-    builderType: 'SocketCapScrew'
-    orientationMode: 'LongestAxis'
+    fallbackReason: 
+    notes: Chassis fastening and tightening. Part modeled based on CAD GB70-M25-6.
+    recipeKey: cap_screw_M25x6_placeholder
+    builderType: SocketCapScrew
+    orientationMode: LongestAxis
   category: 5
-
-

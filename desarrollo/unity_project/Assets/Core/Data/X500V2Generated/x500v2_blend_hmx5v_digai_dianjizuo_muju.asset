@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_blend_hmx5v_digai_dianjizuo_muju
   m_EditorClassIdentifier: 
-  partName: 'Arm Tube Motor Mount (Bottom)'
+  partName: Arm Tube Motor Mount (Bottom)
   id: x500v2_blend_hmx5v_digai_dianjizuo_muju
-  partType: 'Structure'
-  description: 'Plastic motor-to-tube mount. Part modeled based on CAD HMX5V-DIGAI-DIANJIZUO-MUJU.'
+  partType: Structure
+  description: Plastic motor-to-tube mount. Part modeled based on CAD HMX5V-DIGAI-DIANJIZUO-MUJU.
   weightKg: 0.012
-  dimensions: 'P/ Tubo 16mm'
-  function: 'Plastic motor-to-tube mount'
-  materialType: 'Nylon'
+  dimensions: P/ Tubo 16mm
+  function: Plastic motor-to-tube mount
+  materialType: Nylon
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -39,7 +39,8 @@ MonoBehaviour:
   highlightColor: {r: 0.3, g: 0.8, b: 1, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
-  hotspotLabel: ''
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: 0, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0
@@ -57,7 +58,30 @@ MonoBehaviour:
   screwCount: 0
   screwSize: 
   subComponentNames: []
+  fastenerMetadata:
+    instanceId: 
+    familyId: 
+    sourceId: 
+    sceneObjectName: 
+    hierarchyPath: 
+    parentCanonicalPartId: 
+    blenderName: 
+    sceneTypeKey: 
+    subtype: 
+    metric: 
+    nominalDiameterMm: 0
+    lengthMm: 0
+    headProfile: 
+    driveType: 
+    threadPitchMm: 0
+    turnCount: 0
+    material: 
+    finish: 
+    quantityExpected: 0
+    isInspectable: 0
+    fallbackReason: 
+    notes: 
+    recipeKey: 
+    builderType: 
+    orientationMode: 
   category: 4
-
-
-
