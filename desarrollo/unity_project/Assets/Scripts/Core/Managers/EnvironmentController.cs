@@ -87,7 +87,7 @@ namespace WebGL.Core.Managers
         // Base skybox colors captured when a preset is applied (for intensity scaling)
         private Color _baseTopColor;
         private Color _baseBottomColor;
-        private float _baseIntensity = 1f;
+        private float _backgroundIntensity = 100f;
 
         public void SetLightIntensity(float intensity)
         {
@@ -95,23 +95,12 @@ namespace WebGL.Core.Managers
 
             if (directionalLight != null)
                 directionalLight.intensity = intensity;
+        }
 
-            // Scale skybox brightness proportionally to intensity change
-            if (_gradientSkybox != null && _baseIntensity > 0.01f)
-            {
-                float ratio = intensity / _baseIntensity;
-                // Clamp ratio so we don't blow out or go fully black
-                ratio = Mathf.Clamp(ratio, 0.1f, 2.5f);
-
-                Color scaledTop    = _baseTopColor * ratio;
-                Color scaledBottom = _baseBottomColor * ratio;
-                // Keep alpha at 1
-                scaledTop.a = 1f;
-                scaledBottom.a = 1f;
-
-                _gradientSkybox.SetColor(TopColorId, scaledTop);
-                _gradientSkybox.SetColor(BottomColorId, scaledBottom);
-            }
+        public void SetBackgroundIntensity(float intensityPercent)
+        {
+            _backgroundIntensity = Mathf.Clamp(intensityPercent, 0f, 100f);
+            ApplyBackgroundColors();
         }
 
         public void ApplyPreset(string presetName)
@@ -121,7 +110,9 @@ namespace WebGL.Core.Managers
 
             // Adaptive UI contrast — use center (topColor) luminance only,
             // because UI elements overlap the center region of the gradient.
-            float topLum = 0.299f * data.topColor.r + 0.587f * data.topColor.g + 0.114f * data.topColor.b;
+            float bgFactor = Mathf.Clamp01(_backgroundIntensity / 100f);
+            Color effectiveTop = data.topColor * bgFactor;
+            float topLum = 0.299f * effectiveTop.r + 0.587f * effectiveTop.g + 0.114f * effectiveTop.b;
             bool newIsLight = topLum > 0.35f;
             if (newIsLight != IsLightBackground)
             {
@@ -359,8 +350,14 @@ namespace WebGL.Core.Managers
 
                 if (_gradientSkybox != null)
                 {
-                    _gradientSkybox.SetColor(TopColorId,    Color.Lerp(fromTop,    target.topColor,    t));
-                    _gradientSkybox.SetColor(BottomColorId, Color.Lerp(fromBottom, target.bottomColor, t));
+                    float bgFactor = Mathf.Clamp01(_backgroundIntensity / 100f);
+                    Color lerpedTop = Color.Lerp(fromTop, target.topColor, t) * bgFactor;
+                    Color lerpedBottom = Color.Lerp(fromBottom, target.bottomColor, t) * bgFactor;
+                    lerpedTop.a = 1f;
+                    lerpedBottom.a = 1f;
+
+                    _gradientSkybox.SetColor(TopColorId, lerpedTop);
+                    _gradientSkybox.SetColor(BottomColorId, lerpedBottom);
                     _gradientSkybox.SetFloat(ScaleId, Mathf.Lerp(fromScale, target.gradientScale, t));
                     _gradientSkybox.SetFloat(DitherStrengthId, Mathf.Lerp(fromDither, target.ditherStrength, t));
                     _gradientSkybox.SetFloat(GridEnabledId, Mathf.Lerp(fromGrid, target.gridEnabled ? 1f : 0f, t));
@@ -379,8 +376,6 @@ namespace WebGL.Core.Managers
             // Snap final values
             if (_gradientSkybox != null)
             {
-                _gradientSkybox.SetColor(TopColorId,    target.topColor);
-                _gradientSkybox.SetColor(BottomColorId, target.bottomColor);
                 _gradientSkybox.SetFloat(ScaleId,       target.gradientScale);
                 _gradientSkybox.SetFloat(DitherStrengthId, target.ditherStrength);
                 _gradientSkybox.SetFloat(GridEnabledId, target.gridEnabled ? 1f : 0f);
@@ -398,9 +393,36 @@ namespace WebGL.Core.Managers
             // Capture base values so SetLightIntensity can scale proportionally
             _baseTopColor    = target.topColor;
             _baseBottomColor = target.bottomColor;
-            _baseIntensity   = target.lightIntensity;
+            ApplyBackgroundColors();
+
+            float topLum = 0.299f * (_baseTopColor.r * Mathf.Clamp01(_backgroundIntensity / 100f))
+                + 0.587f * (_baseTopColor.g * Mathf.Clamp01(_backgroundIntensity / 100f))
+                + 0.114f * (_baseTopColor.b * Mathf.Clamp01(_backgroundIntensity / 100f));
+            bool newIsLight = topLum > 0.35f;
+            if (newIsLight != IsLightBackground)
+            {
+                IsLightBackground = newIsLight;
+                OnLightBackgroundChanged?.Invoke(newIsLight);
+            }
 
             _transitionRoutine = null;
+        }
+
+        private void ApplyBackgroundColors()
+        {
+            if (_gradientSkybox == null)
+            {
+                return;
+            }
+
+            float bgFactor = Mathf.Clamp01(_backgroundIntensity / 100f);
+            Color top = _baseTopColor * bgFactor;
+            Color bottom = _baseBottomColor * bgFactor;
+            top.a = 1f;
+            bottom.a = 1f;
+
+            _gradientSkybox.SetColor(TopColorId, top);
+            _gradientSkybox.SetColor(BottomColorId, bottom);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace WebGL.UI.Panels
         private VisualElement _envPanel;
         private Slider _envLightRotSlider;
         private Slider _envLightIntSlider;
+        private Slider _envBackgroundIntSlider;
         private List<System.Action> _cleanupActions = new List<System.Action>();
 
         // ── Cycle state for TIME, COLOR, and STUDIO buttons ──
@@ -46,6 +47,7 @@ namespace WebGL.UI.Panels
 
             _envLightRotSlider = _envPanel.Q<Slider>("EnvLightRotation");
             _envLightIntSlider = _envPanel.Q<Slider>("EnvLightIntensity");
+            _envBackgroundIntSlider = _envPanel.Q<Slider>("EnvBackgroundIntensity");
 
             if (_envLightRotSlider != null)
             {
@@ -112,6 +114,40 @@ namespace WebGL.UI.Panels
                 AddCleanup(() => {
                     _envLightIntSlider.UnregisterCallback(onDown2);
                     _envLightIntSlider.UnregisterCallback(onUp2);
+                });
+            }
+
+            if (_envBackgroundIntSlider != null)
+            {
+                EventCallback<ChangeEvent<float>> onBgChanged = evt =>
+                {
+                    if (ServiceLocator.TryGet<EnvironmentController>(out var env)) env.SetBackgroundIntensity(evt.newValue);
+                };
+                _envBackgroundIntSlider.RegisterValueChangedCallback(onBgChanged);
+                AddCleanup(() => _envBackgroundIntSlider.UnregisterValueChangedCallback(onBgChanged));
+
+                EventCallback<PointerDownEvent> onDown3 = evt =>
+                {
+                    if (evt.button == 0)
+                    {
+                        InputManager.InputBlocked = true;
+                    }
+                    evt.StopPropagation();
+                };
+                EventCallback<PointerUpEvent> onUp3 = evt =>
+                {
+                    if (evt.button == 0)
+                    {
+                        InputManager.InputBlocked = false;
+                    }
+                };
+
+                _envBackgroundIntSlider.RegisterCallback(onDown3);
+                _envBackgroundIntSlider.RegisterCallback(onUp3);
+
+                AddCleanup(() => {
+                    _envBackgroundIntSlider.UnregisterCallback(onDown3);
+                    _envBackgroundIntSlider.UnregisterCallback(onUp3);
                 });
             }
 

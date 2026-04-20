@@ -296,12 +296,16 @@
 
                     <!-- Sliders -->
                     <ui:VisualElement class="env-slider-group" picking-mode="Position">
-                        <ui:Label text="ROTATION" class="env-slider-label" picking-mode="Position" />
+                        <ui:Label text="LIGHT ROTATION" class="env-slider-label" picking-mode="Position" />
                         <ui:Slider name="EnvLightRotation" low-value="0" high-value="360" value="45" class="glass-slider env-slider" picking-mode="Position" />
                     </ui:VisualElement>
                     <ui:VisualElement class="env-slider-group" picking-mode="Position">
-                        <ui:Label text="INTENSITY" class="env-slider-label" picking-mode="Position" />
+                        <ui:Label text="OBJECT INTENSITY" class="env-slider-label" picking-mode="Position" />
                         <ui:Slider name="EnvLightIntensity" low-value="0.1" high-value="3" value="1" class="glass-slider env-slider" picking-mode="Position" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="env-slider-group" picking-mode="Position">
+                        <ui:Label text="BACKGROUND TONE" class="env-slider-label" picking-mode="Position" />
+                        <ui:Slider name="EnvBackgroundIntensity" low-value="0" high-value="100" value="100" class="glass-slider env-slider" picking-mode="Position" />
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
@@ -344,7 +348,7 @@
             
             <ui:VisualElement class="hero-menu">
                 <ui:Button name="HeroExploreBtn" class="btn btn-primary btn-wide" text="EXPLORE" />
-                <ui:Button name="HeroDeviceBtn" class="btn btn-ghost btn-wide" text="PROJECT TARGET" />
+                <ui:Button name="HeroDeviceBtn" class="btn btn-ghost btn-wide" text="DEVICE" />
                 <ui:Button name="HeroAboutBtn" class="btn btn-ghost btn-wide" text="ABOUT" />
                 <ui:Button name="HeroExitBtn" class="btn btn-ghost btn-wide" text="EXIT" />
             </ui:VisualElement>
@@ -353,11 +357,11 @@
         <!-- Submenu: DEVICES -->
         <ui:VisualElement name="HeroSubmenu_Devices" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
             <ui:Button name="SubmenuBackBtn_Devices" class="btn-back" text="&lt;" />
-            <ui:Label text="Project target" class="hero-title" />
+            <ui:Label text="Device" class="hero-title" />
             <ui:ScrollView class="submenu-scroll device-scroll" mode="Vertical" touch-scroll-type="Elastic">
-                <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="Holybro X500 V2 (active case study)" />
-                <ui:Button name="DeviceBtn_Robot" class="device-option" text="Additional device slots are not used in the final build" enabled="false" />
-                <ui:Button name="DeviceBtn_Satellite" class="device-option" text="Documentation is locked to the X500 V2 final scene" enabled="false" />
+                <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="Holybro X500 Base" />
+                <ui:Button name="DeviceBtn_Robot" class="device-option" text="Additional Device Slot (Coming Soon)" enabled="false" />
+                <ui:Button name="DeviceBtn_Satellite" class="device-option" text="Additional Device Slot (Coming Soon)" enabled="false" />
             </ui:ScrollView>
         </ui:VisualElement>
 
@@ -368,9 +372,9 @@
             <ui:ScrollView class="submenu-scroll" mode="Vertical" touch-scroll-type="Elastic">
                 <ui:Label text="Interactive 3D technical visualization for the Holybro X500 V2 thesis prototype. Built with Unity WebGL." class="about-desc" />
                 <ui:Label text="Thesis Project — 2026" class="about-credit" />
-                <ui:Button name="HeroGithubBtn" text="VIEW SOURCE REPOSITORY" class="btn btn-ghost btn-wide" />
-                <ui:VisualElement class="about-separator" />
                 <ui:Button name="HeroHelpBtn" text="VIEW TUTORIAL" class="btn btn-ghost btn-wide" />
+                <ui:VisualElement class="about-separator" />
+                <ui:Button name="HeroGithubBtn" text="VIEW SOURCE REPOSITORY" class="btn btn-ghost btn-wide" />
             </ui:ScrollView>
         </ui:VisualElement>
 
@@ -393,8 +397,22 @@
          ═══════════════════════════════════════════════ -->
     <ui:VisualElement name="OnboardingOverlay" class="onboard-overlay" style="display: none;">
         <ui:VisualElement class="onboard-card">
+            <ui:Button name="OnboardPlatformSwitch" class="onboard-platform-switch" text="">
+                <ui:VisualElement class="onboard-platform-switch-track" picking-mode="Ignore">
+                    <ui:VisualElement name="OnboardPlatformThumb" class="onboard-platform-thumb" picking-mode="Ignore" />
+                    <ui:VisualElement name="OnboardPlatformPcIcon" class="onboard-platform-icon onboard-platform-icon--pc" picking-mode="Ignore">
+                        <ui:VisualElement class="onboard-platform-pc-screen" picking-mode="Ignore" />
+                        <ui:VisualElement class="onboard-platform-pc-stand" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="OnboardPlatformMobileIcon" class="onboard-platform-icon onboard-platform-icon--mobile" picking-mode="Ignore">
+                        <ui:VisualElement class="onboard-platform-mobile-body" picking-mode="Ignore" />
+                        <ui:VisualElement class="onboard-platform-mobile-notch" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:Button>
+
             <!-- Step counter -->
-            <ui:Label name="OnboardStepCounter" text="1 / 8" class="onboard-counter" picking-mode="Ignore" />
+            <ui:Label name="OnboardStepCounter" text="1 / 15" class="onboard-counter" picking-mode="Ignore" />
 
             <!-- Visual area -->
             <ui:VisualElement name="OnboardStepIcon" class="onboard-icon-area onboard-media onboard-media--static" picking-mode="Ignore">
@@ -412,14 +430,15 @@
             </ui:VisualElement>
 
             <!-- Title + Description -->
-            <ui:Label name="OnboardStepTitle" text="ORBIT &amp; ZOOM" class="onboard-title" picking-mode="Ignore" />
-            <ui:Label name="OnboardStepDesc" text="Right-drag to orbit the drone. Middle-drag to pan. Use the mouse wheel to zoom." class="onboard-desc" picking-mode="Ignore" />
+            <ui:Label name="OnboardStepTitle" text="NAVIGATE" class="onboard-title" picking-mode="Ignore" />
+            <ui:Label name="OnboardStepDesc" text="Right mouse button + drag to orbit the drone. Mouse wheel to control distance. Middle mouse button + drag to reframe the model. ⟳ restores the default camera framing." class="onboard-desc" picking-mode="Ignore" />
 
             <!-- Progress dots -->
             <ui:VisualElement name="OnboardDots" class="onboard-dots" picking-mode="Ignore" />
 
             <!-- Actions -->
             <ui:VisualElement class="onboard-actions">
+                <ui:Button name="OnboardPrevBtn" text="PREV" class="btn btn-ghost onboard-prev-btn" />
                 <ui:Button name="OnboardSkipBtn" text="SKIP" class="btn btn-ghost onboard-skip-btn" />
                 <ui:Button name="OnboardNextBtn" text="NEXT" class="btn btn-primary onboard-next-btn" />
             </ui:VisualElement>

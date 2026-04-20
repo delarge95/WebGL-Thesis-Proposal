@@ -22,12 +22,19 @@ namespace WebGL.UI.Panels
         private readonly Label _stepTitle;
         private readonly Label _stepDescription;
         private readonly VisualElement _stepIcon;
+        private readonly Button _platformSwitchBtn;
+        private readonly VisualElement _platformThumb;
+        private readonly VisualElement _platformMobileIcon;
+        private readonly VisualElement _platformPcIcon;
+        private readonly Button _prevBtn;
         private readonly Button _nextBtn;
         private readonly Button _skipBtn;
         private readonly VisualElement _dotsContainer;
         private readonly Dictionary<StepVisualGlyph, VisualElement> _visualGlyphs = new Dictionary<StepVisualGlyph, VisualElement>();
         private IVisualElementScheduledItem _animatedCueLoop;
         private bool _animatedCueFlip;
+        private readonly bool _isTouchDevice;
+        private bool _isTouchMode;
 
         private enum StepVisualMode
         {
@@ -52,7 +59,7 @@ namespace WebGL.UI.Panels
             public string icon;
             public string caption;
             public string cuePrimary;
-            public string cueSecondary;
+            public string[] cueSequence;
             public string title;
             public string description;
             public StepVisualMode visualMode;
@@ -66,9 +73,9 @@ namespace WebGL.UI.Panels
                 icon = "🖱",
                 caption = "GESTURE",
                 cuePrimary = "ORBIT",
-                cueSecondary = "ZOOM",
-                title = "ORBIT & ZOOM",
-                description = "Right-drag to orbit the drone.\nMiddle-drag to pan.\nUse the mouse wheel to zoom.",
+                cueSequence = new[] { "ORBIT", "ZOOM", "PAN" },
+                title = "NAVIGATE",
+                description = "<b>{ORBIT}</b> to orbit the drone.\n<b>{ZOOM}</b> to control distance.\n<b>{PAN}</b> to reframe the model.\n<b>⟳</b> restores the default camera framing.",
                 visualMode = StepVisualMode.Animated,
                 visualGlyph = StepVisualGlyph.None
             },
@@ -76,76 +83,153 @@ namespace WebGL.UI.Panels
             {
                 icon = "👆",
                 caption = "SELECTION",
-                cuePrimary = "MOTHER PART",
-                cueSecondary = "SUBPIECE",
-                title = "SELECT PARTS",
-                description = "Click a visible mesh to select its mother part.\nClick a child mesh to drill into a subpiece.\nDouble-click the current selection to open details.",
+                cuePrimary = "SELECT",
+                cueSequence = new[] { "SELECT", "SUBPIECE", "BACK" },
+                title = "SELECT / DESELECT",
+                description = "<b>{SELECT}</b> on a visible component to select its parent piece.\n<b>{SELECT}</b> again on a nested element to move into the subpiece level.\n<b>{SELECT_BG}</b> to return one level in the selection hierarchy.",
+                visualMode = StepVisualMode.Animated,
+                visualGlyph = StepVisualGlyph.Inspect
+            },
+            new Step
+            {
+                icon = "🔎",
+                caption = "PANEL",
+                cuePrimary = "PART INFO",
+                cueSequence = new[] { "SELECT PART", "PART INFO", "OPEN PANEL" },
+                title = "PART INFO",
+                description = "Open <b>PART INFO</b> after selecting a parent piece, a subpiece, or a hotspot group.\nThe panel always reflects the currently selected hierarchy level.",
+                visualMode = StepVisualMode.Animated,
+                visualGlyph = StepVisualGlyph.Inspect
+            },
+            new Step
+            {
+                icon = "🔍",
+                caption = "MAIN MENU",
+                cuePrimary = "INSPECT",
+                cueSequence = new[] { "PINS", "ISOLATE", "POWER" },
+                title = "INSPECT",
+                description = "<b>INSPECT</b> centralizes operational inspection controls.\nManage <b>PINS</b>, <b>ISOLATE</b>, and <b>POWER</b> from a single menu.",
                 visualMode = StepVisualMode.Animated,
                 visualGlyph = StepVisualGlyph.Inspect
             },
             new Step
             {
                 icon = "📍",
-                caption = "PINS",
-                cuePrimary = "DISCOVER",
-                cueSecondary = "",
-                title = "HOTSPOTS",
-                description = "Use PINS to show hotspot markers on hotspot-enabled parts.\nHotspot selections can resolve to grouped assemblies.\nSelecting a hotspot updates the inspected part record.",
-                visualMode = StepVisualMode.Static,
+                caption = "INSPECT ACTION",
+                cuePrimary = "PINS",
+                cueSequence = new[] { "PINS ON", "HOTSPOT GROUP" },
+                title = "PINS",
+                description = "Toggle <b>PINS</b> to show or hide hotspot markers.\nSelecting a hotspot highlights its related group for focused inspection.",
+                visualMode = StepVisualMode.Animated,
                 visualGlyph = StepVisualGlyph.Hotspots
             },
             new Step
             {
-                icon = "🔍",
-                caption = "DETAILS",
-                cuePrimary = "INSPECT",
-                cueSecondary = "",
-                title = "INSPECT",
-                description = "Use INSPECT to read the selected part record.\nUse ISOLATE to focus on the current selection.\nUse POWER to open the drone power controls.",
-                visualMode = StepVisualMode.Static,
+                icon = "🎯",
+                caption = "INSPECT ACTION",
+                cuePrimary = "ISOLATE",
+                cueSequence = new[] { "ISOLATE", "BACK ONE LEVEL" },
+                title = "ISOLATE",
+                description = "<b>ISOLATE</b> focuses the selected parent piece, subpiece, or hotspot group, and selecting <b>ISOLATE</b> again returns one level in the isolation stack.\nAs an alternative, <b>{PART_ISOLATE}</b> or <b>{HOTSPOT_ISOLATE}</b> performs the same flow and opens the part context.\n<b>{BG_DOUBLE}</b> also returns one level back.",
+                visualMode = StepVisualMode.Animated,
                 visualGlyph = StepVisualGlyph.Inspect
             },
             new Step
             {
                 icon = "⏻",
-                caption = "LOAD",
-                cuePrimary = "0% TO 100%",
-                cueSecondary = "",
+                caption = "INSPECT ACTION",
+                cuePrimary = "POWER",
+                cueSequence = new[] { "POWER ON", "THERMAL RUN" },
                 title = "POWER",
-                description = "The power control sets the drone load from 0% to 100%.\nThe state label switches between OFF and ON.\nUse it to simulate the powered state shown in the panel.",
-                visualMode = StepVisualMode.Static,
+                description = "<b>POWER</b> toggles the drone between <b>ON/OFF</b>.\nThe <b>POWER SLIDER</b> transitions operating states between <b>IDLE</b> and <b>FLYING</b>.\nIn <b>THERMAL</b>, powering on starts dynamic temperature simulation.",
+                visualMode = StepVisualMode.Animated,
                 visualGlyph = StepVisualGlyph.Power
             },
             new Step
             {
                 icon = "⚙",
-                caption = "CUT / EXPLODE",
+                caption = "MAIN MENU",
                 cuePrimary = "ANALYZE",
-                cueSecondary = "",
+                cueSequence = new[] { "CUT", "EXPLODE", "FILTER" },
                 title = "ANALYZE",
-                description = "Use ANALYZE for cut planes, exploded views, and category filters.\nThe cut tool supports axis selection and inversion.\nThe explode slider controls separation strength.",
-                visualMode = StepVisualMode.Static,
+                description = "<b>ANALYZE</b> contains structural review tools for section cuts, exploded view, and category filtering.",
+                visualMode = StepVisualMode.Animated,
                 visualGlyph = StepVisualGlyph.Analyze
             },
             new Step
             {
-                icon = "🌡",
-                caption = "HEAT MAP",
-                cuePrimary = "THERMAL",
-                cueSecondary = "",
-                title = "THERMAL",
-                description = "THERMAL switches the scene to thermal shading.\nThe legend shows the active temperature range.\nThis mode uses the thermal data bound to each part.",
-                visualMode = StepVisualMode.Static,
-                visualGlyph = StepVisualGlyph.Thermal
+                icon = "✂",
+                caption = "ANALYZE ACTION",
+                cuePrimary = "CUT",
+                cueSequence = new[] { "ONE PLANE", "TWO PLANES", "INCLINED PLANE" },
+                title = "CUT",
+                description = "<b>{ACTION}</b> axis buttons (<b>X</b>, <b>Y</b>, <b>Z</b>) to activate one or up to two cut planes simultaneously, or disable them.\n<b>{ACTION}</b> <b>ANGLE</b> to replace the two-plane setup with one inclined plane across the selected axes.\nMove the cut controls to adjust plane depth and orientation.",
+                visualMode = StepVisualMode.Animated,
+                visualGlyph = StepVisualGlyph.Analyze
+            },
+            new Step
+            {
+                icon = "💥",
+                caption = "ANALYZE ACTION",
+                cuePrimary = "EXPLODE",
+                cueSequence = new[] { "EXPLODE OFF", "EXPLODE ON" },
+                title = "EXPLODE",
+                description = "Move the <b>EXPLODE SLIDER</b> to control assembly separation while preserving hierarchy context.",
+                visualMode = StepVisualMode.Animated,
+                visualGlyph = StepVisualGlyph.Analyze
+            },
+            new Step
+            {
+                icon = "🧩",
+                caption = "ANALYZE ACTION",
+                cuePrimary = "FILTER",
+                cueSequence = new[] { "FILTERS OFF", "ISOLATE FILTER" },
+                title = "FILTER",
+                description = "Enable or disable filters by category.\n<b>{FILTER_ISOLATE}</b> to isolate the selected category directly.",
+                visualMode = StepVisualMode.Animated,
+                visualGlyph = StepVisualGlyph.Analyze
             },
             new Step
             {
                 icon = "🎨",
-                caption = "RENDER",
+                caption = "MAIN MENU",
                 cuePrimary = "STUDIO",
-                cueSecondary = "",
+                cueSequence = new[] { "RENDER MODE", "ENVIRONMENT", "LIGHTING" },
                 title = "STUDIO",
-                description = "Use STUDIO to switch render modes,\npick an environment preset, and tune lighting.\nBlueprint is available from the Studio environment cycle.",
+                description = "<b>STUDIO</b> manages visual presentation through render mode, environment presets, and lighting controls.",
+                visualMode = StepVisualMode.Animated,
+                visualGlyph = StepVisualGlyph.Studio
+            },
+            new Step
+            {
+                icon = "🖼",
+                caption = "STUDIO ACTION",
+                cuePrimary = "RENDER MODE",
+                cueSequence = new[] { "REALISTIC", "X-RAY", "THERMAL" },
+                title = "RENDER MODE",
+                description = "The default state is <b>REALISTIC</b>.\nToggle <b>X-RAY</b>, <b>SOLID</b>, and <b>THERMAL</b> as needed.\nFor live thermal behavior, enable power from <b>INSPECT</b>.",
+                visualMode = StepVisualMode.Animated,
+                visualGlyph = StepVisualGlyph.Studio
+            },
+            new Step
+            {
+                icon = "🌄",
+                caption = "STUDIO ACTION",
+                cuePrimary = "ENVIRONMENT",
+                cueSequence = new[] { "STUDIO LOOK", "DAY / NIGHT / SUNSET", "COLOR PRESETS" },
+                title = "ENVIRONMENT",
+                description = "<b>STUDIO</b> cycles <b>DARK</b>, <b>LIGHT</b>, and <b>BLUEPRINT</b>.\n<b>TIME</b> cycles <b>DAY</b>, <b>NIGHT</b>, and <b>SUNSET</b>.\n<b>COLOR</b> cycles flat color presets.",
+                visualMode = StepVisualMode.Animated,
+                visualGlyph = StepVisualGlyph.Studio
+            },
+            new Step
+            {
+                icon = "🎚",
+                caption = "STUDIO ACTION",
+                cuePrimary = "LIGHTING",
+                cueSequence = new[] { "ROTATION", "INTENSITY", "BACKGROUND" },
+                title = "LIGHTING CONTROLS",
+                description = "Move <b>LIGHT ROTATION</b>, <b>OBJECT INTENSITY</b>, and <b>BACKGROUND TONE</b> sliders independently for controlled visual balance.",
                 visualMode = StepVisualMode.Static,
                 visualGlyph = StepVisualGlyph.Studio
             }
@@ -171,9 +255,17 @@ namespace WebGL.UI.Panels
             _stepTitle = _overlay.Q<Label>("OnboardStepTitle");
             _stepDescription = _overlay.Q<Label>("OnboardStepDesc");
             _stepIcon = _overlay.Q<VisualElement>("OnboardStepIcon");
+            _platformSwitchBtn = _overlay.Q<Button>("OnboardPlatformSwitch");
+            _platformThumb = _overlay.Q<VisualElement>("OnboardPlatformThumb");
+            _platformMobileIcon = _overlay.Q<VisualElement>("OnboardPlatformMobileIcon");
+            _platformPcIcon = _overlay.Q<VisualElement>("OnboardPlatformPcIcon");
+            _prevBtn = _overlay.Q<Button>("OnboardPrevBtn");
             _nextBtn = _overlay.Q<Button>("OnboardNextBtn");
             _skipBtn = _overlay.Q<Button>("OnboardSkipBtn");
             _dotsContainer = _overlay.Q<VisualElement>("OnboardDots");
+
+            _isTouchDevice = Application.isMobilePlatform || Input.touchSupported;
+            _isTouchMode = _isTouchDevice;
 
             _visualGlyphs[StepVisualGlyph.Hotspots] = _overlay.Q<VisualElement>("OnboardVisualHotspots");
             _visualGlyphs[StepVisualGlyph.Inspect] = _overlay.Q<VisualElement>("OnboardVisualInspect");
@@ -238,6 +330,25 @@ namespace WebGL.UI.Panels
 
         private void BindButtons()
         {
+            if (_platformSwitchBtn != null)
+            {
+                System.Action onPlatformChanged = () =>
+                {
+                    _isTouchMode = !_isTouchMode;
+                    UpdatePlatformSwitchVisual();
+                    UpdateStep();
+                };
+
+                _platformSwitchBtn.clicked += onPlatformChanged;
+                _cleanupActions.Add(() => _platformSwitchBtn.clicked -= onPlatformChanged);
+            }
+
+            if (_prevBtn != null)
+            {
+                System.Action onPrev = OnPrevClicked;
+                _prevBtn.clicked += onPrev;
+                _cleanupActions.Add(() => _prevBtn.clicked -= onPrev);
+            }
             if (_nextBtn != null)
             {
                 System.Action onNext = OnNextClicked;
@@ -250,6 +361,17 @@ namespace WebGL.UI.Panels
                 _skipBtn.clicked += onSkip;
                 _cleanupActions.Add(() => _skipBtn.clicked -= onSkip);
             }
+        }
+
+        private void OnPrevClicked()
+        {
+            if (_currentStep <= 0)
+            {
+                return;
+            }
+
+            _currentStep--;
+            UpdateStep();
         }
 
         private void OnNextClicked()
@@ -279,13 +401,14 @@ namespace WebGL.UI.Panels
             }
 
             if (_mediaCaption != null) _mediaCaption.text = step.caption;
-            if (_mediaCue != null) _mediaCue.text = step.cuePrimary;
+            if (_mediaCue != null) _mediaCue.text = GetStepCue(step, 0);
 
             if (_stepTitle != null) _stepTitle.text = step.title;
-            if (_stepDescription != null) _stepDescription.text = step.description;
+            if (_stepDescription != null) _stepDescription.text = LocalizeStepDescription(step.description);
             if (_stepCounter != null) _stepCounter.text = $"{_currentStep + 1} / {_steps.Count}";
+            UpdatePlatformSwitchVisual();
 
-            if (step.visualMode == StepVisualMode.Animated && !string.IsNullOrWhiteSpace(step.cueSecondary))
+            if (step.visualMode == StepVisualMode.Animated && HasCueSequence(step))
             {
                 StartAnimatedCue(step);
             }
@@ -294,6 +417,11 @@ namespace WebGL.UI.Panels
             if (_nextBtn != null)
             {
                 _nextBtn.text = _currentStep < _steps.Count - 1 ? "NEXT" : "GOT IT";
+            }
+
+            if (_prevBtn != null)
+            {
+                _prevBtn.SetEnabled(_currentStep > 0);
             }
 
             // Update dots
@@ -329,17 +457,19 @@ namespace WebGL.UI.Panels
 
         private void StartAnimatedCue(Step step)
         {
-            if (_overlay == null || _mediaCue == null)
+            var cues = GetCueSequence(step);
+            if (_overlay == null || _mediaCue == null || cues.Count == 0)
             {
                 return;
             }
 
-            _animatedCueFlip = false;
+            int cueIndex = 0;
             _animatedCueLoop = _overlay.schedule.Execute(() =>
             {
-                _animatedCueFlip = !_animatedCueFlip;
-                _mediaCue.text = _animatedCueFlip ? step.cueSecondary : step.cuePrimary;
-                _stepIcon?.EnableInClassList("onboard-media--phase-alt", _animatedCueFlip);
+                cueIndex = (cueIndex + 1) % cues.Count;
+                _animatedCueFlip = cueIndex > 0;
+                _mediaCue.text = cues[cueIndex];
+                _stepIcon?.EnableInClassList("onboard-media--phase-alt", cueIndex % 2 == 1);
             }).Every(720);
         }
 
@@ -372,6 +502,103 @@ namespace WebGL.UI.Panels
             {
                 child.EnableInClassList("onboard-dot--active", i == _currentStep);
                 i++;
+            }
+        }
+
+        private string LocalizeStepDescription(string template)
+        {
+            if (string.IsNullOrEmpty(template))
+            {
+                return template;
+            }
+
+            if (_isTouchMode)
+            {
+                return template
+                    .Replace("{ORBIT}", "Drag with one finger")
+                    .Replace("{PAN}", "Drag with two fingers")
+                    .Replace("{ZOOM}", "Pinch with two fingers")
+                    .Replace("{ACTION}", "tap")
+                    .Replace("{ACTION_DOUBLE}", "double tap")
+                    .Replace("{SELECT}", "Tap")
+                    .Replace("{SELECT_BG}", "Tap outside")
+                    .Replace("{FILTER_TOGGLE}", "Tap a filter to select or clear it")
+                    .Replace("{FILTER_ISOLATE}", "Double tap a filter to isolate it")
+                    .Replace("{PART_ISOLATE}", "Double tap a part or subpart to isolate it")
+                    .Replace("{HOTSPOT_ISOLATE}", "Double tap a hotspot to isolate it")
+                    .Replace("{BG_DOUBLE}", "Double tap outside to return to the previous grouping")
+                    .Replace("{INFO_CLOSE}", "Double tap to close the info panel");
+            }
+
+            return template
+                .Replace("{ORBIT}", "Right mouse button + drag")
+                .Replace("{PAN}", "Middle mouse button + drag")
+                .Replace("{ZOOM}", "Mouse wheel")
+                .Replace("{ACTION}", "click")
+                .Replace("{ACTION_DOUBLE}", "double click")
+                .Replace("{SELECT}", "Click")
+                .Replace("{SELECT_BG}", "Click outside")
+                .Replace("{FILTER_TOGGLE}", "Click a filter to select or clear it")
+                .Replace("{FILTER_ISOLATE}", "Double click a filter to isolate it")
+                .Replace("{PART_ISOLATE}", "Double click a part or subpart to isolate it")
+                .Replace("{HOTSPOT_ISOLATE}", "Double click a hotspot to isolate it")
+                .Replace("{BG_DOUBLE}", "Double click outside to return to the previous grouping")
+                .Replace("{INFO_CLOSE}", "Double click to close the info panel");
+        }
+
+        private bool HasCueSequence(Step step)
+        {
+            return step.cueSequence != null && step.cueSequence.Length > 1;
+        }
+
+        private List<string> GetCueSequence(Step step)
+        {
+            var cues = new List<string>();
+            if (step.cueSequence != null && step.cueSequence.Length > 0)
+            {
+                cues.AddRange(step.cueSequence);
+            }
+            else if (!string.IsNullOrWhiteSpace(step.cuePrimary))
+            {
+                cues.Add(step.cuePrimary);
+            }
+
+            return cues;
+        }
+
+        private string GetStepCue(Step step, int index)
+        {
+            if (step.cueSequence != null && step.cueSequence.Length > 0)
+            {
+                int safeIndex = Mathf.Clamp(index, 0, step.cueSequence.Length - 1);
+                return step.cueSequence[safeIndex];
+            }
+
+            return step.cuePrimary;
+        }
+
+        private void UpdatePlatformSwitchVisual()
+        {
+            if (_platformSwitchBtn != null)
+            {
+                _platformSwitchBtn.EnableInClassList("onboard-platform-switch--touch", _isTouchMode);
+                _platformSwitchBtn.EnableInClassList("onboard-platform-switch--pc", !_isTouchMode);
+                _platformSwitchBtn.tooltip = _isTouchMode ? "Mobile mode" : "PC mode";
+            }
+
+            if (_platformMobileIcon != null)
+            {
+                _platformMobileIcon.EnableInClassList("onboard-platform-icon--active", _isTouchMode);
+            }
+
+            if (_platformPcIcon != null)
+            {
+                _platformPcIcon.EnableInClassList("onboard-platform-icon--active", !_isTouchMode);
+            }
+
+            if (_platformThumb != null)
+            {
+                _platformThumb.EnableInClassList("onboard-platform-thumb--touch", _isTouchMode);
             }
         }
     }

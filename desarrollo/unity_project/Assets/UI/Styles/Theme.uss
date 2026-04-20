@@ -1626,41 +1626,181 @@
 }
 
 .onboard-card {
+    position: relative;
     background-color: rgba(28, 28, 32, 0.92);
     border-radius: 20px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
-    padding: 44px 44px 32px 44px;
-    width: 480px;
-    max-width: 92%;
+    padding: 96px 24px 24px 24px;
+    width: 96%;
+    max-width: 720px;
     min-width: 320px;
+    max-height: 94%;
+    min-height: 680px;
     align-items: center;
+}
+
+.onboard-platform-switch {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    width: 112px;
+    height: 44px;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 22px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.16);
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.onboard-platform-switch:hover {
+    background-color: rgba(255, 255, 255, 0.10);
+    border-color: rgba(123, 195, 255, 0.55);
+}
+
+.onboard-platform-switch--pc {
+    border-color: rgba(255, 255, 255, 0.26);
+}
+
+.onboard-platform-switch--touch {
+    border-color: rgba(123, 195, 255, 0.62);
+}
+
+.onboard-platform-switch-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.onboard-platform-thumb {
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    width: 50px;
+    height: 32px;
+    translate: 0 -50%;
+    border-radius: 16px;
+    background-color: rgba(255, 255, 255, 0.96);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.28);
+    transition: left 0.22s ease, background-color 0.22s ease, border-color 0.22s ease;
+}
+
+.onboard-platform-switch--pc .onboard-platform-thumb {
+    background-color: rgba(255, 255, 255, 0.96);
+    border-color: rgba(255, 255, 255, 0.32);
+}
+
+.onboard-platform-switch--touch .onboard-platform-thumb {
+    left: 58px;
+    background-color: rgba(103, 186, 255, 0.98);
+    border-color: rgba(157, 218, 255, 0.92);
+}
+
+.onboard-platform-icon {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.42);
+    transition: color 0.22s ease, scale 0.22s ease;
+}
+
+.onboard-platform-icon--active {
+    scale: 1.05 1.05;
+}
+
+.onboard-platform-switch--touch .onboard-platform-icon--mobile,
+.onboard-platform-switch--pc .onboard-platform-icon--pc {
+    color: #08111d;
+    scale: 1.05 1.05;
+}
+
+.onboard-platform-switch--pc .onboard-platform-icon--mobile {
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.onboard-platform-switch--touch .onboard-platform-icon--pc {
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.onboard-platform-pc-screen {
+    width: 15px;
+    height: 10px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.78);
+    border-radius: 2px;
+}
+
+.onboard-platform-pc-stand {
+    position: absolute;
+    bottom: 0;
+    width: 6px;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.78);
+    border-radius: 1px;
+}
+
+.onboard-platform-mobile-body {
+    width: 9px;
+    height: 15px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.78);
+    border-radius: 3px;
+}
+
+.onboard-platform-mobile-notch {
+    position: absolute;
+    top: 3px;
+    width: 2px;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.78);
+    border-radius: 1px;
+}
+
+.onboard-platform-switch--pc .onboard-platform-pc-screen,
+.onboard-platform-switch--pc .onboard-platform-pc-stand,
+.onboard-platform-switch--touch .onboard-platform-mobile-body,
+.onboard-platform-switch--touch .onboard-platform-mobile-notch {
+    border-color: #08111d;
+    background-color: #08111d;
 }
 
 /* Step counter ------------------------------- */
 
 .onboard-counter {
-    font-size: 13px;
+    font-size: 15px;
     color: rgba(255, 255, 255, 0.4);
     letter-spacing: 2px;
     -unity-text-align: upper-center;
-    margin-bottom: 18px;
+    margin-bottom: 24px;
     -unity-font-style: bold;
 }
 
 /* Icon area ---------------------------------- */
 
 .onboard-icon-area {
-    width: 176px;
-    height: 128px;
+    width: 100%;
+    max-width: 640px;
+    height: 400px;
     border-radius: 24px;
     background-color: rgba(255, 255, 255, 0.05);
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
     align-items: center;
     justify-content: center;
-    margin-bottom: 26px;
-    padding: 12px 16px 10px 16px;
+    margin-bottom: 24px;
+    padding: 24px 24px 16px 24px;
 }
 
 .onboard-media {
@@ -1688,22 +1828,22 @@
 }
 
 .onboard-visual-stage {
-    width: 84px;
-    height: 84px;
+    width: 232px;
+    height: 232px;
     align-items: center;
     justify-content: center;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
 }
 
 .onboard-icon {
-    font-size: 42px;
+    font-size: 100px;
     -unity-text-align: middle-center;
     color: white;
 }
 
 .onboard-procedural-icon {
-    width: 72px;
-    height: 72px;
+    width: 204px;
+    height: 204px;
 }
 
 .onboard-procedural-icon--hidden {
@@ -1711,7 +1851,7 @@
 }
 
 .onboard-media-caption {
-    font-size: 11px;
+    font-size: 15px;
     color: rgba(255, 255, 255, 0.62);
     letter-spacing: 1.8px;
     -unity-font-style: bold;
@@ -1720,32 +1860,32 @@
 }
 
 .onboard-media-cue {
-    font-size: 12px;
+    font-size: 20px;
     color: rgba(70, 175, 255, 0.95);
-    letter-spacing: 1.2px;
+    letter-spacing: 1px;
     -unity-font-style: bold;
     -unity-text-align: upper-center;
-    margin-top: 4px;
+    margin-top: 8px;
 }
 
 /* Text --------------------------------------- */
 
 .onboard-title {
-    font-size: 20px;
+    font-size: 28px;
     color: white;
     -unity-font-style: bold;
-    letter-spacing: 1.25px;
+    letter-spacing: 1px;
     -unity-text-align: upper-center;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
 }
 
 .onboard-desc {
-    font-size: 15px;
+    font-size: 18px;
     color: rgba(255, 255, 255, 0.72);
     -unity-text-align: upper-center;
     white-space: normal;
-    margin-bottom: 26px;
-    max-width: 380px;
+    margin-bottom: 32px;
+    max-width: 640px;
 }
 
 /* Progress dots ------------------------------ */
@@ -1754,16 +1894,16 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 32px;
 }
 
 .onboard-dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 4.5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.15);
-    margin-left: 4px;
-    margin-right: 4px;
+    margin-left: 5px;
+    margin-right: 5px;
     transition: background-color 0.25s ease, scale 0.25s ease;
 }
 
@@ -1779,19 +1919,27 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin-top: 8px;
+}
+
+.onboard-prev-btn {
+    min-width: 98px;
+    height: 46px;
+    margin-right: 8px;
+    font-size: 14px;
 }
 
 .onboard-skip-btn {
-    min-width: 112px;
-    height: 48px;
-    margin-right: 12px;
-    font-size: 15px;
+    min-width: 108px;
+    height: 46px;
+    margin-right: 8px;
+    font-size: 14px;
 }
 
 .onboard-next-btn {
-    min-width: 156px;
-    height: 48px;
-    font-size: 15px;
+    min-width: 144px;
+    height: 46px;
+    font-size: 14px;
 }
 
 /* --- Info Bar Peek (Bottom Sheet Pre-peek) --- */
