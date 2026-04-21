@@ -44,8 +44,12 @@ namespace WebGL.UI.Panels
 
     /// <summary>
     /// Painter2D-driven preview canvas for onboarding cards.
-    /// It renders the interaction actor, the target control, and the system response
-    /// for each step without requiring heavy media assets.
+    /// It renders three things for every step:
+    /// 1. the interaction actor (cursor or touch point),
+    /// 2. the UI/model target that receives the action,
+    /// 3. the system response that explains the result.
+    /// This keeps the onboarding lightweight while still showing the same gestures
+    /// and UI intent that the real app uses.
     /// </summary>
     public sealed class OnboardingAnimationView : VisualElement
     {
@@ -132,13 +136,13 @@ namespace WebGL.UI.Panels
             _partInfoTabLabel.style.display = DisplayStyle.None;
             hierarchy.Add(_partInfoTabLabel);
 
-            _studioRenderLabel = new Label("Render");
+            _studioRenderLabel = new Label("RENDER");
             _studioRenderLabel.pickingMode = PickingMode.Ignore;
             _studioRenderLabel.AddToClassList("onboard-demo-panel-label");
             _studioRenderLabel.style.display = DisplayStyle.None;
             hierarchy.Add(_studioRenderLabel);
 
-            _studioEnvironmentLabel = new Label("environment");
+            _studioEnvironmentLabel = new Label("ENVIRONMENT");
             _studioEnvironmentLabel.pickingMode = PickingMode.Ignore;
             _studioEnvironmentLabel.AddToClassList("onboard-demo-panel-label");
             _studioEnvironmentLabel.style.display = DisplayStyle.None;
@@ -267,6 +271,11 @@ namespace WebGL.UI.Panels
             StrokeRect(painter, frame, FrameStroke, 1.25f);
         }
 
+        // Navigate is staged as:
+        // phase 0 = orbit,
+        // phase 1 = zoom in then zoom out,
+        // phase 2 = pan then reset.
+        // For desktop, the mouse hint stays fixed and only its active control changes.
         private void DrawNavigateScene(Painter2D painter, float width, float height, int phaseIndex, float phaseT, float loopT)
         {
             float stageScale = Mathf.Clamp(Mathf.Min(width / 390f, height / 640f), 0.98f, 1.30f);
@@ -342,14 +351,13 @@ namespace WebGL.UI.Panels
                     float wheelDownPress = GetPressProgress(Phase01(phaseT, 0.54f, 0.94f), true);
                     Vector2 cursor = Vector2.Lerp(orbitLineEnd, wheelContact, moveToWheel);
                     DrawCursorActor(painter, cursor, Mathf.Max(wheelUpPress, wheelDownPress), false);
-                    if (zoomOut > 0.01f)
-                    {
-                        DrawWheelMouseHint(painter, mouseHintCenter, zoomOut, false);
-                    }
-                    else
-                    {
-                        DrawWheelMouseHint(painter, mouseHintCenter, zoomIn, true);
-                    }
+                    // The arrow is the on-screen wheel travel cue for desktop onboarding.
+                    // Per the current UX review, the first visible cue points downward and the
+                    // second points upward so the hint matches the reviewed mockup exactly.
+                    bool isFirstWheelGesture = phaseT < 0.54f;
+                    float wheelAmount = isFirstWheelGesture ? zoomIn : zoomOut;
+                    bool wheelArrowPointsUp = !isFirstWheelGesture;
+                    DrawWheelMouseHint(painter, mouseHintCenter, wheelAmount, wheelArrowPointsUp);
                 }
                 else
                 {
@@ -481,12 +489,15 @@ namespace WebGL.UI.Panels
             float parentPress = phaseIndex == 0 ? GetPressProgress(phaseT, false) : 0f;
             float childPress = phaseIndex == 1 ? GetPressProgress(phaseT, false) : 0f;
 
+            float childClearSeq = phaseIndex == 2 ? Phase01(phaseT, 0.52f, 0.74f) : 0f;
+            float parentClearSeq = phaseIndex == 2 ? Phase01(phaseT, 0.74f, 0.98f) : 0f;
+            float backgroundClickSeq = phaseIndex == 2 ? Phase01(phaseT, 0.06f, 0.92f) : 0f;
             float parentMode = phaseIndex == 0
                 ? GetActionProgress(phaseT, false)
-                : (phaseIndex == 1 ? 1f : 1f - GetActionProgress(Phase01(phaseT, 0.58f, 1f), false));
+                : (phaseIndex == 1 ? 1f : 1f - GetActionProgress(parentClearSeq, false));
             float childMode = phaseIndex == 1
                 ? GetActionProgress(phaseT, false)
-                : (phaseIndex == 2 ? 1f - GetActionProgress(Phase01(phaseT, 0.04f, 0.46f), false) : 0f);
+                : (phaseIndex == 2 ? 1f - GetActionProgress(childClearSeq, false) : 0f);
             float pulse = 0.92f + Mathf.Sin(Time.realtimeSinceStartup * 2.2f) * 0.08f;
 
             DrawPartNode(painter, neighbor, SurfaceAlt, FrameStroke, 1.2f);
@@ -539,8 +550,9 @@ namespace WebGL.UI.Panels
             }
             else
             {
-                DrawActorToTarget(painter, width, height, outsideTarget, phaseT, false, false, contactOffset, childContact);
-                DrawTargetClickPulse(painter, loopContact, phaseT, false, false, Accent);
+                DrawActorToTarget(painter, width, height, outsideTarget, backgroundClickSeq, false, false, contactOffset, childContact);
+                DrawTargetClickPulse(painter, loopContact, backgroundClickSeq, false, false, Accent);
+                DrawClickRing(painter, loopContact, EaseOut(Phase01(phaseT, 0.80f, 0.98f)), Accent);
             }
         }
 
@@ -555,18 +567,24 @@ namespace WebGL.UI.Panels
                 new Rect(center.x + 46f, center.y + 6f, 34f, 34f)
             };
             Rect parentGroup = new Rect(center.x - 24f, center.y - 54f, 110f, 104f);
-
-            float partSelected = phaseIndex == 0 ? GetActionProgress(phaseT, false) : 1f;
-            float tabReveal = phaseIndex == 0 ? EaseOut(Phase01(phaseT, 0.72f, 0.98f)) : 1f;
+            Vector2 loopContact = GetDefaultActorStart(parentParts[1].center);
+            float closeSeq = phaseIndex == 2 ? Phase01(phaseT, 0.10f, 0.48f) : 0f;
+            float backgroundSeq = phaseIndex == 2 ? Phase01(phaseT, 0.60f, 0.94f) : 0f;
+            float partSelected = phaseIndex == 0
+                ? GetActionProgress(phaseT, false)
+                : (phaseIndex == 1 ? 1f : 1f - GetActionProgress(backgroundSeq, false));
+            float tabReveal = phaseIndex == 0
+                ? EaseOut(Phase01(phaseT, 0.72f, 0.98f))
+                : (phaseIndex == 2 ? 1f - GetActionProgress(Phase01(phaseT, 0.78f, 0.98f), false) : 1f);
             float tabFocus = phaseIndex == 1 ? GetActionProgress(Phase01(phaseT, 0.06f, 0.46f), false) : 0f;
             float panelOpen = phaseIndex == 1
                 ? EaseOut(Phase01(phaseT, 0.44f, 0.96f))
-                : (phaseIndex == 2 ? 1f - GetActionProgress(Phase01(phaseT, 0.42f, 0.96f), false) : 0f);
+                : (phaseIndex == 2 ? 1f - GetActionProgress(closeSeq, false) : 0f);
             float peekVisible = Mathf.Max(tabReveal - panelOpen * 1.25f, 0f);
             float pulse = 0.92f + Mathf.Sin(Time.realtimeSinceStartup * 2f) * 0.08f;
             float partPress = phaseIndex == 0 ? GetPressProgress(phaseT, false) : 0f;
             float tabPress = phaseIndex == 1 ? GetPressProgress(Phase01(phaseT, 0.06f, 0.46f), false) : 0f;
-            float closePress = phaseIndex == 2 ? GetPressProgress(Phase01(phaseT, 0.12f, 0.66f), false) : 0f;
+            float closePress = phaseIndex == 2 ? GetPressProgress(closeSeq, false) : 0f;
 
             GetPartInfoRects(width, height, tabReveal, panelOpen, out _, out Rect tab, out Rect panel);
             Rect animatedTab = phaseIndex == 1 ? ScaleRect(tab, 1f + tabPress * 0.04f) : tab;
@@ -592,6 +610,9 @@ namespace WebGL.UI.Panels
                 closeButton = new Rect(panel.xMax - 38f, panel.y + 14f, 24f, 24f);
             }
 
+            GetPartInfoRects(width, height, 1f, 1f, out _, out _, out Rect fullyOpenPanel);
+            Vector2 fixedCloseContact = new Rect(fullyOpenPanel.xMax - 38f, fullyOpenPanel.y + 14f, 24f, 24f).center;
+
             if (phaseIndex == 0)
             {
                 Vector2 target = parentParts[1].center;
@@ -606,9 +627,17 @@ namespace WebGL.UI.Panels
             }
             else
             {
-                Vector2 target = closeButton.center;
-                DrawActorToTarget(painter, width, height, closeButton.center, Phase01(phaseT, 0.12f, 0.66f), false, false, default, tab.center + new Vector2(tab.width * 0.20f, 0f));
-                DrawTargetClickPulse(painter, target, Phase01(phaseT, 0.12f, 0.66f), false, false, Accent);
+                Vector2 tabContact = tab.center + new Vector2(tab.width * 0.20f, 0f);
+                if (phaseT < 0.56f)
+                {
+                    DrawActorToTarget(painter, width, height, fixedCloseContact, closeSeq, false, false, default, tabContact);
+                    DrawTargetClickPulse(painter, fixedCloseContact, closeSeq, false, false, Accent);
+                }
+                else
+                {
+                    DrawActorToTarget(painter, width, height, loopContact, backgroundSeq, false, false, default, fixedCloseContact);
+                    DrawTargetClickPulse(painter, loopContact, backgroundSeq, false, false, Accent);
+                }
             }
         }
 
@@ -624,29 +653,52 @@ namespace WebGL.UI.Panels
             Rect c = new Rect(width * 0.50f + 68f, height * 0.49f - 68f, 118f, 136f);
 
             float mainSeq = phaseIndex == 0 ? Phase01(phaseT, 0.04f, 0.44f) : 1f;
-            float mainPress = phaseIndex == 0 ? GetPressProgress(mainSeq, false) : 0f;
+            float closeSeq = phaseIndex == 2 ? Phase01(phaseT, 0.58f, 0.98f) : 0f;
+            float closeCollapse = phaseIndex == 2 ? EaseInOut(Phase01(closeSeq, 0.50f, 1f)) : 0f;
+            float closeAction = phaseIndex == 2 ? GetActionProgress(closeSeq, false) : 0f;
+            float mainPress = phaseIndex == 0
+                ? GetPressReleaseProgress(mainSeq, false)
+                : (phaseIndex == 2 ? GetPressReleaseProgress(closeSeq, false) : 0f);
             float mainAction = phaseIndex == 0 ? GetActionProgress(mainSeq, false) : 1f;
-            float submenuReveal = phaseIndex == 0 ? EaseOut(Phase01(phaseT, 0.42f, 0.76f)) : 1f;
-            float activeModeStrength = phaseIndex == 0 ? Mathf.Lerp(mainAction, 0.72f, submenuReveal) : 0.72f;
+            float mainHover = phaseIndex == 0
+                ? EaseOut(Phase01(mainSeq, 0.20f, 0.54f))
+                : (phaseIndex == 2 ? EaseOut(Phase01(closeSeq, 0.18f, 0.54f)) : 0f);
+            float submenuReveal = phaseIndex == 0
+                ? EaseOut(Phase01(phaseT, 0.42f, 0.76f))
+                : (phaseIndex == 2 ? 1f - closeCollapse : 1f);
+            float activeModeStrength = phaseIndex == 0
+                ? Mathf.Lerp(mainAction, 0.72f, submenuReveal)
+                : (phaseIndex == 2 ? Mathf.Lerp(0.72f, 0f, closeCollapse) : 0.72f);
 
             float aSeq = phaseIndex == 0 ? Phase01(phaseT, 0.56f, 1f) : 0f;
             float bSeq = phaseIndex == 1 ? Phase01(phaseT, 0.12f, 0.96f) : 0f;
-            float cSeq = phaseIndex == 2 ? Phase01(phaseT, 0.12f, 0.96f) : 0f;
+            float cSeq = phaseIndex == 2 ? Phase01(phaseT, 0.10f, 0.52f) : 0f;
+            float aRelease = phaseIndex == 1 ? EaseInOut(Phase01(bSeq, 0.44f, 0.94f)) : (phaseIndex > 1 ? 1f : 0f);
+            float bRelease = phaseIndex == 2 ? EaseInOut(Phase01(cSeq, 0.44f, 0.94f)) : 0f;
 
-            float aHover = phaseIndex == 0 ? EaseOut(Phase01(aSeq, 0.18f, 0.54f)) : 0f;
-            float aPress = phaseIndex == 0 ? GetPressProgress(aSeq, false) : 0f;
-            float aActive = phaseIndex == 0 ? GetActionProgress(aSeq, false) : 0.20f;
-            float bHover = phaseIndex == 1 ? EaseOut(Phase01(bSeq, 0.18f, 0.54f)) : 0f;
-            float bPress = phaseIndex == 1 ? GetPressProgress(bSeq, false) : 0f;
-            float bActive = phaseIndex == 1 ? GetActionProgress(bSeq, false) : 0.20f;
-            float cHover = phaseIndex == 2 ? EaseOut(Phase01(cSeq, 0.18f, 0.54f)) : 0f;
-            float cPress = phaseIndex == 2 ? GetPressProgress(cSeq, false) : 0f;
-            float cActive = phaseIndex == 2 ? GetActionProgress(cSeq, false) : 0.20f;
+            float aHover = phaseIndex == 0
+                ? EaseOut(Phase01(aSeq, 0.18f, 0.54f))
+                : (phaseIndex == 1 ? 0.24f * (1f - aRelease) : 0f);
+            float aPress = phaseIndex == 0 ? GetPressReleaseProgress(aSeq, false) : 0f;
+            float bHover = phaseIndex == 1
+                ? EaseOut(Phase01(bSeq, 0.18f, 0.54f))
+                : (phaseIndex == 2 ? 0.24f * (1f - bRelease) : 0f);
+            float bPress = phaseIndex == 1 ? GetPressReleaseProgress(bSeq, false) : 0f;
+            float cHover = phaseIndex == 2
+                ? Mathf.Max(EaseOut(Phase01(cSeq, 0.18f, 0.54f)), 0.18f * (1f - closeCollapse))
+                : 0f;
+            float cPress = phaseIndex == 2 ? GetPressReleaseProgress(cSeq, false) : 0f;
+            float aClicked = phaseIndex == 0 ? GetActionProgress(aSeq, false) : 1f;
+            float bClicked = phaseIndex >= 1 ? (phaseIndex == 1 ? GetActionProgress(bSeq, false) : 1f) : 0f;
+            float cClicked = phaseIndex == 2 ? GetActionProgress(cSeq, false) : 0f;
+            float aActive = aClicked * (1f - aRelease);
+            float bActive = bClicked * (1f - bRelease);
+            float cActive = cClicked * (1f - closeCollapse);
 
             DrawModeBar(painter, modeBar);
-            DrawModeBarButton(painter, leftMode, OnboardingMiniIcon.Inspect, mainIcon == OnboardingMiniIcon.Inspect ? activeModeStrength : 0.08f, mainIcon == OnboardingMiniIcon.Inspect ? mainPress : 0f);
-            DrawModeBarButton(painter, centerMode, OnboardingMiniIcon.Analyze, mainIcon == OnboardingMiniIcon.Analyze ? activeModeStrength : 0.08f, mainIcon == OnboardingMiniIcon.Analyze ? mainPress : 0f);
-            DrawModeBarButton(painter, rightMode, OnboardingMiniIcon.Studio, mainIcon == OnboardingMiniIcon.Studio ? activeModeStrength : 0.08f, mainIcon == OnboardingMiniIcon.Studio ? mainPress : 0f);
+            DrawModeBarButton(painter, leftMode, OnboardingMiniIcon.Inspect, mainIcon == OnboardingMiniIcon.Inspect ? activeModeStrength : 0.08f, mainIcon == OnboardingMiniIcon.Inspect ? mainHover : 0f, mainIcon == OnboardingMiniIcon.Inspect ? mainPress : 0f);
+            DrawModeBarButton(painter, centerMode, OnboardingMiniIcon.Analyze, mainIcon == OnboardingMiniIcon.Analyze ? activeModeStrength : 0.08f, mainIcon == OnboardingMiniIcon.Analyze ? mainHover : 0f, mainIcon == OnboardingMiniIcon.Analyze ? mainPress : 0f);
+            DrawModeBarButton(painter, rightMode, OnboardingMiniIcon.Studio, mainIcon == OnboardingMiniIcon.Studio ? activeModeStrength : 0.08f, mainIcon == OnboardingMiniIcon.Studio ? mainHover : 0f, mainIcon == OnboardingMiniIcon.Studio ? mainPress : 0f);
 
             Rect activeModeRect = mainIcon == OnboardingMiniIcon.Inspect
                 ? leftMode
@@ -668,6 +720,11 @@ namespace WebGL.UI.Panels
                 DrawActorToTarget(painter, width, height, activeModeRect.center, mainSeq, false, false, activeContactOffset);
                 DrawTargetClickPulse(painter, activeContact, mainSeq, false, false, Accent);
             }
+            else if (phaseIndex == 2 && phaseT >= 0.58f)
+            {
+                DrawActorToTarget(painter, width, height, activeModeRect.center, closeSeq, false, false, activeContactOffset, c.center + new Vector2(18f, 0f));
+                DrawTargetClickPulse(painter, activeContact, closeSeq, false, false, Accent);
+            }
             else
             {
                 Rect currentRect = phaseIndex == 0 ? a : (phaseIndex == 1 ? b : c);
@@ -682,11 +739,11 @@ namespace WebGL.UI.Panels
 
         private void DrawStudioMenuScene(Painter2D painter, float width, float height, int phaseIndex, float phaseT)
         {
-            Rect renderCard = new Rect(width * 0.50f - 118f, height * 0.21f, 236f, 96f);
-            Rect environmentCard = new Rect(width * 0.50f - 118f, height * 0.37f, 236f, 96f);
-            Rect sliderA = new Rect(width * 0.50f - 122f, height * 0.58f, 244f, 24f);
-            Rect sliderB = new Rect(width * 0.50f - 122f, height * 0.69f, 244f, 24f);
-            Rect sliderC = new Rect(width * 0.50f - 122f, height * 0.80f, 244f, 24f);
+            Rect renderCard = new Rect(width * 0.50f - 118f, height * 0.20f, 236f, 90f);
+            Rect environmentCard = new Rect(width * 0.50f - 118f, height * 0.39f, 236f, 90f);
+            Rect sliderA = new Rect(width * 0.50f - 122f, height * 0.61f, 244f, 24f);
+            Rect sliderB = new Rect(width * 0.50f - 122f, height * 0.72f, 244f, 24f);
+            Rect sliderC = new Rect(width * 0.50f - 122f, height * 0.83f, 244f, 24f);
             Rect modeBar = new Rect(width * 0.08f, height * 0.88f, width * 0.84f, 72f);
             Rect leftMode = new Rect(modeBar.x + 14f, modeBar.y + 8f, 90f, 56f);
             Rect centerMode = new Rect(modeBar.center.x - 45f, modeBar.y + 8f, 90f, 56f);
@@ -706,17 +763,26 @@ namespace WebGL.UI.Panels
                 ? Mathf.Lerp(GetActionProgress(menuSeq, false), 0.78f, renderActive)
                 : 0.78f;
             float studioMenuPress = phaseIndex == 0 ? GetPressProgress(menuSeq, false) : 0f;
+            float panelReveal = phaseIndex == 0 ? EaseOut(Phase01(phaseT, 0.28f, 0.42f)) : 1f;
 
             DrawModeBar(painter, modeBar);
-            DrawModeBarButton(painter, leftMode, OnboardingMiniIcon.Inspect, 0.10f, 0f);
-            DrawModeBarButton(painter, centerMode, OnboardingMiniIcon.Analyze, 0.10f, 0f);
-            DrawModeBarButton(painter, rightMode, OnboardingMiniIcon.Studio, studioMenuActive, studioMenuPress);
+            DrawModeBarButton(painter, leftMode, OnboardingMiniIcon.Inspect, 0.10f, 0f, 0f);
+            DrawModeBarButton(painter, centerMode, OnboardingMiniIcon.Analyze, 0.10f, 0f, 0f);
+            DrawModeBarButton(painter, rightMode, OnboardingMiniIcon.Studio, studioMenuActive, 0f, studioMenuPress);
 
-            DrawStudioPanelCard(painter, renderCard, OnboardingMiniIcon.Render, renderActive, renderHover, renderPress, true);
-            DrawStudioPanelCard(painter, environmentCard, OnboardingMiniIcon.Environment, environmentActive, environmentHover, environmentPress, false);
-            DrawSlider(painter, sliderA, phaseIndex == 2 ? Mathf.Lerp(0.24f, 0.78f, GetActionProgress(phaseT, true)) : 0.24f, Accent, true, sliderFocus, sliderPress);
-            DrawSlider(painter, sliderB, phaseIndex == 2 ? Mathf.Lerp(0.56f, 0.30f, GetActionProgress(phaseT, true)) : 0.56f, Accent, true, sliderFocus * 0.74f, sliderPress * 0.82f);
-            DrawSlider(painter, sliderC, phaseIndex == 2 ? Mathf.Lerp(0.38f, 0.66f, GetActionProgress(phaseT, true)) : 0.38f, Accent, true, sliderFocus * 0.60f, sliderPress * 0.66f);
+            if (panelReveal > 0.01f)
+            {
+                Rect renderVisual = ScaleRect(renderCard, Mathf.Lerp(0.86f, 1f, panelReveal));
+                Rect environmentVisual = ScaleRect(environmentCard, Mathf.Lerp(0.86f, 1f, panelReveal));
+                Rect sliderVisualA = ScaleRect(sliderA, Mathf.Lerp(0.90f, 1f, panelReveal));
+                Rect sliderVisualB = ScaleRect(sliderB, Mathf.Lerp(0.90f, 1f, panelReveal));
+                Rect sliderVisualC = ScaleRect(sliderC, Mathf.Lerp(0.90f, 1f, panelReveal));
+                DrawStudioPanelCard(painter, renderVisual, OnboardingMiniIcon.Render, renderActive * panelReveal, renderHover * panelReveal, renderPress * panelReveal, true);
+                DrawStudioPanelCard(painter, environmentVisual, OnboardingMiniIcon.Environment, environmentActive * panelReveal, environmentHover * panelReveal, environmentPress * panelReveal, false);
+                DrawSlider(painter, sliderVisualA, phaseIndex == 2 ? Mathf.Lerp(0.24f, 0.78f, GetActionProgress(phaseT, true)) : 0.24f, Accent, true, sliderFocus * panelReveal, sliderPress * panelReveal);
+                DrawSlider(painter, sliderVisualB, phaseIndex == 2 ? Mathf.Lerp(0.56f, 0.30f, GetActionProgress(phaseT, true)) : 0.56f, Accent, true, sliderFocus * 0.74f * panelReveal, sliderPress * 0.82f * panelReveal);
+                DrawSlider(painter, sliderVisualC, phaseIndex == 2 ? Mathf.Lerp(0.38f, 0.66f, GetActionProgress(phaseT, true)) : 0.38f, Accent, true, sliderFocus * 0.60f * panelReveal, sliderPress * 0.66f * panelReveal);
+            }
 
             Vector2 studioContact = rightMode.center + new Vector2(rightMode.width * 0.16f, 0f);
             Vector2 renderContact = renderCard.center + new Vector2(renderCard.width * 0.30f, 0f);
@@ -748,7 +814,7 @@ namespace WebGL.UI.Panels
         private void DrawPinsScene(Painter2D painter, float width, float height, int phaseIndex, float phaseT)
         {
             Vector2 droneCenter = new Vector2(width * 0.50f, height * 0.30f);
-            float droneScale = 1.32f;
+            float droneScale = 1.48f;
             Vector2[] rotors = GetDroneRotorCenters(droneCenter, droneScale, 0f);
             Vector2[] pinPoints =
             {
@@ -805,9 +871,13 @@ namespace WebGL.UI.Panels
             }
             else
             {
-                Vector2 backgroundTarget = new Vector2(width * 0.80f, height * 0.18f);
                 Vector2 contactOffset = new Vector2(16f, 0f);
-                DrawActorToTarget(painter, width, height, backgroundTarget, hotspotClearSeq, false, false, contactOffset, pinPoints[1] + contactOffset);
+                Vector2 buttonContact = button.center + new Vector2(button.width * 0.34f, 0f);
+                Vector2 loopContact = GetDefaultActorStart(buttonContact);
+                Vector2 resetTarget = loopContact - contactOffset;
+                DrawActorToTarget(painter, width, height, resetTarget, hotspotClearSeq, false, false, contactOffset, pinPoints[1] + contactOffset);
+                DrawTargetClickPulse(painter, loopContact, hotspotClearSeq, false, false, Accent);
+                DrawClickRing(painter, loopContact, EaseOut(Phase01(hotspotClearSeq, 0.78f, 0.98f)), Accent);
             }
         }
 
@@ -820,8 +890,8 @@ namespace WebGL.UI.Panels
 
             float isolateOn = phaseIndex == 0 ? GetActionProgress(phaseT, false) : 1f;
             float childSeq = phaseIndex == 1 ? Phase01(phaseT, 0.08f, 0.48f) : 0f;
-            float backSeq = phaseIndex == 1 ? Phase01(phaseT, 0.54f, 0.80f) : 0f;
-            float offSeq = phaseIndex == 1 ? Phase01(phaseT, 0.84f, 1f) : 0f;
+            float backSeq = phaseIndex == 1 ? Phase01(phaseT, 0.54f, 0.74f) : 0f;
+            float offSeq = phaseIndex == 1 ? Phase01(phaseT, 0.74f, 0.94f) : 0f;
             float childIsolate = phaseIndex == 1 ? GetDoubleClickActionProgress(childSeq) : 0f;
             float backAction = phaseIndex == 1 ? GetDoubleClickActionProgress(backSeq) : 0f;
             float offAction = phaseIndex == 1 ? GetActionProgress(offSeq, false) : 0f;
@@ -856,7 +926,7 @@ namespace WebGL.UI.Panels
                 float secondClickAccent = EaseOut(Phase01(childSeq, 0.82f, 0.98f));
                 DrawClickRing(painter, pulseTarget, secondClickAccent, Warning);
             }
-            else if (phaseT < 0.84f)
+            else if (phaseT < 0.74f)
             {
                 Vector2 target = new Vector2(width * 0.79f, height * 0.16f);
                 Vector2 contactOffset = new Vector2(14f, 0f);
@@ -958,8 +1028,8 @@ namespace WebGL.UI.Panels
 
         private void DrawCutScene(Painter2D painter, float width, float height, int phaseIndex, float phaseT)
         {
-            Rect outer = new Rect(width * 0.50f - 86f, height * 0.23f, 172f, 188f);
-            Rect inner = new Rect(width * 0.50f - 48f, height * 0.32f, 96f, 104f);
+            Rect outer = new Rect(width * 0.50f - 86f, height * 0.23f, 172f, 228f);
+            Rect inner = new Rect(width * 0.50f - 48f, outer.center.y - 64f, 96f, 128f);
             float buttonWidth = 66f;
             float buttonGap = 8f;
             float rowWidth = buttonWidth * 5f + buttonGap * 4f;
@@ -974,7 +1044,7 @@ namespace WebGL.UI.Panels
 
             Vector2 outerCenter = outer.center;
             float planeX = outerCenter.x;
-            float basePlaneY = outerCenter.y;
+            float basePlaneY = outer.y + 94f;
 
             float xSeq = phaseIndex == 0 ? Phase01(phaseT, 0.04f, 0.34f) : 1f;
             float xPress = phaseIndex == 0 ? GetPressProgress(xSeq, false) : 0f;
@@ -1011,18 +1081,39 @@ namespace WebGL.UI.Panels
 
             if (phaseIndex == 0)
             {
+                float xState = Mathf.Max(xActive, lineLift);
+                if (xState <= 0.01f)
+                {
+                    FillRect(painter, outer, WithAlpha(AccentGlow, 0.10f));
+                    StrokeRect(painter, outer, WithAlpha(Accent, 0.42f), 1.2f);
+                    FillRect(painter, inner, WithAlpha(AccentGlow, 0.06f));
+                    StrokeRect(painter, inner, WithAlpha(Accent, 0.34f), 1.1f);
+                }
+                else
+                {
+                    DrawNestedHorizontalCutPair(
+                        painter,
+                        outer,
+                        inner,
+                        planeY,
+                        Mathf.Max(xTrace, lineLift),
+                        Mathf.Max(xFill, lineLift),
+                        WithAlpha(AccentGlow, 0.18f + Mathf.Max(xFill, lineLift) * 0.16f),
+                        WithAlpha(Accent, 0.46f + Mathf.Max(xFill, lineLift) * 0.28f));
+                }
+            }
+            else if (phaseIndex == 1)
+            {
                 DrawNestedHorizontalCutPair(
                     painter,
                     outer,
                     inner,
-                    planeY,
-                    Mathf.Max(xTrace, lineLift),
-                    Mathf.Max(xFill, lineLift),
-                    WithAlpha(AccentGlow, 0.18f + Mathf.Max(xFill, lineLift) * 0.16f),
-                    WithAlpha(Accent, 0.46f + Mathf.Max(xFill, lineLift) * 0.28f));
-            }
-            else if (phaseIndex == 1)
-            {
+                    basePlaneY,
+                    1f,
+                    1f,
+                    WithAlpha(AccentGlow, 0.28f),
+                    WithAlpha(Accent, 0.74f));
+
                 DrawNestedQuarterCutPair(
                     painter,
                     outer,
@@ -1031,7 +1122,7 @@ namespace WebGL.UI.Panels
                     basePlaneY,
                     true,
                     true,
-                    1f,
+                    0f,
                     yTrace,
                     yFill,
                     WithAlpha(AccentGlow, 0.24f + yFill * 0.14f),
@@ -1039,7 +1130,7 @@ namespace WebGL.UI.Panels
             }
             else
             {
-                float oldPlanesFade = 1f - angleActive * 0.92f;
+                float oldPlanesFade = 1f - EaseOut(Phase01(angleActive, 0f, 0.28f));
                 DrawNestedQuarterCutPair(
                     painter,
                     outer,
@@ -1083,7 +1174,7 @@ namespace WebGL.UI.Panels
                 Vector2 sliderPeak = GetSliderThumb(slider, 0.88f);
                 Vector2 sliderEnd = GetSliderThumb(slider, 0.50f);
                 DrawActorTwoSegmentDrag(painter, sliderStart, sliderPeak, sliderEnd, sliderSeq, btnX.center + buttonOffset);
-                DrawTargetClickPulse(painter, sliderStart, sliderSeq, false, true, Accent);
+                DrawTargetClickPulse(painter, sliderStart, Phase01(sliderSeq, 0.06f, 0.24f), false, false, Accent);
             }
             else if (phaseIndex == 1)
             {
@@ -1112,17 +1203,26 @@ namespace WebGL.UI.Panels
             float baseExplode = phaseIndex == 0 ? GetActionProgress(phaseT, false) * 0.46f : 0.46f;
             float sliderOut;
             float sliderBack;
+            float sliderReveal = phaseIndex == 0 ? EaseOut(Phase01(phaseT, 0.44f, 0.74f)) : 1f;
+            float sliderMotionSeq = phaseIndex == 1 ? Phase01(phaseT, 0f, 0.86f) : 0f;
             float sliderValue = phaseIndex == 1
-                ? EvaluateRoundTripDrag(phaseT, 0.46f, 1f, 0f, out sliderOut, out sliderBack)
+                ? EvaluateRoundTripDrag(sliderMotionSeq, 0.46f, 1f, 0f, out sliderOut, out sliderBack)
                 : 0.46f;
-            float explode = phaseIndex == 1 ? sliderValue : baseExplode;
+            float explodeBoost = phaseIndex == 1
+                ? (sliderValue <= 0.46f
+                    ? EaseInOut(Mathf.InverseLerp(0f, 0.46f, sliderValue)) * 0.46f
+                    : Mathf.Lerp(0.46f, 1.18f, EaseOut(Mathf.InverseLerp(0.46f, 1f, sliderValue))))
+                : baseExplode;
+            float explode = phaseIndex == 1 ? explodeBoost : baseExplode;
             Vector2 sliderStart = GetSliderThumb(slider, 0.46f);
             Vector2 sliderPeak = GetSliderThumb(slider, 1f);
             Vector2 sliderEnd = GetSliderThumb(slider, 0f);
+            Vector2 buttonContact = button.center + new Vector2(button.width * 0.34f, 0f);
+            Vector2 loopStart = GetDefaultActorStart(buttonContact);
 
             DrawExplodedDrone(painter, center, scale, explode);
-            DrawStandaloneActionButton(painter, button, OnboardingMiniIcon.Explode, explode, phaseIndex == 0 ? EaseOut(Phase01(phaseT, 0.30f, 0.60f)) : 0.32f + Mathf.Clamp01(sliderValue) * 0.22f, phaseIndex == 0 ? GetPressProgress(phaseT, false) : 0f);
-            DrawSlider(painter, slider, sliderValue, Accent, true, phaseIndex == 1 ? 0.46f : 0f, phaseIndex == 1 ? Mathf.Max(GetPressProgress(Phase01(phaseT, 0.06f, 0.56f), true), GetPressProgress(Phase01(phaseT, 0.56f, 1f), true)) : 0f);
+            DrawStandaloneActionButton(painter, button, OnboardingMiniIcon.Explode, phaseIndex == 0 ? GetActionProgress(phaseT, false) : 1f, phaseIndex == 0 ? EaseOut(Phase01(phaseT, 0.30f, 0.60f)) : 0.36f, phaseIndex == 0 ? GetPressProgress(phaseT, false) : 0f);
+            DrawSlider(painter, slider, sliderValue, Accent, sliderReveal > 0.01f, phaseIndex == 1 ? 0.46f : sliderReveal * 0.22f, phaseIndex == 1 ? Mathf.Max(GetPressProgress(Phase01(sliderMotionSeq, 0.06f, 0.56f), true), GetPressProgress(Phase01(sliderMotionSeq, 0.56f, 1f), true)) : 0f);
 
             if (phaseIndex == 0)
             {
@@ -1130,10 +1230,23 @@ namespace WebGL.UI.Panels
                 DrawActorToTarget(painter, width, height, button.center, phaseT, false, false, offset);
                 DrawTargetClickPulse(painter, button.center + offset, phaseT, false, false, Accent);
             }
+            else if (phaseT < 0.86f)
+            {
+                DrawActorTwoSegmentDrag(painter, sliderStart, sliderPeak, sliderEnd, sliderMotionSeq, buttonContact);
+                DrawTargetClickPulse(painter, sliderStart, Phase01(sliderMotionSeq, 0.06f, 0.24f), false, false, Accent);
+            }
             else
             {
-                DrawActorTwoSegmentDrag(painter, sliderStart, sliderPeak, sliderEnd, phaseT, button.center + new Vector2(button.width * 0.34f, 0f));
-                DrawTargetClickPulse(painter, sliderStart, phaseT, false, true, Accent);
+                float returnT = EaseInOut(Phase01(phaseT, 0.86f, 1f));
+                Vector2 actorPos = Vector2.Lerp(sliderEnd, loopStart, returnT);
+                if (_isTouchMode)
+                {
+                    DrawTouchActor(painter, actorPos, 0f, false);
+                }
+                else
+                {
+                    DrawCursorActor(painter, actorPos, 0f, false);
+                }
             }
         }
 
@@ -1157,10 +1270,15 @@ namespace WebGL.UI.Panels
             int focusIndex = 1;
             float disableSeq = phaseIndex == 0 ? Phase01(phaseT, 0.06f, 0.46f) : 0f;
             float enableSeq = phaseIndex == 0 ? Phase01(phaseT, 0.66f, 0.96f) : 0f;
-            float isolateSeq = phaseIndex == 1 ? Phase01(phaseT, 0.26f, 0.90f) : 0f;
+            float moveOutSeq = phaseIndex == 1 ? Phase01(phaseT, 0.02f, 0.12f) : 0f;
+            float moveBackSeq = phaseIndex == 1 ? Phase01(phaseT, 0.12f, 0.22f) : 0f;
+            float isolateSeq = phaseIndex == 1 ? Phase01(phaseT, 0.22f, 0.58f) : 0f;
+            float restoreSeq = phaseIndex == 1 ? Phase01(phaseT, 0.64f, 0.82f) : 0f;
+            float returnSeq = phaseIndex == 1 ? Phase01(phaseT, 0.82f, 1f) : 0f;
             float disabled = phaseIndex == 0 ? GetActionProgress(disableSeq, false) : 0f;
             float enabledAgain = phaseIndex == 0 ? GetActionProgress(enableSeq, false) : 0f;
-            float isolated = phaseIndex == 1 ? GetDoubleClickActionProgress(isolateSeq) : 0f;
+            float restored = phaseIndex == 1 ? GetActionProgress(restoreSeq, false) : 0f;
+            float isolated = phaseIndex == 1 ? GetDoubleClickActionProgress(isolateSeq) * (1f - restored) : 0f;
             float focusVisible = phaseIndex == 0
                 ? Mathf.Lerp(1f - disabled, 1f, enabledAgain)
                 : 1f;
@@ -1184,7 +1302,7 @@ namespace WebGL.UI.Panels
                 }
                 else if (phaseIndex == 1)
                 {
-                    visible = i == focusIndex ? 1f : Mathf.Lerp(1f, 0f, isolated);
+                    visible = i == focusIndex ? 1f : Mathf.Lerp(Mathf.Lerp(1f, 0f, isolated), 1f, restored);
                 }
 
                 if (visible <= 0.02f) continue;
@@ -1219,14 +1337,20 @@ namespace WebGL.UI.Panels
                     else
                     {
                         active = 1f;
-                        hover = EaseOut(Phase01(isolateSeq, 0.18f, 0.56f));
-                        press = Mathf.Max(GetPressProgress(isolateSeq, false), GetSecondClickProgress(isolateSeq, false));
+                        hover = Mathf.Max(
+                            EaseOut(Phase01(moveBackSeq, 0.42f, 0.98f)),
+                            Mathf.Max(
+                                EaseOut(Phase01(isolateSeq, 0.18f, 0.56f)),
+                                EaseOut(Phase01(restoreSeq, 0.18f, 0.56f))));
+                        press = Mathf.Max(
+                            Mathf.Max(GetPressProgress(isolateSeq, false), GetSecondClickProgress(isolateSeq, false)),
+                            GetPressProgress(restoreSeq, false));
                     }
                 }
 
                 if (phaseIndex == 1)
                 {
-                    active = i == focusIndex ? 1f : Mathf.Lerp(1f, 0.12f, isolated);
+                    active = i == focusIndex ? 1f : Mathf.Lerp(Mathf.Lerp(1f, 0.12f, isolated), 1f, restored);
                 }
 
                 DrawFilterButton(painter, buttons[i], kinds[i], active, hover, press);
@@ -1234,6 +1358,8 @@ namespace WebGL.UI.Panels
 
             Vector2 offset = new Vector2(12f, 0f);
             Vector2 focusContact = buttons[focusIndex].center + offset;
+            Vector2 leaveContact = focusContact + new Vector2(38f, -26f);
+            Vector2 loopStart = GetDefaultActorStart(focusContact);
 
             if (phaseIndex == 0 && phaseT < 0.52f)
             {
@@ -1242,7 +1368,6 @@ namespace WebGL.UI.Panels
             }
             else if (phaseIndex == 0 && phaseT < 0.66f)
             {
-                Vector2 leaveContact = focusContact + new Vector2(38f, -26f);
                 Vector2 pos = Vector2.Lerp(focusContact, leaveContact, EaseInOut(Phase01(phaseT, 0.52f, 0.66f)));
                 if (_isTouchMode)
                 {
@@ -1258,27 +1383,61 @@ namespace WebGL.UI.Panels
                 DrawActorToTarget(painter, width, height, buttons[focusIndex].center, enableSeq, false, false, offset, focusContact + new Vector2(38f, -26f));
                 DrawTargetClickPulse(painter, focusContact, enableSeq, false, false, Accent);
             }
-            else
+            else if (phaseT < 0.12f)
             {
-                Vector2 leaveContact = focusContact + new Vector2(40f, -30f);
-                if (phaseT < 0.18f)
+                Vector2 pos = Vector2.Lerp(focusContact, leaveContact, EaseInOut(moveOutSeq));
+                if (_isTouchMode)
                 {
-                    Vector2 pos = Vector2.Lerp(focusContact, leaveContact, EaseInOut(Phase01(phaseT, 0f, 0.18f)));
-                    if (_isTouchMode)
-                    {
-                        DrawTouchActor(painter, pos, 0f, false);
-                    }
-                    else
-                    {
-                        DrawCursorActor(painter, pos, 0f, false);
-                    }
+                    DrawTouchActor(painter, pos, 0f, false);
                 }
                 else
                 {
-                    DrawActorDoubleClickBounce(painter, buttons[focusIndex].center, isolateSeq, offset, leaveContact, leaveContact + new Vector2(26f, -20f));
+                    DrawCursorActor(painter, pos, 0f, false);
                 }
+            }
+            else if (phaseT < 0.22f)
+            {
+                Vector2 pos = Vector2.Lerp(leaveContact, focusContact, EaseInOut(moveBackSeq));
+                if (_isTouchMode)
+                {
+                    DrawTouchActor(painter, pos, 0f, false);
+                }
+                else
+                {
+                    DrawCursorActor(painter, pos, 0f, false);
+                }
+            }
+            else if (phaseT < 0.64f)
+            {
+                float visualPress = Mathf.Max(GetPressProgress(isolateSeq, false), GetSecondClickProgress(isolateSeq, false));
+                if (_isTouchMode)
+                {
+                    DrawTouchActor(painter, focusContact, visualPress, true);
+                }
+                else
+                {
+                    DrawCursorActor(painter, focusContact, visualPress, false);
+                }
+
                 DrawTargetClickPulse(painter, focusContact, isolateSeq, true, false, Accent);
                 DrawClickRing(painter, focusContact, EaseOut(Phase01(isolateSeq, 0.82f, 0.98f)), Warning);
+            }
+            else if (phaseT < 0.82f)
+            {
+                DrawActorToTarget(painter, width, height, buttons[focusIndex].center, restoreSeq, false, false, offset, focusContact);
+                DrawTargetClickPulse(painter, focusContact, restoreSeq, false, false, Accent);
+            }
+            else
+            {
+                Vector2 pos = Vector2.Lerp(focusContact, loopStart, EaseInOut(returnSeq));
+                if (_isTouchMode)
+                {
+                    DrawTouchActor(painter, pos, 0f, false);
+                }
+                else
+                {
+                    DrawCursorActor(painter, pos, 0f, false);
+                }
             }
         }
 
@@ -1416,31 +1575,31 @@ namespace WebGL.UI.Panels
             }
             else if (phaseIndex == 1)
             {
-                float dayClickSeq = Phase01(phaseT, 0.06f, 0.18f);
-                float dayT = phaseT < 0.18f ? 0f : EaseInOut(Phase01(phaseT, 0.18f, 0.36f));
-                float sunsetClickSeq = Phase01(phaseT, 0.48f, 0.60f);
-                float sunsetT = phaseT < 0.60f ? 0f : EaseInOut(Phase01(phaseT, 0.60f, 0.78f));
-                float nightClickSeq = Phase01(phaseT, 0.82f, 0.92f);
-                float nightT = phaseT < 0.92f ? 0f : EaseInOut(Phase01(phaseT, 0.92f, 1.00f));
+                float dayClickSeq = Phase01(phaseT, 0.04f, 0.12f);
+                float dayT = phaseT < 0.12f ? 0f : EaseInOut(Phase01(phaseT, 0.12f, 0.30f));
+                float sunsetClickSeq = Phase01(phaseT, 0.36f, 0.44f);
+                float sunsetT = phaseT < 0.44f ? 0f : EaseInOut(Phase01(phaseT, 0.44f, 0.62f));
+                float nightClickSeq = Phase01(phaseT, 0.68f, 0.76f);
+                float nightT = phaseT < 0.76f ? 0f : EaseInOut(Phase01(phaseT, 0.76f, 0.90f));
                 Color bg = new Color(0.14f, 0.30f, 0.56f, 0.96f);
                 bg = Color.Lerp(bg, AmbientDay, dayT);
-                bg = Color.Lerp(bg, new Color(0.34f, 0.18f, 0.48f, 0.98f), sunsetT);
+                bg = Color.Lerp(bg, new Color(0.74f, 0.42f, 0.32f, 0.98f), sunsetT);
                 bg = Color.Lerp(bg, AmbientNight, nightT);
 
                 FillRect(painter, viewport, bg);
                 StrokeRect(painter, viewport, WithAlpha(Foreground, 0.22f), 1.2f);
                 DrawDroneSilhouette(painter, droneCenter, 1.04f, 0f, 0f, Foreground, WithAlpha(Surface, 0.56f));
-                float horizonY = viewport.yMax - 32f;
+                float horizonY = viewport.yMax - 44f;
                 DrawLine(painter, new Vector2(viewport.x + 12f, horizonY), new Vector2(viewport.xMax - 12f, horizonY), WithAlpha(Foreground, 0.12f), 1.2f);
                 Vector2 orbitCenter = new Vector2(viewport.center.x, horizonY);
                 float orbitRadiusX = viewport.width * 0.44f;
                 float orbitRadiusY = viewport.height * 0.36f;
                 float sunAngle = sunsetT > 0.001f
-                    ? Mathf.Lerp(90f, 4f, sunsetT)
+                    ? Mathf.Lerp(90f, 8f, sunsetT)
                     : Mathf.Lerp(180f, 90f, dayT);
                 if (nightT > 0.001f)
                 {
-                    sunAngle = Mathf.Lerp(4f, 0f, nightT);
+                    sunAngle = Mathf.Lerp(8f, 0f, nightT);
                 }
 
                 Vector2 sunPos = EllipsePoint(orbitCenter, orbitRadiusX, orbitRadiusY, sunAngle);
@@ -1454,7 +1613,7 @@ namespace WebGL.UI.Panels
                 float moonVisible = nightT;
                 if (moonVisible > 0.01f)
                 {
-                    Vector2 moonPos = EllipsePoint(orbitCenter, orbitRadiusX, orbitRadiusY, Mathf.Lerp(0f, 90f, nightT));
+                    Vector2 moonPos = EllipsePoint(orbitCenter, orbitRadiusX, orbitRadiusY, Mathf.Lerp(180f, 90f, nightT));
                     FillCircle(painter, moonPos, 8f, WithAlpha(Foreground, 0.88f * moonVisible));
                     FillCircle(painter, moonPos + new Vector2(3f, -1f), 7f, WithAlpha(bg, 0.92f * moonVisible));
                 }
@@ -1462,6 +1621,7 @@ namespace WebGL.UI.Panels
             else
             {
                 float activateColorSeq = Phase01(phaseT, 0.06f, 0.18f);
+                float colorTransition = GetActionProgress(activateColorSeq, false);
                 Color bg = AmbientNight;
                 Color[] palette =
                 {
@@ -1470,23 +1630,27 @@ namespace WebGL.UI.Panels
                     new Color(0.92f, 0.82f, 0.20f, 0.98f)
                 };
 
-                if (GetActionProgress(activateColorSeq, false) > 0.01f)
+                if (colorTransition > 0.01f)
                 {
-                    if (phaseT < 0.42f)
+                    if (phaseT < 0.34f)
+                    {
+                        bg = Color.Lerp(AmbientNight, palette[0], EaseInOut(Phase01(phaseT, 0.18f, 0.34f)));
+                    }
+                    else if (phaseT < 0.52f)
                     {
                         bg = palette[0];
                     }
-                    else if (phaseT < 0.54f)
+                    else if (phaseT < 0.66f)
                     {
-                        bg = Color.Lerp(palette[0], palette[1], EaseInOut(Phase01(phaseT, 0.42f, 0.54f)));
+                        bg = Color.Lerp(palette[0], palette[1], EaseInOut(Phase01(phaseT, 0.52f, 0.66f)));
                     }
-                    else if (phaseT < 0.78f)
+                    else if (phaseT < 0.82f)
                     {
                         bg = palette[1];
                     }
-                    else if (phaseT < 0.90f)
+                    else if (phaseT < 0.94f)
                     {
-                        bg = Color.Lerp(palette[1], palette[2], EaseInOut(Phase01(phaseT, 0.78f, 0.90f)));
+                        bg = Color.Lerp(palette[1], palette[2], EaseInOut(Phase01(phaseT, 0.82f, 0.94f)));
                     }
                     else
                     {
@@ -1497,39 +1661,59 @@ namespace WebGL.UI.Panels
                 FillRect(painter, viewport, bg);
                 StrokeRect(painter, viewport, WithAlpha(Foreground, 0.22f), 1.2f);
                 DrawDroneSilhouette(painter, droneCenter, 1.04f, 0f, 0f, Foreground, WithAlpha(Surface, 0.36f));
-                DrawColorPresetSwatches(painter, new Rect(width * 0.50f - 78f, height * 0.61f, 156f, 26f), Mathf.Clamp01(Phase01(phaseT, 0.18f, 1f)));
+                float moonFade = 1f - EaseOut(Phase01(phaseT, 0.18f, 0.34f));
+                if (moonFade > 0.01f)
+                {
+                    float horizonY = viewport.yMax - 44f;
+                    Vector2 orbitCenter = new Vector2(viewport.center.x, horizonY);
+                    float orbitRadiusX = viewport.width * 0.44f;
+                    float orbitRadiusY = viewport.height * 0.36f;
+                    Vector2 moonPos = EllipsePoint(orbitCenter, orbitRadiusX, orbitRadiusY, 90f);
+                    FillCircle(painter, moonPos, 8f, WithAlpha(Foreground, 0.88f * moonFade));
+                    FillCircle(painter, moonPos + new Vector2(3f, -1f), 7f, WithAlpha(bg, 0.92f * moonFade));
+                }
             }
 
+            float studioLightAction = phaseIndex == 0 ? GetActionProgress(Phase01(phaseT, 0.06f, 0.42f), false) : 0f;
+            float studioBlueprintAction = phaseIndex == 0 ? GetActionProgress(Phase01(phaseT, 0.58f, 0.94f), false) : 0f;
             float studioHover = phaseIndex == 0
-                ? Mathf.Max(EaseOut(Phase01(Phase01(phaseT, 0.06f, 0.42f), 0.18f, 0.58f)), EaseOut(Phase01(Phase01(phaseT, 0.58f, 0.94f), 0.18f, 0.58f)))
+                ? Mathf.Max(EaseOut(Phase01(Phase01(phaseT, 0.06f, 0.42f), 0.24f, 0.54f)), EaseOut(Phase01(Phase01(phaseT, 0.58f, 0.94f), 0.24f, 0.54f)))
                 : 0f;
             float studioPress = phaseIndex == 0
                 ? Mathf.Max(GetPressProgress(Phase01(phaseT, 0.06f, 0.42f), false), GetPressProgress(Phase01(phaseT, 0.58f, 0.94f), false))
                 : 0f;
+            float studioActive = phaseIndex == 0 ? Mathf.Max(studioLightAction, studioBlueprintAction) : 0.20f;
+            float timeDayAction = phaseIndex == 1 ? GetActionProgress(Phase01(phaseT, 0.04f, 0.12f), false) : 0f;
+            float timeSunsetAction = phaseIndex == 1 ? GetActionProgress(Phase01(phaseT, 0.36f, 0.44f), false) : 0f;
+            float timeNightAction = phaseIndex == 1 ? GetActionProgress(Phase01(phaseT, 0.68f, 0.76f), false) : 0f;
             float timeHover = phaseIndex == 1
                 ? Mathf.Max(
-                    EaseOut(Phase01(Phase01(phaseT, 0.06f, 0.18f), 0.18f, 0.58f)),
-                    Mathf.Max(EaseOut(Phase01(Phase01(phaseT, 0.48f, 0.60f), 0.18f, 0.58f)),
-                        EaseOut(Phase01(Phase01(phaseT, 0.82f, 0.92f), 0.18f, 0.58f))))
+                    EaseOut(Phase01(Phase01(phaseT, 0.04f, 0.12f), 0.24f, 0.54f)),
+                    Mathf.Max(EaseOut(Phase01(Phase01(phaseT, 0.36f, 0.44f), 0.24f, 0.54f)),
+                        EaseOut(Phase01(Phase01(phaseT, 0.68f, 0.76f), 0.24f, 0.54f))))
                 : 0f;
             float timePress = phaseIndex == 1
                 ? Mathf.Max(
-                    GetPressProgress(Phase01(phaseT, 0.06f, 0.18f), false),
-                    Mathf.Max(GetPressProgress(Phase01(phaseT, 0.48f, 0.60f), false), GetPressProgress(Phase01(phaseT, 0.82f, 0.92f), false)))
+                    GetPressProgress(Phase01(phaseT, 0.04f, 0.12f), false),
+                    Mathf.Max(GetPressProgress(Phase01(phaseT, 0.36f, 0.44f), false), GetPressProgress(Phase01(phaseT, 0.68f, 0.76f), false)))
                 : 0f;
-            float colorHover = phaseIndex == 2 ? EaseOut(Phase01(Phase01(phaseT, 0.06f, 0.18f), 0.18f, 0.58f)) : 0f;
+            float colorAction = phaseIndex == 2 ? GetActionProgress(Phase01(phaseT, 0.06f, 0.18f), false) : 0f;
+            float timeActive = phaseIndex == 1
+                ? Mathf.Max(timeDayAction, Mathf.Max(timeSunsetAction, timeNightAction))
+                : (phaseIndex == 2 ? Mathf.Lerp(1f, 0.20f, colorAction) : 0.20f);
+            float colorHover = phaseIndex == 2 ? EaseOut(Phase01(Phase01(phaseT, 0.06f, 0.18f), 0.24f, 0.54f)) : 0f;
             float colorPress = phaseIndex == 2 ? GetPressProgress(Phase01(phaseT, 0.06f, 0.18f), false) : 0f;
 
-            DrawSubmenuCardButton(painter, btnStudio, phaseIndex == 0 ? 1f : 0.20f, studioHover, studioPress,
+            DrawSubmenuCardButton(painter, btnStudio, studioActive, studioHover, studioPress,
                 (visual, color) => DrawMiniIcon(painter, OnboardingMiniIcon.Studio, visual.center + new Vector2(0f, -6f), 24f, color));
-            DrawSubmenuCardButton(painter, btnTime, phaseIndex == 1 ? 1f : 0.20f, timeHover, timePress,
+            DrawSubmenuCardButton(painter, btnTime, timeActive, timeHover, timePress,
                 (visual, color) =>
                 {
                     DrawLine(painter, visual.center + new Vector2(-15f, 2f), visual.center + new Vector2(15f, 2f), color, 1.5f);
                     DrawArcSegment(painter, visual.center + new Vector2(0f, 2f), 13f, 210f, 330f, WithAlpha(color, 0.72f), 1.2f);
                     FillCircle(painter, visual.center + new Vector2(7f, -8f), 5f, color);
                 });
-            DrawSubmenuCardButton(painter, btnColor, phaseIndex == 2 ? 1f : 0.20f, colorHover, colorPress,
+            DrawSubmenuCardButton(painter, btnColor, phaseIndex == 2 ? colorAction : 0.20f, colorHover, colorPress,
                 (visual, color) =>
                 {
                     FillCircle(painter, visual.center + new Vector2(-11f, -6f), 4.5f, WithAlpha(color, 0.90f));
@@ -1567,19 +1751,19 @@ namespace WebGL.UI.Panels
             }
             else if (phaseIndex == 1)
             {
-                float daySeq = Phase01(phaseT, 0.06f, 0.18f);
-                float sunsetSeq = Phase01(phaseT, 0.48f, 0.60f);
-                float nightSeq = Phase01(phaseT, 0.82f, 0.92f);
+                float daySeq = Phase01(phaseT, 0.04f, 0.12f);
+                float sunsetSeq = Phase01(phaseT, 0.36f, 0.44f);
+                float nightSeq = Phase01(phaseT, 0.68f, 0.76f);
                 Vector2 bounceA = timeContact + new Vector2(32f, -26f);
                 Vector2 bounceB = timeContact + new Vector2(-26f, -28f);
-                if (phaseT < 0.22f)
+                if (phaseT < 0.34f)
                 {
                     DrawActorToTarget(painter, width, height, btnTime.center, daySeq, false, false, offset, studioContact);
                     DrawTargetClickPulse(painter, timeContact, daySeq, false, false, Accent);
                 }
-                else if (phaseT < 0.48f)
+                else if (phaseT < 0.44f)
                 {
-                    Vector2 pos = Vector2.Lerp(timeContact, bounceA, EaseInOut(Phase01(phaseT, 0.22f, 0.48f)));
+                    Vector2 pos = Vector2.Lerp(timeContact, bounceA, EaseInOut(Phase01(phaseT, 0.34f, 0.44f)));
                     if (_isTouchMode)
                     {
                         DrawTouchActor(painter, pos, 0f, false);
@@ -1589,14 +1773,14 @@ namespace WebGL.UI.Panels
                         DrawCursorActor(painter, pos, 0f, false);
                     }
                 }
-                else if (phaseT < 0.64f)
+                else if (phaseT < 0.66f)
                 {
                     DrawActorToTarget(painter, width, height, btnTime.center, sunsetSeq, false, false, offset, bounceA);
                     DrawTargetClickPulse(painter, timeContact, sunsetSeq, false, false, Accent);
                 }
-                else if (phaseT < 0.82f)
+                else if (phaseT < 0.76f)
                 {
-                    Vector2 pos = Vector2.Lerp(timeContact, bounceB, EaseInOut(Phase01(phaseT, 0.64f, 0.82f)));
+                    Vector2 pos = Vector2.Lerp(timeContact, bounceB, EaseInOut(Phase01(phaseT, 0.66f, 0.76f)));
                     if (_isTouchMode)
                     {
                         DrawTouchActor(painter, pos, 0f, false);
@@ -1673,6 +1857,17 @@ namespace WebGL.UI.Panels
             return drag
                 ? EaseOut(Phase01(phaseT, 0.38f, 0.54f))
                 : EaseOut(Phase01(phaseT, 0.50f, 0.66f));
+        }
+
+        private static float GetPressReleaseProgress(float phaseT, bool drag)
+        {
+            float pressIn = drag
+                ? EaseOut(Phase01(phaseT, 0.38f, 0.52f))
+                : EaseOut(Phase01(phaseT, 0.50f, 0.62f));
+            float releaseOut = drag
+                ? EaseInOut(Phase01(phaseT, 0.52f, 0.82f))
+                : EaseInOut(Phase01(phaseT, 0.62f, 0.86f));
+            return pressIn * (1f - releaseOut);
         }
 
         private static float GetActionProgress(float phaseT, bool drag)
@@ -2360,35 +2555,40 @@ namespace WebGL.UI.Panels
                 Mathf.Max(rectA.xMax, rectB.xMax),
                 Mathf.Max(rectA.yMax, rectB.yMax));
 
-            if (amount > 0.001f)
+            if (amount <= 0.001f)
             {
-                DrawDiagonalCutBox(painter, rectA, amount, fill, stroke, invert);
-                DrawDiagonalCutBox(painter, rectB, amount, fill, stroke, invert);
+                return;
             }
 
-            Vector2 diagA = new Vector2(pair.x + 8f, Mathf.Lerp(pair.center.y + 8f, pair.y + 18f, amount));
-            Vector2 diagB = new Vector2(pair.xMax - 8f, Mathf.Lerp(pair.center.y - 8f, pair.yMax - 18f, amount));
-            Vector2 verticalA = new Vector2(Mathf.Lerp(pair.x + 12f, pair.xMax - 12f, 0.38f), pair.y - 8f);
-            Vector2 verticalB = new Vector2(verticalA.x, pair.yMax + 8f);
-            Vector2 horizontalA = new Vector2(pair.x - 8f, Mathf.Lerp(pair.y + 12f, pair.yMax - 12f, 0.56f));
-            Vector2 horizontalB = new Vector2(pair.xMax + 8f, horizontalA.y);
+            DrawDiagonalCutBox(painter, rectA, amount, fill, stroke, invert, false);
+            DrawDiagonalCutBox(painter, rectB, amount, fill, stroke, invert, false);
 
-            DrawLine(painter, Vector2.Lerp(verticalA, diagA, amount), Vector2.Lerp(verticalB, diagB, amount), WithAlpha(stroke, 0.32f + amount * 0.28f), 1.8f);
-            DrawLine(painter, Vector2.Lerp(horizontalA, diagA, amount), Vector2.Lerp(horizontalB, diagB, amount), WithAlpha(stroke, 0.32f + amount * 0.28f), 1.8f);
+            Vector2 verticalA = new Vector2(pair.center.x, pair.y - 8f);
+            Vector2 verticalB = new Vector2(pair.center.x, pair.yMax + 8f);
+            Vector2 diagA = new Vector2(pair.x, pair.y);
+            Vector2 diagB = new Vector2(pair.xMax, pair.yMax);
+            DrawLine(
+                painter,
+                Vector2.Lerp(verticalA, diagA, amount),
+                Vector2.Lerp(verticalB, diagB, amount),
+                WithAlpha(stroke, 0.38f + amount * 0.30f),
+                2.1f);
         }
 
-        private void DrawDiagonalCutBox(Painter2D painter, Rect rect, float amount, Color fill, Color stroke, bool invert = false)
+        private void DrawDiagonalCutBox(Painter2D painter, Rect rect, float amount, Color fill, Color stroke, bool invert = false, bool drawCutLine = true)
         {
-            StrokeRect(painter, rect, WithAlpha(stroke, 0.55f), 1.1f);
             Vector2 a = Vector2.Lerp(
                 new Vector2(rect.x + 8f, rect.center.y),
-                new Vector2(rect.x + 10f, rect.y + 14f),
+                new Vector2(rect.x, rect.y),
                 amount);
             Vector2 b = Vector2.Lerp(
                 new Vector2(rect.xMax - 8f, rect.center.y),
-                new Vector2(rect.xMax - 10f, rect.yMax - 14f),
+                new Vector2(rect.xMax, rect.yMax),
                 amount);
-            DrawLine(painter, a, b, stroke, 2.3f);
+            if (drawCutLine)
+            {
+                DrawLine(painter, a, b, stroke, 2.3f);
+            }
 
             Vector2[] kept = invert
                 ? new[]
@@ -2406,14 +2606,30 @@ namespace WebGL.UI.Panels
                     a
                 };
             FillPolygon(painter, kept, fill);
+
+            if (invert)
+            {
+                DrawLine(painter, b, new Vector2(rect.xMax, rect.yMax), WithAlpha(stroke, 0.55f), 1.1f);
+                DrawLine(painter, new Vector2(rect.xMax, rect.yMax), new Vector2(rect.x, rect.yMax), WithAlpha(stroke, 0.55f), 1.1f);
+                DrawLine(painter, new Vector2(rect.x, rect.yMax), a, WithAlpha(stroke, 0.55f), 1.1f);
+            }
+            else
+            {
+                DrawLine(painter, new Vector2(rect.x, rect.y), new Vector2(rect.xMax, rect.y), WithAlpha(stroke, 0.55f), 1.1f);
+                DrawLine(painter, new Vector2(rect.xMax, rect.y), b, WithAlpha(stroke, 0.55f), 1.1f);
+                DrawLine(painter, a, new Vector2(rect.x, rect.y), WithAlpha(stroke, 0.55f), 1.1f);
+            }
         }
 
         private void DrawExplodedDrone(Painter2D painter, Vector2 center, float scale, float amount)
         {
-            float eased = amount <= 0f ? 0f : EaseOutBack(amount, 1.14f);
-            float rotorSpread = 54f * eased * scale;
-            float plateLiftA = 36f * eased * scale;
-            float plateLiftB = 68f * eased * scale;
+            float eased = amount <= 0f ? 0f : EaseOutBack(Mathf.Min(amount, 1f), 1.14f);
+            float extraSeparation = amount <= 0.46f
+                ? 0f
+                : EaseOutBack(Mathf.InverseLerp(0.46f, 1.18f, Mathf.Min(amount, 1.18f)), 1.04f);
+            float rotorSpread = (54f * eased + 38f * extraSeparation) * scale;
+            float plateLiftA = (36f * eased + 20f * extraSeparation) * scale;
+            float plateLiftB = (68f * eased + 28f * extraSeparation) * scale;
             Vector2 bodyCenter = center + new Vector2(0f, 8f * eased * scale);
             Vector2[] baseRotors = GetDroneRotorCenters(bodyCenter, scale, 0f);
             Vector2[] rotorOffsets =
@@ -2463,9 +2679,11 @@ namespace WebGL.UI.Panels
             float scale = 1f + hover01 * 0.08f + active01 * 0.20f + press01 * 0.05f;
             Vector2 center = rect.center + new Vector2(0f, Mathf.Lerp(18f, 0f, reveal) + press01 * 1.6f);
             float iconSize = (rect.width * 0.32f + active01 * 8f) * scale;
-            Color iconColor = WithAlpha(Color.Lerp(ForegroundMuted, Accent, Mathf.Clamp01(active01 * 0.92f + hover01 * 0.32f)), reveal);
+            Color baseColor = Color.Lerp(ForegroundMuted, Foreground, hover01 * 0.38f);
+            Color iconColor = WithAlpha(Color.Lerp(baseColor, Accent, active01), reveal);
             DrawAnimatedMiniIcon(painter, icon, center + new Vector2(0f, -4f), iconSize, iconColor, hover01, press01, active01);
-            FillCapsule(painter, new Rect(center.x - 26f, center.y + iconSize * 0.76f, 52f, 3f), WithAlpha(Accent, reveal * (0.10f + active01 * 0.70f)));
+            Color underline = Color.Lerp(WithAlpha(Foreground, 0.12f + hover01 * 0.10f), Accent, active01);
+            FillCapsule(painter, new Rect(center.x - 26f, center.y + iconSize * 0.76f, 52f, 3f), WithAlpha(underline, reveal));
         }
 
         private void DrawRadialConnector(Painter2D painter, Vector2 from, Vector2 to, float reveal)
@@ -2480,15 +2698,19 @@ namespace WebGL.UI.Panels
             DrawLine(painter, new Vector2(rect.x + 8f, rect.y + 10f), new Vector2(rect.xMax - 8f, rect.y + 10f), WithAlpha(Foreground, 0.20f), 1.15f);
         }
 
-        private void DrawModeBarButton(Painter2D painter, Rect rect, OnboardingMiniIcon icon, float active, float press)
+        private void DrawModeBarButton(Painter2D painter, Rect rect, OnboardingMiniIcon icon, float active, float hover, float press)
         {
             float emphasis = Mathf.Clamp01(active);
+            float hover01 = Mathf.Clamp01(hover);
             float press01 = Mathf.Clamp01(press);
-            Rect visual = ScaleRect(rect, 1f + emphasis * 0.22f + press01 * 0.05f);
+            Rect visual = ScaleRect(rect, 1f + hover01 * 0.10f + emphasis * 0.22f + press01 * 0.05f);
             visual.y += press01 * 1.2f;
-            float iconSize = 24f + emphasis * 10f;
-            DrawAnimatedMiniIcon(painter, icon, visual.center + new Vector2(0f, -6f), iconSize, Color.Lerp(ForegroundMuted, Accent, emphasis), emphasis * 0.46f, press01, emphasis);
-            FillRect(painter, new Rect(visual.center.x - 18f, rect.y + 2f, 36f, 3f), WithAlpha(Accent, 0.10f + emphasis * 0.78f));
+            float iconSize = 24f + hover01 * 2f + emphasis * 10f;
+            Color baseColor = Color.Lerp(ForegroundMuted, Foreground, hover01 * 0.40f);
+            Color iconColor = Color.Lerp(baseColor, Accent, emphasis);
+            DrawAnimatedMiniIcon(painter, icon, visual.center + new Vector2(0f, -6f), iconSize, iconColor, hover01, press01, emphasis);
+            Color lineColor = Color.Lerp(WithAlpha(Foreground, 0.16f + hover01 * 0.10f), Accent, emphasis);
+            FillRect(painter, new Rect(visual.center.x - 18f, rect.y + 2f, 36f, 3f), lineColor);
         }
 
         private void DrawAnimatedMiniIcon(Painter2D painter, OnboardingMiniIcon icon, Vector2 center, float size, Color color, float hover, float press, float active)
@@ -2925,6 +3147,8 @@ namespace WebGL.UI.Panels
             }
         }
 
+        // The arrow represents wheel rotation direction, not the drone movement:
+        // scrollUp = wheel forward/up, scrollDown = wheel backward/down.
         private void DrawWheelMouseHint(Painter2D painter, Vector2 center, float amount, bool scrollUp)
         {
             DrawMouseHint(painter, center, MouseHintButton.Middle);
@@ -2946,9 +3170,10 @@ namespace WebGL.UI.Panels
             float bgRadius = 18f + intensity * 20f;
             FillCircle(painter, center, bgRadius + 14f, WithAlpha(AccentGlow, 0.10f + intensity * 0.14f));
             FillCircle(painter, center, bgRadius, WithAlpha(Foreground, 0.18f + intensity * 0.26f));
-            Vector2 light = center + new Vector2(Mathf.Cos(Mathf.Lerp(-1.8f, 0.7f, rotation)), Mathf.Sin(Mathf.Lerp(-1.8f, 0.7f, rotation))) * 20f;
-            FillCircle(painter, light, 6f + intensity * 2.4f, Warning);
-            DrawLine(painter, center, light, WithAlpha(Warning, 0.65f), 1.8f);
+            float lightDistance = 30f;
+            Vector2 light = center + new Vector2(Mathf.Cos(Mathf.Lerp(-1.8f, 0.7f, rotation)), Mathf.Sin(Mathf.Lerp(-1.8f, 0.7f, rotation))) * lightDistance;
+            DrawLine(painter, center, light, WithAlpha(Warning, 0.72f), 2.2f);
+            FillCircle(painter, light, 6.8f + intensity * 2.8f, Warning);
         }
 
         private void DrawBlueprintLines(Painter2D painter, Rect rect)
@@ -3353,10 +3578,13 @@ namespace WebGL.UI.Panels
 
             if (_scene == OnboardingSceneId.PartInfo)
             {
-                float tabReveal = phaseIndex == 0 ? EaseOut(Phase01(phaseT, 0.72f, 0.98f)) : 1f;
+                float closeSeq = phaseIndex == 2 ? Phase01(phaseT, 0.10f, 0.48f) : 0f;
+                float tabReveal = phaseIndex == 0
+                    ? EaseOut(Phase01(phaseT, 0.72f, 0.98f))
+                    : (phaseIndex == 2 ? 1f - GetActionProgress(Phase01(phaseT, 0.78f, 0.98f), false) : 1f);
                 float panelOpen = phaseIndex == 1
                     ? EaseOut(Phase01(phaseT, 0.44f, 0.96f))
-                    : (phaseIndex == 2 ? 1f - GetActionProgress(Phase01(phaseT, 0.42f, 0.96f), false) : 0f);
+                    : (phaseIndex == 2 ? 1f - GetActionProgress(closeSeq, false) : 0f);
                 float peekVisible = Mathf.Max(tabReveal - panelOpen * 1.25f, 0f);
                 GetPartInfoRects(width, height, tabReveal, panelOpen, out _, out Rect tab, out _);
                 _partInfoTabLabel.style.display = peekVisible > 0.06f ? DisplayStyle.Flex : DisplayStyle.None;
@@ -3369,16 +3597,36 @@ namespace WebGL.UI.Panels
 
             if (_scene == OnboardingSceneId.Studio)
             {
-                _studioRenderLabel.style.display = DisplayStyle.Flex;
-                _studioEnvironmentLabel.style.display = DisplayStyle.Flex;
-                SetAbsoluteRect(_studioRenderLabel, new Rect(width * 0.50f - 18f, height * 0.25f, 94f, 22f));
-                SetAbsoluteRect(_studioEnvironmentLabel, new Rect(width * 0.50f - 18f, height * 0.41f, 126f, 22f));
+                Rect renderCard = new Rect(width * 0.50f - 118f, height * 0.20f, 236f, 90f);
+                Rect environmentCard = new Rect(width * 0.50f - 118f, height * 0.39f, 236f, 90f);
+                float panelReveal = phaseIndex == 0 ? EaseOut(Phase01(phaseT, 0.28f, 0.42f)) : 1f;
+                float renderSeq = phaseIndex == 0 ? Phase01(phaseT, 0.42f, 0.96f) : 0f;
+                float renderHover = phaseIndex == 0 ? EaseOut(Phase01(renderSeq, 0.18f, 0.54f)) : 0.12f;
+                float renderPress = phaseIndex == 0 ? GetPressProgress(renderSeq, false) : 0f;
+                float renderActive = phaseIndex == 0 ? GetActionProgress(renderSeq, false) : 0.18f;
+                float environmentHover = phaseIndex == 1 ? EaseOut(Phase01(phaseT, 0.18f, 0.52f)) : 0.12f;
+                float environmentPress = phaseIndex == 1 ? GetPressProgress(phaseT, false) : 0f;
+                float environmentActive = phaseIndex == 1 ? GetActionProgress(phaseT, false) : 0.18f;
+                DisplayStyle labelDisplay = panelReveal > 0.06f ? DisplayStyle.Flex : DisplayStyle.None;
+                _studioRenderLabel.style.display = labelDisplay;
+                _studioEnvironmentLabel.style.display = labelDisplay;
+                SetStudioOverlayLabelVisual(_studioRenderLabel, renderCard, renderActive, renderHover, renderPress, panelReveal);
+                SetStudioOverlayLabelVisual(_studioEnvironmentLabel, environmentCard, environmentActive, environmentHover, environmentPress, panelReveal);
             }
             else
             {
                 _studioRenderLabel.style.display = DisplayStyle.None;
                 _studioEnvironmentLabel.style.display = DisplayStyle.None;
             }
+        }
+
+        private void SetStudioOverlayLabelVisual(Label label, Rect rect, float active, float hover, float press, float panelReveal)
+        {
+            Rect panelBase = ScaleRect(rect, Mathf.Lerp(0.86f, 1f, panelReveal));
+            Rect visual = GetInteractiveVisualRect(panelBase, hover * panelReveal, press * panelReveal, active * panelReveal, 0.12f, 0.08f, 0.05f);
+            Rect labelRect = new Rect(visual.x + 66f, visual.center.y - 12f, visual.width - 86f, 24f + active * 4f);
+            SetAbsoluteRect(label, labelRect);
+            label.style.fontSize = 14f + active * 2.4f + hover * 1.2f;
         }
 
         private static void SetAbsoluteRect(VisualElement element, Rect rect)
@@ -3466,11 +3714,11 @@ namespace WebGL.UI.Panels
                 case OnboardingSceneId.Pins:
                     return new[] { 2800, 3800 };
                 case OnboardingSceneId.Isolate:
-                    return new[] { 2800, 5800 };
+                    return new[] { 2800, 8400 };
                 case OnboardingSceneId.Power:
                     return new[] { 3000, 5200 };
                 case OnboardingSceneId.Cut:
-                    return new[] { 6200, 4200, 5800 };
+                    return new[] { 6200, 4400, 6400 };
                 case OnboardingSceneId.Explode:
                     return new[] { 3400, 5600 };
                 case OnboardingSceneId.Filter:
@@ -3478,7 +3726,7 @@ namespace WebGL.UI.Panels
                 case OnboardingSceneId.RenderMode:
                     return new[] { 3200, 3400, 3800 };
                 case OnboardingSceneId.Environment:
-                    return new[] { 4600, 7600, 5000 };
+                    return new[] { 4600, 12000, 5600 };
                 case OnboardingSceneId.Lighting:
                     return new[] { 4200, 4200, 4200 };
                 default:
