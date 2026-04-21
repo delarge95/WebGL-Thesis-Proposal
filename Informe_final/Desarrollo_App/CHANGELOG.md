@@ -5,6 +5,32 @@
 
 ---
 
+## [2026-04-21] Onboarding MVP procedural, gestos reales por plataforma y cierre de UX guiada
+
+### Added
+
+- `Assets/Scripts/UI/Panels/OnboardingAnimationView.cs`: canvas procedural con `Painter2D` para previews animados del onboarding.
+- Storyboards runtime para `15` cards del onboarding con variantes `PC` y `Mobile`.
+- Soporte de overlays y labels para cards que requieren tabs o panels explicativos dentro del preview.
+
+### Changed
+
+- `OnboardingController.cs`: sincroniza fases, plataforma y stage visual con el onboarding real.
+- `MainLayout.uxml` y `Theme.uss`: amplian y estabilizan el viewport vertical del onboarding para lectura tipo mobile.
+- `ProceduralResetIcon.cs`: refinado para usar el mismo lenguaje visual del reset dentro del onboarding.
+
+### Fixed
+
+- Sincronizacion general de `cursor/tap -> click -> response` en menus, sliders, filtros, cards de seleccion y cards de environment.
+- Continuidad del puntero entre fases del loop para evitar saltos visuales.
+- Doble click de `Filter` e `Isolate` para que se lea como doble accion real y no como dos clics desconectados.
+- Timings y holds finales en cards de `Navigate`, `Cut`, `Explode`, `Studio` y `Environment`.
+
+### Notes
+
+- La solucion evita `GIF`, video, spritesheets o `SVG runtime` como dependencia principal.
+- El siguiente cierre de calidad depende de QA visual en Unity/WebGL y captura de evidencias finales.
+
 ## [2026-04-13] Unity Fasteners: metadata modular, catalogos reconciliados e inspeccion proxy->detail
 
 ### Added

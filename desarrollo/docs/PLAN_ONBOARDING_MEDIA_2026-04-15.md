@@ -2,6 +2,16 @@
 
 Fecha: 2026-04-15
 
+## Nota de estado (2026-04-21)
+
+Este documento queda como antecedente de decision. La implementacion actual ya evoluciono desde "iconos o microilustraciones por tarjeta" hacia un onboarding procedural MVP dentro de Unity, basado en:
+
+- `Assets/Scripts/UI/Panels/OnboardingAnimationView.cs`
+- `Assets/Scripts/UI/Panels/OnboardingController.cs`
+- `PLAN_ANIMACIONES_ONBOARDING.md`
+
+Por lo tanto, este plan debe leerse hoy como referencia historica del razonamiento inicial y no como descripcion exacta del estado vigente.
+
 ## Objetivo
 
 Ampliar el onboarding actual para que cada tarjeta incluya una representación visual breve y útil de la acción que explica. La solución prioriza estabilidad, bajo peso y mantenimiento simple en WebGL/Unity.

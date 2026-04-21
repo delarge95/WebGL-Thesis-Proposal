@@ -30,6 +30,7 @@ El visor no solo "muestra un dron". Resuelve una lectura tecnica del ensamblaje 
 - `Inspect` con hotspots, isolate y power/load;
 - `Analyze` con explode, cut y filtros por categoria;
 - `Studio` con `Realistic`, `X-Ray`, `Solid Color` y `Thermal`;
+- onboarding procedural con gestos y microinteracciones coherentes con la app real;
 - leyenda termica visible;
 - fasteners seleccionables con metadata tecnica por instancia;
 - detalle bajo demanda para fasteners sin cargar malla densa globalmente;
@@ -85,15 +86,17 @@ Estas capacidades sirven como profundidad tecnica secundaria, no como narrativa 
 ## Que mostrar en el breakdown
 
 1. Problema de UX y lectura tecnica.
-2. Flujo real del visor.
+2. Flujo real del visor, incluyendo onboarding de primer uso.
 3. Como la seleccion conecta escena y UI.
 4. Como los modos analiticos cambian la lectura del objeto.
 5. Como los fasteners se mantienen ligeros en reposo y solo muestran detalle al seleccionarse.
-6. Que parte del sistema es visible y que parte es soporte tecnico.
+6. Como el onboarding reduce friccion y explica menus, sliders y gestos sin video.
+7. Que parte del sistema es visible y que parte es soporte tecnico.
 
 ## Evidencia recomendada
 
 - captura del Hero final;
+- clip corto del onboarding procedural;
 - captura de seleccion + `bottom sheet`;
 - grid o clip corto de `Inspect / Analyze / Studio`;
 - vista termica con leyenda;
@@ -108,6 +111,7 @@ El valor no es solo visual. El visor demuestra capacidad para conectar:
 - UI de producto;
 - runtime interactivo;
 - modos de visualizacion;
+- onboarding de producto;
 - arquitectura mantenible;
 - optimizacion consciente para fasteners y subpiezas;
 - documentacion honesta sobre alcance real.

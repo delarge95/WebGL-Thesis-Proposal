@@ -6,6 +6,44 @@
 
 ---
 
+## Registro de Cambios (Abril 21, 2026) - Onboarding MVP procedural y alineacion del discurso de producto
+
+### Objetivo
+
+Cerrar un MVP real del onboarding dentro de la app, sustituyendo la idea de media por tarjeta por un sistema procedural ligero y coherente con los controles reales de desktop y mobile.
+
+### Acciones Realizadas
+
+1. **Motor visual procedural para onboarding**:
+   - _Implementacion_: Se agrego `OnboardingAnimationView.cs` como canvas `Painter2D` dedicado a previews animados por tarjeta.
+   - _Implementacion_: El motor cubre `15` cards del onboarding con variantes `PC` y `Mobile`.
+   - _Resultado_: El onboarding deja de depender de media pesada o mocks estaticos y pasa a demostraciones runtime ligeras y repetibles.
+2. **Integracion real con la UI existente**:
+   - _Implementacion_: `OnboardingController.cs`, `MainLayout.uxml`, `Theme.uss` y `ProceduralResetIcon.cs` fueron ajustados para conectar el nuevo stage visual, mantener el layout constante y sincronizar labels/overlays.
+   - _Resultado_: El preview queda integrado al flujo real del overlay en lugar de vivir como recurso externo.
+3. **Lenguaje gestual unificado por plataforma**:
+   - _Implementacion_: Desktop usa cursor procedural, anillos de click, rueda y botones de mouse; mobile usa ripple, drag y pinch abstractos.
+   - _Resultado_: El onboarding explica gestos y microinteracciones sin GIFs, videos ni spritesheets.
+4. **Pulido fuerte de coherencia visual**:
+   - _Implementacion_: Se iteraron timings, continuidad del puntero, orden `move -> click/tap -> response`, sincronizacion de sliders, doble click, trayectorias y holds finales.
+   - _Implementacion_: Se rehicieron cards delicadas como `Navigate`, `Part Info`, `Inspect`, `Analyze`, `Cut`, `Explode`, `Filter`, `Studio` y `Environment`.
+   - _Resultado_: El sistema queda en estado MVP presentable y mucho mas cercano a una lectura profesional card por card.
+5. **Alineacion con el discurso actual del producto**:
+   - _Implementacion_: Se consolida el onboarding como parte visible del flujo real y se deja mejor posicionado el subsistema de fasteners en la documentacion y el portafolio.
+   - _Resultado_: Queda una narrativa mas coherente entre producto visible, tooling, fasteners y UX guiada.
+
+### Estado Actual
+
+- Existe un onboarding MVP implementado dentro de Unity usando `Painter2D`, sin depender de video, GIF o media pesada.
+- El sistema ya ensena navegacion, seleccion, panels, menus, sliders y modos visuales con loops animados por tarjeta.
+- La validacion final pendiente ya no es de arquitectura, sino de QA visual fino dentro del editor y en WebGL.
+
+### Primer Paso Al Retomar La Sesion
+
+1. Revisar visualmente el onboarding dentro de Unity/WebGL en desktop y mobile.
+2. Capturar clips y screenshots definitivos para portafolio y evidencias.
+3. Hacer una ronda final de fixes de percepcion si alguna card sigue viendose acelerada, cargada o ambigua.
+
 ## Registro de Cambios (Abril 13, 2026) - Fasteners Unity: metadata modular, inspeccion bajo demanda y catalogos reconciliados
 
 ### Objetivo

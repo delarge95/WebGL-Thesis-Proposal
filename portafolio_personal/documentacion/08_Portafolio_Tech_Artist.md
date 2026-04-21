@@ -13,6 +13,14 @@ Convertir la tesis en un portafolio coherente, verificable y competitivo para un
 
 > Technical Artist orientado a visualización técnica interactiva en tiempo real. Capaz de conectar normalización de activos, runtime tools, shaders, documentación y arquitectura de producto para entregar experiencias WebGL legibles y mantenibles.
 
+## Actualizacion prioritaria (Abril 2026)
+
+Para el discurso publicable actual, las piezas mas fuertes ya no son solo el visor base y el sistema termico. Tambien deben entrar:
+
+- el subsistema de fasteners con metadata por instancia y detalle bajo demanda;
+- el onboarding procedural ligero que explica controles reales sin media pesada;
+- el tooling/editor y la documentacion como parte del valor del producto.
+
 ## A quién debe convencer el portafolio
 
 ### Recruiter
@@ -68,14 +76,18 @@ Debe ser la pieza principal porque ya existe una experiencia interactiva verific
 #### Qué mostrar
 
 - Hero final;
+- clip del onboarding (`Navigate`, menus y sliders);
 - selección + `bottom sheet`;
 - `Inspect / Analyze / Studio`;
+- fastener seleccionado con detalle procedural y ficha tecnica;
 - leyenda térmica visible.
 
 #### Qué vender
 
 - experiencia web técnica y navegable;
 - lectura contextual del ensamblaje;
+- onboarding UX alineado con la app real;
+- manejo de fasteners como problema de sistemas y performance;
 - producto real, no solo render.
 
 #### Qué no vender
@@ -167,6 +179,8 @@ Esta es una fortaleza diferencial real del proyecto.
 - `ImportedDroneCoverageAudit`
 - `ThermalContactGraphBuilderWindow`
 - `ImportedDroneRuntimeBinder`
+- `HolybroFastenerCatalogBuilder`
+- `OnboardingAnimationView`
 
 #### Qué vender
 
@@ -195,6 +209,8 @@ Esta pieza no reemplaza el visor, pero suma mucho valor en entrevistas.
 
 - construcción de un visor WebGL técnico para un dron real;
 - integración de UI, selección, modos visuales y lectura contextual;
+- onboarding procedural coherente con desktop y mobile;
+- fasteners con metadata tecnica por instancia y detalle runtime bajo demanda;
 - saneamiento runtime del modelo importado;
 - tooling de editor para setup, auditoría y grafo térmico;
 - uso de shaders para visualización técnica aplicada;

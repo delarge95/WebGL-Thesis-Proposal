@@ -24,6 +24,7 @@ Hero -> Explore -> selección -> bottom sheet -> Inspect / Analyze / Studio
 ## Qué hace visible la build final
 
 - Hero alineado con el caso Holybro X500 V2
+- onboarding animado y ligero para explicar controles reales en desktop y mobile
 - selección de piezas
 - `bottom sheet` de detalle
 - hotspots
@@ -34,6 +35,7 @@ Hero -> Explore -> selección -> bottom sheet -> Inspect / Analyze / Studio
 - filtros por categoría
 - `Realistic`, `X-Ray`, `Solid Color` y `Thermal`
 - leyenda térmica visible
+- fasteners con metadata por instancia y detalle bajo demanda
 
 ## Stack técnico
 
@@ -54,6 +56,10 @@ Hero -> Explore -> selección -> bottom sheet -> Inspect / Analyze / Studio
 - `CrossSectionManager`
 - `DroneStateController`
 - `ImportedDroneRuntimeBinder`
+- `OnboardingController`
+- `OnboardingAnimationView`
+- `FastenerRegistry`
+- `FastenerInspectionManager`
 
 ### Sistema térmico
 
@@ -86,6 +92,8 @@ Para ello, el proyecto aborda:
 - reparación runtime de jerarquía importada;
 - visualización analítica;
 - coherencia entre escena, UI y datos;
+- onboarding guiado alineado con los controles reales;
+- fasteners tecnicos sin cargar detalle denso en toda la escena;
 - restricciones reales de Unity WebGL.
 
 ## Visualización técnica
@@ -149,8 +157,10 @@ Este trabajo se posiciona mejor como:
 ## Assets recomendados para acompañar este README
 
 - Hero final
+- clip corto del onboarding
 - selección + `bottom sheet`
 - modo `Thermal` con leyenda
+- fastener con metadata y detalle runtime
 - captura de tooling
 - diagrama corto de arquitectura
 

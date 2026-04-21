@@ -1,5 +1,42 @@
 # Registro de Sesiones de Desarrollo
 
+## Sesion 2026-04-21 (Onboarding MVP procedural y alineacion documental)
+
+### Objetivos
+
+- Convertir el onboarding de la app en una secuencia animada real, ligera y coherente con desktop/mobile.
+- Cerrar el desfase entre plan, implementacion y discurso documental del producto.
+- Dejar onboarding y fasteners bien posicionados como evidencia publicable de portafolio.
+
+### Trabajo Realizado
+
+#### Onboarding runtime
+
+- Se implemento `OnboardingAnimationView.cs` como preview procedural con `Painter2D`.
+- Se conecto el nuevo stage a `OnboardingController.cs`, `MainLayout.uxml` y `Theme.uss`.
+- Se iteraron las `15` cards con foco en continuidad del puntero, orden `move -> click -> response`, sincronizacion de menus, sliders y doble clicks, y diferencia clara entre `PC` y `Mobile`.
+
+#### Pulido visual
+
+- Rework importante de `Navigate`, `Part Info`, `Inspect`, `Analyze`, `Cut`, `Explode`, `Filter`, `Studio` y `Environment`.
+- Ajuste de loops para que expliquen el resultado y no solo el contacto.
+- Integracion del icono de reset y de labels/overlays en cards que lo requerian.
+
+#### Documentacion / Portafolio
+
+- Se identifico y ejecuto la actualizacion necesaria de `BITACORA`, `CHANGELOG`, `README curado`, matriz de claims y planes de onboarding para reflejar el estado real del MVP.
+
+### Resultado
+
+- El onboarding ya no es solo copy + cues: ahora demuestra visualmente los controles reales de la app.
+- La implementacion queda lista para QA visual fina y captura de evidencia.
+
+### Proximo paso
+
+1. Validacion visual en Unity/WebGL.
+2. Capturas y clips finales para docs y portafolio.
+3. Ultima ronda de microajustes si alguna card sigue ambigua.
+
 ## Sesión 2026-04-10 (Blender ICP Instancer y Optimización de CAD)
 
 ### Objetivos

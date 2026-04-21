@@ -1,5 +1,21 @@
 # Plan robusto de animaciones del onboarding
 
+## Estado de implementacion (Abril 21, 2026)
+
+Este plan ya no describe una idea abstracta unicamente. A la fecha existe un MVP implementado en:
+
+- `Assets/Scripts/UI/Panels/OnboardingAnimationView.cs`
+- `Assets/Scripts/UI/Panels/OnboardingController.cs`
+- `Assets/Scripts/UI/Layouts/MainLayout.uxml`
+- `Assets/UI/Styles/Theme.uss`
+
+Estado actual del MVP:
+
+- las `15` cards ya tienen preview procedural runtime;
+- `PC` y `Mobile` usan actores distintos (`cursor` vs `ripple/touch`);
+- el sistema evita video, GIF, spritesheets y dependencias pesadas;
+- el trabajo pendiente ya es de QA visual fino, captura de evidencias y ultimos ajustes de percepcion.
+
 ## Objetivo
 
 Convertir el onboarding actual en una secuencia de microanimaciones claras, ligeras y repetibles que expliquen cada accion principal de la app sin usar video, GIF, spritesheets ni media prerenderizada pesada.
