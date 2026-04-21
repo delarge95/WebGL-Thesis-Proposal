@@ -126,7 +126,7 @@ namespace WebGL.UI.ProceduralIcons
             float tangentDir = angleRad + Mathf.PI / 2f;
 
             // Size of the arrowhead
-            float headSize = 4f * currentRadiusSquash;
+            float headSize = 3.2f * currentRadiusSquash;
 
             // Left prong
             float leftProngX = x + Mathf.Cos(tangentDir + 2.5f) * headSize;

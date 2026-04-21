@@ -21,7 +21,10 @@ namespace WebGL.UI.Panels
         private readonly Label _stepEmojiIcon;
         private readonly Label _stepTitle;
         private readonly Label _stepDescription;
+        private readonly VisualElement _stepFooter;
+        private readonly Label _stepFooterText;
         private readonly VisualElement _stepIcon;
+        private readonly VisualElement _visualStage;
         private readonly Button _platformSwitchBtn;
         private readonly VisualElement _platformThumb;
         private readonly VisualElement _platformMobileIcon;
@@ -30,9 +33,8 @@ namespace WebGL.UI.Panels
         private readonly Button _nextBtn;
         private readonly Button _skipBtn;
         private readonly VisualElement _dotsContainer;
+        private readonly OnboardingAnimationView _animationView;
         private readonly Dictionary<StepVisualGlyph, VisualElement> _visualGlyphs = new Dictionary<StepVisualGlyph, VisualElement>();
-        private IVisualElementScheduledItem _animatedCueLoop;
-        private bool _animatedCueFlip;
         private readonly bool _isTouchDevice;
         private bool _isTouchMode;
 
@@ -62,6 +64,7 @@ namespace WebGL.UI.Panels
             public string[] cueSequence;
             public string title;
             public string description;
+            public string footerText;
             public StepVisualMode visualMode;
             public StepVisualGlyph visualGlyph;
         }
@@ -75,7 +78,8 @@ namespace WebGL.UI.Panels
                 cuePrimary = "ORBIT",
                 cueSequence = new[] { "ORBIT", "ZOOM", "PAN" },
                 title = "NAVIGATE",
-                description = "<b>{ORBIT}</b> to orbit the drone.\n<b>{ZOOM}</b> to control distance.\n<b>{PAN}</b> to reframe the model.\n<b>⟳</b> restores the default camera framing.",
+                description = "<b>{ORBIT}</b> to orbit the drone.\n<b>{ZOOM}</b> to control distance.\n<b>{PAN}</b> to reframe the model.",
+                footerText = "restores the default camera framing.",
                 visualMode = StepVisualMode.Animated,
                 visualGlyph = StepVisualGlyph.None
             },
@@ -139,7 +143,7 @@ namespace WebGL.UI.Panels
                 icon = "⏻",
                 caption = "INSPECT ACTION",
                 cuePrimary = "POWER",
-                cueSequence = new[] { "POWER ON", "THERMAL RUN" },
+                cueSequence = new[] { "POWER ON", "INCREASE LOAD" },
                 title = "POWER",
                 description = "<b>POWER</b> toggles the drone between <b>ON/OFF</b>.\nThe <b>POWER SLIDER</b> transitions operating states between <b>IDLE</b> and <b>FLYING</b>.\nIn <b>THERMAL</b>, powering on starts dynamic temperature simulation.",
                 visualMode = StepVisualMode.Animated,
@@ -254,7 +258,10 @@ namespace WebGL.UI.Panels
             _stepEmojiIcon = _overlay.Q<Label>("OnboardIconLabel");
             _stepTitle = _overlay.Q<Label>("OnboardStepTitle");
             _stepDescription = _overlay.Q<Label>("OnboardStepDesc");
+            _stepFooter = _overlay.Q<VisualElement>("OnboardStepFooter");
+            _stepFooterText = _overlay.Q<Label>("OnboardStepFooterText");
             _stepIcon = _overlay.Q<VisualElement>("OnboardStepIcon");
+            _visualStage = _overlay.Q<VisualElement>("OnboardVisualStage");
             _platformSwitchBtn = _overlay.Q<Button>("OnboardPlatformSwitch");
             _platformThumb = _overlay.Q<VisualElement>("OnboardPlatformThumb");
             _platformMobileIcon = _overlay.Q<VisualElement>("OnboardPlatformMobileIcon");
@@ -274,13 +281,23 @@ namespace WebGL.UI.Panels
             _visualGlyphs[StepVisualGlyph.Thermal] = _overlay.Q<VisualElement>("OnboardVisualThermal");
             _visualGlyphs[StepVisualGlyph.Studio] = _overlay.Q<VisualElement>("OnboardVisualStudio");
 
+            if (_visualStage != null)
+            {
+                _animationView = new OnboardingAnimationView();
+                _animationView.AddToClassList("onboard-demo-view");
+                _visualStage.Add(_animationView);
+                _animationView.OnPhaseChanged += HandleAnimationPhaseChanged;
+                _cleanupActions.Add(() => _animationView.OnPhaseChanged -= HandleAnimationPhaseChanged);
+            }
+
             BindButtons();
             BuildDots();
         }
 
         public void Dispose()
         {
-            StopAnimatedCue();
+            _animationView?.SetPlaying(false);
+            ResetAnimatedCueState();
             OnDismissed = null;
             foreach (var a in _cleanupActions) a?.Invoke();
             _cleanupActions.Clear();
@@ -304,15 +321,17 @@ namespace WebGL.UI.Panels
             _currentStep = 0;
             UpdateStep();
             _overlay.style.display = DisplayStyle.Flex;
-            _overlay.RemoveFromClassList("onboard--hidden");
+            _overlay.RemoveFromClassList("onboard-overlay--hidden");
+            _animationView?.SetPlaying(true);
         }
 
         /// <summary>Dismiss and mark as seen.</summary>
         public void Dismiss()
         {
             if (_overlay == null) return;
-            StopAnimatedCue();
-            _overlay.AddToClassList("onboard--hidden");
+            _animationView?.SetPlaying(false);
+            ResetAnimatedCueState();
+            _overlay.AddToClassList("onboard-overlay--hidden");
             // Let transition play then hide
             _overlay.schedule.Execute(() =>
             {
@@ -391,13 +410,14 @@ namespace WebGL.UI.Panels
         {
             var step = _steps[_currentStep];
 
-            StopAnimatedCue();
+            ResetAnimatedCueState();
             SetActiveGlyph(step);
 
             if (_stepIcon != null)
             {
-                _stepIcon.EnableInClassList("onboard-media--animated", step.visualMode == StepVisualMode.Animated);
-                _stepIcon.EnableInClassList("onboard-media--static", step.visualMode == StepVisualMode.Static);
+                bool animateVisual = HasCueSequence(step);
+                _stepIcon.EnableInClassList("onboard-media--animated", animateVisual);
+                _stepIcon.EnableInClassList("onboard-media--static", !animateVisual);
             }
 
             if (_mediaCaption != null) _mediaCaption.text = step.caption;
@@ -405,13 +425,28 @@ namespace WebGL.UI.Panels
 
             if (_stepTitle != null) _stepTitle.text = step.title;
             if (_stepDescription != null) _stepDescription.text = LocalizeStepDescription(step.description);
+            bool hasFooter = !string.IsNullOrWhiteSpace(step.footerText);
+            if (_stepDescription != null)
+            {
+                _stepDescription.EnableInClassList("onboard-desc--with-footer", hasFooter);
+            }
+
+            if (_stepFooter != null)
+            {
+                _stepFooter.style.display = DisplayStyle.Flex;
+                _stepFooter.style.opacity = hasFooter ? 1f : 0f;
+            }
+
+            if (_stepFooterText != null)
+            {
+                _stepFooterText.text = hasFooter ? step.footerText : string.Empty;
+            }
             if (_stepCounter != null) _stepCounter.text = $"{_currentStep + 1} / {_steps.Count}";
             UpdatePlatformSwitchVisual();
 
-            if (step.visualMode == StepVisualMode.Animated && HasCueSequence(step))
-            {
-                StartAnimatedCue(step);
-            }
+            _animationView?.SetScene(GetSceneForStep(_currentStep), _isTouchMode);
+            _animationView?.SetPlaying(true);
+            HandleAnimationPhaseChanged(0);
 
             // Next button text
             if (_nextBtn != null)
@@ -438,47 +473,31 @@ namespace WebGL.UI.Panels
                 }
             }
 
-            _visualGlyphs.TryGetValue(step.visualGlyph, out var activeGlyph);
-
-            bool hasProceduralGlyph = step.visualGlyph != StepVisualGlyph.None
-                && activeGlyph != null;
-
-            if (hasProceduralGlyph)
-            {
-                activeGlyph.style.display = DisplayStyle.Flex;
-            }
-
             if (_stepEmojiIcon != null)
             {
                 _stepEmojiIcon.text = step.icon;
-                _stepEmojiIcon.style.display = hasProceduralGlyph ? DisplayStyle.None : DisplayStyle.Flex;
+                _stepEmojiIcon.style.display = DisplayStyle.None;
             }
         }
 
-        private void StartAnimatedCue(Step step)
+        private void ResetAnimatedCueState()
         {
-            var cues = GetCueSequence(step);
-            if (_overlay == null || _mediaCue == null || cues.Count == 0)
+            _stepIcon?.RemoveFromClassList("onboard-media--phase-alt");
+        }
+
+        private void HandleAnimationPhaseChanged(int phaseIndex)
+        {
+            if (_currentStep < 0 || _currentStep >= _steps.Count)
             {
                 return;
             }
 
-            int cueIndex = 0;
-            _animatedCueLoop = _overlay.schedule.Execute(() =>
+            var step = _steps[_currentStep];
+            if (_mediaCue != null)
             {
-                cueIndex = (cueIndex + 1) % cues.Count;
-                _animatedCueFlip = cueIndex > 0;
-                _mediaCue.text = cues[cueIndex];
-                _stepIcon?.EnableInClassList("onboard-media--phase-alt", cueIndex % 2 == 1);
-            }).Every(720);
-        }
-
-        private void StopAnimatedCue()
-        {
-            _animatedCueLoop?.Pause();
-            _animatedCueLoop = null;
+                _mediaCue.text = GetStepCue(step, phaseIndex);
+            }
             _stepIcon?.RemoveFromClassList("onboard-media--phase-alt");
-            _animatedCueFlip = false;
         }
 
         private void BuildDots()
@@ -599,6 +618,29 @@ namespace WebGL.UI.Panels
             if (_platformThumb != null)
             {
                 _platformThumb.EnableInClassList("onboard-platform-thumb--touch", _isTouchMode);
+            }
+        }
+
+        private static OnboardingSceneId GetSceneForStep(int stepIndex)
+        {
+            switch (stepIndex)
+            {
+                case 0: return OnboardingSceneId.Navigate;
+                case 1: return OnboardingSceneId.Select;
+                case 2: return OnboardingSceneId.PartInfo;
+                case 3: return OnboardingSceneId.Inspect;
+                case 4: return OnboardingSceneId.Pins;
+                case 5: return OnboardingSceneId.Isolate;
+                case 6: return OnboardingSceneId.Power;
+                case 7: return OnboardingSceneId.Analyze;
+                case 8: return OnboardingSceneId.Cut;
+                case 9: return OnboardingSceneId.Explode;
+                case 10: return OnboardingSceneId.Filter;
+                case 11: return OnboardingSceneId.Studio;
+                case 12: return OnboardingSceneId.RenderMode;
+                case 13: return OnboardingSceneId.Environment;
+                case 14: return OnboardingSceneId.Lighting;
+                default: return OnboardingSceneId.None;
             }
         }
     }

@@ -1,286 +1,579 @@
-# Plan de animaciones del onboarding
+# Plan robusto de animaciones del onboarding
 
 ## Objetivo
 
-Convertir las cards del onboarding en una secuencia visual clara y ligera, sin usar images, videos ni gifs. La prioridad es reutilizar iconos, estados de UI Toolkit y el modelo 3D existente para comunicar la interaccion con el menor costo de memoria posible.
+Convertir el onboarding actual en una secuencia de microanimaciones claras, ligeras y repetibles que expliquen cada accion principal de la app sin usar video, GIF, spritesheets ni media prerenderizada pesada.
 
-## Principios de diseno
+La meta no es "decorar" las cards. La meta es que cada card demuestre una accion real de la app con una puesta en escena corta, entendible y consistente entre desktop y mobile.
 
-- No guardar media pesada por card.
-- Reusar los iconos procedurales y los assets ya presentes en UI.
-- Animar solo cambios de estado: opacidad, escala, posicion, highlight, estado activo y foco.
-- Si una escena necesita contexto 3D, usar el mismo modelo con una camara o recorte distinto, no una captura prerender fija.
-- Mantener cada secuencia corta, repetible y legible en 2 a 4 segundos.
+## Decision oficial
 
-## Estrategia tecnica
+Se adopta de forma oficial la **Opcion A**:
 
-### Capa 1: cards de onboarding como storyboard
+- `PC`: cursor simple de onboarding + anillo de click + reaccion visible del control.
+- `Mobile`: ripple de tap + reaccion visible del control.
 
-Cada card debe tener 3 piezas:
+Quedan fuera de v1:
 
-1. Titulo breve.
-2. Copy condensado.
-3. Secuencia visual ligera.
+- GIFs
+- videos
+- capturas prerenderizadas por card
+- spritesheets
+- dependencia a `SVG` o `com.unity.vectorgraphics`
+- manos ilustradas o gestos fotorealistas
 
-La secuencia visual se compone de estados. No se renderiza un video; se alternan clases y textos de apoyo para simular la animacion.
+Si mas adelante se desea una variante con assets gestuales, se tratara como un spike separado y no como parte de esta primera implementacion.
 
-### Capa 2: componentes reutilizables
+## Estado actual del proyecto
 
-Crear un sistema de "preview slot" dentro del onboarding que soporte:
+Este plan queda aterrizado sobre la implementacion real ya existente:
 
-- Icono principal.
-- Piezas secundarias o marcadores.
-- Resaltado por color.
-- Thumb o indicador animado.
-- Texto de fase corta, si la card lo necesita.
+- `Assets/Scripts/UI/Panels/OnboardingController.cs`
+- `Assets/Scripts/UI/Layouts/MainLayout.uxml`
+- `Assets/UI/Styles/Theme.uss`
+- `Assets/Scripts/Core/Managers/InputManager.cs`
+- `Assets/Scripts/Core/Managers/OrbitCameraController.cs`
+- `Assets/Scripts/Core/Managers/SelectionManager.cs`
+- `Assets/Scripts/Core/Managers/CursorManager.cs`
+- `Assets/Scripts/UI/ProceduralIcons/*`
 
-### Capa 3: secuencias por pasos
+### Lo que ya existe hoy
 
-Cada card puede tener una secuencia de 2 a 3 fases. El controlador ya esta preparado para rotar cues; la siguiente etapa es vincular esa rotacion a cambios visuales concretos.
+- Hay un `OnboardingController` con 15 pasos.
+- Ya existe un switch `PC/mobile` dentro del overlay.
+- Ya hay `cueSequence` por step y un cambio de cue temporizado.
+- El onboarding ya puede mostrar glyphs procedurales reutilizables.
+- El proyecto ya distingue input de mouse y touch para la camara.
+- Existe un sistema de cursor global en runtime para la app.
 
-## Propuesta por card
+### Lo que falta hoy
 
-### 1. Navigate
+- Las cards aun no tienen una coreografia visual suficientemente descriptiva.
+- El cambio actual es sobre todo de texto, cue y algun highlight general.
+- Los iconos procedurales estan pensados para `hover/press`, pero el onboarding necesita demos guiadas y autonomas.
+- La paridad real de `double tap` para seleccion debe validarse antes de asumirla como feature cerrada en mobile.
 
-Visual:
+### Observaciones tecnicas que deben quedar registradas
 
-- Fase 1: orbit con icono de rotacion.
-- Fase 2: zoom con icono de pinch o rueda.
-- Fase 3: pan con icono de desplazamiento lateral.
-- El reset view debe aparecer solo como icono, sin texto explicito.
+- El onboarding actual necesita evolucionar desde `cueSequence` hacia fases visuales reales por step.
+- La clase de ocultacion del overlay debe normalizarse:
+  - `Theme.uss` define `onboard-overlay--hidden`
+  - `OnboardingController.cs` usa `onboard--hidden`
+- Esta correccion debe hacerse antes o durante la futura implementacion visual real.
 
-Implementacion:
+## Principios rectores
 
-- Usar un icono central y tres microestados de movimiento.
-- Animar el icono con rotacion suave, escala y desplazamiento horizontal/vertical.
-- El texto cambia por fases: ORBIT, ZOOM, PAN.
+- Explicar una accion por card, no varias ideas a la vez.
+- La respuesta del sistema debe ser mas visible que el actor de interaccion.
+- El loop debe ser corto, limpio y comprensible en una sola mirada.
+- La animacion debe apoyar el copy, no competir con el.
+- Todo debe ser ligero en memoria y razonable para WebGL.
+- Si una accion puede explicarse con UI, no se debe introducir 3D adicional sin necesidad.
 
-### 2. Selection / levels
+## Restricciones duras de rendimiento
 
-Visual:
+- No animar layout si puede resolverse con `translate`, `scale`, `opacity` o `color`.
+- No mover mas de `3` o `4` elementos a la vez dentro de una card.
+- No introducir texturas grandes ni librerias nuevas en v1.
+- Reutilizar al maximo `VisualElement`, glyphs procedurales y estilos ya presentes.
+- No usar simulaciones complejas para thermal, power o transiciones de escena.
+- Mantener cada loop entre `1.8 s` y `2.6 s`.
 
-- Seleccion de una pieza madre.
-- Segundo click sobre una subpieza para bajar de nivel.
-- Click o tap en el fondo para volver un nivel atras.
+## Gramatica visual comun
 
-Implementacion:
+Todas las cards deben componerse con la misma estructura temporal.
 
-- Resaltar la pieza activa con outline o glow.
-- Reducir la opacidad de piezas no activas.
-- En el segundo estado, mostrar una pieza interna como si emergiera del conjunto.
+### Estructura de fase
 
-### 3. Part Info
+1. `Anticipation`
+   - Duracion: `120-180 ms`
+   - El actor se acerca, el target entra en foco o aparece un pre-highlight.
 
-Visual:
+2. `Press / Contact`
+   - Duracion: `90-140 ms`
+   - Hay contacto explicito: click ring, ripple, punto de contacto o inicio de drag.
 
-- Una pieza se selecciona.
-- Aparece la pestaña Part Info.
-- Se abre el panel con los datos correspondientes.
+3. `Response`
+   - Duracion: `220-420 ms`
+   - El sistema responde: apertura, glow, select, slide-in, fade, isolate, cambio de estado.
 
-Implementacion:
+4. `Settle / Hold`
+   - Duracion: el resto del loop
+   - La escena se estabiliza y deja al usuario leer el resultado.
 
-- Usar un tab lateral animado con slide-in.
-- Mostrar el panel en dos pasos: peeking y open.
-- La descripcion debe dejar claro que funciona para mother piece, subpiece y hotspot group.
+### Reglas visuales
 
-### 4. Inspect
+- El actor nunca debe tapar la respuesta principal.
+- Los pulsos deben ser limpios y de alto contraste.
+- El color acento del onboarding debe mantenerse coherente con el color actual del overlay.
+- El `hold` final debe durar lo suficiente para entender el resultado, no solo el contacto.
 
-Visual:
+## Lenguaje visual por plataforma
 
-- El menu principal se selecciona.
-- Se despliegan sus tres submenus: Pins, Isolate, Power.
+## PC
 
-Implementacion:
+### Actor
 
-- Hacer una animacion de apertura radial o en abanico, usando los iconos existentes.
-- El estado activo del menu debe persistir mientras el submenu esta abierto.
+- Cursor simple de onboarding.
+- No debe ser realista ni depender del cursor del sistema operativo.
+- Debe vivir dentro del `preview stage` de la card.
 
-### 5. Pins
+### Contacto
 
-Visual:
+- Anillo de click o pulso radial al contacto.
+- El anillo nace en el punto de impacto.
+- El control o target se deprime visualmente `2-4 px` equivalentes.
 
-- Los pins se encienden.
-- Luego se resalta un hotspot group en amarillo.
+### Reglas
 
-Implementacion:
+- `Hover` solo aparece cuando agrega contexto real.
+- No basar la explicacion en hover salvo donde la UX real lo necesite.
+- El cursor debe recorrer distancias cortas y legibles.
 
-- Encender el icono de pin.
-- Poner un pulso amarillo sobre un cluster de piezas.
-- Mantener el cluster con un brillo suave, no un efecto fuerte.
+## Mobile
 
-### 6. Isolate
+### Actor
 
-Visual:
+- Punto de contacto simple, abstracto y funcional.
+- No usar mano ilustrada en v1.
 
-- El boton Isolate aísla parent piece, subpiece o hotspot group segun la seleccion activa.
-- Volver a pulsar Isolate devuelve un nivel de aislamiento.
-- Doble click o tap funciona como alternativa al boton y abre el contexto de informacion de la pieza.
+### Contacto
 
-Implementacion:
+- `Tap`: ripple circular limpio.
+- `Double tap`: dos pulsos consecutivos con separacion de `140-180 ms`.
+- `Drag`: punto de contacto con estela corta o guia de trayectoria.
+- `Pinch`: dos puntos de contacto con guias de acercamiento o separacion.
 
-- Animar el resto de la escena con fade out.
-- La pieza activa debe quedar centrada y con mayor contraste.
-- El retorno al nivel anterior debe verse como restauracion del grupo previo.
+### Reglas
 
-### 7. Power
+- El gesto debe ser mas simbolico que literal.
+- La geometria del gesto debe ser minima para no saturar la stage.
+- El gesto nunca debe ocultar el estado final que se quiere ensenar.
 
-Visual:
+## Componentes reutilizables para la futura implementacion
 
-- El drone cambia a on.
-- Se indica el modo thermal.
-- La simulacion de temperatura empieza a evolucionar.
+La futura implementacion debe desacoplar datos de onboarding, fases visuales y presentacion.
 
-Implementacion:
+### Tipos propuestos
 
-- Mostrar estados OFF, IDLE y FLYING.
-- Cuando el power esta on, la capa thermal recibe un pulso o gradiente animado.
-- No usar una animacion real de calor pesada; basta con un cambio de color procedural y un leve ruido.
+```csharp
+public enum PlatformVariant
+{
+    Pc,
+    Mobile
+}
 
-### 8. Analyze
+public enum InteractionActorType
+{
+    CursorClick,
+    CursorDrag,
+    CursorWheel,
+    TapRipple,
+    DoubleTapRipple,
+    TouchDrag,
+    TouchPinch,
+    None
+}
 
-Visual:
-
-- Se selecciona el menu Analyze.
-- Se abren Cut, Explode y Filter.
-
-Implementacion:
-
-- Repetir el patron de apertura usado en Inspect, pero con iconos analiticos.
-- Mantener la semantica de herramientas de estudio interno.
-
-### 9. Cut
-
-Visual:
-
-- Primero aparece un plano.
-- Luego dos planos.
-- Finalmente un plano inclinado.
-
-Implementacion:
-
-- Construir la secuencia con planos simples y cambios de angulo.
-- Mostrar los botones de configuracion mientras el tercer estado aparece.
-- Usar lineas y separaciones limpias, no una escena compleja.
-
-### 10. Explode
-
-Visual:
-
-- La vista explota desde estado normal a separada.
-
-Implementacion:
-
-- Separar los grupos con una interpolacion suave.
-- El movimiento debe ser radial y legible.
-- No llevar las piezas demasiado lejos para que la jerarquia siga siendo entendible.
-
-### 11. Filter
-
-Visual:
-
-- Los filtros se desactivan.
-- Luego se aisla una categoria concreta.
-
-Implementacion:
-
-- Mostrar filtros como chips o botones con estado activo/inactivo.
-- Destacar una categoria con glow o borde.
-
-### 12. Studio
-
-Visual:
-
-- Se selecciona el menu Studio.
-- Se abren Render Mode, Environment y Lighting.
-
-Implementacion:
-
-- Usar el mismo patron visual de apertura que Inspect y Analyze.
-- Acompanarlo con iconos de render, cielo y luz.
-
-### 13. Render Mode
-
-Visual:
-
-- Estado base: Realistic.
-- Se alterna entre X-Ray, Solid y Thermal.
-- Para thermal, el drone debe estar encendido desde Inspect.
-
-Implementacion:
-
-- Cambiar el icono principal y el color de fondo de la preview.
-- La secuencia debe explicar la dependencia con Power sin meter texto largo.
-
-### 14. Environment
-
-Visual:
-
-- STUDIO: dark, light y blueprint.
-- TIME: day, night y sunset.
-- COLOR: presets planos.
-
-Implementacion:
-
-- Reusar el mismo modelo con tres estados de cielo o fondo.
-- Cada grupo debe verse como un ciclo de presets, no como un panel saturado.
-
-### 15. Lighting controls
-
-Visual:
-
-- Rotation.
-- Object intensity.
-- Background tone.
-
-Implementacion:
-
-- Mostrar tres sliders o tres marcadores minimalistas.
-- El movimiento debe ser sutil y sincronizado con un highlight del area afectada.
-
-## Como generar las animaciones sin media pesada
-
-### Opcion recomendada
-
-Usar animaciones UI ligeras y estados de clase:
-
-- Toggle de clases CSS/USS.
-- Transiciones de opacity, scale y translate.
-- Cambios de texto por fase.
-- Glow o outline sobre el mismo modelo.
-
-### Opcion secundaria para previews 3D
-
-Si se necesita mas contexto, montar una preview interna con el mismo modelo:
-
-- La misma malla del drone.
-- Una camara dedicada.
-- Cambios de luz y material por estado.
-- Sin exportar capturas ni prerender estatico.
-
-Esto conserva memoria porque no duplica assets ni usa frames almacenados.
-
-## Estructura de implementacion
-
-1. Definir una lista de cards con su secuencia de fases.
-2. Asociar cada fase a una clase visual y a un cue corto.
-3. Crear un componente reutilizable para previews de iconos y modelos.
-4. Implementar transiciones entre fases con un temporizador corto.
-5. Conectar cada card a su icono procedimental actual.
-6. Validar que el flujo funcione igual en mobile y PC.
-
-## Prioridades de implementacion
-
-1. Switch PC/mobile compacto y estable.
-2. Navegacion, seleccion y Part Info.
-3. Menus Inspect, Analyze y Studio con apertura animada.
-4. Cards de acciones individuales con microanimaciones.
-5. Preview 3D ligera solo donde aporte valor real.
-
-## Criterio de exito
-
-La solucion es correcta si:
-
-- Ninguna card depende de video, gif o imagen prerenderizada.
-- El usuario entiende cada funcion con una sola lectura.
-- Las animaciones ayudan a explicar, pero no distraen.
-- El costo de memoria sigue bajo y el onboarding carga rapido.
+public sealed class OnboardingVisualPhase
+{
+    public string Cue;
+    public InteractionActorType Actor;
+    public int DurationMs;
+    public string TargetId;
+    public string ResponseId;
+}
+
+public sealed class OnboardingStepAnimationSpec
+{
+    public string StepId;
+    public PlatformVariant Platform;
+    public IReadOnlyList<OnboardingVisualPhase> Phases;
+    public int LoopDurationMs;
+}
+```
+
+### Responsabilidades
+
+- `OnboardingController`
+  - Navega steps.
+  - Cambia plataforma.
+  - Dispara el loop correcto.
+
+- `OnboardingAnimationDriver`
+  - Ejecuta fases visuales.
+  - Coordina actores, targets y respuestas.
+  - No depende del comportamiento `hover/press` natural de los glyphs.
+
+- `OnboardingPreviewStage`
+  - Contiene el mini escenario de cada card.
+  - Reutiliza subcomponentes visuales comunes.
+
+### Subcomponentes reutilizables
+
+- `InteractionActorView`
+  - Cursor, ripple, pinch points, drag trail.
+
+- `TargetControlView`
+  - Boton, tab, menu item, slider thumb, part chip, hotspot marker.
+
+- `SystemResponseView`
+  - Glow, outline, fade, panel peek, panel open, submenu open, isolate state.
+
+- `CueLabelView`
+  - Texto corto sincronizado con la fase.
+
+## Regla de consistencia
+
+El onboarding no debe depender solo de glyphs dibujados para comunicar el paso. Cada card debe tener:
+
+- actor de interaccion
+- target reconocible
+- respuesta del sistema
+- cue corto
+
+Si falta una de estas cuatro piezas, la card queda subexplicada.
+
+## Storyboard por card
+
+Cada card debe documentarse asi:
+
+- `Actor`
+- `Target`
+- `Respuesta`
+- `Fases`
+- `Loop`
+- `Notas`
+
+## 1. Navigate
+
+- `Actor PC`: cursor con RMB drag, wheel y MMB drag.
+- `Actor Mobile`: one-finger drag, two-finger pinch y two-finger pan.
+- `Target`: stage de navegacion / modelo simplificado.
+- `Respuesta`: orbit, zoom y pan visibles sobre el modelo o su representacion.
+- `Fases`:
+  - F1 `ORBIT`
+  - F2 `ZOOM`
+  - F3 `PAN`
+- `Loop`: `2.4 s`
+- `Notas`:
+  - El reset view solo aparece como icono o microcue secundario.
+  - No intentar mostrar demasiada precision fisica; la prioridad es claridad conceptual.
+
+## 2. Select / Deselect
+
+- `Actor PC`: cursor click sobre pieza, segundo click sobre subpieza, click fuera.
+- `Actor Mobile`: tap sobre pieza, segundo tap sobre subpieza, tap fuera.
+- `Target`: cluster de piezas jerarquicas.
+- `Respuesta`: outline del parent, luego foco de subpieza, luego retroceso un nivel.
+- `Fases`:
+  - F1 `SELECT PARENT`
+  - F2 `SELECT SUBPIECE`
+  - F3 `BACK ONE LEVEL`
+- `Loop`: `2.5 s`
+- `Notas`:
+  - El cambio jerarquico debe verse en la escena, no solo en el copy.
+  - La pieza activa debe ser evidente por contraste y contexto atenuado.
+
+## 3. Part Info
+
+- `Actor`: click o tap sobre pieza y luego sobre tab/panel.
+- `Target`: pieza seleccionada + tab `PART INFO`.
+- `Respuesta`: seleccion visible, tab destacado, panel en `peek`, luego panel abierto.
+- `Fases`:
+  - F1 `SELECT PART`
+  - F2 `FOCUS PART INFO`
+  - F3 `OPEN PANEL`
+- `Loop`: `2.3 s`
+- `Notas`:
+  - La apertura debe mostrar `peek` antes del `slide-in` completo.
+
+## 4. Inspect
+
+- `Actor`: click o tap sobre el menu `INSPECT`.
+- `Target`: boton de modo principal.
+- `Respuesta`: apertura progresiva de `PINS`, `ISOLATE`, `POWER`.
+- `Fases`:
+  - F1 `PRESS INSPECT`
+  - F2 `OPEN SUBMENU`
+  - F3 `HOLD ACTIVE`
+- `Loop`: `2.0 s`
+- `Notas`:
+  - El menu activo debe permanecer resaltado durante el hold.
+
+## 5. Pins
+
+- `Actor`: click o tap sobre `PINS`.
+- `Target`: control de pins y hotspot group.
+- `Respuesta`: pins visibles, luego hotspot group resaltado.
+- `Fases`:
+  - F1 `PINS ON`
+  - F2 `HOTSPOT GROUP`
+- `Loop`: `2.0 s`
+- `Notas`:
+  - Usar brillo suave, no destello agresivo.
+
+## 6. Isolate
+
+- `Actor`: click o tap sobre `ISOLATE`, y segundo contacto como retorno.
+- `Target`: pieza o grupo seleccionado.
+- `Respuesta`: fade del resto, foco del grupo activo, luego restauracion parcial.
+- `Fases`:
+  - F1 `ISOLATE`
+  - F2 `FOCUSED VIEW`
+  - F3 `BACK ONE LEVEL`
+- `Loop`: `2.4 s`
+- `Notas`:
+  - El retorno debe sentirse como deshacer parcial, no como reset total.
+  - El copy debe anotar que la paridad final de `double tap` para mobile queda como validacion tecnica pendiente.
+
+## 7. Power
+
+- `Actor`: click o tap sobre `POWER`.
+- `Target`: power button + estado del dron.
+- `Respuesta`: OFF -> ON, luego `IDLE/FLYING`, luego thermal run si aplica.
+- `Fases`:
+  - F1 `POWER ON`
+  - F2 `STATE ACTIVE`
+  - F3 `THERMAL RUN`
+- `Loop`: `2.5 s`
+- `Notas`:
+  - No usar animacion pesada de calor.
+  - Resolver con gradiente procedural, pulso o desplazamiento de color.
+
+## 8. Analyze
+
+- `Actor`: click o tap sobre `ANALYZE`.
+- `Target`: boton de modo principal.
+- `Respuesta`: apertura de `CUT`, `EXPLODE`, `FILTER`.
+- `Fases`:
+  - F1 `PRESS ANALYZE`
+  - F2 `OPEN SUBMENU`
+  - F3 `HOLD ACTIVE`
+- `Loop`: `2.0 s`
+
+## 9. Cut
+
+- `Actor`: click o tap sobre controles de eje y angulo.
+- `Target`: plano(s) de corte y controles asociados.
+- `Respuesta`: un plano, luego dos planos, luego plano inclinado.
+- `Fases`:
+  - F1 `ONE PLANE`
+  - F2 `TWO PLANES`
+  - F3 `INCLINED PLANE`
+- `Loop`: `2.6 s`
+- `Notas`:
+  - Mantener geometria limpia, abstracta y facil de leer.
+
+## 10. Explode
+
+- `Actor`: arrastre corto o interaccion sobre slider.
+- `Target`: slider y ensamblaje.
+- `Respuesta`: separacion progresiva del ensamblaje y hold del estado expandido.
+- `Fases`:
+  - F1 `EXPLODE OFF`
+  - F2 `SLIDER MOVE`
+  - F3 `EXPLODE ON`
+- `Loop`: `2.2 s`
+- `Notas`:
+  - El desplazamiento debe conservar legibilidad jerarquica.
+
+## 11. Filter
+
+- `Actor`: click o tap sobre chip o boton de categoria.
+- `Target`: controles de filtro + categoria elegida.
+- `Respuesta`: filtros apagados, luego categoria activa, luego aislamiento visual.
+- `Fases`:
+  - F1 `FILTERS OFF`
+  - F2 `SELECT FILTER`
+  - F3 `ISOLATE CATEGORY`
+- `Loop`: `2.3 s`
+- `Notas`:
+  - La categoria activa debe quedar inequivocamente destacada.
+
+## 12. Studio
+
+- `Actor`: click o tap sobre `STUDIO`.
+- `Target`: boton de modo principal.
+- `Respuesta`: apertura de `RENDER MODE`, `ENVIRONMENT`, `LIGHTING`.
+- `Fases`:
+  - F1 `PRESS STUDIO`
+  - F2 `OPEN SUBMENU`
+  - F3 `HOLD ACTIVE`
+- `Loop`: `2.0 s`
+
+## 13. Render Mode
+
+- `Actor`: click o tap sobre selector de modo.
+- `Target`: chips o botones de render.
+- `Respuesta`: `REALISTIC`, luego `X-RAY/SOLID`, luego `THERMAL`.
+- `Fases`:
+  - F1 `REALISTIC`
+  - F2 `X-RAY`
+  - F3 `THERMAL`
+- `Loop`: `2.4 s`
+- `Notas`:
+  - La dependencia con `POWER` debe mostrarse con una senal breve, no con texto largo.
+
+## 14. Environment
+
+- `Actor`: click o tap sobre presets.
+- `Target`: bloques de `STUDIO`, `TIME` y `COLOR`.
+- `Respuesta`: cambio de ambiente en tres grupos cortos y ordenados.
+- `Fases`:
+  - F1 `STUDIO LOOK`
+  - F2 `DAY / NIGHT / SUNSET`
+  - F3 `COLOR PRESETS`
+- `Loop`: `2.6 s`
+- `Notas`:
+  - No saturar la preview con demasiadas variaciones a la vez.
+
+## 15. Lighting
+
+- `Actor`: drag corto sobre sliders.
+- `Target`: `LIGHT ROTATION`, `OBJECT INTENSITY`, `BACKGROUND TONE`.
+- `Respuesta`: cambio sutil pero legible sobre el area afectada.
+- `Fases`:
+  - F1 `ROTATION`
+  - F2 `INTENSITY`
+  - F3 `BACKGROUND`
+- `Loop`: `2.4 s`
+- `Notas`:
+  - El usuario debe poder asociar cada slider con su efecto.
+
+## Firma visual por familia
+
+Para evitar que todas las cards se sientan iguales, cada familia debe compartir una firma:
+
+- `Navigation`
+  - mas desplazamiento del actor
+  - mas trail o recorrido
+
+- `Selection / Info`
+  - mas outline, focus y jerarquia
+
+- `Mode menus`
+  - mas apertura y persistencia de estado activo
+
+- `Action tools`
+  - mas cambio de estado visible del sistema
+
+- `Studio`
+  - mas transiciones de ambiente, material y luz
+
+## Reglas de reutilizacion
+
+- Reutilizar el `preview stage` ya existente.
+- Reutilizar glyphs procedurales cuando ayuden, pero no depender solo de ellos.
+- Los actores de interaccion deben ser componentes genericos compartidos entre cards.
+- Los targets deben ser construidos como bloques visuales simples, no mini pantallas distintas para cada paso.
+
+## Regla sobre SVG y gestos ilustrados
+
+En v1 no se incorporan `SVG` ni paquetes de vector graphics.
+
+Motivos:
+
+- se evita agregar dependencia nueva al proyecto
+- se reduce el riesgo de compatibilidad o tuning extra para WebGL
+- la representacion abstracta actual ya es suficiente para explicar la interaccion
+
+Si en una fase posterior se desea explorar assets gestuales:
+
+- hacerlo en un spike separado
+- medir build, memoria y claridad visual
+- no bloquear la implementacion principal del onboarding por ese experimento
+
+## Fases de implementacion sugeridas
+
+### Fase 1. Infraestructura
+
+- Separar step data de demo visual.
+- Crear `OnboardingAnimationDriver`.
+- Normalizar la clase de ocultacion del overlay.
+
+### Fase 2. Lenguaje de interaccion
+
+- Implementar actor de cursor para PC.
+- Implementar ripple, drag point y pinch points para mobile.
+- Implementar respuestas base: press, glow, open, fade, outline.
+
+### Fase 3. Cards nucleares
+
+- `Navigate`
+- `Select / Deselect`
+- `Part Info`
+- `Inspect`
+
+Estas cards deben quedar perfectas antes de escalar al resto.
+
+### Fase 4. Menus y herramientas
+
+- `Pins`
+- `Isolate`
+- `Power`
+- `Analyze`
+- `Cut`
+- `Explode`
+- `Filter`
+- `Studio`
+- `Render Mode`
+- `Environment`
+- `Lighting`
+
+## Criterios de aceptacion
+
+La solucion se considera correcta si cumple lo siguiente:
+
+- Cada card se entiende sin releer el texto.
+- El actor de interaccion es claro pero secundario frente a la respuesta del sistema.
+- Desktop y mobile comunican la misma accion con convenciones visuales distintas pero equivalentes.
+- No depende de video, GIF ni media pesada.
+- No agrega dependencias nuevas al proyecto para v1.
+- Mantiene un costo de memoria bajo.
+- El loop de cada card se percibe limpio y no confuso.
+
+## Validacion y pruebas
+
+### Desktop
+
+- `click`, `double click`, `hover` y apertura de menus son distinguibles.
+- El cursor no distrae ni se siente caricaturesco.
+- El target y la respuesta quedan claros en menos de 3 segundos.
+
+### Mobile
+
+- `tap`, `double tap`, `drag` y `pinch` se diferencian entre si.
+- La demo no depende de una mano ilustrada.
+- Los puntos de contacto y ripple son suficientes para explicar la accion.
+
+### Consistencia con la app real
+
+- El onboarding no debe prometer una interaccion que aun no este validada en el runtime real.
+- En particular, la equivalencia de `double tap` para seleccion y aislamiento debe verificarse antes de cerrarla como comportamiento final de mobile.
+
+### Rendimiento
+
+- Sin caidas perceptibles por el overlay.
+- Sin incremento de peso por media nueva.
+- Sin introducir complejidad innecesaria en WebGL.
+
+## Conclusiones
+
+La direccion correcta para este onboarding no es usar mas assets. La direccion correcta es usar mejor los elementos ya disponibles y estructurarlos como microdemostraciones.
+
+La Opcion A ofrece el mejor equilibrio entre:
+
+- claridad
+- estetica
+- costo tecnico
+- rendimiento
+- consistencia con el lenguaje actual de UI Toolkit
+
+La implementacion futura debe apoyarse en un lenguaje visual abstracto y preciso:
+
+- cursor simple para PC
+- ripple y puntos de contacto para mobile
+- respuesta del sistema como protagonista
+
+Con esto el onboarding puede verse mas claro, mas elegante y mas didactico sin subir el peso del proyecto.
