@@ -13,7 +13,9 @@ A custom Editor Window that acts as the gateway for raw imports. It strips unnec
 *[Asset: Capture of the ProjectSetupWizard interface]*
 
 ### TOOL 2: IMPORTED DRONE COVERAGE AUDIT
-Game development is chaotic. To ensure the final WebGL build wouldn't break on missing references, I built a specialized Inspector Audit tool. Before hitting 'Play', this script scans the scene and reports exactly which structural constraints or metadata links are broken, acting as an automated QA pipeline directly inside Unity.
+Game development is chaotic. To ensure the final WebGL build wouldn't break on missing references, I built a specialized Inspector Audit tool. Before hitting 'Play', this script scans the scene and reports exactly which structural constraints or metadata links are broken against a canonical CSV.
+
+**QA Automation Potential:** This goes beyond a manual button press. The architecture allows this audit to be executed headless. It serves as a precursor to CI/CD pipeline validation pre-commit hooks, ensuring artists never merge a broken asset hierarchy into the main branch, ultimately saving hours of manual QA debugging per iteration.
 
 *[Asset: Inspector view showing green checks / red errors of the audit]*
 

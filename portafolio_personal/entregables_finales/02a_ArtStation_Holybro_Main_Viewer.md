@@ -17,14 +17,14 @@ To guide the user without loading heavy video files into the WebGL build, I deve
 ### CONTEXT-AWARE CAMERA MATH
 A major UX flaw in 3D viewers is camera behavior scale. Scrolling the mouse wheel on a drone should behave differently than scrolling on a 3mm screw. I wrote a custom `OrbitCameraController` that recalculates its focus bounds, pan curves, and orbit sensitivity in real-time based on the exact geometric volume of the currently isolated part. If you isolate a tiny fastener, the camera dynamically creates a micro-interaction volume explicitly for it.
 
-### PERFORMANCE & OPTIMIZATION (THE FASTENER SUBSYSTEM)
-Targeting WebGL (and mobile fallback) meant strict constraints. 
-Small details like screws and fasteners usually dominate draw calls and kill WebGL performance. I developed a system where fasteners are procedural instances driven by metadata. They pull dense geometry *only* on-demand when user-selected, saving gigabytes of processing while resting.
+### PERFORMANCE & WEBGL CONSTRAINTS (THE FASTENER SUBSYSTEM)
+Targeting WebGL (and mobile fallback) meant strict constraints. The Unity Manual specifically states that CPU-side dispatch of WebGL operations is a major bottleneck on main threads. 
+Small details like screws and fasteners usually dominate draw calls and kill WebGL stability. I developed a system where fasteners are procedural instances driven by metadata. They pull dense geometry *only* on-demand when user-selected, saving gigabytes of processing while resting. 
 
-### RUNTIME REPAIR
-Importing 257 renderers directly from CAD is a mess. I created an `ImportedDroneRuntimeBinder` (C#) that repairs the imported hierarchy in runtime—rebuilding caches for selection, explode operations, and visual clipping on the fly.
+By aggressively implementing dynamic batching mitigations and metadata instances, I reduced overall draw calls from [X,XXX] down to [YYY], hitting a solid [60 FPS] average across standard enterprise laptops integrated graphics.
+Furthermore, testing against Safari and strict browser heap limits led me to develop rendering downgrades and custom handling to avoid total Context Loss memory leaks.
 
 ---
-**SOFTWARE:** Unity (WebGL, URP, UI Toolkit), C#, Blender.
+**SOFTWARE:** Unity 6 (WebGL, URP, UI Toolkit), C#, Blender.
 **TAGS:** #TechnicalArt #Unity3D #WebGL #Optimization #Interactive
-*(Nota: Añade un link al final invitando a ver los posts de Shaders y Herramientas que estarán en tu mismo perfil).*
+*(📌 Technical Deep Dive: Find the pseudo-code for my Adaptive Camera Math & WebGL mitigations at [Link to Tech Cheat Sheet repo/gist])*

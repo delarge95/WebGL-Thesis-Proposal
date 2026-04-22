@@ -14,12 +14,13 @@
 **Objetivo:** Impactar rápido y demostrar entendimiento profundo de la interacción técnica.
 
 **Copy (Texto del Post):**
-¿Cómo transformas un archivo CAD pesado e inescudriñable de un dron real (Holybro X500 V2) en un visor WebGL que corra en tu navegador sin que el equipo explote? 🔥
+¿Cómo transformas un archivo CAD pesado e inescudriñable de un dron real (Holybro X500 V2) en un visor WebGL que corra estable a [60] FPS en el navegador sin ahogar el Device Heap Limit (~2GB)? 🔥
 
-Más que importar a Unity, construí una herramienta de **Visualización Técnica e Inspección:**
-✅ Repair Runtime: Scripts en C# que unifican 257 renderers en una taxonomía navegable por código.
-✅ Tooling: Herramientas propias como un "ProjectSetupWizard" para no morir configurando cada mes.
-✅ Shaders Técnicos (HLSL): X-Ray, Solid Form y un Sistema Térmico Híbrido que traduce el estado operativo en gradientes visuales legibles.
+A nivel de producción real, el Overhead del CPU en WebGL no perdona, mucho menos cuando tienes cientos de piezas de tornillería y *Context Loss* latente en Safari iOS. Más que importar a Unity, construí una herramienta de **Visualización Técnica e Inspección:**
+
+✅ Draw-calls mitigadas agresivamente: Bajando de [X,XXX] a [YYY] calls construyendo un JSON-Metadata Instancing System para los fasteners.
+✅ Repair Runtime: Scripts en C# que unifican mallas huérfanas en jerarquías navegables al vuelo.
+✅ Zero-Memory UI: Adiós a los pesados videos de onboarding; todo el sistema se anima desde VRAM cero con `Painter2D`.
 
 Todo esto optimizado para cuidar las draw calls en WebGL. Porque el buen trabajo de Technical Artist no solo debe verse bien, debe **correr bien**.
 
