@@ -39,7 +39,7 @@ resumen: "Catalogo semantico inicial de scripts Unity por categoria funcional"
 - [ThermalSurfaceProfile](desarrollo/unity_project/Assets/Scripts/Core/Thermal/ThermalSurfaceProfile.cs)
 - [ThermalContactGraphAsset](desarrollo/unity_project/Assets/Scripts/Core/Thermal/ThermalContactGraphAsset.cs)
 
-## UI/Panels (11)
+## UI/Panels (12)
 
 - [UIModeController](desarrollo/unity_project/Assets/Scripts/UI/Panels/UIModeController.cs)
 - [UIAnalyzePanel](desarrollo/unity_project/Assets/Scripts/UI/Panels/UIAnalyzePanel.cs)
@@ -47,6 +47,7 @@ resumen: "Catalogo semantico inicial de scripts Unity por categoria funcional"
 - [UIEnvironmentPanel](desarrollo/unity_project/Assets/Scripts/UI/Panels/UIEnvironmentPanel.cs)
 - [UIDetailsSheet](desarrollo/unity_project/Assets/Scripts/UI/Panels/UIDetailsSheet.cs)
 - [OnboardingController](desarrollo/unity_project/Assets/Scripts/UI/Panels/OnboardingController.cs)
+- [OnboardingAnimationView](desarrollo/unity_project/Assets/Scripts/UI/Panels/OnboardingAnimationView.cs)
 - [InspectModeHandler](desarrollo/unity_project/Assets/Scripts/UI/Panels/InspectModeHandler.cs)
 - [AnalyzeModeHandler](desarrollo/unity_project/Assets/Scripts/UI/Panels/AnalyzeModeHandler.cs)
 
@@ -86,6 +87,7 @@ resumen: "Catalogo semantico inicial de scripts Unity por categoria funcional"
 - [[SCR-EVT-001_EventBus]]
 - [[SCR-UI-001_UIModeController]]
 - [[SCR-ONB-001_OnboardingController]]
+- [[SCR-ONB-002_OnboardingAnimationView]]
 - [[SCR-SAVE-001_SaveSystem]]
 - [[SCR-PERF-001_WebGLProfiler]]
 

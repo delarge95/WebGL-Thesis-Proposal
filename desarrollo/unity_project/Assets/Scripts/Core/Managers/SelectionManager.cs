@@ -531,6 +531,23 @@ namespace WebGL.Core.Managers
                 return string.Empty;
             }
 
+            FastenerRuntimeMarker marker = ResolveFastenerMarker(selection);
+            if (marker != null && !string.IsNullOrWhiteSpace(marker.FastenerInstanceId))
+            {
+                FastenerMetadata metadata = FastenerRegistry.Instance != null
+                    ? FastenerRegistry.Instance.ResolveMetadata(selection)
+                    : null;
+
+                if (metadata != null)
+                {
+                    string fastenerLabel = metadata.GetDisplayName();
+                    if (!string.IsNullOrWhiteSpace(fastenerLabel))
+                    {
+                        return fastenerLabel;
+                    }
+                }
+            }
+
             if (partRoot == null || selection == partRoot)
             {
                 return !string.IsNullOrWhiteSpace(canonicalPartName) ? canonicalPartName : selection.name;
@@ -565,12 +582,7 @@ namespace WebGL.Core.Managers
                 return null;
             }
 
-            FastenerRuntimeMarker marker = rawTransform.GetComponent<FastenerRuntimeMarker>();
-            if (marker == null)
-            {
-                marker = rawTransform.GetComponentInParent<FastenerRuntimeMarker>();
-            }
-
+            FastenerRuntimeMarker marker = ResolveFastenerMarker(rawTransform);
             if (marker != null)
             {
                 return marker.transform;
@@ -582,8 +594,12 @@ namespace WebGL.Core.Managers
                 return direct.transform;
             }
 
+            // If the raw transform is a child of a Fastener ExplodablePart (group),
+            // return the rawTransform itself - NOT the group parent.
+            // Returning the group would collapse all siblings into one selection,
+            // defeating instance-level isolation.
             ExplodablePart parent = rawTransform.GetComponentInParent<ExplodablePart>();
-            return IsFastenerPart(parent) ? parent.transform : null;
+            return IsFastenerPart(parent) ? rawTransform : null;
         }
 
         private static bool IsFastenerPart(ExplodablePart part)
@@ -598,11 +614,7 @@ namespace WebGL.Core.Managers
                 return false;
             }
 
-            FastenerRuntimeMarker marker = selection.GetComponent<FastenerRuntimeMarker>();
-            if (marker == null)
-            {
-                marker = selection.GetComponentInParent<FastenerRuntimeMarker>();
-            }
+            FastenerRuntimeMarker marker = ResolveFastenerMarker(selection);
 
             if (marker != null && !string.IsNullOrWhiteSpace(marker.FastenerInstanceId))
             {
@@ -616,6 +628,42 @@ namespace WebGL.Core.Managers
             }
 
             return IsFastenerPart(part);
+        }
+
+        private static FastenerRuntimeMarker ResolveFastenerMarker(Transform target)
+        {
+            if (target == null)
+            {
+                return null;
+            }
+
+            FastenerRuntimeMarker marker = target.GetComponent<FastenerRuntimeMarker>();
+            if (marker != null)
+            {
+                return marker;
+            }
+
+            // Walk parents manually but STOP at the first ExplodablePart boundary.
+            // This prevents capturing a sibling fastener's marker on a shared ancestor
+            // after ImportedDroneRuntimeBinder reparents renderers under mother parts.
+            Transform current = target.parent;
+            while (current != null)
+            {
+                if (current.GetComponent<ExplodablePart>() != null)
+                {
+                    break;
+                }
+
+                marker = current.GetComponent<FastenerRuntimeMarker>();
+                if (marker != null)
+                {
+                    return marker;
+                }
+
+                current = current.parent;
+            }
+
+            return null;
         }
 
         private static Transform ResolveHighlightTarget(Transform selection)

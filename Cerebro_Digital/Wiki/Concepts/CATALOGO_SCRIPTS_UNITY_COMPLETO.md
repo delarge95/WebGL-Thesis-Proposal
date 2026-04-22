@@ -148,10 +148,11 @@ resumen: "Inventario completo de scripts Unity, shaders y herramientas del proye
 ### Scripts\UI\Generated (1)
 - [UIConstants.cs](desarrollo/unity_project/Assets/Scripts/UI/Generated/UIConstants.cs)
 
-### Scripts\UI\Panels (11)
+### Scripts\UI\Panels (12)
 - [AnalyzeModeHandler.cs](desarrollo/unity_project/Assets/Scripts/UI/Panels/AnalyzeModeHandler.cs)
 - [BaseModeHandler.cs](desarrollo/unity_project/Assets/Scripts/UI/Panels/BaseModeHandler.cs)
 - [InspectModeHandler.cs](desarrollo/unity_project/Assets/Scripts/UI/Panels/InspectModeHandler.cs)
+- [OnboardingAnimationView.cs](desarrollo/unity_project/Assets/Scripts/UI/Panels/OnboardingAnimationView.cs)
 - [OnboardingController.cs](desarrollo/unity_project/Assets/Scripts/UI/Panels/OnboardingController.cs)
 - [StudioModeHandler.cs](desarrollo/unity_project/Assets/Scripts/UI/Panels/StudioModeHandler.cs)
 - [UIAnalyzePanel.cs](desarrollo/unity_project/Assets/Scripts/UI/Panels/UIAnalyzePanel.cs)
@@ -215,6 +216,7 @@ resumen: "Inventario completo de scripts Unity, shaders y herramientas del proye
 - [[SCR-EVT-001_EventBus]]
 - [[SCR-UI-001_UIModeController]]
 - [[SCR-ONB-001_OnboardingController]]
+- [[SCR-ONB-002_OnboardingAnimationView]]
 - [[SCR-SAVE-001_SaveSystem]]
 - [[SCR-PERF-001_WebGLProfiler]]
 

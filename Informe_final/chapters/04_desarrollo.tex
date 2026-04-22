@@ -324,6 +324,20 @@ En términos conceptuales, el sistema evolucionó desde un plan inicial de icono
     {Inserte aquí una lámina comparativa de iconos procedurales, su geometría base y una secuencia corta de microinteracción.}
     {Estado esperado: evidencia del diseño visual codificado con \texttt{Painter2D} y física ligera.}
 
+\subsubsection{Onboarding procedural y ayuda contextual}
+
+Además del sistema de iconos, el proyecto incorporó un subsistema de onboarding de primer uso para explicar controles, menús y microinteracciones sin depender de medios prerenderizados. La necesidad surgió porque la app no se limita a navegación 3D básica: combina selección jerárquica, \textit{bottom sheet}, menús de inspección y análisis, sliders, modos visuales y variaciones entre escritorio y móvil. En una primera lectura, esa densidad de interacción podía elevar la fricción de entrada si el usuario no recibía una guía integrada al propio producto.
+
+La ruta inicialmente considerada consistía en usar GIFs o clips por tarjeta. Sin embargo, esa opción agregaba peso, duplicaba mantenimiento y se desacoplaba con facilidad del estado real de la interfaz. La solución ejecutada fue un renderer procedural en runtime, implementado sobre \texttt{Painter2D} mediante \texttt{OnboardingAnimationView}, sincronizado por \texttt{OnboardingController} con \texttt{copy}, \textit{cues}, cambio de plataforma y estado del overlay. En lugar de reproducir video, cada tarjeta dibuja actor de interacción, objetivo y respuesta del sistema usando el mismo lenguaje visual del resto de la UI.
+
+La versión actual cubre \textbf{15 tarjetas} y dos variantes de actor: \textbf{desktop} con cursor, botones de mouse, rueda y anillos de click; y \textbf{mobile} con \textit{tap}, \textit{ripple}, \textit{drag} y \textit{pinch} abstractos. Esta arquitectura permitió explicar \texttt{Navigate}, \texttt{Select / Deselect}, \texttt{Part Info}, \texttt{Inspect}, \texttt{Analyze}, \texttt{Studio} y sus subacciones sin recurrir a spritesheets, SVG runtime o videos embebidos. En consecuencia, el onboarding debe leerse como una extensión del propio sistema de UI procedural y no como un recurso externo agregado al final del proyecto.
+
+\placeholderfigure
+    {Onboarding procedural de primer uso integrado a la UI real.}
+    {fig:placeholder_onboarding_runtime}
+    {Inserte aquí una lámina con varias cards del onboarding mostrando la explicación de gestos, menús y sliders en desktop y mobile.}
+    {Estado esperado: evidencia del sistema de ayuda contextual implementado en runtime sin video ni GIF.}
+
 \subsection{Arquitectura operativa}
 
 La arquitectura final puede leerse en cuatro capas:
@@ -391,6 +405,8 @@ El flujo principal de uso es:
 \end{center}
 
 \paragraph{Hero.} El Hero funciona como puerta de entrada al prototipo. En la versión saneada para cierre, sus textos se anclan al caso real del Holybro X500~V2 y el acceso al repositorio queda cableado desde el submenú \texttt{About}.
+
+\paragraph{Onboarding y primer uso.} En el primer ingreso, y también desde el botón \texttt{HELP} del Hero, la app puede abrir un onboarding guiado que resume gestos, selección, paneles, menús, sliders y modos visuales. Esta capa cumple una función doble: reduce fricción en el arranque y al mismo tiempo hace visible que la interfaz fue pensada como producto interactivo, no solo como demostración técnica del modelo.
 
 \paragraph{Selección y detalle.} Al seleccionar una pieza, el sistema resalta el objeto y abre una ficha inferior (\textit{bottom sheet}) con información de identificación, especificaciones y ensamblaje. Cuando la selección pertenece a la categoría \texttt{Fasteners}, la ficha usa \texttt{FastenerMetadata} para mostrar familia, métrica, longitud, material, fuente CAD y anchor canónico inferido.
 

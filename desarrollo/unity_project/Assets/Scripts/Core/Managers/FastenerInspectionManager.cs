@@ -177,11 +177,7 @@ namespace WebGL.Core.Managers
                 return false;
             }
 
-            FastenerRuntimeMarker marker = candidate.GetComponent<FastenerRuntimeMarker>();
-            if (marker == null)
-            {
-                marker = candidate.GetComponentInParent<FastenerRuntimeMarker>();
-            }
+            FastenerRuntimeMarker marker = ResolveFastenerMarker(candidate);
 
             if (marker == null)
             {
@@ -198,11 +194,52 @@ namespace WebGL.Core.Managers
             return true;
         }
 
+        private static FastenerRuntimeMarker ResolveFastenerMarker(Transform target)
+        {
+            if (target == null)
+            {
+                return null;
+            }
+
+            FastenerRuntimeMarker marker = target.GetComponent<FastenerRuntimeMarker>();
+            if (marker != null)
+            {
+                return marker;
+            }
+
+            // Walk parents manually but STOP at the first ExplodablePart boundary.
+            // This prevents capturing a sibling fastener's marker on a shared ancestor
+            // after ImportedDroneRuntimeBinder reparents renderers under mother parts.
+            Transform current = target.parent;
+            while (current != null)
+            {
+                if (current.GetComponent<ExplodablePart>() != null)
+                {
+                    break;
+                }
+
+                marker = current.GetComponent<FastenerRuntimeMarker>();
+                if (marker != null)
+                {
+                    return marker;
+                }
+
+                current = current.parent;
+            }
+
+            return null;
+        }
+
         private static Transform ResolveProxyRoot(FastenerRuntimeMarker marker)
         {
             if (marker == null)
             {
                 return null;
+            }
+
+            if (!string.IsNullOrWhiteSpace(marker.FastenerInstanceId))
+            {
+                return marker.transform;
             }
 
             ExplodablePart fastenerPart = marker.GetComponent<ExplodablePart>();

@@ -1,4 +1,4 @@
-﻿\documentclass[12pt,letterpaper]{article}
+\documentclass[12pt,letterpaper]{article}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
@@ -23,12 +23,12 @@
 
 \pagestyle{fancy}
 \fancyhf{}
-\rhead{Manual TÃ©cnico - Holybro X500 V2}
-\lhead{IngenierÃ­a Multimedia - UNAD}
-\rfoot{PÃ¡gina \thepage}
+\rhead{Manual Técnico - Holybro X500 V2}
+\lhead{Ingeniería Multimedia - UNAD}
+\rfoot{Página \thepage}
 
-\title{\textbf{Manual TÃ©cnico}\\Prototipo Web 3D Interactivo para VisualizaciÃ³n TÃ©cnica del Holybro X500 V2}
-\author{Alexander Woodcock SalomÃ³n}
+\title{\textbf{Manual Técnico}\\Prototipo Web 3D Interactivo para Visualización Técnica del Holybro X500 V2}
+\author{Alexander Woodcock Salomón}
 \date{Abril 2026}
 
 \begin{document}
@@ -37,30 +37,30 @@
 \tableofcontents
 \newpage
 
-\section{IntroducciÃ³n}
-Este manual tÃ©cnico describe la arquitectura real de la build final documentada del visor WebGL para el Holybro X500~V2. Su objetivo es explicar cÃ³mo se orquesta la aplicaciÃ³n en tiempo de ejecuciÃ³n, cÃ³mo se normaliza el modelo importado, cÃ³mo se conectan los modos visibles con los subsistemas internos y cuÃ¡les son los lÃ­mites de la implementaciÃ³n entregada.
+\section{Introducción}
+Este manual técnico describe la arquitectura real de la build final documentada del visor WebGL para el Holybro X500~V2. Su objetivo es explicar cómo se orquesta la aplicación en tiempo de ejecución, cómo se normaliza el modelo importado, cómo se conectan los modos visibles con los subsistemas internos y cuáles son los límites de la implementación entregada.
 
-El documento no debe leerse como una promesa de todo el cÃ³digo presente en el repositorio. Por el contrario, diferencia explÃ­citamente entre:
+El documento no debe leerse como una promesa de todo el código presente en el repositorio. Por el contrario, diferencia explícitamente entre:
 \begin{itemize}
     \item funcionalidades expuestas en la interfaz final;
     \item funcionalidades implementadas pero ocultas;
-    \item mÃ³dulos legados o no integrados;
-    \item trabajo futuro aÃºn no consolidado.
+    \item módulos legados o no integrados;
+    \item trabajo futuro aún no consolidado.
 \end{itemize}
 
-\section{Convenciones canÃ³nicas}
+\section{Convenciones canónicas}
 
-\subsection{TaxonomÃ­a de piezas}
+\subsection{Taxonomía de piezas}
 \begin{itemize}
-    \item \textbf{28 piezas canÃ³nicas:} entidades semÃ¡nticas definidas en \texttt{x500v2\_parts\_data.json}.
-    \item \textbf{30 anchors de escena:} 28 piezas canÃ³nicas mÃ¡s \texttt{x500v2\_fastener\_group} y \texttt{x500v2\_misc\_group}.
-    \item \textbf{257 renderers/colliders:} granularidad tÃ©cnica del import final auditado.
+    \item \textbf{28 piezas canónicas:} entidades semánticas definidas en \texttt{x500v2\_parts\_data.json}.
+    \item \textbf{30 anchors de escena:} 28 piezas canónicas más \texttt{x500v2\_fastener\_group} y \texttt{x500v2\_misc\_group}.
+    \item \textbf{257 renderers/colliders:} granularidad técnica del import final auditado.
     \item \textbf{257 assets generados:} recursos \texttt{.asset} producidos para el binding y consumo runtime.
 \end{itemize}
 
-\noindent Esta distinciÃ³n es crÃ­tica: una pieza canÃ³nica puede estar compuesta por mÃºltiples renderers sin que eso altere la taxonomÃ­a acadÃ©mica del sistema.
+\noindent Esta distinción es crítica: una pieza canónica puede estar compuesta por múltiples renderers sin que eso altere la taxonomía académica del sistema.
 
-\subsection{TaxonomÃ­a de scripts}
+\subsection{Taxonomía de scripts}
 \begin{itemize}
     \item \textbf{95} scripts runtime propios en \texttt{Assets/Scripts}.
     \item \textbf{103} scripts bajo \texttt{Assets} excluyendo \texttt{Editor/Tests}.
@@ -74,136 +74,155 @@ El documento no debe leerse como una promesa de todo el cÃ³digo presente en el
     \item \textbf{Layout UI:} \texttt{MainLayout.uxml}
     \item \textbf{Control principal UI:} \texttt{UIManager.cs}
     \item \textbf{Saneamiento runtime del import:} \texttt{ImportedDroneRuntimeBinder.cs}
-    \item \textbf{Documento de contraste funcional:} validaciÃ³n funcional final del proyecto, usada como referencia de cierre y verificaciÃ³n editorial.
+    \item \textbf{Documento de contraste funcional:} validación funcional final del proyecto, usada como referencia de cierre y verificación editorial.
 \end{itemize}
 
 \subsection{Flujo visible consolidado}
 \begin{center}
-\texttt{Hero -> Explore -> selecciÃ³n -> bottom sheet -> Inspect / Analyze / Studio}
+\texttt{Hero -> Explore -> selección -> bottom sheet -> Inspect / Analyze / Studio}
 \end{center}
 
-\noindent Este flujo es la base documental de la versiÃ³n final. Toda referencia a paneles laterales, catÃ¡logos visibles, configuraciÃ³n general del sistema o herramientas no expuestas debe marcarse como oculta, legada o futura, nunca como parte del recorrido principal.
+\noindent Este flujo es la base documental de la versión final. Toda referencia a paneles laterales, catálogos visibles, configuración general del sistema o herramientas no expuestas debe marcarse como oculta, legada o futura, nunca como parte del recorrido principal.
 
 \section{Arquitectura runtime}
 
 \subsection{Capas operativas}
 \begin{enumerate}
-    \item \textbf{PresentaciÃ³n.} UI Toolkit, \texttt{MainLayout.uxml}, hojas de estilo y controladores de panel.
-    \item \textbf{OrquestaciÃ³n.} \texttt{UIManager}, \texttt{UIModeController}, \texttt{AppStateMachine} y enrutamiento de eventos.
-    \item \textbf{Servicios de escena.} selecciÃ³n, aislamiento, explosiÃ³n, clipping, view modes, entorno, estado del dron y subsistema tÃ©rmico.
-    \item \textbf{Datos.} \texttt{DronePartData}, assets generados, catÃ¡logo JSON canÃ³nico y grafo tÃ©rmico.
+    \item \textbf{Presentación.} UI Toolkit, \texttt{MainLayout.uxml}, hojas de estilo y controladores de panel.
+    \item \textbf{Orquestación.} \texttt{UIManager}, \texttt{UIModeController}, \texttt{AppStateMachine} y enrutamiento de eventos.
+    \item \textbf{Servicios de escena.} selección, aislamiento, explosión, clipping, view modes, entorno, estado del dron y subsistema térmico.
+    \item \textbf{Datos.} \texttt{DronePartData}, assets generados, catálogo JSON canónico y grafo térmico.
 \end{enumerate}
 
 \subsection{Bootstrap}
 El arranque del visor combina dos mecanismos complementarios:
 \begin{enumerate}
-    \item \textbf{\texttt{UIManager.EnsureManagers()}.} Garantiza la existencia de los servicios mÃ­nimos para operar la build final.
-    \item \textbf{\texttt{ImportedDroneRuntimeBinder}.} Repara la jerarquÃ­a del dron importado, reubica huÃ©rfanos, sincroniza anchors y reconstruye caches dependientes.
+    \item \textbf{\texttt{UIManager.EnsureManagers()}.} Garantiza la existencia de los servicios mínimos para operar la build final.
+    \item \textbf{\texttt{ImportedDroneRuntimeBinder}.} Repara la jerarquía del dron importado, reubica huérfanos, sincroniza anchors y reconstruye caches dependientes.
 \end{enumerate}
 
-\noindent El orden funcional esperado puede resumirse asÃ­:
+\noindent El orden funcional esperado puede resumirse así:
 \begin{enumerate}
     \item carga de \texttt{MainScene\_Final};
-    \item inicializaciÃ³n del \texttt{UIDocument};
-    \item ejecuciÃ³n de \texttt{UIManager.InitializeUI()};
-    \item creaciÃ³n o garantÃ­a de managers base;
-    \item inyecciÃ³n del \texttt{ImportedDroneRuntimeBinder} sobre \texttt{x500v2\_Drone} si hace falta;
-    \item reconstrucciÃ³n de servicios dependientes del modelo;
-    \item activaciÃ³n del flujo visible de interacciÃ³n.
+    \item inicialización del \texttt{UIDocument};
+    \item ejecución de \texttt{UIManager.InitializeUI()};
+    \item creación o garantía de managers base;
+    \item inyección del \texttt{ImportedDroneRuntimeBinder} sobre \texttt{x500v2\_Drone} si hace falta;
+    \item reconstrucción de servicios dependientes del modelo;
+    \item activación del flujo visible de interacción.
 \end{enumerate}
 
 \subsection{Managers garantizados en runtime}
 
 \begin{longtable}{p{5.3cm}p{7.7cm}}
 \toprule
-\textbf{MÃ³dulo} & \textbf{Responsabilidad} \\
+\textbf{Módulo} & \textbf{Responsabilidad} \\
 \midrule
 \endfirsthead
 \toprule
-\textbf{MÃ³dulo} & \textbf{Responsabilidad} \\
+\textbf{Módulo} & \textbf{Responsabilidad} \\
 \midrule
 \endhead
-\texttt{InputManager} & bloquea input 3D cuando el usuario interactÃºa con UI y evita click-through sobre la escena \\
-\texttt{SelectionManager} & gestiona selecciÃ³n actual, doble clic y eventos de cambio de pieza \\
-\texttt{FastenerRegistry} & resuelve en runtime la relaciÃ³n \texttt{instanceId -> family -> recipe} para fasteners \\
+\texttt{InputManager} & bloquea input 3D cuando el usuario interactúa con UI y evita click-through sobre la escena \\
+\texttt{SelectionManager} & gestiona selección actual, doble clic y eventos de cambio de pieza \\
+\texttt{FastenerRegistry} & resuelve en runtime la relación \texttt{instanceId -> family -> recipe} para fasteners \\
 \texttt{FastenerInspectionManager} & reemplaza solo el proxy seleccionado por detalle procedural temporal y restaura el proxy al deseleccionar \\
-\texttt{ExplodedViewManager} & controla separaciÃ³n del ensamblaje y filtros por categorÃ­a \\
-\texttt{PartCatalogManager} & mantiene consulta runtime de piezas, aunque el catÃ¡logo no estÃ© expuesto al usuario \\
+\texttt{ExplodedViewManager} & controla separación del ensamblaje y filtros por categoría \\
+\texttt{PartCatalogManager} & mantiene consulta runtime de piezas, aunque el catálogo no esté expuesto al usuario \\
 \texttt{NotificationManager} & emite mensajes breves de estado y feedback operativo \\
 \texttt{HotspotManager} & construye, inicializa y muestra hotspots \\
-\texttt{ViewModeManager} & orquesta modos de visualizaciÃ³n y modo base activo \\
+\texttt{ViewModeManager} & orquesta modos de visualización y modo base activo \\
 \texttt{EnvironmentController} & aplica presets de skybox, luz y contraste general \\
 \texttt{CrossSectionManager} & habilita clipping global y planos de corte \\
 \texttt{PartVisibilityManager} & ocultar, mostrar, aislar y restaurar piezas o grupos \\
-\texttt{DroneStateController} & estado operativo, carga, hÃ©lices, luces, partÃ­culas y audio opcional \\
-\texttt{Thermal\-Simulation\-Manager} & solver tÃ©rmico reducido por componentes \\
-\texttt{ThermalViewController} & traduce temperaturas a parÃ¡metros de shader y leyenda visual \\
+\texttt{DroneStateController} & estado operativo, carga, hélices, luces, partículas y audio opcional \\
+\texttt{Thermal\-Simulation\-Manager} & solver térmico reducido por componentes \\
+\texttt{ThermalViewController} & traduce temperaturas a parámetros de shader y leyenda visual \\
 \bottomrule
 \end{longtable}
 
-\subsection{ProtecciÃ³n de input y convivencia UI/escena}
-Un rasgo clave de la implementaciÃ³n final es el control explÃ­cito de conflicto entre UI y navegaciÃ³n 3D. Botones, sliders, \textit{bottom sheet} y paneles registran eventos de puntero que activan \texttt{InputManager.InputBlocked} mientras el usuario interactÃºa con la interfaz. Este detalle evita que un arrastre sobre un slider, por ejemplo, termine rotando la cÃ¡mara o seleccionando piezas accidentalmente.
+\subsection{Protección de input y convivencia UI/escena}
+Un rasgo clave de la implementación final es el control explícito de conflicto entre UI y navegación 3D. Botones, sliders, \textit{bottom sheet} y paneles registran eventos de puntero que activan \texttt{InputManager.InputBlocked} mientras el usuario interactúa con la interfaz. Este detalle evita que un arrastre sobre un slider, por ejemplo, termine rotando la cámara o seleccionando piezas accidentalmente.
 
 \section{Controladores UI y responsabilidades}
 
 \begin{longtable}{p{5.3cm}p{7.7cm}}
 \toprule
-\textbf{Controlador} & \textbf{FunciÃ³n principal} \\
+\textbf{Controlador} & \textbf{Función principal} \\
 \midrule
 \endfirsthead
 \toprule
-\textbf{Controlador} & \textbf{FunciÃ³n principal} \\
+\textbf{Controlador} & \textbf{Función principal} \\
 \midrule
 \endhead
-\texttt{UIManager} & coordinador raÃ­z; inicializa subcontroladores, enruta eventos y sincroniza subsistemas \\
+\texttt{UIManager} & coordinador raíz; inicializa subcontroladores, enruta eventos y sincroniza subsistemas \\
 \texttt{UIHeroController} & maneja Hero, retorno al inicio, acceso al repositorio y ayuda inicial \\
-\texttt{UIDetailsSheet} & administra ficha inferior, peek bar, foco de cÃ¡mara y contenido de selecciÃ³n \\
+\texttt{UIDetailsSheet} & administra ficha inferior, peek bar, foco de cámara y contenido de selección \\
 \texttt{UIModeController} & activa, desactiva y sincroniza \texttt{Inspect}, \texttt{Analyze} y \texttt{Studio} \\
 \texttt{InspectModeHandler} & gestiona hotspots, isolate, power y carga \\
-\texttt{AnalyzeModeHandler} & gestiona corte, explode y filtros con navegaciÃ³n de dos niveles \\
+\texttt{AnalyzeModeHandler} & gestiona corte, explode y filtros con navegación de dos niveles \\
 \texttt{StudioModeHandler} & contenedor visible del modo \texttt{Studio} \\
-\texttt{UIAnalyzePanel} & controla modos de visualizaciÃ³n y leyenda tÃ©rmica \\
-\texttt{UIEnvironmentPanel} & controla presets de entorno y sliders de iluminaciÃ³n \\
-\texttt{UICrossSectionPanel} & controla ejes, inversiÃ³n y segundo plano de corte \\
+\texttt{UIAnalyzePanel} & controla modos de visualización y leyenda térmica \\
+\texttt{UIEnvironmentPanel} & controla presets de entorno y sliders de iluminación \\
+\texttt{UICrossSectionPanel} & controla ejes, inversión y segundo plano de corte \\
 \texttt{OnboardingController} & muestra la ayuda inicial cuando el usuario entra al visor o la solicita \\
+\texttt{OnboardingAnimationView} & renderiza las demos procedurales del onboarding en desktop y mobile mediante \texttt{Painter2D} \\
 \bottomrule
 \end{longtable}
 
-\subsection{Secuencia de interacciÃ³n: Hero y entrada al visor}
+\subsection{Secuencia de interacción: Hero y entrada al visor}
 El Hero no es un splash decorativo, sino el primer estado funcional del sistema. Desde \texttt{UIManager}, el controlador de Hero emite eventos que:
 \begin{itemize}
-    \item habilitan la inicializaciÃ³n visible de hotspots cuando el usuario entra al visor;
-    \item muestran la guÃ­a de onboarding la primera vez;
+    \item habilitan la inicialización visible de hotspots cuando el usuario entra al visor;
+    \item muestran la guía de onboarding la primera vez;
     \item permiten volver al Hero, cerrar modos activos y restablecer la vista principal.
 \end{itemize}
 
-\subsection{Secuencia de interacciÃ³n: selecciÃ³n y ficha inferior}
-Cuando \texttt{SelectionManager} emite un \texttt{PartSelectedEvent}, \texttt{UIManager} delega el contenido a \texttt{UIDetailsSheet}. A partir de ahÃ­ ocurre lo siguiente:
+\subsection{Secuencia de interacción: onboarding}
+El onboarding visible no depende de video ni de media embebida. Su arquitectura actual combina dos piezas:
+\begin{itemize}
+    \item \texttt{OnboardingController}, que decide cuándo mostrar la ayuda, qué tarjeta está activa, qué \textit{copy} debe aparecer y cómo cambia la plataforma entre desktop y mobile;
+    \item \texttt{OnboardingAnimationView}, que dibuja cada demostración mediante \texttt{Painter2D} como una escena procedural de actor, objetivo y respuesta del sistema.
+\end{itemize}
+
+\noindent Este diseño permite mantener la ayuda sincronizada con la UI real. Cada tarjeta del onboarding reutiliza el mismo lenguaje visual de cursores, ripples, sliders, botones y mini iconos del producto, en lugar de depender de GIFs o secuencias externas difíciles de actualizar.
+
+\subsection{Secuencia de interacción: selección y ficha inferior}
+Cuando \texttt{SelectionManager} emite un \texttt{PartSelectedEvent}, \texttt{UIManager} delega el contenido a \texttt{UIDetailsSheet}. A partir de ahí ocurre lo siguiente:
 \begin{enumerate}
     \item se actualiza el nombre visible de la pieza en la barra superior e inferior;
     \item se llenan campos editoriales desde \texttt{DronePartData};
-    \item si la ficha estÃ¡ cerrada, aparece la barra de previsualizaciÃ³n;
-    \item si la ficha se abre, la cÃ¡mara puede recentrar la selecciÃ³n;
-    \item si no hay selecciÃ³n, la interfaz vuelve a \texttt{SELECT A PART}.
+    \item si la ficha está cerrada, aparece la barra de previsualización;
+    \item si la ficha se abre, la cámara puede recentrar la selección;
+    \item si no hay selección, la interfaz vuelve a \texttt{SELECT A PART}.
 \end{enumerate}
 
-\noindent La ficha inferior contiene reglas de presentaciÃ³n importantes:
+\noindent La selección visible ya no debe leerse como un único nivel plano. El sistema diferencia:
+\begin{itemize}
+    \item \textbf{pieza madre}, cuando la interacción se resuelve sobre el conjunto principal;
+    \item \textbf{subpieza}, cuando el usuario profundiza sobre una geometría interna del conjunto activo;
+    \item \textbf{grupo de hotspot}, cuando la entrada llega desde un pin y representa una lectura agrupada del sistema.
+\end{itemize}
+
+\noindent Por esa razón, un clic de fondo puede retroceder un nivel de lectura y un doble clic puede activar aislamiento del nivel actual. Esta jerarquía es importante porque la ficha, la cámara, el isolate y algunos paneles de análisis no siempre trabajan sobre la misma granularidad semántica.
+
+\noindent La ficha inferior contiene reglas de presentación importantes:
 \begin{itemize}
     \item \texttt{PartPower} muestra vatios solo si el dato existe;
     \item \texttt{PartTemp} muestra temperatura operativa si es mayor que cero, o \texttt{N/A};
-    \item la dificultad se renderiza como calificaciÃ³n visual por estrellas;
-    \item selecciones provenientes de hotspots pueden presentar tÃ­tulos y descripciones grupales.
+    \item la dificultad se renderiza como calificación visual por estrellas;
+    \item selecciones provenientes de hotspots pueden presentar títulos y descripciones grupales.
 \end{itemize}
 
-\noindent Para fasteners, \texttt{SelectionManager} promueve cualquier clic sobre la geometrÃ­a temporal al root completo del fastener antes de publicar el evento de selecciÃ³n. Esto evita aislamientos parciales por submalla y asegura que el color de \textit{hover} o selecciÃ³n se reaplique correctamente cuando \texttt{FastenerInspectionManager} sustituye el proxy por detalle procedural temporal.
+\noindent Para fasteners, \texttt{SelectionManager} promueve cualquier clic sobre la geometría temporal al root completo del fastener antes de publicar el evento de selección. Esto evita aislamientos parciales por submalla y asegura que el color de \textit{hover} o selección se reaplique correctamente cuando \texttt{FastenerInspectionManager} sustituye el proxy por detalle procedural temporal.
 
-\noindent A nivel de aislamiento, \texttt{PartVisibilityManager} separa dos casos: fastener individual y pieza madre. El primer caso muestra solo la instancia de fijacion seleccionada; el segundo conserva tambien los fasteners reconciliados contra esa pieza mediante \texttt{parentCanonicalPartId}.
+\noindent A nivel de aislamiento, \texttt{PartVisibilityManager} separa varios casos: fastener individual, pieza madre, subpieza y grupo de hotspot. El fastener individual se muestra como unidad completa; la pieza madre puede conservar fasteners reconciliados mediante \texttt{parentCanonicalPartId}; la subpieza estrecha el contexto al nivel más fino disponible; y el grupo de hotspot permite una lectura agregada cuando el usuario entra desde un pin en lugar de hacerlo desde geometría directa.
 
-\subsection{Secuencia de interacciÃ³n: tecla Esc}
-\texttt{UIManager} define una prioridad explÃ­cita para \texttt{Esc}:
+\subsection{Secuencia de interacción: tecla Esc}
+\texttt{UIManager} define una prioridad explícita para \texttt{Esc}:
 \begin{enumerate}
-    \item cerrar la ficha inferior si estÃ¡ abierta;
-    \item si la ficha no estÃ¡ abierta, delegar al \texttt{UIModeController} para cerrar subpaneles o desactivar el modo actual;
+    \item cerrar la ficha inferior si está abierta;
+    \item si la ficha no está abierta, delegar al \texttt{UIModeController} para cerrar subpaneles o desactivar el modo actual;
     \item no realizar acciones adicionales si no hay estados abiertos.
 \end{enumerate}
 
@@ -213,21 +232,21 @@ Cuando \texttt{SelectionManager} emite un \texttt{PartSelectedEvent}, \texttt{UI
 \texttt{InspectModeHandler} controla cuatro elementos visibles:
 \begin{itemize}
     \item \textbf{Hotspots.} Inician activos. Su visibilidad se conmuta desde el gestor de hotspots del sistema.
-    \item \textbf{Isolate.} Solicita aislamiento a travÃ©s de \texttt{UIManager}, que a su vez resuelve si el aislamiento es de pieza completa, subselecciÃ³n o grupo de hotspot.
+    \item \textbf{Isolate.} Solicita aislamiento a través de \texttt{UIManager}, que a su vez resuelve si el aislamiento es de pieza madre, subpieza, fastener individual o grupo de hotspot.
     \item \textbf{Power.} Conmuta el estado de \texttt{DroneStateController}.
-    \item \textbf{Load.} EnvÃ­a un valor normalizado a \texttt{DroneStateController.SetLoadCommand()} para actualizar la carga operativa.
+    \item \textbf{Load.} Envía un valor normalizado a \texttt{DroneStateController.SetLoadCommand()} para actualizar la carga operativa.
 \end{itemize}
 
-\noindent El handler tambiÃ©n sincroniza la etiqueta de estado con los estados \texttt{OFF}, \texttt{STARTING}, \texttt{IDLE}, \texttt{FLYING} y \texttt{SHUTDOWN}. La herramienta de mediciÃ³n existe en cÃ³digo, pero su botÃ³n permanece oculto en la UI final, por lo que no debe documentarse como funciÃ³n visible de usuario.
+\noindent El handler también sincroniza la etiqueta de estado con los estados \texttt{OFF}, \texttt{STARTING}, \texttt{IDLE}, \texttt{FLYING} y \texttt{SHUTDOWN}. La herramienta de medición existe en código, pero su botón permanece oculto en la UI final, por lo que no debe documentarse como función visible de usuario.
 
 \subsection{Modo Analyze}
-\texttt{AnalyzeModeHandler} usa una navegaciÃ³n de dos niveles:
+\texttt{AnalyzeModeHandler} usa una navegación de dos niveles:
 \begin{itemize}
     \item \textbf{Nivel 1:} grilla principal de tarjetas.
     \item \textbf{Nivel 2:} subpanel de \texttt{Cross Section} o subpanel de \texttt{Filter}.
 \end{itemize}
 
-\noindent La vista explosionada se resuelve de forma distinta: no abre un panel aparte, sino un deslizador en lÃ­nea debajo de la grilla principal. El handler conserva el Ãºltimo valor distinto de cero para restaurarlo si la herramienta se vuelve a activar.
+\noindent La vista explosionada se resuelve de forma distinta: no abre un panel aparte, sino un deslizador en línea debajo de la grilla principal. El handler conserva el último valor distinto de cero para restaurarlo si la herramienta se vuelve a activar.
 
 \subsubsection{Filtros}
 Los filtros activos iniciales corresponden a:
@@ -240,36 +259,38 @@ Los filtros activos iniciales corresponden a:
     \item \texttt{Fasteners}
 \end{itemize}
 
-\noindent Si el usuario apaga la Ãºltima categorÃ­a visible, el handler restablece el conjunto por defecto para evitar un estado completamente vacÃ­o. AdemÃ¡s, el controlador acepta modo exclusivo con doble clic sobre la categorÃ­a.
+\noindent Si el usuario apaga la última categoría visible, el handler restablece el conjunto por defecto para evitar un estado completamente vacío. Además, el controlador acepta modo exclusivo con doble clic sobre la categoría.
 
 \subsubsection{Corte transversal}
-\texttt{UICrossSectionPanel} soporta hasta dos planos simultÃ¡neos. La lÃ³gica real es:
+\texttt{UICrossSectionPanel} soporta hasta dos planos simultáneos. La lógica real es:
 \begin{itemize}
     \item el panel inicia con el eje \texttt{Y} activo;
     \item el usuario puede activar hasta dos ejes;
-    \item si selecciona un tercer eje, se elimina el mÃ¡s antiguo mediante estrategia FIFO;
+    \item si selecciona un tercer eje, se elimina el más antiguo mediante estrategia FIFO;
     \item cada plano puede invertirse de forma independiente;
-    \item el segundo bloque de controles solo aparece cuando hay dos ejes activos y el modo combinado no estÃ¡ habilitado;
+    \item el segundo bloque de controles solo aparece cuando hay dos ejes activos y el modo combinado no está habilitado;
     \item si todos los ejes se desactivan, \texttt{CrossSectionManager} deshabilita el corte;
-    \item el corte persiste al volver desde el subpanel y solo se limpia por deselecciÃ³n total de ejes o \texttt{RESET VIEW}.
+    \item el corte persiste al volver desde el subpanel y solo se limpia por deselección total de ejes o \texttt{RESET VIEW}.
 \end{itemize}
 
 \subsection{Modo Studio}
 \texttt{Studio} combina dos subsistemas:
 \begin{enumerate}
-    \item \texttt{UIAnalyzePanel}, que gobierna los modos de visualizaciÃ³n.
-    \item \texttt{UIEnvironmentPanel}, que gobierna presets de entorno e iluminaciÃ³n.
+    \item \texttt{UIAnalyzePanel}, que gobierna los modos de visualización.
+    \item \texttt{UIEnvironmentPanel}, que gobierna presets de entorno e iluminación.
 \end{enumerate}
 
-\section{Datos y normalizaciÃ³n del modelo}
+\noindent En la UI final, \texttt{Studio} no solo cambia modos visuales. También controla ciclos de entorno y tres deslizadores de iluminación visibles para el usuario: rotación de luz, intensidad sobre el objeto y tono del fondo.
 
-\subsection{CatÃ¡logo canÃ³nico}
-\texttt{x500v2\_parts\_data.json} es la fuente semÃ¡ntica oficial del proyecto. De este archivo derivan:
+\section{Datos y normalización del modelo}
+
+\subsection{Catálogo canónico}
+\texttt{x500v2\_parts\_data.json} es la fuente semántica oficial del proyecto. De este archivo derivan:
 \begin{itemize}
-    \item el conteo canÃ³nico de piezas;
-    \item la categorizaciÃ³n funcional;
+    \item el conteo canónico de piezas;
+    \item la categorización funcional;
     \item parte de los datos que consume \texttt{DronePartData};
-    \item la narrativa acadÃ©mica y documental del sistema.
+    \item la narrativa académica y documental del sistema.
 \end{itemize}
 
 \subsection{Catalogos modulares de fasteners}
@@ -284,28 +305,28 @@ La implementacion Unity incorpora una capa especifica para tornilleria y piezas 
 \noindent En el estado documentado de cierre, estos catalogos registran \textbf{20 familias}, \textbf{168 instancias} y \textbf{9 entradas de reconciliacion}. La geometria visible sigue siendo temporal/proxy, pero el contrato \texttt{familyId} / \texttt{instanceId} queda estable para sustituir mas adelante los placeholders Unity por mallas Blender definitivas sin alterar la logica runtime.
 
 \subsection{Saneamiento del import}
-\texttt{ImportedDroneRuntimeBinder} ejecuta tareas de estabilizaciÃ³n sobre el modelo importado:
+\texttt{ImportedDroneRuntimeBinder} ejecuta tareas de estabilización sobre el modelo importado:
 \begin{itemize}
     \item resuelve el root del dron;
     \item construye el mapa de anchors por identificador;
-    \item reubica objetos huÃ©rfanos o mal anidados;
-    \item crea o reutiliza grupos sintÃ©ticos para tornillerÃ­a y elementos miscelÃ¡neos;
+    \item reubica objetos huérfanos o mal anidados;
+    \item crea o reutiliza grupos sintéticos para tornillería y elementos misceláneos;
     \item garantiza \texttt{FastenerRegistry} y \texttt{FastenerInspectionManager};
     \item sella \texttt{fastenerFamilyId} y \texttt{fastenerInstanceId} sobre fasteners detectados;
     \item reconstruye caches de managers dependientes;
-    \item dispara eventos para regeneraciÃ³n de hotspots y auditorÃ­as.
+    \item dispara eventos para regeneración de hotspots y auditorías.
 \end{itemize}
 
-\subsection{De semÃ¡ntica a geometrÃ­a}
-El sistema trabaja con varias capas de representaciÃ³n:
+\subsection{De semántica a geometría}
+El sistema trabaja con varias capas de representación:
 \begin{enumerate}
-    \item \textbf{SemÃ¡ntica:} pieza canÃ³nica y sus metadatos.
+    \item \textbf{Semántica:} pieza canónica y sus metadatos.
     \item \textbf{Escena:} anchor o transform padre usado para binding.
-    \item \textbf{GeometrÃ­a:} renderers y colliders individuales.
-    \item \textbf{VisualizaciÃ³n:} materiales, property blocks, clipping y modos de vista.
+    \item \textbf{Geometría:} renderers y colliders individuales.
+    \item \textbf{Visualización:} materiales, property blocks, clipping y modos de vista.
 \end{enumerate}
 
-\noindent Esta separaciÃ³n permite que la UI describa un componente a nivel conceptual aunque el import final lo represente con mÃºltiples submallas.
+\noindent Esta separación permite que la UI describa un componente a nivel conceptual aunque el import final lo represente con múltiples submallas.
 
 \subsection{Inspeccion bajo demanda de fasteners}
 La optimizacion de fasteners no se resuelve cargando mallas densas todo el tiempo. El comportamiento implementado es:
@@ -335,7 +356,7 @@ La optimizacion de fasteners no se resuelve cargando mallas densas todo el tiemp
 
 \noindent Como refinamiento final, la curva de \texttt{pan} para escalas pequenas se endurece aun mas que en la iteracion previa. El objetivo es que el usuario pueda recentrar un fastener aislado con desplazamientos cortos sin expulsarlo facilmente del encuadre.
 
-\section{Subsistema de visualizaciÃ³n y entorno}
+\section{Subsistema de visualización y entorno}
 
 \subsection{Modos de vista}
 \texttt{UIAnalyzePanel} conoce internamente los modos:
@@ -351,10 +372,10 @@ La optimizacion de fasteners no se resuelve cargando mallas densas todo el tiemp
 
 \noindent Sin embargo, la UI final solo expone directamente \texttt{X-Ray}, \texttt{Solid Color} y \texttt{Thermal}. \texttt{Realistic} opera como modo base, mientras que \texttt{Blueprint} puede activarse indirectamente desde el ciclo de presets de entorno.
 
-\subsection{LÃ³gica de modo base}
-La distinciÃ³n entre modo base y modo activo es importante:
+\subsection{Lógica de modo base}
+La distinción entre modo base y modo activo es importante:
 \begin{itemize}
-    \item si el usuario pulsa un modo visual que ya estÃ¡ activo, el sistema regresa al modo base;
+    \item si el usuario pulsa un modo visual que ya está activo, el sistema regresa al modo base;
     \item normalmente el modo base es \texttt{Realistic};
     \item si el preset \texttt{Blueprint} se activa desde el panel de entorno, el modo base pasa temporalmente a \texttt{Blueprint}.
 \end{itemize}
@@ -367,24 +388,26 @@ La distinciÃ³n entre modo base y modo activo es importante:
     \item \texttt{White} $\rightarrow$ \texttt{Grey} $\rightarrow$ \texttt{Black} $\rightarrow$ \texttt{Yellow} $\rightarrow$ \texttt{Orange} $\rightarrow$ \texttt{Green} $\rightarrow$ \texttt{Blue} $\rightarrow$ \texttt{Purple} $\rightarrow$ \texttt{Red}
 \end{itemize}
 
-\noindent El controlador actualiza dinÃ¡micamente la etiqueta de cada tarjeta para reflejar el preset vigente y, cuando corresponde, restablece el modo base al salir de \texttt{Blueprint}.
+\noindent El controlador actualiza dinámicamente la etiqueta de cada tarjeta para reflejar el preset vigente y, cuando corresponde, restablece el modo base al salir de \texttt{Blueprint}. En paralelo, coordina los tres sliders visibles de \texttt{Lighting Controls}: \texttt{Light Rotation}, \texttt{Light Intensity} y \texttt{Background Tone}.
 
 \subsection{EnvironmentController}
-\texttt{EnvironmentController} no opera con fondos planos simples. Usa el shader \texttt{AnimatedGradientSkybox} y define presets mediante un conjunto de parÃ¡metros:
+\texttt{EnvironmentController} no opera con fondos planos simples. Usa el shader \texttt{AnimatedGradientSkybox} y define presets mediante un conjunto de parámetros:
 \begin{itemize}
     \item color superior e inferior del gradiente;
     \item color e intensidad de la luz direccional;
-    \item rotaciÃ³n y pitch de la luz;
+    \item rotación y pitch de la luz;
     \item escala del gradiente;
     \item dither;
     \item pulso opcional;
-    \item activaciÃ³n de grilla para \texttt{Blueprint}.
+    \item activación de grilla para \texttt{Blueprint}.
 \end{itemize}
 
 \noindent El controlador interpola transiciones entre presets y emite \texttt{OnLightBackgroundChanged} cuando detecta que el centro del gradiente alcanza suficiente luminancia para requerir UI adaptativa. \texttt{UIManager} consume ese evento para alternar clases visuales y mejorar legibilidad.
 
+\noindent Esto significa que el control de iluminación del fondo no es un simple color plano. El sistema modifica la percepción general del entorno mediante skybox animado, gradiente, contraste, intensidad de luz y adaptación de la propia interfaz cuando el fondo se vuelve muy claro.
+
 \section{Subsistema de estado operativo del dron}
-\texttt{DroneStateController} articula la simulaciÃ³n operativa ligera de la escena. Sus estados son:
+\texttt{DroneStateController} articula la simulación operativa ligera de la escena. Sus estados son:
 \begin{itemize}
     \item \texttt{Off}
     \item \texttt{StartingUp}
@@ -396,103 +419,103 @@ La distinciÃ³n entre modo base y modo activo es importante:
 \subsection{Efectos coordinados por estado}
 El cambio de estado afecta:
 \begin{itemize}
-    \item velocidad de hÃ©lices;
-    \item iluminaciÃ³n de estado;
-    \item partÃ­culas;
+    \item velocidad de hélices;
+    \item iluminación de estado;
+    \item partículas;
     \item desplazamiento de hover;
     \item clips de audio, si existen recursos asignados.
 \end{itemize}
 
 \subsection{Carga del sistema}
-La carga se expresa como un valor normalizado $u \in [0,1]$ enviado por \texttt{SetLoadCommand}. La lÃ³gica relevante es:
+La carga se expresa como un valor normalizado $u \in [0,1]$ enviado por \texttt{SetLoadCommand}. La lógica relevante es:
 \begin{itemize}
     \item un umbral aproximado de \texttt{0.35} separa reposo operativo y vuelo;
-    \item el sistema mantiene un piso armado de carga aun con valores bajos cuando el dron estÃ¡ encendido;
-    \item el valor final de carga alimenta el estado tÃ©rmico del sistema.
+    \item el sistema mantiene un piso armado de carga aun con valores bajos cuando el dron está encendido;
+    \item el valor final de carga alimenta el estado térmico del sistema.
 \end{itemize}
 
-\section{Subsistema tÃ©rmico hÃ­brido}
+\section{Subsistema térmico híbrido}
 
 \subsection{Alcance real}
-El sistema tÃ©rmico implementado no es un solver FEA ni una simulaciÃ³n termodinÃ¡mica de alta fidelidad. Su alcance real es el de una \textbf{simulaciÃ³n hÃ­brida heurÃ­stica por componentes}, diseÃ±ada para:
+El sistema térmico implementado no es un solver FEA ni una simulación termodinámica de alta fidelidad. Su alcance real es el de una \textbf{simulación híbrida heurística por componentes}, diseñada para:
 \begin{itemize}
-    \item comunicar zonas crÃ­ticas;
-    \item propagar calor de forma creÃ­ble entre componentes vinculados;
+    \item comunicar zonas críticas;
+    \item propagar calor de forma creíble entre componentes vinculados;
     \item responder al estado operativo del dron;
-    \item alimentar una visualizaciÃ³n tÃ©rmica en tiempo real adecuada para WebGL.
+    \item alimentar una visualización térmica en tiempo real adecuada para WebGL.
 \end{itemize}
 
-\subsection{Pipeline tÃ©rmico}
+\subsection{Pipeline térmico}
 \begin{center}
 \texttt{DroneStateController -> ThermalSimulationManager -> ThermalViewController -> shader/UI}
 \end{center}
 
-\subsection{ConstrucciÃ³n del runtime tÃ©rmico}
-\texttt{ThermalSimulationManager} recorre los \texttt{ExplodablePart} presentes en escena y construye un conjunto de nodos tÃ©rmicos. Para cada nodo resuelve:
+\subsection{Construcción del runtime térmico}
+\texttt{ThermalSimulationManager} recorre los \texttt{ExplodablePart} presentes en escena y construye un conjunto de nodos térmicos. Para cada nodo resuelve:
 \begin{itemize}
     \item identificador de pieza;
-    \item clase de fuente tÃ©rmica;
+    \item clase de fuente térmica;
     \item temperatura actual y temperatura de equilibrio;
-    \item temperatura mÃ­nima, de hover y pico;
+    \item temperatura mínima, de hover y pico;
     \item tiempo de calentamiento;
     \item tasa de enfriamiento;
-    \item exposiciÃ³n;
+    \item exposición;
     \item peso de la fuente;
-    \item escala de conducciÃ³n;
-    \item criticidad tÃ©rmica.
+    \item escala de conducción;
+    \item criticidad térmica.
 \end{itemize}
 
-\noindent Luego construye enlaces tÃ©rmicos mediante dos estrategias:
+\noindent Luego construye enlaces térmicos mediante dos estrategias:
 \begin{itemize}
-    \item \textbf{grafo autoritativo,} si existe un \texttt{ThermalContactGraphAsset} vÃ¡lido;
-    \item \textbf{enlaces fallback,} si el grafo no estÃ¡ disponible.
+    \item \textbf{grafo autoritativo,} si existe un \texttt{ThermalContactGraphAsset} válido;
+    \item \textbf{enlaces fallback,} si el grafo no está disponible.
 \end{itemize}
 
-\subsection{ParÃ¡metros base del solver}
+\subsection{Parámetros base del solver}
 \begin{itemize}
-    \item temperatura ambiente por defecto: \textbf{20\,Â°C};
-    \item escala temporal de simulaciÃ³n: \textbf{4x};
+    \item temperatura ambiente por defecto: \textbf{20\,°C};
+    \item escala temporal de simulación: \textbf{4x};
     \item frecuencia objetivo del solver: \textbf{20 Hz};
-    \item actualizaciÃ³n visual tÃ©rmica: \textbf{12 Hz}.
+    \item actualización visual térmica: \textbf{12 Hz}.
 \end{itemize}
 
-\subsection{Modelo de actualizaciÃ³n tÃ©rmica}
-En cada paso de simulaciÃ³n, el sistema combina tres contribuciones: acercamiento a equilibrio, enfriamiento hacia ambiente y conducciÃ³n con vecinos.
+\subsection{Modelo de actualización térmica}
+En cada paso de simulación, el sistema combina tres contribuciones: acercamiento a equilibrio, enfriamiento hacia ambiente y conducción con vecinos.
 
-\subsubsection{AproximaciÃ³n a equilibrio}
+\subsubsection{Aproximación a equilibrio}
 Primero se calcula un factor de mezcla exponencial:
 \[
 \alpha = 1 - e^{-\Delta t / \tau}
 \]
-donde $\Delta t$ es el paso de simulaciÃ³n y $\tau$ representa el tiempo caracterÃ­stico de calentamiento.
+donde $\Delta t$ es el paso de simulación y $\tau$ representa el tiempo característico de calentamiento.
 
-La contribuciÃ³n de la fuente se calcula como:
+La contribución de la fuente se calcula como:
 \[
 \Delta T_{\text{fuente}} = (T_{\text{eq}} - T)\,\alpha\,w_s
 \]
-donde $T_{\text{eq}}$ es la temperatura de equilibrio para la carga actual, $T$ la temperatura presente y $w_s$ el peso de la fuente tÃ©rmica.
+donde $T_{\text{eq}}$ es la temperatura de equilibrio para la carga actual, $T$ la temperatura presente y $w_s$ el peso de la fuente térmica.
 
 \subsubsection{Enfriamiento}
 El enfriamiento simplificado se expresa como:
 \[
 \Delta T_{\text{enfriamiento}} = (T_{\text{amb}} - T)\,k_c\,e\,\Delta t
 \]
-donde $T_{\text{amb}}$ es la temperatura ambiente, $k_c$ la tasa de enfriamiento y $e$ el factor de exposiciÃ³n del componente.
+donde $T_{\text{amb}}$ es la temperatura ambiente, $k_c$ la tasa de enfriamiento y $e$ el factor de exposición del componente.
 
-\subsubsection{ConducciÃ³n entre nodos}
-Cada enlace tÃ©rmico agrega un intercambio:
+\subsubsection{Conducción entre nodos}
+Cada enlace térmico agrega un intercambio:
 \[
 \Delta T_{A \leftrightarrow B} = (T_B - T_A)\,G_{\text{eff}}\,\Delta t
 \]
-donde $G_{\text{eff}}$ es la conductancia efectiva del vÃ­nculo.
+donde $G_{\text{eff}}$ es la conductancia efectiva del vínculo.
 
-Cuando existe un grafo tÃ©rmico autoritativo, la conductancia base parte de:
+Cuando existe un grafo térmico autoritativo, la conductancia base parte de:
 \[
 G_{\text{base}} = \max\left(0.001,\; s \cdot \frac{A}{L}\right)
 \]
-donde $s$ es la escala de conducciÃ³n del enlace, $A$ el Ã¡rea de contacto y $L$ la longitud del trayecto. Luego el sistema la ajusta con escalas de material, criticidad y parÃ¡metros propios de los nodos conectados.
+donde $s$ es la escala de conducción del enlace, $A$ el área de contacto y $L$ la longitud del trayecto. Luego el sistema la ajusta con escalas de material, criticidad y parámetros propios de los nodos conectados.
 
-\subsubsection{ActualizaciÃ³n final}
+\subsubsection{Actualización final}
 La temperatura nueva del nodo se calcula como:
 \[
 T_{\text{nuevo}} =
@@ -504,66 +527,66 @@ T_{\max}
 \right)
 \]
 
-\noindent Este modelo es coherente con la implementaciÃ³n real y suficientemente ligero para ejecutarse en runtime dentro del visor WebGL.
+\noindent Este modelo es coherente con la implementación real y suficientemente ligero para ejecutarse en runtime dentro del visor WebGL.
 
-\subsection{RelaciÃ³n con el estado operativo}
+\subsection{Relación con el estado operativo}
 La carga efectiva depende del estado del dron:
 \begin{itemize}
     \item \texttt{Off} y \texttt{ShuttingDown} llevan la carga a cero;
     \item \texttt{StartingUp} establece una carga baja inicial;
-    \item \texttt{Idle} aplica un piso operativo mÃ­nimo;
-    \item \texttt{Flying} impone una carga mÃ­nima asociada a vuelo.
+    \item \texttt{Idle} aplica un piso operativo mínimo;
+    \item \texttt{Flying} impone una carga mínima asociada a vuelo.
 \end{itemize}
 
-\noindent Con esta lÃ³gica, la simulaciÃ³n tÃ©rmica responde de manera coherente a los controles visibles de \texttt{Power} y \texttt{Load}.
+\noindent Con esta lógica, la simulación térmica responde de manera coherente a los controles visibles de \texttt{Power} y \texttt{Load}.
 
-\subsection{TraducciÃ³n de temperatura a render}
+\subsection{Traducción de temperatura a render}
 \texttt{ThermalViewController} no dibuja simplemente un color uniforme por pieza. Primero resuelve un valor normalizado:
 \[
 n = \operatorname{InverseLerp}(T_{\text{disp,min}}, T_{\text{disp,max}}, T)
 \]
-con $T_{\text{disp,min}}=20\,^{\circ}\text{C}$ y $T_{\text{disp,max}}=100\,^{\circ}\text{C}$ en la configuraciÃ³n actual visible.
+con $T_{\text{disp,min}}=20\,^{\circ}\text{C}$ y $T_{\text{disp,max}}=100\,^{\circ}\text{C}$ en la configuración actual visible.
 
-Luego construye una banda tÃ©rmica:
+Luego construye una banda térmica:
 \[
 n_{\min} = \operatorname{clamp01}(n-b),
 \qquad
 n_{\max} = \operatorname{clamp01}(n+b)
 \]
-donde $b$ es el ancho medio de banda, distinto para piezas crÃ­ticas, activas o pasivas.
+donde $b$ es el ancho medio de banda, distinto para piezas críticas, activas o pasivas.
 
-\noindent Finalmente, el controlador envÃ­a al shader propiedades por \texttt{MaterialPropertyBlock}, entre ellas:
+\noindent Finalmente, el controlador envía al shader propiedades por \texttt{MaterialPropertyBlock}, entre ellas:
 \begin{itemize}
-    \item rango tÃ©rmico mÃ­nimo y mÃ¡ximo;
+    \item rango térmico mínimo y máximo;
     \item hotspot local;
-    \item direcciÃ³n de propagaciÃ³n;
+    \item dirección de propagación;
     \item \textit{spread};
     \item enfriamiento de bordes;
-    \item variaciÃ³n base;
-    \item propagaciÃ³n.
+    \item variación base;
+    \item propagación.
 \end{itemize}
 
 \subsection{Patrones de superficie}
-La capa visual clasifica la distribuciÃ³n tÃ©rmica de cada pieza en patrones como:
+La capa visual clasifica la distribución térmica de cada pieza en patrones como:
 \begin{itemize}
-    \item \textbf{radial,} tÃ­pico de motores, baterÃ­a o nÃºcleo electrÃ³nico;
-    \item \textbf{axial,} tÃ­pico de brazos, ESC o rieles;
-    \item \textbf{uniforme,} tÃ­pico de placas y ciertos elementos estructurales.
+    \item \textbf{radial,} típico de motores, batería o núcleo electrónico;
+    \item \textbf{axial,} típico de brazos, ESC o rieles;
+    \item \textbf{uniforme,} típico de placas y ciertos elementos estructurales.
 \end{itemize}
 
-\noindent Esta clasificaciÃ³n puede provenir de un perfil explÃ­cito de superficie tÃ©rmica o inferirse desde la pieza canÃ³nica y su geometrÃ­a.
+\noindent Esta clasificación puede provenir de un perfil explícito de superficie térmica o inferirse desde la pieza canónica y su geometría.
 
-\subsection{Leyenda tÃ©rmica}
+\subsection{Leyenda térmica}
 La leyenda del modo \texttt{Thermal} se enlaza desde \texttt{ThermalViewController} con tres elementos de UI:
 \begin{itemize}
-    \item etiqueta mÃ­nima;
-    \item etiqueta mÃ¡xima;
+    \item etiqueta mínima;
+    \item etiqueta máxima;
     \item gradiente visual generado en runtime.
 \end{itemize}
 
-\noindent El gradiente recorre un espectro que va de tonos frÃ­os oscuros a zonas claras de alta energÃ­a. Su funciÃ³n es interpretativa, no metrolÃ³gica.
+\noindent El gradiente recorre un espectro que va de tonos fríos oscuros a zonas claras de alta energía. Su función es interpretativa, no metrológica.
 
-\section{Estados funcionales del cÃ³digo}
+\section{Estados funcionales del código}
 
 \begin{longtable}{p{4.7cm}p{8.1cm}}
 \toprule
@@ -574,9 +597,9 @@ La leyenda del modo \texttt{Thermal} se enlaza desde \texttt{ThermalViewControll
 \textbf{Estado} & \textbf{Contenido} \\
 \midrule
 \endhead
-Expuesto en UI final & Hero, selecciÃ³n de piezas, \textit{bottom sheet}, \texttt{Inspect}, \texttt{Analyze}, \texttt{Studio}, presets de entorno, leyenda tÃ©rmica \\
-Implementado pero oculto & mediciÃ³n, modos \texttt{Blueprint}, \texttt{Wireframe}, \texttt{Ghosted}, \texttt{Realistic} como botones, partes avanzadas del flujo tÃ©rmico \\
-CÃ³digo legado o no integrado & \texttt{PartCatalogUI}, \texttt{SettingsPanel}, \texttt{LoadingController}, partes de \texttt{EnhancedInfoPanel}, suite de ensamblaje y anotaciones \\
+Expuesto en UI final & Hero, selección de piezas, \textit{bottom sheet}, \texttt{Inspect}, \texttt{Analyze}, \texttt{Studio}, presets de entorno, leyenda térmica \\
+Implementado pero oculto & medición, modos \texttt{Blueprint}, \texttt{Wireframe}, \texttt{Ghosted}, \texttt{Realistic} como botones, partes avanzadas del flujo térmico \\
+Código legado o no integrado & \texttt{PartCatalogUI}, \texttt{SettingsPanel}, \texttt{LoadingController}, partes de \texttt{EnhancedInfoPanel}, suite de ensamblaje y anotaciones \\
 Trabajo futuro & optimizaciones finales CAD/import, cierre definitivo de usabilidad, audio final si llega a integrarse y validarse \\
 \bottomrule
 \end{longtable}
@@ -584,13 +607,13 @@ Trabajo futuro & optimizaciones finales CAD/import, cierre definitivo de usabili
 \section{Tooling de editor}
 \begin{itemize}
     \item \textbf{ProjectSetupWizard.} Asistente de estructura inicial de escena.
-    \item \textbf{ImportedDroneCoverageAudit.} AuditorÃ­a de cobertura entre jerarquÃ­a importada y catÃ¡logo canÃ³nico.
-    \item \textbf{ThermalContactGraphBuilderWindow.} Herramienta offline para generaciÃ³n del grafo tÃ©rmico autoritativo.
-    \item \textbf{WebGLBuildFixer y utilidades Antigravity.} Ajustes de configuraciÃ³n y build.
+    \item \textbf{ImportedDroneCoverageAudit.} Auditoría de cobertura entre jerarquía importada y catálogo canónico.
+    \item \textbf{ThermalContactGraphBuilderWindow.} Herramienta offline para generación del grafo térmico autoritativo.
+    \item \textbf{WebGLBuildFixer y utilidades Antigravity.} Ajustes de configuración y build.
 \end{itemize}
 
-\section{MÃ³dulos que no deben documentarse como activos}
-Este manual excluye como mÃ³dulos activos finales a:
+\section{Módulos que no deben documentarse como activos}
+Este manual excluye como módulos activos finales a:
 \begin{itemize}
     \item \texttt{ViewModeToolbar}
     \item \texttt{WebGLOptimizer}
@@ -602,24 +625,23 @@ Este manual excluye como mÃ³dulos activos finales a:
     \item \texttt{TooltipSystem}
 \end{itemize}
 
-\section{Build, validaciÃ³n y despliegue}
+\section{Build, validación y despliegue}
 \begin{enumerate}
-    \item abrir el proyecto con la versiÃ³n de Unity documentada en el repositorio;
+    \item abrir el proyecto con la versión de Unity documentada en el repositorio;
     \item verificar que la escena activa sea \texttt{MainScene\_Final};
-    \item asegurar que el binding runtime del dron y los managers mÃ­nimos estÃ©n presentes;
+    \item asegurar que el binding runtime del dron y los managers mínimos estén presentes;
     \item generar build WebGL;
-    \item validar jerarquÃ­a, cobertura, flujo visible y leyenda tÃ©rmica antes de capturas o pruebas de usuario;
+    \item validar jerarquía, cobertura, flujo visible y leyenda térmica antes de capturas o pruebas de usuario;
     \item congelar la build antes de ejecutar resultados finales de usabilidad.
 \end{enumerate}
 
 \section{Limitaciones vigentes del cierre}
 \begin{itemize}
-    \item aÃºn faltan optimizaciones CAD/import antes del freeze definitivo;
+    \item aún faltan optimizaciones CAD/import antes del freeze definitivo;
     \item los efectos de audio no deben presentarse como parte del cierre funcional verificado si no existen assets finales;
-    \item la herramienta de mediciÃ³n permanece oculta hasta validar mejor escala y usabilidad;
-    \item el subsistema tÃ©rmico es coherente con la app real, pero debe documentarse como simulaciÃ³n hÃ­brida heurÃ­stica, no como FEA;
-    \item los resultados acadÃ©micos finales dependen de KPIs y pruebas de usabilidad posteriores al freeze.
+    \item la herramienta de medición permanece oculta hasta validar mejor escala y usabilidad;
+    \item el subsistema térmico es coherente con la app real, pero debe documentarse como simulación híbrida heurística, no como FEA;
+    \item los resultados académicos finales dependen de KPIs y pruebas de usabilidad posteriores al freeze.
 \end{itemize}
 
 \end{document}
-

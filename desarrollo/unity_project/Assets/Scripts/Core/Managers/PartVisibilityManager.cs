@@ -21,6 +21,7 @@ namespace WebGL.Core.Managers
         private Transform isolatedTransform = null;
         private bool isolatedGroup = false;
         private readonly List<ExplodablePart> storedGroupIsolation = new List<ExplodablePart>();
+        private bool storedGroupIncludeAssociatedFasteners = false;
         private List<ExplodablePart> allParts = new List<ExplodablePart>();
 
         public bool HasAnyIsolationActive => isolatedPart != null || isolatedTransform != null || isolatedGroup;
@@ -46,6 +47,7 @@ namespace WebGL.Core.Managers
             isolatedTransform = null;
             isolatedGroup = false;
             storedGroupIsolation.Clear();
+            storedGroupIncludeAssociatedFasteners = false;
 
             allParts.AddRange(FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None));
             foreach (var part in allParts)
@@ -122,6 +124,7 @@ namespace WebGL.Core.Managers
 
             if (parentPart == null)
             {
+                Debug.LogWarning($"[PVM.IsolateTransform] ABORT: no parentPart found. selection={selection.name}, isolationScope={(isolationScope != null ? isolationScope.name : "NULL")}");
                 ClearIsolation();
                 return;
             }
@@ -137,7 +140,28 @@ namespace WebGL.Core.Managers
                 ? ResolveCanonicalPartId(isolatedTransform)
                 : string.Empty;
 
+            // ──── DIAGNOSTIC BLOCK ────
+            Debug.Log($"[PVM.IsolateTransform] ──── DIAGNOSTIC ────");
+            Debug.Log($"  selection.name         = {selection.name}");
+            Debug.Log($"  selection.path         = {GetHierarchyPath(selection)}");
+            Debug.Log($"  isolationScope.name    = {(isolationScope != null ? isolationScope.name : "NULL")}");
+            Debug.Log($"  isolationScope.path    = {(isolationScope != null ? GetHierarchyPath(isolationScope) : "NULL")}");
+            Debug.Log($"  parentPart.name        = {parentPart.name}");
+            Debug.Log($"  isFastenerIsolation    = {isFastenerIsolation}");
+            Debug.Log($"  fastenerInstanceId     = '{isolatedFastenerInstanceId}'");
+            Debug.Log($"  includeAssocFasteners  = {includeAssociatedFasteners}");
+            Debug.Log($"  selectedCanonicalPart  = '{selectedCanonicalPartId}'");
+
+            // Check marker on selection directly
+            FastenerRuntimeMarker selMarker = selection.GetComponent<FastenerRuntimeMarker>();
+            FastenerRuntimeMarker scopeMarker = isolationScope != null ? isolationScope.GetComponent<FastenerRuntimeMarker>() : null;
+            Debug.Log($"  selection has marker?   = {selMarker != null} {(selMarker != null ? $"id='{selMarker.FastenerInstanceId}'" : "")}");
+            Debug.Log($"  scope has marker?       = {scopeMarker != null} {(scopeMarker != null ? $"id='{scopeMarker.FastenerInstanceId}'" : "")}");
+            // ──── END DIAGNOSTIC ────
+
             bool anyRendererVisible = false;
+            int visibleCount = 0;
+            int totalRenderers = 0;
 
             foreach (var p in allParts)
             {
@@ -148,6 +172,7 @@ namespace WebGL.Core.Managers
                 foreach (var renderer in renderers)
                 {
                     if (renderer == null) continue;
+                    totalRenderers++;
 
                     bool visible = IsRendererVisibleForIsolation(
                         renderer,
@@ -158,6 +183,18 @@ namespace WebGL.Core.Managers
                     renderer.enabled = visible;
                     anyRendererVisible |= visible;
 
+                    if (visible)
+                    {
+                        visibleCount++;
+                        // Log WHY this renderer is visible
+                        Transform rt = renderer.transform;
+                        bool byScope = rt == isolatedTransform || rt.IsChildOf(isolatedTransform);
+                        bool byInstance = !string.IsNullOrWhiteSpace(isolatedFastenerInstanceId) && RendererBelongsToFastenerInstance(rt, isolatedFastenerInstanceId);
+                        bool byAssoc = !string.IsNullOrWhiteSpace(selectedCanonicalPartId) && RendererBelongsToAssociatedFastener(rt, selectedCanonicalPartId);
+                        FastenerRuntimeMarker rm = rt.GetComponent<FastenerRuntimeMarker>();
+                        Debug.Log($"  [VISIBLE] {renderer.name} path={GetHierarchyPath(rt)} byScope={byScope} byInstance={byInstance} byAssoc={byAssoc} marker={(rm != null ? rm.FastenerInstanceId : "none")}");
+                    }
+
                     Collider collider = renderer.GetComponent<Collider>();
                     if (collider != null)
                     {
@@ -166,9 +203,11 @@ namespace WebGL.Core.Managers
                 }
             }
 
+            Debug.Log($"[PVM.IsolateTransform] Result: {visibleCount}/{totalRenderers} renderers visible");
+
             if (!anyRendererVisible)
             {
-                // Fallback to canonical isolation when selection has no render surface.
+                Debug.LogWarning("[PVM.IsolateTransform] No renderers visible — falling back to IsolatePart");
                 IsolatePart(parentPart);
                 return;
             }
@@ -181,6 +220,21 @@ namespace WebGL.Core.Managers
             Debug.Log($"[PartVisibility] Isolated transform: {selection.name}");
         }
 
+        private static string GetHierarchyPath(Transform t)
+        {
+            if (t == null) return "null";
+            string path = t.name;
+            Transform p = t.parent;
+            int depth = 0;
+            while (p != null && depth < 6)
+            {
+                path = p.name + "/" + path;
+                p = p.parent;
+                depth++;
+            }
+            return path;
+        }
+
         private static Transform ResolveIsolationScope(Transform selection)
         {
             if (selection == null)
@@ -188,27 +242,14 @@ namespace WebGL.Core.Managers
                 return null;
             }
 
-            FastenerRuntimeMarker marker = selection.GetComponent<FastenerRuntimeMarker>();
-            if (marker == null)
-            {
-                marker = selection.GetComponentInParent<FastenerRuntimeMarker>();
-            }
+            FastenerRuntimeMarker marker = ResolveFastenerMarker(selection);
 
             if (marker != null)
             {
-                ExplodablePart fastenerRoot = marker.GetComponent<ExplodablePart>();
-                if (fastenerRoot == null)
-                {
-                    fastenerRoot = marker.GetComponentInParent<ExplodablePart>();
-                }
-
-                if (fastenerRoot != null &&
-                    fastenerRoot.Data != null &&
-                    fastenerRoot.Data.category == PartCategory.Fasteners)
-                {
-                    return fastenerRoot.transform;
-                }
-
+                // Always return the marker's own transform — never escalate to the
+                // parent ExplodablePart (fastener group). That group contains ALL sibling
+                // fasteners and would cause IsChildOf to match them all, defeating
+                // instance-level isolation.
                 return marker.transform;
             }
 
@@ -255,11 +296,10 @@ namespace WebGL.Core.Managers
                 return false;
             }
 
+            // ONLY use GetComponent — never GetComponentInParent.
+            // After reparenting, ancestor markers belong to SIBLING fasteners
+            // and cause multi-instance leaks when isolating a single fastener.
             FastenerRuntimeMarker rendererMarker = rendererTransform.GetComponent<FastenerRuntimeMarker>();
-            if (rendererMarker == null)
-            {
-                rendererMarker = rendererTransform.GetComponentInParent<FastenerRuntimeMarker>();
-            }
 
             return rendererMarker != null &&
                    string.Equals(rendererMarker.FastenerInstanceId, fastenerInstanceId, StringComparison.OrdinalIgnoreCase);
@@ -272,11 +312,8 @@ namespace WebGL.Core.Managers
                 return false;
             }
 
+            // Direct marker only — ancestor markers cause sibling contamination.
             FastenerRuntimeMarker rendererMarker = rendererTransform.GetComponent<FastenerRuntimeMarker>();
-            if (rendererMarker == null)
-            {
-                rendererMarker = rendererTransform.GetComponentInParent<FastenerRuntimeMarker>();
-            }
 
             return rendererMarker != null &&
                    !string.IsNullOrWhiteSpace(rendererMarker.ParentCanonicalPartId) &&
@@ -291,11 +328,7 @@ namespace WebGL.Core.Managers
                 return false;
             }
 
-            FastenerRuntimeMarker marker = selection.GetComponent<FastenerRuntimeMarker>();
-            if (marker == null)
-            {
-                marker = selection.GetComponentInParent<FastenerRuntimeMarker>();
-            }
+            FastenerRuntimeMarker marker = ResolveFastenerMarker(selection);
 
             if (marker == null || string.IsNullOrWhiteSpace(marker.FastenerInstanceId))
             {
@@ -315,6 +348,41 @@ namespace WebGL.Core.Managers
 
             ExplodablePart directPart = selection.GetComponent<ExplodablePart>();
             return directPart != null && directPart.transform == selection;
+        }
+
+        private static FastenerRuntimeMarker ResolveFastenerMarker(Transform target)
+        {
+            if (target == null)
+            {
+                return null;
+            }
+
+            FastenerRuntimeMarker marker = target.GetComponent<FastenerRuntimeMarker>();
+            if (marker != null)
+            {
+                return marker;
+            }
+
+            // Walk parents manually but STOP at the first ExplodablePart boundary.
+            // This prevents capturing a sibling fastener's marker on a shared ancestor.
+            Transform current = target.parent;
+            while (current != null)
+            {
+                if (current.GetComponent<ExplodablePart>() != null)
+                {
+                    break;
+                }
+
+                marker = current.GetComponent<FastenerRuntimeMarker>();
+                if (marker != null)
+                {
+                    return marker;
+                }
+
+                current = current.parent;
+            }
+
+            return null;
         }
 
         private static string ResolveCanonicalPartId(Transform selection)
@@ -351,7 +419,7 @@ namespace WebGL.Core.Managers
             return string.Empty;
         }
 
-        public void IsolateParts(IEnumerable<ExplodablePart> parts)
+        public void IsolateParts(IEnumerable<ExplodablePart> parts, bool includeAssociatedFasteners = false)
         {
             if (parts == null)
             {
@@ -376,10 +444,15 @@ namespace WebGL.Core.Managers
 
             storedGroupIsolation.Clear();
             storedGroupIsolation.AddRange(targets);
+            storedGroupIncludeAssociatedFasteners = includeAssociatedFasteners;
 
             isolatedPart = null;
             isolatedTransform = null;
             isolatedGroup = true;
+
+            HashSet<string> targetCanonicalPartIds = includeAssociatedFasteners
+                ? CollectCanonicalPartIds(targets)
+                : null;
 
             foreach (var p in allParts)
             {
@@ -388,9 +461,12 @@ namespace WebGL.Core.Managers
                     continue;
                 }
 
-                bool shouldBeVisible = targets.Contains(p);
+                bool isTargetPart = targets.Contains(p);
+                bool hasAssociatedFastenerRenderer = includeAssociatedFasteners &&
+                                                    PartContainsAssociatedFastenerRenderers(p, targetCanonicalPartIds);
+                bool shouldKeepPartActive = isTargetPart || hasAssociatedFastenerRenderer;
 
-                if (shouldBeVisible)
+                if (shouldKeepPartActive)
                 {
                     p.gameObject.SetActive(true);
 
@@ -398,12 +474,16 @@ namespace WebGL.Core.Managers
                     foreach (var renderer in renderers)
                     {
                         if (renderer == null) continue;
-                        renderer.enabled = true;
+                        bool rendererVisible = isTargetPart ||
+                                               (includeAssociatedFasteners &&
+                                                RendererBelongsToAssociatedFastener(renderer.transform, targetCanonicalPartIds));
+
+                        renderer.enabled = rendererVisible;
 
                         Collider collider = renderer.GetComponent<Collider>();
                         if (collider != null)
                         {
-                            collider.enabled = true;
+                            collider.enabled = rendererVisible;
                         }
                     }
                 }
@@ -428,12 +508,13 @@ namespace WebGL.Core.Managers
                 return;
             }
 
-            IsolateParts(storedGroupIsolation);
+            IsolateParts(storedGroupIsolation, storedGroupIncludeAssociatedFasteners);
         }
 
         public void ClearStoredGroupIsolation()
         {
             storedGroupIsolation.Clear();
+            storedGroupIncludeAssociatedFasteners = false;
         }
 
         public void ClearIsolation()
@@ -441,6 +522,7 @@ namespace WebGL.Core.Managers
             isolatedPart = null;
             isolatedTransform = null;
             isolatedGroup = false;
+            storedGroupIncludeAssociatedFasteners = false;
 
             foreach (var p in allParts)
             {
@@ -557,5 +639,65 @@ namespace WebGL.Core.Managers
 
         public ExplodablePart GetIsolatedPart() => isolatedPart;
         public Transform GetIsolatedTransform() => isolatedTransform;
+
+        private static HashSet<string> CollectCanonicalPartIds(IEnumerable<ExplodablePart> parts)
+        {
+            HashSet<string> canonicalIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            if (parts == null)
+            {
+                return canonicalIds;
+            }
+
+            foreach (ExplodablePart part in parts)
+            {
+                if (part == null)
+                {
+                    continue;
+                }
+
+                string canonicalId = ResolveCanonicalPartId(part.transform);
+                if (!string.IsNullOrWhiteSpace(canonicalId))
+                {
+                    canonicalIds.Add(canonicalId);
+                }
+            }
+
+            return canonicalIds;
+        }
+
+        private static bool PartContainsAssociatedFastenerRenderers(ExplodablePart part, HashSet<string> targetCanonicalPartIds)
+        {
+            if (part == null || targetCanonicalPartIds == null || targetCanonicalPartIds.Count == 0)
+            {
+                return false;
+            }
+
+            Renderer[] renderers = part.GetComponentsInChildren<Renderer>(true);
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                Renderer renderer = renderers[i];
+                if (renderer != null && RendererBelongsToAssociatedFastener(renderer.transform, targetCanonicalPartIds))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool RendererBelongsToAssociatedFastener(Transform rendererTransform, HashSet<string> targetCanonicalPartIds)
+        {
+            if (rendererTransform == null || targetCanonicalPartIds == null || targetCanonicalPartIds.Count == 0)
+            {
+                return false;
+            }
+
+            // Direct marker only — ancestor markers cause sibling contamination.
+            FastenerRuntimeMarker rendererMarker = rendererTransform.GetComponent<FastenerRuntimeMarker>();
+
+            return rendererMarker != null &&
+                   !string.IsNullOrWhiteSpace(rendererMarker.ParentCanonicalPartId) &&
+                   targetCanonicalPartIds.Contains(rendererMarker.ParentCanonicalPartId);
+        }
     }
 }

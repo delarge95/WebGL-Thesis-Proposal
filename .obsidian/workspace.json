@@ -4,17 +4,37 @@
     "type": "split",
     "children": [
       {
-        "id": "93218dfed7e27225",
+        "id": "232be54d06b1046a",
         "type": "tabs",
         "children": [
           {
-            "id": "f7627176a46871ce",
+            "id": "bb53256c9ed9b888",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Vista gráfica"
+              "type": "pdf",
+              "state": {
+                "file": "Informe_final/informe_final_tmp.pdf",
+                "page": 116,
+                "left": -8,
+                "top": 199,
+                "zoom": 1.8676470588235294
+              },
+              "icon": "lucide-file-text",
+              "title": "informe_final_tmp"
+            }
+          },
+          {
+            "id": "3691749340f82ff7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Informe_final/Desarrollo_App/AUDITORIA_MATEMATICA_Y_ARQUITECTURA_2026-04-12.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "AUDITORIA_MATEMATICA_Y_ARQUITECTURA_2026-04-12"
             }
           }
         ]
@@ -49,7 +69,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "informe",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -70,7 +90,8 @@
               "title": "Marcadores"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -163,7 +184,9 @@
             "type": "leaf",
             "state": {
               "type": "footnotes",
-              "state": {},
+              "state": {
+                "file": "Informe_final/informe_final_tmp.pdf"
+              },
               "icon": "lucide-file-signature",
               "title": "Notas al pie"
             }
@@ -187,12 +210,23 @@
               "icon": "ag-style",
               "title": "Juggl style"
             }
+          },
+          {
+            "id": "9769b4bcd4a33e13",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 200,
     "collapsed": true
   },
   "left-ribbon": {
@@ -219,46 +253,46 @@
       "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "f7627176a46871ce",
+  "active": "bb53256c9ed9b888",
   "lastOpenFiles": [
+    "desarrollo/unity_project/Temp/UnityTempFile-ad64c4fe536d1f74bac37b17dbc66c9d",
+    "desarrollo/unity_project/Temp/UnityTempFile-540e8175e80ef2945be504f2d58d6378",
+    "desarrollo/unity_project/Temp/UnityTempFile-834216967dc96e54198ff2d0aa3fbecc",
+    "desarrollo/unity_project/Temp/UnityTempFile-6856e04c9c4bfbf47ba35ee487b9eee6",
+    "solving_isolating_problem.md",
+    "desarrollo/docs/solving_isolating_problem.md",
+    "desarrollo/unity_project/Library/ProtocolInstance.json",
+    "desarrollo/unity_project/Temp/UnityTempFile-8fe2444525983164bbb2b87f6309a01b",
+    "blender_files/welded/multires-preparing_to_bake.blend",
+    "blender_files/welded/multires-preparing_to_bake.blend@",
+    "desarrollo/unity_project/Temp/UnityTempFile-4afe4c5b52f4bd64f93cfa98a8fa7553",
+    "desarrollo/unity_project/Temp/UnityTempFile-6ee192afd28c8014f885937fcc79b388",
+    "desarrollo/unity_project/Library/Search/propertyAliases.db_b9dfd91b8ddd4f56badf38274cdd9db2_temp",
+    "desarrollo/docs/Resolucion_Fastener_Isolation_Bug.md",
+    "desarrollo/docs/Auditoria_Fastener_Isolation_Bug.md",
+    "desarrollo/docs/Unity 6 WebGL  aislamiento jerárquico de fasteners por instancia.md",
+    "Informe_final/Desarrollo_App/AUDITORIA_MATEMATICA_Y_ARQUITECTURA_2026-04-12.md",
+    "Informe_final/Desarrollo_App/MATRIZ_DESCONEXIONES_APP_DOCUMENTACION.md",
+    "docs/manuals/manual_tecnico.md",
+    "docs/manuals/manual_usuario.md",
+    "Cerebro_Digital/Wiki/Entities/Scripts/SCR-ONB-002_OnboardingAnimationView.md",
+    "Cerebro_Digital/Wiki/Concepts/REPORTE_AVANCE_ASESOR_2026-04-21.md",
+    "Cerebro_Digital/Wiki/Entregables/ROADMAP_REUNION_ASESOR.md",
+    "desarrollo/docs/investigacion/15_arquitectura_animaciones_onboarding.md",
+    "Cerebro_Digital/Wiki/Entities/Scripts/SCR-ONB-001_OnboardingController.md",
+    "Cerebro_Digital/Wiki/Concepts/MATRIZ_TRAZABILIDAD_ENTREGABLES.md",
+    "Cerebro_Digital/Wiki/Concepts/MOC_Conectividad_Total.md",
+    "MOC_Ecuaciones/README.md",
     "desarrollo/docs/REPORTE_CIERRE_OBSIDIAN_Y_PROPUESTA_SIMPLIFICADA_2026-04-16.md",
     "Cerebro_Digital/Wiki/Concepts/ANEXO_CRUCE_BIBLIOGRAFIA_DESCARGADA_2026-04-16.md",
-    "External_docs/Bibliografia/kajiya1986.pdf",
-    "External_docs/Bibliografia/dokumen.pub_quantifying-the-user-experience-practical-statistics-for-user-research-2nd.pdf",
-    "External_docs/Bibliografia/realtime_rendering_4ed.pdf",
     "External_docs/Bibliografia/WebGL Specification Khronos_files/WebGL-Logo.svg",
-    "External_docs/Bibliografia/WebGL Specification Khronos_files/saved_resource.html",
     "External_docs/Bibliografia/WebGL Specification Khronos_files/Khronos.svg",
-    "External_docs/Bibliografia/WebGL Specification Khronos_files/Khronos-WD.css",
-    "External_docs/Bibliografia/WebGL Specification Khronos_files/jquery-1.3.2.min.js.descarga",
-    "External_docs/Bibliografia/WebGL Specification Khronos_files/generateTOC.js.descarga",
-    "External_docs/Bibliografia/WebGL Specification Khronos_files",
-    "External_docs/Bibliografia/dokumen.pub_usability-engineering-0125184069-9780125184069.pdf",
-    "External_docs/Bibliografia",
     "Cerebro_Digital/Wiki/Concepts/GOBERNANZA_CALIDAD_WIKI.md",
     "Cerebro_Digital/Wiki/Concepts/REGISTRO_ADJUNTOS_GLOBAL.md",
     "Cerebro_Digital/Wiki/Concepts/TAXONOMIA_METADATA_WIKI.md",
     "Cerebro_Digital/Wiki/Concepts/MOC_Consolidacion_Drone.md",
     "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_053_Flight_Controller_PCB.md",
     "Informe_final/presentation/ASSETS_REQUIREMENTS.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_135_ViewMode_Switching_Tests.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_126_Thermal_System_Development_Log.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_125_Thermal_System_Demo_Assets.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_122_Thermal_Simulation_Tests.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_132_User_Journey_Mapping.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_142_XRay_Mode_Implementation.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_141_Workload_Assessment_Methodology.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_139_webgl_scanner.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_138_webgl_optimizer.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_140_Wireframe_Mode_Spec.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_137_WASM_Memory_Limits.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_143_XRay_Performance_Analysis.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_129_Usability_Issue_Clustering.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_134_Validacion_Results_Analysis.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_133_User_Testing_Summary_Report.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_136_Viewport_Management.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_131_Usability_Metrics_Report.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_130_Usability_Issues_Log.md",
     "archive/logs_historicos/tmp_gemini_audit/word/media/image3.png",
     "archive/logs_historicos/tmp_gemini_audit/word/media/image1.png",
     "archive/logs_historicos/tmp_gemini_audit/word/media/image2.png",

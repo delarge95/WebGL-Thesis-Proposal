@@ -356,8 +356,23 @@ namespace WebGL.UI
 
         private void OnIsolateClicked()
         {
-            if (currentPart != null)
-                PartVisibilityManager.Instance?.IsolatePart(currentPart);
+            Transform isolateTarget = SelectionManager.Instance?.CurrentSelection;
+            if (isolateTarget == null && currentPart != null)
+            {
+                isolateTarget = currentPart.transform;
+            }
+
+            if (isolateTarget != null)
+            {
+                if (UIManager.Instance != null)
+                {
+                    UIManager.Instance.RequestIsolationForSelection(isolateTarget);
+                }
+                else
+                {
+                    PartVisibilityManager.Instance?.IsolateTransform(isolateTarget);
+                }
+            }
             AudioManager.Instance?.PlayClick();
         }
 

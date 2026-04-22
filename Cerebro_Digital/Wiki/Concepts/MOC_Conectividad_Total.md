@@ -1,4 +1,4 @@
-﻿---
+---
 tipo: "moc"
 fuente: "vault-global"
 estado: "activo"

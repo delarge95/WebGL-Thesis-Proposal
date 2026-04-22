@@ -91,6 +91,8 @@ namespace WebGL.Core.Utils
             ThermalViewController.Instance?.RebuildBindings();
             int partCount = FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None).Length;
 
+            ValidateFastenerIdentityInvariants();
+
             if (rebuildHotspotsWhenReady)
             {
                 EventBus.Publish(new ImportedDroneRuntimeBoundEvent(droneRoot.name, propellers.Length, partCount));
@@ -129,7 +131,7 @@ namespace WebGL.Core.Utils
         {
             Dictionary<string, ExplodablePart> anchorsById = BuildAnchorMap(droneRoot);
             ReparentTopLevelOrphans(droneRoot, anchorsById);
-            ReparentNestedOrphansByType(droneRoot, anchorsById);
+            ReparentNestedOrphansByType(droneRoot, anchorsById, registry);
             anchorsById = BuildAnchorMap(droneRoot);
 
             foreach (KeyValuePair<string, ExplodablePart> kvp in anchorsById)
@@ -226,7 +228,10 @@ namespace WebGL.Core.Utils
             }
         }
 
-        private static void ReparentNestedOrphansByType(Transform droneRoot, IReadOnlyDictionary<string, ExplodablePart> anchorsById)
+        private static void ReparentNestedOrphansByType(
+            Transform droneRoot,
+            IReadOnlyDictionary<string, ExplodablePart> anchorsById,
+            FastenerRegistry registry)
         {
             if (droneRoot == null || anchorsById == null || anchorsById.Count == 0)
             {
@@ -267,11 +272,39 @@ namespace WebGL.Core.Utils
                     continue;
                 }
 
+                SealInheritedFastenerMarker(member, currentAnchor, registry);
+
                 if (!member.IsChildOf(expectedAnchor.transform))
                 {
                     member.SetParent(expectedAnchor.transform, true);
                 }
             }
+        }
+
+        private static void SealInheritedFastenerMarker(Transform member, ExplodablePart currentAnchor, FastenerRegistry registry)
+        {
+            if (member == null || currentAnchor == null || registry == null)
+            {
+                return;
+            }
+
+            DronePartData anchorData = currentAnchor.Data;
+            bool isFastenerAnchor = (anchorData != null && anchorData.category == PartCategory.Fasteners) ||
+                                    currentAnchor.name.StartsWith("x500v2_fastener.", StringComparison.OrdinalIgnoreCase);
+            if (!isFastenerAnchor)
+            {
+                return;
+            }
+
+            FastenerMetadata metadata = anchorData != null && anchorData.HasFastenerMetadata
+                ? anchorData.fastenerMetadata
+                : registry.ResolveMetadata(currentAnchor.transform, anchorData);
+            if (metadata == null || string.IsNullOrWhiteSpace(metadata.instanceId))
+            {
+                return;
+            }
+
+            registry.SealMarker(member, metadata);
         }
 
         private static Transform ResolveOrCreateSyntheticGroupAnchor(Transform droneRoot, string candidateName)
@@ -449,6 +482,20 @@ namespace WebGL.Core.Utils
                     category = renderer.gameObject.AddComponent<PartRenderCategory>();
                 }
                 category.Configure(anchorId, primaryCategory, auxiliaryCategory, thermalSourceId);
+
+                // Fasteners can be visually re-parented under their mother piece so the
+                // clicked renderer is not always the same transform that owns the runtime
+                // marker. Seal instance metadata on the visible renderer too, so selection
+                // and isolation can resolve the exact fastener instance instead of
+                // collapsing back to the associated fastener group.
+                if (registry != null && string.Equals(auxiliaryCategory, "Fasteners", StringComparison.OrdinalIgnoreCase))
+                {
+                    FastenerMetadata visibleFastenerMetadata = registry.ResolveMetadata(renderer.transform);
+                    if (visibleFastenerMetadata != null && !string.IsNullOrWhiteSpace(visibleFastenerMetadata.instanceId))
+                    {
+                        registry.SealMarker(renderer.transform, visibleFastenerMetadata);
+                    }
+                }
 
                 ConfigureAuxiliaryExplode(renderer.transform, anchor, auxiliaryCategory);
             }
@@ -835,6 +882,51 @@ namespace WebGL.Core.Utils
             }
 
             return propellers.ToArray();
+        }
+
+        /// <summary>
+        /// Post-binding diagnostic: detects duplicate FastenerRuntimeMarker instanceIds
+        /// across the scene, which is the root cause of multi-instance isolation leaks.
+        /// </summary>
+        private static void ValidateFastenerIdentityInvariants()
+        {
+            FastenerRuntimeMarker[] allMarkers = FindObjectsByType<FastenerRuntimeMarker>(FindObjectsSortMode.None);
+            Dictionary<string, List<string>> idToGameObjects = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (FastenerRuntimeMarker marker in allMarkers)
+            {
+                if (marker == null || string.IsNullOrWhiteSpace(marker.FastenerInstanceId))
+                {
+                    continue;
+                }
+
+                if (!idToGameObjects.TryGetValue(marker.FastenerInstanceId, out List<string> objectNames))
+                {
+                    objectNames = new List<string>();
+                    idToGameObjects[marker.FastenerInstanceId] = objectNames;
+                }
+
+                objectNames.Add(marker.gameObject.name);
+            }
+
+            int violations = 0;
+            foreach (KeyValuePair<string, List<string>> kvp in idToGameObjects)
+            {
+                if (kvp.Value.Count > 1)
+                {
+                    violations++;
+                    Debug.LogWarning("[FastenerIdentity] Duplicate instanceId '" + kvp.Key + "' on " + kvp.Value.Count + " GOs: " + string.Join(", ", kvp.Value));
+                }
+            }
+
+            if (violations == 0)
+            {
+                Debug.Log("[FastenerIdentity] All " + idToGameObjects.Count + " fastener instanceIds are unique. Identity invariant OK.");
+            }
+            else
+            {
+                Debug.LogError("[FastenerIdentity] " + violations + " duplicate instanceId violations detected! Isolation may show multiple instances.");
+            }
         }
     }
 }

@@ -492,7 +492,9 @@ public class HotspotManager : Singleton<HotspotManager>
                     hotspotGroupMembers: BuildGroupMemberSummary(group.Members));
 
                 ApplySelectedGroupHighlight(group);
-                PartVisibilityManager.Instance?.IsolateParts(group.Members);
+                PartVisibilityManager.Instance?.IsolateParts(
+                    group.Members,
+                    group.Definition != null && group.Definition.IncludeFasteners);
                 EventBus.Publish(new HotspotGroupIsolatedEvent(
                     group.Definition != null ? group.Definition.Id : string.Empty,
                     group.Members != null ? new List<ExplodablePart>(group.Members) : new List<ExplodablePart>()));

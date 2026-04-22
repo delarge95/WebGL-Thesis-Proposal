@@ -154,6 +154,18 @@ namespace WebGL.Core.Managers
             }
 
             FastenerRuntimeMarker marker = target.GetComponent<FastenerRuntimeMarker>();
+
+            // NEVER overwrite an existing marker that already has a valid instanceId
+            // with a DIFFERENT instanceId. This prevents the ancestor anchor's metadata
+            // from clobbering a child renderer's own fastener identity after reparenting.
+            if (marker != null
+                && !string.IsNullOrWhiteSpace(marker.FastenerInstanceId)
+                && !string.IsNullOrWhiteSpace(metadata.instanceId)
+                && !string.Equals(marker.FastenerInstanceId, metadata.instanceId, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
             if (marker == null)
             {
                 marker = target.gameObject.AddComponent<FastenerRuntimeMarker>();

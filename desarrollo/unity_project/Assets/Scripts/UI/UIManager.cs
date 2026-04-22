@@ -510,6 +510,70 @@ namespace WebGL.UI
             return string.Empty;
         }
 
+        private static FastenerRuntimeMarker ResolveFastenerMarker(Transform selection)
+        {
+            if (selection == null)
+            {
+                return null;
+            }
+
+            FastenerRuntimeMarker marker = selection.GetComponent<FastenerRuntimeMarker>();
+            if (marker != null)
+            {
+                return marker;
+            }
+
+            // Walk parents manually but STOP at the first ExplodablePart boundary.
+            // This prevents capturing a sibling fastener's marker on a shared ancestor.
+            Transform current = selection.parent;
+            while (current != null)
+            {
+                if (current.GetComponent<ExplodablePart>() != null)
+                {
+                    break;
+                }
+
+                marker = current.GetComponent<FastenerRuntimeMarker>();
+                if (marker != null)
+                {
+                    return marker;
+                }
+
+                current = current.parent;
+            }
+
+            return null;
+        }
+
+        private static bool IsFastenerAssociatedWithSelection(Transform selection, Transform fullSelection)
+        {
+            if (selection == null || fullSelection == null)
+            {
+                return false;
+            }
+
+            FastenerRuntimeMarker marker = ResolveFastenerMarker(selection);
+            if (marker == null || string.IsNullOrWhiteSpace(marker.ParentCanonicalPartId))
+            {
+                return false;
+            }
+
+            string fullSelectionPartId = ResolveCanonicalPartId(fullSelection);
+            return !string.IsNullOrWhiteSpace(fullSelectionPartId)
+                && string.Equals(marker.ParentCanonicalPartId, fullSelectionPartId, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool CanNestSelectionWithinIsolation(Transform selection, Transform parentIsolation)
+        {
+            if (selection == null || parentIsolation == null || selection == parentIsolation)
+            {
+                return false;
+            }
+
+            return IsSubSelection(selection, parentIsolation)
+                || IsFastenerAssociatedWithSelection(selection, parentIsolation);
+        }
+
         private void IsolateFullSelection(Transform fullSelection)
         {
             if (fullSelection == null)
@@ -605,6 +669,42 @@ namespace WebGL.UI
             IsolateFullSelection(_isolatedFullSelection);
         }
 
+        private bool TryPromoteSelectionToNestedIsolation(Transform selection)
+        {
+            if (!_isIsolated || _isolatedFullSelection == null || selection == null)
+            {
+                return false;
+            }
+
+            if (!CanNestSelectionWithinIsolation(selection, _isolatedFullSelection))
+            {
+                return false;
+            }
+
+            IsolateSubSelection(selection, _isolatedFullSelection);
+            return true;
+        }
+
+        private bool IsCurrentIsolationTarget(Transform selection)
+        {
+            if (selection == null)
+            {
+                return false;
+            }
+
+            if (_isolatedSubSelection != null)
+            {
+                return selection == _isolatedSubSelection;
+            }
+
+            if (_isolatedFullSelection != null)
+            {
+                return selection == _isolatedFullSelection;
+            }
+
+            return false;
+        }
+
         private void RestoreHotspotIsolation()
         {
             PartVisibilityManager visibility = PartVisibilityManager.Instance;
@@ -670,8 +770,16 @@ namespace WebGL.UI
 
         private void ToggleIsolation()
         {
+            Transform currentSelection = SelectionManager.Instance?.CurrentSelection;
+
             if (_isIsolated)
             {
+                if (currentSelection != null && !IsCurrentIsolationTarget(currentSelection))
+                {
+                    RequestIsolationForSelection(currentSelection);
+                    return;
+                }
+
                 if (_isolatedSubSelection != null && _isolatedFullSelection != null)
                 {
                     RestoreFullIsolationFromStack();
@@ -690,6 +798,49 @@ namespace WebGL.UI
         // ═══════════════════════════════════════════════════════
         //  EventBus subscriptions
         // ═══════════════════════════════════════════════════════
+
+        public void RequestIsolationForSelection(Transform selection)
+        {
+            if (selection == null)
+            {
+                return;
+            }
+
+            if (_isIsolated)
+            {
+                if (_isolatedSubSelection != null && selection == _isolatedSubSelection)
+                {
+                    RestoreFullIsolationFromStack();
+                    return;
+                }
+
+                if (_isolatedFullSelection != null && selection == _isolatedFullSelection)
+                {
+                    ClearIsolation();
+                    return;
+                }
+
+                if (TryPromoteSelectionToNestedIsolation(selection))
+                {
+                    return;
+                }
+            }
+
+            Transform fullSelection = ResolveFullSelection(selection);
+            if (fullSelection == null)
+            {
+                return;
+            }
+
+            if (CanNestSelectionWithinIsolation(selection, fullSelection))
+            {
+                IsolateSubSelection(selection, fullSelection);
+            }
+            else
+            {
+                IsolateFullSelection(fullSelection);
+            }
+        }
 
         private void SubscribeToEvents()
         {
@@ -825,6 +976,12 @@ namespace WebGL.UI
                 (hadSelectionBeforeDoubleClick && !wasSubSelectionBeforeDoubleClick && sameFullPartAsBefore) ||
                 (hadSelectionBeforeDoubleClick && wasSubSelectionBeforeDoubleClick && selectionBeforeDoubleClick == clickedSelection));
 
+            bool canNestWithinCurrentIsolation = _isIsolated
+                && _isolatedSubSelection == null
+                && clickedSelection != null
+                && clickedSelection != _isolatedFullSelection
+                && CanNestSelectionWithinIsolation(clickedSelection, _isolatedFullSelection);
+
             if (_isolatedSubSelection != null)
             {
                 bool sameSubSelection = clickedSelection != null && clickedSelection == _isolatedSubSelection;
@@ -833,6 +990,14 @@ namespace WebGL.UI
                     // If a sub-piece is isolated, double-clicking it returns
                     // to the previous full-part isolation state.
                     RestoreFullIsolationFromStack();
+                    return;
+                }
+
+                if (clickedSelection != null
+                    && clickedSelection != _isolatedSubSelection
+                    && TryPromoteSelectionToNestedIsolation(clickedSelection))
+                {
+                    _detailsSheet?.OpenSheet();
                     return;
                 }
 
@@ -850,6 +1015,12 @@ namespace WebGL.UI
 
             if (_isIsolated)
             {
+                if (canNestWithinCurrentIsolation && TryPromoteSelectionToNestedIsolation(clickedSelection))
+                {
+                    _detailsSheet?.OpenSheet();
+                    return;
+                }
+
                 if (canIsolateSubSelection)
                 {
                     IsolateSubSelection(clickedSelection, clickedFull);
