@@ -1,4 +1,4 @@
-﻿---
+---
 tipo: sistema
 estado: mantenido
 ---
@@ -9,28 +9,6 @@ Carpeta de curaduría personal para extraer piezas de portafolio a partir de est
 
 ## Reglas de uso
 
-- La fuente de verdad del proyecto sigue en sus rutas originales.
-- Esta carpeta sirve para recopilar, seleccionar y preparar material para ArtStation, reel, CV, LinkedIn o breakdowns técnicos.
-- No mover aquí archivos críticos del build o de la tesis sin registrar antes el cambio.
-
-## Punto de entrada actual
-
-- `documentacion/00_Indice_y_Organizacion.md`
-- `documentacion/01_Checklist_Ejecutivo_Portafolio.md`
-- `documentacion/02_Fuentes_y_Piezas_Candidatas.md`
-- `documentacion/03_Checklist_Maestro_Reestructuracion.md`
-- `documentacion/04_Breakdown_Pipeline_CAD_a_WebGL.md`
-- `documentacion/05_Breakdown_Sistema_Visualizacion_Interactiva.md`
-- `documentacion/06_Plan_Activos_Visuales_Portafolio.md`
-- `documentacion/07_Breakdown_Sistema_Termico_Hibrido.md`
-- `documentacion/08_Portafolio_Tech_Artist.md`
-- `herramientas_fuente/README.md`
-
-## Fuentes activas recomendadas
-
-- Assets CAD y referencias del dron: `desarrollo/docs/investigacion/Holybro/`
-- Arquitectura, handoff y guia de modelado del sistema termico: `desarrollo/docs/sistema_termico/`
-- Modelos CAD del lote Holybro: `desarrollo/docs/investigacion/Holybro/Holybro_X500_V2_3D Print/`
 - Herramientas generadas para el pipeline Holybro:
   - `desarrollo/docs/investigacion/Holybro/cad_symmetry_addon_v5_ultimate.py`
   - `desarrollo/docs/investigacion/Holybro/cad_symmetry_addon_v6_batch.py`
