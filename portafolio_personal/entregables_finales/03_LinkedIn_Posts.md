@@ -2,6 +2,10 @@
 
 *(Tres opciones de copy listas para postear. Mismo proyecto, distintos ángulos para atrapar a distintos reclutadores o Leads).*
 
+- **Post 1 (Día 1):** El Enfoque Visual / Producto (El gran anuncio).
+- **Post 2 (Día 5):** El Enfoque Coder / Tools Programmer (Validando que puedes programar y solucionar cuellos de botella).
+- **Post 3 (Día 10):** El Enfoque Shaders / Math (El nicho Technical Artist puro).
+
 ---
 
 ## OPCIÓN A: El Enfoque Visual/Producto (Carrusel + Copy)
