@@ -58,7 +58,12 @@ namespace WebGL.Core.Managers
 
             if (desiredProxyRoots.Count == 0)
             {
+                bool hadActiveInspections = activeInspections.Count > 0;
                 ClearAllInspections();
+                if (hadActiveInspections)
+                {
+                    PartVisibilityManager.Instance?.ReapplyCurrentIsolationVisuals();
+                }
                 return;
             }
 
@@ -80,6 +85,8 @@ namespace WebGL.Core.Managers
                 {
                     ClearInspection(rootsToRemove[i]);
                 }
+
+                PartVisibilityManager.Instance?.ReapplyCurrentIsolationVisuals();
             }
 
             foreach (Transform proxyRoot in desiredProxyRoots)
@@ -239,7 +246,28 @@ namespace WebGL.Core.Managers
 
             if (!string.IsNullOrWhiteSpace(marker.FastenerInstanceId))
             {
-                return marker.transform;
+                Transform root = marker.transform;
+                Transform current = root.parent;
+                while (current != null)
+                {
+                    FastenerRuntimeMarker parentMarker = current.GetComponent<FastenerRuntimeMarker>();
+                    if (parentMarker != null &&
+                        string.Equals(parentMarker.FastenerInstanceId, marker.FastenerInstanceId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        root = current;
+                        current = current.parent;
+                        continue;
+                    }
+
+                    if (current.GetComponent<ExplodablePart>() != null)
+                    {
+                        break;
+                    }
+
+                    current = current.parent;
+                }
+
+                return root;
             }
 
             ExplodablePart fastenerPart = marker.GetComponent<ExplodablePart>();
@@ -400,12 +428,21 @@ namespace WebGL.Core.Managers
             fastenersByParentCanonical.Clear();
 
             FastenerRuntimeMarker[] markers = FindObjectsByType<FastenerRuntimeMarker>(FindObjectsSortMode.None);
-            HashSet<Transform> uniqueRoots = new HashSet<Transform>();
+            HashSet<string> uniqueFastenerKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             for (int i = 0; i < markers.Length; i++)
             {
                 FastenerRuntimeMarker marker = markers[i];
                 Transform proxyRoot = ResolveProxyRoot(marker);
-                if (proxyRoot == null || !uniqueRoots.Add(proxyRoot))
+                if (proxyRoot == null)
+                {
+                    continue;
+                }
+
+                string uniqueKey = !string.IsNullOrWhiteSpace(marker.FastenerInstanceId)
+                    ? marker.FastenerInstanceId
+                    : proxyRoot.GetInstanceID().ToString();
+
+                if (!uniqueFastenerKeys.Add(uniqueKey))
                 {
                     continue;
                 }

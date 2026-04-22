@@ -640,6 +640,29 @@ namespace WebGL.Core.Managers
         public ExplodablePart GetIsolatedPart() => isolatedPart;
         public Transform GetIsolatedTransform() => isolatedTransform;
 
+        /// <summary>
+        /// Re-applies the current isolation state without mutating the isolation stack,
+        /// emitting diagnostics, or replaying audio. This is used when another runtime
+        /// system (for example FastenerInspectionManager) temporarily toggles renderer
+        /// visibility and we need PartVisibilityManager to become authoritative again.
+        /// </summary>
+        public void ReapplyCurrentIsolationVisuals()
+        {
+            if (isolatedGroup)
+            {
+                ReapplyStoredGroupIsolationVisuals();
+                return;
+            }
+
+            if (isolatedTransform != null)
+            {
+                ReapplyTransformIsolationVisuals();
+                return;
+            }
+
+            RestoreAllRendererVisuals();
+        }
+
         private static HashSet<string> CollectCanonicalPartIds(IEnumerable<ExplodablePart> parts)
         {
             HashSet<string> canonicalIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -698,6 +721,161 @@ namespace WebGL.Core.Managers
             return rendererMarker != null &&
                    !string.IsNullOrWhiteSpace(rendererMarker.ParentCanonicalPartId) &&
                    targetCanonicalPartIds.Contains(rendererMarker.ParentCanonicalPartId);
+        }
+
+        private void ReapplyTransformIsolationVisuals()
+        {
+            if (isolatedTransform == null)
+            {
+                RestoreAllRendererVisuals();
+                return;
+            }
+
+            bool isFastenerIsolation = TryResolveFastenerInstanceId(isolatedTransform, out string isolatedFastenerInstanceId);
+            bool includeAssociatedFasteners = !isFastenerIsolation
+                && IsFullPartIsolationScope(isolatedTransform)
+                && !string.IsNullOrWhiteSpace(ResolveCanonicalPartId(isolatedTransform));
+            string selectedCanonicalPartId = includeAssociatedFasteners
+                ? ResolveCanonicalPartId(isolatedTransform)
+                : string.Empty;
+
+            foreach (ExplodablePart part in allParts)
+            {
+                if (part == null)
+                {
+                    continue;
+                }
+
+                part.gameObject.SetActive(true);
+
+                Renderer[] renderers = part.GetComponentsInChildren<Renderer>(true);
+                for (int i = 0; i < renderers.Length; i++)
+                {
+                    Renderer renderer = renderers[i];
+                    if (renderer == null)
+                    {
+                        continue;
+                    }
+
+                    bool visible = IsRendererVisibleForIsolation(
+                        renderer,
+                        isolatedTransform,
+                        isolatedFastenerInstanceId,
+                        selectedCanonicalPartId);
+
+                    renderer.enabled = visible;
+
+                    Collider collider = renderer.GetComponent<Collider>();
+                    if (collider != null)
+                    {
+                        collider.enabled = visible;
+                    }
+                }
+            }
+        }
+
+        private void ReapplyStoredGroupIsolationVisuals()
+        {
+            if (storedGroupIsolation.Count == 0)
+            {
+                RestoreAllRendererVisuals();
+                return;
+            }
+
+            HashSet<ExplodablePart> targets = new HashSet<ExplodablePart>();
+            for (int i = 0; i < storedGroupIsolation.Count; i++)
+            {
+                ExplodablePart part = storedGroupIsolation[i];
+                if (part != null)
+                {
+                    targets.Add(part);
+                }
+            }
+
+            if (targets.Count == 0)
+            {
+                RestoreAllRendererVisuals();
+                return;
+            }
+
+            HashSet<string> targetCanonicalPartIds = storedGroupIncludeAssociatedFasteners
+                ? CollectCanonicalPartIds(targets)
+                : null;
+
+            foreach (ExplodablePart part in allParts)
+            {
+                if (part == null)
+                {
+                    continue;
+                }
+
+                bool isTargetPart = targets.Contains(part);
+                bool hasAssociatedFastenerRenderer = storedGroupIncludeAssociatedFasteners &&
+                                                    PartContainsAssociatedFastenerRenderers(part, targetCanonicalPartIds);
+                bool shouldKeepPartActive = isTargetPart || hasAssociatedFastenerRenderer;
+
+                if (shouldKeepPartActive)
+                {
+                    part.gameObject.SetActive(true);
+
+                    Renderer[] renderers = part.GetComponentsInChildren<Renderer>(true);
+                    for (int i = 0; i < renderers.Length; i++)
+                    {
+                        Renderer renderer = renderers[i];
+                        if (renderer == null)
+                        {
+                            continue;
+                        }
+
+                        bool rendererVisible = isTargetPart ||
+                                               (storedGroupIncludeAssociatedFasteners &&
+                                                RendererBelongsToAssociatedFastener(renderer.transform, targetCanonicalPartIds));
+
+                        renderer.enabled = rendererVisible;
+
+                        Collider collider = renderer.GetComponent<Collider>();
+                        if (collider != null)
+                        {
+                            collider.enabled = rendererVisible;
+                        }
+                    }
+                }
+                else
+                {
+                    part.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        private void RestoreAllRendererVisuals()
+        {
+            foreach (ExplodablePart part in allParts)
+            {
+                if (part == null)
+                {
+                    continue;
+                }
+
+                part.gameObject.SetActive(true);
+
+                Renderer[] renderers = part.GetComponentsInChildren<Renderer>(true);
+                for (int i = 0; i < renderers.Length; i++)
+                {
+                    Renderer renderer = renderers[i];
+                    if (renderer == null)
+                    {
+                        continue;
+                    }
+
+                    renderer.enabled = true;
+
+                    Collider collider = renderer.GetComponent<Collider>();
+                    if (collider != null)
+                    {
+                        collider.enabled = true;
+                    }
+                }
+            }
         }
     }
 }
