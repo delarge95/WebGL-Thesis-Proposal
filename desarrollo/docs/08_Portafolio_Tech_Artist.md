@@ -556,10 +556,32 @@ Capturar con F12 (ScreenshotManager) o desde el Editor:
 
 ---
 
-## Nota sobre LinkedIn
+## 11. Refinamiento Brutal Nivel Mid (Actualización Post-Perplexity Abril 2026)
 
-> No fue posible acceder al perfil de LinkedIn (`https://www.linkedin.com/in/alexander-woodcock-0132382a6/`) por restricciones de scraping de la plataforma. Las recomendaciones de §7 son genéricas basadas en tu perfil profesional conocido (3D modeler, Blender, Unity, Houdini FX) y las mejores prácticas para perfiles Tech Artist. **Revisa tu perfil actual y aplica las sugerencias que consideres pertinentes.**
+> **Contexto de la actualización:** Tras pasar el portafolio por una simulación de *Lead Recruiter* hostil (Perplexity Pro), se detectó que el enfoque inicial se percibía como un *vertical slice* impecable pero sin conexión al dolor de la producción real. Para posicionar el perfil como **Mid-Level** enfocado al mercado AA/AAA remoto, se aplicaron ajustes radicales.
+
+### Modificaciones Clave a la Estrategia:
+
+1. **Formatos de Impacto C.A.R. y Métricas Duras:**
+   - **El Problema:** Prometer "bajé las draw calls" no basta. Se exige métrica tangible respecto a los límites del *main thread* en WebGL.
+   - **La Solución:** El currículum se transformó a lenguaje de coste/beneficio apuntando a la **reducción de horas QA** y adjuntando marcadores numéricos de ganancia de FPS y draw-calls pre-profiling de Unity.
+
+2. **Tooling Enfocado a QA Automation (El Caballo de Troya):**
+   - Tus herramientas de Editor (`CoverageAudit`) pasaron de venderse como "ventanas interactivas" a venderse como **Validadores Headless para pre-commit Hooks en Pipelines CI/CD**, directamente apuntando a las vacantes corporativas de Automation QA.
+
+3. **Demostración Analítica del "Math" Oculto:**
+   - La industria desconfía de términos vacíos como "cámara dinámica" o "termodinámica simulada" si no hay pseudo-código que lo demuestre.
+   - **Se creó una pieza adicional:** "Cheat Sheet Matemático" (`07_Tech_Math_Cheatsheet.md`), incluyendo las derivaciones para el manejo de cámara (Orbit Radius según volumen Bounding Box), el onboarding procedural VRAM=0 (Painter2D) y la heurística híbrida Newtoniana aplicada al NodeGraph térmico.
+
+4. **Preparación contra el "Round Diabólico" de Entrevistas:**
+   - Se añadió un round avanzado al *Elevator Pitch*, cubriendo preguntas de Lead/Senior como: *Context Loss* de memoria en Safari, Límites de Heap de 2GB de emscripten WebGL, y estrategias de traspaso de estados térmicos individuales por `MaterialPropertyBlock` sin romper el *GPU Instancing*.
 
 ---
 
-*Documento generado como parte de la documentación del proyecto de tesis. Última actualización: 2025.*
+## Nota sobre LinkedIn
+
+> No fue posible acceder al perfil de LinkedIn (`https://www.linkedin.com/in/alexander-woodcock-0132382a6/`) por restricciones de scraping de la plataforma. Las recomendaciones de §7 son genéricas, pero la estructura ha sido iterada secuencialmente en los archivos locales `03_LinkedIn_Posts.md`.
+
+---
+
+*Documento actualizado y supervisado por Antigravity AI. Última revisión general: Abril 2026 (Fase Final Bridge a Industria).*
