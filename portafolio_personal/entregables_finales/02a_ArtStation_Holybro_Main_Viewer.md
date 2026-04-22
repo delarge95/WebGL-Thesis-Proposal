@@ -11,10 +11,11 @@ I built this interactive WebGL technical viewer for the Holybro X500 V2 drone to
 The viewer revolves around a cohesive interaction loop:
 `Hero -> Explore -> Select Part -> Bottom Sheet Data -> Inspect / Analyze / Studio`
 
-Every element answers a specific user need:
-*   **Hero:** Shows the product as it exists in reality.
-*   **Selection & Data:** Bridges raw 3D geometry with meaningful context.
-*   **View Modes (Studio):** Organizes specific visual tools to “read” the assembly structurally.
+### PROCEDURAL UI ONBOARDING (NO VIDEOS ALLOWED)
+To guide the user without loading heavy video files into the WebGL build, I developed an internal `OnboardingAnimationView`. It doesn't play GIFs; it renders procedural demonstrations of the interactions natively in the browser using Unity's `Painter2D` API. This keeps the footprint tiny and ensures the UI scales perfectly on mobile and desktop.
+
+### CONTEXT-AWARE CAMERA MATH
+A major UX flaw in 3D viewers is camera behavior scale. Scrolling the mouse wheel on a drone should behave differently than scrolling on a 3mm screw. I wrote a custom `OrbitCameraController` that recalculates its focus bounds, pan curves, and orbit sensitivity in real-time based on the exact geometric volume of the currently isolated part. If you isolate a tiny fastener, the camera dynamically creates a micro-interaction volume explicitly for it.
 
 ### PERFORMANCE & OPTIMIZATION (THE FASTENER SUBSYSTEM)
 Targeting WebGL (and mobile fallback) meant strict constraints. 

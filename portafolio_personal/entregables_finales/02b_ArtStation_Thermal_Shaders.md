@@ -17,9 +17,8 @@ A technical viewer must allow internal inspection. Using custom Stencil buffer o
 
 *[Asset: Comparison Slider / GIF of X-Ray]*
 
-### HIGHLIGHT 3: PBR CLIPPING & CROSS-SECTIONS
-To inspect the internal assembly, I wrote a performant world-space clipping plane shader. Unlike standard clipping shaders, this maintains the PBR lighting responses on the cross-section faces without decimating framerates in WebGL.
+### HIGHLIGHT 3: PBR CLIPPING & MULTI-AXIS CROSS-SECTIONS
+To inspect the internal assembly, I wrote a performant world-space clipping plane shader. It operates with a FIFO array system, allowing two simultaneous intersection planes without decimating framerates in WebGL. Crucially, it manages to maintain accurate PBR ambient lighting responses on the cross-section interior faces.
 
----
-**SOFTWARE:** Unity (URP, Shader Graph), HLSL, C#.
-**TAGS:** #Shaders #HLSL #TechnicalArt #Rendering #Unity3D #VFX
+### HIGHLIGHT 4: LUMINANCE-AWARE UI & ANIMATED SKYBOX
+Standard static skyboxes don't work for a product viewer. The `EnvironmentController` drives an `AnimatedGradientSkybox` capable of updating directional light, dithering, and pulse in real-time. Even better: it calculates its own luminance. If a user shifts to a bright white studio preset, the system emits an `OnLightBackgroundChanged` event, immediately prompting the UI Toolkit interfaces to invert their contrast class for preserved legibility.

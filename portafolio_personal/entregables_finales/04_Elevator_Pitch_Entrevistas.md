@@ -35,7 +35,16 @@
 
 ---
 
-### PREGUNTA 4: "¿Por qué deberíamos contratarte para QA Automation / Tools Junior si vienes haciendo 3D WebGL?" (El Troyano)
+### PREGUNTA 4: "¿Cómo garantizas que tu UI sea performante?"
+
+**LA TRAMPA:** Esperan que hables de Atlas de texturas o Canvas Batching. Sorpréndelos con tu enfoque programático.
+
+**TU RESPUESTA:**
+> "Para el Holybro Viewer, necesitaba un onboarding visual. La ruta fácil era subir un GIF pesado y ahogar la memoria en WebGL. En lugar de eso, desarrollé un `OnboardingAnimationView` que dibuja las interacciones proceduralmente en runtime usando la API `Painter2D` de Unity Toolkit. Animé trayectorias y clics matemáticamente. Costo de memoria: nulo. Además, mi `EnvironmentController` lee luminancia: si el fondo 3D se vuelve muy blanco, no duplico paneles, el C# emite un evento de contraste que invierte las clases CSS de UI Toolkit en runtime."
+
+---
+
+### PREGUNTA 5: "¿Por qué deberíamos contratarte para QA Automation / Tools Junior si vienes haciendo 3D WebGL?" (El Troyano)
 
 **LA TRAMPA:** Saben que quieres hacer juegos o estar cerca de los artistas. Quieren saber si de verdad entiendes de automatización y no vas a renunciar al mes de aburrimiento.
 

@@ -23,7 +23,8 @@ Technical Artist y Unity Developer con background sólido en ingeniería y matem
 *Plataforma interactiva WebGL para inspección técnica y análisis estructural de hardware.*
 *   **Optimización de Rendimiento:** Transformé un modelo industrial CAD de alta densidad en un asset WebGL-ready (reduciendo draw calls en un 60% y adaptando geometría) sin pérdida de fidelidad visual técnica.
 *   **Sistemas de Shading:** Desarrollé e implementé en HLSL múltiples modos de visualización técnica (Rayos X interactivo interactivo, Blueprint, Visualización Térmica Híbrida basada en estados y Clipping PBR).
-*   **Arquitectura de Herramientas (Tools):** Programé herramientas de editor (C#) como `ProjectSetupWizard` y un Auditor de Geometría, automatizando el setup del modelo en un 80% y eliminando errores manuales en el pipeline.
+*   **UX Programática & UI Toolkit:** Eliminé el uso de videos pesados programando un onboarding procedural dibujado en runtime vía `Painter2D` (ahorro masivo de memoria). Desarrollé una cámara inteligente (`OrbitCameraController`) que recalcula sus sensibilidades matemáticas, curvas de paneo y volumen de colisión en tiempo real basándose en el volumen en bounding-boxes de la pieza aislada.
+*   **Arquitectura de Herramientas (Tools):** Programé ventanas de editor (C#) como `ProjectSetupWizard` y un Auditor de Geometría que evalúa discrepancias entre CSVs y Renderers antes de lanzar el build.
 *   **Arquitectura Runtime:** Diseñé un sistema "Metadata-driven" para instancias (Fasteners) que permite detalle dinámico bajo demanda, ahorrando gigabytes de memoria en reposo.
 
 **ARA Framework** | *Automation Engineer*
