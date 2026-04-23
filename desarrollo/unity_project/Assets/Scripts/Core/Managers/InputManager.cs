@@ -286,7 +286,7 @@ namespace WebGL.Core.Managers
             }
 
             return root.Q<VisualElement>("BottomSheet") != null
-                || root.Q<Button>("InfoBarPeek") != null
+                || root.Q<VisualElement>("InfoBarPeek") != null
                 || root.Q<Button>("SheetCloseBtn") != null
                 || root.Q<VisualElement>("SheetContent_Details") != null;
         }
@@ -303,7 +303,7 @@ namespace WebGL.Core.Managers
             if (root.Q<VisualElement>("BottomSheet") != null) score += 4;
             if (root.Q<VisualElement>("SheetContent_Details") != null) score += 3;
             if (root.Q<Button>("SheetCloseBtn") != null) score += 3;
-            if (root.Q<Button>("InfoBarPeek") != null) score += 2;
+            if (root.Q<VisualElement>("InfoBarPeek") != null) score += 2;
             if (root.Q<VisualElement>("BottomBar") != null) score += 1;
             if (root.Q<VisualElement>("TopBar") != null) score += 1;
 
@@ -664,10 +664,30 @@ namespace WebGL.Core.Managers
 
         private static bool IsElementVisible(VisualElement element)
         {
-            return element != null
-                && element.enabledInHierarchy
-                && element.resolvedStyle.display != DisplayStyle.None
-                && element.resolvedStyle.visibility != Visibility.Hidden;
+            if (element == null)
+            {
+                return false;
+            }
+
+            for (VisualElement current = element; current != null; current = current.parent)
+            {
+                if (!current.enabledInHierarchy
+                    || current.resolvedStyle.display == DisplayStyle.None
+                    || current.resolvedStyle.visibility == Visibility.Hidden)
+                {
+                    return false;
+                }
+
+                if (current.ClassListContains("info-bar-peek--hidden")
+                    || current.ClassListContains("info-bar-peek--sheet-open")
+                    || current.ClassListContains("selection-label--hidden")
+                    || current.ClassListContains("details-sheet--hidden"))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private static bool IsInteractiveElement(VisualElement element)

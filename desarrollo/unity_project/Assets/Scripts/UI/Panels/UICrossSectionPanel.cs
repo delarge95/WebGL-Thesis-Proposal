@@ -54,12 +54,12 @@ namespace WebGL.UI.Panels
             _axisZBtn = _panel.Q<Button>("CrossSectionAxisZ");
 
             _positionSlider1 = _panel.Q<Slider>("CrossSectionPosition");
-            _invertBtn1 = _panel.Q<Button>("CrossSectionInvertBtn");
+            _invertBtn1 = _panel.Q<Button>("CrossSectionInvertBtnInline") ?? _panel.Q<Button>("CrossSectionInvertBtn");
             _combineBtn = _panel.Q<Button>("CrossSectionCombineBtn");
 
             _controls2Container = _panel.Q<VisualElement>("CrossSectionControls2");
             _positionSlider2 = _panel.Q<Slider>("CrossSectionPosition2");
-            _invertBtn2 = _panel.Q<Button>("CrossSectionInvertBtn2");
+            _invertBtn2 = _panel.Q<Button>("CrossSectionInvertBtn2Inline") ?? _panel.Q<Button>("CrossSectionInvertBtn2");
 
             // Initialize with default axis
             _activeAxes.Add(CrossSectionAxis.Y);
@@ -200,8 +200,7 @@ namespace WebGL.UI.Panels
             }
 
             ApplyAxesToManager();
-            UpdateAxisButtons();
-            UpdatePlane2Visibility();
+            UpdateVisualState();
         }
 
         private void ApplyAxesToManager()
@@ -230,12 +229,10 @@ namespace WebGL.UI.Panels
             {
                 mgr.SetPlane2Active(true);
                 mgr.SetAxis2(_activeAxes[1]);
-                if (_combineBtn != null) _combineBtn.style.display = DisplayStyle.Flex;
             }
             else
             {
                 mgr.SetPlane2Active(false);
-                if (_combineBtn != null) _combineBtn.style.display = DisplayStyle.None;
                 
                 // If dropping back to 1 axis or 0, disable combination mode
                 if (_isCombined)
@@ -266,7 +263,7 @@ namespace WebGL.UI.Panels
             _isCombined = !_isCombined;
             CrossSectionManager.Instance?.SetCombinePlanes(_isCombined);
             _combineBtn?.EnableInClassList("submenu-card--active", _isCombined);
-            UpdatePlane2Visibility();
+            UpdateVisualState();
         }
 
         // ═══════════════════════════════════════════════════════
@@ -277,6 +274,7 @@ namespace WebGL.UI.Panels
         {
             // Controls are always visible when the panel is shown (no wrapper to toggle)
             UpdateAxisButtons();
+            UpdateCombineButtonVisibility();
             UpdatePlane2Visibility();
         }
 
@@ -287,13 +285,27 @@ namespace WebGL.UI.Panels
             _axisZBtn?.EnableInClassList("submenu-card--active", _activeAxes.Contains(CrossSectionAxis.Z));
         }
 
+        private void UpdateCombineButtonVisibility()
+        {
+            if (_combineBtn == null)
+            {
+                return;
+            }
+
+            bool showCombine = _activeAxes.Count >= 2;
+            _combineBtn.EnableInClassList("cross-section-config-btn--visible", showCombine);
+            _combineBtn.EnableInClassList("cross-section-config-btn--hidden", !showCombine);
+            _combineBtn.pickingMode = showCombine ? PickingMode.Position : PickingMode.Ignore;
+        }
+
         private void UpdatePlane2Visibility()
         {
             bool show2 = _isEnabled && _activeAxes.Count >= 2 && !_isCombined;
             if (_controls2Container != null)
             {
-                _controls2Container.style.display = show2 ? DisplayStyle.Flex : DisplayStyle.None;
-                _controls2Container.style.opacity = show2 ? 1f : 0f;
+                _controls2Container.EnableInClassList("cross-section-controls--visible", show2);
+                _controls2Container.EnableInClassList("cross-section-controls--hidden", !show2);
+                _controls2Container.pickingMode = show2 ? PickingMode.Position : PickingMode.Ignore;
             }
         }
     }

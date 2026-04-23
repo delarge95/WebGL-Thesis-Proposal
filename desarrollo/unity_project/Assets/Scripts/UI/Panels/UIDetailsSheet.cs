@@ -21,7 +21,7 @@ namespace WebGL.UI.Panels
         private readonly VisualElement _root;
         private readonly VisualElement _detailsSheet;
         private readonly VisualElement _bottomBar;
-        private readonly Button _infoBarPeek;
+        private readonly VisualElement _infoBarPeek;
         private readonly Button _sheetCloseBtn;
         private readonly VisualElement _contentDetails;
         private readonly Label _partNameLabel;
@@ -51,6 +51,7 @@ namespace WebGL.UI.Panels
         public bool IsSheetOpen { get; private set; } = false;
         private float _swipeStartY;
         private bool _isSwipingUp;
+        private bool _isInfoPeekPressed;
 
         // ── Top context label (updates "SELECT A PART" ↔ part name) ──
         private readonly Label _topContextLabel;
@@ -70,7 +71,7 @@ namespace WebGL.UI.Panels
 
             _detailsSheet = root.Q<VisualElement>("BottomSheet");
             _bottomBar = root.Q<VisualElement>("BottomBar");
-            _infoBarPeek = root.Q<Button>("InfoBarPeek");
+            _infoBarPeek = root.Q<VisualElement>("InfoBarPeek");
             _sheetCloseBtn = root.Q<Button>("SheetCloseBtn");
             _contentDetails = root.Q<VisualElement>("SheetContent_Details");
             _partNameLabel = root.Q<Label>("SelectionIndicator");
@@ -93,9 +94,61 @@ namespace WebGL.UI.Panels
 
             if (_infoBarPeek != null)
             {
-                _infoBarPeek.clicked += ShowInfo;
-                AddCleanup(() => _infoBarPeek.clicked -= ShowInfo);
-                RegisterTransientInputBlock(_infoBarPeek);
+                _infoBarPeek.pickingMode = PickingMode.Ignore;
+                SetDescendantsPickingMode(_infoBarPeek, PickingMode.Ignore);
+
+                EventCallback<AttachToPanelEvent> onPeekAttached = _ => SetDescendantsPickingMode(_infoBarPeek, PickingMode.Ignore);
+                _infoBarPeek.RegisterCallback(onPeekAttached);
+                AddCleanup(() => _infoBarPeek.UnregisterCallback(onPeekAttached));
+
+                EventCallback<PointerDownEvent> peekDown = evt =>
+                {
+                    if (evt.button != 0)
+                    {
+                        return;
+                    }
+
+                    _isInfoPeekPressed = true;
+                    InputManager.InputBlocked = true;
+                    evt.StopPropagation();
+                };
+
+                EventCallback<PointerUpEvent> peekUp = evt =>
+                {
+                    if (evt.button != 0)
+                    {
+                        return;
+                    }
+
+                    bool shouldOpen = _isInfoPeekPressed
+                        && _infoBarPeek.worldBound.Contains(evt.position)
+                        && SelectionManager.Instance?.HasSelection == true;
+
+                    _isInfoPeekPressed = false;
+                    InputManager.InputBlocked = false;
+                    evt.StopPropagation();
+
+                    if (shouldOpen)
+                    {
+                        ShowInfo();
+                    }
+                };
+
+                EventCallback<PointerLeaveEvent> peekLeave = evt =>
+                {
+                    _isInfoPeekPressed = false;
+                    InputManager.InputBlocked = false;
+                };
+
+                _infoBarPeek.RegisterCallback(peekDown);
+                _infoBarPeek.RegisterCallback(peekUp);
+                _infoBarPeek.RegisterCallback(peekLeave);
+                AddCleanup(() =>
+                {
+                    _infoBarPeek.UnregisterCallback(peekDown);
+                    _infoBarPeek.UnregisterCallback(peekUp);
+                    _infoBarPeek.UnregisterCallback(peekLeave);
+                });
             }
 
             if (_sheetCloseBtn != null)
@@ -189,6 +242,11 @@ namespace WebGL.UI.Panels
             }
 
             if (_infoBarPeek != null) _infoBarPeek.EnableInClassList("info-bar-peek--sheet-open", isOpen);
+            if (_infoBarPeek != null)
+            {
+                bool peekInteractive = !isOpen && SelectionManager.Instance?.HasSelection == true;
+                _infoBarPeek.pickingMode = peekInteractive ? PickingMode.Position : PickingMode.Ignore;
+            }
             if (_actionsRow != null) _actionsRow.EnableInClassList("actions-row--sheet-open", isOpen);
             if (_partNameLabel != null) _partNameLabel.EnableInClassList("selection-label--hidden", isOpen);
 
@@ -300,6 +358,7 @@ namespace WebGL.UI.Panels
                 {
                     _infoBarPeek.RemoveFromClassList("info-bar-peek--hidden");
                     _infoBarPeek.AddToClassList("info-bar-peek--visible");
+                    _infoBarPeek.pickingMode = PickingMode.Position;
                     
                     // Nudge bottom bar soft up
                     if (_bottomBar != null) _bottomBar.AddToClassList("ui-shifted-soft");
@@ -317,6 +376,7 @@ namespace WebGL.UI.Panels
                 {
                     _infoBarPeek.RemoveFromClassList("info-bar-peek--visible");
                     _infoBarPeek.AddToClassList("info-bar-peek--hidden");
+                    _infoBarPeek.pickingMode = PickingMode.Ignore;
                     
                     // Drop bottom bar back down if the sheet isn't open
                     if (_bottomBar != null && !IsSheetOpen) _bottomBar.RemoveFromClassList("ui-shifted-soft");
@@ -683,6 +743,18 @@ namespace WebGL.UI.Panels
                 element.UnregisterCallback(pointerDown);
                 element.UnregisterCallback(pointerUp);
             });
+        }
+
+        private static void SetDescendantsPickingMode(VisualElement root, PickingMode mode)
+        {
+            if (root == null) return;
+
+            for (int i = 0; i < root.childCount; i++)
+            {
+                VisualElement child = root[i];
+                child.pickingMode = mode;
+                SetDescendantsPickingMode(child, mode);
+            }
         }
     }
 }

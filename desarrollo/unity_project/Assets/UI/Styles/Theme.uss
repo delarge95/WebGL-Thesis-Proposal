@@ -436,32 +436,64 @@
 
 .cross-section-controls {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     flex-grow: 0;
     width: 100%;
+    max-width: 500px;
+    align-self: center;
+    overflow: hidden;
     
-    transition-property: opacity;
-    transition-duration: 0.25s;
+    transition-property: max-height, opacity, translate, scale, margin-top;
+    transition-duration: 0.34s;
     transition-timing-function: ease-out;
+}
+
+.cross-section-controls--hidden {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    translate: 0 -12px;
+    scale: 0.985 0.985;
+}
+
+.cross-section-controls--visible {
+    max-height: 130px;
+    opacity: 1;
+    margin-top: 12px;
+    translate: 0 0;
+    scale: 1 1;
+}
+
+.cross-section-control-row {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    align-self: center;
+    padding: 0 16px;
+    margin-bottom: 18px;
+    gap: 0;
 }
 
 .cross-section-axis-group {
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: flex-start;
-    width: 476px;
-    align-self: center;
-    margin-right: 0;
-    margin-bottom: 8px;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    gap: 8px;
 }
 
 .cross-section-axis-btn {
-    width: 104px;
-    height: 56px;
-    margin: 0 4px;
+    flex-grow: 1;
+    min-width: 0;
+    height: 60px;
+    margin: 0;
     
     background-color: transparent;
-    border-radius: 12px;
+    border-radius: 16px;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.1);
     
@@ -488,26 +520,131 @@
 }
 
 .cross-section-axis-label {
-    font-size: 18px;
+    font-size: 17px;
     color: rgba(255, 255, 255, 0.65);
     -unity-font-style: bold;
     -unity-text-align: middle-center;
+    letter-spacing: 1px;
 }
 
 .cross-section-axis-btn.submenu-card--active .cross-section-axis-label {
     color: rgba(70, 175, 255, 1);
 }
 
+.cross-section-plane-group {
+    width: 100%;
+    max-width: 500px;
+    align-self: center;
+}
+
+.cross-section-controls .cross-section-plane-group {
+    padding-top: 14px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+.cross-section-plane-caption {
+    padding: 0 16px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.38);
+    letter-spacing: 2.6px;
+    -unity-font-style: bold;
+}
+
+.cross-section-slider-row {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    align-self: center;
+    padding: 0 16px;
+    gap: 0;
+}
+
 .cross-section-slider {
-    width: 476px;
-    height: 56px;
-    min-height: 56px;
+    width: auto;
+    height: 60px;
+    min-height: 60px;
     align-self: center;
     margin: 0;
-    padding: 0 16px;
+    padding: 0 14px;
     background-color: transparent;
     border-width: 0;
+    flex-grow: 1;
+}
+
+.cross-section-config-btn {
+    width: 60px;
+    min-width: 60px;
+    height: 60px;
+    min-height: 60px;
+    margin: 0;
+
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 30px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    transition-property: border-color, background-color, scale;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.cross-section-config-btn:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.24);
+    scale: 1.04;
+}
+
+.cross-section-config-btn:active {
+    scale: 0.94;
+}
+
+.cross-section-config-btn.submenu-card--active {
+    background-color: rgba(70, 175, 255, 0.08);
+    border-color: rgba(70, 175, 255, 0.9);
+}
+
+.cross-section-config-btn > .cross-section-axis-label {
+    display: none;
+}
+
+.cross-section-config-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.cross-section-control-row > #CrossSectionCombineBtn {
     flex-grow: 0;
+    overflow: hidden;
+    transition-property: width, min-width, opacity, scale, margin-left;
+    transition-duration: 0.34s;
+    transition-timing-function: ease-out;
+}
+
+.cross-section-control-row > #CrossSectionCombineBtn.cross-section-config-btn--hidden {
+    width: 0;
+    min-width: 0;
+    opacity: 0;
+    scale: 0.88;
+    margin-left: 0;
+}
+
+.cross-section-control-row > #CrossSectionCombineBtn.cross-section-config-btn--visible {
+    width: 60px;
+    min-width: 60px;
+    opacity: 1;
+    scale: 1;
+    margin-left: 28px;
+}
+
+.cross-section-slider-row > .cross-section-config-btn {
+    margin-left: 28px;
 }
 
 /* .icon-cross-section handled procedurally */
@@ -595,7 +732,7 @@
 
 .selection-label--hidden {
     opacity: 0;
-
+    visibility: hidden;
 }
 
 /* ── Hero Submenus (Full Screen Overlays) ── */
@@ -760,8 +897,8 @@
 
 /* UI Soft Shift (When Peek Bar spawns) — nudges bottom bar slightly up */
 .ui-shifted-soft {
-    bottom: 48px;
-    translate: 0 -16px; /* 16px gap above InfoBarPeek � Material 2� base-unit breathing room */
+    bottom: 72px; /* Peek height (56) + safe breathing room so the peek never overlaps the mode pill */
+    translate: 0 0;
 }
 
 /* Pill bar becomes opaque when sheet is open to prevent content bleeding through */
@@ -2044,17 +2181,21 @@
 
 .info-bar-peek--visible {
     translate: -50% 0; /* Slide up, fully visible against bottom edge */
+    opacity: 1;
+    visibility: visible;
 }
 
 .info-bar-peek--hidden {
     translate: -50% 100%;
     opacity: 0;
+    visibility: hidden;
 }
 
 /* When sheet is fully open, peek slides up behind the pill bar (hidden under it) */
 .info-bar-peek--sheet-open {
     translate: -50% -100%;
     opacity: 0;
+    visibility: hidden;
 }
 
 .peek-handle {
@@ -2283,6 +2424,29 @@
 
 .ui-light-bg .cross-section-axis-label {
     color: rgba(22, 24, 28, 0.84);
+}
+
+.ui-light-bg .cross-section-plane-caption {
+    color: rgba(22, 24, 28, 0.48);
+}
+
+.ui-light-bg .cross-section-controls .cross-section-plane-group {
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+.ui-light-bg .cross-section-config-btn {
+    background-color: rgba(255, 255, 255, 0.34);
+    border-color: rgba(0, 0, 0, 0.16);
+}
+
+.ui-light-bg .cross-section-config-btn:hover {
+    background-color: rgba(255, 255, 255, 0.44);
+    border-color: rgba(0, 0, 0, 0.24);
+}
+
+.ui-light-bg .cross-section-config-btn.submenu-card--active {
+    background-color: rgba(70, 175, 255, 0.12);
+    border-color: rgba(70, 175, 255, 0.78);
 }
 
 /* -- Buttons -- */

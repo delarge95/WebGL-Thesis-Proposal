@@ -177,31 +177,41 @@
                 <!-- Level 2a — Cross-Section Panel -->
                 <ui:VisualElement name="CrossSectionPanel" class="mode-submenu cross-section-panel submenu--hidden" picking-mode="Position">
                     <ui:Label text="CROSS SECTION" class="submenu-title" picking-mode="Ignore" />
-                    <ui:VisualElement class="cross-section-axis-group" picking-mode="Position">
-                        <ui:Button name="CrossSectionAxisX" class="cross-section-axis-btn">
-                            <ui:Label text="X" class="cross-section-axis-label" picking-mode="Ignore"/>
-                        </ui:Button>
-                        <ui:Button name="CrossSectionAxisY" class="cross-section-axis-btn submenu-card--active">
-                            <ui:Label text="Y" class="cross-section-axis-label" picking-mode="Ignore"/>
-                        </ui:Button>
-                        <ui:Button name="CrossSectionAxisZ" class="cross-section-axis-btn">
-                            <ui:Label text="Z" class="cross-section-axis-label" picking-mode="Ignore"/>
-                        </ui:Button>
-                        <ui:Button name="CrossSectionInvertBtn" class="cross-section-axis-btn">
-                            <ui:Label text="⇅" class="cross-section-axis-label" picking-mode="Ignore"/>
-                        </ui:Button>
-                        <ui:Button name="CrossSectionCombineBtn" class="cross-section-axis-btn" style="display: none;">
-                            <ui:Label text="∠" class="cross-section-axis-label" picking-mode="Ignore"/>
-                        </ui:Button>
-                    </ui:VisualElement>
-                    <ui:Slider name="CrossSectionPosition" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
-                    <ui:VisualElement name="CrossSectionControls2" class="cross-section-controls" style="display: none;">
+                    <ui:VisualElement class="cross-section-control-row" picking-mode="Position">
                         <ui:VisualElement class="cross-section-axis-group" picking-mode="Position">
-                            <ui:Button name="CrossSectionInvertBtn2" class="cross-section-axis-btn">
-                                <ui:Label text="⇅ 2" class="cross-section-axis-label" picking-mode="Ignore"/>
+                            <ui:Button name="CrossSectionAxisX" class="cross-section-axis-btn">
+                                <ui:Label text="X" class="cross-section-axis-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                            <ui:Button name="CrossSectionAxisY" class="cross-section-axis-btn submenu-card--active">
+                                <ui:Label text="Y" class="cross-section-axis-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                            <ui:Button name="CrossSectionAxisZ" class="cross-section-axis-btn">
+                                <ui:Label text="Z" class="cross-section-axis-label" picking-mode="Ignore"/>
                             </ui:Button>
                         </ui:VisualElement>
-                        <ui:Slider name="CrossSectionPosition2" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
+                        <ui:Button name="CrossSectionCombineBtn" class="cross-section-config-btn cross-section-config-btn--hidden" picking-mode="Ignore" tooltip="Combine active planes">
+                            <pi:ProceduralAngleIcon class="cross-section-config-icon" picking-mode="Ignore"/>
+                        </ui:Button>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="cross-section-plane-group" picking-mode="Ignore">
+                        <ui:Label text="PLANE 1 OFFSET" class="cross-section-plane-caption" picking-mode="Ignore"/>
+                        <ui:VisualElement class="cross-section-slider-row" picking-mode="Position">
+                            <ui:Slider name="CrossSectionPosition" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
+                            <ui:Button name="CrossSectionInvertBtnInline" class="cross-section-config-btn" tooltip="Invert plane direction">
+                                <pi:ProceduralInvertIcon class="cross-section-config-icon" picking-mode="Ignore"/>
+                            </ui:Button>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="CrossSectionControls2" class="cross-section-controls cross-section-controls--hidden" picking-mode="Ignore">
+                        <ui:VisualElement class="cross-section-plane-group" picking-mode="Ignore">
+                            <ui:Label text="PLANE 2 OFFSET" class="cross-section-plane-caption" picking-mode="Ignore"/>
+                            <ui:VisualElement class="cross-section-slider-row" picking-mode="Position">
+                                <ui:Slider name="CrossSectionPosition2" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
+                                <ui:Button name="CrossSectionInvertBtn2Inline" class="cross-section-config-btn" tooltip="Invert second plane direction">
+                                    <pi:ProceduralInvertIcon class="cross-section-config-icon" picking-mode="Ignore"/>
+                                </ui:Button>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
 
@@ -329,10 +339,10 @@
 
         <!-- ═══ PRE-PEEK INFO BAR (Option 1) ═══
              Appears at the very bottom when a part is selected. -->
-        <ui:Button name="InfoBarPeek" class="info-bar-peek info-bar-peek--hidden" picking-mode="Position">
+        <ui:VisualElement name="InfoBarPeek" class="info-bar-peek info-bar-peek--hidden" picking-mode="Position">
             <ui:VisualElement class="peek-handle" picking-mode="Ignore" />
             <ui:Label name="PeekLabel" text="PART INFO" class="peek-label" picking-mode="Ignore" />
-        </ui:Button>
+        </ui:VisualElement>
 
     </ui:VisualElement>
 

@@ -11,6 +11,7 @@ namespace WebGL.Core.Managers
         private VisualElement root;
         private VisualElement notificationContainer;
         private Label notificationLabel;
+        private Coroutine notificationRoutine;
 
         protected override void Awake()
         {
@@ -23,13 +24,13 @@ namespace WebGL.Core.Managers
             if (uiDocument != null)
             {
                 root = uiDocument.rootVisualElement;
-                CreateNotificationElement();
             }
         }
 
         private void CreateNotificationElement()
         {
             notificationContainer = new VisualElement();
+            notificationContainer.name = "NotificationToast";
             notificationContainer.style.position = Position.Absolute;
             notificationContainer.style.bottom = 50;
             notificationContainer.style.alignSelf = Align.Center;
@@ -42,21 +43,32 @@ namespace WebGL.Core.Managers
             notificationContainer.style.borderTopRightRadius = 20;
             notificationContainer.style.borderBottomLeftRadius = 20;
             notificationContainer.style.borderBottomRightRadius = 20;
-            notificationContainer.style.opacity = 0; // Hidden by default
+            notificationContainer.style.opacity = 0;
+            notificationContainer.style.display = DisplayStyle.None;
+            notificationContainer.pickingMode = PickingMode.Ignore;
 
             notificationLabel = new Label();
+            notificationLabel.name = "NotificationToastLabel";
             notificationLabel.style.color = Color.white;
             notificationLabel.style.fontSize = 16;
+            notificationLabel.pickingMode = PickingMode.Ignore;
             notificationContainer.Add(notificationLabel);
-
-            root.Add(notificationContainer);
         }
 
         public void ShowNotification(string message, float duration = 2.0f)
         {
-            if (notificationContainer == null) return;
+            EnsureRoot();
+            if (root == null) return;
 
-            StartCoroutine(ShowNotificationRoutine(message, duration));
+            EnsureNotificationElement();
+
+            if (notificationRoutine != null)
+            {
+                StopCoroutine(notificationRoutine);
+                notificationRoutine = null;
+            }
+
+            notificationRoutine = StartCoroutine(ShowNotificationRoutine(message, duration));
         }
 
         private IEnumerator ShowNotificationRoutine(string message, float duration)
@@ -83,7 +95,55 @@ namespace WebGL.Core.Managers
                 notificationContainer.style.opacity = Mathf.Lerp(1, 0, timer / 0.5f);
                 yield return null;
             }
+            HideNotificationElement();
+            notificationRoutine = null;
+        }
+
+        private void EnsureRoot()
+        {
+            if (root != null)
+            {
+                return;
+            }
+
+            if (uiDocument == null)
+            {
+                uiDocument = FindAnyObjectByType<UIDocument>();
+            }
+
+            root = uiDocument != null ? uiDocument.rootVisualElement : null;
+        }
+
+        private void EnsureNotificationElement()
+        {
+            if (notificationContainer == null)
+            {
+                CreateNotificationElement();
+            }
+
+            if (notificationContainer.parent == null && root != null)
+            {
+                root.Add(notificationContainer);
+            }
+
+            notificationContainer.style.display = DisplayStyle.Flex;
             notificationContainer.style.opacity = 0;
+        }
+
+        private void HideNotificationElement()
+        {
+            if (notificationContainer == null)
+            {
+                return;
+            }
+
+            notificationContainer.style.opacity = 0;
+            notificationContainer.style.display = DisplayStyle.None;
+
+            if (notificationContainer.parent != null)
+            {
+                notificationContainer.RemoveFromHierarchy();
+            }
         }
     }
 }
