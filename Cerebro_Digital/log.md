@@ -2,6 +2,12 @@
 
 Registro cronológico de las sesiones de ingesta, consultas, y modificaciones de código/resúmenes realizadas por el agente en la base de conocimiento.
 
+## [2026-04-30] automation | Pipeline Automático de Baking CAD (Blender a Marmoset)
+- Desarrollados dos scripts Python ejecutados vía Antigravity MCP en Blender.
+- Resuelto el problema de *Multi-user data* mediante matemáticas de vértices para sanear escalas de instancias masivas sin perder referencias.
+- Corregido el bug de jerarquías (13 tornillos con escalas discrepantes) calculando compensaciones de matrices globales.
+- Documentado el pipeline AAA en `CAD_Bake_Automation_Workflow.md` y preparado el ensamblaje para RizomUV y Marmoset.
+
 ## [2026-04-16] ingest | Ejecución de Mapas de Contenido Masivos (MOCs)
 - Script Python ejecutado para agrupar más de 150 nodos sueltos de las carpetas madre.
 - Nodos MOC creados en `Wiki/Concepts/`: `MOC_Documentacion_Tecnica`, `MOC_Auditorias_y_Planes`, `MOC_Validacion_y_Presentacion`, `MOC_Portafolio_Personal`, `MOC_Agentes_Skills`.

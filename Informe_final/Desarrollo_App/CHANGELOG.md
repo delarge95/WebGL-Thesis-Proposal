@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-04-30] Automatización del Pipeline CAD para Baking (Blender)
+
+### Added
+- Scripts de automatización en Blender para extracción de Masters y saneamiento de Instancias (`CAD_Bake_Automation_Workflow.md`).
+- Corrección algorítmica de jerarquías CAD (`Multi-user data` error bypass) preservando *transforms* y compensando escalas nulas o heredadas.
+- Nomenclatura automatizada `_low` y `_high` lista para *Quick Loader* de Marmoset Toolbag.
+
+---
+
 ## [2026-04-21] Onboarding MVP procedural, gestos reales por plataforma y cierre de UX guiada
 
 ### Added
