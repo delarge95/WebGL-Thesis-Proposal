@@ -5,7 +5,19 @@
 
 ---
 
-## [2026-04-30] Automatización del Pipeline CAD para Baking (Blender)
+## [2026-05-06] Saneamiento Geométrico 3D, Material IDs y Modulariación de Fasteners (Blender)
+
+### Added
+- Nuevo documento de mapeo `Holybro_Material_Mapping.md` estableciendo 7 perfiles físicos PBR.
+- Script automatizado en Blender para aplicar *Material IDs* a 55 piezas basado en colores de *Viewport* (optimización para RizomUV y Marmoset).
+- Aislamiento arquitectónico de la tornillería hacia colecciones `FASTENER_MASTERS`, preparándolas para instanciamiento puro en Unity.
+- Plan de acción final estructurado en `PLAN_DE_ACCION_FINAL_2026-05-06.md`.
+
+### Fixed
+- Corrección del bug de *Apply Transforms* en geometrías High-Poly (batería, GPS, telemetría) ocultas en el viewport, asegurando superposición perfecta de Bounding Boxes.
+- Remoción forzada de *Custom Split Normals* en mallas de baja resolución (LOW) para prevención de corrupción del *Tangent Space* en bake.
+
+---
 
 ### Added
 - Scripts de automatización en Blender para extracción de Masters y saneamiento de Instancias (`CAD_Bake_Automation_Workflow.md`).
@@ -70,6 +82,7 @@
 - `OrbitCameraController.cs`: se reduce aun mas la sensibilidad minima de `pan` en inspeccion cercana para fasteners y piezas pequenas.
 - `PartVisibilityManager.cs`: expone `GetIsolatedTransform()` para que la camara pueda distinguir entre contexto aislado real y foco heredado de una seleccion antigua.
 - `FastenerInspectionManager.cs`: pasa de una unica inspeccion por seleccion a un set activo de fasteners modulares, cubriendo fastener seleccionado, fastener aislado aun sin seleccion y fasteners asociados a una pieza madre aislada.
+- `FastenerInspectionManager.cs`: al resolver clicks sobre meshes hijos revisa el marker del root del fastener antes de detenerse en la frontera `ExplodablePart`, evitando perder seleccion sin contaminarse con piezas madre.
 - `SelectionManager.cs`: limpia el estado de hover al convertir una pieza en seleccion y evita el tinte azul residual al deseleccionar desde el background.
 - `UIDetailsSheet.cs`: muestra subtipo, metrica, longitud, drive, material, CAD source y parent canonical para selecciones de `Fasteners`; para piezas madre agrega ensamblaje y subpiezas desde `subComponentNames`.
 - `HolybroFastenerCatalogBuilder.cs`: ahora infiere `parentCanonicalPartId` por proximidad al anchor directo del dron para compensar que la escena actual agrupa los fasteners bajo `x500v2_fastener_group`.

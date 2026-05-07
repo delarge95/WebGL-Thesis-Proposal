@@ -108,6 +108,9 @@ Implementar la parte Unity del plan de optimizacion de fasteners sin depender au
    - _Implementacion_: `FastenerInspectionManager` dejo de manejar una unica inspeccion seleccionada y ahora resuelve un conjunto activo de fasteners modulares segun el contexto runtime.
    - _Implementacion_: El detalle procedural se activa para el fastener seleccionado, para cualquier fastener aislado aunque ya no este seleccionado y para los fasteners reconciliados de una pieza madre aislada.
    - _Resultado_: El isolate ya no depende de mantener una seleccion dura para mostrar detalle modular y las piezas madre aisladas arrastran sus fasteners a la representacion detallada sin globalizar el reemplazo a toda la escena.
+16. **Correccion de resolucion por meshes hijos de fasteners**:
+   - _Implementacion_: `FastenerInspectionManager` ahora revisa el `FastenerRuntimeMarker` del root del fastener antes de detener el recorrido en la frontera `ExplodablePart`.
+   - _Resultado_: Los clicks o focos sobre geometria hija pueden resolver el fastener completo sin volver a capturar markers de piezas madre o hermanos.
 
 ### Estado Actual
 

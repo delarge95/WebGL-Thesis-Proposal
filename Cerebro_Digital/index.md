@@ -56,6 +56,7 @@ _(Sub-Índices generados automáticamente para agrupar repositorios de manera or
 - [[MOC_Drone_Research]] — Investigación Holybro X500 V2, especificaciones, componentes, CAD, data bindings (40+ archivos)
 - [[MOC_Testing_Validation]] — Testing con usuarios, protocolos, auditorías funcionales, SUS/NASA-TLX, reportes (25+ archivos)
 - [[MOC_Academic_Thesis]] — Estructura LaTeX, 6 capítulos, bibliografía, auditorías académicas, manuales (25+ archivos)
+- [[MOC_Informe_Final_Estudio_Profundo]] — Módulos pedagógicos por capítulo, guion completo de sustentación y explicaciones profundas del informe final
 
 ### 📚 MOCs de Dominio (Documentación Temática)
 

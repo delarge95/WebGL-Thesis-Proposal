@@ -1,4 +1,4 @@
-﻿---
+---
 tipo: anexo_bibliografia_cruzada
 area: trazabilidad_bibliografica
 estado: activo

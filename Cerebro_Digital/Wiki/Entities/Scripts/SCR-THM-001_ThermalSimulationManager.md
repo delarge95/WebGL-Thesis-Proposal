@@ -1,4 +1,4 @@
-﻿---
+---
 tipo: script_card
 area: unity
 estado: activo

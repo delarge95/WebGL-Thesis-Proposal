@@ -38,6 +38,23 @@ area: trazabilidad
 - [[TRC_INF_C07_Referencias]]
 - [[TRC_INF_C08_Apendices]]
 
+## Variante de estudio y sustentacion
+
+- [[MOC_Informe_Final_Estudio_Profundo]]
+- [[INF_EST_00_Guia_Defensa_y_Lectura]]
+- [[INF_EST_20_Catalogo_Secciones_y_Cobertura]]
+- [[INF_EST_91_Preguntas_Dificiles_Defensa]]
+- [[INF_EST_50_Storytelling_Sustentacion_30min]]
+- [[INF_EST_51_Guion_Completo_Sustentacion_30min]]
+- [[INF_EST_52_Auditoria_Oratoria_Guion]]
+- [[INF_EST_53_Auditoria_Oratoria_v2_Diagnostico]]
+- [[INF_EST_54_Guion_Corregido_v2_Parte1]]
+- [[INF_EST_55_Guion_Corregido_v2_Parte2]]
+- [VARIANTE_ESTUDIO_OBSIDIAN](Informe_final/VARIANTE_ESTUDIO_OBSIDIAN.md)
+- [[INF_EST_31_UX_UI_Mobile_First#Onboarding como reduccion de incertidumbre]]
+- [[INF_EST_31_UX_UI_Mobile_First#Info panel como centro semantico]]
+- [[INF_EST_35_Tooling_Arquitectura_Runtime#Jerarquia de seleccion]]
+
 ## Auditorias academicas
 
 ```dataview
