@@ -17,7 +17,7 @@ MonoBehaviour:
   partType: Receiver
   description: Receptor RC compatible (RadioMaster R81 recomendado). D8/D16 o ELRS.
     SBUS/PPM al Pixhawk RC IN. Opcional para el kit.
-  weightKg: 0.037
+  weightKg: 0.005
   dimensions: "~25 \xD7 15 \xD7 8 mm"
   function: "Recepci\xF3n de se\xF1ales de control manual del piloto"
   materialType: PCB miniatura con antena
@@ -66,9 +66,9 @@ MonoBehaviour:
   screwSize: 
   subComponentNames:
   - RC receiver proxy
-  - 
-  - 
-  - 
+  - 'Fasteners: Socket Cap Screw M2.5 x 6 mm x4'
+  - 'Fasteners: Socket Cap Screw M3 x 38 mm x8'
+  - 'Fasteners: Flange Nut M3 x4'
   fastenerMetadata:
     instanceId: 
     familyId: 

@@ -208,7 +208,7 @@ Enlaces:
 
 Idea clave:
 
-La sustentacion debe sonar como cierre final del proyecto, no como informe abierto. La version de ensayo puede conservar marcadores internos de reemplazo, pero el discurso oral debe anticipar la lectura final con datos reales post-freeze.
+La sustentacion debe sonar segura, pero no debe cerrar empiricamente datos que aun no se han medido. La version de ensayo puede conservar marcadores internos de reemplazo; el discurso final solo debe usar datos reales post-freeze.
 
 Guion sugerido:
 
@@ -307,7 +307,7 @@ Ver respuestas en [[INF_EST_91_Preguntas_Dificiles_Defensa]].
 
 ## Regla de oro
 
-Practicar como si la version final ya estuviera lista, pero mantener internamente marcados los datos que deben reemplazarse con medicion real. La exposicion final debe presentar un prototipo funcional avanzado, metodologicamente honesto, con arquitectura, pipeline y resultados trazables.
+Practicar el recorrido completo como si la version final ya estuviera lista, pero mantener marcados los datos que deben reemplazarse con medicion real. La exposicion final debe presentar un prototipo funcional avanzado, metodologicamente honesto, con arquitectura, pipeline y resultados trazables; si un dato no esta medido, se dice que queda pendiente post-freeze.
 
 ## Referentes de comunicacion aplicados
 

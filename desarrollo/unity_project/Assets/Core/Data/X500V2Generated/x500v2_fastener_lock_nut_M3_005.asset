@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_lock_nut_M3_005
   m_EditorClassIdentifier: 
-  partName: M3 Dome/Cap Nut
+  partName: Cap Nut M3
   id: x500v2_fastener_lock_nut_M3_005
-  partType: Structure
-  description: Cap nut. Part modeled based on CAD LM-M3-DING.
-  weightKg: 0.001
+  partType: Cap Nut
+  description: Tuerca ciega. Pieza modelada en base al CAD LM-M3-DING. Synced source
+    expects 8 units while the current temporary scene contains 17.
+  weightKg: 0
   dimensions: M3
-  function: Cap nut
-  materialType: Brass
+  function: Fastening / mounting | M3 | Cap
+  materialType: "Lat\xF3n"
   materialProperties: Brass
   manufacturer: Holybro
   partNumber: LM-M3-DING
@@ -40,7 +41,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -76,12 +77,13 @@ MonoBehaviour:
     driveType: N/A
     threadPitchMm: 0
     turnCount: 0
-    material: Laton
+    material: "Lat\xF3n"
     finish: Brass
     quantityExpected: 8
     isInspectable: 1
     fallbackReason: 
-    notes: Cap nut. Part modeled based on CAD LM-M3-DING.
+    notes: Tuerca ciega. Pieza modelada en base al CAD LM-M3-DING. Synced source
+      expects 8 units while the current temporary scene contains 17.
     recipeKey: lock_nut_M3_placeholder
     builderType: CapNut
     orientationMode: ShortestAxis

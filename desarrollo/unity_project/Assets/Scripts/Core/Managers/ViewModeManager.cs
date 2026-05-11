@@ -31,6 +31,14 @@ namespace WebGL.Core.Managers
 
     public class ViewModeManager : Singleton<ViewModeManager>
     {
+        private const float BlueprintOutlineWidth = 0.00008f;
+        private const float BlueprintEdgeThreshold = 0.94f;
+        private const float BlueprintFresnelPower = 8f;
+        private const float BlueprintGridScale = 22f;
+        private const float SolidOutlineWidth = 0.0001f;
+        private const bool BlueprintUsesScreenSpaceEdges = false;
+        private const float BlueprintScreenSpaceEdgeThickness = 0.12f;
+
         [Header("Materials")]
         [SerializeField] private Material xRayMaterial;
         [SerializeField] private Material blueprintMaterial;
@@ -94,19 +102,9 @@ namespace WebGL.Core.Managers
                 CreateDefaultMaterials();
             }
 
+            CreateDefaultMaterials();
             ApplyModeToRenderers(currentMode);
-
-            bool needsEdges = currentMode == ViewMode.Blueprint;
-            EdgeDetectionFeature.GlobalEnabled = needsEdges;
-            if (needsEdges)
-            {
-                EdgeDetectionFeature.OverrideEdgeColor = blueprintLineColor;
-                EdgeDetectionFeature.OverrideEdgeThickness = 0.75f;
-            }
-            else
-            {
-                EdgeDetectionFeature.OverrideEdgeThickness = -1f;
-            }
+            ConfigureScreenSpaceEdges(currentMode);
 
             if (notifyListeners)
             {
@@ -176,10 +174,6 @@ namespace WebGL.Core.Managers
                     blueprintMaterial.name = "Blueprint";
                     blueprintMaterial.SetColor("_LineColor", blueprintLineColor);
                     blueprintMaterial.SetColor("_BackgroundColor", blueprintBgColor);
-                    blueprintMaterial.SetFloat("_GridScale", 20f);
-                    blueprintMaterial.SetFloat("_OutlineWidth", 0.0015f);
-                    blueprintMaterial.SetFloat("_FresnelPower", 6.5f);
-                    blueprintMaterial.SetFloat("_EdgeThreshold", 0.56f);
                 }
                 else
                 {
@@ -230,6 +224,44 @@ namespace WebGL.Core.Managers
                     thermalMaterial = CreateFallbackMaterial("Thermal", Color.red);
                 }
             }
+
+            CalibrateViewModeMaterials();
+        }
+
+        private void CalibrateViewModeMaterials()
+        {
+            if (blueprintMaterial != null)
+            {
+                SetColorIfPresent(blueprintMaterial, "_LineColor", blueprintLineColor);
+                SetColorIfPresent(blueprintMaterial, "_BackgroundColor", blueprintBgColor);
+                SetFloatIfPresent(blueprintMaterial, "_GridScale", BlueprintGridScale);
+                SetFloatIfPresent(blueprintMaterial, "_OutlineWidth", BlueprintOutlineWidth);
+                SetFloatIfPresent(blueprintMaterial, "_FresnelPower", BlueprintFresnelPower);
+                SetFloatIfPresent(blueprintMaterial, "_EdgeThreshold", BlueprintEdgeThreshold);
+            }
+
+            if (solidColorMaterial != null)
+            {
+                SetColorIfPresent(solidColorMaterial, "_BaseColor", solidColor);
+                SetColorIfPresent(solidColorMaterial, "_OutlineColor", new Color(0.12f, 0.16f, 0.22f, 1f));
+                SetFloatIfPresent(solidColorMaterial, "_OutlineWidth", SolidOutlineWidth);
+            }
+        }
+
+        private static void SetColorIfPresent(Material material, string propertyName, Color value)
+        {
+            if (material != null && material.HasProperty(propertyName))
+            {
+                material.SetColor(propertyName, value);
+            }
+        }
+
+        private static void SetFloatIfPresent(Material material, string propertyName, float value)
+        {
+            if (material != null && material.HasProperty(propertyName))
+            {
+                material.SetFloat(propertyName, value);
+            }
         }
 
         private Material CreateFallbackMaterial(string name, Color color)
@@ -257,24 +289,17 @@ namespace WebGL.Core.Managers
                 CacheRenderers();
                 CreateDefaultMaterials();
             }
+            else
+            {
+                CalibrateViewModeMaterials();
+            }
 
             ViewMode previousMode = currentMode;
             currentMode = mode;
 
             StartCoroutine(TransitionToMode(mode));
 
-            // Toggle screen-space edge detection for Blueprint mode
-            bool needsEdges = mode == ViewMode.Blueprint;
-            EdgeDetectionFeature.GlobalEnabled = needsEdges;
-            if (needsEdges)
-            {
-                EdgeDetectionFeature.OverrideEdgeColor = blueprintLineColor;
-                EdgeDetectionFeature.OverrideEdgeThickness = 0.35f;
-            }
-            else
-            {
-                EdgeDetectionFeature.OverrideEdgeThickness = -1f;
-            }
+            ConfigureScreenSpaceEdges(mode);
 
             OnModeChanged?.Invoke(mode);
             EventBus.Publish(new ViewModeChangedEvent(mode != ViewMode.Realistic));
@@ -285,6 +310,21 @@ namespace WebGL.Core.Managers
             }
 
             Debug.Log($"[ViewModeManager] Switched to: {mode}");
+        }
+
+        private void ConfigureScreenSpaceEdges(ViewMode mode)
+        {
+            bool useScreenSpaceEdges = mode == ViewMode.Blueprint && BlueprintUsesScreenSpaceEdges;
+            EdgeDetectionFeature.GlobalEnabled = useScreenSpaceEdges;
+
+            if (useScreenSpaceEdges)
+            {
+                EdgeDetectionFeature.OverrideEdgeColor = blueprintLineColor;
+                EdgeDetectionFeature.OverrideEdgeThickness = BlueprintScreenSpaceEdgeThickness;
+                return;
+            }
+
+            EdgeDetectionFeature.OverrideEdgeThickness = -1f;
         }
 
         private System.Collections.IEnumerator TransitionToMode(ViewMode mode)

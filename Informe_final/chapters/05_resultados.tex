@@ -1,6 +1,6 @@
 \section{Resultados y Análisis}
 
-Este capítulo permanece abierto hasta completar el congelamiento de la build final y la ejecución de las mediciones definidas en la metodología. Con el fin de mantener coherencia entre propuesta, informe, desarrollo técnico y evidencia empírica, aquí se conserva una estructura editorial explícita de tablas y figuras pendientes, sin diligenciar valores que todavía no hayan sido obtenidos.
+Este capítulo permanece abierto hasta completar el congelamiento de la build final y la ejecución de las mediciones definidas en la metodología. Con el fin de mantener coherencia entre propuesta, informe, desarrollo técnico y evidencia empírica, aquí se conserva una estructura explícita de tablas y figuras pendientes, sin diligenciar valores que aún no hayan sido obtenidos.
 
 \subsection{Condiciones para cerrar el capítulo}
 
@@ -13,10 +13,12 @@ El capítulo 5 solo debe consolidarse cuando existan, en la misma versión conge
     \item KPIs técnicos medidos sobre esa build;
     \item verificación funcional del onboarding de primer uso, incluyendo variante desktop/mobile y consistencia con los controles reales de la build congelada;
     \item aplicación de SUS, NASA-TLX Raw por condición y protocolo \textit{Think-Aloud};
-    \item tablas y figuras diligenciadas con datos reproducibles, fechados y trazables.
+    \item tablas y figuras diligenciadas con datos reproducibles, fechados y trazables;
+    \item manifest Blender del runtime final, incluyendo masters, instancias, fasteners primitivos y reconciliacion del conteo frente al baseline Unity;
+    \item reporte de importacion Unity del FBX final, con verificacion de jerarquia, instancias, ejes de helices, grupos/hotspots, filtros y fasteners ambiguos.
 \end{enumerate}
 
-\subsection{Reserva editorial para resultados del pipeline de activos}
+\subsection{Reserva para resultados del pipeline de activos}
 
 Antes de cerrar el capítulo deben existir métricas trazables del efecto del saneamiento geométrico y del reimport final. Estas tablas no sustituyen la explicación del capítulo 4; reservan el lugar donde se reportarán resultados observados del pipeline.
 
@@ -34,10 +36,10 @@ Antes de cerrar el capítulo deben existir métricas trazables del efecto del sa
         Ensamble completo & [pendiente] & [pendiente] & [pendiente] & [pendiente] \\ \hline
     \end{tabular}
     \par\vspace{0.5\baselineskip}
-    \textit{Nota}. Placeholder editorial. La tabla final debe usar familias o piezas realmente auditadas en la build congelada y no categorías inventadas a posteriori. \textit{Fuente}. Elaboración propia.
+    \textit{Nota}. Placeholder. La tabla final debe usar familias o piezas realmente auditadas en la build congelada y no categorías inventadas a posteriori. \textit{Fuente}. Elaboración propia.
 \end{table}
 
-\subsection{Reserva editorial para resultados técnicos}
+\subsection{Reserva para resultados técnicos}
 
 Las Tablas \ref{tab:kpis_tecnicos_post_freeze} y \ref{tab:fps_por_dispositivo_post_freeze} reservan la ubicación final de los resultados de rendimiento. Su propósito es dejar cerrada la maqueta del capítulo sin presentar mediciones aparentes antes del \textit{freeze}.
 
@@ -57,7 +59,7 @@ Las Tablas \ref{tab:kpis_tecnicos_post_freeze} y \ref{tab:fps_por_dispositivo_po
         Presupuesto geométrico & convención final de la escena & [pendiente post-freeze] & auditoría de escena y activos \\ \hline
     \end{tabular}
     \par\vspace{0.5\baselineskip}
-    \textit{Nota}. Placeholder editorial. Esta tabla debe diligenciarse únicamente con la build congelada posterior al reimport y a la optimización final del \textit{pipeline} CAD a Unity. \textit{Fuente}. Elaboración propia.
+    \textit{Nota}. Placeholder. Esta tabla debe diligenciarse únicamente con la build congelada posterior al reimport y a la optimización final del \textit{pipeline} CAD a Unity. \textit{Fuente}. Elaboración propia.
 \end{table}
 
 \begin{table}[H]
@@ -74,7 +76,7 @@ Las Tablas \ref{tab:kpis_tecnicos_post_freeze} y \ref{tab:fps_por_dispositivo_po
         Móvil objetivo & [pendiente] & modos analíticos & [pendiente] & [pendiente] \\ \hline
     \end{tabular}
     \par\vspace{0.5\baselineskip}
-    \textit{Nota}. Placeholder editorial para la tabla comparativa de desempeño por dispositivo. Los escenarios deben definirse de manera consistente con las tareas del protocolo de validación y con la compatibilidad web realmente verificada. \textit{Fuente}. Elaboración propia.
+    \textit{Nota}. Placeholder. Los escenarios deben definirse de manera consistente con las tareas del protocolo de validación y con la compatibilidad web realmente verificada. \textit{Fuente}. Elaboración propia.
 \end{table}
 
 \begin{table}[H]
@@ -90,10 +92,10 @@ Las Tablas \ref{tab:kpis_tecnicos_post_freeze} y \ref{tab:fps_por_dispositivo_po
         Móvil & [pendiente] & [pendiente] & [pendiente] & [pendiente] \\ \hline
     \end{tabular}
     \par\vspace{0.5\baselineskip}
-    \textit{Nota}. Placeholder editorial. Esta tabla debe cerrar la diferencia entre compatibilidad esperada y compatibilidad verificada sobre la build final, sin extrapolar resultados a dispositivos no probados. \textit{Fuente}. Elaboración propia.
+    \textit{Nota}. Placeholder. Esta tabla debe cerrar la diferencia entre compatibilidad esperada y compatibilidad verificada sobre la build final, sin extrapolar resultados a dispositivos no probados. \textit{Fuente}. Elaboración propia.
 \end{table}
 
-\subsection{Reserva editorial para resultados de usabilidad}
+\subsection{Reserva para resultados de usabilidad}
 
 La evaluación con usuarios debe incluir el puntaje SUS agregado, la distribución por participante y una visualización sintética que facilite su interpretación frente a referencias de benchmark reportadas en la literatura. En coherencia con la metodología vigente, el SUS se aplicará únicamente al prototipo 3D y no a la comparación 3D vs.\ 2D.
 
@@ -112,7 +114,7 @@ La evaluación con usuarios debe incluir el puntaje SUS agregado, la distribuci�
         P5--P12 & [pendiente] & [pendiente] & [pendiente] & [pendiente] \\ \hline
     \end{tabular}
     \par\vspace{0.5\baselineskip}
-    \textit{Nota}. Placeholder editorial. La interpretación final debe reconocer que 68 corresponde al promedio histórico del instrumento y debe complementarse con escalas adjetivales, percentiles o benchmarks equivalentes según el enfoque metodológico adoptado en la versión final del estudio. \textit{Fuente}. Elaboración propia.
+    \textit{Nota}. Placeholder. La interpretación final debe reconocer que 68 corresponde al promedio histórico del instrumento y debe complementarse con escalas adjetivales, percentiles o benchmarks equivalentes según el enfoque metodológico adoptado en la versión final del estudio. \textit{Fuente}. Elaboración propia.
 \end{table}
 
 \placeholderfigure
@@ -121,7 +123,7 @@ La evaluación con usuarios debe incluir el puntaje SUS agregado, la distribuci�
     {Inserte aquí una gráfica de barras, caja o dispersión que resuma la distribución de puntajes SUS en la muestra final.}
     {Estado esperado: resultado empírico posterior al freeze y a la aplicación del cuestionario.}
 
-\subsection{Reserva editorial para resultados de carga de trabajo percibida}
+\subsection{Reserva para resultados de carga de trabajo percibida}
 
 La lectura de NASA-TLX Raw debe reportar tanto el promedio global como el comportamiento por dimensiones para evitar interpretaciones excesivamente simplificadas. En este informe, NASA-TLX se usa para estimar carga de trabajo percibida, no como medición directa de las categorías de la Teoría de la Carga Cognitiva.
 
@@ -140,7 +142,7 @@ La lectura de NASA-TLX Raw debe reportar tanto el promedio global como el compor
         P5--P12 & [p] & [p] & [p] & [p] & [p] & [p] & [p] \\ \hline
     \end{tabular}
     \par\vspace{0.5\baselineskip}
-    \textit{Nota}. DM = demanda mental; DF = demanda física; DT = demanda temporal; R = rendimiento invertido; E = esfuerzo; F = frustración. Placeholder editorial. La tabla final debe diligenciarse con valores entre 0 y 100 para cada dimensión y reportarse por condición cuando exista comparación 2D vs.\ 3D. \textit{Fuente}. Elaboración propia.
+    \textit{Nota}. DM = demanda mental; DF = demanda física; DT = demanda temporal; R = rendimiento invertido; E = esfuerzo; F = frustración. Placeholder. La tabla final debe diligenciarse con valores entre 0 y 100 para cada dimensión y reportarse por condición cuando exista comparación 2D vs.\ 3D. \textit{Fuente}. Elaboración propia.
 \end{table}
 
 \placeholderfigure
@@ -149,7 +151,7 @@ La lectura de NASA-TLX Raw debe reportar tanto el promedio global como el compor
     {Inserte aquí una gráfica de barras agrupadas, radar o perfil por dimensiones para la muestra final.}
     {Estado esperado: resultado empírico posterior al freeze y a la aplicación del cuestionario.}
 
-\subsection{Reserva editorial para resultados cualitativos}
+\subsection{Reserva para resultados cualitativos}
 
 El protocolo \textit{Think-Aloud} debe consolidarse en una tabla de categorías analíticas, frecuencia de aparición y citas representativas.
 
@@ -170,11 +172,11 @@ Dado que la versión actual del producto incorpora onboarding guiado, el anális
         Errores, bloqueos o dudas & [pendiente] & [pendiente] & [pendiente] \\ \hline
     \end{tabular}
     \par\vspace{0.5\baselineskip}
-    \textit{Nota}. Placeholder editorial. Las citas incluidas en la versión final deben anonimizar a los participantes y preservar únicamente la información necesaria para el análisis cualitativo. \textit{Fuente}. Elaboración propia.
+    \textit{Nota}. Placeholder. Las citas incluidas en la versión final deben anonimizar a los participantes y preservar únicamente la información necesaria para el análisis cualitativo. \textit{Fuente}. Elaboración propia.
 \end{table}
 
-\subsection{Nota editorial}
+\subsection{Nota de cierre}
 
-En esta versión del informe se reintroducen placeholders editoriales de tablas y figuras para mantener continuidad con el plan de entregables visuales del proyecto. Estas reservas no constituyen resultados observados y deben ser sustituidas por datos reales, fechados y trazables antes del cierre definitivo del trabajo de grado.
+En esta versión del informe se conservan placeholders de tablas y figuras para mantener continuidad con el plan de entregables visuales del proyecto. Estas reservas no constituyen resultados observados y deben sustituirse por datos reales, fechados y trazables antes del cierre definitivo del trabajo de grado.
 
 \newpage

@@ -15,11 +15,11 @@ MonoBehaviour:
   partName: Landing Gear T-Connector
   id: x500v2_blend_mao_jiao
   partType: Structure
-  description: Landing gear T-joint. Part modeled based on CAD MAO-JIAO.
+  description: "Uni\xF3n T del tren. Pieza modelada en base al CAD MAO-JIAO."
   weightKg: 0.008
   dimensions: 16 a 10 mm
-  function: Landing gear T-joint
-  materialType: Reinforced Plastic
+  function: "Uni\xF3n T del tren"
+  materialType: "Pl\xE1stico Reforzado"
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

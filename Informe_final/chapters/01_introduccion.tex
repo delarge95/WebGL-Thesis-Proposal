@@ -5,7 +5,7 @@
 
 \section{Introducción}
 
-La documentación de hardware técnico complejo, como drones y otros sistemas electromecánicos multicomponente, sigue enfrentando un desafío persistente de comunicación espacial cuando depende de imágenes 2D, planos convencionales y documentos PDF estáticos. En este trabajo, \textit{hardware complejo} designa sistemas con integración estructural, energética, electrónica y de control, alta densidad de relaciones espaciales entre piezas y necesidad de inspección visual detallada del ensamblaje. Bajo estas condiciones, los medios estáticos obligan a ingenieros y técnicos a reconstruir mentalmente relaciones tridimensionales que no se presentan de forma explícita, lo que incrementa la demanda cognitiva asociada a la tarea y dificulta la lectura técnica del sistema (Sweller, 1988; Hegarty \& Waller, 2004).
+La documentación de hardware técnico complejo, como drones y otros sistemas electromecánicos multicomponente, enfrenta un desafío de comunicación espacial cuando depende de imágenes 2D, planos convencionales y documentos PDF estáticos. En este trabajo, \textit{hardware complejo} designa sistemas con integración estructural, energética, electrónica y de control, alta densidad de relaciones espaciales entre piezas y necesidad de inspección visual detallada del ensamblaje. Bajo estas condiciones, los medios estáticos obligan a ingenieros y técnicos a reconstruir mentalmente relaciones tridimensionales que no se presentan de forma explícita, lo que incrementa la demanda cognitiva asociada a la tarea y dificulta la lectura técnica del sistema (Sweller, 1988; Hegarty \& Waller, 2004).
 
 La convergencia entre WebAssembly, WebGL y \textit{pipelines} contemporáneos de renderizado físicamente basado abrió una oportunidad concreta para trasladar parte de esa interpretación espacial al propio sistema interactivo (Yu et al., 2023). Sobre esa base, el proyecto se orientó al diseño, desarrollo y documentación de un prototipo web 3D interactivo para la visualización técnica, inspección y análisis visual del ensamblaje del dron Holybro X500~V2, buscando un equilibrio entre claridad técnica, rendimiento web y coherencia de experiencia de usuario.
 
@@ -23,11 +23,16 @@ En este proyecto, el problema técnico se articuló en tres dimensiones compleme
 
 Se identificó, por tanto, la necesidad de documentar un \textit{pipeline} de \textit{Technical Art} que permitiera desplegar hardware complejo en un visor 3D web con orientación espacial suficiente para tareas de inspección, costo computacional controlado y capacidad de análisis visual del ensamblaje para propósitos académicos e ingenieriles.
 
-La pregunta de investigación que orientó el proyecto fue la siguiente: \textbf{¿Qué diferencias descriptivas se observan en desempeño de tareas y carga de trabajo percibida cuando usuarios con perfil afín realizan actividades de exploración e identificación del dron Holybro X500~V2 mediante un prototipo web 3D interactivo, en comparación con un soporte 2D de referencia, y bajo qué condiciones de rendimiento y memoria resulta técnicamente viable dicho prototipo en el navegador? Adicionalmente, ¿cuál es el nivel de usabilidad percibida del prototipo 3D medido con SUS tras su uso?}
+El proyecto se orientó por dos preguntas de investigación complementarias:
+
+\begin{enumerate}
+    \item \textbf{¿Qué diferencias descriptivas se observan en desempeño de tareas y carga de trabajo percibida cuando usuarios con perfil afín realizan actividades de exploración e identificación del dron Holybro X500~V2 mediante un prototipo web 3D interactivo, en comparación con un soporte 2D de referencia, y bajo qué condiciones de rendimiento y memoria resulta técnicamente viable dicho prototipo en el navegador?}
+    \item \textbf{¿Cuál es el nivel de usabilidad percibida del prototipo 3D medido con SUS tras su uso?}
+\end{enumerate}
 
 \subsection{Justificación}
 
-La elección de Unity Web frente a bibliotecas nativas de JavaScript o soluciones de \textit{streaming} remoto no respondió a una promesa simplista de menor tamaño de \textit{build}. La decisión se justificó por la integración del \textit{pipeline}, la capacidad de extensión técnica, el soporte para materiales y shaders, y la posibilidad de mantener un flujo coherente entre programación, arte técnico y evaluación del prototipo.
+La elección de Unity Web frente a bibliotecas nativas de JavaScript o soluciones de \textit{streaming} remoto no respondió a un menor tamaño de \textit{build}. La decisión se justificó por la integración del \textit{pipeline}, la capacidad de extensión técnica, el soporte para materiales y shaders, y la posibilidad de mantener un flujo coherente entre programación, arte técnico y evaluación del prototipo.
 
 \subsubsection{Trade-off explícito entre tooling y huella inicial}
 
@@ -56,7 +61,7 @@ El proyecto aporta al programa por al menos cuatro vías:
 \begin{itemize}
     \item documenta un \textit{pipeline} técnico para llevar activos CAD a un visor web interactivo;
     \item articula computación gráfica, experiencia de usuario, documentación técnica y arte técnico en un mismo caso aplicado;
-    \item traduce restricciones reales de rendimiento web a criterios verificables de diseño y optimización;
+    \item convierte restricciones de rendimiento web en criterios medibles de diseño y optimización;
     \item consolida un caso de estudio pertinente para la Ingeniería Multimedia, donde la claridad técnica del ensamblaje es tan importante como la calidad visual del resultado.
 \end{itemize}
 

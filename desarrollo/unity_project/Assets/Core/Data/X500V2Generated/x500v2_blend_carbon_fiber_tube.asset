@@ -15,10 +15,11 @@ MonoBehaviour:
   partName: Landing Gear 16mm Carbon Tube
   id: x500v2_blend_carbon_fiber_tube
   partType: Structure
-  description: Main vertical skid/leg. Part modeled based on CAD CARBON-FIBER-TUBE.
+  description: "Pat\xEDn o pata vertical principal. Pieza modelada en base al CAD
+    CARBON-FIBER-TUBE."
   weightKg: 0.02
-  dimensions: "\xE2\u0152\u20AC16 mm"
-  function: Main vertical skid/leg
+  dimensions: "\u230016 mm"
+  function: "Pat\xEDn o pata vertical principal"
   materialType: Fibra de carbono
   materialProperties: 
   manufacturer: Holybro
@@ -40,7 +41,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

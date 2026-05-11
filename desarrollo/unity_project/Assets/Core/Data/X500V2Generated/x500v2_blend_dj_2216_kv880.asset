@@ -15,11 +15,12 @@ MonoBehaviour:
   partName: Holybro 2216 KV880 Motor
   id: x500v2_blend_dj_2216_kv880
   partType: Propulsion
-  description: Aerodynamic thrust generation. Part modeled based on CAD DJ-2216-KV880.
+  description: "Generaci\xF3n del empuje aerodin\xE1mico. Pieza modelada en base
+    al CAD DJ-2216-KV880."
   weightKg: 0.063
-  dimensions: "\xE2\u0152\u20AC28\xC3\u201432 mm"
-  function: Aerodynamic thrust generation
-  materialType: Aluminum Alloy / Steel
+  dimensions: "\u230028\xD732 mm"
+  function: "Generaci\xF3n del empuje aerodin\xE1mico"
+  materialType: "Aleaci\xF3n de Aluminio / Acero"
   materialProperties: 
   manufacturer: Holybro
   partNumber: 

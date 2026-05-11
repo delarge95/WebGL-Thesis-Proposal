@@ -15,11 +15,11 @@ MonoBehaviour:
   partName: XT60 Panel / Holder
   id: x500v2_blend_x500_tao_xt60
   partType: Structure
-  description: Soporte cautivo del conector XT60. Part modeled based on CAD X500-TAO-XT60.
+  description: Soporte cautivo del conector XT60. Pieza modelada en base al CAD X500-TAO-XT60.
   weightKg: 0.003
-  dimensions: Standard
+  dimensions: "Est\xE1ndar"
   function: Soporte cautivo del conector XT60
-  materialType: Injection-molded plastic
+  materialType: "Inyecci\xF3n pl\xE1stico"
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

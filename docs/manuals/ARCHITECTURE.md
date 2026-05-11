@@ -1,335 +1,216 @@
 # WebGL Drone Viewer - System Architecture
 
-This document describes the technical architecture of the WebGL Drone Viewer application.
+This document describes the current architecture of the Holybro X500 V2 WebGL viewer. It intentionally separates visible product behavior from implemented-but-hidden or legacy systems.
+
+## Scope Rule
+
+The public app flow is:
+
+```text
+Hero -> Explore -> selection -> bottom sheet -> Inspect / Analyze / Studio
+```
+
+Any module outside that flow must be documented as hidden, legacy or future work unless the final UI exposes it.
 
 ## High-Level Architecture
 
 ```mermaid
 graph TB
-    subgraph "User Interface Layer"
-        UI[UI Toolkit Components]
-        USS[USS Stylesheets]
+    subgraph "UI Layer"
+        UXML["MainLayout.uxml"]
+        USS["USS Styles"]
+        DETAILS["UIDetailsSheet"]
+        MODES["UIModeController"]
     end
-    
-    subgraph "Application Layer"
-        ASM[AppStateMachine]
-        GM[GameManager]
-        EB[EventBus]
+
+    subgraph "Runtime Orchestration"
+        UI["UIManager"]
+        INPUT["InputManager"]
+        STATE["AppStateMachine"]
     end
-    
-    subgraph "Core Managers"
-        SM[SelectionManager]
-        VM[ViewModeManager]
-        EM[ExplodedViewManager]
-        CM[CrossSectionManager]
-        PM[PartCatalogManager]
-        DSC[DroneStateController]
+
+    subgraph "Scene Services"
+        SEL["SelectionManager"]
+        VIS["PartVisibilityManager"]
+        EXP["ExplodedViewManager"]
+        CUT["CrossSectionManager"]
+        VIEW["ViewModeManager"]
+        ENV["EnvironmentController"]
+        HOT["HotspotManager"]
     end
-    
-    subgraph "Engineer Tools"
-        AGM[AssemblyGuideManager]
-        MT[MeasurementTool]
-        CPV[ConnectionPointsViewer]
-        BOM[BillOfMaterialsManager]
-        AS[AnnotationSystem]
-        AC[AssemblyChecklist]
+
+    subgraph "Drone Systems"
+        DRONE["DroneStateController"]
+        THERMAL["ThermalSimulationManager"]
+        THERMALVIEW["ThermalViewController"]
     end
-    
-    subgraph "Content Layer"
-        EP[ExplodablePart]
-        HS[HighlightSystem]
-        DPD[DronePartData]
+
+    subgraph "Fastener Runtime"
+        FREG["FastenerRegistry"]
+        FINSP["FastenerInspectionManager"]
+        FBUILD["FastenerBuilder"]
     end
-    
-    subgraph "Utilities"
-        SG[Singleton/PersistentSingleton]
-        TE[TweenEngine]
-        OP[ObjectPooler]
+
+    subgraph "Data"
+        DPD["DronePartData"]
+        PARTS["x500v2_parts_data.json"]
+        FFAM["holybro_fastener_families.json"]
+        FINST["holybro_fastener_instances.json"]
+        FREC["holybro_fastener_reconciliation.json"]
+        PARENT["holybro_parent_subpieces.json"]
     end
-    
-    UI --> ASM
-    UI --> EB
-    ASM --> GM
-    EB --> SM
-    EB --> VM
-    EB --> EM
-    SM --> EP
-    SM --> HS
-    EP --> DPD
-    VM --> EP
-    EM --> EP
-    AGM --> DPD
-    MT --> EP
-    CPV --> EP
-    SG --> GM
-    SG --> SM
-    TE --> EM
+
+    subgraph "Import / Binding"
+        FBX["x500v2_runtime_low_final.fbx"]
+        BINDER["ImportedDroneRuntimeBinder"]
+        IMPORTER["Tools > Import Final Runtime Drone Model"]
+    end
+
+    UXML --> UI
+    USS --> UI
+    UI --> DETAILS
+    UI --> MODES
+    UI --> INPUT
+    UI --> STATE
+    UI --> SEL
+    UI --> VIS
+    UI --> EXP
+    UI --> CUT
+    UI --> VIEW
+    UI --> ENV
+    UI --> HOT
+    UI --> DRONE
+    DRONE --> THERMAL
+    THERMAL --> THERMALVIEW
+    SEL --> DETAILS
+    SEL --> FINSP
+    FINSP --> FREG
+    FINSP --> FBUILD
+    PARTS --> DPD
+    FFAM --> FREG
+    FINST --> FREG
+    FREC --> FREG
+    PARENT --> DPD
+    FBX --> IMPORTER
+    IMPORTER --> BINDER
+    BINDER --> SEL
+    BINDER --> VIS
+    BINDER --> EXP
+    BINDER --> CUT
+    BINDER --> VIEW
+    BINDER --> FREG
+    BINDER --> FINSP
 ```
 
-## Design Patterns
-
-### 1. Singleton Pattern
+## Visible Modes
 
 ```mermaid
-classDiagram
-    class Singleton~T~ {
-        <<abstract>>
-        -static T _instance
-        +static T Instance
-        #virtual void Awake()
-    }
-    
-    class PersistentSingleton~T~ {
-        <<abstract>>
-        #override void Awake()
-        +DontDestroyOnLoad()
-    }
-    
-    class GameManager {
-        +AppState CurrentState
-        +SetState(state)
-    }
-    
-    class SelectionManager {
-        +Transform CurrentSelection
-        +SelectObject(obj)
-        +Deselect()
-    }
-    
-    Singleton~T~ <|-- PersistentSingleton~T~
-    PersistentSingleton~T~ <|-- GameManager
-    Singleton~T~ <|-- SelectionManager
+flowchart LR
+    BASE["Realistic base"] --> XR["X-Ray"]
+    BASE --> SOLID["Solid"]
+    BASE --> THERMAL["Thermal"]
+    ENV["Environment presets"] --> BLUE["Blueprint preset when available"]
+    ENV --> DAY["Day / Night / Sunset"]
+    ENV --> STUDIO["Studio / Studio Light"]
 ```
 
-### 2. Event Bus Pattern
+Do not describe the UI as "7 public view modes." `Wireframe`, `Ghosted` and some Blueprint paths are implemented or legacy capabilities unless exposed in the current build.
+
+## Functional Modules
+
+| Module | Visible behavior |
+|--------|------------------|
+| `Inspect` | Pins, isolate, power, load. |
+| `Analyze` | Explode, cross-section, category filters. |
+| `Studio` | Visual modes, environment presets and lighting controls. |
+| `Bottom sheet` | Identification, specifications, assembly, fastener metadata. |
+| `Fasteners` | Proxy in rest state, modular detail under selection/isolate/context. |
+
+## Fastener Architecture
 
 ```mermaid
 sequenceDiagram
-    participant Publisher
-    participant EventBus
-    participant Subscriber1
-    participant Subscriber2
-    
-    Subscriber1->>EventBus: Subscribe<PartSelectedEvent>
-    Subscriber2->>EventBus: Subscribe<PartSelectedEvent>
-    
-    Publisher->>EventBus: Publish(PartSelectedEvent)
-    
-    EventBus->>Subscriber1: OnPartSelected(event)
-    EventBus->>Subscriber2: OnPartSelected(event)
+    participant User
+    participant SelectionManager
+    participant FastenerRegistry
+    participant FastenerInspectionManager
+    participant FastenerBuilder
+    participant UIDetailsSheet
+
+    User->>SelectionManager: Click fastener mesh
+    SelectionManager->>SelectionManager: Resolve complete fastener root
+    SelectionManager->>FastenerRegistry: Resolve instanceId/family/recipe
+    FastenerRegistry-->>UIDetailsSheet: Metadata
+    SelectionManager->>FastenerInspectionManager: Active context
+    FastenerInspectionManager->>FastenerBuilder: Build temporary modular detail
+    FastenerInspectionManager-->>SelectionManager: Preserve hover/selection/isolate scope
 ```
 
-### 3. State Machine
+Rules:
 
-```mermaid
-stateDiagram-v2
-    [*] --> Loading
-    Loading --> Intro
-    Intro --> Exploration
-    
-    Exploration --> ExplodedView: Toggle Explode
-    ExplodedView --> Exploration: Toggle Explode
-    
-    Exploration --> FocusMode: Select Part
-    FocusMode --> Exploration: Deselect
-    
-    Exploration --> Settings: Open Settings
-    Settings --> Exploration: Close
-    
-    Exploration --> Menu: Open Menu
-    Menu --> Exploration: Close
-```
+- Keep all fasteners lightweight in the resting scene.
+- Replace only selected, isolated or context-relevant fasteners.
+- Isolating a fastener must isolate the complete fastener, not a child mesh.
+- Isolating a mother piece may include reconciled fasteners.
+- Blender final modules should replace recipes/assets without changing `familyId` or `instanceId`.
 
-## Component Hierarchy
+## Blender-to-Unity Import
 
-```mermaid
-graph LR
-    subgraph "Scene Hierarchy"
-        Root[Scene Root]
-        
-        Root --> Managers[_GameManagers]
-        Root --> UI[MainMenu_UI]
-        Root --> Camera[CameraRig]
-        Root --> Light[Lighting]
-        Root --> Drone[Drone_Root]
-        
-        Managers --> GM2[GameManager]
-        Managers --> SM2[SelectionManager]
-        Managers --> AM[AudioManager]
-        Managers --> VMM[ViewModeManager]
-        Managers --> EMM[ExplodedViewManager]
-        
-        UI --> UID[UIDocument]
-        UI --> VT[ViewModeToolbar]
-        UI --> IP[InfoPanel]
-        UI --> PC[PartCatalog]
-        UI --> ET[EngineerToolbar]
-        
-        Camera --> MC[Main Camera]
-        MC --> OCC[OrbitCameraController]
-        MC --> CP[CameraPresets]
-        
-        Drone --> Body[Body]
-        Drone --> Motors[Motors]
-        Drone --> Props[Propellers]
-        Drone --> Elec[Electronics]
-    end
-```
+The final runtime model is not "instances only." The drone is formed by masters plus instances:
+
+- `BAKE_MASTERS_LOW`
+- `ASSEMBLY_INSTANCES_LOW`
+- `PRIMITIVE_FASTENER_MASTERS`
+- `PRIMITIVE_FASTENER_INSTANCES`
+
+The Unity importer preserves the previous model under an inactive reference root, instantiates the final FBX as `x500v2_Drone`, normalizes propellers/fasteners and writes an import report for QA. The report must be used to verify hierarchy, instancing, group behavior, propeller axes and unresolved fastener parent candidates.
 
 ## Data Flow
 
 ```mermaid
 flowchart TD
-    subgraph "Input"
-        Mouse[Mouse Input]
-        Touch[Touch Input]
-        Keys[Keyboard Input]
-    end
-    
-    subgraph "Processing"
-        IM[InputManager]
-        SM3[SelectionManager]
-        CAM[CameraController]
-    end
-    
-    subgraph "State"
-        ASM2[AppStateMachine]
-        DPD2[DronePartData]
-    end
-    
-    subgraph "Output"
-        Render[Rendering]
-        Audio[Audio]
-        UIOUT[UI Update]
-    end
-    
-    Mouse --> IM
-    Touch --> IM
-    Keys --> IM
-    
-    IM --> SM3
-    IM --> CAM
-    
-    SM3 --> ASM2
-    SM3 --> DPD2
-    
-    ASM2 --> Render
-    ASM2 --> UIOUT
-    DPD2 --> UIOUT
-    SM3 --> Audio
+    A["Blender manifest / FBX"] --> B["Unity import tool"]
+    B --> C["ImportedDroneRuntimeBinder"]
+    D["Canonical JSON data"] --> C
+    E["Fastener JSON data"] --> C
+    C --> F["DronePartData assets"]
+    C --> G["Scene objects / markers"]
+    G --> H["SelectionManager"]
+    H --> I["UIDetailsSheet"]
+    H --> J["PartVisibilityManager"]
+    H --> K["FastenerInspectionManager"]
 ```
 
-## Shader Pipeline
+## Thermal Scope
 
-```mermaid
-graph LR
-    subgraph "View Modes"
-        R[Realistic/PBR]
-        X[X-Ray]
-        B[Blueprint]
-        S[Solid Color]
-        W[Wireframe]
-        G[Ghosted]
-        T[Thermal]
-    end
-    
-    subgraph "Shader Files"
-        CL[ClippableLit.shader]
-        XS[XRay.shader]
-        BS[Blueprint.shader]
-        SS[SolidColor.shader]
-        WS[Wireframe.shader]
-        GS[Ghosted.shader]
-        TS[Thermal.shader]
-    end
-    
-    subgraph "Features"
-        PBR[PBR Lighting]
-        CLIP[Cross Section]
-        FRES[Fresnel]
-        GRID[Grid Pattern]
-        GEO[Geometry Shader]
-    end
-    
-    R --> CL --> PBR
-    R --> CL --> CLIP
-    X --> XS --> FRES
-    B --> BS --> GRID
-    B --> BS --> FRES
-    S --> SS --> PBR
-    W --> WS --> GEO
-    G --> GS --> FRES
-    T --> TS --> FRES
-```
+Thermal is a heuristic component-level visualization:
 
-## Module Dependencies
+- Driven by `DroneStateController` load/state.
+- Solved by `ThermalSimulationManager`.
+- Rendered by `ThermalViewController` and shaders.
+- Not FEA.
+- Not calibrated thermography.
 
-```mermaid
-graph BT
-    subgraph "Foundation"
-        Utils[Utils Layer]
-        Events[Events Layer]
-    end
-    
-    subgraph "Core"
-        Data[Data Layer]
-        Content[Content Layer]
-        Managers[Managers Layer]
-    end
-    
-    subgraph "Presentation"
-        UI2[UI Layer]
-        Shaders[Shaders]
-    end
-    
-    Utils --> Events
-    Events --> Data
-    Events --> Managers
-    Data --> Content
-    Data --> Managers
-    Content --> Managers
-    Managers --> UI2
-    Shaders --> Content
-```
+## Hidden Or Legacy Systems
 
-## File Organization
-
-```
-Assets/
-├── Scripts/
-│   ├── Core/
-│   │   ├── Content/        # Scene components (ExplodablePart, etc.)
-│   │   ├── Data/           # ScriptableObjects
-│   │   ├── Events/         # EventBus, event definitions
-│   │   ├── Managers/       # Singleton managers
-│   │   └── Utils/          # Helpers (Singleton, TweenEngine)
-│   ├── UI/                 # UI Toolkit components
-│   └── Tests/              # Unit tests
-│       └── Editor/
-├── Shaders/                # Custom HLSL shaders
-├── UI/
-│   └── Styles/             # USS stylesheets
-└── Data/
-    └── Parts/              # DronePartData assets
-```
+| Category | Examples | Documentation rule |
+|----------|----------|--------------------|
+| Implemented but hidden | `MeasurementTool`, `Wireframe`, `Ghosted` | Mention only as hidden capacity. |
+| Legacy/non-integrated | BOM, annotations, connection points, assembly checklist, old catalog UI | Keep as historical/future, not final flow. |
+| Future/QA-dependent | Final Blender fastener meshes, measured KPIs, final texture compression decisions | Report only after import/build verification. |
 
 ## Key Metrics
 
-| Metric | Value |
-|--------|-------|
-| Total Scripts | 70+ |
-| Lines of Code | ~10,000 |
-| Managers | 18 |
-| Shaders | 7 |
-| View Modes | 7 |
-| Engineer Tools | 6 |
-| Unit Tests | 2 files |
+Do not use hard-coded script counts, line counts, FPS or reduction percentages as final evidence here. The final report should use:
+
+- Canonical counts from the report: `28` semantic parts, `30` scene anchors.
+- Fastener data when applicable: `20` Unity baseline families, `168` Unity baseline instances, and Blender primitive counts only after manifest/import confirmation.
+- Performance and usability values only after build freeze.
 
 ## Technologies
 
-- **Engine**: Unity 6.0 LTS
-- **Render Pipeline**: Universal Render Pipeline (URP)
-- **UI Framework**: UI Toolkit
-- **Target**: WebGL 2.0 / WebAssembly
-- **Language**: C# 11
-- **Shader Language**: HLSL
+- Unity / URP / C#.
+- WebGL 2.0 / WebAssembly target.
+- UI Toolkit.
+- Blender final runtime pipeline.
+- External texture assets: BaseColor, Normal and packed Mask.

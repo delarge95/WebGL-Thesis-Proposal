@@ -16,7 +16,7 @@ MonoBehaviour:
   id: x500v2_esc_BR
   partType: ESC
   description: "ESC BLHeli-S 20A. Posici\xF3n BR."
-  weightKg: 0.011
+  weightKg: 0.007
   dimensions: "~25 \xD7 13 \xD7 5 mm"
   function: Control de velocidad del motor BR
   materialType: PCB FR4 con MOSFETs y cobre
@@ -63,7 +63,7 @@ MonoBehaviour:
   screwSize: 
   subComponentNames:
   - ESC placeholder (temporary scene)
-  - 
+  - 'Fasteners: Socket Cap Screw M2.5 x 10 mm x2'
   fastenerMetadata:
     instanceId: 
     familyId: 

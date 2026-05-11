@@ -63,6 +63,13 @@ internal static class HolybroFastenerCatalogBuilder
         public Vector3 ReferencePosition;
     }
 
+    private sealed class CategorizedRendererCandidate
+    {
+        public string CanonicalId;
+        public Bounds Bounds;
+        public float SizeScore;
+    }
+
     private static readonly Dictionary<string, string> SceneTypeToSourceId = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
     {
         { "cap_screw_M25x10", "x500v2_blend_gb70_m25_10" },
@@ -90,7 +97,6 @@ internal static class HolybroFastenerCatalogBuilder
     private static readonly HashSet<string> ExplicitFastenerSourceIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
         "x500v2_blend_gpsv5_zhijia_luomao",
-        "x500v2_blend_hmx5v_guan_dingwei",
         "x500v2_blend_huan_guijiao"
     };
 
@@ -312,7 +318,7 @@ internal static class HolybroFastenerCatalogBuilder
                 continue;
             }
 
-            if (!child.name.StartsWith("x500v2_fastener.", StringComparison.OrdinalIgnoreCase))
+            if (!IsSceneFastenerName(child.name))
             {
                 continue;
             }
@@ -334,6 +340,31 @@ internal static class HolybroFastenerCatalogBuilder
         }
 
         return instances;
+    }
+
+    private static bool IsSceneFastenerName(string rawName)
+    {
+        if (string.IsNullOrWhiteSpace(rawName))
+        {
+            return false;
+        }
+
+        if (SelectionHierarchy.IsKnownStructuralNonFastenerName(rawName))
+        {
+            return false;
+        }
+
+        string name = rawName.ToLowerInvariant().Replace('_', '-');
+        return name.Contains("x500v2-fastener.") ||
+               name.Contains("gb70-") ||
+               name.Contains("chen-liu") ||
+               name.Contains("pan-ding") ||
+               name.Contains("zslm-") ||
+               name.Contains("lm-m3") ||
+               name.Contains("nilongzhu") ||
+               name.Contains("huan-guijiao") ||
+               name.Contains("luomao") ||
+               name.Contains("falan");
     }
 
     private static string BuildHierarchyPath(Transform target, Transform root)
@@ -382,7 +413,9 @@ internal static class HolybroFastenerCatalogBuilder
             if (string.IsNullOrWhiteSpace(canonicalId) ||
                 string.Equals(canonicalId, FastenerGroupId, StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(canonicalId, "x500v2_misc_group", StringComparison.OrdinalIgnoreCase) ||
+                canonicalId.StartsWith("x500v2_blend_", StringComparison.OrdinalIgnoreCase) ||
                 canonicalId.StartsWith("x500v2_fastener.", StringComparison.OrdinalIgnoreCase) ||
+                HasRuntimeProxyVisual(part.transform) ||
                 !seenIds.Add(canonicalId))
             {
                 continue;
@@ -401,6 +434,24 @@ internal static class HolybroFastenerCatalogBuilder
         return anchors;
     }
 
+    private static bool HasRuntimeProxyVisual(Transform candidate)
+    {
+        if (candidate == null)
+        {
+            return false;
+        }
+
+        foreach (Transform child in candidate.GetComponentsInChildren<Transform>(true))
+        {
+            if (child != null && child.name.EndsWith("_runtime_proxy", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private static string ResolveParentCanonicalPartId(Transform target, IReadOnlyList<CanonicalAnchorCandidate> canonicalAnchors)
     {
         if (target == null)
@@ -412,10 +463,17 @@ internal static class HolybroFastenerCatalogBuilder
         if (!string.IsNullOrWhiteSpace(immediateParent) &&
             !string.Equals(immediateParent, FastenerGroupId, StringComparison.OrdinalIgnoreCase) &&
             !string.Equals(immediateParent, "x500v2_misc_group", StringComparison.OrdinalIgnoreCase) &&
+            !immediateParent.StartsWith("x500v2_blend_", StringComparison.OrdinalIgnoreCase) &&
             immediateParent.StartsWith("x500v2_", StringComparison.OrdinalIgnoreCase) &&
             immediateParent.IndexOf("fastener", StringComparison.OrdinalIgnoreCase) < 0)
         {
             return immediateParent;
+        }
+
+        string rendererParent = ResolveParentFromNearestCategorizedRenderer(target);
+        if (!string.IsNullOrWhiteSpace(rendererParent))
+        {
+            return rendererParent;
         }
 
         if (canonicalAnchors == null || canonicalAnchors.Count == 0)
@@ -447,6 +505,106 @@ internal static class HolybroFastenerCatalogBuilder
         return bestCanonicalId;
     }
 
+    private static string ResolveParentFromNearestCategorizedRenderer(Transform target)
+    {
+        Renderer targetRenderer = target != null ? target.GetComponentInChildren<Renderer>(true) : null;
+        if (target == null || targetRenderer == null)
+        {
+            return string.Empty;
+        }
+
+        Transform root = target.root;
+        if (root == null)
+        {
+            return string.Empty;
+        }
+
+        Vector3 referencePosition = targetRenderer.bounds.center;
+        List<CategorizedRendererCandidate> candidates = new List<CategorizedRendererCandidate>();
+        foreach (PartRenderCategory category in root.GetComponentsInChildren<PartRenderCategory>(true))
+        {
+            if (category == null || category.transform == null)
+            {
+                continue;
+            }
+
+            string canonicalId = category.CanonicalPartId;
+            if (!IsUsableCanonicalParentId(canonicalId) || IsFastenerCategory(category))
+            {
+                continue;
+            }
+
+            Transform categoryTransform = category.transform;
+            if (categoryTransform == target ||
+                categoryTransform.IsChildOf(target) ||
+                target.IsChildOf(categoryTransform))
+            {
+                continue;
+            }
+
+            Renderer renderer = category.GetComponent<Renderer>();
+            if (renderer == null)
+            {
+                continue;
+            }
+
+            Bounds bounds = renderer.bounds;
+            if (bounds.size.sqrMagnitude <= 0.0000001f)
+            {
+                continue;
+            }
+
+            candidates.Add(new CategorizedRendererCandidate
+            {
+                CanonicalId = canonicalId,
+                Bounds = bounds,
+                SizeScore = bounds.size.sqrMagnitude
+            });
+        }
+
+        float bestDistance = float.MaxValue;
+        float bestSize = float.MaxValue;
+        string bestCanonicalId = string.Empty;
+        for (int i = 0; i < candidates.Count; i++)
+        {
+            CategorizedRendererCandidate candidate = candidates[i];
+            float distance = candidate.Bounds.SqrDistance(referencePosition);
+            bool closer = distance < bestDistance - 0.000001f;
+            bool sameDistanceSmaller = Mathf.Abs(distance - bestDistance) <= 0.000001f &&
+                                       candidate.SizeScore < bestSize;
+            if (!closer && !sameDistanceSmaller)
+            {
+                continue;
+            }
+
+            bestDistance = distance;
+            bestSize = candidate.SizeScore;
+            bestCanonicalId = candidate.CanonicalId;
+        }
+
+        return bestCanonicalId;
+    }
+
+    private static bool IsUsableCanonicalParentId(string canonicalId)
+    {
+        return !string.IsNullOrWhiteSpace(canonicalId) &&
+               !string.Equals(canonicalId, FastenerGroupId, StringComparison.OrdinalIgnoreCase) &&
+               !string.Equals(canonicalId, "x500v2_misc_group", StringComparison.OrdinalIgnoreCase) &&
+               !canonicalId.StartsWith("x500v2_blend_", StringComparison.OrdinalIgnoreCase) &&
+               !canonicalId.StartsWith("x500v2_fastener", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsFastenerCategory(PartRenderCategory category)
+    {
+        if (category == null)
+        {
+            return false;
+        }
+
+        return string.Equals(category.PrimaryCategory, "Fasteners", StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(category.AuxiliaryCategory, "Fasteners", StringComparison.OrdinalIgnoreCase);
+    }
+
     private static SourcePart[] LoadFastenerSources()
     {
         if (!File.Exists(SyncedJsonPath))
@@ -467,6 +625,13 @@ internal static class HolybroFastenerCatalogBuilder
     private static bool IsFastenerSource(SourcePart part)
     {
         if (part == null)
+        {
+            return false;
+        }
+
+        if (SelectionHierarchy.IsKnownStructuralNonFastenerName(part.id) ||
+            SelectionHierarchy.IsKnownStructuralNonFastenerName(part.blenderName) ||
+            SelectionHierarchy.IsKnownStructuralNonFastenerName(part.partName))
         {
             return false;
         }
@@ -494,8 +659,7 @@ internal static class HolybroFastenerCatalogBuilder
                haystack.Contains("gb70") ||
                haystack.Contains("falan") ||
                haystack.Contains("nilongzhu") ||
-               haystack.Contains("luomao") ||
-               haystack.Contains("dingwei");
+               haystack.Contains("luomao");
     }
 
     private static SourcePart FindHeuristicSource(string sceneTypeKey, IEnumerable<SourcePart> sources, HashSet<string> usedSourceIds)

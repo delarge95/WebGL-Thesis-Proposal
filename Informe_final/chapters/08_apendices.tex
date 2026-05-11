@@ -81,7 +81,7 @@ Los instrumentos metodológicos activos del cierre son:
 
 \noindent Las tareas de prueba deben alinearse con el flujo visible final: navegar, seleccionar pieza, revisar el \textit{bottom sheet}, usar \texttt{Inspect}, aplicar \texttt{Explode} o \texttt{Cut}, y cambiar de modo visual en \texttt{Studio}.
 
-\noindent Para mantener coherencia con la metodología vigente, la figura de SUS debe leerse para una muestra evaluada abierta y la figura de NASA-TLX debe reflejar explícitamente la variante \textit{Raw TLX}, es decir, promedio simple de las seis dimensiones y comparación de \textit{workload} subjetivo percibido entre condiciones.
+\noindent Para mantener coherencia con la metodología vigente, la figura de SUS corresponde a una muestra evaluada abierta y la figura de NASA-TLX refleja explícitamente la variante \textit{Raw TLX}, es decir, promedio simple de las seis dimensiones y comparación de \textit{workload} subjetivo percibido entre condiciones.
 
 \noindent Las versiones activas y versionadas de estos instrumentos se conservan en:
 \begin{itemize}
@@ -119,10 +119,11 @@ Los instrumentos metodológicos activos del cierre son:
 
 Para efectos de cierre documental:
 \begin{itemize}
-    \item Blender y Unity conforman la ruta defendible de la versión final activa;
-    \item la versión activa del proyecto permanece en Unity \texttt{6000.0.62f1}; cualquier migración posterior a 6.3 debe leerse como decisión evaluada y no como hecho ya consolidado;
+    \item Blender y Unity conforman la ruta defendible de la version final activa;
+    \item el FBX runtime final se prepara como union de masters e instancias; su cierre exige reporte de importacion Unity, revision de grupos, fasteners, hotspots, filtros y helices;
+    \item cualquier ruta nativa de LOD se documenta como decision evaluada y no como hecho ya consolidado mientras no exista profiling y QA sobre la build congelada;
     \item Houdini se mantiene como herramienta evaluada o experimental, no como pipeline oficial de la build cerrada, salvo evidencia nueva derivada del reimport final;
-    \item la optimización CAD/import pendiente debe completarse antes del \textit{freeze} definitivo.
+    \item las texturas/materiales finales deben aplicarse y validarse antes del \textit{freeze} definitivo.
 \end{itemize}
 
 \begin{table}[H]
@@ -138,7 +139,7 @@ Para efectos de cierre documental:
         Texturizado y materiales & Unity URP / materiales del proyecto & Activa & El informe final documenta el flujo material realmente visible en la build y sus restricciones web. \\
         Integración en motor & Unity & Activa & Núcleo del producto final y punto de verdad para escena, UI y \textit{runtime binding}. \\
         Auditoría de cobertura y \textit{runtime repair} & Tooling de editor + binder de runtime importado & Activa & Parte esencial del cierre técnico y de la coherencia entre escena y documentación. \\
-        Migración a Unity 6.3 / LOD nativo & Investigación técnica del proyecto & Evaluada / no cerrada & Debe explicarse como evolución de planeación técnica, no como cambio ya completado en la build actual. \\
+        Ruta nativa de LOD & Investigación técnica del proyecto & Evaluada / no cerrada & Debe explicarse como evolución de planeación técnica, no como cambio ya completado en la build actual. \\
         Houdini & Evaluación experimental & No canónico & Puede citarse como exploración o trabajo futuro, pero no como pipeline oficial de la versión final. \\ \hline
     \end{tabular}
     \par\vspace{0.5\baselineskip}
@@ -205,7 +206,7 @@ La auditoría activa de coherencia entre fórmulas documentadas, lógica de cód
         \textbf{Producto esperado en la propuesta} & \textbf{Estado} & \textbf{Observación de cierre} \\ \hline
         Prototipo de software web funcional & Parcialmente cerrado & El flujo principal es funcional y documentable; falta \textit{freeze} posterior a optimización final, auditorías rerun y reportes de usabilidad. \\
         Sistema de shaders URP optimizados & Entregado & La arquitectura y los modos visibles/ocultos quedaron documentados; la versión final debe seguir diferenciando lo publicado de lo oculto. \\
-        Conjunto de modelos 3D optimizados & Parcialmente cerrado & Existe pipeline defendible y escena funcional, pero la optimización final CAD/import sigue abierta antes del \textit{freeze}. \\
+        Conjunto de modelos 3D optimizados & Parcialmente cerrado & Existe pipeline defendible y FBX runtime final preparado; la verificacion post-import, texturas finales y auditorias siguen abiertas antes del \textit{freeze}. \\
         Documento de trabajo de grado & En cierre & Propuesta e informe final quedaron saneados; el cierre empírico definitivo depende del Capítulo 5 con datos reales. \\
         Informe de usabilidad y carga de trabajo percibida & Pendiente & Los instrumentos y placeholders editoriales están listos, pero la recolección de datos aún no se ejecuta sobre la build congelada. \\ \hline
     \end{tabular}

@@ -15,9 +15,9 @@ MonoBehaviour:
   partName: Optical Flow Bottom Cover
   id: x500v2_blend_gai_guangliu
   partType: Structure
-  description: Cubierta protectora de sensor. Part modeled based on CAD GAI-GUANGLIU.
+  description: Cubierta protectora de sensor. Pieza modelada en base al CAD GAI-GUANGLIU.
   weightKg: 0.003
-  dimensions: Small
+  dimensions: "Peque\xF1o"
   function: Cubierta protectora de sensor
   materialType: ABS
   materialProperties: 
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

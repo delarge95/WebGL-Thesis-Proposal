@@ -25,6 +25,8 @@ Los modos visuales transforman el modelo en distintas formas de lectura tecnica.
 
 ## Modos principales
 
+La app implementa varios modos, pero la defensa debe separar implementacion interna de UI visible. En la UI final visible se presentan `Realistic` como base y tarjetas como `X-Ray`, `Solid Color` y `Thermal`. `Blueprint` se comunica mejor como entorno/preset tecnico cuando se activa desde Studio; `Wireframe` y `Ghosted` deben describirse como capacidades ocultas o no publicadas si no estan expuestas.
+
 ### Realistic
 
 Estado base. Usa materiales PBR para leer color, metal, plastico, rugosidad y forma.
@@ -35,7 +37,7 @@ Permite ver relaciones internas mediante transparencia o lectura parcial del int
 
 ### Blueprint
 
-Representa el modelo con lenguaje de plano: lineas, contornos, grilla, fondo tecnico y siluetas.
+Representa el modelo con lenguaje de plano: lineas, contornos, grilla, fondo tecnico y siluetas. En la narrativa de defensa se trata como entorno o preset tecnico si se activa desde Studio, no como tarjeta publica obligatoria.
 
 ### Solid Color
 
@@ -186,7 +188,7 @@ Porque mas opciones no siempre mejoran la experiencia. Algunos modos estan imple
 
 ### El modo Blueprint es final?
 
-Esta implementado, pero no publicado como tarjeta visible en la UI final. Debe documentarse como capacidad tecnica no expuesta.
+Esta implementado como lectura tecnica, pero no debe describirse como tarjeta visible si la UI final no lo expone de esa manera. En la app actual se entiende mejor desde el ciclo de entorno/preset.
 
 ### El thermal es shader o simulacion?
 

@@ -25,6 +25,11 @@ namespace WebGL.Core.Managers
         private const float ADAPTIVE_ORBIT_EXPONENT = 0.6f;
         private const float ADAPTIVE_PAN_EXPONENT = 1.7f;
         private const float ADAPTIVE_MAX_DISTANCE_FLOOR_MULTIPLIER = 5f;
+        private const float DEFAULT_VIEW_DISTANCE_PADDING = 1.85f;
+        private const float DEFAULT_VIEW_DOMINANT_MULTIPLIER = 2.8f;
+        private const float DEFAULT_CONTEXT_MIN_DISTANCE_RATIO = 0.18f;
+        private const float DEFAULT_CONTEXT_MAX_DISTANCE_RATIO = 4.5f;
+        private const string RuntimeDroneRootName = "x500v2_Drone";
 
         [Header("Target")]
         [SerializeField] private Transform target;
@@ -109,12 +114,16 @@ namespace WebGL.Core.Managers
 
         private void Start()
         {
+            ResolveDefaultTargetIfNeeded();
+
             if (target != null)
             {
                 defaultNavigationContext = target;
                 currentFocusPoint = target.position + targetOffset;
                 targetFocusPoint = currentFocusPoint;
             }
+
+            CalibrateDefaultNavigationContext(immediate: true);
             
             // Capture Initial State for Reset
             initialFocusPoint = targetFocusPoint;
@@ -514,6 +523,13 @@ namespace WebGL.Core.Managers
 
         public void ResetView()
         {
+            if (defaultNavigationContext != null)
+            {
+                target = defaultNavigationContext;
+            }
+
+            CalibrateDefaultNavigationContext(immediate: false);
+
             // Reset Orbit & Zoom
             targetX = 0f;
             targetY = DEFAULT_VERTICAL_ANGLE;
@@ -627,6 +643,67 @@ namespace WebGL.Core.Managers
             return target;
         }
 
+        private void ResolveDefaultTargetIfNeeded()
+        {
+            if (target != null && target.gameObject.activeInHierarchy && target.name == RuntimeDroneRootName)
+            {
+                return;
+            }
+
+            GameObject runtimeRoot = GameObject.Find(RuntimeDroneRootName);
+            if (runtimeRoot != null)
+            {
+                target = runtimeRoot.transform;
+            }
+        }
+
+        private void CalibrateDefaultNavigationContext(bool immediate)
+        {
+            Transform context = defaultNavigationContext != null ? defaultNavigationContext : target;
+            if (context == null || !TryGetObjectBounds(context, out Bounds bounds))
+            {
+                return;
+            }
+
+            float dominantSize = Mathf.Max(bounds.size.x, Mathf.Max(bounds.size.y, bounds.size.z));
+            if (dominantSize <= 0.001f)
+            {
+                return;
+            }
+
+            float calibratedMin = Mathf.Clamp(
+                dominantSize * DEFAULT_CONTEXT_MIN_DISTANCE_RATIO,
+                MIN_DISTANCE_FLOOR,
+                DEFAULT_MODEL_MIN_DISTANCE);
+
+            float framingDistance = CalculateFramingDistance(
+                bounds,
+                DEFAULT_VIEW_DISTANCE_PADDING,
+                DEFAULT_VIEW_DOMINANT_MULTIPLIER);
+
+            float calibratedDistance = Mathf.Max(framingDistance, calibratedMin + 0.5f);
+            float calibratedMax = Mathf.Max(
+                defaultMaxDistance,
+                maxDistance,
+                calibratedDistance * 2.5f,
+                dominantSize * DEFAULT_CONTEXT_MAX_DISTANCE_RATIO);
+
+            defaultMinDistance = calibratedMin;
+            defaultMaxDistance = Mathf.Max(calibratedMax, defaultMinDistance + 0.5f);
+            currentMinDistance = defaultMinDistance;
+            currentMaxDistance = defaultMaxDistance;
+            minDistance = currentMinDistance;
+            maxDistance = currentMaxDistance;
+            distance = Mathf.Clamp(calibratedDistance, currentMinDistance, currentMaxDistance);
+            targetDistance = Mathf.Clamp(targetDistance, currentMinDistance, currentMaxDistance);
+
+            if (immediate)
+            {
+                targetDistance = distance;
+                currentDistance = distance;
+            }
+        }
+
         private float GetAdaptiveOrbitFactor()
         {
             float distanceFactor = currentDistance / Mathf.Max(defaultMinDistance, 0.001f);
@@ -721,6 +798,27 @@ namespace WebGL.Core.Managers
             float paddedDistance = Mathf.Max(baseDistance * FOCUS_DISTANCE_PADDING, dominantExtent * 2.2f);
 
             return Mathf.Clamp(paddedDistance, Mathf.Max(minDistance, FOCUS_DISTANCE_MIN), maxDistance);
+        }
+
+        private float CalculateFramingDistance(Bounds bounds, float padding, float dominantMultiplier)
+        {
+            Camera cam = GetComponent<Camera>();
+            if (cam == null)
+            {
+                return FOCUS_FALLBACK_DISTANCE;
+            }
+
+            Vector3 extents = bounds.extents;
+            float halfVerticalFov = Mathf.Max(cam.fieldOfView * 0.5f * Mathf.Deg2Rad, 0.01f);
+            float halfHorizontalFov = Mathf.Max(Mathf.Atan(Mathf.Tan(halfVerticalFov) * cam.aspect), 0.01f);
+
+            float distanceForHeight = extents.y / Mathf.Tan(halfVerticalFov);
+            float distanceForWidth = extents.x / Mathf.Tan(halfHorizontalFov);
+            float distanceForDepth = extents.z;
+            float dominantExtent = Mathf.Max(extents.x, Mathf.Max(extents.y, extents.z));
+            float baseDistance = Mathf.Max(distanceForHeight, distanceForWidth) + distanceForDepth;
+
+            return Mathf.Max(baseDistance * padding, dominantExtent * dominantMultiplier);
         }
     }
 }

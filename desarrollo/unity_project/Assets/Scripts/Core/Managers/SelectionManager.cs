@@ -3,6 +3,7 @@ using WebGL.Core.Data;
 using WebGL.Core.Utils;
 using WebGL.Core.Events;
 using WebGL.Core.Content;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace WebGL.Core.Managers
@@ -47,6 +48,7 @@ namespace WebGL.Core.Managers
         private HighlightSystem currentHighlight;
         private HighlightSystem hoveredHighlight;
         private bool hoveredEffectApplied;
+        private readonly List<HighlightSystem> currentAssociatedHighlights = new List<HighlightSystem>();
 
         // Double-click tracking
         private float _lastClickTime;
@@ -63,6 +65,8 @@ namespace WebGL.Core.Managers
         /// Gets the currently selected transform.
         /// </summary>
         public Transform CurrentSelection => currentSelection;
+        public Transform CurrentFullSelection => currentFullSelection;
+        public Transform CurrentSubSelection => currentSubSelection;
 
         /// <summary>
         /// Gets the currently hovered transform.
@@ -360,22 +364,74 @@ namespace WebGL.Core.Managers
                 && clickedFullSelection != null
                 && clickedRaw != clickedFullSelection
                 && clickedRaw.IsChildOf(clickedFullSelection);
+            FastenerRuntimeMarker clickedFastenerMarker = ResolveFastenerMarker(clickedRaw);
+            bool clickedIsFastener = IsValidFastenerMarker(clickedFastenerMarker);
+            Transform clickedFastenerRoot = clickedIsFastener ? ResolveFastenerSelectionRoot(clickedRaw) : null;
+            Transform clickedFastenerParent = clickedIsFastener
+                ? ResolveCanonicalPartTransform(clickedFastenerMarker.ParentCanonicalPartId)
+                : null;
 
             if (hotspotGroupSelectionActive)
             {
-                // First mesh click after hotspot-group selection should immediately enter
-                // normal piece flow by selecting the clicked mother part.
+                // First mesh click after hotspot-group selection enters the clicked layer:
+                // subpiece -> subpiece, fastener -> fastener, parent -> parent.
                 hotspotGroupSelectionActive = false;
                 EventBus.Publish(new HotspotGroupVisualsClearRequestedEvent());
-                SelectObject(clickedFullSelection != null ? clickedFullSelection : clickedRaw);
+                if (clickedIsFastener && clickedFastenerRoot != null)
+                {
+                    SelectObject(clickedFastenerRoot);
+                }
+                else if (clickedIsSubSelection)
+                {
+                    SelectObject(clickedRaw);
+                }
+                else
+                {
+                    SelectObject(clickedFullSelection != null ? clickedFullSelection : clickedRaw);
+                }
                 return;
             }
 
             if (currentFullSelection == null)
             {
-                // First click always selects full parent piece.
+                // First click on a fastener selects its canonical mother part.
+                // A second click inside that context can then drill into the fastener itself.
+                if (clickedIsFastener && clickedFastenerParent != null)
+                {
+                    SelectObject(clickedFastenerParent);
+                    return;
+                }
+
+                // First click on regular geometry always selects full parent piece.
                 SelectObject(clickedFullSelection != null ? clickedFullSelection : clickedRaw);
                 return;
+            }
+
+            if (clickedIsFastener)
+            {
+                string currentCanonicalId = ResolveCanonicalPartId(currentFullSelection);
+                bool sameCanonicalContext = !string.IsNullOrWhiteSpace(currentCanonicalId) &&
+                                            string.Equals(
+                                                currentCanonicalId,
+                                                clickedFastenerMarker.ParentCanonicalPartId,
+                                                System.StringComparison.OrdinalIgnoreCase);
+                bool compatibleWithCurrentContext = sameCanonicalContext ||
+                                                    IsFastenerCompatibleWithSelectionContext(
+                                                        clickedFastenerRoot != null ? clickedFastenerRoot : clickedRaw,
+                                                        currentSubSelection,
+                                                        currentFullSelection);
+
+                if (compatibleWithCurrentContext && clickedFastenerRoot != null)
+                {
+                    SelectObject(clickedFastenerRoot, contextFullSelection: currentFullSelection);
+                    return;
+                }
+
+                if (clickedFastenerParent != null)
+                {
+                    SelectObject(clickedFastenerParent);
+                    return;
+                }
             }
 
             if (clickedFullSelection == currentFullSelection)
@@ -426,7 +482,8 @@ namespace WebGL.Core.Managers
             bool fromHotspot = false,
             string hotspotGroupLabel = "",
             string hotspotGroupSummary = "",
-            string hotspotGroupMembers = "")
+            string hotspotGroupMembers = "",
+            Transform contextFullSelection = null)
         {
             if (selection == null) return;
 
@@ -437,12 +494,15 @@ namespace WebGL.Core.Managers
             }
 
             // Clean up previous selection highlight before applying new one
+            ClearAssociatedSelectionHighlights();
             if (currentHighlight != null && currentSelection != selection)
             {
                 currentHighlight.OnDeselect();
             }
 
-            Transform fullSelection = ResolvePrimarySelection(selection);
+            Transform fullSelection = contextFullSelection != null
+                ? contextFullSelection
+                : ResolvePrimarySelection(selection);
             bool isFullPartSelection = fullSelection != null && selection == fullSelection;
 
             currentFullSelection = fullSelection != null ? fullSelection : selection;
@@ -480,6 +540,8 @@ namespace WebGL.Core.Managers
 
                 currentHighlight.OnSelect(visualMode);
             }
+
+            ApplyAssociatedFastenerHighlights(selection, isFullPartSelection);
 
             // Get data and publish event
             var explodable = selection.GetComponent<ExplodablePart>();
@@ -532,7 +594,7 @@ namespace WebGL.Core.Managers
             }
 
             FastenerRuntimeMarker marker = ResolveFastenerMarker(selection);
-            if (marker != null && !string.IsNullOrWhiteSpace(marker.FastenerInstanceId))
+            if (IsValidFastenerMarker(marker) && !string.IsNullOrWhiteSpace(marker.FastenerInstanceId))
             {
                 FastenerMetadata metadata = FastenerRegistry.Instance != null
                     ? FastenerRegistry.Instance.ResolveMetadata(selection)
@@ -583,7 +645,7 @@ namespace WebGL.Core.Managers
             }
 
             FastenerRuntimeMarker marker = ResolveFastenerMarker(rawTransform);
-            if (marker != null)
+            if (IsValidFastenerMarker(marker))
             {
                 return marker.transform;
             }
@@ -616,7 +678,7 @@ namespace WebGL.Core.Managers
 
             FastenerRuntimeMarker marker = ResolveFastenerMarker(selection);
 
-            if (marker != null && !string.IsNullOrWhiteSpace(marker.FastenerInstanceId))
+            if (IsValidFastenerMarker(marker) && !string.IsNullOrWhiteSpace(marker.FastenerInstanceId))
             {
                 return true;
             }
@@ -643,27 +705,237 @@ namespace WebGL.Core.Managers
                 return marker;
             }
 
-            // Walk parents manually but STOP at the first ExplodablePart boundary.
-            // This prevents capturing a sibling fastener's marker on a shared ancestor
-            // after ImportedDroneRuntimeBinder reparents renderers under mother parts.
+            // Walk parents manually but STOP after checking the first ExplodablePart
+            // boundary. This lets child meshes resolve their own fastener root without
+            // capturing sibling markers on shared mother-part ancestors.
             Transform current = target.parent;
             while (current != null)
             {
-                if (current.GetComponent<ExplodablePart>() != null)
-                {
-                    break;
-                }
-
                 marker = current.GetComponent<FastenerRuntimeMarker>();
                 if (marker != null)
                 {
                     return marker;
                 }
 
+                if (current.GetComponent<ExplodablePart>() != null)
+                {
+                    break;
+                }
+
                 current = current.parent;
             }
 
             return null;
+        }
+
+        private static bool IsValidFastenerMarker(FastenerRuntimeMarker marker)
+        {
+            return marker != null &&
+                   marker.SourceIsPrimitiveFastener &&
+                   SelectionHierarchy.IsPrimitiveFastenerSource(marker.transform);
+        }
+
+        private static Transform ResolveCanonicalPartTransform(string canonicalPartId)
+        {
+            if (string.IsNullOrWhiteSpace(canonicalPartId))
+            {
+                return null;
+            }
+
+            ExplodablePart[] parts = FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None);
+            for (int i = 0; i < parts.Length; i++)
+            {
+                ExplodablePart part = parts[i];
+                if (part == null || part.Data == null)
+                {
+                    continue;
+                }
+
+                if (string.Equals(part.Data.id, canonicalPartId, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return part.transform;
+                }
+            }
+
+            return null;
+        }
+
+        private static bool IsFastenerCompatibleWithSelectionContext(
+            Transform fastenerTransform,
+            Transform currentSubSelection,
+            Transform currentFullSelection)
+        {
+            if (fastenerTransform == null || currentFullSelection == null)
+            {
+                return false;
+            }
+
+            if (currentSubSelection != null &&
+                IsFastenerGeometricallyAssociatedWithScope(fastenerTransform, currentSubSelection))
+            {
+                return true;
+            }
+
+            return IsFastenerGeometricallyAssociatedWithScope(fastenerTransform, currentFullSelection);
+        }
+
+        private static bool IsFastenerGeometricallyAssociatedWithScope(Transform fastenerTransform, Transform scopeTransform)
+        {
+            if (fastenerTransform == null || scopeTransform == null)
+            {
+                return false;
+            }
+
+            if (!TryGetWorldBounds(scopeTransform, out Bounds scopeBounds) ||
+                !TryGetWorldBounds(fastenerTransform, out Bounds fastenerBounds))
+            {
+                return false;
+            }
+
+            float threshold = ResolveFastenerContextThreshold(GetDominantSize(scopeBounds), GetDominantSize(fastenerBounds));
+            Bounds expanded = scopeBounds;
+            expanded.Expand(threshold * 2f);
+            return expanded.Intersects(fastenerBounds) ||
+                   expanded.Contains(fastenerBounds.center) ||
+                   CalculateBoundsDistance(scopeBounds, fastenerBounds) <= threshold;
+        }
+
+        private static float ResolveFastenerContextThreshold(float scopeDominantSize, float fastenerDominantSize)
+        {
+            return Mathf.Max(fastenerDominantSize * 0.9f, scopeDominantSize * 0.008f, 0.025f);
+        }
+
+        private static float CalculateBoundsDistance(Bounds a, Bounds b)
+        {
+            Vector3 aMin = a.min;
+            Vector3 aMax = a.max;
+            Vector3 bMin = b.min;
+            Vector3 bMax = b.max;
+
+            float dx = Mathf.Max(0f, Mathf.Max(aMin.x - bMax.x, bMin.x - aMax.x));
+            float dy = Mathf.Max(0f, Mathf.Max(aMin.y - bMax.y, bMin.y - aMax.y));
+            float dz = Mathf.Max(0f, Mathf.Max(aMin.z - bMax.z, bMin.z - aMax.z));
+            return Mathf.Sqrt(dx * dx + dy * dy + dz * dz);
+        }
+
+        private static float GetDominantSize(Bounds bounds)
+        {
+            return Mathf.Max(bounds.size.x, Mathf.Max(bounds.size.y, bounds.size.z));
+        }
+
+        private static bool TryGetWorldBounds(Transform root, out Bounds bounds)
+        {
+            bounds = default;
+            if (root == null)
+            {
+                return false;
+            }
+
+            bool hasBounds = false;
+            Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                Renderer renderer = renderers[i];
+                if (renderer == null)
+                {
+                    continue;
+                }
+
+                if (!hasBounds)
+                {
+                    bounds = renderer.bounds;
+                    hasBounds = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(renderer.bounds);
+                }
+            }
+
+            return hasBounds;
+        }
+
+        private void ApplyAssociatedFastenerHighlights(Transform selection, bool isFullPartSelection)
+        {
+            if (selection == null || !isFullPartSelection || IsFastenerSelection(selection))
+            {
+                return;
+            }
+
+            string canonicalPartId = ResolveCanonicalPartId(selection);
+            if (string.IsNullOrWhiteSpace(canonicalPartId))
+            {
+                return;
+            }
+
+            FastenerRuntimeMarker[] markers = FindObjectsByType<FastenerRuntimeMarker>(FindObjectsSortMode.None);
+            for (int i = 0; i < markers.Length; i++)
+            {
+                FastenerRuntimeMarker marker = markers[i];
+                if (!IsValidFastenerMarker(marker) ||
+                    string.IsNullOrWhiteSpace(marker.ParentCanonicalPartId) ||
+                    (!string.Equals(marker.ParentCanonicalPartId, canonicalPartId, System.StringComparison.OrdinalIgnoreCase) &&
+                     !IsFastenerGeometricallyAssociatedWithScope(marker.transform, selection)))
+                {
+                    continue;
+                }
+
+                Transform highlightTarget = ResolveHighlightTarget(marker.transform);
+                if (highlightTarget == null)
+                {
+                    continue;
+                }
+
+                HighlightSystem highlight = highlightTarget.GetComponent<HighlightSystem>();
+                if (highlight == null)
+                {
+                    highlight = highlightTarget.gameObject.AddComponent<HighlightSystem>();
+                }
+
+                if (highlight == null || highlight == currentHighlight || currentAssociatedHighlights.Contains(highlight))
+                {
+                    continue;
+                }
+
+                highlight.OnSelect(HighlightSystem.SelectionVisualMode.SoftTint);
+                currentAssociatedHighlights.Add(highlight);
+            }
+        }
+
+        private void ClearAssociatedSelectionHighlights()
+        {
+            for (int i = 0; i < currentAssociatedHighlights.Count; i++)
+            {
+                HighlightSystem highlight = currentAssociatedHighlights[i];
+                if (highlight != null && highlight != currentHighlight)
+                {
+                    highlight.OnDeselect();
+                }
+            }
+
+            currentAssociatedHighlights.Clear();
+        }
+
+        private static string ResolveCanonicalPartId(Transform selection)
+        {
+            if (selection == null)
+            {
+                return string.Empty;
+            }
+
+            PartRenderCategory renderCategory = selection.GetComponent<PartRenderCategory>();
+            if (renderCategory != null && !string.IsNullOrWhiteSpace(renderCategory.CanonicalPartId))
+            {
+                return renderCategory.CanonicalPartId;
+            }
+
+            ExplodablePart part = selection.GetComponent<ExplodablePart>();
+            if (part == null)
+            {
+                part = selection.GetComponentInParent<ExplodablePart>();
+            }
+
+            return part != null && part.Data != null ? part.Data.id ?? string.Empty : string.Empty;
         }
 
         private static Transform ResolveHighlightTarget(Transform selection)
@@ -749,6 +1021,7 @@ namespace WebGL.Core.Managers
             // if (currentSelection == null) return; // User Fix: Allow event firing even if null to trigger UI close
 
             // Remove highlight
+            ClearAssociatedSelectionHighlights();
             if (currentHighlight != null)
             {
                 currentHighlight.OnDeselect();
@@ -862,6 +1135,7 @@ namespace WebGL.Core.Managers
             {
                 if (part.Data == partData)
                 {
+                    ClearAssociatedSelectionHighlights();
                     if (currentHighlight != null)
                     {
                         currentHighlight.OnDeselect();

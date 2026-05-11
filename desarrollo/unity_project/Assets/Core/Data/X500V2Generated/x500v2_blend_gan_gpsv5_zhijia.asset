@@ -15,12 +15,12 @@ MonoBehaviour:
   partName: Holybro M10 GPS Antenna
   id: x500v2_blend_gan_gpsv5_zhijia
   partType: Electronics
-  description: "Positionamiento GNSS Multiconstelaci\xC3\xB3n. Part modeled based
-    on CAD GAN-GPSV5-ZHIJIA."
+  description: "Posicionamiento GNSS Multiconstelaci\xF3n. Pieza modelada en base
+    al CAD GAN-GPSV5-ZHIJIA."
   weightKg: 0.032
-  dimensions: "\xE2\u0152\u20AC50\xC3\u201414 mm"
-  function: "Positionamiento GNSS Multiconstelaci\xC3\xB3n"
-  materialType: "Cer\xC3\xA1mica y PCB"
+  dimensions: "\u230050\xD714 mm"
+  function: "Posicionamiento GNSS Multiconstelaci\xF3n"
+  materialType: "Cer\xE1mica y PCB"
   materialProperties: 
   manufacturer: Holybro
   partNumber: 

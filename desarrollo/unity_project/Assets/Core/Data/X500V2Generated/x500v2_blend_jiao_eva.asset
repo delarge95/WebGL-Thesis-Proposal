@@ -15,9 +15,10 @@ MonoBehaviour:
   partName: Landing Gear Foam Pad
   id: x500v2_blend_jiao_eva
   partType: Structure
-  description: Almohadilla amortiguadora inferior. Part modeled based on CAD JIAO-EVA.
+  description: Almohadilla amortiguadora inferior. Pieza modelada en base al CAD
+    JIAO-EVA.
   weightKg: 0.002
-  dimensions: "\xE2\u0152\u20AC10 Ext"
+  dimensions: "\u230010 Ext"
   function: Almohadilla amortiguadora inferior
   materialType: Espuma EVA
   materialProperties: 
@@ -40,7 +41,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

@@ -186,7 +186,7 @@ namespace WebGL.Core.Managers
 
             FastenerRuntimeMarker marker = ResolveFastenerMarker(candidate);
 
-            if (marker == null)
+            if (marker == null || !IsPrimitiveFastenerMarker(marker))
             {
                 return false;
             }
@@ -214,21 +214,21 @@ namespace WebGL.Core.Managers
                 return marker;
             }
 
-            // Walk parents manually but STOP at the first ExplodablePart boundary.
-            // This prevents capturing a sibling fastener's marker on a shared ancestor
-            // after ImportedDroneRuntimeBinder reparents renderers under mother parts.
+            // Walk parents manually but STOP after checking the first ExplodablePart
+            // boundary. This lets child meshes resolve their own fastener root without
+            // capturing sibling markers on shared mother-part ancestors.
             Transform current = target.parent;
             while (current != null)
             {
-                if (current.GetComponent<ExplodablePart>() != null)
-                {
-                    break;
-                }
-
                 marker = current.GetComponent<FastenerRuntimeMarker>();
                 if (marker != null)
                 {
                     return marker;
+                }
+
+                if (current.GetComponent<ExplodablePart>() != null)
+                {
+                    break;
                 }
 
                 current = current.parent;
@@ -432,6 +432,11 @@ namespace WebGL.Core.Managers
             for (int i = 0; i < markers.Length; i++)
             {
                 FastenerRuntimeMarker marker = markers[i];
+                if (marker == null || !IsPrimitiveFastenerMarker(marker))
+                {
+                    continue;
+                }
+
                 Transform proxyRoot = ResolveProxyRoot(marker);
                 if (proxyRoot == null)
                 {
@@ -480,6 +485,13 @@ namespace WebGL.Core.Managers
 
             MaterialController controller = proxyRoot.GetComponent<MaterialController>();
             controller?.RefreshRenderers();
+        }
+
+        private static bool IsPrimitiveFastenerMarker(FastenerRuntimeMarker marker)
+        {
+            return marker != null &&
+                   marker.SourceIsPrimitiveFastener &&
+                   SelectionHierarchy.IsPrimitiveFastenerSource(marker.transform);
         }
     }
 }

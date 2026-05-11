@@ -15,7 +15,7 @@ MonoBehaviour:
   partName: Pixhawk 6C Main PCB
   id: x500v2_blend_pcb_pixhawk6c_f1
   partType: Electronics
-  description: Circuito integrado STM32H743. Part modeled based on CAD PCB-PIXHAWK6C-F1.
+  description: Circuito integrado STM32H743. Pieza modelada en base al CAD PCB-PIXHAWK6C-F1.
   weightKg: 0.01
   dimensions: Interno
   function: Circuito integrado STM32H743
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

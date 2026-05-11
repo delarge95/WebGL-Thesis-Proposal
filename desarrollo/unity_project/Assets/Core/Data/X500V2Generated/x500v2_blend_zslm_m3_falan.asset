@@ -15,10 +15,10 @@ MonoBehaviour:
   partName: Self-Locking Flange Nut
   id: x500v2_blend_zslm_m3_falan
   partType: Structure
-  description: Flange nut. Part modeled based on CAD ZSLM-M3-FALAN.
+  description: Tuerca con brida. Pieza modelada en base al CAD ZSLM-M3-FALAN.
   weightKg: 0.001
   dimensions: M3/M2.5
-  function: Flange nut
+  function: Tuerca con brida
   materialType: Acero
   materialProperties: 
   manufacturer: Holybro
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0
@@ -84,4 +84,4 @@ MonoBehaviour:
     recipeKey: 
     builderType: 
     orientationMode: 
-  category: 4
+  category: 5

@@ -8,14 +8,12 @@
                       "documentedSubpieces":  [
                                                   "BOTTOM-PLATE-X500-V5",
                                                   "GAI-GUANGLIU",
-                                                  "ZHIJIA-CAMERA-INTEL",
-                                                  "HUAN-GUIJIAO"
+                                                  "ZHIJIA-CAMERA-INTEL"
                                               ],
                       "configuredSubpieces":  [
                                                   "BOTTOM-PLATE-X500-V5",
                                                   "GAI-GUANGLIU",
                                                   "ZHIJIA-CAMERA-INTEL",
-                                                  "HUAN-GUIJIAO",
                                                   "Fasteners: Socket Cap Screw M3 x 25 mm x2",
                                                   "Fasteners: Socket Cap Screw M3 x 8 mm x2",
                                                   "Fasteners: Flange Nut M3 x2",
@@ -273,20 +271,23 @@
                                                   "GAN-GPSV5-ZHIJIA",
                                                   "GPS-ZHIJIA-ZHUANJIETOU",
                                                   "GPS-ZHIJIA-ZUO",
-                                                  "GPSV5-ZHIJIA-LUOMAO",
                                                   "GPSV5-ZHIJIA-TUOPAN"
                                               ],
                       "configuredSubpieces":  [
                                                   "GAN-GPSV5-ZHIJIA",
                                                   "GPS-ZHIJIA-ZHUANJIETOU",
                                                   "GPS-ZHIJIA-ZUO",
-                                                  "GPSV5-ZHIJIA-LUOMAO",
-                                                  "GPSV5-ZHIJIA-TUOPAN"
+                                                  "GPSV5-ZHIJIA-TUOPAN",
+                                                  "Fasteners: Cap Nut M3 x1"
                                               ],
                       "fastenerFamilies":  [
-
+                                               {
+                                                   "familyId":  "holybro_lock_nut_m3",
+                                                   "displayName":  "Cap Nut M3",
+                                                   "quantity":  1
+                                               }
                                            ],
-                      "totalFasteners":  0,
+                      "totalFasteners":  1,
                       "notes":  [
                                     "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
                                 ]

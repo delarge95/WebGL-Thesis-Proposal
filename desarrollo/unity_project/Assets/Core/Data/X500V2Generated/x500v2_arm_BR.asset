@@ -17,10 +17,10 @@ MonoBehaviour:
   partType: Arm
   description: "Tubo de fibra de carbono de 16 mm con conectores de nylon reforzado.
     Motor 2216 y ESC BLHeli-S 20A preinstalados. Posici\xF3n trasera-derecha."
-  weightKg: 0.048
+  weightKg: 0.03
   dimensions: "\u230016 mm \xD7 ~220 mm"
   function: Soporte de motor y ESC; conducto de cableado; transferencia de empuje
-    to the chassis
+    al chasis
   materialType: Fibra de carbono con conectores de nylon reforzado
   materialProperties: "Alta rigidez/peso, absorci\xF3n parcial de vibraciones"
   manufacturer: Holybro
@@ -71,10 +71,10 @@ MonoBehaviour:
   - HMX5V-JIBI-JIA-MUJU
   - HMX5V-ZUO-DJ-MUJU
   - BAN-DJ-DIAN-F2
-  - 
-  - 
-  - 
-  - 
+  - 'Fasteners: Socket Cap Screw M3 x 38 mm x3'
+  - 'Fasteners: Socket Cap Screw M3 x 8 mm x2'
+  - 'Fasteners: Flange Nut M3 x3'
+  - 'Fasteners: Cap Nut M3 x1'
   fastenerMetadata:
     instanceId: 
     familyId: 

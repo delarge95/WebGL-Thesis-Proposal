@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_nylon_standoff_M3x5_003
   m_EditorClassIdentifier: 
-  partName: M3 Pan/Countersunk Screw
+  partName: Standoff M3 x 5 mm
   id: x500v2_fastener_nylon_standoff_M3x5_003
-  partType: Structure
-  description: Countersunk fastening hardware. Part modeled based on CAD NILONGZHU-M3-5.
-  weightKg: 0.001
-  dimensions: M3
-  function: Countersunk fastening hardware
-  materialType: Stainless Steel
+  partType: Standoff
+  description: "Torniller\xEDa rasante. Pieza modelada en base al CAD NILONGZHU-M3-5."
+  weightKg: 0
+  dimensions: M3 x 5 mm
+  function: Fastening / mounting | M3 x 5 mm | Standoff
+  materialType: Acero Inox
   materialProperties: Stainless
   manufacturer: Holybro
   partNumber: NILONGZHU-M3-5
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -76,12 +76,12 @@ MonoBehaviour:
     driveType: N/A
     threadPitchMm: 0
     turnCount: 3
-    material: Stainless Steel
+    material: Acero Inox
     finish: Stainless
     quantityExpected: 4
     isInspectable: 1
     fallbackReason: 
-    notes: Countersunk fastening hardware. Part modeled based on CAD NILONGZHU-M3-5.
+    notes: "Torniller\xEDa rasante. Pieza modelada en base al CAD NILONGZHU-M3-5."
     recipeKey: nylon_standoff_M3x5_placeholder
     builderType: Standoff
     orientationMode: LongestAxis

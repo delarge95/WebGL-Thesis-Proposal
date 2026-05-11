@@ -90,6 +90,25 @@ La solucion modular agrupa:
 
 Esto permite que cada tornillo no sea tratado como pieza academica independiente, sino como instancia de una familia tecnica.
 
+## Pipeline final Blender a Unity
+
+El cierre operativo de mayo de 2026 agrega una regla importante: el dron runtime no esta formado solo por instancias. Los masters tambien son piezas fisicas del ensamblaje, por lo que la exportacion manual desde Blender debe incluir simultaneamente:
+
+- `BAKE_MASTERS_LOW`;
+- `ASSEMBLY_INSTANCES_LOW`;
+- `PRIMITIVE_FASTENER_MASTERS`;
+- `PRIMITIVE_FASTENER_INSTANCES`.
+
+El FBX final y el importador Unity quedan preparados para reemplazar el modelo temporal sin borrar el anterior. El estado defendible todavia exige QA post-import: jerarquia, grupos, hotspots, filtros, ejes de helices, conteo de fasteners y asignaciones ambiguas de pieza madre.
+
+Las texturas finales se manejan como archivos externos. La propuesta actual usa:
+
+- `BaseColor` en sRGB;
+- `Normal` como normal map;
+- `Mask` en `R=AO`, `G=Roughness`, `B=Curvature`, `A=Metallic`.
+
+La fibra de carbono se bakea desde el material Blender construido, no se recrea desde cero en Unity. Si una textura 4K no comprime suficientemente bien, la reduccion a 2K se toma como ultima opcion y se justifica con comparacion visual y peso final.
+
 ## Explicaciones complejas
 
 ### Teselacion
@@ -188,3 +207,4 @@ Por repeticion y costo. Muchas instancias comparten forma y funcion. Agruparlas 
 - [[Investigacion_Holybro_X500v2]]
 - `desarrollo/docs/investigacion/Holybro/CAD-to-Unity WebGL Optimization  Complete Technical Blueprint for Drone Visualization.md`
 - `desarrollo/docs/investigacion/Holybro/CAD_Fastener_Optimization_Plan.md`
+- `desarrollo/docs/investigacion/Holybro/Blender_Final_Bake_Export_Unity_Workflow.md`

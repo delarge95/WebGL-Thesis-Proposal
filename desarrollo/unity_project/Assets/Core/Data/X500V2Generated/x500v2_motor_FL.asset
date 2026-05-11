@@ -19,7 +19,7 @@ MonoBehaviour:
     LiPo 3\u20134S, h\xE9lices 1045. Corrientes 3.5\u201316.2 A en 4S. Potencia pico
     ~240 W. Carcasa aluminio CNC, eje acero, bobinados cobre. Patr\xF3n montaje 16\xD716
     y 19\xD719 mm. Posici\xF3n: Front-Left (CW)."
-  weightKg: 0.083
+  weightKg: 0.063
   dimensions: "\u230028 mm \xD7 ~32 mm"
   function: "Generaci\xF3n de empuje principal (CW)"
   materialType: "Aleaci\xF3n de aluminio CNC, acero (eje), cobre esmaltado (bobinados)"
@@ -71,9 +71,9 @@ MonoBehaviour:
   screwSize: M3
   subComponentNames:
   - DJ-2216-KV880 motor instance
-  - 
-  - 
-  - 
+  - 'Fasteners: Socket Cap Screw M2.5 x 12 mm x2'
+  - 'Fasteners: Socket Cap Screw M2.5 x 6 mm x4'
+  - 'Fasteners: Socket Cap Screw M3 x 6 mm x4'
   fastenerMetadata:
     instanceId: 
     familyId: 

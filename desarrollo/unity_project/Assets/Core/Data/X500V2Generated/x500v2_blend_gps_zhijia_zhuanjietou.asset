@@ -15,12 +15,12 @@ MonoBehaviour:
   partName: GPS Folding Mast Joint
   id: x500v2_blend_gps_zhijia_zhuanjietou
   partType: Structure
-  description: "Articulaci\xC3\xB3n del m\xC3\xA1stil abatible del GPS. Part modeled
-    based on CAD GPS-ZHIJIA-ZHUANJIETOU."
+  description: "Articulaci\xF3n del m\xE1stil abatible del GPS. Pieza modelada en
+    base al CAD GPS-ZHIJIA-ZHUANJIETOU."
   weightKg: 0.005
-  dimensions: "M\xC3\xA1stil M3"
-  function: "Articulaci\xC3\xB3n del m\xC3\xA1stil abatible del GPS"
-  materialType: Reinforced Nylon
+  dimensions: "M\xE1stil M3"
+  function: "Articulaci\xF3n del m\xE1stil abatible del GPS"
+  materialType: Nylon Reforzado
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -41,7 +41,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

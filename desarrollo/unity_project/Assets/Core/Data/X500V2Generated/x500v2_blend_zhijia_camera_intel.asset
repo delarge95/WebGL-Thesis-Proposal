@@ -15,12 +15,12 @@ MonoBehaviour:
   partName: Intel Realsense Camera Bracket
   id: x500v2_blend_zhijia_camera_intel
   partType: Structure
-  description: "Montura frontal para sistema est\xC3\xA9reo. Part modeled based on
+  description: "Montura frontal para sistema est\xE9reo. Pieza modelada en base al
     CAD ZHIJIA-CAMERA-INTEL."
   weightKg: 0.015
   dimensions: A medida
-  function: "Montura frontal para sistema est\xC3\xA9reo"
-  materialType: Reinforced Nylon
+  function: "Montura frontal para sistema est\xE9reo"
+  materialType: Nylon Reforzado
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -41,7 +41,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

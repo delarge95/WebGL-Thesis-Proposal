@@ -18,7 +18,7 @@ MonoBehaviour:
   description: "LiPo 4S (14.8V nominal, 16.8V full). Capacidad 2000\u20135000 mAh
     recomendada. Con 5000 mAh: ~18 min hover sin payload. Conector XT60. No incluida
     en kit."
-  weightKg: 0.008
+  weightKg: 0.52
   dimensions: "~140 \xD7 50 \xD7 45 mm"
   function: "Fuente de energ\xEDa primaria (14.8V nominal)"
   materialType: "Pol\xEDmero de litio (LiPo)"
@@ -73,7 +73,7 @@ MonoBehaviour:
   - Battery proxy
   - Battery strap 1 proxy
   - Battery strap 2 proxy
-  - 
+  - 'Fasteners: Countersunk Screw M2.5 x 6 mm x4'
   fastenerMetadata:
     instanceId: 
     familyId: 
@@ -100,4 +100,4 @@ MonoBehaviour:
     recipeKey: 
     builderType: 
     orientationMode: 
-  category: 1
+  category: 2

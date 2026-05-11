@@ -1,568 +1,177 @@
-# Kimi K2 Presentation Generation Prompt
+# Kimi Presentation Generation Prompt
 ## WebGL Drone Viewer - Thesis Defense
 
-> Use this prompt with Kimi K2's Nano Banana Pro to generate a professional presentation following the design system specifications.
+> Prompt aligned with the current Unity app, final Blender pipeline and academic documentation. It avoids outdated claims about non-visible tools or unmeasured metrics.
 
 ---
 
-## 🎯 Master Prompt for Kimi K2
+## Master Prompt
 
-```
-You are a senior graphic designer creating a thesis defense presentation. Generate a 20-slide presentation following these EXACT specifications:
+```text
+You are a senior presentation designer creating a thesis defense deck.
+Generate a 20-slide presentation in Spanish following these specifications.
 
-## PROJECT CONTEXT
-- Title: "Prototipo WebGL de Visualización 3D Interactiva para Hardware de Drones"
-- Author: Alexander Woodcock Salomón
-- Program: Ingeniería Multimedia - UNAD
-- Theme: Interactive 3D drone visualization using WebGL, Unity, and WebAssembly
+PROJECT CONTEXT
+- Title: "Prototipo WebGL de Visualizacion 3D Interactiva para Hardware de Drones"
+- Author: Alexander Woodcock Salomon
+- Program: Ingenieria Multimedia - UNAD
+- Case study: Holybro X500 V2 drone
+- Theme: Interactive technical visualization using Unity, WebGL, WebAssembly, Blender and optimized CAD-to-runtime assets.
 
-## DESIGN SYSTEM (FOLLOW EXACTLY)
+STRICT FACTUAL RULES
+- Do not claim that all 7 view modes are public UI features.
+- Public visual flow: Realistic base, X-Ray, Solid Color, Thermal and environment presets.
+- Blueprint may be shown as a technical environment/preset or implemented-but-hidden reading mode, not as a guaranteed public mode card unless verified in the current build.
+- Wireframe and Ghosted are implemented/hidden or legacy capabilities, not demo features.
+- Do not include Measurement, BOM, connection points, annotations or assembly checklist as final user tools unless explicitly marked as future/non-integrated work.
+- Thermal is heuristic visual analysis by components, not FEA and not calibrated physical measurement.
+- Fastener modular meshes are temporary Unity placeholders until Blender final modules replace them through recipes/assets.
+- Do not report FPS, load time, asset-size reduction, SUS or NASA-TLX values unless provided as measured values from the frozen build.
 
-### Colors
-- Background: #0A0E17 (Deep Space)
-- Card backgrounds: #1E293B (Slate Dark)
-- Primary accent: #3B82F6 (Electric Blue)
-- Secondary accent: #10B981 (Cyber Teal)
-- Text primary: #F8FAFC (Pure White)
-- Text secondary: #94A3B8 (Silver)
-- Borders: #334155 (Slate Mid)
+DESIGN SYSTEM
+- Aspect ratio: 16:9, 1920x1080.
+- Background: #0A0E17.
+- Card background: #1E293B.
+- Primary accent: #3B82F6.
+- Secondary accent: #10B981.
+- Text primary: #F8FAFC.
+- Text secondary: #94A3B8.
+- Borders: #334155.
+- Headlines: Space Grotesk Bold.
+- Body: Inter Regular.
+- Code/labels: JetBrains Mono.
+- Maximum 50 words per content slide.
+- Use diagrams and screenshots more than text.
+- Keep the visual style technical, clean and academic.
 
-### Typography
-- Headlines: Space Grotesk Bold
-- Body text: Inter Regular
-- Code/Labels: JetBrains Mono
-- Title slide: 72px headline
-- Section title: 48px
-- Content title: 36px
-- Body: 20px
+SLIDES
 
-### Layout Rules
-- Aspect ratio: 16:9 (1920x1080)
-- Margins: 80px all sides
-- Maximum 50 words per content slide
-- Maximum 5 bullet points per slide
-- 60% visual, 40% text ratio
-- Use icons instead of bullet characters
-- Left-align body text
-- Center headlines only when isolated
+1. TITLE
+- Title, author, program, university and date 2026.
+- Background: ghosted drone silhouette or viewport.
 
-### Visual Style
-- Dark mode design (2026 trends)
-- Glassmorphism panels with subtle blur
-- Gradient accents (Blue → Teal)
-- Rounded corners: 12-16px
-- Soft shadows: 0 8px 32px rgba(0,0,0,0.3)
-- Minimal, clean, breathing room
-- No clipart or stock photos - use icons and diagrams
+2. PROBLEM
+- 2D documentation requires mental reconstruction of depth, hidden parts and assembly relations.
+- Visual: manual vs interactive 3D.
 
-### Animation
-- Subtle fade transitions (400ms)
-- Element fade-up on appear
-- No distracting animations
+3. OBJECTIVES
+- General objective: develop and evaluate a WebGL 3D prototype for technical inspection of drone hardware.
+- Specific objectives: research, CAD-to-runtime pipeline, Unity architecture/UI, evaluation.
 
-## SLIDES TO GENERATE
+4. THEORETICAL FRAMEWORK
+- Mind map: cognitive load, 3D HCI, PBR rendering, WebGL/WebAssembly.
 
-### 1. TITLE SLIDE
-- Large centered title
-- Subtitle: "Interactive 3D technical visualization using WebGL"
-- Author name, program, university
-- Abstract 3D drone silhouette as background (ghosted, 20% opacity)
-- Date: 2025
+5. METHODOLOGY
+- Design Science Research.
+- Build artifact + evaluate technical and user experience dimensions.
 
-### 2. PROBLEM STATEMENT
-- Headline: "El Problema"
-- Left side: 3 icon bullets describing limitations of 2D documentation
-- Right side: Visual comparison 2D manual vs 3D interactive
-- Use orange/red tones for problem emphasis
+6. TECHNOLOGY STACK
+- Unity, C#, URP, UI Toolkit, WebGL/WebAssembly, Blender.
 
-### 3. OBJECTIVES
-- Headline: "Objetivos"
-- 4 glass cards in 2x2 grid
-- Each card: checkmark icon + objective text
-- General objective highlighted, 3 specific below
+7. ARCHITECTURE
+- Layers: UI, application managers, data/assets, scene/runtime, editor tooling.
+- Mention event-driven coordination and `DronePartData`.
 
-### 4. THEORETICAL FRAMEWORK
-- Headline: "Marco Teórico"
-- Mind map or node diagram
-- Central: "Visualización 3D Interactiva"
-- Connected nodes: Cognitive Load Theory, HCI, PBR, WebGL
-- Gradient connecting lines
+8. VISUAL READING MODES
+- Show visible modes: Realistic, X-Ray, Solid Color, Thermal.
+- Show environments/presets separately: Day, Sunset, Night, Studio/Blueprint if available.
+- Add note: some modes exist as hidden/technical capacity.
 
-### 5. METHODOLOGY
-- Headline: "Metodología"
-- Horizontal timeline with 4 phases
-- Each phase: icon + name + duration
-- Connected by gradient line
-- Design Science Research + Agile approach
+9. CORE INTERACTION FLOW
+- Hero -> Explore -> selection -> bottom sheet -> Inspect / Analyze / Studio.
+- Visual: flow diagram.
 
-### 6. TECHNOLOGY STACK
-- Headline: "Stack Tecnológico"
-- 6 technology icons in grid (2x3)
-- Unity, WebGL, C#, URP, UI Toolkit, Blender
-- Simple icon + label format
+10. INSPECT / ANALYZE / STUDIO
+- Inspect: selection, hotspots, isolate, power/load.
+- Analyze: explode, cross-section, category filters.
+- Studio: visual modes, environments and lighting.
 
-### 7. ARCHITECTURE
-- Headline: "Arquitectura del Sistema"
-- Simplified flowchart diagram
-- 4 layers: UI, Application, Core, Utils
-- Arrows showing data flow
-- Color-coded by layer
+11. FASTENER SYSTEM
+- Modular metadata: family, instance, parent part, recipe.
+- Lightweight proxy in rest state.
+- Modular detail only under selection/isolate/context.
+- Blender final modules replace placeholders without changing IDs.
 
-### 8. VIEW MODES
-- Headline: "7 Modos de Visualización"
-- 7 small preview thumbnails in row
-- Labels: Realistic, X-Ray, Blueprint, Solid, Wireframe, Ghosted, Thermal
-- Highlight current selection style
+12. SHADERS AND THERMAL
+- Cross-section plane, X-Ray, Solid, Thermal.
+- Thermal is heuristic and visual, not FEA.
 
-### 9. CORE FEATURES
-- Headline: "Características Principales"
-- 4 feature cards with icons:
-  - Exploded View
-  - Cross Section
-  - Part Selection
-  - Drone Simulation
-- Brief description under each
+13. 3D PIPELINE
+- CAD/MoI3D/Blender -> retopology -> UV atlas -> bake -> external textures -> FBX -> Unity.
+- Runtime must include masters and instances: BAKE_MASTERS_LOW, ASSEMBLY_INSTANCES_LOW, PRIMITIVE_FASTENER_MASTERS, PRIMITIVE_FASTENER_INSTANCES.
+- Mask: R=AO, G=Roughness, B=Curvature, A=Metallic.
 
-### 10. ENGINEER TOOLS
-- Headline: "Herramientas de Ingeniería"
-- 6 tool cards in 2x3 grid
-- Icons + names: Assembly Guide, Measurement, Connections, BOM, Annotations, Checklist
-- Teal accent color
+14. UI SCREENSHOT
+- Real app screenshot.
+- Callouts: bottom sheet, tabs, viewport, category filters.
 
-### 11. TECHNICAL METRICS
-- Headline: "Métricas Técnicas"
-- Dashboard-style layout
-- Large numbers: 70+ scripts, 10000+ lines, 7 shaders, 18 managers
-- Progress bars for targets
+15. LIVE DEMO
+- Minimal slide: "Demostracion en vivo".
+- Mention backup screenshots/video.
 
-### 12. CUSTOM SHADERS
-- Headline: "Shaders Personalizados"
-- Left: simplified code snippet (fake, stylized)
-- Right: rendered shader result preview
-- List 7 shader names
+16. VALIDATION PLAN
+- Technical: Unity Profiler, browser tools, build metrics.
+- User: SUS for 3D prototype, NASA-TLX Raw for perceived workload, Think-Aloud for qualitative evidence.
 
-### 13. 3D PIPELINE
-- Headline: "Pipeline de Optimización 3D"
-- Horizontal flow: CAD → Blender → UV → Bake → Compress → Unity
-- Arrow connections
-- Step icons
+17. RESULTS TO CLOSE
+- Placeholder slide for observed values after build freeze.
+- Do not invent values.
+- Use labels: pending post-freeze / to be measured.
 
-### 14. USER INTERFACE
-- Headline: "Interfaz de Usuario"
-- Full-width UI screenshot placeholder (dark mockup)
-- Glass overlay callouts pointing to features
-- Glassmorphism design mention
+18. CONTRIBUTIONS
+- CAD-to-WebGL documented pipeline.
+- Interactive inspection architecture.
+- Modular fastener data and runtime detail.
+- Evaluation plan with clear limits.
 
-### 15. LIVE DEMO
-- Minimal slide
-- Large text: "DEMOSTRACIÓN EN VIVO"
-- Subtitle: "3-5 minutos"
-- Abstract background animation implied
+19. LIMITATIONS AND FUTURE WORK
+- More devices and participants.
+- Calibrated thermal model.
+- Blender final fastener modules.
+- CAD pipeline automation.
+- Multi-language support.
 
-### 16. VALIDATION
-- Headline: "Plan de Validación"
-- Split layout:
-  - Left: SUS methodology, sample size (N=8-12)
-  - Right: Performance metrics targets
-- Score gauge visual
+20. THANK YOU
+- "Gracias" / "Preguntas".
+- Contact and repository QR placeholder.
 
-### 17. EXPECTED RESULTS
-- Headline: "Resultados Esperados"
-- 5 numbered results with checkmarks
-- Clean list format
-- Success green accents
-
-### 18. CONCLUSIONS
-- Headline: "Conclusiones"
-- 3 statement cards (not bullets)
-- Quote-style presentation
-- Key takeaways only
-
-### 19. FUTURE WORK
-- Headline: "Trabajo Futuro"
-- Forward-pointing timeline
-- 4-5 future features: VR/AR, Collaboration, AI, Multi-language
-- Aspirational mood
-
-### 20. THANK YOU
-- Centered: "¡Gracias!"
-- Subtitle: "¿Preguntas?"
-- QR code placeholder
-- Contact info
-- GitHub link: github.com/delarge95/WebGL_tesis
-
-## CRITICAL REQUIREMENTS
-1. NO text-heavy slides - maximum 50 words per slide
-2. GENEROUS white space - slides should breathe
-3. CONSISTENT visual language throughout
-4. DARK theme with vibrant blue/teal accents
-5. PROFESSIONAL and modern aesthetic
-6. ACCESSIBLE contrast ratios
-7. ICONS over bullet points
-
-## OUTPUT FORMAT
-Generate as a complete presentation with all 20 slides, following the design system exactly. Each slide should be visually distinct but part of a cohesive design language.
+CRITICAL OUTPUT RULES
+- No stock photos.
+- No fake code metrics.
+- No unverified performance numbers.
+- No features that are not part of the final UI.
+- If a capability is hidden or future, label it clearly.
 ```
 
 ---
 
-## 📋 Slide Content Reference
-
-### Slide 1: Title
-```
-Prototipo WebGL de Visualización 3D Interactiva 
-para Hardware de Drones
-
-Visualización técnica interactiva mediante WebGL
-
-Alexander Woodcock Salomón
-Ingeniería Multimedia
-Universidad Nacional Abierta y a Distancia - UNAD
-2025
-```
-
-### Slide 2: Problem
-```
-El Problema
-
-• Documentación técnica limitada a imágenes 2D estáticas
-• Alta carga cognitiva para comprender estructuras 3D
-• Falta de interactividad y exploración
-• Dificultad para comunicar ensamblaje y conexiones
-
-[Visual: Comparación lado a lado - Manual PDF vs Visor 3D interactivo]
-```
-
-### Slide 3: Objectives
-```
-Objetivos
-
-GENERAL:
-Desarrollar prototipo WebGL para visualización 3D de hardware de drones
-
-ESPECÍFICOS:
-1. Pipeline de optimización 3D (retopología, baking, compresión)
-2. Implementar 7 modos de visualización
-3. Desarrollar herramientas de ensamblaje
-4. Validar usabilidad con cuestionario SUS
-```
-
-### Slide 4: Framework
-```
-Marco Teórico
-
-[Diagrama de nodos conectados]
-
-Centro: Visualización 3D Interactiva Web
-
-Conectados:
-- Teoría de Carga Cognitiva (Sweller, 1988)
-- Interacción Humano-Computador 3D (Bowman)
-- Renderizado Físicamente Basado (Cook-Torrance)
-- WebGL & WebAssembly
-```
-
-### Slide 5: Methodology
-```
-Metodología
-
-Design Science Research + Desarrollo Ágil (Scrum)
-
-[Timeline horizontal]
-
-Fase 1: Investigación (Semanas 1-4)
-Fase 2: Pipeline 3D (Semanas 5-8)  
-Fase 3: Desarrollo Unity (Semanas 9-16)
-Fase 4: Validación (Semanas 17-20)
-```
-
-### Slide 6: Tech Stack
-```
-Stack Tecnológico
-
-[Grid 2x3 de iconos]
-
-Unity 6.0 LTS     |  Universal Render Pipeline
-C# 11 / WASM      |  UI Toolkit
-Blender 4.0       |  WebGL 2.0
-```
-
-### Slide 7: Architecture
-```
-Arquitectura del Sistema
-
-[Diagrama de capas]
-
-┌─────────────────────────┐
-│      UI Layer           │  ← UI Toolkit, Stylesheets
-├─────────────────────────┤
-│   Application Layer     │  ← AppStateMachine, EventBus
-├─────────────────────────┤
-│     Core Managers       │  ← 18 Singleton Managers
-├─────────────────────────┤
-│     Content Layer       │  ← ExplodablePart, Data
-├─────────────────────────┤
-│      Utilities          │  ← TweenEngine, Pooler
-└─────────────────────────┘
-```
-
-### Slide 8: View Modes
-```
-7 Modos de Visualización
-
-[7 thumbnails en fila]
-
-Realista | Rayos X | Plano | Sólido | Wireframe | Fantasma | Térmico
-```
-
-### Slide 9: Features
-```
-Características Principales
-
-[4 tarjetas con iconos]
-
-🔧 Vista Explosionada
-Separación animada de componentes
-
-✂️ Corte Transversal
-Planos de corte X/Y/Z dinámicos
-
-👆 Selección de Partes
-Click para información detallada
-
-🚁 Simulación de Drone
-Estados On/Off, animación de hélices
-```
-
-### Slide 10: Tools
-```
-Herramientas de Ingeniería
-
-[Grid 2x3]
-
-📋 Guía de Ensamblaje    📏 Herramienta de Medición
-🔗 Puntos de Conexión    📦 Lista de Materiales (BOM)
-📝 Anotaciones 3D        ✅ Checklist de Verificación
-```
-
-### Slide 11: Metrics
-```
-Métricas Técnicas
-
-[Dashboard con números grandes]
-
-70+          10,000+       7           18
-Scripts      Líneas C#     Shaders     Managers
-
-[Barras de progreso para KPIs]
-Polígonos: < 100K ████████████░░ 
-FPS Móvil: > 30   ████████████████
-Carga: < 10s      ██████████████░░
-```
-
-### Slide 12: Shaders
-```
-Shaders Personalizados HLSL
-
-[Código estilizado]               [Preview de render]
-
-ClippableLit.shader               ┌─────────────┐
-XRay.shader                       │   Drone     │
-Blueprint.shader                  │   con       │
-Thermal.shader                    │   X-Ray     │
-Wireframe.shader                  │   shader    │
-SolidColor.shader                 └─────────────┘
-Ghosted.shader
-
-Compatibles WebGL 2.0 | URP Optimizados
-```
-
-### Slide 13: Pipeline
-```
-Pipeline de Optimización 3D
-
-[Flujo horizontal con iconos]
-
-CAD → Blender → UV → Bake → Compress → Unity
-        ↓        ↓      ↓         ↓
-   Retopología  Texel  Normal   ASTC/
-                Density  Maps   Basis
-                
-Resultado: 90% reducción de tamaño
-```
-
-### Slide 14: UI
-```
-Interfaz de Usuario
-
-[Screenshot del UI con overlays]
-
-Diseño Glassmorphism
-├── Tema oscuro con blur
-├── Layout responsivo  
-├── Controles touch-friendly
-└── Opciones de accesibilidad
-
-[Líneas señalando features del UI]
-```
-
-### Slide 15: Demo
-```
-[Slide minimalista]
-
-DEMOSTRACIÓN EN VIVO
-
-3-5 minutos
-
-[Fondo con patrón abstracto sutil]
-```
-
-### Slide 16: Validation
-```
-Plan de Validación
-
-[Dos columnas]
-
-USABILIDAD                    RENDIMIENTO
-────────────                  ────────────
-Método: SUS                   Unity Profiler
-Muestra: N=8-12               DevTools Browser
-Meta: Score > 68              Lighthouse Audit
-
-Carga Cognitiva: NASA-TLX
-```
-
-### Slide 17: Results
-```
-Resultados Esperados
-
-✓ Prototipo WebGL funcional (URL pública)
-✓ 7 shaders + 70+ scripts
-✓ Documentación completa
-✓ Informe de evaluación de usabilidad
-✓ Pipeline replicable documentado
-```
-
-### Slide 18: Conclusions
-```
-Conclusiones
-
-"Implementación exitosa de visor 3D interactivo 
-con capacidades de ingeniería avanzadas"
-
-"Viabilidad comprobada de WebGL para 
-documentación técnica especializada"
-
-"Arquitectura extensible preparada
-para futuras mejoras"
-```
-
-### Slide 19: Future
-```
-Trabajo Futuro
-
-[Timeline hacia el futuro]
-
-2025 ──────────────────────────────► Beyond
-
-• Integración VR/AR
-• Visualización colaborativa en tiempo real
-• Reconocimiento de partes con IA
-• Soporte multi-idioma
-• Versión móvil optimizada
-```
-
-### Slide 20: End
-```
-[Centrado]
-
-¡Gracias!
-
-¿Preguntas?
-
-[QR Code]
-
-📧 awoodcocks@unadvirtual.edu.co
-🔗 github.com/delarge95/WebGL_tesis
-```
+## Slide Content Reference
+
+Use these exact content anchors when generating or reviewing the deck:
+
+- Core message: "Ver piezas no basta; hay que comprender relaciones espaciales."
+- App modules: Inspect, Analyze, Studio.
+- Selection levels: pieza madre, subpieza, grupo de hotspot, fastener.
+- Fastener principle: proxy ligero en reposo, detalle modular bajo demanda.
+- Blender principle: masters + instances both form the real drone and must be exported/imported together.
+- Texture principle: BaseColor, Normal and packed Mask are external assets; 4K is tested compressed before downscaling to 2K.
+- Validation principle: no empirical claim before freeze and measurement.
 
 ---
 
-## 🎨 Visual Assets Checklist
+## Asset Checklist
 
-### Icons Needed (Phosphor/Lucide style)
-- [ ] Document/file icon (problem)
-- [ ] Brain/cognitive icon (theory)
-- [ ] Checkmark circle (objectives)
-- [ ] Timeline/clock (methodology)
-- [ ] Unity logo simplified
-- [ ] Layers/stack icon (architecture)
-- [ ] Eye/view icon (view modes)
-- [ ] Explode/expand icon
-- [ ] Scissors/cut icon
-- [ ] Cursor/pointer icon
-- [ ] Drone/quadcopter icon
-- [ ] Ruler/measure icon
-- [ ] Link/connection icon
-- [ ] List/checklist icon
-- [ ] Code brackets icon
-- [ ] Chart/metrics icon
-- [ ] Play/demo icon
-- [ ] Test/validation icon
-- [ ] Rocket/future icon
-- [ ] Heart/thanks icon
-
-### Diagrams to Create
-- [ ] Mind map (theoretical framework)
-- [ ] Timeline (methodology)
-- [ ] Architecture layers diagram
-- [ ] 7 view modes preview grid
-- [ ] 3D pipeline flow
-- [ ] Validation split layout
-
-### Screenshots/Mockups
-- [ ] UI mockup (dark theme)
-- [ ] View mode comparisons
-- [ ] Shader before/after
+- [ ] Real screenshot of Hero/Explore.
+- [ ] Real screenshot of selected part with bottom sheet.
+- [ ] Real screenshot of isolated fastener or fastener detail.
+- [ ] Real screenshot of Analyze filters/explode/cross-section.
+- [ ] Real screenshot of Studio visual modes.
+- [ ] Diagram of Blender-to-Unity pipeline.
+- [ ] Diagram of fastener metadata flow.
+- [ ] Placeholder dashboard for metrics pending post-freeze.
 
 ---
 
-## 🔧 Generation Tips for Kimi K2
-
-1. **Start with structure**: Generate slide layouts first, then content
-2. **Use placeholder boxes**: For images/diagrams that need manual creation
-3. **Maintain consistency**: Copy color codes exactly as specified
-4. **Test contrast**: Verify text remains readable on dark backgrounds
-5. **Export as PDF first**: Check spacing before final PPTX
-6. **Iterate**: Ask for specific slide revisions if needed
-
----
-
-## 📝 Additional Prompt Variations
-
-### For More Minimal Style
-Add to prompt:
-```
-Make it even more minimal. Use maximum 30 words per slide. 
-Increase white space by 20%. Use only icons, no text bullets.
-```
-
-### For More Technical Look
-Add to prompt:
-```
-Add subtle grid overlay to backgrounds. Use monospace font 
-for all data. Include faint circuit/node patterns.
-```
-
-### For More Academic Feel
-Add to prompt:
-```
-Add subtle watermark of university logo. Use more traditional 
-academic structure. Include slide numbers prominently.
-```
-
----
-
-*Prompt Version: 1.0*  
-*Compatible with: Kimi K2 Nano Banana Pro*  
-*Last Updated: December 2024*
+*Prompt Version: 2.0*
+*Compatible with: Kimi or equivalent presentation generator*
+*Last Updated: 2026-05-08*

@@ -15,11 +15,11 @@ MonoBehaviour:
   partName: Miscellaneous Frame Clip
   id: x500v2_blend_jia_lianjie
   partType: Structure
-  description: Clip conectivo estructural. Part modeled based on CAD JIA-LIANJIE.
+  description: Clip conectivo estructural. Pieza modelada en base al CAD JIA-LIANJIE.
   weightKg: 0.002
   dimensions: Miniatura
   function: Clip conectivo estructural
-  materialType: Plastic
+  materialType: "Pl\xE1stico"
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

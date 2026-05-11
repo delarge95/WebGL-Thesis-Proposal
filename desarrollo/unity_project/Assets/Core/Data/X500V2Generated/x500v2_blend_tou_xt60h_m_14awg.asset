@@ -15,10 +15,11 @@ MonoBehaviour:
   partName: XT60 Male Connector Plug
   id: x500v2_blend_tou_xt60h_m_14awg
   partType: Structure
-  description: Power electrical junction. Part modeled based on CAD TOU-XT60H-M-14AWG.
+  description: "Uni\xF3n el\xE9ctrica de potencia. Pieza modelada en base al CAD
+    TOU-XT60H-M-14AWG."
   weightKg: 0.005
-  dimensions: Standard
-  function: Power electrical junction
+  dimensions: "Est\xE1ndar"
+  function: "Uni\xF3n el\xE9ctrica de potencia"
   materialType: Nylon / Oro
   materialProperties: 
   manufacturer: Holybro
@@ -40,7 +41,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

@@ -15,9 +15,10 @@ MonoBehaviour:
   partName: Motor Mount Base Plate
   id: x500v2_blend_ban_dj_dian_f2
   partType: Propulsion
-  description: Montura disipadora inferior p/Motor. Part modeled based on CAD BAN-DJ-DIAN-F2.
+  description: Montura disipadora inferior p/Motor. Pieza modelada en base al CAD
+    BAN-DJ-DIAN-F2.
   weightKg: 0.005
-  dimensions: "16\xC3\u201419 mm base"
+  dimensions: "16\xD719 mm base"
   function: Montura disipadora inferior p/Motor
   materialType: Aluminio/Fibra
   materialProperties: 
@@ -40,7 +41,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

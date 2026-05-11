@@ -1,192 +1,157 @@
 # Demo Script - WebGL Drone Viewer
-## Guión para Demostración en Vivo (5 minutos)
+## Guion para demostracion en vivo coherente con la app real
 
 ---
 
-## Preparación Pre-Demo
+## Estado del guion
 
-### Checklist Técnico
-- [ ] URL del prototipo abierta en Chrome/Firefox
-- [ ] Pantalla completa (F11)
-- [ ] Conexión a internet estable
-- [ ] Mouse funcionando correctamente
-- [ ] Backup PDF con capturas por si falla internet
-- [ ] Segundo navegador listo con demo backup
+Este guion reemplaza versiones anteriores que mencionaban herramientas no publicadas en la UI final, como medicion, BOM, conexiones o catalogo legacy. La demo debe mostrar solo el flujo real: Hero, Explore, seleccion, bottom sheet, Inspect, Analyze, Studio, fasteners e import final Blender cuando ya este validado.
 
-### Estado Inicial
-- Vista: Realistic
-- Zoom: 100%
-- Rotación: Vista frontal 3/4
-- Ninguna pieza seleccionada
-- Vista compacta (no explosionada)
+No se deben afirmar FPS, reducciones de peso o tiempos de carga hasta medirlos sobre la build congelada.
 
 ---
 
-## Guión de Demostración
+## Preparacion pre-demo
 
-### [0:00-0:30] Introducción Visual
+### Checklist tecnico
 
-**Acción:** Mostrar el prototipo en estado inicial
+- [ ] Abrir la build WebGL o Play Mode con `MainScene_Final`.
+- [ ] Restablecer vista inicial del dron completo.
+- [ ] Verificar que no haya pieza seleccionada al iniciar.
+- [ ] Verificar que el modo base sea `Realistic`.
+- [ ] Tener capturas/video de respaldo por si falla la demo en vivo.
+- [ ] Confirmar que los controles de zoom, pan y orbit responden sin perder piezas pequenas.
 
-> "Este es nuestro prototipo de visualización 3D interactiva. Como pueden ver, tenemos un drone de alta performance renderizado en tiempo real en el navegador, sin plugins ni instalación."
+### Estado inicial recomendado
 
-**Acción:** Rotar lentamente el drone 360°
-
-> "El modelo se puede explorar desde cualquier ángulo usando el mouse."
+- Vista: `Realistic`.
+- Dron completo visible.
+- Explode desactivado.
+- Cross-section desactivado.
+- Ningun filtro activo.
+- Ninguna pieza seleccionada.
 
 ---
 
-### [0:30-1:15] Navegación Básica
+## Guion de demostracion
 
-**Acción:** Demostrar controles
+### [0:00-0:30] Apertura
 
-> "La navegación es intuitiva:"
+**Accion:** Mostrar el prototipo en estado inicial.
 
-| Acción | Control |
+> "Este es el visor WebGL del Holybro X500 V2. La idea no es solo mostrar un modelo 3D, sino convertir el ensamblaje en una experiencia inspeccionable, filtrable y explicable desde navegador."
+
+**Accion:** Orbitar suavemente el dron.
+
+> "La escena conserva lectura espacial completa y permite explorar el sistema desde cualquier angulo."
+
+---
+
+### [0:30-1:05] Navegacion
+
+**Accion:** Demostrar orbit, zoom y pan.
+
+| Accion | Control |
 |--------|---------|
-| Click izquierdo + arrastrar | "Rotar" |
-| Scroll | "Zoom in/out" |
-| Click derecho + arrastrar | "Desplazar (Pan)" |
+| Orbit | Arrastrar en viewport |
+| Zoom | Scroll |
+| Pan | Arrastre de paneo configurado |
 
-**Acción:** Usar presets de cámara (1-6)
-
-> "También tenemos ángulos predefinidos para vistas técnicas: frontal, lateral, superior..."
+> "La camara ajusta sensibilidad y rango segun la escala de lo que se analiza. No es lo mismo navegar el dron completo que acercarse a un fastener."
 
 ---
 
-### [1:15-2:00] Selección e Información
+### [1:05-1:55] Seleccion y ficha inferior
 
-**Acción:** Click en el motor
+**Accion:** Seleccionar una pieza madre clara, por ejemplo placa, brazo o motor.
 
-> "Al hacer click en cualquier componente, obtenemos información técnica detallada."
+> "Al seleccionar una pieza, la app abre una ficha inferior. Esta ficha no es decorativa: traduce una malla seleccionada a informacion tecnica."
 
-**Acción:** Señalar el panel de información
+**Accion:** Senalar nombre, categoria, especificaciones y ensamblaje.
 
-> "Aquí vemos: nombre, categoría, peso, material, dimensiones, y especificaciones de instalación como torque y herramientas necesarias."
-
-**Acción:** Seleccionar la batería
-
-> "Noten las advertencias de seguridad específicas para componentes críticos como la batería LiPo."
+> "La seleccion puede representar una pieza madre, una subpieza, un grupo de hotspot o un fastener. La app diferencia esos niveles para que aislamiento, resaltado y datos no se contradigan."
 
 ---
 
-### [2:00-2:45] Modos de Visualización
+### [1:55-2:40] Inspect, aislamiento y fasteners
 
-**Acción:** Cambiar a modo X-Ray
+**Accion:** Usar `Inspect` y aislar una pieza madre con fasteners asociados.
 
-> "Tenemos 7 modos de visualización especializados. El modo X-Ray permite ver componentes internos..."
+> "Inspect permite limpiar el contexto visual. Si se aisla una pieza madre, se conservan los fasteners reconciliados con esa pieza cuando existe asignacion confiable."
 
-**Acción:** Cambiar a Blueprint
+**Accion:** Seleccionar o aislar un fastener individual.
 
-> "El modo Blueprint muestra una vista técnica estilo plano de ingeniería..."
+> "Un fastener tambien puede aislarse como unidad completa. Cuando se requiere detalle, el sistema reemplaza el proxy por una representacion modular bajo demanda, sin convertir toda la tornilleria de la escena."
 
-**Acción:** Cambiar a Thermal
+**Nota oral opcional:** Si la escena usa todavia piezas modulares temporales de Unity:
 
-> "Y el modo térmico simula zonas de calor para análisis de disipación."
-
-**Acción:** Volver a Realistic
-
-> "Cada modo tiene un shader HLSL personalizado optimizado para WebGL."
+> "La geometria modular visible en esta etapa es temporal; la logica de datos, seleccion e inspeccion ya esta lista para recibir los modulos finales hechos en Blender."
 
 ---
 
-### [2:45-3:30] Vista Explosionada
+### [2:40-3:35] Analyze
 
-**Acción:** Activar vista explosionada (slider o botón E)
+**Accion:** Activar vista explosionada y mover el slider.
 
-> "La vista explosionada separa los componentes para visualizar la estructura interna..."
+> "Analyze permite separar visualmente el ensamblaje para leer relaciones entre piezas sin destruir la malla ni perder metadatos."
 
-**Acción:** Mover slider de explosión
+**Accion:** Activar cross-section.
 
-> "El nivel de separación es controlable con este slider."
+> "El corte transversal funciona como una decision de render: el shader decide que fragmentos se dibujan segun un plano matematico."
 
-**Acción:** Seleccionar pieza en vista explosionada
+**Accion:** Mostrar filtros por categoria.
 
-> "Incluso en estado explosionado, cada pieza mantiene su información contextual."
-
-**Acción:** Volver a vista compacta
+> "Los filtros reducen ruido visual por sistemas funcionales: estructura, propulsion, avionica, comunicaciones, distribucion de energia y fasteners."
 
 ---
 
-### [3:30-4:15] Herramientas de Ingeniería
+### [3:35-4:30] Studio y modos visuales visibles
 
-**Acción:** Activar herramienta de medición
+**Accion:** Mostrar `X-Ray`, `Solid Color` y `Thermal`.
 
-> "Las herramientas de ingeniería incluyen medición de distancias entre puntos..."
+> "Studio controla la lectura visual. En la UI final se exponen modos como X-Ray, Solid Color y Thermal sobre una base Realistic."
 
-**Acción:** Medir distancia entre dos puntos
+**Accion:** Cambiar entorno o preset si aplica.
 
-> "Útil para verificar espacios y tolerancias."
+> "Blueprint se maneja como preset/lectura de entorno cuando esta disponible, no como una promesa de siete modos visibles al usuario."
 
-**Acción:** Mostrar puntos de conexión
+**Accion:** Mostrar Thermal solo como lectura heuristica.
 
-> "Los puntos de conexión visualizan dónde van tornillos, cables y snaps."
-
-**Acción:** Mostrar catálogo de partes
-
-> "Y el catálogo permite buscar y filtrar componentes por categoría."
+> "Thermal no es FEA ni una medicion fisica calibrada. Es una lupa visual por componentes para comunicar tendencias relativas de temperatura."
 
 ---
 
-### [4:15-4:45] Corte Transversal
+### [4:30-5:00] Cierre
 
-**Acción:** Activar cross-section en eje Y
+**Accion:** Volver a dron completo.
 
-> "El corte transversal permite ver secciones del modelo en cualquier eje."
+> "El resultado defendible es una cadena completa: CAD y Blender para preparar geometria, Unity para interaccion y WebGL para acceso. Las metricas finales se reportan solo despues del freeze y del profiling de la build congelada."
 
-**Acción:** Mover plano de corte
-
-> "Ideal para inspeccionar cómo encajan los componentes internos."
-
-**Acción:** Desactivar corte
+> "La contribucion no es mostrar mas piezas; es hacer legibles sus relaciones."
 
 ---
 
-### [4:45-5:00] Cierre
+## Backup si falla la demo
 
-**Acción:** Volver a vista completa, rotación suave
-
-> "Todo esto corriendo a más de 30 FPS en el navegador, sin instalación, accesible desde cualquier dispositivo con WebGL 2.0."
-
-> "¿Alguna pregunta sobre la demostración?"
-
----
-
-## Backup: Tareas Alternativas
-
-Si el tiempo sobra o se solicita ver más:
-
-| Tarea | Tiempo |
-|-------|--------|
-| Simular encendido del drone | 30s |
-| Exportar lista de materiales (BOM) | 20s |
-| Mostrar anotaciones 3D | 20s |
-| Mostrar accesibilidad (alto contraste) | 20s |
+| Riesgo | Respuesta |
+|--------|-----------|
+| Carga lenta | Usar capturas o video grabado del flujo real. |
+| WebGL falla | Presentar Play Mode o respaldo visual. |
+| FPS inestable | No improvisar resultados; explicar que el capitulo 5 se cierra con profiling post-freeze. |
+| Fastener ambiguo | Mostrar que el sistema lo reporta para revision y no lo asigna por suposicion. |
 
 ---
 
-## Troubleshooting
+## Frases seguras
 
-| Problema | Solución |
-|----------|----------|
-| Carga lenta | "La primera carga descarga assets, las siguientes son más rápidas" |
-| FPS bajo | "En dispositivos más potentes el rendimiento mejora" |
-| Error de WebGL | Cambiar a backup PDF/video |
-| Mouse no responde | Verificar foco del navegador |
-
----
-
-## Frases Clave a Recordar
-
-- "Sin plugins, sin instalación"
-- "Optimizado para web con WebAssembly"
-- "Shaders personalizados HLSL"
-- "Arquitectura basada en patrones de diseño"
-- "Más de 70 scripts, 10,000 líneas de código"
-- "7 modos de visualización, cada uno con propósito técnico específico"
+- "La app distingue entre pieza madre, subpieza, hotspot y fastener."
+- "Blueprint y modos ocultos se tratan como capacidades implementadas o presets, no como alcance visible si no estan publicados."
+- "Thermal es heuristico, no FEA."
+- "Los placeholders de fasteners validan el sistema modular; las mallas finales Blender reemplazan assets sin cambiar la logica."
+- "Las metricas se reportan despues del freeze de build."
 
 ---
 
-*Demo Version: 1.0*
-*Duration: 5 minutes*
+*Demo Version: 2.0*
+*Last Updated: 2026-05-08*
 *Project: WebGL Drone Viewer*

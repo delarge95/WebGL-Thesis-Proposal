@@ -30,6 +30,7 @@ namespace WebGL.Core.Managers
         [SerializeField] private float hoverFrequency = 1f;
         [SerializeField] private float flightThresholdNormalized = 0.35f;
         [SerializeField] private float armedLoadFloor = 0.2f;
+        [SerializeField] private Vector3 fallbackPropellerSpinAxis = Vector3.forward;
 
         [Header("Audio")]
         [SerializeField] private AudioClip startupSound;
@@ -198,7 +199,8 @@ namespace WebGL.Core.Managers
                     {
                         if (child == null) continue;
                         string name = child.name.ToLowerInvariant();
-                        if (name.StartsWith("x500v2_prop_", StringComparison.Ordinal))
+                        if (name.StartsWith("x500v2_prop_", StringComparison.Ordinal) ||
+                            name.Contains("propeller"))
                         {
                             detected.Add(child);
                         }
@@ -235,8 +237,81 @@ namespace WebGL.Core.Managers
                 if (propeller == null) continue;
 
                 float direction = i % 2 == 0 ? 1f : -1f;
-                propeller.Rotate(Vector3.forward, currentPropellerSpeed * direction * Time.deltaTime, Space.Self);
+                Vector3 spinAxis = ResolvePropellerSpinAxis(propeller);
+                propeller.Rotate(spinAxis, currentPropellerSpeed * direction * Time.deltaTime, Space.Self);
             }
+        }
+
+        private Vector3 ResolvePropellerSpinAxis(Transform propeller)
+        {
+            if (propeller == null)
+            {
+                return fallbackPropellerSpinAxis.sqrMagnitude > 0.0001f
+                    ? fallbackPropellerSpinAxis.normalized
+                    : Vector3.forward;
+            }
+
+            if (!TryGetLocalRendererBounds(propeller, out Bounds localBounds))
+            {
+                return fallbackPropellerSpinAxis.sqrMagnitude > 0.0001f
+                    ? fallbackPropellerSpinAxis.normalized
+                    : Vector3.forward;
+            }
+
+            Vector3 size = localBounds.size;
+            if (size.x <= size.y && size.x <= size.z) return Vector3.right;
+            if (size.y <= size.x && size.y <= size.z) return Vector3.up;
+            return Vector3.forward;
+        }
+
+        private static bool TryGetLocalRendererBounds(Transform root, out Bounds localBounds)
+        {
+            localBounds = default;
+            if (root == null)
+            {
+                return false;
+            }
+
+            Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+            bool hasBounds = false;
+            foreach (Renderer renderer in renderers)
+            {
+                if (renderer == null)
+                {
+                    continue;
+                }
+
+                Bounds rendererBounds = renderer.bounds;
+                Vector3 min = rendererBounds.min;
+                Vector3 max = rendererBounds.max;
+                Vector3[] corners =
+                {
+                    new Vector3(min.x, min.y, min.z),
+                    new Vector3(min.x, min.y, max.z),
+                    new Vector3(min.x, max.y, min.z),
+                    new Vector3(min.x, max.y, max.z),
+                    new Vector3(max.x, min.y, min.z),
+                    new Vector3(max.x, min.y, max.z),
+                    new Vector3(max.x, max.y, min.z),
+                    new Vector3(max.x, max.y, max.z)
+                };
+
+                for (int i = 0; i < corners.Length; i++)
+                {
+                    Vector3 local = root.InverseTransformPoint(corners[i]);
+                    if (!hasBounds)
+                    {
+                        localBounds = new Bounds(local, Vector3.zero);
+                        hasBounds = true;
+                    }
+                    else
+                    {
+                        localBounds.Encapsulate(local);
+                    }
+                }
+            }
+
+            return hasBounds;
         }
 
         private IEnumerator StartupSequence()

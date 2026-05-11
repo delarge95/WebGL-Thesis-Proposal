@@ -31,8 +31,10 @@ namespace WebGL.Core.Content
             AxisAssignment axes = ResolveAxes(size, metadata);
             float totalLength = GetAxisValue(size, axes.lengthAxis);
             float crossDiameter = Mathf.Max(GetAxisValue(size, axes.crossAxisA), GetAxisValue(size, axes.crossAxisB));
-            totalLength = Mathf.Max(totalLength, crossDiameter * 0.8f, 0.004f);
-            crossDiameter = Mathf.Max(crossDiameter, totalLength * 0.2f, 0.002f);
+            float dominantSize = Mathf.Max(size.x, Mathf.Max(size.y, size.z));
+            float tinyFloor = Mathf.Max(dominantSize * 0.02f, 0.00002f);
+            totalLength = Mathf.Max(totalLength, crossDiameter * 0.8f, tinyFloor);
+            crossDiameter = Mathf.Max(crossDiameter, totalLength * 0.12f, tinyFloor * 0.5f);
 
             Material sourceMaterial = ResolveMaterial(proxyRenderers);
 

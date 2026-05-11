@@ -65,6 +65,19 @@ Todo lo que no encaje en ese flujo debe documentarse como oculto, legado o futur
 - catalogo JSON canonico
 - catalogos modulares de fasteners
 
+## Pipeline Blender final
+
+El modelo final se entrega desde Blender como un runtime compuesto por masters e instancias. Para no perder piezas fisicas, la exportacion manual debe incluir simultaneamente:
+
+- `BAKE_MASTERS_LOW`
+- `ASSEMBLY_INSTANCES_LOW`
+- `PRIMITIVE_FASTENER_MASTERS`
+- `PRIMITIVE_FASTENER_INSTANCES`
+
+Los mapas recomendados para Unity son `X500_BaseColor_4K.png`, `X500_Normal_Final_4K.png` y `X500_Mask_4K.png`. La mask compacta usa `R=AO`, `G=Roughness`, `B=Curvature` y `A=Metallic`. Si se usa URP Lit estandar, puede generarse ademas `X500_MetallicSmoothness_4K.png`.
+
+El manifest Blender se usa como reporte de importacion y revision: registra transforms, bounds, roles runtime y candidatos de pieza madre para fasteners. No asigna automaticamente un fastener ambiguo a una pieza madre.
+
 ## Bootstrap y saneamiento
 
 El arranque de la build depende de dos mecanismos:

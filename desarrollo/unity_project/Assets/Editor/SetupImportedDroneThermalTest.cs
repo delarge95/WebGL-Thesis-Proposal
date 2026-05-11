@@ -14,6 +14,7 @@ public static class SetupImportedDroneThermalTest
     private const string GeneratedDataFolder = "Assets/Core/Data/X500V2Generated";
     private const string CanonicalJsonFile = "x500v2_parts_data.json";
     private const string SyncedJsonFile = "x500v2_blender_synced_parts.json";
+    private const string ParentSubpiecesJsonFile = "holybro_parent_subpieces.json";
     private const string FastenerGroupId = "x500v2_fastener_group";
     private const string MiscGroupId = "x500v2_misc_group";
 
@@ -109,14 +110,41 @@ public static class SetupImportedDroneThermalTest
         public SyncedUiJson ui;
     }
 
+    [Serializable]
+    private class ParentSubpieceCatalogJson
+    {
+        public ParentSubpieceEntry[] items;
+    }
+
+    [Serializable]
+    private class ParentSubpieceEntry
+    {
+        public string parentCanonicalPartId;
+        public string[] configuredSubpieces;
+    }
+
     [MenuItem("Tools/Thermal/Prepare Imported Drone For Thermal Test")]
     public static void PrepareImportedDrone()
+    {
+        PrepareImportedDrone(true);
+    }
+
+    public static bool PrepareImportedDroneHeadless()
+    {
+        return PrepareImportedDrone(false);
+    }
+
+    private static bool PrepareImportedDrone(bool showDialog)
     {
         GameObject root = GameObject.Find(RootName);
         if (root == null)
         {
-            EditorUtility.DisplayDialog("Thermal Test Setup", $"No se encontro '{RootName}' en la escena activa.", "OK");
-            return;
+            if (showDialog)
+            {
+                EditorUtility.DisplayDialog("Thermal Test Setup", $"No se encontro '{RootName}' en la escena activa.", "OK");
+            }
+            Debug.LogError($"[SetupImportedDroneThermalTest] No se encontro '{RootName}' en la escena activa.");
+            return false;
         }
 
         EnsureEditableHierarchy(root);
@@ -124,8 +152,12 @@ public static class SetupImportedDroneThermalTest
         DronePartJson[] jsonParts = LoadJsonParts(root.transform, out string selectedSource, out int matchedPartIds);
         if (jsonParts == null || jsonParts.Length == 0)
         {
-            EditorUtility.DisplayDialog("Thermal Test Setup", "No se pudo leer el dataset de piezas (synced/canonical).", "OK");
-            return;
+            if (showDialog)
+            {
+                EditorUtility.DisplayDialog("Thermal Test Setup", "No se pudo leer el dataset de piezas (synced/canonical).", "OK");
+            }
+            Debug.LogError("[SetupImportedDroneThermalTest] No se pudo leer el dataset de piezas (synced/canonical).");
+            return false;
         }
 
         EnsureFolder("Assets/Core");
@@ -134,6 +166,7 @@ public static class SetupImportedDroneThermalTest
         EnsureRuntimeBinder(root);
 
         Dictionary<string, DronePartData> assetsById = GenerateOrUpdatePartAssets(jsonParts);
+        ApplyParentSubpieceCatalog(assetsById);
         EnsureSyntheticGroupAsset(assetsById, FastenerGroupId, "Fasteners Group", PartCategory.Fasteners);
         EnsureSyntheticGroupAsset(assetsById, MiscGroupId, "Misc Group", PartCategory.Uncategorized);
         Dictionary<string, Transform> anchorsById = new Dictionary<string, Transform>(StringComparer.OrdinalIgnoreCase);
@@ -144,6 +177,9 @@ public static class SetupImportedDroneThermalTest
         int syntheticGroupReparented = 0;
         int prefixReparented = 0;
         int heuristicReparented = 0;
+        int runtimeProxyAnchors = 0;
+        int suppressedRuntimeProxies = RemoveSuppressedRuntimeProxyAnchors(root.transform);
+        int structuralFastenersRestored = 0;
         int warnings = 0;
 
         foreach (DronePartJson jsonPart in jsonParts)
@@ -156,9 +192,19 @@ public static class SetupImportedDroneThermalTest
             List<Transform> matches = FindMatches(root.transform, jsonPart);
             if (matches.Count == 0)
             {
-                Debug.LogWarning($"[SetupImportedDroneThermalTest] No se encontraron nodos para {jsonPart.id}");
-                warnings++;
-                continue;
+                Transform proxyAnchor = TryCreateRuntimeProxyAnchor(root.transform, jsonPart, anchorsById);
+                if (proxyAnchor != null)
+                {
+                    matches.Add(proxyAnchor);
+                    runtimeProxyAnchors++;
+                    Debug.LogWarning($"[SetupImportedDroneThermalTest] No se encontro geometria FBX para {jsonPart.id}; se creo proxy canonico temporal para mantener filtros, explode y thermal.");
+                }
+                else
+                {
+                    Debug.LogWarning($"[SetupImportedDroneThermalTest] No se encontraron nodos para {jsonPart.id}");
+                    warnings++;
+                    continue;
+                }
             }
 
             Transform anchor = ResolveOrCreateAnchor(root.transform, jsonPart.id, matches);
@@ -210,6 +256,8 @@ public static class SetupImportedDroneThermalTest
             prepared++;
         }
 
+        structuralFastenersRestored = RestoreMisclassifiedStructuralFasteners(root.transform, anchorsById);
+
         auxiliaryReparented = ReparentAuxiliaryChildren(
             root.transform,
             anchorsById,
@@ -238,6 +286,7 @@ public static class SetupImportedDroneThermalTest
 
         ProcessExistingSyntheticGroupMembers(root.transform, anchorsById, assetsById, MiscGroupId);
         NormalizeAnchorPivots(anchorsById);
+        int demotedSubpieceAnchors = DemoteGranularSubpieceAnchors(root.transform);
 
         HolybroFastenerCatalogBuildResult fastenerCatalog = HolybroFastenerCatalogBuilder.BuildAndWrite(root.transform);
         ProcessFastenerGroupMembers(root.transform, anchorsById, assetsById, fastenerCatalog);
@@ -254,12 +303,21 @@ public static class SetupImportedDroneThermalTest
             $"  - Por grupo sintetico: {syntheticGroupReparented}\n" +
             $"  - Por prefijo canonico: {prefixReparented}\n" +
             $"  - Por heuristica: {heuristicReparented}\n" +
+            $"Falsos fasteners estructurales restaurados: {structuralFastenersRestored}\n" +
+            $"Subpiezas granularizadas sin anchor seleccionable: {demotedSubpieceAnchors}\n" +
+            $"Proxies canonicos temporales: {runtimeProxyAnchors}\n" +
+            $"Proxies canonicos omitidos/eliminados: {suppressedRuntimeProxies}\n" +
             $"Fastener families exportadas: {fastenerCatalog?.FamiliesCatalog?.items?.Length ?? 0}\n" +
             $"Fastener instances exportadas: {fastenerCatalog?.InstancesCatalog?.items?.Length ?? 0}\n" +
             $"Warnings: {warnings}";
 
         Debug.Log($"[SetupImportedDroneThermalTest] {message}");
-        EditorUtility.DisplayDialog("Thermal Test Setup", message, "OK");
+        if (showDialog)
+        {
+            EditorUtility.DisplayDialog("Thermal Test Setup", message, "OK");
+        }
+
+        return true;
     }
 
     private static DronePartJson[] LoadJsonParts(Transform root, out string selectedSource, out int matchedPartIds)
@@ -272,6 +330,14 @@ public static class SetupImportedDroneThermalTest
 
         int syncedMatches = hasSynced ? EstimateMatchedParts(root, syncedParts) : -1;
         int canonicalMatches = hasCanonical ? EstimateMatchedParts(root, canonicalParts) : -1;
+
+        if (hasCanonical && canonicalMatches > 0)
+        {
+            selectedSource = CanonicalJsonFile;
+            matchedPartIds = canonicalMatches;
+            Debug.Log($"[SetupImportedDroneThermalTest] Fuente de interaccion: {CanonicalJsonFile} ({canonicalParts.Length} entradas, matches={canonicalMatches}). El dataset granular queda como metadata/subpiezas, no como anchors seleccionables.");
+            return canonicalParts;
+        }
 
         if (hasSynced && hasCanonical)
         {
@@ -439,6 +505,43 @@ public static class SetupImportedDroneThermalTest
         return assetsById;
     }
 
+    private static void ApplyParentSubpieceCatalog(Dictionary<string, DronePartData> assetsById)
+    {
+        if (assetsById == null || assetsById.Count == 0)
+        {
+            return;
+        }
+
+        string path = Path.Combine(HolybroDocsDir, ParentSubpiecesJsonFile);
+        if (!File.Exists(path))
+        {
+            return;
+        }
+
+        string raw = File.ReadAllText(path);
+        ParentSubpieceCatalogJson catalog = JsonUtility.FromJson<ParentSubpieceCatalogJson>(raw);
+        if (catalog?.items == null)
+        {
+            return;
+        }
+
+        foreach (ParentSubpieceEntry entry in catalog.items)
+        {
+            if (entry == null || string.IsNullOrWhiteSpace(entry.parentCanonicalPartId))
+            {
+                continue;
+            }
+
+            if (!assetsById.TryGetValue(entry.parentCanonicalPartId, out DronePartData asset) || asset == null)
+            {
+                continue;
+            }
+
+            asset.subComponentNames = entry.configuredSubpieces ?? Array.Empty<string>();
+            EditorUtility.SetDirty(asset);
+        }
+    }
+
     private static void ApplyJsonToAsset(DronePartData asset, DronePartJson jsonPart)
     {
         asset.partName = jsonPart.partName;
@@ -515,13 +618,8 @@ public static class SetupImportedDroneThermalTest
             return byCanonicalId;
         }
 
-        if (string.IsNullOrWhiteSpace(jsonPart.blenderName))
-        {
-            return byCanonicalId;
-        }
-
         List<Transform> matches = new List<Transform>();
-        string dottedPrefix = jsonPart.blenderName + ".";
+        List<string> tokens = BuildSceneMatchTokens(jsonPart);
 
         foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
         {
@@ -531,14 +629,173 @@ public static class SetupImportedDroneThermalTest
             }
 
             string name = child.name;
-            if (string.Equals(name, jsonPart.blenderName, StringComparison.OrdinalIgnoreCase) ||
-                name.StartsWith(dottedPrefix, StringComparison.OrdinalIgnoreCase))
+            if (MatchesAnySceneToken(name, tokens) ||
+                string.Equals(ResolveCanonicalIdFromSceneObject(child, root), jsonPart.id, StringComparison.OrdinalIgnoreCase))
             {
                 matches.Add(child);
             }
         }
 
         return matches;
+    }
+
+    private static List<string> BuildSceneMatchTokens(DronePartJson jsonPart)
+    {
+        List<string> tokens = new List<string>();
+        AddSceneMatchToken(tokens, jsonPart?.blenderName);
+        AddSceneMatchToken(tokens, jsonPart?.id);
+
+        if (!string.IsNullOrWhiteSpace(jsonPart?.id))
+        {
+            const string blenderPrefix = "x500v2_blend_";
+            if (jsonPart.id.StartsWith(blenderPrefix, StringComparison.OrdinalIgnoreCase))
+            {
+                AddSceneMatchToken(tokens, jsonPart.id.Substring(blenderPrefix.Length));
+            }
+        }
+
+        return tokens;
+    }
+
+    private static void AddSceneMatchToken(List<string> tokens, string rawToken)
+    {
+        if (tokens == null || string.IsNullOrWhiteSpace(rawToken))
+        {
+            return;
+        }
+
+        string normalized = NormalizeSceneToken(rawToken);
+        if (string.IsNullOrWhiteSpace(normalized))
+        {
+            return;
+        }
+
+        foreach (string existing in tokens)
+        {
+            if (string.Equals(existing, normalized, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+        }
+
+        tokens.Add(normalized);
+    }
+
+    private static bool MatchesAnySceneToken(string rawName, IReadOnlyList<string> normalizedTokens)
+    {
+        if (string.IsNullOrWhiteSpace(rawName) || normalizedTokens == null || normalizedTokens.Count == 0)
+        {
+            return false;
+        }
+
+        string normalizedName = NormalizeSceneToken(rawName);
+        for (int i = 0; i < normalizedTokens.Count; i++)
+        {
+            string token = normalizedTokens[i];
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                continue;
+            }
+
+            if (string.Equals(normalizedName, token, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            if (normalizedName.StartsWith(token, StringComparison.OrdinalIgnoreCase) &&
+                normalizedName.Length > token.Length &&
+                IsSceneTokenSeparator(normalizedName[token.Length]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static string NormalizeSceneToken(string rawValue)
+    {
+        if (string.IsNullOrWhiteSpace(rawValue))
+        {
+            return string.Empty;
+        }
+
+        string value = rawValue.Trim().ToLowerInvariant();
+        const string blenderPrefix = "x500v2_blend_";
+        if (value.StartsWith(blenderPrefix, StringComparison.Ordinal))
+        {
+            value = value.Substring(blenderPrefix.Length);
+        }
+
+        char[] buffer = new char[value.Length];
+        int length = 0;
+        bool previousWasSeparator = false;
+        for (int i = 0; i < value.Length; i++)
+        {
+            char ch = value[i];
+            if (char.IsLetterOrDigit(ch))
+            {
+                buffer[length++] = ch;
+                previousWasSeparator = false;
+            }
+            else if (!previousWasSeparator)
+            {
+                buffer[length++] = '-';
+                previousWasSeparator = true;
+            }
+        }
+
+        while (length > 0 && buffer[length - 1] == '-')
+        {
+            length--;
+        }
+
+        return new string(buffer, 0, length);
+    }
+
+    private static bool IsSceneTokenSeparator(char character)
+    {
+        return character == '-' || character == '_' || character == '.' || character == ' ';
+    }
+
+    private static string ResolveCanonicalIdFromSceneObject(Transform candidate, Transform root)
+    {
+        return SelectionHierarchy.ResolveCanonicalPartId(candidate, root);
+    }
+
+    private static string ResolveQuadrantSuffixFromWorld(Transform candidate, Transform root)
+    {
+        if (candidate == null || root == null)
+        {
+            return string.Empty;
+        }
+
+        Vector3 center = TryComputeWorldCenterFromDescendants(root, out Vector3 rootCenter)
+            ? rootCenter
+            : root.position;
+        Vector3 position = GetReferenceWorldPosition(candidate);
+
+        float dx = position.x - center.x;
+        float dz = position.z - center.z;
+        if (Mathf.Abs(dx) < 0.0001f && Mathf.Abs(dz) < 0.0001f)
+        {
+            return string.Empty;
+        }
+
+        string frontBack = dz >= 0f ? "f" : "b";
+        string side = dx < 0f ? "l" : "r";
+        return frontBack + side;
+    }
+
+    private static Vector3 GetReferenceWorldPosition(Transform target)
+    {
+        if (target == null)
+        {
+            return Vector3.zero;
+        }
+
+        Renderer renderer = target.GetComponentInChildren<Renderer>(true);
+        return renderer != null ? renderer.bounds.center : target.position;
     }
 
     private static Transform ResolveOrCreateAnchor(Transform root, string canonicalId, List<Transform> matches)
@@ -591,6 +848,273 @@ public static class SetupImportedDroneThermalTest
             ? bounds.center
             : (hasFallbackCenter ? fallbackCenter : root.position);
         return anchorObject.transform;
+    }
+
+    private static Transform TryCreateRuntimeProxyAnchor(
+        Transform root,
+        DronePartJson jsonPart,
+        IReadOnlyDictionary<string, Transform> anchorsById)
+    {
+        if (root == null || jsonPart == null || string.IsNullOrWhiteSpace(jsonPart.id))
+        {
+            return null;
+        }
+
+        string canonicalId = jsonPart.id;
+        if (ShouldSuppressRuntimeProxy(canonicalId))
+        {
+            return null;
+        }
+
+        if (root.Find(canonicalId) != null)
+        {
+            return root.Find(canonicalId);
+        }
+
+        Bounds rootBounds;
+        bool hasRootBounds = TryComputeWorldBoundsFromDescendants(root, out rootBounds);
+        float dominant = hasRootBounds
+            ? Mathf.Max(rootBounds.size.x, Mathf.Max(rootBounds.size.y, rootBounds.size.z))
+            : 5f;
+        Vector3 rootCenter = hasRootBounds ? rootBounds.center : root.position;
+
+        Vector3 proxyPosition = ResolveRuntimeProxyPosition(canonicalId, root, anchorsById, rootCenter);
+        Vector3 proxySize = ResolveRuntimeProxySize(canonicalId, dominant);
+
+        GameObject anchorObject = new GameObject(canonicalId);
+        Undo.RegisterCreatedObjectUndo(anchorObject, "Create runtime canonical proxy anchor");
+        anchorObject.transform.SetParent(root, true);
+        anchorObject.transform.position = proxyPosition;
+        anchorObject.transform.rotation = root.rotation;
+        anchorObject.transform.localScale = Vector3.one;
+
+        GameObject visual = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        Undo.RegisterCreatedObjectUndo(visual, "Create runtime canonical proxy visual");
+        visual.name = canonicalId + "_runtime_proxy";
+        visual.transform.SetParent(anchorObject.transform, false);
+        visual.transform.localPosition = Vector3.zero;
+        visual.transform.localRotation = Quaternion.identity;
+        visual.transform.localScale = proxySize;
+
+        Renderer renderer = visual.GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            renderer.sharedMaterial = CreateRuntimeProxyMaterial(canonicalId);
+        }
+
+        return anchorObject.transform;
+    }
+
+    private static bool ShouldSuppressRuntimeProxy(string canonicalId)
+    {
+        if (string.IsNullOrWhiteSpace(canonicalId))
+        {
+            return false;
+        }
+
+        // These anchors are catalog placeholders only in the current FBX. We keep
+        // their metadata in documentation, but we do not synthesize fake geometry.
+        return canonicalId.StartsWith("x500v2_esc_", StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(canonicalId, "x500v2_pdb", StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(canonicalId, "x500v2_rc_receiver", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static int RemoveSuppressedRuntimeProxyAnchors(Transform root)
+    {
+        if (root == null)
+        {
+            return 0;
+        }
+
+        List<GameObject> anchorsToRemove = new List<GameObject>();
+        for (int i = 0; i < root.childCount; i++)
+        {
+            Transform child = root.GetChild(i);
+            if (child == null ||
+                !ShouldSuppressRuntimeProxy(child.name) ||
+                !IsGeneratedRuntimeProxyAnchor(child))
+            {
+                continue;
+            }
+
+            anchorsToRemove.Add(child.gameObject);
+        }
+
+        for (int i = 0; i < anchorsToRemove.Count; i++)
+        {
+            if (anchorsToRemove[i] != null)
+            {
+                Undo.DestroyObjectImmediate(anchorsToRemove[i]);
+            }
+        }
+
+        return anchorsToRemove.Count;
+    }
+
+    private static bool IsGeneratedRuntimeProxyAnchor(Transform anchor)
+    {
+        if (anchor == null)
+        {
+            return false;
+        }
+
+        bool hasRuntimeProxyRenderer = false;
+        Renderer[] renderers = anchor.GetComponentsInChildren<Renderer>(true);
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            Renderer renderer = renderers[i];
+            if (renderer == null || renderer.transform == null)
+            {
+                continue;
+            }
+
+            if (renderer.transform.name.EndsWith("_runtime_proxy", StringComparison.OrdinalIgnoreCase))
+            {
+                hasRuntimeProxyRenderer = true;
+                continue;
+            }
+
+            return false;
+        }
+
+        return hasRuntimeProxyRenderer;
+    }
+
+    private static Vector3 ResolveRuntimeProxyPosition(
+        string canonicalId,
+        Transform root,
+        IReadOnlyDictionary<string, Transform> anchorsById,
+        Vector3 rootCenter)
+    {
+        string id = (canonicalId ?? string.Empty).ToLowerInvariant();
+        if (id == "x500v2_pdb")
+        {
+            Vector3 bottom = TryResolveAnchorWorldPosition(root, anchorsById, "x500v2_bottom_plate", out Vector3 bottomPosition) ? bottomPosition : rootCenter;
+            Vector3 top = TryResolveAnchorWorldPosition(root, anchorsById, "x500v2_top_plate", out Vector3 topPosition) ? topPosition : rootCenter + Vector3.up * 0.25f;
+            return Vector3.Lerp(bottom, top, 0.35f);
+        }
+
+        if (id.StartsWith("x500v2_esc_", StringComparison.OrdinalIgnoreCase))
+        {
+            string suffix = id.Substring("x500v2_esc_".Length).ToUpperInvariant();
+            Vector3 motor = TryResolveAnchorWorldPosition(root, anchorsById, "x500v2_motor_" + suffix, out Vector3 motorPosition) ? motorPosition : rootCenter;
+            Vector3 arm = TryResolveAnchorWorldPosition(root, anchorsById, "x500v2_arm_" + suffix, out Vector3 armPosition) ? armPosition : rootCenter;
+            return Vector3.Lerp(arm, motor, 0.62f) + Vector3.up * 0.035f;
+        }
+
+        if (id == "x500v2_rc_receiver")
+        {
+            Vector3 pixhawk = TryResolveAnchorWorldPosition(root, anchorsById, "x500v2_pixhawk6c", out Vector3 pixhawkPosition) ? pixhawkPosition : rootCenter;
+            return pixhawk + new Vector3(0.20f, 0.06f, -0.08f);
+        }
+
+        if (id.Contains("telemetry"))
+        {
+            Vector3 pixhawk = TryResolveAnchorWorldPosition(root, anchorsById, "x500v2_pixhawk6c", out Vector3 pixhawkPosition) ? pixhawkPosition : rootCenter;
+            return pixhawk + new Vector3(-0.20f, 0.06f, -0.08f);
+        }
+
+        return rootCenter;
+    }
+
+    private static Vector3 ResolveRuntimeProxySize(string canonicalId, float dominantSize)
+    {
+        float d = Mathf.Max(dominantSize, 1f);
+        string id = (canonicalId ?? string.Empty).ToLowerInvariant();
+        if (id.StartsWith("x500v2_esc_", StringComparison.OrdinalIgnoreCase))
+        {
+            return new Vector3(d * 0.055f, d * 0.012f, d * 0.030f);
+        }
+
+        if (id == "x500v2_pdb")
+        {
+            return new Vector3(d * 0.090f, d * 0.010f, d * 0.090f);
+        }
+
+        if (id == "x500v2_rc_receiver")
+        {
+            return new Vector3(d * 0.050f, d * 0.018f, d * 0.032f);
+        }
+
+        return new Vector3(d * 0.050f, d * 0.020f, d * 0.050f);
+    }
+
+    private static bool TryResolveAnchorWorldPosition(
+        Transform root,
+        IReadOnlyDictionary<string, Transform> anchorsById,
+        string canonicalId,
+        out Vector3 position)
+    {
+        position = Vector3.zero;
+        Transform anchor = null;
+        if (anchorsById != null)
+        {
+            anchorsById.TryGetValue(canonicalId, out anchor);
+        }
+
+        if (anchor == null && root != null)
+        {
+            anchor = root.Find(canonicalId);
+        }
+
+        if (anchor == null)
+        {
+            return false;
+        }
+
+        position = GetReferenceWorldPosition(anchor);
+        return true;
+    }
+
+    private static Material CreateRuntimeProxyMaterial(string canonicalId)
+    {
+        Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+        if (shader == null)
+        {
+            shader = Shader.Find("Standard");
+        }
+
+        if (shader == null)
+        {
+            return null;
+        }
+
+        Material material = new Material(shader);
+        Color color = GuessHighlightColor(canonicalId, canonicalId);
+        material.name = "RuntimeProxy_" + canonicalId;
+        material.color = new Color(color.r, color.g, color.b, 0.82f);
+        return material;
+    }
+
+    private static bool TryComputeWorldBoundsFromDescendants(Transform root, out Bounds bounds)
+    {
+        bounds = default;
+        if (root == null)
+        {
+            return false;
+        }
+
+        Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+        bool hasRendererBounds = false;
+        foreach (Renderer renderer in renderers)
+        {
+            if (renderer == null || renderer.transform == root)
+            {
+                continue;
+            }
+
+            if (!hasRendererBounds)
+            {
+                bounds = renderer.bounds;
+                hasRendererBounds = true;
+            }
+            else
+            {
+                bounds.Encapsulate(renderer.bounds);
+            }
+        }
+
+        return hasRendererBounds;
     }
 
     private static bool TryComputeWorldCenterFromDescendants(Transform root, out Vector3 center)
@@ -828,6 +1352,16 @@ public static class SetupImportedDroneThermalTest
             return string.Empty;
         }
 
+        if (IsMisclassifiedStructuralFastener(candidateName))
+        {
+            return string.Empty;
+        }
+
+        if (IsRecognizedFastenerName(candidateName))
+        {
+            return FastenerGroupId;
+        }
+
         if (candidateName.StartsWith("x500v2_fastener.", StringComparison.OrdinalIgnoreCase))
         {
             return FastenerGroupId;
@@ -849,6 +1383,106 @@ public static class SetupImportedDroneThermalTest
         }
 
         return string.Empty;
+    }
+
+    private static int RestoreMisclassifiedStructuralFasteners(Transform root, IReadOnlyDictionary<string, Transform> anchorsById)
+    {
+        if (root == null || anchorsById == null || anchorsById.Count == 0)
+        {
+            return 0;
+        }
+
+        int restored = 0;
+        List<Transform> candidates = new List<Transform>();
+        foreach (Transform candidate in root.GetComponentsInChildren<Transform>(true))
+        {
+            if (candidate != null && IsMisclassifiedStructuralFastener(candidate.name))
+            {
+                candidates.Add(candidate);
+            }
+        }
+
+        foreach (Transform candidate in candidates)
+        {
+            string parentId = ResolveDingweiParentCanonicalId(candidate.name);
+            if (string.IsNullOrWhiteSpace(parentId) || !anchorsById.TryGetValue(parentId, out Transform parentAnchor) || parentAnchor == null)
+            {
+                Debug.LogWarning($"[SetupImportedDroneThermalTest] HMX5V-GUAN-DINGWEI sin padre canonico confiable: {candidate.name}");
+                continue;
+            }
+
+            if (!candidate.IsChildOf(parentAnchor))
+            {
+                Undo.SetTransformParent(candidate, parentAnchor, "Restore structural stopper from fastener group");
+            }
+
+            string restoredName = FastenerNamingUtility.ExtractSceneTypeKey(candidate.name);
+            if (!string.IsNullOrWhiteSpace(restoredName))
+            {
+                candidate.name = restoredName;
+            }
+
+            DestroyComponent(candidate.GetComponent<FastenerRuntimeMarker>());
+            DestroyComponent(candidate.GetComponent<ExplodablePart>());
+            DestroyComponent(candidate.GetComponent<MaterialController>());
+            DestroyComponent(candidate.GetComponent<HighlightSystem>());
+
+            Renderer[] renderers = candidate.GetComponentsInChildren<Renderer>(true);
+            foreach (Renderer renderer in renderers)
+            {
+                if (renderer == null)
+                {
+                    continue;
+                }
+
+                PartRenderCategory category = renderer.GetComponent<PartRenderCategory>();
+                if (category == null)
+                {
+                    category = Undo.AddComponent<PartRenderCategory>(renderer.gameObject);
+                }
+
+                category.Configure(parentId, "SkeletonAirframe", string.Empty, parentId, "hmx5v-guan-dingwei");
+                EditorUtility.SetDirty(category);
+            }
+
+            EnsureSelectionColliders(candidate);
+            AssignSelectableLayer(candidate);
+            restored++;
+        }
+
+        return restored;
+    }
+
+    private static bool IsMisclassifiedStructuralFastener(string rawName)
+    {
+        return SelectionHierarchy.IsKnownStructuralNonFastenerName(rawName);
+    }
+
+    private static string ResolveDingweiParentCanonicalId(string rawName)
+    {
+        if (string.IsNullOrWhiteSpace(rawName))
+        {
+            return string.Empty;
+        }
+
+        string normalized = SelectionHierarchy.NormalizeToken(rawName);
+        if (normalized.Contains("-001-low")) return "x500v2_arm_BR";
+        if (normalized.Contains("-002-low")) return "x500v2_arm_FR";
+        if (normalized.Contains("-003-low")) return "x500v2_arm_FL";
+        if (normalized.Contains("-004-low")) return "x500v2_arm_BL";
+        if (normalized.EndsWith("-001", StringComparison.Ordinal)) return "x500v2_arm_BR";
+        if (normalized.EndsWith("-002", StringComparison.Ordinal)) return "x500v2_arm_FR";
+        if (normalized.EndsWith("-003", StringComparison.Ordinal)) return "x500v2_arm_FL";
+        if (normalized.EndsWith("-004", StringComparison.Ordinal)) return "x500v2_arm_BL";
+        return string.Empty;
+    }
+
+    private static void DestroyComponent(Component component)
+    {
+        if (component != null)
+        {
+            Undo.DestroyObjectImmediate(component);
+        }
     }
 
     private static void EnsureEditableHierarchy(GameObject root)
@@ -988,6 +1622,53 @@ public static class SetupImportedDroneThermalTest
         {
             Undo.DestroyObjectImmediate(existingHighlight);
         }
+    }
+
+    private static int DemoteGranularSubpieceAnchors(Transform root)
+    {
+        if (root == null)
+        {
+            return 0;
+        }
+
+        int demoted = 0;
+        ExplodablePart[] parts = root.GetComponentsInChildren<ExplodablePart>(true);
+        foreach (ExplodablePart part in parts)
+        {
+            if (part == null || part.transform == null)
+            {
+                continue;
+            }
+
+            string dataId = part.Data != null ? part.Data.id : string.Empty;
+            string objectName = part.transform.name;
+            bool isGranularBlendAnchor =
+                (!string.IsNullOrWhiteSpace(dataId) && dataId.StartsWith("x500v2_blend_", StringComparison.OrdinalIgnoreCase)) ||
+                (!string.IsNullOrWhiteSpace(objectName) && objectName.StartsWith("x500v2_blend_", StringComparison.OrdinalIgnoreCase));
+
+            if (!isGranularBlendAnchor)
+            {
+                continue;
+            }
+
+            MaterialController materialController = part.GetComponent<MaterialController>();
+            HighlightSystem highlightSystem = part.GetComponent<HighlightSystem>();
+
+            Undo.DestroyObjectImmediate(part);
+            if (materialController != null)
+            {
+                Undo.DestroyObjectImmediate(materialController);
+            }
+
+            if (highlightSystem != null)
+            {
+                Undo.DestroyObjectImmediate(highlightSystem);
+            }
+
+            demoted++;
+        }
+
+        return demoted;
     }
 
     private static void ProcessExistingSyntheticGroupMembers(
@@ -1230,7 +1911,8 @@ public static class SetupImportedDroneThermalTest
             metadata.sceneTypeKey,
             metadata.parentCanonicalPartId,
             metadata.isInspectable,
-            metadata.fallbackReason);
+            metadata.fallbackReason,
+            SelectionHierarchy.IsPrimitiveFastenerSource(child));
     }
 
     private static string SanitizeAssetId(string rawName)
@@ -1349,7 +2031,8 @@ public static class SetupImportedDroneThermalTest
             string auxiliaryCategory = InferAuxiliaryCategory(renderer.transform.name);
             string thermalSourceId = InferThermalSourcePartId(renderer.transform.name, jsonPart.id);
             string primaryCategory = InferDisplayCategory(renderer.transform.name, jsonPart.category, thermalSourceId);
-            category.Configure(jsonPart.id, primaryCategory, auxiliaryCategory, thermalSourceId);
+            string subpieceId = SelectionHierarchy.ResolveSubpieceId(renderer.transform, jsonPart.id);
+            category.Configure(jsonPart.id, primaryCategory, auxiliaryCategory, thermalSourceId, subpieceId);
             EditorUtility.SetDirty(category);
         }
     }
@@ -1363,7 +2046,8 @@ public static class SetupImportedDroneThermalTest
 
         string name = rawName.ToLowerInvariant();
 
-        if (name.Contains("fastener") || name.Contains("screw") || name.Contains("cap_screw") || name.Contains("bolt") ||
+        if (IsRecognizedFastenerName(name) ||
+            name.Contains("fastener") || name.Contains("screw") || name.Contains("cap_screw") || name.Contains("bolt") ||
             name.Contains("nut") || name.Contains("washer") || name.Contains("standoff") || name.Contains("spacer"))
         {
             return "Fasteners";
@@ -1378,9 +2062,22 @@ public static class SetupImportedDroneThermalTest
         return string.Empty;
     }
 
+    private static bool IsRecognizedFastenerName(string rawName)
+    {
+        return SelectionHierarchy.IsPrimitiveFastenerName(rawName);
+    }
+
     private static string InferDisplayCategory(string rendererName, string fallbackCategory, string thermalSourceId)
     {
         string normalized = (thermalSourceId ?? rendererName ?? string.Empty).ToLowerInvariant();
+        if (IsRecognizedFastenerName(normalized) ||
+            normalized.Contains("fastener") || normalized.Contains("screw") || normalized.Contains("bolt") ||
+            normalized.Contains("nut") || normalized.Contains("washer") || normalized.Contains("standoff") ||
+            normalized.Contains("spacer"))
+        {
+            return "Fasteners";
+        }
+
         if (normalized.Contains("motor") || normalized.Contains("prop") || normalized.Contains("esc"))
         {
             return "PropulsionSystem";
@@ -1415,6 +2112,27 @@ public static class SetupImportedDroneThermalTest
 
     private static PartCategory NormalizePartCategory(string rawCategory, string canonicalId, string partType)
     {
+        if (IsRecognizedFastenerName(canonicalId) || IsRecognizedFastenerName(partType))
+        {
+            return PartCategory.Fasteners;
+        }
+
+        string semanticCategory = InferDisplayCategory(canonicalId, string.Empty, canonicalId);
+        if (!string.IsNullOrWhiteSpace(semanticCategory) &&
+            !string.Equals(semanticCategory, "Uncategorized", StringComparison.OrdinalIgnoreCase) &&
+            Enum.TryParse(semanticCategory, true, out PartCategory semanticParsed))
+        {
+            return semanticParsed;
+        }
+
+        semanticCategory = InferDisplayCategory(partType, string.Empty, canonicalId);
+        if (!string.IsNullOrWhiteSpace(semanticCategory) &&
+            !string.Equals(semanticCategory, "Uncategorized", StringComparison.OrdinalIgnoreCase) &&
+            Enum.TryParse(semanticCategory, true, out semanticParsed))
+        {
+            return semanticParsed;
+        }
+
         string normalized = NormalizeDisplayCategory(rawCategory);
         if (string.IsNullOrWhiteSpace(normalized))
         {
@@ -1512,8 +2230,24 @@ public static class SetupImportedDroneThermalTest
             }
 
             MeshFilter meshFilter = renderer.GetComponent<MeshFilter>();
-            if (meshFilter == null || meshFilter.sharedMesh == null)
+            if (meshFilter != null && meshFilter.sharedMesh != null)
             {
+                foreach (BoxCollider staleBox in renderer.GetComponents<BoxCollider>())
+                {
+                    if (staleBox != null)
+                    {
+                        Undo.DestroyObjectImmediate(staleBox);
+                    }
+                }
+
+                MeshCollider meshCollider = renderer.GetComponent<MeshCollider>();
+                if (meshCollider == null)
+                {
+                    meshCollider = Undo.AddComponent<MeshCollider>(renderer.gameObject);
+                }
+
+                meshCollider.sharedMesh = null;
+                meshCollider.sharedMesh = meshFilter.sharedMesh;
                 continue;
             }
 
@@ -1523,9 +2257,45 @@ public static class SetupImportedDroneThermalTest
             }
 
             BoxCollider collider = Undo.AddComponent<BoxCollider>(renderer.gameObject);
-            collider.center = meshFilter.sharedMesh.bounds.center;
-            collider.size = meshFilter.sharedMesh.bounds.size;
+            Bounds localBounds = TransformWorldBoundsToLocal(renderer.bounds, renderer.transform);
+            collider.center = localBounds.center;
+            collider.size = localBounds.size;
         }
+    }
+
+    private static Bounds TransformWorldBoundsToLocal(Bounds worldBounds, Transform target)
+    {
+        if (target == null)
+        {
+            return worldBounds;
+        }
+
+        Vector3 min = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+        Vector3 max = new Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+        Vector3 center = worldBounds.center;
+        Vector3 extents = worldBounds.extents;
+
+        for (int x = -1; x <= 1; x += 2)
+        {
+            for (int y = -1; y <= 1; y += 2)
+            {
+                for (int z = -1; z <= 1; z += 2)
+                {
+                    Vector3 worldCorner = center + Vector3.Scale(extents, new Vector3(x, y, z));
+                    Vector3 localCorner = target.InverseTransformPoint(worldCorner);
+                    min = Vector3.Min(min, localCorner);
+                    max = Vector3.Max(max, localCorner);
+                }
+            }
+        }
+
+        Bounds localBounds = new Bounds((min + max) * 0.5f, max - min);
+        Vector3 size = localBounds.size;
+        size.x = Mathf.Max(size.x, 0.0001f);
+        size.y = Mathf.Max(size.y, 0.0001f);
+        size.z = Mathf.Max(size.z, 0.0001f);
+        localBounds.size = size;
+        return localBounds;
     }
 
     private static void AssignSelectableLayer(Transform anchor)

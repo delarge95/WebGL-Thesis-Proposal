@@ -275,6 +275,12 @@ namespace WebGL.Core.Data
                 normalized = normalized.Substring(prefix.Length);
             }
 
+            string blenderTypeKey = ExtractBlenderPrimitiveTypeKey(normalized);
+            if (!string.IsNullOrWhiteSpace(blenderTypeKey))
+            {
+                return blenderTypeKey;
+            }
+
             int lastUnderscore = normalized.LastIndexOf('_');
             if (lastUnderscore > 0 && lastUnderscore + 1 < normalized.Length)
             {
@@ -286,6 +292,38 @@ namespace WebGL.Core.Data
             }
 
             return normalized;
+        }
+
+        private static string ExtractBlenderPrimitiveTypeKey(string rawName)
+        {
+            string name = (rawName ?? string.Empty).ToLowerInvariant().Replace('_', '-');
+
+            if (name.Contains("gb70-m25-10")) return "cap_screw_M25x10";
+            if (name.Contains("gb70-m25-12")) return "cap_screw_M25x12";
+            if (name.Contains("gb70-m25-6")) return "cap_screw_M25x6";
+            if (name.Contains("gb70-m3-21")) return "cap_screw_M3x21";
+            if (name.Contains("gb70-m3-25")) return "cap_screw_M3x25";
+            if (name.Contains("gb70-m3-38")) return "cap_screw_M3x38";
+            if (name.Contains("gb70-m3-6")) return "cap_screw_M3x6";
+            if (name.Contains("gb70-m3-8")) return "cap_screw_M3x8";
+
+            if (name.Contains("m25-6") && name.Contains("chen")) return "countersunk_M25x6";
+            if (name.Contains("m3-16") && name.Contains("chen")) return "countersunk_M3x16";
+            if (name.Contains("m3-10") && name.Contains("pan")) return "pan_head_M3x10";
+            if (name.Contains("m3-14") && name.Contains("pan")) return "pan_head_M3x14";
+
+            if (name.Contains("zslm-m3") && name.Contains("falan")) return "flange_nut_M3";
+            if (name.Contains("lm-m3") && name.Contains("nilong")) return "nylon_lock_nut_M3";
+            if (name.Contains("lm-m3") && name.Contains("ding")) return "lock_nut_M3";
+            if (name.Contains("zslm-m3") && name.Contains("ding")) return "self_lock_nut_M3";
+            if (name.Contains("zslm-m25")) return "self_lock_nut_M25";
+
+            if (name.Contains("nilongzhu-m25-5")) return "nylon_standoff_M25x5";
+            if (name.Contains("nilongzhu-m3-5")) return "nylon_standoff_M3x5";
+            if (name.Contains("huan-guijiao")) return "rubber_grommet";
+            if (name.Contains("gpsv5") && name.Contains("luomao")) return "lock_nut_M3";
+
+            return string.Empty;
         }
 
         public static string FormatMetricAndLength(string metric, float lengthMm)

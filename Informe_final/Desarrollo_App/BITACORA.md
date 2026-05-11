@@ -6,6 +6,205 @@
 
 ---
 
+## Registro de Cambios (Mayo 08, 2026) - Reparacion de escala y jerarquia canonica FBX final
+
+### Objetivo
+
+Corregir los problemas detectados durante QA del FBX final: dron importado demasiado pequeno para la camara, fasteners modulares sobredimensionados, seleccion por grupos incoherente, filtros incompletos, vista explosiva sin desplazamiento correcto, modos Solid/Blueprint saturados y simulacion termica sin propagacion aparente.
+
+### Acciones Realizadas
+
+1. **Calibracion objetiva de escala del FBX en Unity**:
+   - _Implementacion_: `ImportDroneModel.cs` mide los bounds del prefab importado y ajusta `ModelImporter.globalScale` hasta un tamano dominante objetivo de `5` unidades Unity.
+   - _Resultado_: La escala se corrige en el asset importado, no con `localScale` del root, para que camara, zoom, materiales de modo visual, isolate y explode trabajen con magnitudes coherentes.
+2. **Separacion entre dataset canonico y dataset granular Blender**:
+   - _Implementacion_: `SetupImportedDroneThermalTest.cs` vuelve a usar `x500v2_parts_data.json` como fuente de anclas interactivas cuando existe cobertura canonica; `x500v2_blender_synced_parts.json` queda como metadata/subpiezas y no como lista principal de seleccion.
+   - _Resultado_: La app recupera la taxonomia de `28` piezas canonicas que esperan filtros, Analyze, thermal, hotspots y explode.
+3. **Democion de subpiezas Blender como anchors seleccionables**:
+   - _Implementacion_: Las entradas `x500v2_blend_*` ya no quedan con `ExplodablePart`, `MaterialController` ni `HighlightSystem` propios.
+   - _Resultado_: Las subpiezas granularizadas pueden formar parte fisica de una pieza madre sin competir como piezas madre independientes.
+4. **Saneamiento de reparenting runtime**:
+   - _Implementacion_: `ImportedDroneRuntimeBinder.cs` deja de robar renderers que ya pertenecen a un anchor canonico estable y separa correctamente motor, ESC, helice, PDB, bateria, rieles, Pixhawk y GPS.
+   - _Resultado_: Se evita que brazos, fasteners o elementos centrales absorban piezas de otras familias por coincidencias amplias de nombre.
+5. **Fasteners modulares proporcionales al proxy real**:
+   - _Implementacion_: `FastenerBuilder.cs` reemplaza minimos absolutos por pisos relativos al tamano del proxy.
+   - _Resultado_: El detalle modular no debe aparecer mas grande que el dron cuando el FBX venga en centimetros o con proxies pequenos.
+6. **Reduccion de ruido diagnostico**:
+   - _Implementacion_: `PartVisibilityManager.cs` deja el diagnostico detallado de isolate detras de `enableIsolationDiagnostics`.
+   - _Resultado_: La consola deja de saturarse durante QA normal de isolate/seleccion.
+7. **Cobertura canonica frente a geometria faltante**:
+   - _Implementacion_: `SetupImportedDroneThermalTest.cs` crea proxies canonicos temporales cuando el FBX final no trae geometria para una pieza canonica, manteniendo filtros, explode y thermal sin afirmar que la malla final ya exista.
+   - _Resultado_: Las piezas faltantes en el FBX actual, como PDB, ESCs o receptor RC, pueden permanecer en la taxonomia runtime sin ser confundidas con subpiezas Blender.
+8. **Auditoria automatica post-import**:
+   - _Implementacion_: Se agrego `RuntimeDroneSceneAuditor.cs` y el importador lo ejecuta al final de `Tools > Import Final Runtime Drone Model`.
+   - _Resultado_: Cada import escribe `Reports/runtime_drone_scene_audit.md` con anchors canonicos faltantes, proxies temporales, anchors `x500v2_blend_*` seleccionables, fasteners y tamano dominante.
+
+### Estado Actual
+
+- La compilacion `Core.Player.csproj` se verifico con `0` errores; permanecen advertencias existentes por APIs obsoletas y analizador AG001.
+- La compilacion editor via `dotnet` sigue bloqueada por un error externo de `com.unity.ugui` (`DefaultControls.factory` readonly), por lo que la validacion final del importador y del auditor debe realizarse desde Unity Editor.
+- Se debe reejecutar `Tools > Import Final Runtime Drone Model` para regenerar escena, assets de piezas, proxies temporales y catalogos de fasteners con la jerarquia corregida.
+
+### Primer Paso Al Retomar La Sesion
+
+1. Esperar a que Unity recompile scripts sin errores propios.
+2. Ejecutar `Tools > Import Final Runtime Drone Model`.
+3. Verificar que el cuadro muestre escala dominante aproximandose al objetivo, `Meshes importados > 0`, `Helices normalizadas: 4`, `Fasteners normalizados > 0` y `Setup thermal/runtime: OK`.
+4. Probar seleccion de brazos, Pixhawk en filtros, explode por piezas madre, isolate por fastener, modos Solid/Blueprint y thermal con el dron encendido.
+
+---
+
+## Registro de Cambios (Mayo 08, 2026) - Correccion de importacion FBX runtime final
+
+### Objetivo
+
+Corregir la importacion del FBX runtime final en Unity, que estaba mostrando `File is corrupted`, `MeshFilters totales: 0`, `matches=0/55`, `Helices normalizadas: 0` y `Fasteners normalizados: 0` pese a reportar falsamente `Setup thermal/runtime: OK`.
+
+### Acciones Realizadas
+
+1. **FBX activo sincronizado con fuente Blender**:
+   - _Implementacion_: `Assets/Models/x500v2_runtime_low_final.fbx` fue reemplazado por la fuente real `blender_files/welded/x500v2_runtime_low_final.fbx`; ambos quedaron con el mismo SHA-256.
+   - _Resultado_: El asset activo contiene nombres Blender completos como `BOTTOM-PLATE-X500-V5`, `DJ-2216-KV880`, `GB70-M25-10`, `M3-10-PAN-DING` y `HMX5V-ZUO-DJ-MUJU`.
+2. **Importador Unity blindado contra falsos positivos**:
+   - _Implementacion_: `ImportDroneModel.cs` ahora valida cabecera FBX, evita punteros LFS, sincroniza la fuente externa cuando el asset difiere, guarda respaldos fuera del repositorio, elimina el uso obsoleto de `ModelImporterMaterialLocation.External` y aborta si Unity no produce mallas.
+   - _Resultado_: El menu de importacion ya no debe reportar `OK` cuando el FBX esta corrupto o importado sin `MeshFilter/SkinnedMeshRenderer`.
+3. **Helices placeholder para el FBX sin blades dedicadas**:
+   - _Implementacion_: Si el FBX no trae objetos `propeller`, el importador crea proxies simples `x500v2_prop_*` a partir de los motores `DJ-2216-KV880`.
+   - _Resultado_: `DroneStateController` puede seguir animando helices aun cuando el FBX final solo traiga motores o monturas.
+4. **Matching Blender/Unity robustecido**:
+   - _Implementacion_: `SetupImportedDroneThermalTest.cs` ahora matchea ids y `blenderName` con normalizacion tolerante a mayusculas, guiones, underscores, puntos y sufijos `_low/_PRIM`.
+   - _Resultado_: La prueba externa de nombres contra `x500v2_blender_synced_parts.json` cubre `55/55` piezas.
+5. **Contencion de Git/LFS**:
+   - _Implementacion_: Se detuvo nuevamente solo el lote confirmado de procesos `git add`/`git-lfs filter-process` reactivados por assets pesados; se completo `.gitignore` para ignorar `.blend` y variantes numericas dentro de `blender_files` y `desarrollo/blender_assets`.
+   - _Resultado_: No quedo `index.lock`; no se hizo commit, push ni staging deliberado de LFS.
+6. **Validacion real del import final en Unity**:
+   - _Implementacion_: Tras reejecutar `Tools > Import Final Runtime Drone Model`, Unity reporto importacion efectiva del FBX final con mallas y normalizacion runtime.
+   - _Resultado_: El importador confirmo `Meshes importados: 252`, `Helices normalizadas: 4`, `Fasteners normalizados: 170` y `Setup thermal/runtime: OK`; el caso anterior de `matches=0`, `MeshFilters=0` y FBX corrupto queda superado para esta exportacion.
+   - _Hallazgo_: El reporte midio `Mesh assets unicos: 252` y `sharedMesh repetido: 0`; por tanto, el FBX actual conserva objetos runtime pero no llego a Unity como instancing de malla compartida.
+7. **Cuarentena local anti auto-stage LFS**:
+   - _Implementacion_: Se agregaron exclusiones locales en `.git/info/exclude` y se marcaron temporalmente archivos rastreados por LFS como `assume-unchanged` para impedir que el auto-stage de Codex/GUI relance `git-lfs filter-process` durante la validacion de Unity.
+   - _Resultado_: La PC deja de quedar bloqueada por lote masivo de LFS; la medida es local y reversible, no cambia archivos del proyecto ni reemplaza un plan formal de versionado de assets.
+
+### Estado Actual
+
+- Unity ya importo el FBX runtime final con `252` meshes, `4` helices normalizadas y `170` fasteners normalizados.
+- El siguiente foco deja de ser "FBX corrupto" y pasa a ser QA visual/funcional: escala en centimetros, jerarquia madre-subpiezas-fasteners, filtros, hotspots, seleccion, isolate, Analyze, Studio y animacion de helices.
+- La optimizacion de instancing queda como hallazgo medido: el FBX actual no comparte `sharedMesh` entre objetos importados, aunque la funcionalidad runtime queda disponible para validacion.
+- La contencion Git/LFS queda como medida local de sesion; antes de versionar assets pesados se debe retirar o revertir la cuarentena de `assume-unchanged` y preparar un commit LFS controlado.
+
+### Primer Paso Al Retomar La Sesion
+
+1. En Unity, guardar la escena final importada solo si el viewport confirma escala, jerarquia y materiales placeholder esperados.
+2. Probar en Play Mode seleccion, hover, isolate por fastener, isolate por pieza madre con fasteners asociados, filtros Analyze, hotspots y giro de helices.
+3. Decidir si el instancing final se corrige en Blender/export FBX o mediante manifiesto/postproceso Unity que reasigne `sharedMesh` a instancias equivalentes.
+4. Mantener desactivado cualquier intento de commit/push LFS hasta definir que assets finales se versionan y con que estrategia de peso.
+
+---
+
+## Registro de Cambios (Mayo 08, 2026) - Guion de sustentacion y contencion Git/LFS
+
+### Objetivo
+
+Actualizar el articulo `INF_EST_51` de la variante de estudio Obsidian para que el guion de sustentacion refleje la app real, el flujo final de demo y la narrativa humana del proyecto; adicionalmente, diagnosticar sin riesgo la saturacion de procesos Git/LFS observada durante la importacion Unity.
+
+### Acciones Realizadas
+
+1. **Guion de sustentacion reestructurado**:
+   - _Implementacion_: `Cerebro_Digital/Wiki/Concepts/INF_EST_51_Guion_Completo_Sustentacion_30min.md` fue reemplazado por una version 5.0 con mapa de 30 minutos, demo ordenada, placeholders medibles y checklist de ensayo.
+   - _Resultado_: El guion ahora conecta con el publico desde la idea de "pereza productiva" como motor de automatizacion y la enlaza con decisiones de ingenieria reales.
+2. **Funcionamiento de app incorporado al relato**:
+   - _Implementacion_: La seccion de demo ahora sigue el flujo `inicio -> navegacion -> seleccion -> metadata -> aislamiento -> fasteners modulares -> encendido -> Analyze/Studio`.
+   - _Resultado_: Se incluyen encendido del dron, estados `OFF/STARTING/IDLE/LOAD/FLYING`, giro de helices, thermal educativo, corte, explode, hover, seleccion, isolate y detalle bajo demanda de fasteners.
+3. **Animaciones de sustentacion definidas**:
+   - _Implementacion_: Se agrego una guia de animaciones `A01-A12` para comunicar pipeline, jerarquia, fasteners, encendido, thermal, corte y resultados sin decoracion innecesaria.
+   - _Resultado_: La presentacion queda preparada para usar animaciones como herramienta de comprension, no como ornamento.
+4. **Diagnostico seguro de procesos Git/LFS**:
+   - _Implementacion_: Se inspeccionaron procesos `git.exe` y `sh.exe` antes de actuar; se confirmo que el cuello de botella provenia de multiples `git add -- ...` iniciados sobre archivos pesados Blender/FBX/texturas, cada uno abriendo `git-lfs filter-process`.
+   - _Resultado_: Se detuvo un primer lote confirmado de procesos atascados de `git add`/`git-lfs filter-process` sin tocar Unity, Blender ni archivos de trabajo. No se realizo push, commit ni staging deliberado de LFS.
+
+### Estado Actual
+
+- El guion de sustentacion queda actualizado como documento prospectivo final con placeholders para metricas no congeladas.
+- Los archivos LFS/pesados no deben subirse ni prepararse para commit en esta sesion; la prioridad es mantener la PC estable mientras Unity termina importacion/QA.
+- Quedan procesos Git/LFS rezagados; cualquier cierre adicional debe hacerse solo tras nueva confirmacion explicita y apuntando exclusivamente a `git add`/`git-lfs filter-process`.
+
+### Primer Paso Al Retomar La Sesion
+
+1. Si la PC sigue lenta, revisar procesos Git restantes y detener solo los comandos confirmados como `git add` o `git-lfs filter-process`, nunca Unity/Blender.
+2. Revisar las 3 fallas de consola Unity cuando el usuario comparta errores y advertencias clave.
+3. No ejecutar `git add`, commit, push ni operaciones LFS hasta que se defina un plan separado para archivos pesados.
+
+---
+
+## Registro de Cambios (Mayo 08, 2026) - Coherencia documental post-fasteners y pipeline Blender/Unity
+
+### Objetivo
+
+Alinear informe final, manuales, paquete de sustentacion, guia de demo y notas de Obsidian con el estado real de la app: fasteners modulares implementados en Unity, placeholders visuales temporales, FBX Blender final preparado para QA y resultados empiricos pendientes de freeze.
+
+### Acciones Realizadas
+
+1. **Paquete de sustentacion saneado**:
+   - _Implementacion_: `PRESENTATION_OUTLINE.md`, `KIMI_PROMPT.md`, `ASSETS_REQUIREMENTS.md` y `DEMO_SCRIPT.md` fueron reescritos para evitar claims de `7` modos publicos, medicion, BOM, conexiones, catalogo legacy o metricas no medidas.
+   - _Resultado_: La presentacion queda alineada con la UI real: `Realistic` base, `X-Ray`, `Solid`, `Thermal`, entornos, Inspect, Analyze, Studio y fasteners.
+2. **Manuales y arquitectura sincronizados**:
+   - _Implementacion_: `docs/manuals/README.md`, `docs/manuals/ARCHITECTURE.md`, `docs/manuals/DEMO_SCRIPT.md`, manual tecnico y manual de usuario se alinearon con el flujo visible y los limites actuales.
+   - _Resultado_: La documentacion de usuario y tecnica deja de vender herramientas legacy como producto visible.
+3. **Informe final actualizado**:
+   - _Implementacion_: Capitulos 4, 5, 6 y 8 se ajustaron para documentar el FBX final como preparado para importacion y QA Unity, no como cierre empirico ya medido.
+   - _Resultado_: El capitulo de resultados exige manifest Blender, reporte de importacion Unity, QA de jerarquia/grupos/fasteners/helices y mediciones post-freeze antes de llenar valores.
+4. **Obsidian y guia de estudio sincronizados**:
+   - _Implementacion_: `VARIANTE_ESTUDIO_OBSIDIAN.md`, `INF_EST_04`, `INF_EST_30`, `INF_EST_33` y `INF_EST_50` incorporan masters+instancias, pipeline final Blender, mask `R=AO/G=Roughness/B=Curvature/A=Metallic`, fasteners temporales y regla de no inventar resultados.
+   - _Resultado_: La abstraccion de estudio, guion y sustentacion ahora cuentan la misma historia que la app real.
+
+### Estado Actual
+
+- La fuente primaria de narrativa queda en informe final, manuales, paquete de presentacion, guia de demo actualizada y notas Obsidian sincronizadas.
+- Las auditorias historicas y consolidaciones antiguas pueden conservar lenguaje legacy, pero no deben usarse como fuente de demo o defensa sin la nota de estado correspondiente.
+- Queda pendiente compilar/regenerar PDFs cuando la PC este menos cargada y Unity/Blender no esten ocupando recursos.
+
+## Registro de Cambios (Mayo 08, 2026) - Bake final Blender, export manual y preparacion Unity
+
+### Objetivo
+
+Formalizar el flujo final de materiales y exportacion del dron optimizado desde Blender 5.0.1 hacia Unity, preservando masters e instancias como piezas runtime reales y dejando una ruta segura para reemplazar los fasteners temporales por el sistema modular definitivo.
+
+### Acciones Realizadas
+
+1. **Flujo final Blender -> Unity documentado**:
+   - _Implementacion_: Se agrego `Blender_Final_Bake_Export_Unity_Workflow.md` como guia operativa para bake de `BaseColor`, `Roughness`, `Metallic`, normal final, AO final, mask packing y export manual FBX.
+   - _Resultado_: El criterio runtime queda fijado como union de `BAKE_MASTERS_LOW`, `ASSEMBLY_INSTANCES_LOW`, `PRIMITIVE_FASTENER_MASTERS` y `PRIMITIVE_FASTENER_INSTANCES`; no se debe exportar solo instancias.
+2. **Tooling Blender no destructivo**:
+   - _Implementacion_: Se agrego `blender_bake_target_setup.py` para preparar imagenes destino y nodos activos de bake sin guardar, exportar ni modificar outputs finales.
+   - _Implementacion_: Se agrego `blender_pack_x500_mask.py` para empaquetar `R=AO`, `G=Roughness`, `B=Curvature`, `A=Metallic` y generar un derivado URP `MetallicSmoothness`.
+   - _Implementacion_: Se agrego `blender_runtime_manifest_exporter.py` para reportar masters, instancias, transforms, bounds, candidatos de pieza madre y reconciliacion del conteo de fasteners Blender vs baseline Unity.
+   - _Resultado_: Unity podra recibir un manifest verificable sin depender de suposiciones sobre jerarquia o parentesco de fasteners.
+3. **Regla de revision para fasteners inciertos**:
+   - _Implementacion_: El manifest reporta candidatos cercanos por distancia a bounds/centro, pero deja `review_required` y no escribe `parentCanonicalPartId` automaticamente.
+   - _Resultado_: Si un fastener no puede asignarse con confianza, queda temporalmente en `x500v2_fastener_group` y se revisa con evidencia antes de modificar la configuracion.
+4. **MCP Blender preparado en Codex**:
+   - _Implementacion_: Se agrego la configuracion prevista del servidor `blender-mcp` en `C:\Users\alexw\.codex\config.toml`, apuntando al addon activo en `127.0.0.1:9876`.
+   - _Resultado_: La conexion queda pendiente de reiniciar/verificar en Codex; no se interactuo con Blender durante el bloqueo de guardado para evitar riesgo de crasheo.
+5. **Preparacion Unity para FBX final**:
+   - _Implementacion_: Se copio `x500v2_runtime_low_final.fbx` a `Assets/Models/` con configuracion de import que preserva jerarquia, desactiva animacion/camaras/luces y usa texturas externas.
+   - _Implementacion_: `ImportDroneModel.cs` fue reemplazado por un importador final que conserva el modelo anterior como referencia inactiva, instancia el FBX final como `x500v2_Drone`, normaliza helices y agrupa fasteners Blender bajo `x500v2_fastener_group`.
+   - _Implementacion_: `SetupImportedDroneThermalTest` ahora expone modo `Headless` para automatizacion sin dialogos, y la deteccion de fasteners reconoce nombres Blender como `GB70`, `PAN`, `CHEN`, `ZSLM`, `LM`, `NILONGZHU` y `HUAN-GUIJIAO`.
+   - _Implementacion_: `DroneStateController` calcula el eje de giro de cada helice por bounds locales para no depender de un unico `Vector3.forward` cuando cambia la orientacion del FBX.
+   - _Resultado_: La ruta de import Unity queda preparada para ejecutar el swap final y reconstruir seleccion, filtros, isolate, hotspots y fasteners sobre la escena importada.
+
+### Estado Actual
+
+- El flujo de bake/export final queda documentado y listo para ejecutarse manualmente cuando Blender este estable.
+- Los scripts son auxiliares y no destructivos: no exportan FBX, no guardan el `.blend` y no asignan fasteners ambiguos.
+- La importacion Unity posterior debe usar el FBX runtime final, texturas externas optimizadas y el manifest revisado para actualizar grupos, subgrupos, hotspots y fasteners.
+- El FBX final ya esta versionado en `Assets/Models/x500v2_runtime_low_final.fbx`; la ejecucion del menu Unity queda pendiente porque esta sesion no expone un ejecutable `Unity.exe` para batchmode.
+
+### Primer Paso Al Retomar La Sesion
+
+1. Esperar a que Blender termine de guardar y trabajar siempre sobre una copia tipo `ready-to-bake_006_final-material-bake.blend`.
+2. Ejecutar los bakes siguiendo la guia nueva y generar `X500_BaseColor_4K.png`, `X500_Normal_Final_4K.png`, `X500_Mask_4K.png`, `Hex_AO.png` y `Hex_Normal_Atlas.png`.
+3. En Unity, ejecutar `Tools > Import Final Runtime Drone Model` y revisar `Reports/final_runtime_import_report.md` para confirmar conteo de shared meshes, helices y fasteners.
+
 ## Registro de Cambios (Abril 21, 2026) - Onboarding MVP procedural y alineacion del discurso de producto
 
 ### Objetivo
@@ -389,3 +588,248 @@ Cerrar la brecha entre el FBX importado `x500v2_Drone` y los sistemas de selecci
 5. **Leyenda y panel de energia**:
    - _Implementacion_: La leyenda termica ya usa gradiente runtime y el modo Inspect expone el panel de power con estado y slider de carga.
    - _Resultado_: El feedback visual del sistema termico y del estado del dron deja de ser opaco en la UI.
+
+---
+
+## Registro de Cambios (Mayo 08, 2026) - Jerarquia explicita de seleccion y hotspots
+
+### Objetivo
+
+Corregir la contaminacion entre hotspots, piezas canonicas, subpiezas Blender y fasteners primitivos del dron X500 V2 importado.
+
+### Acciones Realizadas
+
+1. **Contrato unico de jerarquia**:
+   - _Implementacion_: Se agrego `holybro_selection_hierarchy.json` y `SelectionHierarchy` como referencia comun para hotspots, piezas canonicas, subpiezas y fasteners primitivos.
+   - _Resultado_: La seleccion deja de depender de keywords amplias como `rail`, `mount`, `m3` o `dingwei`.
+2. **Hotspots explicitos**:
+   - _Implementacion_: `HotspotManager` usa membresia canonica fija para `Power Distribution`, `Flight Controller`, `GPS & Compass`, `Propulsion System` y `Battery`.
+   - _Resultado_: `GUAN-CHENG` queda fuera de `Power Distribution` y permanece en el sistema de railes/bateria.
+3. **Fasteners modulares restringidos**:
+   - _Implementacion_: El reemplazo modular se limita a objetos identificados como fasteners primitivos o importados bajo el grupo runtime de fasteners.
+   - _Resultado_: Subpiezas CAD como tubos, stoppers, grommets o brackets no se convierten en tornillos por heuristica de nombre.
+4. **Seleccion por capas**:
+   - _Implementacion_: El primer click sobre un fastener sube a la pieza madre canonica; un segundo click dentro del mismo contexto selecciona el fastener individual.
+   - _Resultado_: Se formaliza el flujo pieza madre -> subpieza -> fastener sin colapsar todos los brazos o todos los fasteners.
+5. **Restauracion de hotspots y anclas sin heuristicas amplias**:
+   - _Implementacion_: El evento de aislamiento de hotspot conserva si debe incluir fasteners asociados y `HotspotManager` deja de usar tokens como `m2`, `m3`, `nut` o `screw` para escoger anclas.
+   - _Resultado_: Al volver desde una subcapa al hotspot aislado se preservan los fasteners confirmados y no se privilegian falsos positivos por nombre.
+
+### Estado Actual
+
+- La fuente de verdad runtime queda en la capa canonica `x500v2_*`.
+- La jerarquia granular de Blender enriquece seleccion y filtros, pero no reemplaza la semantica canonica.
+- Las discrepancias de conteo entre fasteners teoricos y fasteners de escena siguen reportandose para revision, no se asumen manualmente.
+- La copia documental de la jerarquia queda registrada en `desarrollo/docs/investigacion/Holybro/holybro_selection_hierarchy.json`.
+
+---
+
+## Registro de Cambios (Mayo 09, 2026) - Limpieza de cimientos para seleccion jerarquica y fasteners
+
+### Objetivo
+
+Eliminar causas estructurales que contaminaban la seleccion por capas antes de reconstruir el flujo final de grupos, subpiezas y fasteners.
+
+### Acciones Realizadas
+
+1. **Correccion de falso fastener estructural**:
+   - _Implementacion_: `HMX5V-GUAN-DINGWEI` queda bloqueado como subpieza estructural mediante `SelectionHierarchy.IsKnownStructuralNonFastenerName`.
+   - _Resultado_: El stopper de posicionamiento del tubo ya no puede recibir `FastenerRuntimeMarker` ni reemplazo modular de tornillo.
+2. **Limpieza y reconciliacion de catalogos Holybro**:
+   - _Implementacion_: Se bloqueo `HMX5V-GUAN-DINGWEI` como falso fastener estructural y se reconocieron explicitamente `HUAN-GUIJIAO` y `GPSV5-ZHIJIA-LUOMAO` como fasteners reales cuando provienen del inventario/catalogo.
+   - _Resultado_: El catalogo runtime esperado queda en 19 familias y 170 instancias primitivas de fastener, sin entradas falsas de `HMX5V-GUAN-DINGWEI`.
+3. **Jerarquia fisica saneada**:
+   - _Implementacion_: Las rutas `hierarchyPath` de fasteners apuntan al grupo raiz `x500v2_Drone/x500v2_fastener_group`, no a `x500v2_arm_BR`.
+   - _Resultado_: Se evita que el brazo BR absorba semanticamente todos los fasteners de la escena.
+4. **Resolucion estable por cuadrante**:
+   - _Implementacion_: Los sufijos Blender `.001_low`, `.002_low`, `.003_low`, `.004_low` se traducen explicitamente a BR, FR, FL y BL para piezas repetidas por cuadrante.
+   - _Resultado_: La seleccion de subpiezas de brazos deja de depender solo de distancia o posicion en mundo.
+5. **Reconocimiento robusto de meshes hijos**:
+   - _Implementacion_: `SelectionManager`, `PartVisibilityManager` y `UIManager` resuelven marcadores de fastener en el primer ancestro `ExplodablePart` sin cruzar a ancestros compartidos.
+   - _Resultado_: Los fasteners modulares o definitivos con malla hija pueden seguir siendo seleccionables sin contaminar hermanos.
+6. **Escala runtime alineada con shaders y fasteners modulares**:
+   - _Implementacion_: El importador final calibra el FBX a tamano dominante objetivo `10u` y la auditoria runtime valida ese rango.
+   - _Resultado_: El dron importado recupera una escala compatible con los materiales/modos de visualizacion ajustados para el dron anterior y con el tamano de los placeholders modulares.
+7. **Colliders de seleccion exactos**:
+   - _Implementacion_: El setup editor y el binder runtime reemplazan `BoxCollider` genericos por `MeshCollider` cuando existe `MeshFilter`, dejando box collider solo como fallback.
+   - _Resultado_: Se reduce la seleccion cruzada causada por bounds grandes/desplazados del FBX instanciado; un click sobre una subpieza ya no deberia golpear cajas de fasteners o piezas vecinas.
+
+### Estado Actual
+
+- Runtime Player y UI Player compilan sin errores.
+- La compilacion editor por `dotnet` sigue bloqueada por `UnityEditor.UI` en `Library/PackageCache`, no por los scripts modificados.
+- La proxima validacion debe hacerse reimportando el FBX en Unity y revisando que el reporte indique escala dominante `5u -> 10u` y 170 fasteners normalizados, o que cualquier diferencia quede justificada por la escena actual.
+
+---
+
+## Registro de Cambios (Mayo 10, 2026) - Calibracion visual de escala, camara y Blueprint
+
+### Objetivo
+
+Corregir la primera regresion visible del FBX final: el dron quedaba fuera de la escala operativa esperada por la camara, el zoom y los shaders, y el modo Blueprint se veia como una masa blanca por lineas demasiado gruesas.
+
+### Acciones Realizadas
+
+1. **Camara dependiente de bounds reales**:
+   - _Implementacion_: `OrbitCameraController` ahora busca el root activo `x500v2_Drone`, ignora referencias serializadas obsoletas al modelo preservado y calcula la distancia base desde los bounds del dron.
+   - _Resultado_: `ResetView` y el arranque dejan de depender de una distancia fija heredada; el modelo completo se encuadra con margen aunque el FBX haya sido reescalado.
+2. **Referencia de camara actualizada al importar**:
+   - _Implementacion_: `ImportDroneModel` reescribe la referencia serializada del `OrbitCameraController` hacia el nuevo root importado.
+   - _Resultado_: Se evita que la escena conserve la camara apuntando al modelo viejo inactivo usado como referencia.
+3. **Blueprint sin edge pass de pantalla**:
+   - _Implementacion_: `ViewModeManager` desactiva el `EdgeDetectionFeature` para Blueprint y calibra siempre los materiales, incluso si ya estaban serializados en la escena.
+   - _Resultado_: El modo Blueprint usa el shader propio como fuente de lineas, sin pintar todas las discontinuidades de normales/profundidad como blanco solido.
+4. **Lineas y silueta mas finas**:
+   - _Implementacion_: `Blueprint.shader` reduce `_OutlineWidth` a `0.00035`, sube `_EdgeThreshold` a `0.82` y usa `_FresnelPower` `8.0`; `SolidColor.shader` reduce outline a `0.00045`.
+   - _Resultado_: La silueta queda mas cercana al grosor esperado para el dron final de `10u` y evita el manchon blanco de la captura.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores.
+- `UI.Player.csproj` compila sin errores.
+- La compilacion editor por `dotnet` sigue bloqueada por `UnityEditor.UI` en `Library/PackageCache`; no llego a compilar el assembly editor por esa dependencia externa.
+- La validacion visual final debe hacerse dentro de Unity: reimportar el FBX si aplica, abrir Blueprint y confirmar que el dron completo se encuadra y que la linea tecnica queda delgada.
+
+---
+
+## Registro de Cambios (Mayo 10, 2026) - Ajuste fino de lineas e aislamiento de fasteners
+
+### Objetivo
+
+Corregir los ultimos defectos observados tras la importacion final: las lineas de Blueprint/Solid seguian demasiado gruesas y el aislamiento de fasteners heredaba hermanos asociados a la misma pieza madre.
+
+### Acciones Realizadas
+
+1. **Lineas de shader mas delgadas**:
+   - _Implementacion_: `Blueprint` reduce `_OutlineWidth` a `0.00008` y sube `_EdgeThreshold` a `0.94`; `SolidColor` reduce `_OutlineWidth` a `0.0001`.
+   - _Resultado_: El modo Blueprint/Solid queda ajustado para el dron a `10u` sin depender del edge detection de pantalla.
+2. **Aislamiento por capa real**:
+   - _Implementacion_: `PartVisibilityManager` solo incluye fasteners asociados cuando el scope aislado es una pieza madre completa; subpiezas y fasteners individuales ya no heredan todos los fasteners del `parentCanonicalPartId`.
+   - _Resultado_: Aislar un fastener debe mostrar solo ese fastener; aislar una subpieza ya no arrastra todos los fasteners de la pieza madre.
+3. **Fastener como subcapa de su pieza canonica**:
+   - _Implementacion_: `UIManager` resuelve un fastener hacia `ParentCanonicalPartId` para la pila de aislamiento, no hacia `x500v2_fastener_group`.
+   - _Resultado_: La navegacion de capas queda como pieza canonica -> fastener, evitando restauraciones accidentales al grupo global de fasteners.
+4. **Highlight de pieza madre con fasteners**:
+   - _Implementacion_: `SelectionManager` aplica un tint suave adicional a los `FastenerRuntimeMarker` cuyo `ParentCanonicalPartId` coincide con la pieza madre seleccionada.
+   - _Resultado_: Al seleccionar una pieza madre, sus fasteners asociados quedan visualmente incluidos en el estado de seleccion.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores.
+- `UI.Player.csproj` compila sin errores.
+- La prueba visual pendiente en Unity debe confirmar tres casos: seleccion de pieza madre con fasteners resaltados, aislamiento de fastener individual sin hermanos, y Blueprint/Solid con linea fina.
+
+---
+
+## Registro de Cambios (Mayo 10, 2026) - Capas de subpieza y fasteners asociados
+
+### Objetivo
+
+Refinar el sistema de aislamiento jerarquico para que una subpieza pueda mostrarse primero con los fasteners fisicamente asociados a ella y despues aislarse sola, sin mezclar todos los fasteners de la pieza madre.
+
+### Acciones Realizadas
+
+1. **Modo de aislamiento por fastener explicito**:
+   - _Implementacion_: `PartVisibilityManager` diferencia tres rutas: pieza madre con fasteners del padre, subpieza con fasteners asociados por contacto y scope estricto sin fasteners adicionales.
+   - _Resultado_: La subpieza ya no hereda todos los fasteners de la pieza canonica; solo se agregan fasteners cuya geometria queda en contacto o proximidad controlada con esa subpieza.
+2. **Tercer nivel de capa para subpieza sola**:
+   - _Implementacion_: `UIManager` registra si la subpieza aislada contiene fasteners asociados; repetir aislamiento sobre la misma subpieza cambia a modo estricto.
+   - _Resultado_: El flujo queda como pieza madre -> subpieza con fasteners asociados -> subpieza sola.
+3. **Fastener directo con contexto obligatorio**:
+   - _Implementacion_: El doble click directo sobre un fastener sin contexto primero entra a la pieza madre; solo despues puede aislarse el fastener. En hotspots que no contienen piezas madre completas se permite la ruta directa definida por el hotspot.
+   - _Resultado_: El flujo evita saltos abruptos a fastener individual y conserva la lectura pedagogica de montaje.
+4. **Retorno fiel a la capa previa**:
+   - _Implementacion_: La pila de UI diferencia si la subpieza aislada viene de una pieza madre o de un hotspot sin pieza madre completa.
+   - _Resultado_: Al salir de la subpieza, la app vuelve al hotspot cuando esa era la capa anterior real.
+5. **Retroceso simetrico desde subpieza sola o fastener**:
+   - _Implementacion_: `UIManager` conserva una capa de retorno intermedia cuando se avanza desde `subpieza + fasteners asociados` hacia `subpieza sola` o `fastener`.
+   - _Resultado_: Al retroceder desde la subpieza sola o desde un fastener, la app restaura primero `subpieza + fasteners asociados` y despues permite volver a pieza madre/hotspot.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores.
+- `UI.Player.csproj` compila sin errores al reconstruir referencias de proyecto.
+- La validacion visual pendiente debe confirmar ida y vuelta en los tres caminos: pieza madre -> subpieza con fasteners -> subpieza sola; pieza madre -> subpieza con fasteners -> fastener; pieza madre -> fastener.
+
+---
+
+## Registro de Cambios (Mayo 10, 2026) - Fasteners compartidos y proxies ESC heredados
+
+### Objetivo
+
+Corregir la prioridad de fasteners compartidos para que el historial de capas tenga prioridad sobre el padre canonico por defecto, y retirar de runtime los proxies temporales ESC que no forman parte del FBX final importado.
+
+### Acciones Realizadas
+
+1. **Contexto de seleccion para fasteners compartidos**:
+   - _Implementacion_: `SelectionManager` conserva `CurrentFullSelection` y permite seleccionar un fastener compartido dentro del contexto actual si hay asociacion geometrica con la pieza/subpieza activa.
+   - _Resultado_: Si un fastener tiene padre prioritario A pero el usuario llega desde B, el fastener se aisla dentro del camino de B y el retroceso vuelve a B.
+2. **Resolucion contextual en aislamiento UI**:
+   - _Implementacion_: `UIManager` resuelve fasteners con un contexto preferido antes de caer a `ParentCanonicalPartId`.
+   - _Resultado_: La pila de aislamiento respeta el camino real de entrada: pieza madre, subpieza con fasteners, subpieza sola o fastener.
+3. **Fasteners compartidos visibles en pieza madre**:
+   - _Implementacion_: `PartVisibilityManager` agrega fasteners asociados por contacto/proximidad al aislamiento de una pieza madre, incluso si su padre prioritario es otra pieza.
+   - _Resultado_: Los fasteners que pertenecen a una subpieza tambien aparecen como parte de la pieza madre de esa subpieza.
+4. **Supresion de proxies ESC heredados**:
+   - _Implementacion_: `SetupImportedDroneThermalTest` deja de crear proxies `x500v2_esc_*` si no existe geometria FBX real y elimina anchors `_runtime_proxy` ESC generados previamente.
+   - _Resultado_: Los `ESC BLHeli-S 20A` dejan de aparecer como piezas runtime artificiales cuando no vienen en el modelo importado.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores.
+- `UI.Player.csproj` compila sin errores.
+- La compilacion editor por `dotnet` sigue bloqueada por dependencias de paquetes Unity (`UnityEditor.UI` / metadatos generados), no por los cambios runtime verificados.
+
+---
+
+## Registro de Cambios (Mayo 10, 2026) - Limpieza de proxies y mapa de pertenencia runtime
+
+### Objetivo
+
+Alinear la configuracion runtime con el FBX final real: no sintetizar piezas que no existen en el modelo importado y dejar una tabla auditable de piezas madre, hotspots, subpiezas y fasteners basada en los JSON actuales.
+
+### Acciones Realizadas
+
+1. **Supresion de proxies no pertenecientes al FBX final**:
+   - _Implementacion_: `SetupImportedDroneThermalTest` ahora omite y elimina proxies runtime para `x500v2_pdb`, `x500v2_rc_receiver` y `x500v2_esc_*`.
+   - _Resultado_: `pdb_runtime_proxy`, `rc_receiver_runtime_proxy` y las ESC sinteticas dejan de recrearse al reimportar si Blender no entrega geometria real para ellas.
+2. **Hotspots ajustados a piezas presentes**:
+   - _Implementacion_: `holybro_selection_hierarchy.json` y el fallback de `SelectionHierarchy` excluyen `x500v2_pdb` del hotspot `Power Distribution` y excluyen `x500v2_esc_*` del hotspot `Propulsion System`.
+   - _Resultado_: Los hotspots dejan de apuntar a anchors ausentes o proxies artificiales.
+3. **Auditoria coherente con piezas documentadas pero ausentes**:
+   - _Implementacion_: `RuntimeDroneSceneAuditor` distingue ids canonicos documentados de ids requeridos por el FBX actual.
+   - _Resultado_: La ausencia de `PDB`, `RC Receiver` y ESC ya no se reporta como error si no existe geometria real importada.
+4. **Mapa Markdown de pertenencia**:
+   - _Implementacion_: Se genero `desarrollo/docs/investigacion/Holybro/holybro_runtime_selection_mapping.md`.
+   - _Resultado_: El documento lista piezas madre, hotspots, subpiezas y fasteners prioritarios por pieza madre, marcando explicitamente que la prioridad fina por subpieza se resuelve por contacto runtime y aun no esta serializada como JSON persistente.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores.
+- `UI.Player.csproj` compila sin errores; la primera corrida paralela bloqueo temporalmente `Core.dll`, por lo que se repitio `Core.Player` de forma aislada.
+- Tras reimportar desde Unity, el audit deberia dejar de reportar como error la ausencia de `x500v2_esc_*` y deberia eliminar los proxies `pdb_runtime_proxy` / `rc_receiver_runtime_proxy`.
+
+---
+
+## Registro de Cambios (Mayo 10, 2026) - Auditoria UX y mapa de fasteners por subpieza
+
+### Objetivo
+
+Definir una base explicita para saber que fasteners pertenecen a cada subpieza y auditar si la distribucion actual de piezas madre/hotspots favorece una UX clara de inspeccion y montaje.
+
+### Acciones Realizadas
+
+1. **Mapa propuesto `subpieza -> fasteners`**:
+   - _Implementacion_: Se genero `desarrollo/docs/investigacion/Holybro/holybro_subpiece_fastener_map.json`.
+   - _Resultado_: Los `170` fasteners actuales quedan asignados a subpiezas prioritarias, con `192` relaciones compartidas/contextuales para piezas que comparten tornillos o interfaces.
+2. **Niveles de confianza**:
+   - _Implementacion_: Cada fila del mapa incluye `confidence` y `reviewReasons`.
+   - _Resultado_: Las relaciones seguras se distinguen de las inferidas; los casos `low` quedan listos para confirmar visualmente en Blender/Unity antes de tratarlos como verdad final.
+3. **Auditoria UX de seleccion y hotspots**:
+   - _Implementacion_: Se genero `desarrollo/docs/investigacion/Holybro/holybro_selection_ux_audit.md`.
+   - _Resultado_: El informe identifica problemas de nomenclatura, hotspots demasiado amplios, piezas documentadas sin geometria y oportunidades de mejorar la navegacion por cuadrantes/subsistemas.
+
+### Estado Actual
+
+- El mapa esta documentado y listo para conectarse al runtime como fuente explicita.
+- La seleccion actual puede seguir usando contacto/bounds como fallback, pero el siguiente paso recomendado es que Unity lea `holybro_subpiece_fastener_map.json` para hacer deterministica la capa `subpieza + fasteners`.

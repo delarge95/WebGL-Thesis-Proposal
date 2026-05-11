@@ -1,6 +1,8 @@
 # Cronograma del Proyecto
 ## WebGL Drone Viewer - Diagrama Gantt
 
+> **Nota de estado 2026-05-08:** este cronograma es un artefacto de planificacion historica. No define el alcance visible actual de la app. Para el estado real usar el informe final, manuales, `PAQUETE_DE_ENTREGA.md`, `Documentacion_Tecnica/07_Guia_Demo.md` y el paquete de presentacion actualizado. Elementos como "7 modos", measurement, BOM o catalogo deben interpretarse como planeacion/evaluacion historica si no aparecen en la UI final.
+
 ---
 
 ## Resumen Ejecutivo

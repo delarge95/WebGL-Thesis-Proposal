@@ -1,1064 +1,642 @@
----
-tipo: guion_sustentacion
-fuente: Informe_final/informe_final.pdf
-estado: activo
-area: sustentacion
-version: 4.1
-duracion_objetivo: 30min
-tags:
-  - tesis
-  - guion
-  - storytelling
-  - sustentacion
-  - ensayo
-  - oratoria
+# INF_EST_51 - Guion completo de sustentacion 30 min
+
+> Variante de estudio Obsidian - Articulo 51  
+> Version 5.0 - Mayo 08, 2026  
+> Estado: guion prospectivo de sustentacion final, escrito como si el proyecto ya estuviera cerrado.  
+> Regla de uso: mantener placeholders hasta tener mediciones finales verificadas.
+
 ---
 
-# INF EST 51 Guion Completo de Sustentacion en 30 Minutos
+## Proposito Del Guion
 
-## Proposito
+Este documento sirve como libreto principal para la sustentacion final del proyecto **WebGL Drone Viewer / Visor WebGL interactivo del dron Holybro X500 V2**.
 
-Este documento es la version canonica del guion de sustentacion. Integra la auditoria v2 de oratoria, el guion corregido por partes, la capa de direccion escenica y una revision critica del feedback de Gemini.
+El guion esta escrito en tiempo de proyecto terminado porque la sustentacion debe ensayarse como producto final. Sin embargo, los datos empiricos que dependan del cierre tecnico deben conservar placeholders hasta tener evidencia final:
 
-La mejora aplicada no consiste en copiar una version mas "emocional" del texto. Consiste en conservar el rigor academico y tecnico, pero decirlo con una voz mas natural, mas oral y mas apropiada por el ponente. La sustentacion debe sonar como Alexander defendiendo su propio proceso, no como un documento leido en voz alta.
+- `[[FPS_PROMEDIO_FINAL]]`
+- `[[PESO_BUILD_WEBGL_FINAL]]`
+- `[[TIEMPO_CARGA_FINAL]]`
+- `[[CONTEO_PIEZAS_FINAL]]`
+- `[[CONTEO_FASTENERS_FINAL]]`
+- `[[REDUCCION_POLIGONAL_FINAL]]`
+- `[[METRICA_VALIDACION_USUARIO]]`
+- `[[FECHA_BUILD_FINAL]]`
 
-La idea central de toda la sustentacion es:
+La regla academica es simple: el discurso puede decir "se implemento" cuando la funcion existe y fue verificada; debe decir "se midio" solo cuando haya dato medido; y debe usar placeholder cuando el dato todavia depende del freeze final.
 
-> Ver piezas no basta. Hay que comprender relaciones.
+---
 
-La tesis se cuenta como una transformacion: de documentacion plana y modelos CAD pesados a una experiencia web 3D navegable, medible y defendible.
+## Idea Central
+
+El proyecto no nace solamente de querer mostrar un dron en 3D. Nace de una friccion muy concreta: aprender, inspeccionar y explicar sistemas tecnicos complejos usando manuales, listas de partes y capturas 2D obliga al usuario a hacer demasiado trabajo mental.
+
+La idea que conecta con el publico es esta:
+
+> Tengo una pereza muy especifica: la pereza de repetir tareas tediosas que una herramienta podria ayudarme a hacer. Esa pereza no me ha hecho hacer menos; al contrario, me ha empujado a automatizar, ordenar, visualizar y construir sistemas que me faciliten la vida. Lo curioso es que muchas veces construir la herramienta termina siendo mas complejo que la tarea original. Pero justo ahi aparece el aprendizaje de ingenieria.
+
+Esa idea no es solo una frase de motivacion personal. Tambien explica por que este proyecto fue tomando forma como una herramienta de apoyo tecnico y no solo como una visualizacion bonita. Durante el desarrollo aparecieron referencias externas muy utiles en el campo de las instrucciones 3D interactivas, donde CAD de fabricantes se convierte en guias paso a paso con voz, animacion y un enfoque mobile-first. Esa linea de trabajo refuerza una intuicion clave de esta tesis: para tareas complejas, una guia interactiva bien diseñada puede reducir errores, acelerar comprension y volver mas legible el trabajo tecnico.
+
+La misma logica aparece dentro de la propia app: cuando una tarea tecnica exige repetir, buscar, comparar o recordar demasiado, el sistema trata de hacer esa carga mas ligera con selecciones, aislamiento, guia de ensamble, puntos de conexion, medicion y listado de materiales. Ahí la pereza productiva deja de ser una idea abstracta y se convierte en criterio de diseno.
+
+Esa referencia externa de instruccion 3D no se incorpora como comparacion de marca en la sustentacion, sino como una inspiracion implicita para pensar futuras guias tecnicas mas narrativas y asistidas.
+
+Esa "pereza productiva" se convierte en una decision de diseno:
+
+- Si consultar un manual obliga a imaginar la pieza, la app debe mostrarla.
+- Si encontrar un tornillo exige revisar nombres y tablas, la app debe aislarlo.
+- Si entender una relacion espacial exige desmontar mentalmente el dron, la app debe explotar, filtrar y guiar.
+- Si un CAD completo es demasiado pesado para WebGL, el sistema debe optimizar sin perder significado tecnico.
+
+---
 
 ## Hilo Conductor
 
-- El 2D muestra informacion, pero no siempre muestra relaciones espaciales.
-- Comprender relaciones exige memoria, orientacion y apoyo visual.
-- Si se propone una solucion, debe evaluarse sin exagerar.
-- Para evaluarla, primero hubo que volver viable el CAD en web.
-- Una vez viable, el modelo debia ser entendible mediante interfaz, modulos y modos visuales.
-- Antes de exigir exploracion, la app debia ensenar su propio lenguaje: onboarding, feedback y ayuda contextual.
-- La seleccion no termina en hacer clic: se convierte en lectura tecnica mediante ficha inferior, jerarquia y datos por pieza.
-- Una herramienta tecnica debe dejar evidencia: rendimiento, usabilidad, carga percibida y comentarios de usuario.
-- La contribucion final no es solo la app; es el camino documentado para construirla y evaluarla.
+El hilo narrativo recomendado para la sustentacion es:
 
-## Convenciones de Oratoria
+1. **Friccion humana**: hay tareas tecnicas que no son dificiles por concepto, sino por repetitivas, dispersas y lentas.
+2. **Problema de representacion**: los manuales y CAD tradicionales no siempre comunican bien relaciones espaciales, jerarquias y mantenimiento.
+3. **Hipotesis de solucion**: un visor WebGL interactivo puede reducir esa friccion si integra modelo optimizado, seleccion semantica, inspeccion, analisis visual y estados del dron.
+4. **Desarrollo ingenieril**: no basta importar el CAD; hay que depurar geometria, materiales, jerarquias, fasteners, metadata, texturas, rendimiento y UX.
+5. **Producto resultante**: una app que permite explorar el X500 V2 por piezas, grupos, fasteners, modos visuales, corte, explosion, thermal y encendido.
+6. **Aporte**: una metodologia replicable para transformar un ensamble CAD tecnico en una experiencia WebGL didactica y mantenible.
 
-- `[PAUSA 1s]`: silencio breve para separar ideas.
-- `[PAUSA 2s]`: silencio deliberado para una idea central.
-- `[RESPIRAR]`: inhalar antes de continuar.
-- `[RITMO LENTO]`: reducir velocidad; usar en formulas, cifras y limites.
-- `[RITMO MEDIO]`: velocidad natural de explicacion.
-- `[VOZ FIRME]`: tono seguro, estable, sin acelerar.
-- `[VOZ CONVERSACIONAL]`: tono natural, cercano, sin solemnidad excesiva.
-- `[ACENTO: palabra/frase]`: enfatizar solo esa palabra o frase.
-- `[SUBIR TONO]`: levantar ligeramente la energia para abrir una idea.
-- `[BAJAR TONO]`: cerrar una idea con autoridad.
-- `[MIRADA JURADO]`: mirar al jurado, no a la pantalla.
-- `[MIRADA PUBLICO]`: repartir mirada al auditorio.
-- `[GESTO ABIERTO]`: manos visibles, palmas relajadas.
-- `[MANOS CASA]`: manos relajadas frente al abdomen; posicion base.
-- `[SENALAR]`: dirigir la atencion a una zona concreta.
-- `[AVANZAR]`: cambiar diapositiva o captura.
+---
 
-Reglas:
+## Convenciones De Presentacion
 
-- Una idea por frase.
-- Definir una sigla una vez; despues usar lenguaje natural.
-- No llenar pausas con "eh", "pues", "digamos" o risa nerviosa.
-- Si aparece una cifra, explicar antes para que sirve.
-- Si una diapositiva cambia, permitir medio segundo para que el publico la vea.
-- Si una frase suena demasiado redactada, decir la idea con palabras propias sin cambiar el sentido tecnico.
-- No convertir placeholders en resultados: los campos entre corchetes se reemplazan solo con datos reales.
+- Hablar en primera persona cuando se explique motivacion y decisiones propias.
+- Hablar en tercera persona o voz tecnica cuando se describa arquitectura, metodologia y resultados.
+- Usar "placeholder" solo internamente; en la diapositiva final debe aparecer el dato real o una etiqueta clara de "pendiente de medicion final" si aun no se ha cerrado.
+- No prometer ratios de optimizacion no medidos.
+- No afirmar validacion de usuarios si no existe evidencia.
+- No ocultar limitaciones: el proyecto gana credibilidad cuando se muestran decisiones y fronteras tecnicas.
 
-## Mapa de Tiempo
+---
 
-| Tiempo | Bloque | Funcion narrativa |
-| --- | --- | --- |
-| 0:00-0:50 | Gancho | Crear micro-tension: el manual muestra piezas, no relaciones |
-| 0:50-1:30 | Saludo | Presentar el proyecto sin leer todo el titulo |
-| 1:30-2:00 | Manual a visor | Mostrar el contraste 2D/3D |
-| 2:00-4:30 | Problema y objetivos | Plantear necesidad, pregunta y ruta |
-| 4:30-6:30 | Fundamento | Carga cognitiva, interaccion y rendimiento |
-| 6:30-10:00 | Metodologia | DSR, instrumentos y alcance |
-| 10:00-12:00 | CAD a web | Traducir ingenieria a experiencia interactiva |
-| 12:00-15:30 | Piezas y conteos | MAD-T, tornillos y 28/30/257 |
-| 15:30-18:30 | Modulos de app | Onboarding, ficha inferior, Inspect, Analyze, Studio |
-| 18:30-19:30 | Arquitectura | Coordinacion runtime y tooling |
-| 19:30-21:00 | Corte | Clipping y formula visual |
-| 21:00-22:30 | Termico | Lupa termica, no FEA |
-| 22:30-25:00 | Resultados | KPIs, SUS, NASA-TLX, Think-Aloud |
-| 25:00-26:30 | Aportes | Cuatro aportes |
-| 26:30-28:00 | Limites | Limitaciones y trabajo futuro |
-| 28:00-29:00 | Cierre | Frase final unica |
-| 29:00-30:00 | Buffer | Respiracion, transiciones, imprevistos |
+## Mapa De Tiempo
+
+|        Tiempo | Bloque              | Objetivo                                                          |
+| ------------: | ------------------- | ----------------------------------------------------------------- |
+|   0:00 - 1:20 | Gancho humano       | Conectar con pereza productiva y automatizacion                   |
+|   1:20 - 2:40 | Contexto y problema | Mostrar por que manual/CAD no bastan                              |
+|   2:40 - 4:00 | Objetivo y alcance  | Definir que resuelve el visor                                     |
+|   4:00 - 6:20 | Fundamento tecnico  | WebGL, CAD, optimizacion, interaccion                             |
+|   6:20 - 9:30 | Metodologia         | Pipeline Blender -> Unity -> WebGL                                |
+|  9:30 - 12:20 | Modelo y datos      | Jerarquia, metadata, fasteners, texturas                          |
+| 12:20 - 23:20 | Demo de app         | Flujo completo: explorar, seleccionar, aislar, encender, analizar |
+| 23:20 - 25:20 | Arquitectura        | Como se sostiene tecnicamente                                     |
+| 25:20 - 27:30 | Resultados          | Medidas, rendimiento y verificacion                               |
+| 27:30 - 29:00 | Aportes y limites   | Que aporta y que queda abierto                                    |
+| 29:00 - 30:00 | Cierre              | Volver al hilo humano y tecnico                                   |
+
+---
+
+## Guia De Animaciones Para La Presentacion
+
+Las animaciones deben ayudar a entender. No deben ser decoracion. La regla es: si una animacion no guia la atencion o no explica una transformacion, se elimina.
+
+### Animaciones Recomendadas
+
+| Codigo | Momento          | Animacion                                                                          | Intencion                                     |
+| ------ | ---------------- | ---------------------------------------------------------------------------------- | --------------------------------------------- |
+| A01    | Gancho           | Lista de tareas tediosas aparece una a una y se transforma en una herramienta      | Conectar pereza productiva con automatizacion |
+| A02    | Problema         | Manual 2D se desvanece hacia ensamble 3D                                           | Mostrar salto de representacion               |
+| A03    | CAD a WebGL      | Malla pesada se simplifica en tres capas: geometria, materiales, metadata          | Explicar optimizacion                         |
+| A04    | Jerarquia        | Partes madre aparecen primero; subpiezas y fasteners entran despues como nodos     | Comunicar estructura de ensamble              |
+| A05    | Fasteners        | Muchos tornillos se agrupan por familia y luego se expanden en instancias          | Explicar sistema modular                      |
+| A06    | Demo UI          | Hero -> Explore -> seleccion -> bottom sheet aparece por etapas                    | Ordenar el flujo de uso                       |
+| A07    | Aislamiento      | Pieza madre queda visible y el resto baja opacidad; sus fasteners quedan incluidos | Explicar aislamiento semantico                |
+| A08    | Fastener aislado | Tornillo pasa de proxy a modelo modular detallado                                  | Mostrar detalle bajo demanda                  |
+| A09    | Encendido        | Estado OFF -> STARTING -> IDLE -> LOAD -> FLYING con helices acelerando            | Comunicar comportamiento dinamico             |
+| A10    | Thermal          | Gradiente termico aparece sobre zonas relevantes con leyenda                       | Mostrar analisis visual, no simulacion FEA    |
+| A11    | Corte            | Plano de corte atraviesa el dron de forma lenta                                    | Explicar inspeccion interna                   |
+| A12    | Resultados       | Tarjetas de metricas se llenan una a una                                           | Evitar saturar la audiencia                   |
+
+### Ritmo Visual
+
+- Usar apariciones por etapas para jerarquia, pipeline y arquitectura.
+- Usar transiciones tipo "morph" solo cuando se explique transformacion: CAD pesado a modelo optimizado, proxy a modular, manual a visor.
+- Evitar que todos los elementos entren a la vez.
+- Las metricas finales deben aparecer despues de explicar que se midio.
+- La demo grabada debe tener pausas visibles entre acciones: seleccionar, aislar, resetear, encender, analizar.
 
 ---
 
 # Guion Canonico
 
-## 0:00-0:50 - Gancho Inicial
+## 0:00 - 1:20 - Gancho Inicial: La Pereza Productiva
 
-### En pantalla debe verse
+**Diapositiva:** "De una tarea tediosa a una herramienta interactiva"  
+**Visual:** Manual tecnico, lista de piezas, modelo CAD pesado y app final como cuatro capas.
 
-- Una lamina tecnica 2D del dron o una captura limpia de componentes.
-- Fondo simple, sin texto excesivo.
-- Un unico elemento destacado: el manual, la lamina o una vista explotada estatica.
-- No mostrar todavia la app completa; reservarla para el contraste.
+**Guion:**
 
-### Posicion y gesto
+Buenos dias. Quiero empezar con una confesion tecnica: este proyecto tambien nace de la pereza.
 
-- Centro del espacio.
-- Pies firmes, hombros sueltos.
-- `[MANOS CASA]`.
-- Mirar la lamina medio segundo y luego mirar al jurado.
+Pero no de la pereza de no hacer. Mas bien de una pereza muy especifica: la pereza de repetir tareas tediosas, de buscar una pieza en un manual, de comparar nombres, de imaginar mentalmente como va ensamblado algo, de abrir un CAD pesado solo para entender un detalle pequeno.
 
-### Decir
+Con el tiempo me di cuenta de que esa pereza puede ser util. Cuando una tarea se vuelve repetitiva o lenta, aparece una pregunta de ingenieria:
 
-> `[VOZ CONVERSACIONAL]` Imaginen este dron sobre la mesa. Y al lado, su manual.
+> ?Por que no construir una herramienta que haga esa parte mas facil?
 
-`[PAUSA 1s]`
+Lo ironico es que muchas veces esa herramienta termina siendo mas compleja que la tarea original. Facilitarse la vida puede exigir muchisimo trabajo. Pero ese trabajo deja un sistema, una metodologia y una forma mas clara de entender el problema.
 
-> El manual muestra piezas, nombres y referencias. `[SENALAR]` Cumple su funcion.
+Este proyecto sigue esa logica. En lugar de obligar al usuario a reconstruir mentalmente el dron Holybro X500 V2 desde manuales, tablas y archivos CAD, desarrolle un visor WebGL que permite explorar el ensamble, seleccionar piezas, aislar componentes, inspeccionar fasteners, activar estados del dron y analizar visualmente su estructura.
 
-`[PAUSA 1s]`
-
-> Pero hay algo que el papel no siempre logra resolver: donde vive cada pieza dentro del sistema. Que sostiene. Que oculta. Que conecta.
-
-> `[MIRADA JURADO] [ACENTO: relaciones]` Ahi aparece el verdadero esfuerzo: no falta informacion, falta una forma mas directa de leer relaciones.
-
-`[PAUSA 2s]`
-
-> Esa distancia, entre tener datos de piezas y comprender el sistema, es el punto de partida de esta tesis.
-
-### Acentuacion
-
-- Acentuar: "donde vive cada pieza", "relaciones", "punto de partida".
-- No dramatizar "imaginen"; decirlo como invitacion natural.
-- Bajar el tono en "punto de partida de esta tesis".
-
-### Puente
-
-`[AVANZAR A PORTADA]`
-
-## 0:50-1:30 - Saludo
-
-### En pantalla debe verse
-
-- Portada formal con titulo completo.
-- Nombre del estudiante.
-- Programa y universidad.
-- Visual de fondo muy sutil, sin competir con el titulo.
-
-### Posicion y gesto
-
-- Volver al centro.
-- `[GESTO ABIERTO]` al decir el nombre.
-- No mirar la portada mientras se saluda.
-
-### Decir
-
-> `[VOZ FIRME]` Buenos dias. Mi nombre es Alexander Woodcock Salomón.
-
-> Hoy presento mi proyecto de grado: un visor web para inspeccionar el ensamblaje de un dron real, el Holybro X500 V2.
-
-> `[GESTO ABIERTO]` El titulo formal esta en la portada. La pregunta que me guio durante el proyecto fue mas simple: como pasamos de ver piezas sueltas a entender como funcionan juntas?
-
-### Acentuacion
-
-- Acentuar: "dron real", "piezas sueltas", "funcionan juntas".
-- No leer el titulo.
-- Mantener ritmo medio; no acelerar por nervios.
-
-### Puente
-
-> Para responder eso, primero contrasto el manual con el visor.
-
-## 1:30-2:00 - Del Manual al Visor
-
-### En pantalla debe verse
-
-- A la izquierda: manual 2D, lamina o captura estatica.
-- A la derecha: primera captura del visor 3D.
-- Flecha simple: "documentacion" -> "exploracion".
-- Maximo una frase en pantalla: "De piezas aisladas a relaciones navegables".
-
-### Posicion y gesto
-
-- `[SENALAR]` primero el manual.
-- `[AVANZAR]` o girar levemente hacia el visor.
-- Manos vuelven a casa despues de senalar.
-
-### Decir
-
-> En documentacion tecnica, las piezas aparecen separadas, numeradas y vistas desde angulos fijos.
-
-> Esa documentacion es necesaria. No es el enemigo.
-
-`[PAUSA 1s]`
-
-> El limite aparece cuando la persona tiene que completar mentalmente la profundidad, la jerarquia y las conexiones.
-
-`[AVANZAR A VISOR]`
-
-> Este proyecto explora una respuesta: convertir ese ensamblaje en una experiencia web 3D. Aqui la persona no solo mira: explora, selecciona, aisla y cambia la forma de leer el modelo.
-
-> `[VOZ FIRME]` El manual muestra piezas. El visor ayuda a leer el sistema.
-
-### Acentuacion
-
-- Acentuar: "no es el enemigo".
-- La frase final debe sonar como cierre de bloque, no como slogan comercial.
-
-### Puente
-
-> Para convertir esa intuicion en tesis, primero habia que formular bien el problema.
-
-## 2:00-4:30 - Problema, Pregunta y Objetivos
-
-### En pantalla debe verse
-
-- Tres columnas o capas:
-- "Humana": recordar, comparar, reconstruir.
-- "Tecnica": CAD pesado, navegador, rendimiento.
-- "Metodologica": construir, evaluar, evidenciar.
-- Luego aparecer la pregunta de investigacion en una sola linea.
-
-### Posicion y gesto
-
-- Caminar un paso hacia la pantalla solo al presentar las tres capas.
-- `[SENALAR]` cada capa con gesto breve.
-- Volver al centro para la pregunta.
-
-### Decir
-
-> En la practica, el proyecto me obligo a resolver tres capas del mismo problema.
-
-> `[SENALAR]` Primera: humana. Entender hardware complejo desde documentacion plana exige recordar, comparar y reconstruir mentalmente.
-
-> Segunda: tecnica. Un modelo CAD esta pensado para manufactura, no para ejecutarse en un navegador.
-
-> Tercera: metodologica. No basta con construir el visor. Hay que evaluarlo con criterios claros.
-
-`[PAUSA 1s]`
-
-> `[MIRADA JURADO]` Por eso la pregunta fue: como disenar y evaluar un visor web 3D que ayude a inspeccionar este ensamblaje, sin perder viabilidad tecnica en navegador?
-
-`[AVANZAR]`
-
-> Los objetivos siguieron esa ruta: entender el caso, transformar el modelo, implementar el prototipo y evaluar rendimiento y experiencia de uso.
-
-### Acentuacion
-
-- Acentuar: "tres capas", "no basta", "criterios claros".
-- En la pregunta, bajar velocidad y mirar al jurado.
-- No mencionar NASA-TLX aqui; se explicara en metodologia.
-
-### Puente
-
-> Esa ruta necesitaba respaldo teorico. No queria defender una intuicion; queria construir una respuesta medible.
-
-## 4:30-6:30 - Fundamento: Cognicion, Interaccion y Rendimiento
-
-### En pantalla debe verse
-
-- Diagrama simple:
-- 2D -> reconstruccion mental -> esfuerzo.
-- 3D -> manipulacion directa -> apoyo visual.
-- Luego una mini tarjeta: "fluidez = tiempo por cuadro".
-
-### Posicion y gesto
-
-- `[GESTO ABIERTO]` para explicar memoria de trabajo.
-- `[SENALAR]` el paso 2D -> esfuerzo.
-- Mantenerse quieto al explicar rendimiento.
-
-### Decir
-
-> La teoria de carga cognitiva parte de una idea muy simple: nuestra memoria de trabajo es limitada.
-
-> Si el usuario debe imaginar una pieza, rotarla mentalmente y compararla con otra vista, parte de su esfuerzo se va en reconstruir el espacio.
-
-`[AVANZAR]`
-
-> En una visualizacion interactiva, parte de ese trabajo pasa a la interfaz. El usuario ya no tiene que imaginarlo todo: rota, aisla y compara directamente.
-
-> Desde interaccion humano-computador, esto se traduce en reglas practicas: mostrar estado, usar controles consistentes y no obligar al usuario a memorizar comandos.
-
-`[PAUSA 1s]`
-
-> `[MIRADA PUBLICO]` Eso no significa que el 3D siempre sea mejor que el 2D.
-
-> `[VOZ FIRME]` Este proyecto evalua diferencias descriptivas en un caso concreto: tareas, esfuerzo percibido, usabilidad y retroalimentacion cualitativa de los usuarios.
-
-`[AVANZAR]`
-
-> Pero hay otra cara del problema: el rendimiento.
-
-> `[GESTO ABIERTO]` La idea es sencilla: si cada cuadro tarda demasiado en dibujarse, la interaccion se siente lenta.
-
-> `[SENALAR]` Si el tiempo por cuadro es 33 milisegundos, tenemos 30 cuadros por segundo. Si el modelo pesa demasiado, ese tiempo sube.
-
-> `[ACENTO: conservar]` Para mi, optimizar no fue bajar calidad. Fue decidir que conservar para que el dron siguiera siendo legible en la web.
-
-### Acentuacion
-
-- Acentuar: "memoria de trabajo", "parte de ese trabajo pasa a la interfaz", "conservar".
-- Pausa antes de "Eso no significa...".
-- En "Optimizar no fue bajar calidad", usar tono firme, no defensivo.
-
-### Puente
-
-> Con esa base teorica, el siguiente paso fue darle metodo al desarrollo.
-
-## 6:30-10:00 - Metodologia
-
-### En pantalla debe verse
-
-- Diagrama DSRM simplificado: Problema -> Artefacto -> Evaluacion -> Comunicacion.
-- Tarjeta lateral: "Rigor y relevancia".
-- Tabla de instrumentos con tres filas:
-- Tecnico: FPS, frame time, carga, memoria.
-- Usabilidad: SUS.
-- Esfuerzo y cualitativo: NASA-TLX Raw + Think-Aloud.
-
-### Posicion y gesto
-
-- `[GESTO ABIERTO]` al explicar DSR.
-- `[SENALAR]` tabla solo cuando nombres cada instrumento.
-- Mirar al jurado para la precision NASA-TLX.
-
-### Decir
-
-> La metodologia es Design Science Research. Dicho en simple: investigar construyendo y evaluando un artefacto.
-
-> `[GESTO ABIERTO]` El proceso tiene una ruta clara: identificar el problema, disenar, demostrar, evaluar y comunicar. Se revisa con criterios de rigor y relevancia.
-
-`[PAUSA 1s]`
-
-> La evaluacion cruza dos mundos.
-
-> En lo tecnico: fluidez, tiempo de carga, memoria y dispositivo.
-
-> En experiencia: usabilidad del visor, esfuerzo percibido y retroalimentacion cualitativa.
-
-`[AVANZAR]`
-
-> `[MIRADA JURADO]` Aqui quiero cuidar una precision importante.
-
-> Cuando hable de esfuerzo percibido, me refiero a como sintio el usuario la tarea: que tan demandante, frustrante o exigente le resulto.
-
-> Eso se evalua con NASA-TLX en su version Raw: seis dimensiones de esfuerzo.
-
-`[PAUSA 1s]`
-
-> `[VOZ FIRME]` NASA-TLX no mide directamente la teoria de carga cognitiva. Mide esfuerzo de trabajo percibido. La teoria explica el problema; el instrumento mide evidencia concreta.
-
-`[AVANZAR]`
-
-> Para usabilidad, se usa SUS: diez preguntas que producen un puntaje de 0 a 100.
-
-> El 68 es un promedio historico, no un certificado de buena usabilidad. Para este proyecto, una lectura favorable estaria cerca o por encima de 72.
-
-> `[ACENTO: solo al visor 3D]` SUS se aplica solo al visor 3D, porque es el sistema interactivo que se evalua. El soporte 2D funciona como condicion de referencia para tareas.
-
-`[PAUSA 1s]`
-
-> La retroalimentacion cualitativa se recoge con Think-Aloud: el usuario verbaliza lo que piensa mientras usa la herramienta. Esa parte es clave, porque explica lo que los numeros por si solos no cuentan.
-
-> `[MIRADA JURADO]` La meta ideal es contar con 30 participantes o mas. Si el numero es menor, el estudio se mantiene como evaluacion formativa, sin generalizar a toda una poblacion.
-
-### Acentuacion
-
-- Acentuar: "artefacto", "dos mundos", "evidencia concreta", "solo al visor 3D".
-- Bajar ritmo en NASA-TLX y SUS.
-- No leer formulas aqui; mostrarlas como apoyo visual si aparecen.
-
-### Puente
-
-> Para poder medir todo eso, primero habia que construir una version web real. Ahi empezo la parte mas larga del proyecto.
-
-## 10:00-12:00 - Del CAD a la Web
-
-### En pantalla debe verse
-
-- Diagrama horizontal: CAD -> conversion -> limpieza/modelado -> Unity -> Web.
-- Una comparativa antes/despues si existe.
-- Etiquetas cortas: "precision CAD" y "runtime web".
-- No mostrar lista larga de software.
-
-### Posicion y gesto
-
-- `[SENALAR]` recorrer el pipeline de izquierda a derecha.
-- Dar un paso lateral solo al pasar de CAD a Web.
-- Manos vuelven a casa al decir la frase memorable.
-
-### Decir
-
-> `[VOZ FIRME]` La primera leccion tecnica fue esta: el modelo CAD no era el producto final. Era materia prima.
-
-> Un modelo CAD esta pensado para precision y fabricacion. Un visor web necesita otra cosa: lectura visual, bajo peso y respuesta en tiempo real.
-
-> `[SENALAR]` Por eso probe rutas distintas: conversion directa, control de teselacion desde MoI3D, limpieza manual y reconstruccion de piezas.
-
-> Tambien use herramientas de produccion 3D profesional, desde Blender hasta baking en Marmoset. No fueron accesorios; hicieron parte real de la cadena de trabajo.
-
-`[PAUSA 1s]`
-
-> `[ACENTO: traducir]` El reto no era abrir un archivo. Era traducir ingenieria a experiencia interactiva.
-
-### Acentuacion
-
-- Acentuar: "materia prima", "respuesta en tiempo real", "traducir".
-- Evitar enumerar software si no aparece una pregunta.
-
-### Puente
-
-> Esa traduccion obligo a tomar decisiones pieza por pieza.
-
-## 12:00-15:30 - Piezas, MAD-T y Tornillos Modulares
-
-### En pantalla debe verse
-
-- Captura de limpieza/modelado.
-- Diapositiva de conteos en tres tarjetas:
-- 28 piezas canonicas.
-- 30 nodos de escena.
-- 257 elementos tecnicos.
-- Visual de tornillos o fasteners con repeticion.
-
-### Posicion y gesto
-
-- `[GESTO ABIERTO]` para MAD-T.
-- `[SENALAR]` cada tarjeta de conteo.
-- Mirar al jurado al decir "no son contradicciones".
-
-### Decir
-
-> Para limpiar y reconstruir geometria, adapte un marco tecnico de produccion llamado MAD-T, de Blender Bros.
-
-> `[GESTO ABIERTO]` Lo uso como guia de produccion, no como metodologia cientifica. La metodologia del proyecto es Design Science.
-
-> Algunas piezas se limpiaron. Otras se reconstruyeron. Y otras se modelaron desde cero porque su version original no servia para tiempo real.
-
-`[AVANZAR]`
-
-> Un punto que parece menor, pero no lo fue, son los tornillos. Son pequeños, pero se repiten muchas veces.
-
-> Si cada tornillo se guarda como geometria unica, el costo crece rapido. La solucion fue modularizar: reutilizar familias y conservar lectura visual.
-
-`[AVANZAR]`
-
-> `[MIRADA JURADO]` Por eso los conteos se leen por capas.
-
-> `[SENALAR]` Veintiocho piezas canonicas: las entidades de investigacion.
-
-> Treinta nodos de escena: los puntos de anclaje donde vive cada pieza.
-
-> Doscientos cincuenta y siete elementos tecnicos: fragmentos de geometria, colliders y assets que el motor necesita para renderizar e interactuar.
-
-`[PAUSA 1s]`
-
-> `[VOZ FIRME]` No son contradicciones. Son niveles distintos: investigacion, escena y ejecucion.
-
-### Acentuacion
-
-- Acentuar: "guia de produccion", "no metodologia cientifica", "no son contradicciones".
-- Decir los conteos con ritmo lento y separado.
-
-### Puente
-
-> Una vez el modelo fue viable en web, el siguiente reto fue hacerlo entendible para una persona.
-
-## 15:30-18:30 - Los Tres Modulos de la App
-
-### En pantalla debe verse
-
-- Captura mobile con barra inferior.
-- Tres tarjetas o iconos grandes: Inspect, Analyze, Studio.
-- Debajo de cada tarjeta, tres funciones maximo.
-- Luego capturas especificas de cada modulo.
-
-### Posicion y gesto
-
-- `[SENALAR]` cada modulo cuando se menciona.
-- Mantener manos visibles.
-- Evitar caminar durante las listas funcionales.
-
-### Decir
-
-> Para explicar la interfaz, prefiero no recorrer botones uno por uno. Es mas claro verla como un recorrido de uso.
-
-> La diseñe con una base mobile-first: primero pantalla pequeña, tacto y acciones claras. En movil hay poco espacio, y eso obliga a priorizar.
-
-> `[GESTO ABIERTO]` De ahi salen la barra inferior, la ficha desplegable y la organizacion por modulos.
-
-> Primero la app enseña su lenguaje. Luego permite seleccionar. Despues ayuda a descomponer. Y al final cambia la forma de mirar el modelo.
-
-`[PAUSA 1s]`
-
-### Onboarding procedural
-
-En pantalla debe verse:
-
-- Tarjeta inicial de ayuda.
-- Mini demo de gesto, cursor o dedo.
-- Actor, objetivo y respuesta del sistema.
-- Nota discreta: "dibujado por codigo".
-
-Decir:
-
-> Antes de pedirle al usuario que inspeccione, la app le ensena su propio lenguaje.
-
-> `[SENALAR]` El onboarding no es un video ni un GIF. Esta dibujado por codigo con UI Toolkit y `Painter2D`.
-
-> Cada tarjeta muestra una pequena escena: quien actua, donde actua y que responde el sistema.
-
-> Eso permite explicar orbita, paneo, seleccion, ficha de pieza, sliders y modos visuales usando el mismo lenguaje grafico de la interfaz real.
-
-`[PAUSA 1s]`
-
-> `[VOZ FIRME]` Su funcion es reducir incertidumbre antes de la tarea. No reemplaza el manual; prepara al usuario para usar el visor sin adivinar.
-
-### Ficha inferior e info panel
-
-En pantalla debe verse:
-
-- Pieza seleccionada con resaltado.
-- `Bottom sheet` abierto.
-- Nombre, categoria y bloques Identification, Specifications y Assembly.
-- Indicador visual de jerarquia: pieza madre, subpieza, grupo de hotspot o fastener.
-- Peek bar o barra de previsualizacion si la ficha esta cerrada.
-
-Decir:
-
-> La ficha inferior es donde la seleccion se vuelve conocimiento.
-
-> `[SENALAR]` Cuando el usuario selecciona, no solo aparece un nombre. La ficha organiza identificacion, especificaciones y relacion de ensamblaje.
-
-> Tambien aclara el nivel de lectura: pieza madre, subpieza, grupo de hotspot o fastener.
-
-> Esa diferencia importa. A veces el usuario no esta leyendo todo el dron, sino una capa especifica del ensamblaje.
-
-> `[MIRADA JURADO]` Por eso el info panel no es un accesorio. Es el puente entre tocar una geometria y entender que representa dentro del sistema.
-
-`[PAUSA 1s]`
-
-> `[VOZ FIRME]` La app se organiza en tres modulos funcionales. Cada uno responde un tipo de pregunta del usuario.
-
-`[AVANZAR]`
-
-### Inspect
-
-En pantalla debe verse:
-
-- Pieza seleccionada.
-- Hotspot visible.
-- Ficha inferior con nombre, categoria y datos basicos.
-- Si es posible, captura de aislamiento.
-
-Decir:
-
-> `[SENALAR]` Cuando el usuario ya sabe como entrar, el primer gesto real es seleccionar una pieza. Ahi entra Inspect.
-
-> Aqui el usuario selecciona una pieza y obtiene su ficha tecnica en el panel inferior.
-
-> Desde esa ficha puede leer datos de la pieza, de una subpieza o de un grupo activado por hotspot.
-
-> Tambien puede aislar: ocultar lo demas para ver esa seleccion en contexto limpio.
-
-> Si necesita profundizar, puede aislar por capas: grupo, pieza, subpieza y sujetador.
-
-> Los hotspots señalan puntos de interes sobre el modelo. Funcionan como anclas visuales para explorar sin adivinar.
-
-`[AVANZAR]`
-
-### Analyze
-
-En pantalla debe verse:
-
-- Vista explosiva o separacion de piezas.
-- Corte transversal.
-- Filtros por categoria.
-
-Decir:
-
-> `[SENALAR]` Despues de entender una pieza, aparece la pregunta natural: como encaja con las demas? Ahi entra Analyze.
-
-> Aqui el usuario pasa de mirar a descomponer.
-
-> La vista explosiva separa piezas y muestra relaciones de posicion.
-
-> El corte transversal usa un plano: lo de un lado se ve, lo del otro desaparece.
-
-> Los filtros por categoria reducen ruido visual: motores, brazos, tornilleria o grupos funcionales.
-
-`[AVANZAR]`
-
-### Studio
-
-En pantalla debe verse:
-
-- Selector de modo visual.
-- Selector de entorno.
-- Capturas Realistic, Solid Color, X-Ray, Thermal.
-- Captura Blueprint como entorno completo.
-
-Decir:
-
-> `[SENALAR]` Cuando ya entendemos piezas y relaciones, falta controlar la forma de mirarlas. Ese es el papel de Studio.
-
-> Aqui el usuario controla como se ve el modelo y en que contexto.
-
-> Realistic es el modo por defecto. Usa materiales basados en fisica: color, metal, rugosidad y reflejo.
-
-> Solid Color elimina ruido material y deja forma y contraste. X-Ray permite ver relaciones internas por transparencia. Thermal muestra la lupa termica.
-
-> Los entornos controlan iluminacion y fondo: Day, Sunset, Night, Studio, Studio Light y Blueprint.
-
-> `[MIRADA JURADO]` Blueprint vive como entorno, no como shader independiente, porque depende del fondo, la grilla y el contexto completo de la escena.
-
-> Tambien hay colores de fondo configurables para evaluar contraste y legibilidad.
-
-### Acentuacion
-
-- Acentuar: "tres modulos funcionales", "Inspect", "Analyze", "Studio".
-- En onboarding, sonar pedagogico, no promocional.
-- En la ficha inferior, acentuar "seleccion se vuelve conocimiento" y "nivel de lectura".
-- En cada modulo, decir primero la pregunta que responde y luego las funciones.
-- No listar todo con el mismo tono; cada modulo debe tener una energia distinta.
-
-### Puente
-
-> Un detalle mas sobre la interfaz: los iconos no son imagenes pegadas.
-
-> Se dibujan por codigo, mantienen nitidez y pueden animarse segun estado.
-
-> Una microinteraccion no es adorno. Es feedback que confirma que la accion fue reconocida.
-
-> Pero para que interfaz, piezas y datos funcionaran juntos, la app necesitaba arquitectura.
-
-## 18:30-19:30 - Arquitectura y Tooling
-
-### En pantalla debe verse
-
-- Diagrama simple de coordinacion:
-- UI -> seleccion -> datos -> modos visuales -> escena.
-- Abajo: herramientas de editor como auditorias, setup y grafo termico.
-- No mostrar lista larga de clases.
-
-### Posicion y gesto
-
-- `[SENALAR]` el flujo de izquierda a derecha.
-- `[MIRADA JURADO]` al decir que no solo se importo un modelo.
-
-### Decir
-
-> Una parte clave del desarrollo fue evitar que la app dependiera de una escena armada a mano.
-
-> Tiene una arquitectura donde varios controladores coordinan interfaz, seleccion, modos visuales y datos en tiempo de ejecucion.
-
-> `[SENALAR]` Las herramientas de editor ayudaron a convertir el modelo importado en una estructura navegable y verificable: auditorias de cobertura, construccion del grafo termico y validacion de datos por pieza.
-
-> `[VOZ FIRME]` No solo importe un modelo. Construí una cadena para comprobar datos, seleccion y coherencia.
-
-> Esta separacion importa: una cosa es lo visible para el usuario, otra las herramientas de desarrollo y otra el codigo que quedo como legado o trabajo futuro.
-
-### Acentuacion
-
-- Acentuar: "no solo importe un modelo", "comprobar datos, seleccion y coherencia".
-- No definir runtime de forma escolar.
-
-### Puente
-
-> Con esa arquitectura, quiero detenerme en dos capacidades visuales que merecen explicacion tecnica: el corte y el modo termico.
-
-## 19:30-21:00 - Corte Transversal y Formula
-
-### En pantalla debe verse
-
-- Captura del modo corte activo.
-- Plano de corte visible.
-- Formula pequena, a un lado.
-- Una mini leyenda: "distancia negativa = ocultar / positiva = dibujar".
-
-### Posicion y gesto
-
-- Quedarse quieto durante la formula.
-- `[SENALAR]` primero el plano, luego la formula.
-- Mirar al publico despues de explicar la idea.
-
-### Decir
-
-> Ya mencione que el corte divide visualmente el modelo. La mecanica es directa.
-
-> `[SENALAR]` Un plano matematico cruza la escena. Para cada fragmento del modelo, el shader calcula de que lado queda. Si queda del lado descartado, no se dibuja.
-
-`[AVANZAR]`
-
-```text
-distancia = dot(posicion_fragmento - punto_plano, normal_plano)
-```
-
-> `[GESTO ABIERTO]` Si la distancia es negativa, el fragmento se oculta. Si es positiva, se renderiza.
-
-> `[VOZ FIRME]` No se destruye la malla original. Solo se decide que parte aparece en pantalla.
-
-### Acentuacion
-
-- Acentuar: "no se destruye la malla".
-- Bajar velocidad al decir "negativa" y "positiva".
-- No leer toda la formula; explicar la relacion.
-
-### Puente
-
-> El ultimo modo visual lleva la lectura a una capa adicional: el comportamiento termico.
-
-## 21:00-22:30 - Modo Termico
-
-### En pantalla debe verse
-
-- Vista Thermal con leyenda de color.
-- Piezas con colores claramente diferenciados.
-- Formula de calentamiento solo si es legible.
-- Opcional: mini grafico de "tendencia, no prediccion exacta".
-
-### Posicion y gesto
-
-- `[MIRADA JURADO]` antes de aclarar que no es FEA.
-- `[SENALAR LEYENDA]` cuando se hable del color.
-- Manos quietas al explicar limites.
-
-### Decir
-
-> `[MIRADA JURADO]` Aqui prefiero ser muy claro desde el inicio.
-
-> No es analisis por elementos finitos. `[ACENTO: lupa termica]` Es una lupa termica por componentes.
-
-> Sirve para mostrar tendencias relativas: que se calienta mas, que influye en que y como cambia el color con la carga.
-
-`[AVANZAR]`
-
-```text
-Delta T_source = (T_eq - T_actual)(1 - e^(-Delta t / tau)) * w_s
-```
-
-> La logica es asi: si la pieza esta lejos de su equilibrio, cambia mas.
-
-> Si ya esta cerca, cambia menos.
-
-> La constante tau controla la velocidad. Y el peso de la fuente ajusta su influencia.
-
-> `[SENALAR LEYENDA]` Luego, el shader convierte el valor en color. La matematica se vuelve lectura visual.
-
-`[PAUSA 1s]`
-
-> `[VOZ FIRME]` Esto no predice temperaturas exactas. Muestra tendencias para apoyar la inspeccion.
-
-### Acentuacion
-
-- Acentuar: "lupa termica", "tendencias", "no predice temperaturas exactas".
-- Evitar tono defensivo; decirlo como delimitacion tecnica.
-
-### Puente
-
-> Con el prototipo construido, la pregunta final es: que evidencia deja?
-
-## 22:30-25:00 - Resultados
-
-### En pantalla debe verse
-
-- Secuencia de tres capas:
-- 1. KPIs tecnicos.
-- 2. SUS.
-- 3. NASA-TLX + Think-Aloud.
-- Usar graficas simples; evitar tablas densas.
-- En cada visual, destacar solo el dato que se va a decir.
-
-### Posicion y gesto
-
-- `[SENALAR]` solo el dato principal.
-- Pausar antes de cambiar de capa.
-- Mirar al jurado al interpretar, no al leer el dato.
-
-### Decir
-
-> Los resultados se leen en tres capas.
-
-> `[SENALAR]` Primera: la app funciona con fluidez?
-
-> En la build `[BUILD_ID]`, bajo `[NAVEGADOR]` en `[DISPOSITIVO]`, el prototipo registro `[FPS_PROMEDIO]` cuadros por segundo y `[FRAME_TIME_PROMEDIO]` milisegundos por cuadro. La meta era 30 cuadros, equivalente a 33 milisegundos.
-
-> `[SENALAR GRAFICA]` La optimizacion redujo `[REDUCCION_PESO]` el peso de assets y mejoro `[MEJORA_FRAME_TIME]` el tiempo por cuadro.
-
-`[PAUSA 1s]`
-
-> Segunda: una persona puede usarlo?
-
-> SUS se aplico solo al visor 3D. El resultado fue `[SUS_PROMEDIO]`, comparado con 68 como referencia historica y 72 como umbral deseable.
-
-`[AVANZAR]`
-
-> Tercera: cuanto esfuerzo percibio el usuario?
-
-> NASA-TLX comparo dos condiciones. El visor 3D obtuvo `[TLX_3D]`; el soporte 2D obtuvo `[TLX_2D]`. La diferencia fue `[DIFERENCIA_TLX]`.
-
-`[PAUSA 1s]`
-
-> La retroalimentacion cualitativa, recogida con Think-Aloud, explica esos numeros. Las categorias con mayor recurrencia son `[CATEGORIA_1]`, `[CATEGORIA_2]` y `[CATEGORIA_3]`.
-
-> `[VOZ FIRME]` La conclusion no depende de un unico numero. Cruza desempeño, esfuerzo percibido, usabilidad y lo que los usuarios expresaron durante las tareas.
-
-### Acentuacion
-
-- Acentuar las tres preguntas: "fluidez", "usarlo", "esfuerzo".
-- En resultados, usar ritmo lento.
-- No decir mas cifras de las necesarias; las demas deben verse en la diapositiva.
-
-### Puente
-
-> Al juntar tecnica y experiencia, aparecen los aportes reales del proyecto.
-
-## 25:00-26:30 - Integracion: Cuatro Aportes
-
-### En pantalla debe verse
-
-- Diapositiva con cuatro tarjetas:
-- Pipeline CAD-web.
-- Visor 3D con tres modulos.
-- Modos de lectura tecnica.
-- Evaluacion formativa.
-- Iconos simples, no parrafos.
-
-### Posicion y gesto
-
-- `[SENALAR]` cada tarjeta.
-- Usar dedos para contar uno, dos, tres, cuatro.
-- Mirar al jurado despues del cuarto aporte.
-
-### Decir
-
-> Si tuviera que condensar el aporte del proyecto, lo diria en cuatro capas.
-
-> Uno: un pipeline documentado para transformar CAD complejo en assets web.
-
-> Dos: un visor 3D con tres modulos funcionales: inspeccion, analisis y presentacion visual.
-
-> Tres: modos de visualizacion y herramientas de lectura tecnica: aislamiento, vista explosiva, corte, filtros, entornos y lupa termica.
-
-> Cuatro: una evaluacion formativa con evidencia tecnica y de usuario.
-
-`[PAUSA 1s]`
-
-> `[VOZ FIRME]` El resultado no es "3D siempre es mejor". Es mas preciso: para este caso, con este protocolo y esta build, el visor ofrece una alternativa viable para comunicar hardware complejo.
-
-### Acentuacion
-
-- Acentuar cada numero.
-- No acelerar en la lista.
-- Cerrar con tono bajo en "comunicar hardware complejo".
-
-### Puente
-
-> Esa afirmacion tambien exige reconocer limites.
-
-## 26:30-28:00 - Limitaciones y Trabajo Futuro
-
-### En pantalla debe verse
-
-- Tabla de dos columnas:
-- Limitacion.
-- Continuidad.
-- Incluir: muestra, termico, funciones ocultas, desktop, multi-idioma, cableado, automatizacion CAD.
-
-### Posicion y gesto
-
-- `[MIRADA JURADO]` al decir que los limites son parte de la contribucion.
-- No mirar al piso.
-- Manos visibles, sin cruzar brazos.
-
-### Decir
-
-> `[MIRADA JURADO]` Las limitaciones tambien hacen parte de la contribucion.
-
-> No las presento como disculpas. Las presento como frontera real de alcance.
-
-> La validacion no pretende representar a toda una poblacion.
-
-> El modo termico es heuristico, no calibrado.
-
-> Algunas funciones quedaron implementadas pero ocultas, como Wireframe o Ghosted, para no saturar la interfaz.
-
-> Y la interfaz de escritorio funciona, pero nace de una base mobile-first.
-
-`[PAUSA 1s]`
-
-> Como trabajo futuro quedan lineas concretas derivadas de estos limites.
-
-> `[SENALAR]` Primero: una muestra mayor de participantes y pruebas en mas dispositivos.
-
-> Segundo: soporte multi-idioma para ampliar el alcance.
-
-> Tercero: inclusion del cableado del dron, que hoy no forma parte del modelo por complejidad geometrica.
-
-> Cuarto: automatizacion del cuello de botella mas costoso: la optimizacion manual de modelos CAD para web.
-
-> Y quinto: una posible extension termica con datos calibrados.
-
-`[PAUSA 1s]`
-
-> `[VOZ FIRME]` La tesis no se fortalece diciendo que todo esta cerrado. Se fortalece mostrando que se verifico lo verificable y que cada limite abre una linea futura concreta.
-
-### Acentuacion
-
-- Acentuar: "parte de la contribucion", "lineas concretas", "verificado".
-- No sonar a disculpa.
-
-### Puente
-
-> Con eso, vuelvo a la imagen del inicio.
-
-## 28:00-29:00 - Cierre
-
-### En pantalla debe verse
-
-- Imagen inicial del manual.
-- Transicion al visor.
-- Frase final unica en pantalla:
-- "De piezas aisladas a relaciones navegables".
-
-### Posicion y gesto
-
-- Quieto, centrado.
-- Manos en casa.
-- Mirada al jurado en la frase final.
-- No avanzar diapositivas durante la ultima frase.
-
-### Decir
-
-> Vuelvo al manual del inicio.
-
-> Al comienzo vimos una idea: ver piezas no basta para comprender relaciones.
-
-> Este proyecto no elimina la documentacion tecnica. La complementa.
-
-> La complementa con una forma interactiva de leer piezas, estados y modos visuales.
-
-> `[MIRADA JURADO]` La contribucion no es solo la app.
-
-> Es el camino documentado: del CAD a la web, tres modulos de inspeccion, analisis y presentacion, modos visuales y una evaluacion con limites claros.
-
-`[PAUSA 2s]`
-
-> `[ACENTO: herramienta de comprension tecnica] [VOZ FIRME]` Para mi, esa es la diferencia entre mostrar un modelo y construir una herramienta de comprension tecnica.
-
-`[PAUSA 2s]`
-
-> `[MIRADA JURADO]` Muchas gracias.
-
-### Acentuacion
-
-- La frase final debe ser la unica frase de cierre fuerte.
-- No decir "eso seria todo".
-- No agregar otra conclusion despues de "muchas gracias".
+**Animacion sugerida:** A01. Las tareas "buscar", "imaginar", "comparar", "abrir CAD", "explicar" aparecen como carga cognitiva. Luego se condensan en "automatizar la inspeccion".
 
 ---
 
-# Version Ultra Breve - 15 Minutos
+## 1:20 - 2:40 - Contexto Y Problema
 
-| Tiempo | Bloque | Contenido |
-| --- | --- | --- |
-| 0:00-1:00 | Gancho + saludo | Manual, piezas, relaciones |
-| 1:00-2:30 | Problema y objetivos | Tres capas + pregunta |
-| 2:30-4:00 | Metodo | DSR + SUS + NASA-TLX + Think-Aloud, sin formulas |
-| 4:00-7:00 | CAD a web | Pipeline + MAD-T + 28/30/257 |
-| 7:00-10:00 | Tres modulos | Inspect, Analyze, Studio |
-| 10:00-12:30 | Resultados | KPIs + SUS + TLX + cualitativo |
-| 12:30-14:00 | Aportes y limites | Cuatro aportes + futuro |
-| 14:00-15:00 | Cierre | Frase final unica |
+**Diapositiva:** "El problema no es solo ver el dron; es entenderlo rapido"  
+**Visual:** Comparacion entre manual PDF, CAD tecnico y visor web.
 
-# Lista de Mejoras v2 Integradas
+**Guion:**
 
-- Se integro de forma critica el feedback de Gemini: se adoptaron transiciones mas naturales, voz de autor y cierre con retorno al manual inicial.
-- Se rechazaron formulaciones que sobreprometian resultados no medidos, como asegurar 30 FPS, declarar SUS favorable antes de medirlo o afirmar reduccion de workload sin datos finales.
-- Se mantuvo la delimitacion tecnica del modo termico como lupa visual heuristica, no como simulacion FEA ni como resultado fisico calibrado.
-- Se integro el guion corregido v2 de [[INF_EST_54_Guion_Corregido_v2_Parte1]] y [[INF_EST_55_Guion_Corregido_v2_Parte2]].
-- Se agrego descripcion visual por bloque: que debe verse, que destacar y que evitar.
-- Se agregaron indicaciones de acentuacion por bloque.
-- Se removio la frase artificial sobre usar una etiqueta abreviada para el proyecto.
-- Se reubico NASA-TLX en metodologia.
-- Se fortalecio la presentacion de Inspect, Analyze y Studio.
-- Se agrego onboarding procedural como capa de primer uso implementada por codigo.
-- Se agrego ficha inferior/info panel como centro semantico de seleccion.
-- Se explico la jerarquia pieza madre, subpieza, grupo de hotspot y fastener.
-- Se explicaron hotspots, aislamiento por capas, vista explosiva, filtros, entornos y fondos.
-- Se corrigio Blueprint como entorno.
-- Se marco Realistic como modo por defecto y se incluyo Solid Color.
-- Se comprimio el bloque de iconos como puente, no como seccion desproporcionada.
-- Se reemplazo la definicion condescendiente de runtime por valor arquitectonico.
-- Se dejo una frase final unica.
+El dron usado como caso de estudio es el Holybro X500 V2, una plataforma modular de UAV con multiples placas, brazos, motores, tren de aterrizaje, electronica y tornilleria.
 
-# Criterio de Integracion del Feedback de Gemini
+El problema aparece cuando se quiere estudiar, explicar o inspeccionar el ensamble completo. Los manuales son utiles, pero fragmentan la informacion. El CAD contiene la geometria, pero no siempre esta preparado para tiempo real. Y cuando se lleva todo directamente a WebGL, aparecen cuellos de botella: demasiados poligonos, materiales no optimizados, jerarquias poco claras, nombres inconsistentes y piezas repetidas.
 
-Se acepto:
+Entonces la pregunta de investigacion se puede resumir asi:
 
-- Reforzar el guion como historia de uso y no como inventario de funciones.
-- Introducir mas voz de autor en frases como "para mi" o "me guio durante el proyecto".
-- Cerrar con un callback al manual inicial para que la sustentacion termine donde empezo.
-- Simplificar transiciones para que suenen habladas y no redactadas.
+> ?Como transformar un ensamble CAD tecnico en una aplicacion WebGL interactiva, ligera y semanticamente util para inspeccion y aprendizaje?
 
-Se rechazo o se dejo fuera:
+No se trata solo de mostrar un modelo bonito. Se trata de conservar significado tecnico: que una pieza pueda seleccionarse, que un grupo pueda aislarse, que los fasteners conserven metadata, que el usuario entienda relaciones, y que el navegador siga respondiendo.
 
-- Afirmar que la app ya asegura 30 FPS sin reemplazar los placeholders con datos finales.
-- Presentar resultados SUS, NASA-TLX o Think-Aloud como concluyentes antes de la medicion real.
-- Decir que una interfaz mobile-first funciona "perfecto" en escritorio; la version desktop es funcional, pero deriva de la base movil.
-- Convertir el modo termico en simulacion fisica calibrada o FEA.
-- Unir el modo termico a una secuencia de encendido o helices si esa conducta no esta verificada como flujo final visible.
+**Animacion sugerida:** A02. Un manual 2D se divide en piezas dispersas; despues esas piezas se reagrupan como modelo interactivo.
 
-# Checklist Vocal y Corporal
+---
 
-- Inicio: quieto, centrado, manos visibles.
-- Manos: posicion casa cuando pausas; gesto abierto cuando explicas; senalar solo cuando haya algo concreto.
-- Voz: mas lenta en formulas, resultados y limitaciones.
-- Pausas: despues de frases clave; nunca llenarlas con muletillas.
-- Mirada: jurado, publico, pantalla, en ese orden.
-- Movimiento: cambiar de posicion solo al cambiar de bloque.
-- Formulas: explicar la idea antes de senalar la formula.
-- Demo: dejar un segundo de silencio para que el publico vea.
-- Cierre: mirar al jurado, no a la diapositiva.
+## 2:40 - 4:00 - Objetivo Y Alcance
 
-# Evitar a Toda Costa
+**Diapositiva:** "Objetivo general"  
+**Visual:** Diagrama con tres columnas: optimizar, enriquecer, interactuar.
 
-- Leer el titulo completo.
-- Repetir siglas si ya se definieron.
-- Convertir cada bloque en lista de inventario.
-- Acelerar cuando aparezcan cifras.
-- Caminar mientras explicas formulas.
-- Meter las manos al bolsillo o cruzar brazos.
-- Decir "esto es muy complejo"; usar "la idea simple es".
-- Pedir disculpas por limites; explicarlos como decisiones de alcance.
-- Terminar con "eso seria todo".
+**Guion:**
 
-# Preguntas que Deben Prepararse
+El objetivo general fue desarrollar un visor WebGL interactivo para el dron Holybro X500 V2, integrando optimizacion 3D, organizacion semantica de piezas y herramientas de inspeccion visual.
 
-- Por que Unity Web y no Three.js.
-- Por que mobile-first si tambien funciona en escritorio.
-- Por que SUS solo para 3D.
-- Por que NASA-TLX no equivale a carga cognitiva.
-- Por que 28 piezas no contradicen 257 assets.
-- Por que Thermal no es FEA.
-- Por que Blueprint es entorno y no shader.
-- Por que el onboarding fue dibujado por codigo y no resuelto con videos.
-- Por que la ficha inferior es central para comprender piezas, subpiezas, grupos y fasteners.
-- Como se asegura que la comparacion 2D no sea injusta.
-- Que pasa si los resultados no favorecen al 3D.
-- Que funciones son finales, ocultas, legacy o futuras.
-- Por que no se incluyo el cableado.
-- Por que la optimizacion CAD fue manual.
+El proyecto se organizo alrededor de tres ejes:
 
-Ver:
+- Primero, preparar el modelo 3D para tiempo real: limpiar geometria, reducir carga, hornear texturas y controlar materiales.
+- Segundo, estructurar la informacion tecnica: piezas madre, subpiezas, fasteners, metadata, hotspots y estados del dron.
+- Tercero, construir una experiencia de usuario que permita explorar, seleccionar, aislar, analizar y entender el dron sin depender del CAD original.
 
-- [[INF_EST_53_Auditoria_Oratoria_v2_Diagnostico]]
-- [[INF_EST_54_Guion_Corregido_v2_Parte1]]
-- [[INF_EST_55_Guion_Corregido_v2_Parte2]]
-- [[INF_EST_91_Preguntas_Dificiles_Defensa]]
-- [[INF_EST_05_Resultados_Analisis]]
-- [[INF_EST_34_Sistema_Termico_Hibrido]]
+El alcance final no fue crear un simulador fisico completo ni una herramienta FEA. Fue crear una aplicacion interactiva de visualizacion tecnica, con comportamiento coherente, rendimiento medible y una arquitectura extensible.
+
+**Animacion sugerida:** Tres capas entran una por una: modelo optimizado, datos tecnicos, experiencia interactiva.
+
+---
+
+## 4:00 - 6:20 - Fundamento Tecnico
+
+**Diapositiva:** "De CAD tecnico a experiencia WebGL"  
+**Visual:** Pipeline CAD -> Blender -> bake -> Unity -> WebGL.
+
+**Guion:**
+
+La base tecnica del proyecto combina tres areas.
+
+La primera es la visualizacion 3D en tiempo real. Un navegador no trabaja igual que un software CAD. En CAD se prioriza precision, historial de operaciones y detalle de manufactura. En WebGL se prioriza respuesta interactiva, triangulacion eficiente, materiales compactos y control de draw calls.
+
+La segunda es la optimizacion de assets. Para que el dron pueda verse en tiempo real, no basta con exportar. Hay que decidir que detalles quedan como geometria, que detalles pasan a mapas de normales, que texturas se empaquetan y que elementos repetidos pueden manejarse como instancias o recetas modulares.
+
+La tercera es la semantica de producto. Un mesh por si solo no sabe que es una placa, un brazo, una tuerca o un tornillo. La app necesita una capa de datos que conecte objetos de escena con informacion tecnica, categorias, grupos, relaciones padre-hijo y comportamiento de UI.
+
+Por eso el proyecto no se resolvio solo como modelado ni solo como programacion. Fue una integracion entre arte tecnico, ingenieria de datos, optimizacion WebGL y diseno de interaccion.
+
+**Animacion sugerida:** A03. El CAD se separa en capas: geometria, textura, metadata y runtime.
+
+---
+
+## 6:20 - 9:30 - Metodologia
+
+**Diapositiva:** "Metodologia de trabajo"  
+**Visual:** Ciclo iterativo: auditar -> optimizar -> importar -> validar -> documentar.
+
+**Guion:**
+
+La metodologia fue iterativa. Cada avance del modelo se contrasto con su comportamiento en Unity y con la documentacion del proyecto.
+
+El flujo general fue:
+
+1. Recolectar informacion del dron, manuales, inventarios y estructura CAD.
+2. Preparar el modelo en Blender, separando masters, instancias, colecciones runtime y fasteners primitivos.
+3. Hornear informacion visual en atlas: color base, normales, AO, roughness, metallic y mask compacta.
+4. Importar el FBX final en Unity preservando jerarquia, transformaciones e instancias utiles.
+5. Reconstruir seleccion, filtros, isolate, hotspots, fasteners, helices y estados del dron.
+6. Validar que la experiencia siga siendo interactiva y que los datos tecnicos se mantengan trazables.
+
+Algo importante es que los masters no se eliminaron. En este ensamble, masters e instancias forman juntos el dron completo. Por eso el runtime debe incluir:
+
+- `BAKE_MASTERS_LOW`
+- `ASSEMBLY_INSTANCES_LOW`
+- `PRIMITIVE_FASTENER_MASTERS`
+- `PRIMITIVE_FASTENER_INSTANCES`
+
+Esa decision evita perder piezas fisicas del ensamble y mantiene una correspondencia mas fiel con el modelo final.
+
+**Animacion sugerida:** Pipeline con checks. El ultimo check dice "validar en app, no asumir".
+
+---
+
+## 9:30 - 12:20 - Modelo, Texturas Y Datos
+
+**Diapositiva:** "El modelo no es solo geometria"  
+**Visual:** Modelo del dron con llamadas a atlas, metadata, grupos y fasteners.
+
+**Guion:**
+
+El modelo final se trabajo como una combinacion de geometria optimizada, texturas horneadas y datos tecnicos.
+
+Para materiales, se preparo un atlas 4K para el dron principal. El objetivo fue conservar la apariencia del material de Blender, incluyendo fibra de carbono, metales, plasticos y goma, sin recrear todo desde cero en Unity.
+
+La estrategia final de mapas fue:
+
+- `BaseColor 4K` en sRGB.
+- `Normal 4K` como mapa normal en espacio tangente.
+- `Mask 4K` en formato compacto: `R=AO`, `G=Roughness`, `B=Curvature`, `A=Metallic`.
+- Texturas pequenas separadas para cabezas de fasteners primitivos, por ejemplo atlas de 256 x 256 para AO y normal.
+
+La curvature queda como canal disponible para efectos de lectura visual o shaders custom. Si no se usa en el shader final, no debe inflar complejidad visual innecesaria.
+
+En datos, la app conserva jerarquia de piezas madre, subpiezas, fasteners y hotspots. Esta parte es clave porque permite que el usuario no solo vea objetos, sino que entienda relaciones:
+
+- una placa puede aislarse con sus fasteners correspondientes;
+- un fastener puede aislarse individualmente;
+- una familia de tornillos puede compartir receta modular;
+- una pieza seleccionada puede mostrar metadata tecnica en la interfaz.
+
+**Animacion sugerida:** A04 y A05. Primero jerarquia de piezas; despues los fasteners se agrupan por familia y se expanden por instancia.
+
+---
+
+## 12:20 - 13:20 - Transicion A La Demo
+
+**Diapositiva:** "Del pipeline al uso real"  
+**Visual:** Captura limpia de la app en estado inicial.
+
+**Guion:**
+
+Hasta aqui he mostrado el problema y el pipeline. Ahora paso a la aplicacion, porque ahi se ve si las decisiones tecnicas realmente ayudan al usuario.
+
+La demo esta organizada como una historia de uso. No voy a mostrar botones sueltos. Voy a mostrar que ocurre cuando alguien necesita entender el dron: primero entra, luego explora, despues selecciona, aisla, revisa detalles, enciende estados y finalmente analiza.
+
+**Animacion sugerida:** A06. La UI aparece por etapas: Hero, Explore, panel de seleccion, herramientas.
+
+---
+
+## 13:20 - 15:00 - Inicio De App Y Navegacion Base
+
+**Diapositiva:** "Explorar sin abrir CAD"  
+**Visual:** Video corto de landing/hero y entrada al visor.
+
+**Guion:**
+
+La aplicacion inicia con una experiencia guiada. El usuario no entra directamente a una escena tecnica saturada; primero entiende que esta viendo el X500 V2 y que puede explorarlo.
+
+Al entrar al visor, el modelo completo aparece en modo realista. Desde ahi se puede orbitar, hacer zoom y pan. La camara se adapta al tamano de lo que se esta observando: no se comporta igual con el dron completo que con una tuerca o un tornillo.
+
+Esta decision fue importante porque en un modelo con escalas tan diferentes, una camara unica se vuelve incomoda. Un fastener necesita sensibilidad fina; el dron completo necesita desplazamiento amplio.
+
+**Demo:** Mostrar dron completo, orbitar suavemente, hacer zoom moderado y resetear vista.
+
+**Animacion sugerida:** Flechas discretas sobre orbit, pan y zoom. No saturar.
+
+---
+
+## 15:00 - 16:40 - Seleccion Y Metadata
+
+**Diapositiva:** "Cada pieza tiene contexto"  
+**Visual:** Seleccion de una pieza con bottom sheet abierto.
+
+**Guion:**
+
+La seleccion es uno de los nucleos del proyecto. Cuando el usuario hace hover, la pieza responde visualmente. Cuando la selecciona, la app muestra una ficha con informacion contextual.
+
+La UI evita que el modelo sea solo un conjunto de meshes. Cada objeto seleccionable se conecta con datos: nombre, categoria, descripcion, grupo, parte padre y, cuando aplica, informacion tecnica especifica.
+
+En fasteners, la ficha ya no usa una descripcion generica. Ahora puede mostrar familia, metrica, longitud, tipo de cabeza, subtipo, material, acabado, nombre CAD o Blender y relacion con la pieza madre.
+
+Esto permite responder preguntas concretas:
+
+- ?que estoy mirando?
+- ?a que grupo pertenece?
+- ?de que pieza depende?
+- ?es una pieza estructural, electronica, mecanica o un fastener?
+
+**Demo:** Seleccionar una placa, una pieza electronica y un fastener. Mostrar que la UI cambia segun el tipo.
+
+**Animacion sugerida:** El panel de detalle se construye por bloques: identidad, categoria, datos tecnicos, acciones.
+
+---
+
+## 16:40 - 18:30 - Aislamiento De Piezas Madre, Subpiezas Y Fasteners
+
+**Diapositiva:** "Aislar sin perder relacion de ensamble"  
+**Visual:** Pieza madre con subpiezas y fasteners asociados.
+
+**Guion:**
+
+Una funcion critica es el aislamiento. En una app de inspeccion tecnica, aislar una pieza no deberia significar perder su contexto mecanico.
+
+Por eso el sistema distingue entre tres casos:
+
+- Si se aisla una pieza madre, se muestran sus subpiezas y fasteners asociados.
+- Si se aisla una subpieza, se puede ver individualmente sin arrastrar objetos que no correspondan.
+- Si se aisla un fastener, el fastener queda solo, no unido artificialmente a una placa.
+
+Este punto fue especialmente delicado porque en modelos CAD o Blender es comun que una tornilleria quede agrupada visualmente con placas o colecciones. La app no puede asumir que el parentesco grafico es igual al parentesco tecnico. Por eso se trabajo una capa de relaciones para que el aislamiento responda a la logica del ensamble.
+
+**Demo:** Aislar una pieza madre con sus fasteners; luego aislar un solo fastener; despues hacer click en fondo y verificar que se limpia seleccion y hover.
+
+**Animacion sugerida:** A07. El resto del dron baja opacidad y la pieza aislada queda con sus fasteners.
+
+---
+
+## 18:30 - 20:00 - Fasteners Modulares Y Detalle Bajo Demanda
+
+**Diapositiva:** "Detalle cuando hace falta, ligereza cuando no"  
+**Visual:** Proxy de tornillo -> modelo modular.
+
+**Guion:**
+
+La tornilleria plantea un problema muy interesante. Un dron puede tener muchos tornillos, tuercas, standoffs y grommets. Si todos se modelan con detalle alto todo el tiempo, el costo visual aumenta mucho. Pero si se simplifican demasiado, se pierde lectura tecnica.
+
+La solucion implementada fue un sistema modular. En reposo, los fasteners pueden estar representados por geometria ligera. Cuando el usuario aisla un fastener, o cuando el zoom llega a una escala donde el detalle importa, la app reemplaza el proxy por un modelo modular.
+
+Para tornillos, la receta se organiza por partes:
+
+- cabeza;
+- seccion media repetible;
+- extremo inferior.
+
+Para otros fasteners se usan recetas equivalentes:
+
+- tuercas tipo flange, lock o nyloc;
+- standoffs;
+- grommets de goma;
+- tube stoppers;
+- piezas de soporte o separadores.
+
+La ventaja es que el detalle se activa bajo demanda. La escena completa no carga todos los modelos detallados al mismo tiempo, pero el usuario puede acercarse y revisar cada fastener cuando lo necesita.
+
+**Demo:** Seleccionar/aislar un tornillo y mostrar reemplazo modular. Repetir con una tuerca o fastener no tipo tornillo si esta disponible.
+
+**Animacion sugerida:** A08. Proxy se oculta, aparece modelo modular con nombre de familia e instancia.
+
+---
+
+## 20:00 - 21:40 - Encendido Del Dron Y Estados Dinamicos
+
+**Diapositiva:** "El modelo tambien comunica estado"  
+**Visual:** Secuencia OFF -> STARTING -> IDLE -> LOAD -> FLYING.
+
+**Guion:**
+
+Ademas de inspeccionar piezas estaticas, la app incluye estados del dron. Esto ayuda a comunicar que el modelo no es solo una maqueta, sino una interfaz interactiva.
+
+El flujo de encendido se presenta como una secuencia:
+
+- `OFF`: el dron esta apagado.
+- `STARTING`: el sistema inicia y prepara componentes visuales.
+- `IDLE`: el dron esta encendido, pero sin carga de vuelo.
+- `LOAD`: se incrementa la exigencia del sistema.
+- `FLYING`: las helices muestran giro activo y el estado visual cambia.
+
+Las helices deben girar sobre el eje correcto de cada propeller, no sobre un eje global asumido. Esto es importante porque al importar modelos desde Blender o FBX, las orientaciones locales pueden cambiar. El runtime debe resolver la orientacion real del objeto.
+
+En esta parte tambien se conecta el modo termico. El thermal no se presenta como simulacion fisica exacta, sino como visualizacion educativa de zonas, estados y comportamiento esperado del sistema.
+
+**Demo:** Encender el dron, mostrar aceleracion de helices, activar carga/estado de vuelo y alternar thermal.
+
+**Animacion sugerida:** A09. Estados aparecen como una linea de tiempo; las helices tienen ramp-up progresivo.
+
+---
+
+## 21:40 - 23:20 - Analyze, Corte, Explosion Y Modos Visuales
+
+**Diapositiva:** "Analizar sin desmontar fisicamente"  
+**Visual:** Tres capturas: explode, corte, thermal.
+
+**Guion:**
+
+El modulo de analisis concentra herramientas para entender estructura y relaciones espaciales.
+
+El modo explode separa componentes para revelar como se distribuyen. El corte permite inspeccionar interior y atravesar visualmente el modelo. Los modos visuales como X-Ray, Solid y Thermal cambian la forma de leer el ensamble.
+
+Lo importante es que estas herramientas no reemplazan la seleccion ni el catalogo; las complementan. El usuario puede seleccionar una pieza, aislarla, cambiar modo visual, aplicar corte y volver al estado base sin perder consistencia.
+
+El reto tecnico fue mantener la UX estable: hover, color de seleccion, isolate, catalogo, hotspots, explode y thermal debian convivir sin pisarse entre si.
+
+**Demo:** Activar explode, mover corte, cambiar modo visual, volver a realistic.
+
+**Animacion sugerida:** A10 y A11. Thermal aparece con leyenda; corte se desplaza lentamente.
+
+---
+
+## 23:20 - 25:20 - Arquitectura De La App
+
+**Diapositiva:** "Arquitectura runtime"  
+**Visual:** Diagrama por capas.
+
+**Guion:**
+
+La arquitectura se puede entender por capas.
+
+En la base esta el modelo importado desde Blender: FBX final, masters, instancias, materiales y texturas externas.
+
+Encima esta la capa de binding runtime. Esta capa sanea jerarquias, detecta piezas, normaliza fasteners, conecta ids y prepara objetos seleccionables.
+
+Luego esta la capa de datos. Incluye definiciones de partes, familias de fasteners, instancias, recetas modulares, catalogo, hotspots y relaciones padre-hijo.
+
+Encima esta la capa de interaccion: seleccion, hover, aislamiento, camara adaptativa, paneles UI, filtros, modes y herramientas de analisis.
+
+Finalmente esta la capa de experiencia: la demo que ve el usuario como producto. Lo importante es que el usuario no necesita saber que hay varias capas; simplemente interactua con el dron.
+
+**Diagrama sugerido:**
+
+```mermaid
+flowchart LR
+    A["Blender runtime FBX"] --> B["Unity import and binder"]
+    B --> C["Scene objects and hierarchy"]
+    C --> D["Part metadata and fastener registry"]
+    D --> E["Selection, isolate, camera and analysis"]
+    E --> F["WebGL user experience"]
+```
+
+**Animacion sugerida:** Cada capa entra desde abajo hacia arriba. Evitar mostrar demasiadas clases a la vez.
+
+---
+
+## 25:20 - 27:30 - Resultados Y Verificacion
+
+**Diapositiva:** "Resultados medidos"  
+**Visual:** Tarjetas de metricas con placeholders hasta cierre.
+
+**Guion:**
+
+Los resultados deben separarse en dos grupos: resultados implementados y resultados medidos.
+
+Como resultados implementados, el proyecto entrega:
+
+- visor WebGL interactivo del Holybro X500 V2;
+- modelo optimizado con atlas de texturas;
+- jerarquia de piezas madre, subpiezas y fasteners;
+- seleccion, hover, aislamiento y catalogo;
+- modos Realistic, X-Ray, Solid y Thermal;
+- herramientas de Analyze como explode y corte;
+- flujo de encendido y estados dinamicos;
+- sistema modular de fasteners bajo demanda;
+- documentacion tecnica, manual de usuario y paquete de sustentacion.
+
+Como resultados medidos, se reportan los valores finales:
+
+- FPS promedio: `[[FPS_PROMEDIO_FINAL]]`.
+- Tamano del build WebGL: `[[PESO_BUILD_WEBGL_FINAL]]`.
+- Tiempo de carga: `[[TIEMPO_CARGA_FINAL]]`.
+- Conteo final de piezas runtime: `[[CONTEO_PIEZAS_FINAL]]`.
+- Conteo final de fasteners: `[[CONTEO_FASTENERS_FINAL]]`.
+- Reduccion geometrica frente a fuente CAD: `[[REDUCCION_POLIGONAL_FINAL]]`.
+- Resultado de validacion de uso: `[[METRICA_VALIDACION_USUARIO]]`.
+
+Si algun valor no ha sido medido al momento de presentar una version preliminar, se debe decir explicitamente:
+
+> Esta metrica queda pendiente de medicion post-freeze y no se reporta como resultado cerrado.
+
+**Animacion sugerida:** A12. Primero "implementado", luego "medido". No mostrar porcentajes antes de explicar su fuente.
+
+---
+
+## 27:30 - 28:30 - Aportes
+
+**Diapositiva:** "Aportes del proyecto"  
+**Visual:** Cuatro aportes como tarjetas.
+
+**Guion:**
+
+El aporte principal es una metodologia completa para llevar un ensamble tecnico a una experiencia WebGL interactiva, sin tratar el modelo como un objeto decorativo.
+
+El proyecto aporta:
+
+- una ruta de optimizacion CAD -> Blender -> Unity -> WebGL;
+- una estrategia de metadata para piezas, grupos y fasteners;
+- un sistema modular para inspeccionar tornilleria sin pagar el costo completo en reposo;
+- una experiencia didactica para comprender un dron por seleccion, aislamiento, analisis y estados.
+
+Tambien ya integra herramientas de soporte tecnico que van en la misma linea de esa pereza productiva: guia de ensamble, puntos de conexion, medicion, BOM, anotaciones y checklist. Son capacidades que no solo decoran el proyecto, sino que reducen friccion cuando el usuario necesita entender o verificar el hardware.
+
+Como inspiracion de futuro, las plataformas industriales de instrucciones 3D muestran una direccion interesante para una version posterior de la plataforma: incorporar guias mas narrativas, con secuencias paso a paso, asistencia contextual y soporte para mantenimiento o ensamblaje tecnico de hardware complejo. La diferencia importante es el enfoque: aqui no se busca una guia de consumo general, sino una capa tecnica aplicada al dron y a otros sistemas de ingenieria donde la lectura espacial y la jerarquia de piezas son criticas.
+
+Para mi, el valor esta en que la app convierte informacion dispersa en una experiencia manipulable. Vuelve mas facil una tarea que antes dependia de manuales, CAD pesado y bastante paciencia.
+
+---
+
+## 28:30 - 29:20 - Limites Y Trabajo Futuro
+
+**Diapositiva:** "Limites honestos"  
+**Visual:** Lista breve.
+
+**Guion:**
+
+El proyecto tambien tiene limites claros.
+
+No es una simulacion aerodinamica. No reemplaza validacion mecanica ni termica real. El modo thermal es una representacion visual educativa, no una solucion FEA. Algunas metricas dependen del build final y deben medirse despues del freeze tecnico.
+
+Como trabajo futuro quedan:
+
+- reemplazar placeholders modulares por meshes finales de Blender cuando esten listos;
+- completar mediciones comparativas de rendimiento;
+- fortalecer validacion con usuarios;
+- extender datos tecnicos de torque, herramienta y mantenimiento cuando exista fuente confiable;
+- mejorar exportacion e importacion automatizada con manifests mas ricos.
+
+Estos limites no debilitan el proyecto. Al contrario, delimitan con precision que hace la app y que no pretende hacer.
+
+Una derivacion natural para trabajo futuro es justamente llevar parte de la experiencia de instruccion guiada que vemos en las plataformas industriales de 3D interactivo hacia un entorno tecnico mas especializado: secuencias de mantenimiento, ayudas para montaje, rutas de inspeccion y microguia contextual para hardware complejo, siempre preservando la trazabilidad de piezas y la precision tecnica.
+
+---
+
+## 29:20 - 30:00 - Cierre
+
+**Diapositiva:** "Facilitar una tarea tambien puede ser ingenieria"  
+**Visual:** Volver al contraste inicial: tarea tediosa -> herramienta.
+
+**Guion:**
+
+Quiero cerrar volviendo a la idea inicial.
+
+La pereza productiva no es evitar el trabajo. Es detectar que hay una tarea repetitiva, lenta o innecesariamente dificil, y preguntarse si se puede construir una herramienta para hacerla mejor.
+
+Este proyecto empezo con esa inquietud: ?por que estudiar un dron complejo solo desde manuales, tablas y CAD pesado, si podemos convertirlo en una experiencia interactiva?
+
+El resultado es un visor WebGL que optimiza, organiza y comunica un ensamble tecnico. No solo muestra el X500 V2; permite explorarlo, aislarlo, encenderlo, analizarlo y entenderlo por partes.
+
+Y aunque facilitar la vida termino siendo mas complejo que la tarea original, ese es precisamente el valor del proyecto: convertir una friccion tecnica en un sistema replicable.
+
+Muchas gracias.
+
+---
+
+# Version Ultra Breve Para Ensayo De 5 Minutos
+
+Este proyecto desarrolla un visor WebGL interactivo para el dron Holybro X500 V2.
+
+La motivacion nace de una friccion practica: estudiar un sistema tecnico desde manuales, tablas y CAD pesado exige demasiado trabajo mental. Mi punto de partida fue una forma de pereza productiva: si una tarea es tediosa y repetitiva, vale la pena construir una herramienta que la haga mas clara.
+
+La solucion fue transformar el ensamble del dron en una aplicacion web. Para eso se optimizo el modelo en Blender, se bakearon texturas, se preparo un FBX runtime con masters e instancias, y en Unity se construyo una capa de seleccion, metadata, aislamiento, modos visuales, fasteners modulares, encendido y analisis.
+
+La app permite navegar el dron completo, seleccionar piezas, ver datos tecnicos, aislar piezas madre con sus subpiezas y fasteners, aislar fasteners individualmente, activar modelos modulares bajo demanda, encender el dron, ver helices en movimiento, alternar thermal, aplicar corte y explosion.
+
+El aporte no es solo visual. Es una metodologia para convertir un CAD tecnico en una experiencia WebGL didactica, optimizada y semanticamente estructurada.
+
+Los resultados finales se reportan con metricas medidas: FPS, peso del build, tiempo de carga, conteo de piezas, conteo de fasteners y validacion de uso. Lo que no este medido no se presenta como resultado cerrado.
+
+---
+
+# Checklist De Demo En Vivo
+
+Antes de sustentar, verificar:
+
+- La app abre sin errores bloqueantes.
+- El modelo final aparece completo.
+- Las helices giran en el eje correcto.
+- Hover y seleccion limpian correctamente color y estado.
+- El zoom se adapta al dron completo y a piezas pequenas.
+- El pan no pierde fasteners pequenos al estar aislados.
+- Una pieza madre se aisla con sus fasteners correspondientes.
+- Un fastener se puede aislar solo.
+- Un fastener aislado activa modelo modular.
+- El fondo deselecciona sin dejar hover azul residual.
+- Encendido cambia estados visuales.
+- Thermal se presenta como visualizacion educativa.
+- Explode, corte, catalogo y hotspots no rompen la seleccion.
+- Los placeholders de metricas ya fueron reemplazados por datos reales o marcados como pendientes.
+
+---
+
+# Checklist De Placeholders
+
+Reemplazar antes de la sustentacion final:
+
+- `[[FPS_PROMEDIO_FINAL]]`
+- `[[PESO_BUILD_WEBGL_FINAL]]`
+- `[[TIEMPO_CARGA_FINAL]]`
+- `[[CONTEO_PIEZAS_FINAL]]`
+- `[[CONTEO_FASTENERS_FINAL]]`
+- `[[REDUCCION_POLIGONAL_FINAL]]`
+- `[[METRICA_VALIDACION_USUARIO]]`
+- `[[FECHA_BUILD_FINAL]]`
+
+---
+
+# Notas Para El Sustentador
+
+- La historia personal de la pereza debe sonar honesta, no comica en exceso. Es una entrada humana hacia una decision de ingenieria.
+- La app se debe mostrar en orden de uso, no en orden de implementacion.
+- No explicar todos los scripts ni todas las clases. Mostrar capas y decisiones.
+- Cuando se hable de fasteners, insistir en la idea de "detalle bajo demanda".
+- Cuando se hable de thermal, aclarar que es visualizacion educativa, no simulacion fisica certificada.
+- Cuando se hable de resultados, separar implementacion de medicion.
+- Si ocurre un bug durante la demo, volver a una captura o video preparado y explicar el comportamiento esperado sin improvisar metricas.

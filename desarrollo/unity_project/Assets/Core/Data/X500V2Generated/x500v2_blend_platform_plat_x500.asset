@@ -15,9 +15,9 @@ MonoBehaviour:
   partName: Upper Platform Board
   id: x500v2_blend_platform_plat_x500
   partType: Structure
-  description: Montura elevada del GPS M10. Part modeled based on CAD PLATFORM-PLAT-X500.
+  description: Montura elevada del GPS M10. Pieza modelada en base al CAD PLATFORM-PLAT-X500.
   weightKg: 0.015
-  dimensions: "80\xC3\u201480 mm"
+  dimensions: "80\xD780 mm"
   function: Montura elevada del GPS M10
   materialType: Fibra de Carbono
   materialProperties: 
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

@@ -15,11 +15,11 @@ MonoBehaviour:
   partName: M3 Pan/Countersunk Screw
   id: x500v2_blend_m3_14_pan
   partType: Structure
-  description: Countersunk fastening hardware. Part modeled based on CAD M3-14-PAN.
+  description: "Torniller\xEDa rasante. Pieza modelada en base al CAD M3-14-PAN."
   weightKg: 0.001
   dimensions: M3
-  function: Countersunk fastening hardware
-  materialType: Stainless Steel
+  function: "Torniller\xEDa rasante"
+  materialType: Acero Inox
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

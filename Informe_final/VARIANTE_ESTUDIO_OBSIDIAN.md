@@ -36,6 +36,7 @@ La profundizacion se maneja en Obsidian porque permite enlaces entre conceptos, 
 | Desarrollo e Implementacion | [[INF_EST_04_Desarrollo_Implementacion]] |
 | Pipeline CAD a runtime | [[INF_EST_04_Desarrollo_Implementacion#Pipeline CAD a runtime]] |
 | MAD-T adaptado | [[INF_EST_04_Desarrollo_Implementacion#MAD-T adaptado]] |
+| Pipeline Blender final a Unity | [[INF_EST_30_Pipeline_CAD_MAD_T#Pipeline final Blender a Unity]] |
 | UX/UI mobile-first | [[INF_EST_04_Desarrollo_Implementacion#UX/UI mobile-first]] |
 | Onboarding procedural | [[INF_EST_31_UX_UI_Mobile_First#Onboarding como reduccion de incertidumbre]] |
 | Ficha inferior e info panel | [[INF_EST_31_UX_UI_Mobile_First#Info panel como centro semantico]] |
@@ -74,3 +75,5 @@ La profundizacion se maneja en Obsidian porque permite enlaces entre conceptos, 
 - Onboarding procedural: explica gestos, seleccion, ficha, modos y sliders con demos dibujadas por codigo.
 - Ficha inferior/info panel: convierte seleccion en lectura tecnica mediante identificacion, especificaciones y ensamblaje.
 - Jerarquia de seleccion: diferencia pieza madre, subpieza, grupo de hotspot y fastener para que UI, camara, highlight e isolate no se contradigan.
+- Pipeline Blender final a Unity: el runtime debe incluir masters e instancias; el FBX/importador estan preparados, pero el cierre requiere QA en Unity, texturas finales y reporte de importacion.
+- Sustentacion y demo: no afirmar metricas, FPS, reducciones, SUS o NASA-TLX hasta congelar la build y medir.

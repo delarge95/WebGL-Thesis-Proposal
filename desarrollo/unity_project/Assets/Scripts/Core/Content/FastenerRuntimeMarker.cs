@@ -10,6 +10,7 @@ namespace WebGL.Core.Content
         [SerializeField] private string sceneTypeKey;
         [SerializeField] private string parentCanonicalPartId;
         [SerializeField] private bool isInspectable = true;
+        [SerializeField] private bool sourceIsPrimitiveFastener = true;
         [SerializeField] private string fallbackReason = string.Empty;
 
         public string FastenerFamilyId => fastenerFamilyId;
@@ -17,6 +18,7 @@ namespace WebGL.Core.Content
         public string SceneTypeKey => sceneTypeKey;
         public string ParentCanonicalPartId => parentCanonicalPartId;
         public bool IsInspectable => isInspectable;
+        public bool SourceIsPrimitiveFastener => sourceIsPrimitiveFastener;
         public string FallbackReason => fallbackReason;
 
         public void Configure(
@@ -25,13 +27,15 @@ namespace WebGL.Core.Content
             string typeKey,
             string parentId,
             bool inspectable,
-            string fallback)
+            string fallback,
+            bool primitiveSource = true)
         {
             fastenerFamilyId = familyId ?? string.Empty;
             fastenerInstanceId = instanceId ?? string.Empty;
             sceneTypeKey = typeKey ?? string.Empty;
             parentCanonicalPartId = parentId ?? string.Empty;
             isInspectable = inspectable;
+            sourceIsPrimitiveFastener = primitiveSource;
             fallbackReason = fallback ?? string.Empty;
         }
     }

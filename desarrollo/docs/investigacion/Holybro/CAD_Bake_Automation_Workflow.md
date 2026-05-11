@@ -1,5 +1,7 @@
 # Automatización del Flujo de Trabajo para Baking de Instancias CAD (Blender ➔ RizomUV ➔ Marmoset)
 
+> Nota operativa 2026-05-08: este documento conserva el historial del flujo CAD/RizomUV/Marmoset. Para la entrega final Blender -> Unity, usar `Blender_Final_Bake_Export_Unity_Workflow.md`. En la escena final los masters tambien son piezas fisicas del dron; por tanto, no se debe exportar solo instancias.
+
 ## 1. El Problema: Baking de Ensamblajes CAD Masivos
 
 Al importar modelos CAD (archivos STEP) de ingeniería (como el dron Holybro X500v2), el resultado es un ensamblaje jerárquico masivo. Las piezas repetitivas (tornillos M3, tuercas, tubos de fibra de carbono, separadores) se importan como **instancias** que comparten la misma malla base (Mesh Data) en memoria.

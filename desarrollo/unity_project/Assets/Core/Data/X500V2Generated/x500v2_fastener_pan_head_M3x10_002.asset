@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_pan_head_M3x10_002
   m_EditorClassIdentifier: 
-  partName: M3 Pan/Countersunk Screw
+  partName: Pan Head Screw M3 x 10 mm
   id: x500v2_fastener_pan_head_M3x10_002
-  partType: Structure
-  description: Countersunk fastening hardware. Part modeled based on CAD M3-10-PAN-DING.
-  weightKg: 0.001
-  dimensions: M3
-  function: Countersunk fastening hardware
-  materialType: Stainless Steel
+  partType: Pan Head Screw
+  description: "Torniller\xEDa rasante. Pieza modelada en base al CAD M3-10-PAN-DING."
+  weightKg: 0
+  dimensions: M3 x 10 mm
+  function: Fastening / mounting | M3 x 10 mm | Pan/Button | Unknown
+  materialType: Acero Inox
   materialProperties: Stainless
   manufacturer: Holybro
   partNumber: M3-10-PAN-DING
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
     sourceId: x500v2_blend_m3_10_pan_ding
     sceneObjectName: x500v2_fastener.pan_head_M3x10_002
     hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.pan_head_M3x10_002
-    parentCanonicalPartId: x500v2_platform_board
+    parentCanonicalPartId: x500v2_gps_m10
     blenderName: M3-10-PAN-DING
     sceneTypeKey: pan_head_M3x10
     subtype: PanHeadScrew
@@ -76,12 +76,12 @@ MonoBehaviour:
     driveType: Unknown
     threadPitchMm: 0.5
     turnCount: 12
-    material: Stainless Steel
+    material: Acero Inox
     finish: Stainless
     quantityExpected: 4
     isInspectable: 1
     fallbackReason: 
-    notes: Countersunk fastening hardware. Part modeled based on CAD M3-10-PAN-DING.
+    notes: "Torniller\xEDa rasante. Pieza modelada en base al CAD M3-10-PAN-DING."
     recipeKey: pan_head_M3x10_placeholder
     builderType: PanHeadScrew
     orientationMode: LongestAxis

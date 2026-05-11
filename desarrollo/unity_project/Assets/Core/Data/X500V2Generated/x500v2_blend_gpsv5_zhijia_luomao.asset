@@ -15,12 +15,12 @@ MonoBehaviour:
   partName: GPS Mast Securing Nut
   id: x500v2_blend_gpsv5_zhijia_luomao
   partType: Structure
-  description: "Tuerca o pieza enroscable del m\xC3\xA1stil. Part modeled based on
+  description: "Tuerca o pieza enroscable del m\xE1stil. Pieza modelada en base al
     CAD GPSV5-ZHIJIA-LUOMAO."
   weightKg: 0.002
   dimensions: Manual
-  function: "Tuerca o pieza enroscable del m\xC3\xA1stil"
-  materialType: Reinforced Nylon
+  function: "Tuerca o pieza enroscable del m\xE1stil"
+  materialType: Nylon Reforzado
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -41,7 +41,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0
@@ -85,4 +85,4 @@ MonoBehaviour:
     recipeKey: 
     builderType: 
     orientationMode: 
-  category: 4
+  category: 5

@@ -1,4 +1,6 @@
 ﻿
+> **Nota de estado 2026-05-08:** este archivo es una consolidacion historica de documentos y auditorias. No es fuente primaria para demo, manuales ni sustentacion final. Para el alcance vigente usar `PAQUETE_DE_ENTREGA.md`, `Documentacion_Tecnica/01_Arquitectura_del_Sistema.md`, `docs/manuals/README.md`, `docs/manuals/ARCHITECTURE.md`, `Informe_final/presentation/DEMO_SCRIPT.md` y los capitulos actuales del informe. Las menciones internas a measurement, BOM, catalogo legacy, 7 modos publicos o metricas deben leerse como historicas/legacy salvo que otra fuente primaria actualizada las habilite.
+
 === 01_Arquitectura_del_Sistema.md ===
 
 # Documento 1 — Arquitectura del Sistema

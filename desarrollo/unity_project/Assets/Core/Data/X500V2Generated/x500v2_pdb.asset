@@ -19,7 +19,7 @@ MonoBehaviour:
     XT30 para ESCs y perif\xE9ricos. Hasta 100A r\xE1faga. Montaje directo sobre
     bottom plate. Sin conversi\xF3n de tensi\xF3n activa, bus de potencia puro. Sistema
     plug-and-play sin soldadura."
-  weightKg: 0.012
+  weightKg: 0.02
   dimensions: "~50 \xD7 50 mm"
   function: "Bus central de distribuci\xF3n de potencia desde bater\xEDa hacia ESCs
     y perif\xE9ricos"
@@ -51,7 +51,7 @@ MonoBehaviour:
   compatibleSlots: []
   alternativeParts: []
   requiredTools:
-  - Phillips screwdriver
+  - Destornillador Phillips
   - Llave hexagonal M3
   safetyWarnings:
   - "No conectar bater\xEDa hasta completar todo el cableado"
@@ -72,9 +72,9 @@ MonoBehaviour:
   screwSize: M3
   subComponentNames:
   - PDB placeholder (temporary scene)
-  - 
-  - 
-  - 
+  - 'Fasteners: Standoff M3 x 5 mm x2'
+  - 'Fasteners: Pan Head Screw M3 x 14 mm x2'
+  - 'Fasteners: Cap Nut M3 x2'
   fastenerMetadata:
     instanceId: 
     familyId: 
@@ -101,4 +101,4 @@ MonoBehaviour:
     recipeKey: 
     builderType: 
     orientationMode: 
-  category: 1
+  category: 2

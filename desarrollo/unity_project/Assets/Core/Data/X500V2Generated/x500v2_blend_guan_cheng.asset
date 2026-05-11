@@ -15,11 +15,11 @@ MonoBehaviour:
   partName: Payload Rail Clip Holder
   id: x500v2_blend_guan_cheng
   partType: Structure
-  description: Soporte colgante de tubos 10mm. Part modeled based on CAD GUAN-CHENG.
+  description: Soporte colgante de tubos 10mm. Pieza modelada en base al CAD GUAN-CHENG.
   weightKg: 0.005
   dimensions: P/ Tubo 10mm
   function: Soporte colgante de tubos 10mm
-  materialType: Plastic
+  materialType: "Pl\xE1stico"
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

@@ -15,10 +15,10 @@ MonoBehaviour:
   partName: Tube Frame Clamp Connector
   id: x500v2_blend_hmx5v_jibi_jia_muju
   partType: Structure
-  description: Arm-to-chassis clamp. Part modeled based on CAD HMX5V-JIBI-JIA-MUJU.
+  description: Abrazadera brazo a chasis. Pieza modelada en base al CAD HMX5V-JIBI-JIA-MUJU.
   weightKg: 0.015
   dimensions: P/ Tubo 16mm
-  function: Arm-to-chassis clamp
+  function: Abrazadera brazo a chasis
   materialType: Nylon
   materialProperties: 
   manufacturer: Holybro
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

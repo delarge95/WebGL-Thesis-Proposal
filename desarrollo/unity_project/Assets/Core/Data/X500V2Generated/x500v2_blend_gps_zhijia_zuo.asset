@@ -15,12 +15,12 @@ MonoBehaviour:
   partName: GPS Mast Base Bracket
   id: x500v2_blend_gps_zhijia_zuo
   partType: Structure
-  description: "Soporte atornillable del m\xC3\xA1stil del GPS. Part modeled based
-    on CAD GPS-ZHIJIA-ZUO."
+  description: "Soporte atornillable del m\xE1stil del GPS. Pieza modelada en base
+    al CAD GPS-ZHIJIA-ZUO."
   weightKg: 0.005
-  dimensions: "M\xC3\xA1stil M3"
-  function: "Soporte atornillable del m\xC3\xA1stil del GPS"
-  materialType: Reinforced Nylon
+  dimensions: "M\xE1stil M3"
+  function: "Soporte atornillable del m\xE1stil del GPS"
+  materialType: Nylon Reforzado
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -41,7 +41,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

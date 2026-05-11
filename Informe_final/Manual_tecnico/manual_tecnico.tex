@@ -29,7 +29,7 @@
 
 \title{\textbf{Manual Técnico}\\Prototipo Web 3D Interactivo para Visualización Técnica del Holybro X500 V2}
 \author{Alexander Woodcock Salomón}
-\date{Abril 2026}
+\date{Mayo 2026}
 
 \begin{document}
 
@@ -303,6 +303,13 @@ La implementacion Unity incorpora una capa especifica para tornilleria y piezas 
 \end{itemize}
 
 \noindent En el estado documentado de cierre, estos catalogos registran \textbf{20 familias}, \textbf{168 instancias} y \textbf{9 entradas de reconciliacion}. La geometria visible sigue siendo temporal/proxy, pero el contrato \texttt{familyId} / \texttt{instanceId} queda estable para sustituir mas adelante los placeholders Unity por mallas Blender definitivas sin alterar la logica runtime.
+
+\subsection{Pipeline final Blender a Unity}
+El reimport final del modelo optimizado se define como una exportacion manual desde Blender 5.0.1. La escena runtime no se compone solo de instancias: debe incluir simultaneamente \texttt{BAKE\_MASTERS\_LOW}, \texttt{ASSEMBLY\_INSTANCES\_LOW}, \texttt{PRIMITIVE\_FASTENER\_MASTERS} y \texttt{PRIMITIVE\_FASTENER\_INSTANCES}. Excluir los masters provocaria perdida fisica de piezas del dron.
+
+\noindent El paquete de texturas recomendado para Unity queda compuesto por \texttt{X500\_BaseColor\_4K.png}, \texttt{X500\_Normal\_Final\_4K.png} y \texttt{X500\_Mask\_4K.png}. La mascara compacta usa los canales \texttt{R=AO}, \texttt{G=Roughness}, \texttt{B=Curvature} y \texttt{A=Metallic}. Para compatibilidad con URP Lit estandar puede generarse tambien \texttt{X500\_MetallicSmoothness\_4K.png}.
+
+\noindent La importacion posterior debe apoyarse en un manifest de Blender que reporte transformaciones, bounds, roles runtime y candidatos de pieza madre para fasteners. Si un fastener no puede asociarse con confianza a una pieza madre, permanece en revision y no se asigna automaticamente.
 
 \subsection{Saneamiento del import}
 \texttt{ImportedDroneRuntimeBinder} ejecuta tareas de estabilización sobre el modelo importado:
@@ -637,7 +644,8 @@ Este manual excluye como módulos activos finales a:
 
 \section{Limitaciones vigentes del cierre}
 \begin{itemize}
-    \item aún faltan optimizaciones CAD/import antes del freeze definitivo;
+    \item aun falta validar en Unity el FBX runtime final con masters, instancias, fasteners, hotspots, filtros y helices;
+    \item aun falta aplicar y validar las texturas/materiales finales antes del \textit{freeze} definitivo;
     \item los efectos de audio no deben presentarse como parte del cierre funcional verificado si no existen assets finales;
     \item la herramienta de medición permanece oculta hasta validar mejor escala y usabilidad;
     \item el subsistema térmico es coherente con la app real, pero debe documentarse como simulación híbrida heurística, no como FEA;

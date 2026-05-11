@@ -16,7 +16,7 @@ MonoBehaviour:
   id: x500v2_motor_BR
   partType: Motor
   description: "Motor brushless outrunner 2216 KV920. Posici\xF3n: Back-Right (CW)."
-  weightKg: 0.083
+  weightKg: 0.063
   dimensions: "\u230028 mm \xD7 ~32 mm"
   function: "Generaci\xF3n de empuje principal (CW)"
   materialType: "Aleaci\xF3n de aluminio CNC, acero, cobre esmaltado"
@@ -64,9 +64,9 @@ MonoBehaviour:
   screwSize: M3
   subComponentNames:
   - DJ-2216-KV880 motor instance
-  - 
-  - 
-  - 
+  - 'Fasteners: Socket Cap Screw M2.5 x 12 mm x2'
+  - 'Fasteners: Socket Cap Screw M2.5 x 6 mm x4'
+  - 'Fasteners: Socket Cap Screw M3 x 6 mm x4'
   fastenerMetadata:
     instanceId: 
     familyId: 

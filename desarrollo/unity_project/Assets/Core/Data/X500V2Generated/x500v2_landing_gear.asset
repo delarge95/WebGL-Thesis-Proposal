@@ -19,7 +19,7 @@ MonoBehaviour:
     (16 mm) y barras transversales (10 mm), unidos por T-connectors pl\xE1sticos
     reforzados engrosados. Espuma amortiguadora en base. Proporciona 215 mm de altura
     libre."
-  weightKg: 0.104
+  weightKg: 0.08
   dimensions: "Altura: 215 mm, tubos \u230016 mm y \u230010 mm"
   function: "Soporte al suelo; absorci\xF3n de impactos; separaci\xF3n de carga \xFAtil
     inferior"
@@ -72,9 +72,9 @@ MonoBehaviour:
   - JIAO-EVA
   - JIAO-LIANJIE
   - MAO-JIAO
-  - 
-  - 
-  - 
+  - 'Fasteners: Socket Cap Screw M3 x 21 mm x2'
+  - 'Fasteners: Socket Cap Screw M3 x 8 mm x4'
+  - 'Fasteners: Cap Nut M3 x6'
   fastenerMetadata:
     instanceId: 
     familyId: 

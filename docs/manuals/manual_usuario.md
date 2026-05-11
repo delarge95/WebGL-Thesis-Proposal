@@ -282,3 +282,5 @@ Este manual no presenta como flujo final:
 - settings visibles;
 - measurement como herramienta publicada;
 - mallas Blender finales de fasteners si la escena actual todavia usa placeholders.
+
+La sustitucion visual por el modelo Blender final no cambia el flujo del usuario: seleccion, isolate, filtros, hotspots y fasteners deben conservar el mismo comportamiento documentado.

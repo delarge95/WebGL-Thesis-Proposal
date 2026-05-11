@@ -15,12 +15,12 @@ MonoBehaviour:
   partName: Platform Board
   id: x500v2_platform_board
   partType: Frame
-  description: "Placa separada del top plate por standoffs M2.5. Pre-drilled holes
+  description: "Placa separada del top plate por standoffs M2.5. Taladros preperforados
     para GPS M10/M8N y companion computers (Raspberry Pi 4, Jetson Nano). A\xEDsla
     magn\xE9ticamente el GPS de la PDB."
-  weightKg: 0.083
+  weightKg: 0.015
   dimensions: "~80 \xD7 80 mm"
-  function: Elevated platform for GPS and companion computer
+  function: Plataforma elevada para GPS y companion computer
   materialType: "Fibra de carbono / compuesto pl\xE1stico"
   materialProperties: 
   manufacturer: Holybro
@@ -49,7 +49,7 @@ MonoBehaviour:
   compatibleSlots: []
   alternativeParts: []
   requiredTools:
-  - M2.5 screwdriver
+  - Destornillador M2.5
   safetyWarnings: []
   installationTips: "Los standoffs elevan la plataforma 15\u201320 mm sobre el top
     plate para aislamiento magn\xE9tico del GPS."
@@ -66,14 +66,14 @@ MonoBehaviour:
   screwSize: M2.5
   subComponentNames:
   - PLATFORM-PLAT-X500
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - 'Fasteners: Socket Cap Screw M2.5 x 12 mm x4'
+  - 'Fasteners: Countersunk Screw M2.5 x 6 mm x8'
+  - 'Fasteners: Flange Nut M3 x2'
+  - 'Fasteners: Standoff M2.5 x 5 mm x4'
+  - 'Fasteners: Pan Head Screw M3 x 10 mm x4'
+  - 'Fasteners: Rubber Grommet x4'
+  - 'Fasteners: Cap Nut M2.5 x4'
+  - 'Fasteners: Cap Nut M3 x4'
   fastenerMetadata:
     instanceId: 
     familyId: 

@@ -1,40 +1,24 @@
 {
   "main": {
-    "id": "a944b627b212e646",
+    "id": "512249ffedb7c179",
     "type": "split",
     "children": [
       {
-        "id": "232be54d06b1046a",
+        "id": "7e6f9edcbf667d5e",
         "type": "tabs",
         "children": [
           {
-            "id": "bb53256c9ed9b888",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Informe_final/informe_final_tmp.pdf",
-                "page": 116,
-                "left": -8,
-                "top": 199,
-                "zoom": 1.8676470588235294
-              },
-              "icon": "lucide-file-text",
-              "title": "informe_final_tmp"
-            }
-          },
-          {
-            "id": "3691749340f82ff7",
+            "id": "0edf5ca792f7c98e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Informe_final/Desarrollo_App/AUDITORIA_MATEMATICA_Y_ARQUITECTURA_2026-04-12.md",
+                "file": "Cerebro_Digital/Wiki/Concepts/INF_EST_51_Guion_Completo_Sustentacion_30min.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "AUDITORIA_MATEMATICA_Y_ARQUITECTURA_2026-04-12"
+              "title": "INF_EST_51_Guion_Completo_Sustentacion_30min"
             }
           }
         ]
@@ -43,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "dcc257201014db4d",
+    "id": "daf82066d1ebacef",
     "type": "split",
     "children": [
       {
-        "id": "1521a3a21f49aa81",
+        "id": "97e00d5c0ea8a9f3",
         "type": "tabs",
         "children": [
           {
-            "id": "bef54734d979b7b3",
+            "id": "d95792d46f4f412c",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -64,12 +48,12 @@
             }
           },
           {
-            "id": "bf245e81dbf1b2ad",
+            "id": "997c95eb8fc0bbff",
             "type": "leaf",
             "state": {
               "type": "search",
               "state": {
-                "query": "informe",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -81,7 +65,7 @@
             }
           },
           {
-            "id": "cdbb3945537787b0",
+            "id": "798bc6958379f6ea",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -90,27 +74,27 @@
               "title": "Marcadores"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 446.5
   },
   "right": {
-    "id": "e6fb34a38eaac8cc",
+    "id": "3e8f0d2a609c43bf",
     "type": "split",
     "children": [
       {
-        "id": "71c1b00a5c60a316",
+        "id": "f16ad25463e9b0c7",
         "type": "tabs",
         "children": [
           {
-            "id": "a572aa1eb988a8c8",
+            "id": "d2201399f859e8f8",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Cerebro_Digital/Wiki/Concepts/INF_EST_51_Guion_Completo_Sustentacion_30min.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -120,24 +104,25 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Enlaces entrantes"
+              "title": "Enlaces entrantes de INF_EST_51_Guion_Completo_Sustentacion_30min"
             }
           },
           {
-            "id": "017b964b806bd33a",
+            "id": "3b7b773f26376157",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Cerebro_Digital/Wiki/Concepts/INF_EST_51_Guion_Completo_Sustentacion_30min.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Enlaces salientes"
+              "title": "Enlaces salientes de INF_EST_51_Guion_Completo_Sustentacion_30min"
             }
           },
           {
-            "id": "c9cc2e74af13efd5",
+            "id": "96533e0ee0038a7f",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -152,7 +137,7 @@
             }
           },
           {
-            "id": "dac743ee1ccad2ba",
+            "id": "05cc169dc7f80cb2",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -166,67 +151,25 @@
             }
           },
           {
-            "id": "30ec98d8c4f026e2",
+            "id": "3eb20b142327b885",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
+                "file": "Cerebro_Digital/Wiki/Concepts/INF_EST_51_Guion_Completo_Sustentacion_30min.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Esquema"
-            }
-          },
-          {
-            "id": "00ba03b026f07e78",
-            "type": "leaf",
-            "state": {
-              "type": "footnotes",
-              "state": {
-                "file": "Informe_final/informe_final_tmp.pdf"
-              },
-              "icon": "lucide-file-signature",
-              "title": "Notas al pie"
-            }
-          },
-          {
-            "id": "fe5fa95362951813",
-            "type": "leaf",
-            "state": {
-              "type": "juggl_nodes",
-              "state": {},
-              "icon": "ag-node-list",
-              "title": "Juggl nodes"
-            }
-          },
-          {
-            "id": "6793184b235aedc4",
-            "type": "leaf",
-            "state": {
-              "type": "juggl_style",
-              "state": {},
-              "icon": "ag-style",
-              "title": "Juggl style"
-            }
-          },
-          {
-            "id": "9769b4bcd4a33e13",
-            "type": "leaf",
-            "state": {
-              "type": "git-view",
-              "state": {},
-              "icon": "git-pull-request",
-              "title": "Source Control"
+              "title": "Esquema de INF_EST_51_Guion_Completo_Sustentacion_30min"
             }
           }
-        ],
-        "currentTab": 5
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 200,
+    "width": 300,
     "collapsed": true
   },
   "left-ribbon": {
@@ -237,65 +180,40 @@
       "daily-notes:Abrir la nota de hoy": false,
       "templates:Insertar plantilla": false,
       "command-palette:Abrir paleta de comandos": false,
-      "bases:Crear nueva base": false,
-      "omnisearch:Omnisearch": false,
-      "obsidian-git:Open Git source control": false,
-      "marp-slides:Show Slide Preview": false,
-      "zk-prefixer:Crear nueva nota única": false,
-      "audio-recorder:Iniciar/Detener la grabación": false,
       "markdown-importer:Abrir el importador de Markdown": false,
+      "zk-prefixer:Crear nueva nota única": false,
       "random-note:Abrir nota al azar": false,
-      "obsidian-excalidraw-plugin:Nuevo Bosquejo": false,
-      "juggl:Juggl global graph": false,
-      "templater-obsidian:Templater": false,
-      "pdf-plus:PDF++: Toggle auto-copy": false,
-      "pdf-plus:PDF++: Toggle auto-focus": false,
-      "pdf-plus:PDF++: Toggle auto-paste": false
+      "audio-recorder:Iniciar/Detener la grabación": false,
+      "bases:Crear nueva base": false
     }
   },
-  "active": "bb53256c9ed9b888",
+  "active": "d95792d46f4f412c",
   "lastOpenFiles": [
-    "desarrollo/unity_project/Temp/UnityTempFile-ad64c4fe536d1f74bac37b17dbc66c9d",
-    "desarrollo/unity_project/Temp/UnityTempFile-540e8175e80ef2945be504f2d58d6378",
-    "desarrollo/unity_project/Temp/UnityTempFile-834216967dc96e54198ff2d0aa3fbecc",
-    "desarrollo/unity_project/Temp/UnityTempFile-6856e04c9c4bfbf47ba35ee487b9eee6",
-    "solving_isolating_problem.md",
-    "desarrollo/docs/solving_isolating_problem.md",
-    "desarrollo/unity_project/Library/ProtocolInstance.json",
-    "desarrollo/unity_project/Temp/UnityTempFile-8fe2444525983164bbb2b87f6309a01b",
-    "blender_files/welded/multires-preparing_to_bake.blend",
-    "blender_files/welded/multires-preparing_to_bake.blend@",
-    "desarrollo/unity_project/Temp/UnityTempFile-4afe4c5b52f4bd64f93cfa98a8fa7553",
-    "desarrollo/unity_project/Temp/UnityTempFile-6ee192afd28c8014f885937fcc79b388",
-    "desarrollo/unity_project/Library/Search/propertyAliases.db_b9dfd91b8ddd4f56badf38274cdd9db2_temp",
-    "desarrollo/docs/Resolucion_Fastener_Isolation_Bug.md",
-    "desarrollo/docs/Auditoria_Fastener_Isolation_Bug.md",
-    "desarrollo/docs/Unity 6 WebGL  aislamiento jerárquico de fasteners por instancia.md",
-    "Informe_final/Desarrollo_App/AUDITORIA_MATEMATICA_Y_ARQUITECTURA_2026-04-12.md",
-    "Informe_final/Desarrollo_App/MATRIZ_DESCONEXIONES_APP_DOCUMENTACION.md",
-    "docs/manuals/manual_tecnico.md",
-    "docs/manuals/manual_usuario.md",
-    "Cerebro_Digital/Wiki/Entities/Scripts/SCR-ONB-002_OnboardingAnimationView.md",
-    "Cerebro_Digital/Wiki/Concepts/REPORTE_AVANCE_ASESOR_2026-04-21.md",
-    "Cerebro_Digital/Wiki/Entregables/ROADMAP_REUNION_ASESOR.md",
-    "desarrollo/docs/investigacion/15_arquitectura_animaciones_onboarding.md",
-    "Cerebro_Digital/Wiki/Entities/Scripts/SCR-ONB-001_OnboardingController.md",
-    "Cerebro_Digital/Wiki/Concepts/MATRIZ_TRAZABILIDAD_ENTREGABLES.md",
-    "Cerebro_Digital/Wiki/Concepts/MOC_Conectividad_Total.md",
-    "MOC_Ecuaciones/README.md",
-    "desarrollo/docs/REPORTE_CIERRE_OBSIDIAN_Y_PROPUESTA_SIMPLIFICADA_2026-04-16.md",
+    "Cerebro_Digital/Wiki/Concepts/INF_EST_51_Guion_Completo_Sustentacion_30min_CORREGIDO.md",
+    "Cerebro_Digital/Wiki/Concepts/Analisis_y_Feedback_Oratoria.md",
+    "blender_files/welded/multires-preparing_to_bake4.blend",
+    "blender_files/welded/multires-preparing_to_bake4.blend@",
+    "blender_files/welded/bake_ao.png",
+    "blender_files/welded/bake_curve.png",
+    "blender_files/welded/bake_normal.png",
+    "blender_files/welded/baketest_normal.png",
+    "blender_files/welded/baked_normal.png",
+    "blender_files/welded/test_ZHIJIA_high.mtl",
+    "blender_files/welded/test_ZHIJIA_high.obj",
+    "blender_files/welded/test_ZHIJIA_low.mtl",
+    "blender_files/welded/test_ZHIJIA_low.obj",
+    "blender_files/welded/test_ZHIJIA_high.fbx",
+    "blender_files/welded/test_ZHIJIA_low.fbx",
+    "blender_files/welded/bake_test_normalobj.png",
+    "blender_files/welded/bake_test_normal.png",
+    "blender_files/welded/test_high.fbx",
+    "blender_files/welded/test_low.fbx",
+    "blender_files/welded/bake_normalobj.png",
     "Cerebro_Digital/Wiki/Concepts/ANEXO_CRUCE_BIBLIOGRAFIA_DESCARGADA_2026-04-16.md",
-    "External_docs/Bibliografia/WebGL Specification Khronos_files/WebGL-Logo.svg",
-    "External_docs/Bibliografia/WebGL Specification Khronos_files/Khronos.svg",
-    "Cerebro_Digital/Wiki/Concepts/GOBERNANZA_CALIDAD_WIKI.md",
-    "Cerebro_Digital/Wiki/Concepts/REGISTRO_ADJUNTOS_GLOBAL.md",
-    "Cerebro_Digital/Wiki/Concepts/TAXONOMIA_METADATA_WIKI.md",
-    "Cerebro_Digital/Wiki/Concepts/MOC_Consolidacion_Drone.md",
-    "Cerebro_Digital/Wiki/Stubs_NoResueltas/STUB_053_Flight_Controller_PCB.md",
-    "Informe_final/presentation/ASSETS_REQUIREMENTS.md",
-    "archive/logs_historicos/tmp_gemini_audit/word/media/image3.png",
-    "archive/logs_historicos/tmp_gemini_audit/word/media/image1.png",
-    "archive/logs_historicos/tmp_gemini_audit/word/media/image2.png",
-    "archive/logs_historicos/tmp_gemini_audit/word/media/image4.png"
+    "Cerebro_Digital/Wiki/Concepts/MOC_Seccion_dot_kilo.md",
+    "Cerebro_Digital/Wiki/Entities/Scripts/SCR-THM-001_ThermalSimulationManager.md",
+    "Cerebro_Digital/Wiki/Concepts/INF_EST_01_Introduccion.md",
+    "Cerebro_Digital/Wiki/Concepts/INF_EST_00_Guia_Defensa_y_Lectura.md",
+    "Cerebro_Digital/Wiki/Concepts/MOC_Informe_Final_Estudio_Profundo.md"
   ]
 }

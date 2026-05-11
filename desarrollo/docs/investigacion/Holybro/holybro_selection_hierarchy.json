@@ -1,0 +1,162 @@
+{
+  "version": "2026-05-10-selection-hierarchy-v2-runtime-fbx",
+  "source": "Unity runtime hierarchy contract for optimized X500 V2 import",
+  "rule": "hotspot -> canonical part -> Blender subpiece -> primitive fastener",
+  "notes": [
+    "Scene existence and transforms are resolved from the imported FBX.",
+    "Technical fastener semantics are resolved from holybro_fastener_instances.json.",
+    "Objects outside PRIMITIVE_FASTENER_MASTERS / PRIMITIVE_FASTENER_INSTANCES must not receive modular fastener replacement."
+  ],
+  "hotspotGroups": [
+    {
+      "groupId": "hotspot_power_distribution",
+      "label": "Power Distribution",
+      "summary": "PM06/XT60 power routing. PDB is documented but not synthesized when absent from the FBX. Battery rails and GUAN-CHENG are intentionally excluded.",
+      "includeAssociatedFasteners": true,
+      "canonicalPartIds": ["x500v2_power_module"]
+    },
+    {
+      "groupId": "hotspot_flight_controller",
+      "label": "Flight Controller",
+      "summary": "Pixhawk 6C autopilot stack.",
+      "includeAssociatedFasteners": false,
+      "canonicalPartIds": ["x500v2_pixhawk6c"]
+    },
+    {
+      "groupId": "hotspot_gps_compass",
+      "label": "GPS & Compass",
+      "summary": "GPS mast, antenna and compass assembly.",
+      "includeAssociatedFasteners": false,
+      "canonicalPartIds": ["x500v2_gps_m10"]
+    },
+    {
+      "groupId": "hotspot_propulsion",
+      "label": "Propulsion System",
+      "summary": "Four arm assemblies, motors, propellers and associated primitive fasteners. ESCs are documented but not synthesized when absent from the FBX.",
+      "includeAssociatedFasteners": true,
+      "canonicalPartIds": [
+        "x500v2_arm_FL",
+        "x500v2_arm_FR",
+        "x500v2_arm_BL",
+        "x500v2_arm_BR",
+        "x500v2_motor_FL",
+        "x500v2_motor_FR",
+        "x500v2_motor_BL",
+        "x500v2_motor_BR",
+        "x500v2_prop_FL",
+        "x500v2_prop_FR",
+        "x500v2_prop_BL",
+        "x500v2_prop_BR"
+      ]
+    },
+    {
+      "groupId": "hotspot_battery",
+      "label": "Battery",
+      "summary": "Battery plus rail and mounting system.",
+      "includeAssociatedFasteners": true,
+      "canonicalPartIds": ["x500v2_battery", "x500v2_rails_battery"]
+    }
+  ],
+  "canonicalGroups": [
+    {
+      "canonicalPartId": "x500v2_bottom_plate",
+      "displayName": "Carbon Fiber Bottom Plate",
+      "subpieceNames": ["BOTTOM-PLATE-X500-V5", "GAI-GUANGLIU", "ZHIJIA-CAMERA-INTEL"],
+      "fastenerStatus": "Esperados 9, actuales 5; revisar faltantes contra escena final."
+    },
+    {
+      "canonicalPartId": "x500v2_top_plate",
+      "displayName": "Carbon Fiber Top Plate",
+      "subpieceNames": ["TOP-PLATE-X500-V5"],
+      "fastenerStatus": "0 fasteners esperados."
+    },
+    {
+      "canonicalPartId": "x500v2_platform_board",
+      "displayName": "Platform Board",
+      "subpieceNames": ["PLATFORM-PLAT-X500"],
+      "fastenerStatus": "Esperados 34, actuales 37; revisar exceso antes de cierre."
+    },
+    {
+      "canonicalPartId": "x500v2_rails_battery",
+      "displayName": "Rail System & Battery Mount",
+      "subpieceNames": ["BATTERY-MOUNTING-PLAT", "BATTERY-PAD", "PYLONS-X500", "GUAN-CHENG"],
+      "fastenerStatus": "Teorico 0, actuales 4; no asignar por suposicion."
+    },
+    {
+      "canonicalPartId": "x500v2_pdb",
+      "displayName": "Power Distribution Board",
+      "subpieceNames": ["PDB"],
+      "fastenerStatus": "Esperados 6, actuales 0; pendiente revisar existencia real en FBX final."
+    },
+    {
+      "canonicalPartId": "x500v2_power_module",
+      "displayName": "Power Module PM06/XT60",
+      "subpieceNames": ["PCB-PM06", "TOU-XT60H-M-14AWG", "X500-TAO-XT60"],
+      "fastenerStatus": "Esperados 14, actuales 24; revisar exceso."
+    },
+    {
+      "canonicalPartId": "x500v2_pixhawk6c",
+      "displayName": "Pixhawk 6C Autopilot",
+      "subpieceNames": ["DIKE-PIXHAWK6C-LV-C1", "IMU-PIXHAWK6C", "MIANKE-PIXHAWK6C-LV-C1", "PCB-PIXHAWK6C-F1", "BM06B-WO"],
+      "fastenerStatus": "Teorico 0, actuales 32; revisar contra montaje real."
+    },
+    {
+      "canonicalPartId": "x500v2_gps_m10",
+      "displayName": "Holybro M10 GPS Module",
+      "subpieceNames": ["GAN-GPSV5-ZHIJIA", "GPS-ZHIJIA-ZHUANJIETOU", "GPS-ZHIJIA-ZUO", "GPSV5-ZHIJIA-TUOPAN"],
+      "fastenerStatus": "Teorico 0, actuales 2; revisar contra montaje real."
+    },
+    {
+      "canonicalPartId": "x500v2_landing_gear",
+      "displayName": "Landing Gear",
+      "subpieceNames": ["CARBON-FIBER-TUBE", "JIAO-EVA", "JIAO-LIANJIE", "MAO-JIAO"],
+      "fastenerStatus": "Esperados 12, actuales 6; revisar faltantes."
+    },
+    {
+      "canonicalPartId": "x500v2_arm",
+      "displayName": "Arm Assembly Quadrant",
+      "resolvedRuntimeIds": ["x500v2_arm_FL", "x500v2_arm_FR", "x500v2_arm_BL", "x500v2_arm_BR"],
+      "subpieceNames": ["CARBON-FIBER-TUBE300", "HMX5V-DIGAI-DIANJIZUO-MUJU", "HMX5V-GUAN-DINGWEI", "HMX5V-JIBI-JIA-MUJU", "HMX5V-ZUO-DJ-MUJU", "BAN-DJ-DIAN-F2", "JIA-GUAN"],
+      "fastenerStatus": "Fasteners asociados por instancia primitiva y parentCanonicalPartId; no por nombre global."
+    },
+    {
+      "canonicalPartId": "x500v2_motor",
+      "displayName": "Motor 2216 Quadrant",
+      "resolvedRuntimeIds": ["x500v2_motor_FL", "x500v2_motor_FR", "x500v2_motor_BL", "x500v2_motor_BR"],
+      "subpieceNames": ["DJ-2216-KV880"],
+      "fastenerStatus": "Esperados 10 por motor, actuales 0; revisar existencia real."
+    },
+    {
+      "canonicalPartId": "x500v2_esc",
+      "displayName": "ESC Quadrant",
+      "resolvedRuntimeIds": ["x500v2_esc_FL", "x500v2_esc_FR", "x500v2_esc_BL", "x500v2_esc_BR"],
+      "subpieceNames": ["ESC"],
+      "fastenerStatus": "Esperados 2 por ESC, actuales 0; revisar existencia real."
+    },
+    {
+      "canonicalPartId": "x500v2_prop",
+      "displayName": "Propeller Quadrant",
+      "resolvedRuntimeIds": ["x500v2_prop_FL", "x500v2_prop_FR", "x500v2_prop_BL", "x500v2_prop_BR"],
+      "subpieceNames": ["PROPELLER", "PROP"],
+      "fastenerStatus": "0 fasteners esperados."
+    },
+    {
+      "canonicalPartId": "x500v2_battery",
+      "displayName": "LiPo Battery",
+      "subpieceNames": ["BATTERY", "BATTERY-STRAP"],
+      "fastenerStatus": "Esperados 4, actuales 6; revisar exceso."
+    },
+    {
+      "canonicalPartId": "x500v2_rc_receiver",
+      "displayName": "RC Receiver",
+      "subpieceNames": ["RECEIVER"],
+      "fastenerStatus": "Esperados 16, actuales 0; revisar existencia real."
+    },
+    {
+      "canonicalPartId": "x500v2_telemetry_radio",
+      "displayName": "Telemetry Radio",
+      "subpieceNames": ["TELEMETRY", "RADIO"],
+      "fastenerStatus": "Esperados 2, actuales 1; revisar faltante."
+    }
+  ]
+}

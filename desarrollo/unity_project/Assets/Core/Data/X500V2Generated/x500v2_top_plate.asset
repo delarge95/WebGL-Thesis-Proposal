@@ -14,12 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partName: Carbon Fiber Top Plate
   id: x500v2_top_plate
-  partType: Structure
-  description: Interfase de vuelo, Pixhawk, Radio. Part modeled based on CAD TOP-PLATE-X500-V5.
+  partType: Frame
+  description: "Plato superior de fibra de carbono twill de 2 mm, 144\xD7144 mm.
+    Cierra el s\xE1ndwich estructural con 28 mm de separaci\xF3n respecto al bottom
+    plate. Superficie de montaje para el Pixhawk, radio, receptor RC y standoffs
+    de la platform board."
   weightKg: 0.075
-  dimensions: "144\xD7144 mm"
-  function: Interfase de vuelo, Pixhawk, Radio
-  materialType: Fibra Carbono Twill 2mm
+  dimensions: "144 \xD7 144 mm, 2 mm espesor"
+  function: "Cierre superior del fuselaje; montaje del flight controller y perif\xE9ricos"
+  materialType: Fibra de carbono twill 2 mm
   materialProperties: Ultraligero, alta rigidez torsional
   manufacturer: Holybro
   partNumber: '#510179'
@@ -40,7 +43,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.5
   explosionPriority: 4
   isModular: 0

@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_rubber_grommet_006
   m_EditorClassIdentifier: 
-  partName: Silicone Mount Dampener
+  partName: Rubber Grommet
   id: x500v2_fastener_rubber_grommet_006
-  partType: Structure
-  description: Anti-vibration isolator para hardware. Part modeled based on CAD HUAN-GUIJIAO.
-  weightKg: 0.001
-  dimensions: M3-M4
-  function: Anti-vibration isolator para hardware
+  partType: Rubber Grommet
+  description: "Aislante anti-vibraci\xF3n para hardware. Pieza modelada en base
+    al CAD HUAN-GUIJIAO."
+  weightKg: 0
+  dimensions: 
+  function: Fastening / mounting | Dampener
   materialType: Silicona
   materialProperties: Silicone
   manufacturer: Holybro
@@ -40,7 +41,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
@@ -65,7 +66,7 @@ MonoBehaviour:
     sourceId: x500v2_blend_huan_guijiao
     sceneObjectName: x500v2_fastener.rubber_grommet_006
     hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.rubber_grommet_006
-    parentCanonicalPartId: x500v2_platform_board
+    parentCanonicalPartId: x500v2_arm_BL
     blenderName: HUAN-GUIJIAO
     sceneTypeKey: rubber_grommet
     subtype: RubberGrommet
@@ -81,7 +82,8 @@ MonoBehaviour:
     quantityExpected: 8
     isInspectable: 1
     fallbackReason: 
-    notes: Anti-vibration isolator para hardware. Part modeled based on CAD HUAN-GUIJIAO.
+    notes: "Aislante anti-vibraci\xF3n para hardware. Pieza modelada en base al CAD
+      HUAN-GUIJIAO."
     recipeKey: rubber_grommet_placeholder
     builderType: RubberGrommet
     orientationMode: ShortestAxis

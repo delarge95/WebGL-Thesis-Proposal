@@ -8,6 +8,8 @@
 **Plataforma:** Unity 6.0 LTS → WebGL (URP)  
 **Rama:** `feature/phase2-ux-redesign`
 
+> Actualizacion 2026-05-08: el pipeline final de activos Blender -> Unity queda definido con texturas externas y export manual. Los mapas runtime recomendados son `X500_BaseColor_4K.png`, `X500_Normal_Final_4K.png` y `X500_Mask_4K.png`, con mask `R=AO`, `G=Roughness`, `B=Curvature`, `A=Metallic`. La fibra de carbono se bakea desde el material Blender existente, no se recrea como material procedural independiente en Unity.
+
 > Nota editorial: este documento profundiza en el pipeline gráfico y en los shaders. La arquitectura canónica del cierre debe leerse junto con `01_Arquitectura_del_Sistema.md` y `02_Referencia_Tecnica_Modulos.md`.
 
 ---
@@ -180,7 +182,7 @@ Material newMat = new Material(Shader.Find("WebGL/Blueprint"));
 renderer.sharedMaterial = newMat;
 ```
 
-- **Cuándo:** Al cambiar entre los 7 modos de visualización.
+- **Cuándo:** Al cambiar entre modos de visualización implementados; la UI final expone solo el subconjunto operativo documentado.
 - **Impacto:** Reemplaza la referencia de material. Los originales se almacenan en `_originalMaterials` para restauración.
 - **Advertencia:** `new Material()` crea una instancia en memoria que debe gestionarse. En esta implementación, el material antiguo (no original) queda huérfano para el GC de Unity.
 

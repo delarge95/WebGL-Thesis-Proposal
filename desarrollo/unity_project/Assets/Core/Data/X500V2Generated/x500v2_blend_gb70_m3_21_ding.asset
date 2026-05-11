@@ -15,11 +15,11 @@ MonoBehaviour:
   partName: Socket Head Cap Screw
   id: x500v2_blend_gb70_m3_21_ding
   partType: Structure
-  description: Chassis fastening and tightening. Part modeled based on CAD GB70-M3-21-DING.
+  description: "Fijaci\xF3n y apriete del chasis. Pieza modelada en base al CAD GB70-M3-21-DING."
   weightKg: 0.001
-  dimensions: Metric
-  function: Chassis fastening and tightening
-  materialType: Stainless Steel
+  dimensions: "Milim\xE9trico"
+  function: "Fijaci\xF3n y apriete del chasis"
+  materialType: Acero Inox
   materialProperties: 
   manufacturer: Holybro
   partNumber: 
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0
@@ -84,4 +84,4 @@ MonoBehaviour:
     recipeKey: 
     builderType: 
     orientationMode: 
-  category: 4
+  category: 5

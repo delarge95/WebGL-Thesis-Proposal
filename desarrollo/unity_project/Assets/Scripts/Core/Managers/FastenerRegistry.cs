@@ -119,11 +119,7 @@ namespace WebGL.Core.Managers
                 return null;
             }
 
-            FastenerRuntimeMarker marker = target.GetComponent<FastenerRuntimeMarker>();
-            if (marker == null)
-            {
-                marker = target.GetComponentInParent<FastenerRuntimeMarker>();
-            }
+            FastenerRuntimeMarker marker = ResolveLocalFastenerMarker(target);
 
             if (marker != null && TryResolveMetadata(marker.FastenerInstanceId, out FastenerMetadata metadata))
             {
@@ -177,7 +173,41 @@ namespace WebGL.Core.Managers
                 metadata.sceneTypeKey,
                 metadata.parentCanonicalPartId,
                 metadata.isInspectable,
-                metadata.fallbackReason);
+                metadata.fallbackReason,
+                SelectionHierarchy.IsPrimitiveFastenerSource(target));
+        }
+
+        private static FastenerRuntimeMarker ResolveLocalFastenerMarker(Transform target)
+        {
+            if (target == null)
+            {
+                return null;
+            }
+
+            FastenerRuntimeMarker marker = target.GetComponent<FastenerRuntimeMarker>();
+            if (marker != null)
+            {
+                return marker;
+            }
+
+            Transform current = target.parent;
+            while (current != null)
+            {
+                if (current.GetComponent<ExplodablePart>() != null)
+                {
+                    break;
+                }
+
+                marker = current.GetComponent<FastenerRuntimeMarker>();
+                if (marker != null)
+                {
+                    return marker;
+                }
+
+                current = current.parent;
+            }
+
+            return null;
         }
 
         private T LoadCatalog<T>(string resourcePath) where T : class

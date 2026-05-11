@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
   m_Name: x500v2_fastener_group
   m_EditorClassIdentifier: 
-  partName: Fasteners Group
+  partName: x500v2 fastener group
   id: x500v2_fastener_group
-  partType: Fasteners Group
-  description: Synthetic grouping anchor for imported geometry.
-  weightKg: 0.168
-  dimensions: N/A
-  function: Grouping anchor
-  materialType: N/A
+  partType: Fastener
+  description: Individual fastener instance imported from the model hierarchy.
+  weightKg: 0
+  dimensions: 
+  function: Fastening / mounting
+  materialType: Metal
   materialProperties: N/A
   manufacturer: 
   partNumber: 
@@ -36,12 +36,12 @@ MonoBehaviour:
   thermalSourceWeight: 0
   isThermallyCritical: 0
   icon: {fileID: 0}
-  highlightColor: {r: 0.3, g: 0.8, b: 1, a: 1}
+  highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
   explosionDirection: {x: 0, y: 1, z: 0}
-  explosionDistance: 0.1
+  explosionDistance: 0.03
   explosionPriority: 0
   isModular: 0
   compatibleSlots: []

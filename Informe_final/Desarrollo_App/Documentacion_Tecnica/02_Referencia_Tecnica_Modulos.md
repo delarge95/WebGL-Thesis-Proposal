@@ -39,6 +39,9 @@ Inventario tecnico resumido de los modulos relevantes para el cierre, dividido p
 | `AssignURPConfig` | activo | soporte de configuracion |
 | `FixSceneConfig` | activo | saneamiento de escena |
 | `WebGLBuildFixer` | activo | correcciones previas al build |
+| `blender_bake_target_setup.py` | soporte offline | prepara targets de bake sin exportar ni guardar el `.blend` |
+| `blender_pack_x500_mask.py` | soporte offline | empaqueta AO, roughness, curvature y metallic en mask runtime |
+| `blender_runtime_manifest_exporter.py` | soporte offline | reporta masters, instancias, transforms y candidatos de pieza madre para fasteners |
 
 ## 3. Implementado pero oculto
 

@@ -15,11 +15,12 @@ MonoBehaviour:
   partName: Battery Mounting Board
   id: x500v2_blend_battery_mounting_plat
   partType: Structure
-  description: Placa ajustable p/correas de battery. Part modeled based on CAD BATTERY-MOUNTING-PLAT.
+  description: "Placa ajustable p/correas de bater\xEDa. Pieza modelada en base al
+    CAD BATTERY-MOUNTING-PLAT."
   weightKg: 0.025
   dimensions: Variable
-  function: Placa ajustable p/correas de battery
-  materialType: Fiber / Plastic
+  function: "Placa ajustable p/correas de bater\xEDa"
+  materialType: "Fibra / Pl\xE1stico"
   materialProperties: 
   manufacturer: Holybro
   partNumber: 

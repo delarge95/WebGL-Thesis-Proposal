@@ -14,12 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partName: Carbon Fiber Bottom Plate
   id: x500v2_bottom_plate
-  partType: Structure
-  description: Interfase de tren, brazos y PDB. Part modeled based on CAD BOTTOM-PLATE-X500-V5.
-  weightKg: 0.093
-  dimensions: "144\xD7144 mm"
-  function: Interfase de tren, brazos y PDB
-  materialType: Fibra Carbono Twill 2mm
+  partType: Frame
+  description: "Plato inferior de fibra de carbono twill de 2 mm de espesor y 144\xD7144
+    mm. Base r\xEDgida del fuselaje donde se fijan el tren de aterrizaje, los brazos
+    y la PDB. Incluye taladros para standoffs, XT60 holder y clips del sistema de
+    railes."
+  weightKg: 0.075
+  dimensions: "144 \xD7 144 mm, 2 mm espesor"
+  function: Base estructural del fuselaje; interfaz de montaje para PDB, brazos y
+    tren
+  materialType: Fibra de carbono twill 2 mm
   materialProperties: Ultraligero, alta rigidez torsional, resistente a vibraciones
   manufacturer: Holybro
   partNumber: '#510180'
@@ -40,7 +44,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: -1, z: 0}
   explosionDistance: 0.5
   explosionPriority: 1
   isModular: 0
@@ -48,7 +52,7 @@ MonoBehaviour:
   alternativeParts: []
   requiredTools:
   - Llave hexagonal M3
-  - Phillips screwdriver
+  - Destornillador Phillips
   safetyWarnings:
   - Bordes de carbono pueden ser cortantes
   installationTips: Base del montaje. Colocar primero sobre superficie plana y nivelada.
@@ -65,12 +69,11 @@ MonoBehaviour:
   - BOTTOM-PLATE-X500-V5
   - GAI-GUANGLIU
   - ZHIJIA-CAMERA-INTEL
-  - HUAN-GUIJIAO
-  - 
-  - 
-  - 
-  - 
-  - 
+  - 'Fasteners: Socket Cap Screw M3 x 25 mm x2'
+  - 'Fasteners: Socket Cap Screw M3 x 8 mm x2'
+  - 'Fasteners: Flange Nut M3 x2'
+  - 'Fasteners: Cap Nut M3 x1'
+  - 'Fasteners: Rubber Grommet x2'
   fastenerMetadata:
     instanceId: 
     familyId: 

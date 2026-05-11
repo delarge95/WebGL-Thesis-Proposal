@@ -78,11 +78,13 @@ namespace WebGL.Core.Events
     {
         public string GroupId;
         public List<ExplodablePart> Members;
+        public bool IncludeAssociatedFasteners;
 
-        public HotspotGroupIsolatedEvent(string groupId, List<ExplodablePart> members)
+        public HotspotGroupIsolatedEvent(string groupId, List<ExplodablePart> members, bool includeAssociatedFasteners = false)
         {
             GroupId = groupId ?? string.Empty;
             Members = members ?? new List<ExplodablePart>();
+            IncludeAssociatedFasteners = includeAssociatedFasteners;
         }
     }
 }

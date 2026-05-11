@@ -19,8 +19,8 @@ public class HotspotManager : Singleton<HotspotManager>
         public string Id;
         public string Label;
         public string Summary;
-        public string[] Keywords;
         public bool IncludeFasteners;
+        public string[] CanonicalPartIds;
     }
 
     private sealed class HotspotGroupRuntime
@@ -35,50 +35,6 @@ public class HotspotManager : Singleton<HotspotManager>
         public HotspotGroupRuntime Group;
         public List<HighlightSystem> Highlights = new List<HighlightSystem>();
     }
-
-    private static readonly HotspotSystemGroup[] GroupDefinitions =
-    {
-        new HotspotSystemGroup
-        {
-            Id = "propulsion",
-            Label = "Propulsion System",
-            Summary = "Motors, ESCs, propellers and related mounting hardware.",
-            Keywords = new[] { "motor", "esc", "prop", "propeller", "rotor" },
-            IncludeFasteners = true
-        },
-        new HotspotSystemGroup
-        {
-            Id = "power",
-            Label = "Power Distribution",
-            Summary = "Battery, power module, PDB and primary power routing.",
-            Keywords = new[] { "battery", "power", "pdb", "xt60", "cable", "harness" },
-            IncludeFasteners = false
-        },
-        new HotspotSystemGroup
-        {
-            Id = "flight_control",
-            Label = "Flight Control & Comms",
-            Summary = "Autopilot, GPS, receiver, telemetry and radio links.",
-            Keywords = new[] { "pixhawk", "gps", "receiver", "telemetry", "radio", "antenna", "fc" },
-            IncludeFasteners = false
-        },
-        new HotspotSystemGroup
-        {
-            Id = "airframe",
-            Label = "Airframe & Landing",
-            Summary = "Arms, plates, rails and landing structure.",
-            Keywords = new[] { "arm", "plate", "frame", "rail", "landing", "gear", "chassis" },
-            IncludeFasteners = true
-        },
-        new HotspotSystemGroup
-        {
-            Id = "payload",
-            Label = "Payload & Mounts",
-            Summary = "Payload interfaces, holders and support fixtures.",
-            Keywords = new[] { "payload", "mount", "gimbal", "camera", "holder", "bracket" },
-            IncludeFasteners = true
-        }
-    };
 
     private VisualElement _root;
     private VisualElement _container;
@@ -153,7 +109,7 @@ public class HotspotManager : Singleton<HotspotManager>
             .ToList();
 
         List<HotspotGroupRuntime> groups = new List<HotspotGroupRuntime>();
-        foreach (HotspotSystemGroup definition in GroupDefinitions)
+        foreach (HotspotSystemGroup definition in BuildGroupDefinitions())
         {
             List<ExplodablePart> members = validParts
                 .Where(part => MatchesGroup(part, definition))
@@ -189,25 +145,17 @@ public class HotspotManager : Singleton<HotspotManager>
             return false;
         }
 
-        string haystack = string.Join(" ", new[]
-        {
-            part.name,
-            part.transform != null ? part.transform.name : string.Empty,
-            part.Data.id,
-            part.Data.partName,
-            part.Data.partType,
-            part.Data.category.ToString()
-        }).ToLowerInvariant();
-
-        for (int i = 0; i < definition.Keywords.Length; i++)
-        {
-            if (haystack.Contains(definition.Keywords[i]))
+        string canonicalId = part.Data.id;
+        return SelectionHierarchy.HotspotContains(
+            new HotspotGroupDefinition
             {
-                return true;
-            }
-        }
-
-        return definition.IncludeFasteners && IsFastener(part);
+                groupId = definition.Id,
+                label = definition.Label,
+                summary = definition.Summary,
+                includeAssociatedFasteners = definition.IncludeFasteners,
+                canonicalPartIds = definition.CanonicalPartIds
+            },
+            canonicalId);
     }
 
     private static bool IsFastener(ExplodablePart part)
@@ -222,22 +170,32 @@ public class HotspotManager : Singleton<HotspotManager>
             return true;
         }
 
-        string fastenerTokens = string.Join(" ", new[]
-        {
-            part.name,
-            part.Data.id,
-            part.Data.partName,
-            part.Data.partType
-        }).ToLowerInvariant();
+        return SelectionHierarchy.IsPrimitiveFastenerSource(part.transform);
+    }
 
-        return fastenerTokens.Contains("screw") ||
-               fastenerTokens.Contains("bolt") ||
-               fastenerTokens.Contains("nut") ||
-               fastenerTokens.Contains("washer") ||
-               fastenerTokens.Contains("standoff") ||
-               fastenerTokens.Contains("spacer") ||
-               fastenerTokens.Contains("m2") ||
-               fastenerTokens.Contains("m3");
+    private static List<HotspotSystemGroup> BuildGroupDefinitions()
+    {
+        List<HotspotSystemGroup> definitions = new List<HotspotSystemGroup>();
+        IReadOnlyList<HotspotGroupDefinition> configuredGroups = SelectionHierarchy.HotspotGroups;
+        for (int i = 0; i < configuredGroups.Count; i++)
+        {
+            HotspotGroupDefinition source = configuredGroups[i];
+            if (source == null || source.canonicalPartIds == null || source.canonicalPartIds.Length == 0)
+            {
+                continue;
+            }
+
+            definitions.Add(new HotspotSystemGroup
+            {
+                Id = source.groupId,
+                Label = source.label,
+                Summary = source.summary,
+                IncludeFasteners = source.includeAssociatedFasteners,
+                CanonicalPartIds = source.canonicalPartIds
+            });
+        }
+
+        return definitions;
     }
 
     private static ExplodablePart SelectBestAnchor(List<ExplodablePart> members)
@@ -497,7 +455,8 @@ public class HotspotManager : Singleton<HotspotManager>
                     group.Definition != null && group.Definition.IncludeFasteners);
                 EventBus.Publish(new HotspotGroupIsolatedEvent(
                     group.Definition != null ? group.Definition.Id : string.Empty,
-                    group.Members != null ? new List<ExplodablePart>(group.Members) : new List<ExplodablePart>()));
+                    group.Members != null ? new List<ExplodablePart>(group.Members) : new List<ExplodablePart>(),
+                    group.Definition != null && group.Definition.IncludeFasteners));
                 break;
         }
     }

@@ -15,7 +15,7 @@ MonoBehaviour:
   partName: Pixhawk 6C IMU Module
   id: x500v2_blend_imu_pixhawk6c
   partType: Electronics
-  description: Sensores inerciales ICM-42688. Part modeled based on CAD IMU-PIXHAWK6C.
+  description: Sensores inerciales ICM-42688. Pieza modelada en base al CAD IMU-PIXHAWK6C.
   weightKg: 0.005
   dimensions: Interno
   function: Sensores inerciales ICM-42688
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

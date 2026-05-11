@@ -130,6 +130,8 @@ namespace WebGL.Core.Utils
         private void RepairImportedDrone(Transform droneRoot, FastenerRegistry registry)
         {
             Dictionary<string, ExplodablePart> anchorsById = BuildAnchorMap(droneRoot);
+            RestoreMisclassifiedStructuralFasteners(droneRoot, anchorsById);
+            MovePrimitiveFastenersToRootGroup(droneRoot);
             ReparentTopLevelOrphans(droneRoot, anchorsById);
             ReparentNestedOrphansByType(droneRoot, anchorsById, registry);
             anchorsById = BuildAnchorMap(droneRoot);
@@ -138,6 +140,8 @@ namespace WebGL.Core.Utils
             {
                 ConfigureAnchor(kvp.Key, kvp.Value, registry);
             }
+
+            SealLooseFastenerMetadata(droneRoot, registry);
         }
 
         private static Dictionary<string, ExplodablePart> BuildAnchorMap(Transform droneRoot)
@@ -159,7 +163,9 @@ namespace WebGL.Core.Utils
                     ? part.Data.id
                     : part.name;
 
-                if (!string.IsNullOrWhiteSpace(partId) && !anchors.ContainsKey(partId))
+                if (!string.IsNullOrWhiteSpace(partId) &&
+                    !partId.StartsWith("x500v2_blend_", StringComparison.OrdinalIgnoreCase) &&
+                    !anchors.ContainsKey(partId))
                 {
                     anchors.Add(partId, part);
                 }
@@ -183,12 +189,15 @@ namespace WebGL.Core.Utils
 
             foreach (Transform child in directChildren)
             {
-                if (child == null || child.GetComponent<ExplodablePart>() != null)
+                if (child == null ||
+                    child.GetComponent<ExplodablePart>() != null ||
+                    string.Equals(child.name, FastenerGroupId, StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(child.name, MiscGroupId, StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }
 
-                string expectedAnchorId = ResolveExpectedAnchorIdFromName(child.name, string.Empty);
+                string expectedAnchorId = SelectionHierarchy.ResolveCanonicalPartId(child, droneRoot);
                 if (!string.IsNullOrWhiteSpace(expectedAnchorId) &&
                     anchorsById.TryGetValue(expectedAnchorId, out ExplodablePart expectedAnchor) &&
                     expectedAnchor != null &&
@@ -228,6 +237,208 @@ namespace WebGL.Core.Utils
             }
         }
 
+        private static void RestoreMisclassifiedStructuralFasteners(
+            Transform droneRoot,
+            IReadOnlyDictionary<string, ExplodablePart> anchorsById)
+        {
+            if (droneRoot == null || anchorsById == null || anchorsById.Count == 0)
+            {
+                return;
+            }
+
+            Transform[] transforms = droneRoot.GetComponentsInChildren<Transform>(true);
+            for (int i = 0; i < transforms.Length; i++)
+            {
+                Transform candidate = transforms[i];
+                if (candidate == null || !IsMisclassifiedStructuralFastener(candidate.name))
+                {
+                    continue;
+                }
+
+                string parentId = ResolveDingweiParentCanonicalId(candidate.name);
+                if (string.IsNullOrWhiteSpace(parentId) ||
+                    !anchorsById.TryGetValue(parentId, out ExplodablePart parentPart) ||
+                    parentPart == null)
+                {
+                    Debug.LogWarning($"[ImportedDroneRuntimeBinder] HMX5V-GUAN-DINGWEI sin padre canonico confiable: {candidate.name}");
+                    continue;
+                }
+
+                candidate.SetParent(parentPart.transform, true);
+                candidate.name = FastenerNamingUtility.ExtractSceneTypeKey(candidate.name);
+
+                FastenerRuntimeMarker marker = candidate.GetComponent<FastenerRuntimeMarker>();
+                if (marker != null)
+                {
+                    DestroyComponent(marker);
+                }
+
+                PartRenderCategory category = candidate.GetComponent<PartRenderCategory>();
+                if (category == null)
+                {
+                    category = candidate.gameObject.AddComponent<PartRenderCategory>();
+                }
+
+                string primaryCategory = parentPart.Data != null ? parentPart.Data.category.ToString() : "SkeletonAirframe";
+                category.Configure(parentId, primaryCategory, string.Empty, parentId, "hmx5v-guan-dingwei");
+            }
+        }
+
+        private static void MovePrimitiveFastenersToRootGroup(Transform droneRoot)
+        {
+            if (droneRoot == null)
+            {
+                return;
+            }
+
+            Transform rootGroup = EnsureDirectChildGroup(droneRoot, FastenerGroupId);
+            Transform[] transforms = droneRoot.GetComponentsInChildren<Transform>(true);
+            for (int i = 0; i < transforms.Length; i++)
+            {
+                Transform candidate = transforms[i];
+                if (candidate == null ||
+                    candidate == droneRoot ||
+                    candidate == rootGroup ||
+                    !candidate.name.StartsWith("x500v2_fastener.", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                if (IsMisclassifiedStructuralFastener(candidate.name))
+                {
+                    continue;
+                }
+
+                if (candidate.parent != rootGroup)
+                {
+                    candidate.SetParent(rootGroup, true);
+                }
+            }
+        }
+
+        private static Transform EnsureDirectChildGroup(Transform droneRoot, string groupId)
+        {
+            if (droneRoot == null || string.IsNullOrWhiteSpace(groupId))
+            {
+                return null;
+            }
+
+            foreach (Transform child in droneRoot)
+            {
+                if (child != null && string.Equals(child.name, groupId, StringComparison.OrdinalIgnoreCase))
+                {
+                    child.gameObject.SetActive(true);
+                    return child;
+                }
+            }
+
+            GameObject group = new GameObject(groupId);
+            Transform groupTransform = group.transform;
+            groupTransform.SetParent(droneRoot, false);
+            groupTransform.localPosition = Vector3.zero;
+            groupTransform.localRotation = Quaternion.identity;
+            groupTransform.localScale = Vector3.one;
+            return groupTransform;
+        }
+
+        private static void SealLooseFastenerMetadata(Transform droneRoot, FastenerRegistry registry)
+        {
+            if (droneRoot == null || registry == null)
+            {
+                return;
+            }
+
+            Transform rootGroup = EnsureDirectChildGroup(droneRoot, FastenerGroupId);
+            if (rootGroup == null)
+            {
+                return;
+            }
+
+            Transform[] transforms = rootGroup.GetComponentsInChildren<Transform>(true);
+            for (int i = 0; i < transforms.Length; i++)
+            {
+                Transform candidate = transforms[i];
+                if (candidate == null ||
+                    candidate == rootGroup ||
+                    !candidate.name.StartsWith("x500v2_fastener.", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                FastenerMetadata metadata = registry.ResolveMetadata(candidate);
+                if (metadata == null || string.IsNullOrWhiteSpace(metadata.instanceId))
+                {
+                    continue;
+                }
+
+                registry.SealMarker(candidate, metadata);
+
+                PartRenderCategory category = candidate.GetComponent<PartRenderCategory>();
+                if (category == null)
+                {
+                    category = candidate.gameObject.AddComponent<PartRenderCategory>();
+                }
+
+                string parentCanonicalId = string.IsNullOrWhiteSpace(metadata.parentCanonicalPartId)
+                    ? FastenerGroupId
+                    : metadata.parentCanonicalPartId;
+                category.Configure(parentCanonicalId, "Fasteners", "Fasteners", parentCanonicalId);
+            }
+        }
+
+        private static bool IsMisclassifiedStructuralFastener(string rawName)
+        {
+            return SelectionHierarchy.IsKnownStructuralNonFastenerName(rawName);
+        }
+
+        private static string ResolveDingweiParentCanonicalId(string rawName)
+        {
+            if (string.IsNullOrWhiteSpace(rawName))
+            {
+                return string.Empty;
+            }
+
+            string typeKey = FastenerNamingUtility.ExtractSceneTypeKey(rawName).ToLowerInvariant();
+            if (typeKey.Contains(".001"))
+            {
+                return "x500v2_arm_BR";
+            }
+
+            if (typeKey.Contains(".002"))
+            {
+                return "x500v2_arm_FR";
+            }
+
+            if (typeKey.Contains(".003"))
+            {
+                return "x500v2_arm_FL";
+            }
+
+            if (typeKey.Contains(".004"))
+            {
+                return "x500v2_arm_BL";
+            }
+
+            return string.Empty;
+        }
+
+        private static void DestroyComponent(Component component)
+        {
+            if (component == null)
+            {
+                return;
+            }
+
+            if (Application.isPlaying)
+            {
+                UnityEngine.Object.Destroy(component);
+            }
+            else
+            {
+                UnityEngine.Object.DestroyImmediate(component);
+            }
+        }
+
         private static void ReparentNestedOrphansByType(
             Transform droneRoot,
             IReadOnlyDictionary<string, ExplodablePart> anchorsById,
@@ -256,8 +467,14 @@ namespace WebGL.Core.Utils
                     ? currentAnchor.Data.id
                     : (currentAnchor != null ? currentAnchor.name : string.Empty);
 
-                string expectedAnchorId = ResolveExpectedAnchorIdFromName(member.name, currentAnchorId);
+                string expectedAnchorId = SelectionHierarchy.ResolveCanonicalPartId(member, droneRoot, currentAnchorId);
                 if (string.IsNullOrWhiteSpace(expectedAnchorId))
+                {
+                    continue;
+                }
+
+                if (IsStableCanonicalAnchorId(currentAnchorId) &&
+                    !string.Equals(currentAnchorId, expectedAnchorId, StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }
@@ -339,6 +556,11 @@ namespace WebGL.Core.Utils
             if (string.IsNullOrWhiteSpace(candidateName))
             {
                 return string.Empty;
+            }
+
+            if (IsRecognizedFastenerName(candidateName))
+            {
+                return FastenerGroupId;
             }
 
             if (candidateName.StartsWith("x500v2_fastener.", StringComparison.OrdinalIgnoreCase))
@@ -481,14 +703,17 @@ namespace WebGL.Core.Utils
                 {
                     category = renderer.gameObject.AddComponent<PartRenderCategory>();
                 }
-                category.Configure(anchorId, primaryCategory, auxiliaryCategory, thermalSourceId);
+                string subpieceId = SelectionHierarchy.ResolveSubpieceId(renderer.transform, anchorId);
+                category.Configure(anchorId, primaryCategory, auxiliaryCategory, thermalSourceId, subpieceId);
 
                 // Fasteners can be visually re-parented under their mother piece so the
                 // clicked renderer is not always the same transform that owns the runtime
                 // marker. Seal instance metadata on the visible renderer too, so selection
                 // and isolation can resolve the exact fastener instance instead of
                 // collapsing back to the associated fastener group.
-                if (registry != null && string.Equals(auxiliaryCategory, "Fasteners", StringComparison.OrdinalIgnoreCase))
+                if (registry != null &&
+                    string.Equals(auxiliaryCategory, "Fasteners", StringComparison.OrdinalIgnoreCase) &&
+                    SelectionHierarchy.IsPrimitiveFastenerSource(renderer.transform))
                 {
                     FastenerMetadata visibleFastenerMetadata = registry.ResolveMetadata(renderer.transform);
                     if (visibleFastenerMetadata != null && !string.IsNullOrWhiteSpace(visibleFastenerMetadata.instanceId))
@@ -558,7 +783,8 @@ namespace WebGL.Core.Utils
                 metadata.sceneTypeKey,
                 metadata.parentCanonicalPartId,
                 metadata.isInspectable,
-                metadata.fallbackReason);
+                metadata.fallbackReason,
+                SelectionHierarchy.IsPrimitiveFastenerSource(anchor.transform));
         }
 
         private static void EnsureSelectableLayer(Transform root)
@@ -577,20 +803,74 @@ namespace WebGL.Core.Utils
 
         private static void EnsureSelectionCollider(Renderer renderer)
         {
-            if (renderer == null || renderer.GetComponent<Collider>() != null)
+            if (renderer == null)
             {
                 return;
             }
 
             MeshFilter meshFilter = renderer.GetComponent<MeshFilter>();
-            if (meshFilter == null || meshFilter.sharedMesh == null)
+            if (meshFilter != null && meshFilter.sharedMesh != null)
+            {
+                foreach (BoxCollider staleBox in renderer.GetComponents<BoxCollider>())
+                {
+                    DestroyComponent(staleBox);
+                }
+
+                MeshCollider meshCollider = renderer.GetComponent<MeshCollider>();
+                if (meshCollider == null)
+                {
+                    meshCollider = renderer.gameObject.AddComponent<MeshCollider>();
+                }
+
+                meshCollider.sharedMesh = null;
+                meshCollider.sharedMesh = meshFilter.sharedMesh;
+                return;
+            }
+
+            if (renderer.GetComponent<Collider>() != null)
             {
                 return;
             }
 
             BoxCollider collider = renderer.gameObject.AddComponent<BoxCollider>();
-            collider.center = meshFilter.sharedMesh.bounds.center;
-            collider.size = meshFilter.sharedMesh.bounds.size;
+            Bounds localBounds = TransformWorldBoundsToLocal(renderer.bounds, renderer.transform);
+            collider.center = localBounds.center;
+            collider.size = localBounds.size;
+        }
+
+        private static Bounds TransformWorldBoundsToLocal(Bounds worldBounds, Transform target)
+        {
+            if (target == null)
+            {
+                return worldBounds;
+            }
+
+            Vector3 min = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+            Vector3 max = new Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+            Vector3 center = worldBounds.center;
+            Vector3 extents = worldBounds.extents;
+
+            for (int x = -1; x <= 1; x += 2)
+            {
+                for (int y = -1; y <= 1; y += 2)
+                {
+                    for (int z = -1; z <= 1; z += 2)
+                    {
+                        Vector3 worldCorner = center + Vector3.Scale(extents, new Vector3(x, y, z));
+                        Vector3 localCorner = target.InverseTransformPoint(worldCorner);
+                        min = Vector3.Min(min, localCorner);
+                        max = Vector3.Max(max, localCorner);
+                    }
+                }
+            }
+
+            Bounds localBounds = new Bounds((min + max) * 0.5f, max - min);
+            Vector3 size = localBounds.size;
+            size.x = Mathf.Max(size.x, 0.0001f);
+            size.y = Mathf.Max(size.y, 0.0001f);
+            size.z = Mathf.Max(size.z, 0.0001f);
+            localBounds.size = size;
+            return localBounds;
         }
 
         private static void ConfigureAuxiliaryExplode(Transform member, ExplodablePart anchor, string auxiliaryCategory)
@@ -708,116 +988,159 @@ namespace WebGL.Core.Utils
         private static string InferThermalSourcePartId(string rendererName, string anchorId)
         {
             string lowerName = (rendererName ?? string.Empty).ToLowerInvariant();
+            string searchableName = lowerName.Replace('_', '-').Replace(' ', '-');
             string suffix = ResolveQuadrantSuffix(lowerName);
             if (string.IsNullOrWhiteSpace(suffix))
             {
                 suffix = ResolveQuadrantSuffix((anchorId ?? string.Empty).ToLowerInvariant());
             }
 
-            if (lowerName.Contains("prop") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_prop_{suffix.ToUpperInvariant()}";
-            if (lowerName.Contains("motor") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_motor_{suffix.ToUpperInvariant()}";
-            if (lowerName.Contains("esc") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_esc_{suffix.ToUpperInvariant()}";
-            if (lowerName.Contains("battery")) return "x500v2_battery";
-            if (lowerName.Contains("pixhawk")) return "x500v2_pixhawk6c";
-            if (lowerName.Contains("gps")) return "x500v2_gps_m10";
-            if (lowerName.Contains("pdb")) return "x500v2_pdb";
-            if (lowerName.Contains("power_module")) return "x500v2_power_module";
-            if (lowerName.Contains("receiver")) return "x500v2_rc_receiver";
-            if (lowerName.Contains("telemetry") || lowerName.Contains("radio")) return "x500v2_telemetry_radio";
-            if (lowerName.Contains("rail")) return "x500v2_rails_battery";
-            if (lowerName.Contains("landing")) return "x500v2_landing_gear";
-            if (lowerName.Contains("top_plate")) return "x500v2_top_plate";
-            if (lowerName.Contains("bottom_plate")) return "x500v2_bottom_plate";
+            if (searchableName.Contains("prop") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_prop_{suffix.ToUpperInvariant()}";
+            if ((searchableName.Contains("motor") || searchableName.Contains("dj-2216")) && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_motor_{suffix.ToUpperInvariant()}";
+            if (searchableName.Contains("esc") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_esc_{suffix.ToUpperInvariant()}";
+            if (searchableName.Contains("battery-mounting") || searchableName.Contains("battery-pad") || searchableName.Contains("pylons") || searchableName.Contains("rail") || searchableName.Contains("guan-cheng")) return "x500v2_rails_battery";
+            if (searchableName.Contains("battery")) return "x500v2_battery";
+            if (searchableName.Contains("pixhawk") || searchableName.Contains("imu-pixhawk") || searchableName.Contains("bm06b")) return "x500v2_pixhawk6c";
+            if (searchableName.Contains("gps") || searchableName.Contains("gan-gpsv5") || searchableName.Contains("gpsv5-zhijia")) return "x500v2_gps_m10";
+            if (searchableName.Contains("pdb")) return "x500v2_pdb";
+            if (searchableName.Contains("power-module") || searchableName.Contains("pm06") || searchableName.Contains("xt60")) return "x500v2_power_module";
+            if (searchableName.Contains("receiver")) return "x500v2_rc_receiver";
+            if (searchableName.Contains("telemetry") || searchableName.Contains("radio")) return "x500v2_telemetry_radio";
+            if (searchableName.Contains("landing") || searchableName.Contains("jiao-") || searchableName.Contains("mao-jiao")) return "x500v2_landing_gear";
+            if (searchableName.Contains("top-plate")) return "x500v2_top_plate";
+            if (searchableName.Contains("bottom-plate") || searchableName.Contains("camera-intel") || searchableName.Contains("guangliu")) return "x500v2_bottom_plate";
+            if (searchableName.Contains("platform-plat")) return "x500v2_platform_board";
 
             return anchorId;
         }
 
         private static string ResolveExpectedAnchorIdFromName(string rawName, string fallbackAnchorId)
         {
+            string hierarchyResolved = SelectionHierarchy.ResolveCanonicalPartId(rawName, Vector3.zero, null, fallbackAnchorId);
+            if (!string.IsNullOrWhiteSpace(hierarchyResolved) &&
+                !string.Equals(hierarchyResolved, fallbackAnchorId, StringComparison.OrdinalIgnoreCase))
+            {
+                return hierarchyResolved;
+            }
+
             if (string.IsNullOrWhiteSpace(rawName))
             {
                 return fallbackAnchorId ?? string.Empty;
             }
 
             string lowerName = rawName.ToLowerInvariant();
+            string searchableName = lowerName.Replace('_', '-').Replace(' ', '-');
             string suffix = ResolveQuadrantSuffix(lowerName);
             if (string.IsNullOrWhiteSpace(suffix) && !string.IsNullOrWhiteSpace(fallbackAnchorId))
             {
                 suffix = ResolveQuadrantSuffix(fallbackAnchorId.ToLowerInvariant());
             }
 
-            bool hasFastenerToken = lowerName.Contains("fastener") || lowerName.Contains("screw") || lowerName.Contains("cap_screw") ||
+            bool hasFastenerToken = IsRecognizedFastenerName(lowerName) ||
+                                    lowerName.Contains("fastener") || lowerName.Contains("screw") || lowerName.Contains("cap_screw") ||
                                     lowerName.Contains("bolt") || lowerName.Contains("nut") || lowerName.Contains("washer") ||
                                     lowerName.Contains("standoff") || lowerName.Contains("spacer") ||
                                     lowerName.Contains("gb70") || lowerName.Contains("lm-") || lowerName.Contains("zslm") ||
                                     lowerName.Contains("nilongzhu") || lowerName.Contains("chen-liu") || lowerName.Contains("pan-ding");
 
-            // Arm-propulsion family (including their fasteners)
+            if (hasFastenerToken)
+            {
+                return string.Empty;
+            }
+
+            // Propulsion anchors remain selectable and thermally independent. The arm
+            // assembly keeps only structural arm meshes; fasteners are resolved by
+            // catalog metadata instead of broad name heuristics.
             if (!string.IsNullOrWhiteSpace(suffix) &&
-                (lowerName.Contains("arm") || lowerName.Contains("carbon-fiber-tube300") || lowerName.Contains("hmx5v") ||
-                 lowerName.Contains("motor") || lowerName.Contains("dj-2216") || lowerName.Contains("ban-dj") ||
-                 lowerName.Contains("esc") || lowerName.Contains("prop") ||
-                 (hasFastenerToken && (lowerName.Contains("dian") || lowerName.Contains("hmx5v") || lowerName.Contains("tube")))))
+                (searchableName.Contains("propeller") || searchableName.Contains("prop")))
+            {
+                return $"x500v2_prop_{suffix.ToUpperInvariant()}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(suffix) &&
+                (searchableName.Contains("motor") || searchableName.Contains("dj-2216")))
+            {
+                return $"x500v2_motor_{suffix.ToUpperInvariant()}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(suffix) && searchableName.Contains("esc"))
+            {
+                return $"x500v2_esc_{suffix.ToUpperInvariant()}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(suffix) &&
+                (searchableName.Contains("arm") || searchableName.Contains("carbon-fiber-tube300") || searchableName.Contains("hmx5v") ||
+                 searchableName.Contains("ban-dj") || searchableName.Contains("jia-guan")))
             {
                 return $"x500v2_arm_{suffix.ToUpperInvariant()}";
             }
 
             // Core electronics family
-            if (lowerName.Contains("pixhawk") || lowerName.Contains("imu-") || lowerName.Contains("pcb-pixhawk") || lowerName.Contains("bm06b"))
+            if (searchableName.Contains("pixhawk") || searchableName.Contains("imu-pixhawk") || searchableName.Contains("pcb-pixhawk") || searchableName.Contains("bm06b"))
             {
                 return "x500v2_pixhawk6c";
             }
 
-            if (lowerName.Contains("gps") || lowerName.Contains("gan-gpsv5") || lowerName.Contains("zhijia"))
+            if (searchableName.Contains("gps") || searchableName.Contains("gan-gpsv5") || searchableName.Contains("gpsv5-zhijia"))
             {
                 return "x500v2_gps_m10";
             }
 
-            if (lowerName.Contains("power_module") || lowerName.Contains("pm06") || lowerName.Contains("xt60") || lowerName.Contains("pdb"))
+            if (searchableName.Contains("pdb"))
+            {
+                return "x500v2_pdb";
+            }
+
+            if (searchableName.Contains("power-module") || searchableName.Contains("pm06") || searchableName.Contains("xt60"))
             {
                 return "x500v2_power_module";
             }
 
-            if (lowerName.Contains("battery") || lowerName.Contains("pylons") || lowerName.Contains("rails") || lowerName.Contains("guan-cheng") || lowerName.Contains("strap"))
+            if (searchableName.Contains("battery-mounting") || searchableName.Contains("battery-pad") ||
+                searchableName.Contains("pylons") || searchableName.Contains("rails") ||
+                searchableName.Contains("guan-cheng") || searchableName.Contains("strap"))
             {
                 return "x500v2_rails_battery";
             }
 
+            if (searchableName.Contains("battery"))
+            {
+                return "x500v2_battery";
+            }
+
             // Frame / landing family
-            if (lowerName.Contains("landing") || lowerName.Contains("jiao-") || lowerName.Contains("mao-jiao") ||
-                lowerName.Contains("carbon-fiber-tube") && !lowerName.Contains("tube300"))
+            if (searchableName.Contains("landing") || searchableName.Contains("jiao-") || searchableName.Contains("mao-jiao") ||
+                searchableName.Contains("carbon-fiber-tube") && !searchableName.Contains("tube300"))
             {
                 return "x500v2_landing_gear";
             }
 
-            if (lowerName.Contains("top-plate") || lowerName.Contains("top_plate"))
+            if (searchableName.Contains("top-plate"))
             {
                 return "x500v2_top_plate";
             }
 
-            if (lowerName.Contains("bottom-plate") || lowerName.Contains("bottom_plate") || lowerName.Contains("camera-intel") || lowerName.Contains("guangliu"))
+            if (searchableName.Contains("bottom-plate") || searchableName.Contains("camera-intel") || searchableName.Contains("guangliu"))
             {
                 return "x500v2_bottom_plate";
             }
 
-            if (lowerName.Contains("platform-plat"))
+            if (searchableName.Contains("platform-plat"))
             {
                 return "x500v2_platform_board";
             }
 
-            // Generic fasteners fallback: keep them encapsulated in the closest structural mother,
-            // preferring arm quadrant when available.
-            if (hasFastenerToken)
-            {
-                if (!string.IsNullOrWhiteSpace(suffix))
-                {
-                    return $"x500v2_arm_{suffix.ToUpperInvariant()}";
-                }
-
-                return "x500v2_bottom_plate";
-            }
-
             return fallbackAnchorId ?? string.Empty;
+        }
+
+        private static bool IsStableCanonicalAnchorId(string anchorId)
+        {
+            return !string.IsNullOrWhiteSpace(anchorId) &&
+                   anchorId.StartsWith("x500v2_", StringComparison.OrdinalIgnoreCase) &&
+                   !anchorId.StartsWith("x500v2_blend_", StringComparison.OrdinalIgnoreCase) &&
+                   !anchorId.StartsWith("x500v2_fastener.", StringComparison.OrdinalIgnoreCase) &&
+                   !string.Equals(anchorId, FastenerGroupId, StringComparison.OrdinalIgnoreCase) &&
+                   !string.Equals(anchorId, MiscGroupId, StringComparison.OrdinalIgnoreCase);
         }
 
         private static string InferAuxiliaryCategory(string rawName)
@@ -829,7 +1152,8 @@ namespace WebGL.Core.Utils
 
             string name = rawName.ToLowerInvariant();
 
-            if (name.Contains("fastener") || name.Contains("screw") || name.Contains("cap_screw") ||
+            if (IsRecognizedFastenerName(name) ||
+                name.Contains("fastener") || name.Contains("screw") || name.Contains("cap_screw") ||
                 name.Contains("bolt") || name.Contains("nut") || name.Contains("washer") ||
                 name.Contains("standoff") || name.Contains("spacer"))
             {
@@ -854,6 +1178,11 @@ namespace WebGL.Core.Utils
             return string.Empty;
         }
 
+        private static bool IsRecognizedFastenerName(string rawName)
+        {
+            return SelectionHierarchy.IsPrimitiveFastenerName(rawName);
+        }
+
         private Transform ResolveDroneRoot()
         {
             if (name.StartsWith("x500v2_Drone"))
@@ -875,7 +1204,8 @@ namespace WebGL.Core.Utils
                     continue;
                 }
 
-                if (child.name.StartsWith("x500v2_prop_", System.StringComparison.OrdinalIgnoreCase))
+                if (child.name.StartsWith("x500v2_prop_", System.StringComparison.OrdinalIgnoreCase) ||
+                    child.name.IndexOf("propeller", System.StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     propellers.Add(child);
                 }

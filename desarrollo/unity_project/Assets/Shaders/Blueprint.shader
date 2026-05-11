@@ -6,15 +6,15 @@ Shader "WebGL/Blueprint"
         _BackgroundColor("Background Color", Color) = (0.08, 0.18, 0.38, 1.0)
         _GridColor("Grid Color", Color) = (0.4, 0.55, 0.8, 0.2)
         
-        _OutlineWidth("Outline Width", Range(0, 0.05)) = 0.0015
-        _EdgeThreshold("Edge Threshold", Range(0, 1)) = 0.56
+        _OutlineWidth("Outline Width", Range(0, 0.05)) = 0.00008
+        _EdgeThreshold("Edge Threshold", Range(0, 1)) = 0.94
         
         [Header(Grid)]
-        _GridScale("Grid Scale", Range(1, 100)) = 20
+        _GridScale("Grid Scale", Range(1, 100)) = 22
         _GridWidth("Grid Line Width", Range(0.005, 0.05)) = 0.015
         
         [Header(Technical Lines)]
-        _FresnelPower("Edge Detection Power", Range(0.1, 8)) = 6.5
+        _FresnelPower("Edge Detection Power", Range(0.1, 8)) = 8.0
         
         [HideInInspector] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
         [HideInInspector] _EmissionColor("Emission Color", Color) = (0, 0, 0, 0)

@@ -26,6 +26,8 @@ Este documento evita tres errores comunes en la entrega:
 
 ---
 
+Nota de cierre 2026-05-08: el flujo final Blender -> Unity queda preparado en `desarrollo/docs/investigacion/Holybro/Blender_Final_Bake_Export_Unity_Workflow.md`. Este artefacto guia el bake final, export manual, atlas/mask y manifest runtime; el FBX final se integra despues de la exportacion manual.
+
 ## Alcance Funcional Real del Prototipo Entregable
 
 ### Flujos visibles en la UI actual
@@ -36,7 +38,7 @@ Este documento evita tres errores comunes en la entrega:
 - Hoja inferior de información técnica.
 - Hotspots/pines.
 - Aislamiento de selección.
-- Toggle de energía/encendido en estado experimental.
+- Toggle de energia/encendido y carga operativa con alcance heuristico; debe revalidarse despues del FBX final.
 
 #### Analyze
 
@@ -72,7 +74,7 @@ Los siguientes elementos existen en código o en documentación técnica, pero n
 | Exportaciones `.glb` y documentación de texel density | Pendiente       | No declarar entregado el paquete de optimización 3D completo mientras falten esos artefactos.                                                            |
 | URL pública definitiva                                | Condicional     | Si GitHub Pages o el hosting final no están activos, entregar el build local como respaldo explícito.                                                    |
 | Audio final integrado                                 | Pendiente       | Entregar la especificación técnica de audio, no presentar los clips como activos productivos ya incorporados.                                            |
-| Encendido con flujo térmico progresivo                | Pendiente clave | Declararlo como desarrollo activo: el botón de encendido debe activar animación del dron y propagación gradual del calor por pieza visible en `Thermal`. |
+| Encendido, carga y lectura termica                    | Implementado / pendiente de QA final | Presentarlo como visualizacion heuristica operativa; validar de nuevo tras importar el FBX final y aplicar texturas antes de usarlo como evidencia de build congelada. |
 
 ---
 
@@ -94,7 +96,7 @@ Si una afirmación no puede ubicarse claramente en una de esas tres categorías,
 2. No afirmar que los 7 modos están disponibles al usuario si la UI actual expone sólo el subconjunto operativo.
 3. No vender medición, assembly guide, BOM, anotaciones o connection points como flujo integrado del build actual.
 4. Acompañar la demo con ruta de respaldo local desde `docs/` si la URL pública aún no está configurada.
-5. Declarar el encendido con propagación térmica como pendiente prioritario hasta que quede integrado de punta a punta.
+5. Declarar el encendido, carga y lectura termica como implementados con alcance heuristico, pero pendientes de QA post-FBX antes del freeze final.
 6. Mantener consistencia entre README, manuales, guía de demo y auditoría académica.
 
 ---
@@ -118,6 +120,6 @@ Se declara este corte como checkpoint clave de estabilidad del prototipo:
 
 Pendiente prioritario para la siguiente sesion:
 
-1. Validar cobertura real de piezas y anclajes sobre el modelo final importado.
-2. Corregir casos de piezas no seleccionables o centradas en origen por heuristicas de reparent/anchor.
-3. Ajustar vista explosiva y cobertura termica final con ese modelo definitivo.
+1. Ejecutar el importador del FBX runtime final en Unity.
+2. Validar cobertura real de piezas, anclajes, grupos, hotspots, fasteners y helices.
+3. Aplicar texturas/materiales finales y repetir QA de filtros, isolate, explode, thermal y seleccion.

@@ -15,9 +15,10 @@ MonoBehaviour:
   partName: Arm 16mm Carbon Tube (Long)
   id: x500v2_blend_carbon_fiber_tube300
   partType: Structure
-  description: Brazo extendido diagonal de empuje. Part modeled based on CAD CARBON-FIBER-TUBE300.
+  description: Brazo extendido diagonal de empuje. Pieza modelada en base al CAD
+    CARBON-FIBER-TUBE300.
   weightKg: 0.03
-  dimensions: "\xE2\u0152\u20AC16\xC3\u2014300 mm"
+  dimensions: "\u230016\xD7300 mm"
   function: Brazo extendido diagonal de empuje
   materialType: Fibra de carbono
   materialProperties: 
@@ -40,7 +41,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0

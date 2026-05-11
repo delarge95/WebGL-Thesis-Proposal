@@ -96,6 +96,24 @@ El sistema modular permite:
 
 Esta decision conecta arte tecnico con optimizacion.
 
+### Estado actual de fasteners
+
+La parte Unity del sistema ya valida seleccion, metadata, hover, isolate y detalle modular bajo demanda. El detalle visible sigue siendo temporal cuando se usan placeholders Unity; las mallas finales de Blender deben reemplazar recetas/assets sin cambiar `familyId`, `instanceId` ni logica runtime.
+
+Si se aisla una pieza madre, la app puede conservar fasteners reconciliados. Si se aisla un fastener individual, debe quedar aislado como unidad completa y no arrastrar la placa madre ni submallas ajenas.
+
+### Pipeline final Blender a Unity
+
+El cierre de assets ya no debe describirse como "solo falta importar". El paso correcto es:
+
+- exportar desde Blender masters e instancias juntos;
+- importar el FBX final en Unity conservando el modelo anterior como referencia;
+- correr el saneamiento/importador;
+- verificar helices, grupos, filtros, hotspots y fasteners;
+- aplicar texturas finales y medir sobre build congelada.
+
+Mientras esa verificacion no exista, los resultados del capitulo 5 siguen como pendientes post-freeze.
+
 ## UX/UI mobile-first
 
 La interfaz con mayor respaldo teorico es la version mobile-first. Esto significa que se penso primero para pantallas tactiles, jerarquia clara y accion principal visible.
@@ -198,6 +216,7 @@ Los modos visuales no son decoracion. Cada uno ayuda a leer el ensamblaje de otr
 - Realistic: lectura material realista.
 - X-Ray: lectura interior o jerarquica.
 - Blueprint: lectura tecnica, casi de plano.
+- Blueprint: en la app actual se entiende mejor como entorno/preset tecnico cuando esta expuesto desde Studio; no debe venderse como uno de siete modos visibles si no aparece como tarjeta de UI.
 - SolidColor: segmentacion limpia.
 - Wireframe: estructura geometrica.
 - Ghosted: transparencia y relacion espacial.

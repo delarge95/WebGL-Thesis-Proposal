@@ -52,7 +52,13 @@ namespace WebGL.UI
         private bool _isIsolated = false;
         private Transform _isolatedFullSelection;
         private Transform _isolatedSubSelection;
+        private bool _isolatedSubSelectionHasAssociatedFasteners = false;
+        private Transform _nestedReturnSelection;
+        private Transform _nestedReturnFullSelection;
+        private bool _nestedReturnHasAssociatedFasteners = false;
+        private SubIsolationParentLayer _nestedReturnParentLayer = SubIsolationParentLayer.None;
         private bool _hotspotIsolationActive = false;
+        private bool _hotspotIsolationIncludesAssociatedFasteners = false;
         private readonly System.Collections.Generic.List<ExplodablePart> _hotspotIsolationMembers = new System.Collections.Generic.List<ExplodablePart>();
         private enum SubIsolationParentLayer
         {
@@ -431,9 +437,32 @@ namespace WebGL.UI
 
         private static Transform ResolveFullSelection(Transform selection)
         {
+            return ResolveFullSelection(selection, null);
+        }
+
+        private static Transform ResolveFullSelection(Transform selection, Transform preferredContext)
+        {
             if (selection == null)
             {
                 return null;
+            }
+
+            FastenerRuntimeMarker marker = ResolveFastenerMarker(selection);
+            if (IsValidFastenerMarker(marker))
+            {
+                if (preferredContext != null && IsFastenerAssociatedWithSelection(selection, preferredContext))
+                {
+                    return preferredContext;
+                }
+
+                if (!string.IsNullOrWhiteSpace(marker.ParentCanonicalPartId))
+                {
+                    Transform canonicalParent = ResolveCanonicalPartTransform(marker.ParentCanonicalPartId);
+                    if (canonicalParent != null)
+                    {
+                        return canonicalParent;
+                    }
+                }
             }
 
             var direct = selection.GetComponent<ExplodablePart>();
@@ -449,6 +478,31 @@ namespace WebGL.UI
             }
 
             return selection;
+        }
+
+        private static Transform ResolveCanonicalPartTransform(string canonicalPartId)
+        {
+            if (string.IsNullOrWhiteSpace(canonicalPartId))
+            {
+                return null;
+            }
+
+            ExplodablePart[] parts = FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None);
+            for (int i = 0; i < parts.Length; i++)
+            {
+                ExplodablePart part = parts[i];
+                if (part == null || part.Data == null)
+                {
+                    continue;
+                }
+
+                if (string.Equals(part.Data.id, canonicalPartId, StringComparison.OrdinalIgnoreCase))
+                {
+                    return part.transform;
+                }
+            }
+
+            return null;
         }
 
         private static bool IsSubSelection(Transform selection, Transform fullSelection)
@@ -523,20 +577,21 @@ namespace WebGL.UI
                 return marker;
             }
 
-            // Walk parents manually but STOP at the first ExplodablePart boundary.
-            // This prevents capturing a sibling fastener's marker on a shared ancestor.
+            // Walk parents manually but STOP after checking the first ExplodablePart
+            // boundary. This lets child meshes resolve their own fastener root without
+            // capturing sibling markers on shared mother-part ancestors.
             Transform current = selection.parent;
             while (current != null)
             {
-                if (current.GetComponent<ExplodablePart>() != null)
-                {
-                    break;
-                }
-
                 marker = current.GetComponent<FastenerRuntimeMarker>();
                 if (marker != null)
                 {
                     return marker;
+                }
+
+                if (current.GetComponent<ExplodablePart>() != null)
+                {
+                    break;
                 }
 
                 current = current.parent;
@@ -553,14 +608,151 @@ namespace WebGL.UI
             }
 
             FastenerRuntimeMarker marker = ResolveFastenerMarker(selection);
-            if (marker == null || string.IsNullOrWhiteSpace(marker.ParentCanonicalPartId))
+            if (!IsValidFastenerMarker(marker) ||
+                string.IsNullOrWhiteSpace(marker.ParentCanonicalPartId))
             {
                 return false;
             }
 
             string fullSelectionPartId = ResolveCanonicalPartId(fullSelection);
-            return !string.IsNullOrWhiteSpace(fullSelectionPartId)
-                && string.Equals(marker.ParentCanonicalPartId, fullSelectionPartId, StringComparison.OrdinalIgnoreCase);
+            if (!string.IsNullOrWhiteSpace(fullSelectionPartId)
+                && string.Equals(marker.ParentCanonicalPartId, fullSelectionPartId, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            return IsFastenerGeometricallyAssociatedWithScope(marker.transform, fullSelection);
+        }
+
+        private static bool IsFastenerGeometricallyAssociatedWithScope(Transform fastenerTransform, Transform scopeTransform)
+        {
+            if (fastenerTransform == null || scopeTransform == null)
+            {
+                return false;
+            }
+
+            if (!TryGetWorldBounds(scopeTransform, out Bounds scopeBounds) ||
+                !TryGetWorldBounds(fastenerTransform, out Bounds fastenerBounds))
+            {
+                return false;
+            }
+
+            float threshold = Mathf.Max(
+                GetDominantSize(fastenerBounds) * 0.9f,
+                GetDominantSize(scopeBounds) * 0.008f,
+                0.025f);
+            Bounds expanded = scopeBounds;
+            expanded.Expand(threshold * 2f);
+            return expanded.Intersects(fastenerBounds) ||
+                   expanded.Contains(fastenerBounds.center) ||
+                   CalculateBoundsDistance(scopeBounds, fastenerBounds) <= threshold;
+        }
+
+        private static float CalculateBoundsDistance(Bounds a, Bounds b)
+        {
+            Vector3 aMin = a.min;
+            Vector3 aMax = a.max;
+            Vector3 bMin = b.min;
+            Vector3 bMax = b.max;
+
+            float dx = Mathf.Max(0f, Mathf.Max(aMin.x - bMax.x, bMin.x - aMax.x));
+            float dy = Mathf.Max(0f, Mathf.Max(aMin.y - bMax.y, bMin.y - aMax.y));
+            float dz = Mathf.Max(0f, Mathf.Max(aMin.z - bMax.z, bMin.z - aMax.z));
+            return Mathf.Sqrt(dx * dx + dy * dy + dz * dz);
+        }
+
+        private static float GetDominantSize(Bounds bounds)
+        {
+            return Mathf.Max(bounds.size.x, Mathf.Max(bounds.size.y, bounds.size.z));
+        }
+
+        private static bool TryGetWorldBounds(Transform root, out Bounds bounds)
+        {
+            bounds = default;
+            if (root == null)
+            {
+                return false;
+            }
+
+            bool hasBounds = false;
+            Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                Renderer renderer = renderers[i];
+                if (renderer == null)
+                {
+                    continue;
+                }
+
+                if (!hasBounds)
+                {
+                    bounds = renderer.bounds;
+                    hasBounds = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(renderer.bounds);
+                }
+            }
+
+            return hasBounds;
+        }
+
+        private static bool IsValidFastenerMarker(FastenerRuntimeMarker marker)
+        {
+            return marker != null &&
+                   marker.SourceIsPrimitiveFastener &&
+                   SelectionHierarchy.IsPrimitiveFastenerSource(marker.transform);
+        }
+
+        private static bool IsFastenerSelection(Transform selection)
+        {
+            return IsValidFastenerMarker(ResolveFastenerMarker(selection));
+        }
+
+        private bool HotspotContainsFullSelection(Transform fullSelection)
+        {
+            if (fullSelection == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < _hotspotIsolationMembers.Count; i++)
+            {
+                ExplodablePart member = _hotspotIsolationMembers[i];
+                if (member != null && member.transform == fullSelection)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool ShouldEnterFullLayerBeforeNestedSelection(Transform nestedSelection, Transform fullSelection)
+        {
+            if (nestedSelection == null || fullSelection == null || nestedSelection == fullSelection)
+            {
+                return false;
+            }
+
+            if (!IsNestedSelectionLayer(nestedSelection, fullSelection))
+            {
+                return false;
+            }
+
+            if (HasHotspotIsolationLayer && !HotspotContainsFullSelection(fullSelection))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool IsNestedSelectionLayer(Transform selection, Transform fullSelection)
+        {
+            return IsSubSelection(selection, fullSelection)
+                || IsFastenerAssociatedWithSelection(selection, fullSelection);
         }
 
         private static bool CanNestSelectionWithinIsolation(Transform selection, Transform parentIsolation)
@@ -570,8 +762,55 @@ namespace WebGL.UI
                 return false;
             }
 
-            return IsSubSelection(selection, parentIsolation)
-                || IsFastenerAssociatedWithSelection(selection, parentIsolation);
+            return IsNestedSelectionLayer(selection, parentIsolation);
+        }
+
+        private void ClearNestedReturnLayer()
+        {
+            _nestedReturnSelection = null;
+            _nestedReturnFullSelection = null;
+            _nestedReturnHasAssociatedFasteners = false;
+            _nestedReturnParentLayer = SubIsolationParentLayer.None;
+        }
+
+        private void CaptureNestedReturnLayerIfNeeded(bool nextHasAssociatedFasteners)
+        {
+            if (_isolatedSubSelection != null
+                && _isolatedSubSelectionHasAssociatedFasteners
+                && !nextHasAssociatedFasteners)
+            {
+                _nestedReturnSelection = _isolatedSubSelection;
+                _nestedReturnFullSelection = _isolatedFullSelection;
+                _nestedReturnHasAssociatedFasteners = true;
+                _nestedReturnParentLayer = _subIsolationParentLayer;
+                return;
+            }
+
+            if (nextHasAssociatedFasteners)
+            {
+                ClearNestedReturnLayer();
+            }
+        }
+
+        private bool RestoreNestedReturnLayer()
+        {
+            if (_nestedReturnSelection == null)
+            {
+                return false;
+            }
+
+            Transform returnSelection = _nestedReturnSelection;
+            Transform returnFullSelection = _nestedReturnFullSelection;
+            bool returnHasAssociatedFasteners = _nestedReturnHasAssociatedFasteners;
+            SubIsolationParentLayer returnParentLayer = _nestedReturnParentLayer;
+            ClearNestedReturnLayer();
+
+            IsolateSubSelection(
+                returnSelection,
+                returnFullSelection,
+                returnHasAssociatedFasteners,
+                returnParentLayer);
+            return true;
         }
 
         private void IsolateFullSelection(Transform fullSelection)
@@ -585,6 +824,8 @@ namespace WebGL.UI
             _isIsolated = true;
             _isolatedFullSelection = fullSelection;
             _isolatedSubSelection = null;
+            _isolatedSubSelectionHasAssociatedFasteners = false;
+            ClearNestedReturnLayer();
             _subIsolationParentLayer = SubIsolationParentLayer.None;
             _modeController.SetIsolateState(true);
 
@@ -592,7 +833,11 @@ namespace WebGL.UI
             OrbitCameraController.Instance?.FocusOnObject(fullSelection);
         }
 
-        private void IsolateSubSelection(Transform subSelection, Transform fullSelection)
+        private void IsolateSubSelection(
+            Transform subSelection,
+            Transform fullSelection,
+            bool includeAssociatedFasteners = true,
+            SubIsolationParentLayer parentLayerOverride = SubIsolationParentLayer.None)
         {
             if (subSelection == null)
             {
@@ -601,16 +846,34 @@ namespace WebGL.UI
 
             if (fullSelection == null)
             {
-                fullSelection = ResolveFullSelection(subSelection);
+                fullSelection = ResolveFullSelection(
+                    subSelection,
+                    _isolatedFullSelection ?? SelectionManager.Instance?.CurrentFullSelection);
             }
 
             bool hadIsolatedFullLayer = _isIsolated && _isolatedSubSelection == null && _isolatedFullSelection != null;
 
-            PartVisibilityManager.Instance?.IsolateTransform(subSelection);
+            bool isFastener = IsFastenerSelection(subSelection);
+            bool shouldIncludeAssociatedFasteners = includeAssociatedFasteners && !isFastener;
+            CaptureNestedReturnLayerIfNeeded(shouldIncludeAssociatedFasteners);
+            if (shouldIncludeAssociatedFasteners)
+            {
+                PartVisibilityManager.Instance?.IsolateTransformWithAssociatedFasteners(subSelection);
+            }
+            else
+            {
+                PartVisibilityManager.Instance?.IsolateTransformOnly(subSelection);
+            }
+
             _isIsolated = true;
             _isolatedFullSelection = fullSelection;
             _isolatedSubSelection = subSelection;
-            if (hadIsolatedFullLayer)
+            _isolatedSubSelectionHasAssociatedFasteners = shouldIncludeAssociatedFasteners;
+            if (parentLayerOverride != SubIsolationParentLayer.None)
+            {
+                _subIsolationParentLayer = parentLayerOverride;
+            }
+            else if (hadIsolatedFullLayer)
             {
                 _subIsolationParentLayer = SubIsolationParentLayer.FullSelection;
             }
@@ -635,15 +898,17 @@ namespace WebGL.UI
                 return;
             }
 
-            Transform fullSelection = ResolveFullSelection(sel);
+            Transform fullSelection = ResolveFullSelection(
+                sel,
+                _isolatedFullSelection ?? SelectionManager.Instance?.CurrentFullSelection);
             if (fullSelection == null)
             {
                 return;
             }
 
-            if (IsSubSelection(sel, fullSelection))
+            if (IsNestedSelectionLayer(sel, fullSelection))
             {
-                IsolateSubSelection(sel, fullSelection);
+                IsolateSubSelection(sel, fullSelection, !IsFastenerSelection(sel));
             }
             else
             {
@@ -669,6 +934,22 @@ namespace WebGL.UI
             IsolateFullSelection(_isolatedFullSelection);
         }
 
+        private void RestoreParentIsolationFromSubSelection()
+        {
+            if (RestoreNestedReturnLayer())
+            {
+                return;
+            }
+
+            if (_subIsolationParentLayer == SubIsolationParentLayer.HotspotGroup)
+            {
+                RestoreHotspotIsolation();
+                return;
+            }
+
+            RestoreFullIsolationFromStack();
+        }
+
         private bool TryPromoteSelectionToNestedIsolation(Transform selection)
         {
             if (!_isIsolated || _isolatedFullSelection == null || selection == null)
@@ -681,7 +962,7 @@ namespace WebGL.UI
                 return false;
             }
 
-            IsolateSubSelection(selection, _isolatedFullSelection);
+            IsolateSubSelection(selection, _isolatedFullSelection, !IsFastenerSelection(selection));
             return true;
         }
 
@@ -724,7 +1005,7 @@ namespace WebGL.UI
 
             if (hasLocalMembers)
             {
-                visibility?.IsolateParts(_hotspotIsolationMembers);
+                visibility?.IsolateParts(_hotspotIsolationMembers, _hotspotIsolationIncludesAssociatedFasteners);
             }
 
             // Always attempt fallback from persisted group isolation to avoid losing
@@ -743,6 +1024,8 @@ namespace WebGL.UI
             _isIsolated = false;
             _isolatedFullSelection = null;
             _isolatedSubSelection = null;
+            _isolatedSubSelectionHasAssociatedFasteners = false;
+            ClearNestedReturnLayer();
             _subIsolationParentLayer = SubIsolationParentLayer.None;
             _hotspotIsolationActive = true;
             _modeController.SetIsolateState(true);
@@ -754,8 +1037,11 @@ namespace WebGL.UI
             _isIsolated = false;
             _isolatedFullSelection = null;
             _isolatedSubSelection = null;
+            _isolatedSubSelectionHasAssociatedFasteners = false;
+            ClearNestedReturnLayer();
             _subIsolationParentLayer = SubIsolationParentLayer.None;
             _hotspotIsolationActive = false;
+            _hotspotIsolationIncludesAssociatedFasteners = false;
             _hotspotIsolationMembers.Clear();
             PartVisibilityManager.Instance?.ClearStoredGroupIsolation();
             _modeController.SetIsolateState(false);
@@ -782,7 +1068,19 @@ namespace WebGL.UI
 
                 if (_isolatedSubSelection != null && _isolatedFullSelection != null)
                 {
-                    RestoreFullIsolationFromStack();
+                    if (currentSelection == _isolatedSubSelection
+                        && _isolatedSubSelectionHasAssociatedFasteners
+                        && !IsFastenerSelection(_isolatedSubSelection))
+                    {
+                        IsolateSubSelection(
+                            _isolatedSubSelection,
+                            _isolatedFullSelection,
+                            includeAssociatedFasteners: false);
+                    }
+                    else
+                    {
+                        RestoreParentIsolationFromSubSelection();
+                    }
                 }
                 else
                 {
@@ -810,7 +1108,17 @@ namespace WebGL.UI
             {
                 if (_isolatedSubSelection != null && selection == _isolatedSubSelection)
                 {
-                    RestoreFullIsolationFromStack();
+                    if (_isolatedSubSelectionHasAssociatedFasteners && !IsFastenerSelection(selection))
+                    {
+                        IsolateSubSelection(
+                            selection,
+                            _isolatedFullSelection,
+                            includeAssociatedFasteners: false);
+                    }
+                    else
+                    {
+                        RestoreParentIsolationFromSubSelection();
+                    }
                     return;
                 }
 
@@ -826,7 +1134,9 @@ namespace WebGL.UI
                 }
             }
 
-            Transform fullSelection = ResolveFullSelection(selection);
+            Transform fullSelection = ResolveFullSelection(
+                selection,
+                _isolatedFullSelection ?? SelectionManager.Instance?.CurrentFullSelection);
             if (fullSelection == null)
             {
                 return;
@@ -834,7 +1144,7 @@ namespace WebGL.UI
 
             if (CanNestSelectionWithinIsolation(selection, fullSelection))
             {
-                IsolateSubSelection(selection, fullSelection);
+                IsolateSubSelection(selection, fullSelection, !IsFastenerSelection(selection));
             }
             else
             {
@@ -891,31 +1201,11 @@ namespace WebGL.UI
         {
             if (evt.IsBackground)
             {
-                // When a sub-piece is isolated, background double-click steps back
-                // to full-part isolation. Otherwise it clears isolation.
+                // Step back one navigation layer at a time; do not skip the
+                // intermediate "subpiece + associated fasteners" state.
                 if (_isolatedSubSelection != null && _isolatedFullSelection != null)
                 {
-                    switch (_subIsolationParentLayer)
-                    {
-                        case SubIsolationParentLayer.FullSelection:
-                            RestoreFullIsolationFromStack();
-                            break;
-
-                        case SubIsolationParentLayer.HotspotGroup:
-                            RestoreHotspotIsolation();
-                            break;
-
-                        default:
-                            if (HasHotspotIsolationLayer)
-                            {
-                                RestoreHotspotIsolation();
-                            }
-                            else
-                            {
-                                ClearIsolation();
-                            }
-                            break;
-                    }
+                    RestoreParentIsolationFromSubSelection();
                 }
                 else if (_isIsolated)
                 {
@@ -955,26 +1245,39 @@ namespace WebGL.UI
                 ? evt.ClickedTransform
                 : SelectionManager.Instance?.CurrentSelection;
 
-            Transform clickedFull = evt.FullPartTransform != null
-                ? evt.FullPartTransform
-                : ResolveFullSelection(clickedSelection);
-
-            bool clickedIsSubSelection = IsSubSelection(clickedSelection, clickedFull);
-
             Transform selectionBeforeDoubleClick = evt.SelectionBeforeFirstClick;
-            Transform fullBeforeDoubleClick = evt.FullSelectionBeforeFirstClick != null
-                ? evt.FullSelectionBeforeFirstClick
-                : ResolveFullSelection(selectionBeforeDoubleClick);
+            Transform fullBeforeDoubleClick = ResolveFullSelection(
+                selectionBeforeDoubleClick,
+                _isolatedFullSelection ?? SelectionManager.Instance?.CurrentFullSelection);
+            if (fullBeforeDoubleClick == null)
+            {
+                fullBeforeDoubleClick = evt.FullSelectionBeforeFirstClick;
+            }
+
+            Transform preferredFullContext = _isolatedFullSelection
+                ?? fullBeforeDoubleClick
+                ?? SelectionManager.Instance?.CurrentFullSelection;
+            Transform clickedFull = ResolveFullSelection(clickedSelection, preferredFullContext);
+            if (clickedFull == null)
+            {
+                clickedFull = evt.FullPartTransform;
+            }
+
+            bool clickedIsFastener = IsFastenerSelection(clickedSelection);
+            bool clickedIsSubSelection = IsNestedSelectionLayer(clickedSelection, clickedFull);
 
             bool hadSelectionBeforeDoubleClick = evt.HadSelectionBeforeFirstClick;
-            bool wasSubSelectionBeforeDoubleClick = IsSubSelection(selectionBeforeDoubleClick, fullBeforeDoubleClick);
+            bool wasSubSelectionBeforeDoubleClick = IsNestedSelectionLayer(selectionBeforeDoubleClick, fullBeforeDoubleClick);
             bool sameFullPartAsBefore = fullBeforeDoubleClick != null
                 && clickedFull != null
                 && fullBeforeDoubleClick == clickedFull;
+            bool hotspotAllowsDirectNestedIsolation = HasHotspotIsolationLayer
+                && !HotspotContainsFullSelection(clickedFull);
 
             bool canIsolateSubSelection = clickedIsSubSelection && (
                 (hadSelectionBeforeDoubleClick && !wasSubSelectionBeforeDoubleClick && sameFullPartAsBefore) ||
-                (hadSelectionBeforeDoubleClick && wasSubSelectionBeforeDoubleClick && selectionBeforeDoubleClick == clickedSelection));
+                (hadSelectionBeforeDoubleClick && wasSubSelectionBeforeDoubleClick && selectionBeforeDoubleClick == clickedSelection) ||
+                hotspotAllowsDirectNestedIsolation);
 
             bool canNestWithinCurrentIsolation = _isIsolated
                 && _isolatedSubSelection == null
@@ -982,14 +1285,32 @@ namespace WebGL.UI
                 && clickedSelection != _isolatedFullSelection
                 && CanNestSelectionWithinIsolation(clickedSelection, _isolatedFullSelection);
 
+            if (!_isIsolated
+                && clickedIsSubSelection
+                && !canIsolateSubSelection
+                && ShouldEnterFullLayerBeforeNestedSelection(clickedSelection, clickedFull))
+            {
+                IsolateFullSelection(clickedFull);
+                _detailsSheet?.OpenSheet();
+                return;
+            }
+
             if (_isolatedSubSelection != null)
             {
                 bool sameSubSelection = clickedSelection != null && clickedSelection == _isolatedSubSelection;
                 if (sameSubSelection)
                 {
-                    // If a sub-piece is isolated, double-clicking it returns
-                    // to the previous full-part isolation state.
-                    RestoreFullIsolationFromStack();
+                    if (_isolatedSubSelectionHasAssociatedFasteners && !clickedIsFastener)
+                    {
+                        IsolateSubSelection(
+                            _isolatedSubSelection,
+                            _isolatedFullSelection,
+                            includeAssociatedFasteners: false);
+                    }
+                    else
+                    {
+                        RestoreParentIsolationFromSubSelection();
+                    }
                     return;
                 }
 
@@ -1003,7 +1324,7 @@ namespace WebGL.UI
 
                 if (canIsolateSubSelection)
                 {
-                    IsolateSubSelection(clickedSelection, clickedFull);
+                    IsolateSubSelection(clickedSelection, clickedFull, !clickedIsFastener);
                     _detailsSheet?.OpenSheet();
                     return;
                 }
@@ -1023,7 +1344,7 @@ namespace WebGL.UI
 
                 if (canIsolateSubSelection)
                 {
-                    IsolateSubSelection(clickedSelection, clickedFull);
+                    IsolateSubSelection(clickedSelection, clickedFull, !clickedIsFastener);
                     _detailsSheet?.OpenSheet();
                     return;
                 }
@@ -1035,7 +1356,7 @@ namespace WebGL.UI
 
             if (canIsolateSubSelection)
             {
-                IsolateSubSelection(clickedSelection, clickedFull);
+                IsolateSubSelection(clickedSelection, clickedFull, !clickedIsFastener);
             }
             else
             {
@@ -1049,6 +1370,7 @@ namespace WebGL.UI
         private void OnHotspotGroupIsolated(HotspotGroupIsolatedEvent evt)
         {
             _hotspotIsolationActive = evt.Members != null && evt.Members.Count > 0;
+            _hotspotIsolationIncludesAssociatedFasteners = evt.IncludeAssociatedFasteners;
             _hotspotIsolationMembers.Clear();
             if (evt.Members != null)
             {
@@ -1058,6 +1380,8 @@ namespace WebGL.UI
             _isIsolated = false;
             _isolatedFullSelection = null;
             _isolatedSubSelection = null;
+            _isolatedSubSelectionHasAssociatedFasteners = false;
+            ClearNestedReturnLayer();
             _subIsolationParentLayer = SubIsolationParentLayer.None;
             _modeController.SetIsolateState(_hotspotIsolationActive);
 

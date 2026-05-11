@@ -15,9 +15,9 @@ MonoBehaviour:
   partName: Pixhawk 6C Top Cover
   id: x500v2_blend_dike_pixhawk6c_lv_c1
   partType: Electronics
-  description: Carcasa superior del controlador. Part modeled based on CAD DIKE-PIXHAWK6C-LV-C1.
+  description: Carcasa superior del controlador. Pieza modelada en base al CAD DIKE-PIXHAWK6C-LV-C1.
   weightKg: 0.015
-  dimensions: "85\xC3\u201444 mm"
+  dimensions: "85\xD744 mm"
   function: Carcasa superior del controlador
   materialType: Aluminio CNC
   materialProperties: 

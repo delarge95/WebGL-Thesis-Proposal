@@ -15,10 +15,10 @@ MonoBehaviour:
   partName: Landing Skid End Cap
   id: x500v2_blend_jiao_lianjie
   partType: Structure
-  description: Lower cross plug. Part modeled based on CAD JIAO-LIANJIE.
+  description: "Tap\xF3n de la cruz inferior. Pieza modelada en base al CAD JIAO-LIANJIE."
   weightKg: 0.005
-  dimensions: "\xE2\u0152\u20AC10 mm"
-  function: Lower cross plug
+  dimensions: "\u230010 mm"
+  function: "Tap\xF3n de la cruz inferior"
   materialType: Nylon Protector
   materialProperties: 
   manufacturer: Holybro
@@ -40,7 +40,7 @@ MonoBehaviour:
   thumbnail: {fileID: 0}
   isHotspotTarget: 0
   hotspotLabel: 
-  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDirection: {x: 0, y: 1, z: 0}
   explosionDistance: 0.2
   explosionPriority: 0
   isModular: 0
