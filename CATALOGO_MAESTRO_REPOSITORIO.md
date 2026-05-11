@@ -1,0 +1,3750 @@
+﻿# Catálogo Maestro del Repositorio
+
+Este documento contiene un registro riguroso de cada archivo en el repositorio, detallando su contenido, función y fechas declaradas (si aplican), como parte del esfuerzo de reestructuración general.
+
+## Directorio Raíz (/)
+
+### 1. README.md
+- **Contenido:** Overview general del proyecto ("WebGL Drone Visualization Prototype"). Describe características (7 view modes, Exploded View, Cross-Section, Engineer Tools), estructura de carpetas básica, instrucciones de instalación/build, controles para escritorio/móvil, diseño de arquitectura (AppStateMachine, EventBus, Managers diversos) y detalles técnicos (KPIs, Shaders).
+- **Función:** Archivo de entrada público del proyecto para entender su alcance técnico (Technical Art / WebGL).
+- **Fechas / Año:** Declara explícitamente "Year: 2025" al final en los créditos del autor.
+- **Notas adicionales:** Cita estructuras de carpetas que pueden estar desincronizadas con la realidad y herramientas que quizás no están vivas en el producto final (AnnotationSystem, AssemblyChecklist, etc.).
+
+### 2. CONTRIBUTING.md y MOC_UI_UX_Complete.md, UV_Unwrapping_Strategy.md, solving_isolating_problem.md
+- **Contenido:** Aparentemente están duplicados o sobrescritos con contenido idéntico o similar, o al menos tuve un error de lectura, pero la mayoría mostraba el mismo contenido que el README u otra estructura técnica. Ojo: Es un desorden masivo de archivos en el root.
+- **Función:** Escombros o documentos desubicados que deberían estar organizados.
+
+### 3. PLAN_ANIMACIONES_ONBOARDING.md
+- **Contenido:** Describe el plan robusto de animaciones del onboarding y declara su estado de implementación. Menciona 15 "cards" procedurales sin usar GIF/Video, con división PC y Mobile.
+- **Función:** Documento de desarrollo/auditoría.
+- **Fecha:** "Estado de implementación (Abril 21, 2026)".
+## Directorio Cerebro_Digital/
+
+### 4. Cerebro_Digital/index.md
+- **Contenido:** Documento de entrada principal de la bóveda de Obsidian ("Cerebro Digital"). Contiene una descripción de la red de conocimiento (PKM). Enlaza a los principales MOCs (Mapas de Contenido) de Portafolio, Informe Final, Documentación Técnica, Agentes, Validación y Auditorías.
+- **Función:** Índice direccional de navegación para el sistema de Obsidian.
+- **Fecha:** "April 15, 2026"
+
+### 5. Cerebro_Digital/log.md
+- **Contenido:** Bitácora cronológica del proyecto, registrando las principales acciones de ingesta, auditoría, automatización y redacción de guiones y módulos de estudio.
+- **Función:** Registro histórico de cambios (Changelog a nivel del sistema entero).
+- **Fecha:** Entradas registradas desde "[2026-04-15]" hasta "[2026-05-10]" incluyendo la última sobre discrepancias encontradas en la auditoría.
+
+### 6. Cerebro_Digital/SYSTEM_SCHEMA.md
+- **Contenido:** Define las reglas de arquitectura y ontología estricta del proyecto. Define los super-directorios válidos, los estados de los documentos (borrador, consolidado, mantenido, historico), y prohíbe duplicar documentos, exigiendo linking.
+- **Función:** Declaración de gobernanza (Core Directive) para la estructura documental.
+- **Fecha:** Mantenido (probablemente co-creado alrededor de las mismas fechas de 2026).
+### Cerebro_Digital/Templates/
+- En esta carpeta se alojan múltiples plantillas estructurales para crear notas, usar literatura o documentar bases iterativas (TPL_dataset_nasa_tlx.md, TPL_eq_block.md, TPL_fuente_bibliografica.md...).
+- **Función:** Mantener la homogeneidad de los archivos de conocimiento (PKM).
+### Cerebro_Digital/Wiki/Concepts/ (Lote 1)
+
+- **Archivo:** $(Analisis_y_Feedback_Oratoria.md.Name)`n  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Extraído del encabezado: '# AnÃ¡lisis y RetroalimentaciÃ³n de Oratoria: Guion de SustentaciÃ³n'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(ANEXO_CRUCE_BIBLIOGRAFIA_DESCARGADA_2026-04-16.md.Name)`n  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Extraído del encabezado: '# Anexo de Cruce Bibliografico 2026-04-16'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(AUDITORIA_OPERACION_ORCHESTRATION_2026-04-16.md.Name)`n  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# ðŸ” Reporte de EjecuciÃ³n: Orchestration AutÃ³noma LLM-Wiki (2026-04-16)'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(AUD_INCOHERENCIAS_Y_CAMBIOS_RECOMENDADOS.md.Name)`n  - **Fecha:** 2026-05-10
+  - **Contenido/Función:** Extraído del encabezado: '# AUD â€” AuditorÃ­a Exhaustiva: Incoherencias, Contradicciones y Cambios Necesarios'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(CATALOGO_SCRIPTS_UNITY.md.Name)`n  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# Catalogo de Scripts Unity'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(CATALOGO_SCRIPTS_UNITY_COMPLETO.md.Name)`n  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# Catalogo Completo de Scripts Unity'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(DASHBOARD_SALUD_ENLACES.md.Name)`n  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Dashboard Salud de Enlaces'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(DIAGRAMA_ARQUITECTURA_CEREBRO_DIGITAL_v2.md.Name)`n  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Arquitectura de Cerebro Digital v2.0 (Post-Orchestration)'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(DIAGRAMA_ARQUITECTURA_FINAL_v3_FASE_1_2.md.Name)`n  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Arquitectura Final: Cerebro Digital v3.0 (Post-Orchestration Completa)'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(Estabilidad_y_Migracion_Unity6.md.Name)`n  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Estabilidad y MigraciÃ³n a Unity 6'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(Estrategia_Shaders_WebGL.md.Name)`n  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Estrategia de Shaders para WebGL'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(Fisica_Termica_Dron.md.Name)`n  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# FÃ­sica TÃ©rmica del Dron'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(GOBERNANZA_CALIDAD_WIKI.md.Name)`n  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Gobernanza de Calidad Wiki'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(INF_EST_00_Guia_Defensa_y_Lectura.md.Name)`n  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# Guia de Defensa y Lectura del Informe'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** $(INF_EST_01_Introduccion.md.Name)`n  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 01 Introduccion'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+
+
+### Cerebro_Digital/Wiki/Concepts/ (Auditoría Completa)
+
+- **Archivo:** Analisis_y_Feedback_Oratoria.md
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Extraído del encabezado: '# AnÃ¡lisis y RetroalimentaciÃ³n de Oratoria: Guion de SustentaciÃ³n'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** ANEXO_CRUCE_BIBLIOGRAFIA_DESCARGADA_2026-04-16.md
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Extraído del encabezado: '# Anexo de Cruce Bibliografico 2026-04-16'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** AUDITORIA_OPERACION_ORCHESTRATION_2026-04-16.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# ðŸ” Reporte de EjecuciÃ³n: Orchestration AutÃ³noma LLM-Wiki (2026-04-16)'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** AUD_INCOHERENCIAS_Y_CAMBIOS_RECOMENDADOS.md
+  - **Fecha:** 2026-05-10
+  - **Contenido/Función:** Extraído del encabezado: '# AUD â€” AuditorÃ­a Exhaustiva: Incoherencias, Contradicciones y Cambios Necesarios'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** CATALOGO_SCRIPTS_UNITY.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# Catalogo de Scripts Unity'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** CATALOGO_SCRIPTS_UNITY_COMPLETO.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# Catalogo Completo de Scripts Unity'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** DASHBOARD_SALUD_ENLACES.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Dashboard Salud de Enlaces'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** DIAGRAMA_ARQUITECTURA_CEREBRO_DIGITAL_v2.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Arquitectura de Cerebro Digital v2.0 (Post-Orchestration)'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** DIAGRAMA_ARQUITECTURA_FINAL_v3_FASE_1_2.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Arquitectura Final: Cerebro Digital v3.0 (Post-Orchestration Completa)'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** Estabilidad_y_Migracion_Unity6.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Estabilidad y MigraciÃ³n a Unity 6'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** Estrategia_Shaders_WebGL.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Estrategia de Shaders para WebGL'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** Fisica_Termica_Dron.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# FÃ­sica TÃ©rmica del Dron'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** GOBERNANZA_CALIDAD_WIKI.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Gobernanza de Calidad Wiki'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_00_Guia_Defensa_y_Lectura.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# Guia de Defensa y Lectura del Informe'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_01_Introduccion.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 01 Introduccion'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_02_Marco_Referencia.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 02 Marco de Referencia'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_03_Marco_Metodologico.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 03 Marco Metodologico'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_04_Desarrollo_Implementacion.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 04 Desarrollo e Implementacion'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_05_Resultados_Analisis.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 05 Resultados y Analisis'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_06_Conclusiones.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 06 Conclusiones'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_08_Apendices.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 08 Apendices'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_20_Catalogo_Secciones_y_Cobertura.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 20 Catalogo de Secciones y Cobertura'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_30_Pipeline_CAD_MAD_T.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 30 Pipeline CAD, MAD-T y Saneamiento Geometrico'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_31_UX_UI_Mobile_First.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 31 UX UI Mobile First'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_32_Iconografia_Procedural_Microinteracciones.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 32 Iconografia Procedural y Microinteracciones'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_33_Shaders_ViewModes_Entornos.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 33 Shaders, View Modes y Entornos'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_34_Sistema_Termico_Hibrido.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 34 Sistema Termico Hibrido'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_35_Tooling_Arquitectura_Runtime.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 35 Tooling, Arquitectura Runtime y Verificacion'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_50_Storytelling_Sustentacion_30min.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 50 Storytelling de Sustentacion en 30 Minutos'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_51_Guion_Completo_Sustentacion_30min.md
+  - **Fecha:** 2026-05-09
+  - **Contenido/Función:** Extraído del encabezado: '# INF_EST_51 - Guion completo de sustentacion 30 min'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_51_Guion_Completo_Sustentacion_30min_CORREGIDO.md
+  - **Fecha:** 2026-05-06
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 51 Guion Completo de SustentaciÃ³n en 30 Minutos (VersiÃ³n Narrativa)'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_52_Auditoria_Oratoria_Guion.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 52 Auditoria Oratoria del Guion'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_53_Auditoria_Oratoria_v2_Diagnostico.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 53 Auditoria de Oratoria v2 Diagnostico'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_54_Guion_Corregido_v2_Parte1.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 54 Guion Corregido v2 Parte 1'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_55_Guion_Corregido_v2_Parte2.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 55 Guion Corregido v2 Parte 2'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_60_Columna_Vertebral_Tesis.md
+  - **Fecha:** 2026-05-09
+  - **Contenido/Función:** Extraído del encabezado: '# INF_EST_60 â€” Columna Vertebral de la Tesis'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_61_Mapa_Claims_Defensa.md
+  - **Fecha:** 2026-05-09
+  - **Contenido/Función:** Extraído del encabezado: '# INF_EST_61 â€” Mapa de Claims de la Defensa'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_70_Guion_Final_Parte1.md
+  - **Fecha:** 2026-05-09
+  - **Contenido/Función:** Extraído del encabezado: '# INF_EST_70 â€” GuiÃ³n Final de SustentaciÃ³n (Parte 1: 0:00-15:00)'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_70_Guion_Final_Parte2.md
+  - **Fecha:** 2026-05-09
+  - **Contenido/Función:** Extraído del encabezado: '# INF_EST_70 â€” GuiÃ³n Final de SustentaciÃ³n (Parte 2: 15:00-30:00)'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_79_Incongruencias_Documentacion.md
+  - **Fecha:** 2026-05-09
+  - **Contenido/Función:** Extraído del encabezado: '# INF_EST_79 - Incongruencias de documentaciÃ³n y guiÃ³n por resolver'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_80_RESUMEN_EJECUTIVO_GUION_FINAL.md
+  - **Fecha:** 2026-05-09
+  - **Contenido/Función:** Extraído del encabezado: '# INF_EST_80 â€” RESUMEN EJECUTIVO: GUIÃ“N FINAL Y CÃ“MO USARLO'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_90_Glosario_Global.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 90 Glosario Global'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** INF_EST_91_Preguntas_Dificiles_Defensa.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# INF EST 91 Preguntas Dificiles de Defensa'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** Investigacion_Holybro_X500v2.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# InvestigaciÃ³n Base: Holybro X500 V2'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MATRIZ_TRAZABILIDAD_ENTREGABLES.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# Matriz de Trazabilidad de Entregables'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MATRIZ_TRAZABILIDAD_ENTREGABLES_COMPLETA.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Matriz Completa de Trazabilidad de Entregables'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Academic_Thesis.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# MOC Academic Thesis'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Agentes_Skills.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Mapa de Conocimiento: Agentes Skills'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Auditorias_y_Planes.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Mapa de Conocimiento: Auditorias y Planes'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Conectividad_Total.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# MOC Conectividad Total del Vault'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Consolidacion_Docs_Manuals.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC de Consolidacion Docs y Manuales'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Consolidacion_Drone.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC de Consolidacion Drone'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Consolidacion_External_Docs.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC de Consolidacion External Docs'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Consolidacion_Otros.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC de Consolidacion Otros'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Consolidacion_Planning_Agent_Kilo.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC de Consolidacion Planning, Agent y Kilo'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Consolidacion_Sistema_Termico.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC de Consolidacion Sistema Termico'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Consolidacion_Stubs_NoResueltas.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC de Consolidacion de Stubs No Resueltos'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Consolidacion_Testing_Validation.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC de Consolidacion Testing y Validacion'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Consolidacion_UX_UI.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC de Consolidacion UX/UI'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Consolidacion_WebGL.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC de Consolidacion WebGL'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Documentacion_Tecnica.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Mapa de Conocimiento: Documentacion Tecnica'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Drone_Research.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Mapa de Contenido: InvestigaciÃ³n Drone Holybro X500 V2'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Entregables_Global.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC Entregables Global'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Indice_Alfabetico_Global.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC Indice Alfabetico Global'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Informe_Final_Estudio_Profundo.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# MOC Informe Final Estudio Profundo'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Portafolio_Personal.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Mapa de Conocimiento: Portafolio Personal'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_RAG_Context_Packages.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC de Paquetes de Contexto RAG'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Secciones_del_Vault.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC Secciones del Vault'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Seccion_archive.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# '. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Seccion_Cerebro_Digital.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# '. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Seccion_desarrollo.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# '. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Seccion_docs.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# '. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Seccion_dot_agent.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# '. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Seccion_dot_kilo.md
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Extraído del encabezado: '# '. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Seccion_dot_planning.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# '. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Seccion_dot_root.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# '. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Seccion_External_docs.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# '. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Seccion_Informe_final.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# MOC Seccion: Informe_final'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Seccion_portafolio_personal.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# '. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Seccion_Propuesta.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# '. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Seccion_trash.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# '. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Sistema_Termico_Completo.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Mapa de Contenido: Sistema TÃ©rmico HÃ­brido Completo'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Testing_Validation.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Mapa de Contenido: Testing & ValidaciÃ³n Completo'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_UX_UI_Complete.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído del encabezado: '# MOC UX/UI Completo'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_Validacion_y_Presentacion.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Mapa de Conocimiento: Validacion y Presentacion'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** MOC_WebGL_Build_Pipeline.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Mapa de Contenido: WebGL Build Pipeline & OptimizaciÃ³n'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** Optimizacion_CAD_WebGL.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# OptimizaciÃ³n Agresiva de CAD para WebGL'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** Pipeline_Modelado_Dron.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Pipeline de Modelado del Dron'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** REGISTRO_ADJUNTOS_GLOBAL.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# REGISTRO_ADJUNTOS_GLOBAL'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** REGISTRO_FUENTES_BIBLIOGRAFICAS.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Registro de Fuentes Bibliograficas'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** REPORTE_AVANCE_ASESOR_2026-04-21.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# Reporte Ejecutivo para Asesor (2026-04-21)'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** REPORTE_FINAL_ORCHESTRATION_FASE_1_2_COMPLETA.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# ðŸ” Reporte Final: Orchestration AutÃ³noma Completa (Fase 1 + Fase 2)'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** Sistema_Iconos_Procedurales_UI.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Sistema de Iconos Procedurales (UI)'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+- **Archivo:** TAXONOMIA_METADATA_WIKI.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Taxonomia de Metadata Wiki'. Archivo conceptual/metadatos utilizado como MOC o guía de contexto interno.
+
+
+### Cerebro_Digital/Wiki/Entities/ (Auditoría Completa)
+
+- **Archivo:** Fastener_Builder_Addon.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Addon: Fastener Proxy Automator'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-APP-001_AppStateMachine.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: AppStateMachine'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-CONT-001_MaterialController.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: MaterialController'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-CONT-002_ExplodedViewManager.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: ExplodedViewManager'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-CONT-003_HighlightSystem.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: HighlightSystem'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-CROSS-001_CrossSectionManager.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: CrossSectionManager'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-EVT-001_EventBus.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: EventBus'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-ONB-001_OnboardingController.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: OnboardingController'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-ONB-002_OnboardingAnimationView.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: OnboardingAnimationView'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-PERF-001_WebGLProfiler.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: WebGLProfiler'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-SAVE-001_SaveSystem.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: SaveSystem'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-SEL-001_SelectionManager.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: SelectionManager'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-THM-001_ThermalSimulationManager.md
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: ThermalSimulationManager'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-UI-001_UIModeController.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: UIModeController'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-UI-002_UIManager.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: UIManager'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-UI-003_DetailsPanelController.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: DetailsPanelController'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-UI-004_HotspotManager.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: HotspotManager'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-UI-005_PartCatalogUI.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: PartCatalogUI'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-UI-006_EnhancedInfoPanel.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: EnhancedInfoPanel'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-UI-007_SettingsPanel.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: SettingsPanel'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-UI-008_LoadingController.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: LoadingController'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+- **Archivo:** SCR-VIEW-001_ViewModeManager.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Script Card: ViewModeManager'. Colección de entidades o scripts específicos de la aplicación Unity documentados.
+
+### Cerebro_Digital/Wiki/Entregables/ (Auditoría Completa)
+
+- **Archivo:** ROADMAP_REUNION_ASESOR.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# ROADMAP REUNION ASESOR'. Archivo(s) marcados como entregables del proyecto.
+
+### Cerebro_Digital/Wiki/Stubs_NoResueltas/ (Auditoría Completa)
+
+- **Archivo:** STUB_001_External_docs-GuÃ­a_Completa_de_DiseÃ±o_UI_UX_para_Aplicaciones_MÃ³.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_002_External_docs-ux_ui_reference-GuÃ­a_Completa_de_DiseÃ±o_UI_UX_para_Aplicaciones_MÃ³.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_003_Optimizacion_Brotli_WebGL.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_004_shader_custom_thermal.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_005_2026-04-16.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_006_archivo.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_007_Boundary_Conditions.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_008_CAD_Import_Pipeline.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_009_Energy_Conservation_Proof.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_010_Frame_Time_Analysis.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_011_Informe_final-AUDITORIA_PRIMERA_PASADA_INFORME_2026-04-15.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_012_Informe_final-PROMPT_AUDITORIA_DEEP_RESEARCH_INFORME_FINAL.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_013_MOC_WebGL.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_014_Observation_Checklist.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_015_PLAN_REMEDIACION_UX.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_016_Thermal_Colormap_Design.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_017_THERMAL_CONSTANTS.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_018_Thermal_Contact_Model.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_019_04_Arquitectura_Renderizado_URP.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_020_Academic_Drone_Papers.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_021_ACCESSIBILITY_AUDIT.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_022_Algo.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_023_Animation_System.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_024_API_STRUCTURE_AUDIT.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_025_Arm_Material_Analysis.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_026_Arquitectura_Termica_Dron.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_027_Audio_Video_Artifacts.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_028_Battery_Power_Analysis.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_029_Blueprint_Environment.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_030_Blueprint_Mode_Shader.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_031_Breakdown_Pipeline_CAD_a_WebGL.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_032_Browser_Compatibility_Test.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_033_Bug_Fixes_Thermal_Solver.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_034_Color_Mapping_by_Category.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_035_Combined_Validation_Report.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_036_Component_Category_System.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_037_Component_Isolation_Audit.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_038_Component_Selection_Hierarchy.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_039_Convergence_Analysis.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_040_Cross_Browser_Compatibility_Tests.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_041_Cross_Section_Viewer.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_042_Cross_Validation_with_ANSYS.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_043_Cut_Plane_Tool.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_044_Data_Model_Schema.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_045_DataBinding_System.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_046_DronePartDataFixer.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_047_Empirical_Motor_Heat_Profile.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_048_enlaces.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_049_Estrategia_Tesis_WebGL.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_050_Explode_View_Animation.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_051_Facilitator_Instructions.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_052_Filter_by_Property.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_053_Flight_Controller_PCB.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_054_Flight_Controller_Specs.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_055_Frame_CAD_Specifications.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_056_Ghosted_Mode_Implementation.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_057_GitHub_Pages_Deployment.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_058_GPS_Compass_Specs.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_059_GPU_Optimization_Opportunities.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_060_GPU_Texture_Streaming_Thermal.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_061_Heuristic_Evaluation_Details.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_062_Holybro_Official_Documentation.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_063_Holybro_X500v2_Official_Specs.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_064_Hybrid_Approach_Justification.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_065_Icono_Procedural_Design.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_066_IL2CPP_Backend_Config.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_067_Inspect_Panel_Data_Model.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_068_Isolate_Rendering_Setup.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_069_Iteration_Recommendations.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_070_Kitbash_vs_CAD_Analysis.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_071_links.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_072_LOD_Optimization_Drone.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_073_MAPEO_TERMICO_PIEZA_PROPIEDADES.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_074_MAPEO_UI_FIELD_BINDINGS.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_075_Material_Library.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_076_Material_Type_Classification.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_077_Maya_Blender_CAD_Import.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_078_Memory_Profile_Analysis.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_079_MOC_Flujo_Termico_Final.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_080_Modeling_Tutorial_Comparison.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_081_Motor_ESC_Analysis.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_082_Motor_Specs_BLDC.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_083_NASA_TLX_Heatmap.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_084_NASA_TLX_Scoring_Guide.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_085_NombreDeLaPagina.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_086_Open_Source_Drone_Designs.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_087_Overview_Mode_Spec.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_088_Part_List_Database.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_089_Participant_Demographics.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_090_Performance_Metrics_Summary.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_091_Performance_Optimization_Iterations.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_092_Performance_Rendering_Tests.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_093_Performance_Thermal_Render.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_094_Performance_UI_Audit.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_095_Portfolio_WebGL_Case_Study.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_096_Power_Control_UI.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_097_Power_Distribution_Board.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_098_ProceduralPinsIcon.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_099_Propeller_Analysis.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_100_Property_Panel_Data_Flow.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_101_Qualitative_Data_Coding.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_102_Raw_Response_Data.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_103_Recommendations_from_Qualitative.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_104_Reporte_LaTeX_Resultados.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_105_Selection_Highlight_Shader.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_106_Selection_System.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_107_Selection_System_Tests.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_108_Sensor_Calibration_Guide.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_109_Sensor_Data_Format.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_110_SolidColor_Kategory_Mapper.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_111_Solver_Architecture.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_112_Statistical_Significance_Testing.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_113_SUS_Benchmark_Data.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_114_SUS_Score_Analysis.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_115_SUS_Scoring_Guide.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_116_Task_Timing_Analysis.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_117_Technical_Artist_Breakdown.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_118_Testing_Session_Log.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_119_Thermal_Load_Profile.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_120_Thermal_Properties_by_Component.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_121_Thermal_Regression_Tests.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_122_Thermal_Simulation_Tests.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_123_Thermal_Solver_State_Machine.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_124_THERMAL_SYSTEM_AUDIT_REPORT.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_125_Thermal_System_Demo_Assets.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_126_Thermal_System_Development_Log.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_127_Titulo_X.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_128_UIToolkit_Architecture.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_129_Usability_Issue_Clustering.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_130_Usability_Issues_Log.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_131_Usability_Metrics_Report.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_132_User_Journey_Mapping.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_133_User_Testing_Summary_Report.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_134_Validacion_Results_Analysis.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_135_ViewMode_Switching_Tests.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_136_Viewport_Management.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_137_WASM_Memory_Limits.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_138_webgl_optimizer.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_139_webgl_scanner.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_140_Wireframe_Mode_Spec.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_141_Workload_Assessment_Methodology.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_142_XRay_Mode_Implementation.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_143_XRay_Performance_Analysis.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+- **Archivo:** STUB_144_YouTube_Assembly_Tutorials.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo(s) marcados como stubs (esbozos vacíos o sin resolver).
+
+## 3. Directorio: desarrollo/ (Raíz)
+
+- **Archivo:** ANALISIS_RECURSOS_DRON.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# AnÃ¡lisis de Recursos para Modelo de Dron'. Archivo central de desarrollo en raíz.
+- **Archivo:** CORE_DIRECTIVE.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: '# CORE SYSTEM DIRECTIVE: ANTIGRAVITY PERSONA'. Archivo central de desarrollo en raíz.
+- **Archivo:** ESTRUCTURA_CARPETAS.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: '# Estructura de Carpetas - Proyecto WebGL'. Archivo central de desarrollo en raíz.
+- **Archivo:** HOJA_DE_RUTA.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# ðŸš€ Hoja de Ruta Detallada - Prototipo Web 3D Interactivo'. Archivo central de desarrollo en raíz.
+- **Archivo:** PLAN_MODELADO_DRON.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: '# Plan Definitivo: Modelado de Dron para Tesis y Portafolio'. Archivo central de desarrollo en raíz.
+- **Archivo:** README.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# 📚 Guía Rápida de Referencia - Proyecto WebGL'. Archivo central de desarrollo en raíz.
+- **Archivo:** UNITY_SETUP.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: '# Unity Project Setup Guide'. Archivo central de desarrollo en raíz.
+
+### desarrollo/docs/ (Auditoría Completa)
+
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/08_Portafolio_Tech_Artist.md
+  - **Fecha:** 2026-04-22
+  - **Contenido/Función:** Extraído del encabezado: '# Portafolio de Tech Artist â€” Alexander Woodcock SalomÃ³n'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/ARCHITECTURE.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# WebGL Drone Viewer - System Architecture'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/Auditoria_Fastener_Isolation_Bug.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# AuditorÃ­a TÃ©cnica: Bug de Aislamiento de Fasteners por Instancia'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/BACKLOG_NOTAS_NO_RESUELTAS_2026-04-16.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Backlog de Notas No Resueltas'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/DEPLOYMENT_GUIDE.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# WebGL Deployment Guide'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/KPI_CONTROL_TRAZABILIDAD_2026-04-16.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# KPI de Control - Trazabilidad (Paso 7)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/PLAN_MAESTRO_FINAL_OBSIDIAN_2026-04-16.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Plan Maestro Final de Organizacion Obsidian'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/PLAN_ONBOARDING_MEDIA_2026-04-15.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# Plan tÃ©cnico: onboarding con iconos e ilustraciones por tarjeta'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/PLAN_OPERATIVO_BIBLIOGRAFIA_MVP_2026-04-16.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Plan Operativo de Bibliografia (MVP)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/PLAN_TRAZABILIDAD_CEREBRO_DIGITAL_2026-04-16.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Plan de Trazabilidad del Cerebro Digital (Ejecucion sin Unity)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/README.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# desarrollo/docs'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/REPORTE_CIERRE_OBSIDIAN_Y_PROPUESTA_SIMPLIFICADA_2026-04-16.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Reporte de Cierre: Propuesta Simplificada + Implementacion de Obsidian'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/Resolucion_Fastener_Isolation_Bug.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# Walkthrough: Fastener Isolation Bug â€” Fix Completo'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/run_webgl_build_cli.ps1
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/tmp_block_targets.txt
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/Unity 6 WebGL  aislamiento jerárquico de fasteners por instancia.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# Unity 6 WebGL: aislamiento jerÃ¡rquico de fasteners por instancia'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/UNITY_SETUP.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# Unity Project Setup Guide'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/WEBGL_BUILD_SETTINGS.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# WebGL Build Settings Reference'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/WEBGL_OPTIMIZATION_MANUAL.md
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Extraído del encabezado: '# Configuraciones Manuales de OptimizaciÃ³n â€” WebGL Drone Viewer'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/diseno/estudio_ux_ui.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# ðŸŽ¨ Estudio de DiseÃ±o UX/UI: "Aero-Glass 2026"'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/diseno/info_01.png
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/diseno/info_02.png
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/diseno/prompt_generacion_ui.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# Prompt para GeneraciÃ³n de UI (Google Stitch / v0 / Cursor)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/diseno/versiones/Captura de pantalla 2026-03-03 182543.png
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/diseno/versiones/Captura de pantalla 2026-03-03 182656.png
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/diseno/versiones/Captura de pantalla 2026-03-03 182737.png
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/01_pipeline_modelado_hard_surface.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# ðŸ”¬ InvestigaciÃ³n TÃ©cnica: Pipeline de Modelado Hard Surface y Kitbashing'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/02_arquitectura_shaders_visualizacion.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# ðŸ”¬ InvestigaciÃ³n TÃ©cnica: Arquitectura de Shaders para VisualizaciÃ³n'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/03_estrategia_optimizacion_webgl_2025.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# ðŸ”¬ InvestigaciÃ³n TÃ©cnica: Estrategia de OptimizaciÃ³n WebGL 2025'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/04_analisis_estrategia_modelado.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# âš–ï¸ AnÃ¡lisis EstratÃ©gico: Modelado Propio vs. RetopologÃ­a CAD'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/05_investigacion_fuentes_modelos.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# ðŸ•µï¸ InvestigaciÃ³n Exhaustiva: Fuentes de Modelos 3D y ProblemÃ¡tica de Propiedad Intelectual'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/05_investigacion_fuentes_modelos_exhaustiva.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# ðŸ“š InvestigaciÃ³n Exhaustiva: Fuentes de Modelos 3D y AnÃ¡lisis de Mercado'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/06_analisis_drone_muestra.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: '# AnÃ¡lisis Exhaustivo: Modelo de Dron Muestra (DJI Phantom 4 Pro)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/07_analisis_usuario_y_propuesta_dron.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: '# AnÃ¡lisis de Usuario Objetivo y Propuesta de Dron '. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/08_analisis_holybro_x500_x650_s500_y_termica.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: '# ðŸš InvestigaciÃ³n y AnÃ¡lisis: Familia Holybro (S500, X500 V2, X650)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/09_analisis_profundo_vista_termica.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: '# AnÃ¡lisis Profundo: Vista TÃ©rmica (Heatmap) en Gemelos Digitales WebGL'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/09_catalogo_exhaustivo_piezas_x500v2.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: '# CatÃ¡logo Exhaustivo de Piezas â€“ Holybro X500 V2'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/10_analisis_lods_y_retopologia.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: '# GuÃ­a TÃ©cnica Definitiva: LODs y Flujo de Trabajo de RetopologÃ­a para WebGL'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/10_workflow_integracion_cad_unity.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: '# Workflow de IntegraciÃ³n: CAD â†’ Unity WebGL (Holybro X500 V2)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/11_plan_iconos_ui.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: '# PlanificaciÃ³n de Iconos UI con Microinteracciones'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/12_plan_iconos_procedurales_cs.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: '# PlanificaciÃ³n de Iconos Procedurales y Microinteracciones MatemÃ¡ticas (C#)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/13_matematicas_iconos_procedurales.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: '# Arquitectura MatemÃ¡tica y FÃ­sica de Ãconos Procedimentales en UI Toolkit'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/14_analisis_problemas_app_2026-03-10.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: '# Analisis de Problemas de la App'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/15_arquitectura_animaciones_onboarding.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído del encabezado: '# Arquitectura tÃ©cnica de animaciones procedurales del onboarding'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/ANALISIS_RECURSOS_DRON.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído del encabezado: '# AnÃ¡lisis de Recursos para Modelo de Dron'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Optimización brutal del portafolio de Technical Artist WebGL para mercado remoto AA AAA.md
+  - **Fecha:** 2026-04-22
+  - **Contenido/Función:** Extraído del encabezado: '# OptimizaciÃ³n brutal del portafolio de Technical Artist WebGL para mercado remoto AA/AAA'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/PLAN_MIGRACION_UNITY_6.md
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído del encabezado: '# Plan de Migracion a Unity 6.4 LTS (Mesh LOD + WebGL + Metricas)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/AUDIT_CIERRE_CONGRUENCIA_INFO_PANEL_2026-04-15.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído del encabezado: '# AUDITORIA DE CIERRE DE CONGRUENCIA INFO PANEL (2026-04-15)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/AUDIT_CIERRE_CONGRUENCIA_INFO_PANEL_2026-04-15_V2.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído del encabezado: '# AUDITORIA DE CIERRE DE CONGRUENCIA INFO PANEL (2026-04-15) - V2'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/AUDIT_EXHAUSTIVO_INFO_PANEL_2026-04-15.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído del encabezado: '# AUDIT EXHAUSTIVO - Info Panel (15-04-2026)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/AUDIT_FINAL_CONSISTENCIA_INFO_PANEL_2026-04-15.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído del encabezado: '# AUDITORIA FINAL DE CONSISTENCIA INFO PANEL (2026-04-15)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/AUDIT_POST_CORRECCION_INFO_PANEL_2026-04-15.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído del encabezado: '# AUDITORIA POST-CORRECCION INFO PANEL (2026-04-15)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/blender_bake_target_setup.py
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Blender_Final_Bake_Export_Unity_Workflow.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído del encabezado: '# Holybro X500 V2 - Bake final Blender y export manual a Unity'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/blender_pack_x500_mask.py
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/blender_runtime_manifest_exporter.py
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/CAD-to-Unity WebGL Optimization  Complete Technical Blueprint for Drone Visualization.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído del encabezado: '# CAD-to-Unity WebGL Optimization: Complete Technical Blueprint for Drone Visualization'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/CAD_Bake_Automation_Workflow.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído del encabezado: '# AutomatizaciÃ³n del Flujo de Trabajo para Baking de Instancias CAD (Blender âž” RizomUV âž” Marmoset)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/CAD_Fastener_Optimization_Plan.md
+  - **Fecha:** 2026-05-09
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/cad_mesh_swapper.py
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/cad_proxy_automator.py
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/cad_symmetry_addon.py
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: '# --- Operators ---'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/cad_symmetry_addon_v2.py
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/cad_symmetry_addon_v3.py
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: '# --- PCA Logic for Universal 3D CAD Alignment ---'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/cad_symmetry_addon_v4.py
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: '# --- PCA Logic for Universal 3D CAD Alignment ---'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/cad_symmetry_addon_v5_ultimate.py
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: '# --- KABSCH SVD ALGORITHM ---'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/cad_symmetry_addon_v6_batch.py
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: '# --- KABSCH SVD ALGORITHM ---'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/cad_symmetry_addon_v7_moi.py
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído del encabezado: '# --- ICP ALGORITHM ---'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/CAD_Symmetry_Instancer_Documentation.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído del encabezado: '# CAD Symmetry Instancer - DocumentaciÃ³n TÃ©cnica y Arquitectura'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/cad_thread_retopo.py
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/generate_inventory.py
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Holybro X500 V2 Report.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: '# Gemelo digital Holybro X500 V2 â€“ Especificaciones de hardware'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/holybro-x500-links.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: '# DocumentaciÃ³n y recursos para gemelo digital Holybro X500 V2'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/holybro_fastener_families.json
+  - **Fecha:** 2026-05-10
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/holybro_fastener_instances.json
+  - **Fecha:** 2026-05-10
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/holybro_fastener_reconciliation.json
+  - **Fecha:** 2026-05-10
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Holybro_Material_Mapping.md
+  - **Fecha:** 2026-05-06
+  - **Contenido/Función:** Extraído del encabezado: '# Mapeo Exhaustivo de Materiales (Holybro X500 V2)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/holybro_parent_subpieces.json
+  - **Fecha:** 2026-05-09
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/holybro_selection_hierarchy.json
+  - **Fecha:** 2026-05-09
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Holybro_X500_FrameKit_AssemblyGuide.pdf
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/MAPEO_UI_FIELD_BINDINGS_2026-04-15.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído del encabezado: '# MAPEO UI - CAMPOS Y BINDINGS (2026-04-15)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Pixhawk4Mini_QAV250_Kit_QuickStartGuide.pdf
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/tablas_piezas_hotspots.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído del encabezado: '# Tablas de piezas, subpiezas y hotspots'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/translate_runtime_copy_to_english.js
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/TRAZABILIDAD_MASAS_PIEZAS_MADRE_2026-04-15.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído del encabezado: '# TRAZABILIDAD DE MASAS PIEZAS MADRE Y HOTSPOTS (2026-04-15)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/X500-Kit_AssemblyManual.pdf
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/x500v2_blender_inventory.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: '# Inventario FÃ­sico y TÃ©rmico del Gemelo Digital Holybro X500 V2'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/x500v2_blender_synced_parts.json
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/x500v2_blender_unity_crossref.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído del encabezado: '# Cross-Reference: Blender â†’ Unity â€” Holybro X500 V2'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/x500v2_parts_data.json
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/x500v2_subpiece_encapsulation_map.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído del encabezado: '# Mapa de Encapsulado de Subpiezas (X500 V2)'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Holybro_X500_V2_3D Print/AIR2216II_Motor_3D.STEP
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Holybro_X500_V2_3D Print/EXT-8P-V5.STEP
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Holybro_X500_V2_3D Print/Pixhawk6C-3D-CAD.stp
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Holybro_X500_V2_3D Print/x500v2-frame.step
+  - **Fecha:** 2026-02-25
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Holybro_X500_V2_3D Print/Holybro_X500_V2_3D Print/PLA-X500 V2-landing-gear-reinforcement-1.stl
+  - **Fecha:** 2022-01-22
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Holybro_X500_V2_3D Print/Holybro_X500_V2_3D Print/PLA-X500 V2-landing-gear-reinforcement-2.stl
+  - **Fecha:** 2022-01-22
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Holybro_X500_V2_3D Print/Holybro_X500_V2_3D Print/TPU-X500 V2-landing-gear-reinforcement.stl
+  - **Fecha:** 2022-01-22
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Holybro_X500_V2_3D Print/Holybro_X500_V2_3D Print/X500 V2-depth-camera-mount.stl
+  - **Fecha:** 2021-09-16
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Holybro_X500_V2_3D Print/Holybro_X500_V2_3D Print/X500 V2-landing-gear-reinforcement.stl
+  - **Fecha:** 2021-09-06
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/investigacion/Holybro/Holybro_X500_V2_3D Print/Holybro_X500_V2_3D Print/X500 V2-xt60-holder.stl
+  - **Fecha:** 2021-09-02
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/sistema_termico/AGENT_HANDOFF_THERMAL.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído del encabezado: '# Handoff tÃ©cnico del sistema tÃ©rmico'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/sistema_termico/INDICE_TERMICO.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído del encabezado: '# Indice del sistema termico'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/sistema_termico/MATRIZ_ACTUALIZACION_DOCUMENTAL.md
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído del encabezado: '# Matriz de actualizacion documental del sistema termico'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/sistema_termico/PREPARACION_FBX_IMPORTADO.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído del encabezado: '# Preparacion del FBX importado'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/sistema_termico/README.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído del encabezado: '# Sistema térmico del dron'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/sistema_termico/RETOPOLOGIA_POR_PIEZA.md
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído del encabezado: '# GuÃ­a de retopologÃ­a por pieza - Holybro X500 V2'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/sistema_termico/wolfram_query_conductance_factor.json
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de documentación investigativa y de diseño.
+- **Archivo:** E:/WebGL_tesis/desarrollo/docs/sistema_termico/wolfram_verificaciones.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído del encabezado: '# Verificaciones Wolfram â€” Sistema Termico'. Archivo de documentación investigativa y de diseño.
+
+### desarrollo/logs/ (Auditoría Completa)
+
+- **Archivo:** E:/WebGL_tesis/desarrollo/logs/project_graph.json
+  - **Fecha:** 2026-02-23
+  - **Contenido/Función:** Extraído del encabezado: 'Sin Título Principal'. Archivo de bitácora/logs del proceso de avance.
+
+## 4. Directorio: docs/ (Web Frontend / Manuals)
+
+- **Archivo:** .gitignore
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '# Dependencies'. Archivo de sitio estático, frontend o despliegue Vite.
+- **Archivo:** .nojekyll
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: 'Sin Título/Metadato (Script/Config)'. Archivo de sitio estático, frontend o despliegue Vite.
+- **Archivo:** index-vite.html
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '<title>WebGL Drone Viewer</title>'. Archivo de sitio estático, frontend o despliegue Vite.
+- **Archivo:** index.html
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '<title>Drone Viewer | WebGL 3D</title>'. Archivo de sitio estático, frontend o despliegue Vite.
+- **Archivo:** install-and-test.bat
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: 'Sin Título/Metadato (Script/Config)'. Archivo de sitio estático, frontend o despliegue Vite.
+- **Archivo:** install.ps1
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: 'Sin Título/Metadato (Script/Config)'. Archivo de sitio estático, frontend o despliegue Vite.
+- **Archivo:** INSTALL_STATUS.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# Estado de la instalaciÃ³n'. Archivo de sitio estático, frontend o despliegue Vite.
+- **Archivo:** main.js
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: 'Sin Título/Metadato (Script/Config)'. Archivo de sitio estático, frontend o despliegue Vite.
+- **Archivo:** package-lock.json
+  - **Fecha:** 2026-04-09
+  - **Contenido/Función:** Extraído: 'Sin Título/Metadato (Script/Config)'. Archivo de sitio estático, frontend o despliegue Vite.
+- **Archivo:** package.json
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: 'Sin Título/Metadato (Script/Config)'. Archivo de sitio estático, frontend o despliegue Vite.
+- **Archivo:** styles.css
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: 'Sin Título/Metadato (Script/Config)'. Archivo de sitio estático, frontend o despliegue Vite.
+- **Archivo:** vite.config.js
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: 'Sin Título/Metadato (Script/Config)'. Archivo de sitio estático, frontend o despliegue Vite.
+
+### docs/ (Subcarpetas: Build, manuals, src)
+
+- **Carpeta:** Build
+  - **Contenido/Función:** Contiene los binarios compilados de WebGL emitidos por Unity.
+- **Carpeta:** dist
+  - **Contenido/Función:** Directorio auxiliar.
+- **Carpeta:** manuals
+  - **Contenido/Función:** Manuales estáticos exportados.
+- **Carpeta:** node_modules
+  - **Contenido/Función:** Directorio auxiliar.
+- **Carpeta:** src
+  - **Contenido/Función:** Código fuente complementario del frontend web.
+
+## 5. Directorio: External_docs/ (Investigación Externa y UX/UI)
+
+- **Archivo:** E:/WebGL_tesis/External_docs/base.pdf
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/F-7-9-1.doc
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/FORMATO_DE_PRESENTACIÓN_PROPUESTA_PROYECTO_APLICADO_COMO_ALTERNATIVA_DE_TRABAJO_DE_GRADO (4).pdf
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/guia_botones.png
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Guía Completa de Diseño UI_UX para Aplicaciones Mó.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# GuÃ­a Completa de DiseÃ±o UI/UX para Aplicaciones MÃ³viles'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Herramientas Esenciales para tu Proyecto LLM-Wiki.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Herramientas Esenciales para tu Proyecto LLM-Wiki en Obsidian'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Norma_APA_7_Edicion (1).pdf
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Optimización de Proyecto Académico con Obsidian.docx
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Plantilla_Normas_APA_7a_Edicion.docx
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Plantilla_Normas_APA_7a_Edicion.pdf
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/README.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/UI_Toolkit_WebGL_Guide.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# Unity UI Toolkit (UIElements) WebGL 2025 - Complete Technical Guide'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Unity Slider Dragger.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# Unity 6 UI Toolkit slider dragger hitbox vs. visual alignment'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Unity6_WebGL_Advanced.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# Unity 6 WebGL Advanced Optimization 2025'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Unity6_WebGL_Architecture.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# Unity 6 WebGL Project Architecture & Optimization 2025'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/UX_Audit_Iteration14.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# UX/UI Audit â€” Iteration 14 (Rev. 2)'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/UX_Research_Plan_Iteration12.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# Plan de InvestigaciÃ³n UX â€” IteraciÃ³n 12'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/academic_templates/base.pdf
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/academic_templates/F-7-9-1.doc
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/academic_templates/FORMATO_DE_PRESENTACIÓN_PROPUESTA_PROYECTO_APLICADO_COMO_ALTERNATIVA_DE_TRABAJO_DE_GRADO (4).pdf
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/academic_templates/Norma_APA_7_Edicion (1).pdf
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/academic_templates/Plantilla_Normas_APA_7a_Edicion.docx
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/academic_templates/Plantilla_Normas_APA_7a_Edicion.pdf
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/3D User Interfaces Theory and Practice Bowman Kruijff.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/A design science research methodology for information systems research Peffers.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/A survey of real-time rendering on Web3D application Geng YU.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/An Empirical Evaluation of the System Usability Scale Bangor Kortum Miller.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/Burley2012-Physically-based-shading-at-Disney.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/cambridge handbook of multimedia learning ed 3.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/CowanBBS2001.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/Development of NASA-TLX.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/dokumen.pub_quantifying-the-user-experience-practical-statistics-for-user-research-2nd.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/dokumen.pub_usability-engineering-0125184069-9780125184069.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/DSRM (1).pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/GEOWISSENSCHAFTLICHE MITTEILUNGEN LOCATION BASED SERVICES & TELECARTOGRAPHY Edited by George Gartner.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/gestalt_psychology_kohl.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/Hutchins cognition in the wild.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/JUS_Bangor_May2009.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/kajiya1986.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/MagicNumberSeven-Miller1956.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/MEntal Representations Allan PAivio.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/NASA-Task Load Index (NASA-TLX) 20 Years Later.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/realtime_rendering_4ed.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+- **Archivo:** E:/WebGL_tesis/External_docs/Bibliografia/Research Methods in Human Computer Interaction by Jonathan Lazar, Jinjuan Feng and Harry Hochheiser (Auth.) (z-lib.org).pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Sin Título Principal'. Referencias externas, auditorías UX, plantillas académicas o PDFs/docs.
+
+## 6. Directorio: Informe_final/ y Propuesta/ (LaTeX Documentación de Tesis)
+
+### Informe_final/ 
+
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_codex_infopanel_pass1.log
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_codex_infopanel_pass2.log
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_pass1.log
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_pass2.log
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_pass3.log
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_pass4.log
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_pass5.log
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_pass6.log
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_pass7.log
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_passA.log
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_passB.log
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_passC.log
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_passD.log
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_passE.log
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_passF.log
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_preview1.log
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_preview2.log
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_preview3.log
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_preview4.log
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_quick1.log
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_quick2.log
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_rerender_final_pass1.log
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_rerender_final_pass2.log
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_rerender_pass1.log
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_rerender_pass2.log
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_tmp_pass1.log
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_tmp_pass2.log
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_tmp_pass3.log
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/build_tmp_pass4.log
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/compile_pass1.log
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/compile_pass2.log
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/compile_test.log
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/CRONOGRAMA.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '# Cronograma del Proyecto'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final.aux
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final.lof
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final.log
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final.lot
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final.out
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final.pdf
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final.tex
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final.toc
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final_tmp.aux
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final_tmp.lof
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final_tmp.log
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final_tmp.lot
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final_tmp.out
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final_tmp.pdf
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/informe_final_tmp.toc
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/VARIANTE_ESTUDIO_OBSIDIAN.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '# Variante de Estudio Obsidian del Informe Final'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Audits/ACADEMIC_ALIGNMENT_AUDIT.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# AuditorÃ­a de AlineaciÃ³n AcadÃ©mica'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Audits/APA_FORMAT_AUDIT.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# AuditorÃ­a de Formato APA 7'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Audits/AUDITORIA_PRIMERA_PASADA_INFORME_2026-04-15.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído: '# AuditorÃ­a Primera Pasada del Informe Final'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Audits/AUDITORIA_PRIMERA_PASADA_INFORME_2026-04-17.md
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: '# Auditoria Primera Pasada del Informe Final'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Audits/CIERRE_PROYECTO_PLACEHOLDERS_Y_TAREAS_2026-05-04.md
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: '# Cierre del Proyecto: Placeholders y Tareas Pendientes'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Audits/CODE_DOC_COHERENCE_AUDIT.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# AuditorÃ­a de Coherencia CÃ³digo-DocumentaciÃ³n'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Audits/deep-research-report (4)-informe_final.md
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: '# AuditorÃ­a forense acadÃ©mica del informe final de tesis'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Audits/MATHEMATICAL_LOGIC_AUDIT.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# AuditorÃ­a de LÃ³gica MatemÃ¡tica'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Audits/PLAN_DE_ACCION_FINAL_2026-05-06.md
+  - **Fecha:** 2026-05-06
+  - **Contenido/Función:** Extraído: '# Plan de AcciÃ³n Final (Actualizado 2026-05-06)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Audits/PROMPT_AUDITORIA_DEEP_RESEARCH_INFORME_FINAL.md
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: '# Prompt de Auditoria Deep Research para el Informe Final'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Audits/UX_UI_AUDIT.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# AuditorÃ­a de UX/UI'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/chapters/01_introduccion.tex
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: '\section{IntroducciÃ³n}'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/chapters/02_marco_referencia.tex
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: '\section{Marco de Referencia}'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/chapters/03_marco_metodologico.tex
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Extraído: '\section{Marco MetodolÃ³gico}'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/chapters/04_desarrollo.tex
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '\section{Desarrollo e ImplementaciÃ³n}'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/chapters/05_resultados.tex
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '\section{Resultados y AnÃ¡lisis}'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/chapters/06_conclusiones.tex
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '\section{Conclusiones}'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/chapters/07_referencias.tex
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: '\section{Referencias BibliogrÃ¡ficas}'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/chapters/08_apendices.tex
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/chapters/ANEXO_ROADMAP_VERSION_BILINGUE_ES_EN_2026-04-15.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído: '# Anexo: Roadmap de Version Bilingue ES/EN para la Aplicacion WebGL'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/ALL_FILES_CONSOLIDATED.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '# Documento 1 — Arquitectura del Sistema'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/AUDITORIA_MATEMATICA_Y_ARQUITECTURA_2026-04-12.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# AuditorÃ­a matemÃ¡tica y de arquitectura'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/BITACORA.md
+  - **Fecha:** 2026-05-10
+  - **Contenido/Función:** Extraído: '# BitÃ¡cora de Desarrollo â€” Registro Integral de EjecuciÃ³n'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/CHANGELOG.md
+  - **Fecha:** 2026-05-10
+  - **Contenido/Función:** Extraído: '# CHANGELOG ï¿½ WebGL Drone Visualization Project'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/CLEANUP_MANIFEST.md
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Extraído: '# Cleanup Manifest'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/MATRIZ_DESCONEXIONES_APP_DOCUMENTACION.md
+  - **Fecha:** 2026-04-11
+  - **Contenido/Función:** Extraído: '# Matriz Maestra de Desconexiones App vs Documentacion'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/PAQUETE_DE_ENTREGA.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '# Paquete de Entrega y Matriz de Coherencia'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/README.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Desarrollo de la Aplicación — Registro'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/REPO_RESTRUCTURING_PROPOSAL.md
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Extraído: '# Repo Restructuring Proposal'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/TECHNOLOGY_STACK.md
+  - **Fecha:** 2026-03-19
+  - **Contenido/Función:** Extraído: '# Technology Stack ï¿½ WebGL Drone Visualization'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/VALIDACION_FUNCIONAL_FINA_2026-04-09.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# Validacion Funcional Fina â€” 2026-04-09'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/ACADEMIC_ALIGNMENT_REPORT.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# ðŸŽ“ ACADEMIC ALIGNMENT REPORT'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/ARCHITECTURE_AUDIT_REPORT.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# ðŸ—ï¸ ARCHITECTURE AUDIT REPORT'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/COMPREHENSIVE_THESIS_AUDIT_2026.md
+  - **Fecha:** 2026-03-31
+  - **Contenido/Función:** Extraído: '# ðŸ”¬ AUDITORÃA INTEGRAL DE TESIS â€” 360Â° (ActualizaciÃ³n Mar 31, 2026)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/GUIA_Y_ANALISIS_AUDITS.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# ðŸ“‹ GUÃA INTEGRAL DE AUDITS Y ANÃLISIS DE COHERENCIA DEL PROYECTO'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/PERFORMANCE_AUDIT_REPORT.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# âš¡ PERFORMANCE AUDIT REPORT'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/PROMPT_AUDITORIA_DEEP_RESEARCH_INFORME_FINAL.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído: '# Prompt de AuditorÃ­a Deep Research para el Informe Final'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/REMEDIATION_PLAN.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# ðŸ”§ PLAN DE REMEDIACIÃ“N â€” PRIORIZADO POR SEVERIDAD'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/UX_UI_AUDIT_REPORT.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# ðŸŽ¨ UX/UI AUDIT REPORT'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/Actua como principal investigador experto en visua.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# Actua como principal investigador experto en visualizacion de informacion, diagramacion tecnica y diseno de sistemas visuales para documentacion de ingenieria.'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/AUDITORIA_DIAGRAMAS_Y_CORRELACION_2026-04-12.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# AuditorÃ­a de Diagramas y CorrelaciÃ³n Propuesta-Informe'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/DIAGRAMAS_COMPLEMENTARIOS_PRIORIZADOS.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# Diagramas Complementarios Priorizados para Informe Final'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/diagram_research_report.md.resolved
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# InvestigaciÃ³n de EstÃ©tica y Claridad en Diagramas TÃ©cnicos'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/FIGURAS_FINALES_4_X_LATEX.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# Figuras Finales Numeradas 4.1-4.13 (Listas para LaTeX)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/implementation_plan.md.resolved
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# Plan: CorrecciÃ³n Integral del Documento de Tesis (Sin Mediciones)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/implementation_plan_diagrams.md.resolved
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# Plan de GeneraciÃ³n de Diagramas TÃ©cnicos para la Tesis'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/MASTER_DELIVERABLES_CHECKLIST.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# Master Checklist: Figuras, Screenshots y Tablas Pendientes'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/MERMAID_P0_DIAGRAMAS_Y_GUION.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# Mermaid P0 - Diagramas Prioritarios + Guion de Exposicion'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/PROMPT_PERPLEXITY_PRO_MERMAID_DESIGN_SYSTEM.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# Prompt Perplexity Pro - Deep Research Mermaid Design System'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rerender_mermaid_ch4.ps1
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_1.mmd
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_1.pdf
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_10.mmd
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_10.pdf
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_11.mmd
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_11.pdf
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_12.mmd
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_12.pdf
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_13.mmd
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_13.pdf
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_2.mmd
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_2.pdf
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_3.mmd
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_3.pdf
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_4.mmd
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_4.pdf
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_5.mmd
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_5.pdf
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_6.mmd
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_6.pdf
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_7.mmd
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_7.pdf
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_8.mmd
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_8.pdf
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_9.mmd
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/07_Diagrams_Workflow/rendered/fig_4_9.pdf
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/Antigravity_Reports/AUDIT_REPORT.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# Exhaustive Audit Report: Codebase Truth vs. Documentation'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/Antigravity_Reports/CODEBASE_TRUTH.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# THE GROUND TRUTH: CODEBASE STATE'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/Antigravity_Reports/COMMIT_SPLIT_CLEANUP_PLAN.md
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Extraído: '# Plan de split en 5 commits + limpieza segura'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/Antigravity_Reports/DELIVERABLES_ROADMAP_V7.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# Hoja de Ruta del Proyecto - Nivel Investigador PhD (V7)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/Antigravity_Reports/INDICE_INFORME_FINAL_V7.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# ÃNDICE ESTRUCTURAL DEFINITIVO: TESIS DOCTORAL / MAESTRÃA (V7)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/Antigravity_Reports/MICROINTERACTIONS_PLAN.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Plan de Micro-Interacciones con Framer Motion'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/Antigravity_Reports/PLAN_TRABAJO_FINAL.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# PLAN DE TRABAJO FINAL â€” Tesis IngenierÃ­a Multimedia UNAD'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/Antigravity_Reports/REPO_REORGANIZATION_PROPOSAL.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# Propuesta de ReorganizaciÃ³n del Repositorio'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/Antigravity_Reports/SKILL_ARCHITECTURE_PLAN.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# Skill Architecture & Document Generation Plan'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/other/DEEP_UX_AUDIT_REPORT.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# ðŸ§  Deep UX/UI Audit Report (Heuristics & Constraints)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/other/implementation_plan.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# Implementation Plan: UI/UX Audit Resolution'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/other/MASTER_AUDIT_PROMPTS.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# ðŸš€ Master Audit Prompts: The 4 Pillars of the Drone Viewer App'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/other/UX_Audit_Iteration14.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# UX/UI Audit â€” Iteration 14 (Rev. 2)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Audits/other/UX_Research_Plan_Iteration12.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# Plan de InvestigaciÃ³n UX â€” IteraciÃ³n 12'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/design_system/DESIGN_TOKENS.md
+  - **Fecha:** 2026-02-19
+  - **Contenido/Función:** Extraído: '# Design Tokens â€” WebGL Drone Viewer'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Documentacion_Tecnica/01_Arquitectura_del_Sistema.md
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Extraído: '# Arquitectura del Sistema'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Documentacion_Tecnica/02_Referencia_Tecnica_Modulos.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '# Referencia Tecnica de Modulos'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Documentacion_Tecnica/03_Pipeline_Renderizado_Shaders.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '# Documento 3 â€” Pipeline de Renderizado y Shaders'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Documentacion_Tecnica/04_Guia_Despliegue.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# GuÃ­a de Despliegue â€” WebGL Drone Viewer'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Documentacion_Tecnica/05_Configuracion_WebGL.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# ConfiguraciÃ³n WebGL â€” WebGL Drone Viewer'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Documentacion_Tecnica/06_Assets_Audio.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# Assets de Audio â€” WebGL Drone Viewer'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Documentacion_Tecnica/07_Guia_Demo.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '# Guia de Demostracion - WebGL Drone Viewer'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/Documentacion_Tecnica/08_Sistema_Termico_Hibrido.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# 08. Sistema termico hibrido'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/HOJA_DE_RUTA_v1.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# ðŸš€ Hoja de Ruta Detallada - Prototipo Web 3D Interactivo'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/PLAN_TRABAJO_FINAL.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# PLAN DE TRABAJO FINAL â€” Tesis IngenierÃ­a Multimedia UNAD'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/PLAN_UI_OVERHAUL_v2.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# Comprehensive UI/UX Overhaul â€” Master Plan v2.1'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/README.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Hojas de Ruta e Histórico Metodológico'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/historico_metodologico/HOJA_DE_RUTA_v1.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '# ðŸš€ Hoja de Ruta Detallada - Prototipo Web 3D Interactivo'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/historico_metodologico/MICROINTERACTIONS_PLAN.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '# Plan de Micro-Interacciones con Framer Motion'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/historico_metodologico/PLAN_MODELADO_DRON.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '# Plan Definitivo: Modelado de Dron para Tesis y Portafolio'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/historico_metodologico/PLAN_UI_OVERHAUL_v2.md
+  - **Fecha:** 2026-02-18
+  - **Contenido/Función:** Extraído: '# Comprehensive UI/UX Overhaul â€” Master Plan v2.1'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/unity_project_historico/FASE3_WORKPLAN.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# FASE 3 â€” Plan de Trabajo (RAG Temporal)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/unity_project_historico/PHASE2_CHANGELOG.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# Phase 2 â€” Senior UX Redesign: Changelog'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/unity_project_historico/PHASE2_UX_PLAN.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# Phase 2 â€” Senior UX Redesign: 3-Mode System'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/unity_project_historico/PHASE3_CHANGELOG.md
+  - **Fecha:** 2026-02-23
+  - **Contenido/Función:** Extraído: '# Phases 3â€“5 & Audit Tasks â€” Architecture Refactoring: Changelog Detallado'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/unity_project_historico/REFACTORING_PLAN.md
+  - **Fecha:** 2026-02-23
+  - **Contenido/Función:** Extraído: '# ðŸ—ºï¸ Refactoring Plan â€” WebGL Drone Viewer'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/hojas_de_ruta/unity_project_historico/UX_UI_AUDIT_REPORT.md
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Extraído: '# ðŸ”¬ UX/UI Audit Report â€” WebGL Drone Viewer'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Desarrollo_App/sesiones/SESSION_LOG.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: '# Registro de Sesiones de Desarrollo'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/figures/chapter4/fig_4_1.pdf
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/figures/chapter4/fig_4_10.pdf
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/figures/chapter4/fig_4_11.pdf
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/figures/chapter4/fig_4_12.pdf
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/figures/chapter4/fig_4_13.pdf
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/figures/chapter4/fig_4_2.pdf
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/figures/chapter4/fig_4_3.pdf
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/figures/chapter4/fig_4_4.pdf
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/figures/chapter4/fig_4_5.pdf
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/figures/chapter4/fig_4_6.pdf
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/figures/chapter4/fig_4_7.pdf
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/figures/chapter4/fig_4_8.pdf
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/figures/chapter4/fig_4_9.pdf
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_de_usuario/build_pass1.log
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_de_usuario/build_pass2.log
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_de_usuario/compile_pass1.log
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_de_usuario/compile_pass2.log
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_de_usuario/manual_usuario.aux
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_de_usuario/manual_usuario.log
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_de_usuario/manual_usuario.out
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_de_usuario/manual_usuario.pdf
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_de_usuario/manual_usuario.tex
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '\title{\textbf{Manual de Usuario}\\Prototipo Web 3D Interactivo para VisualizaciÃ³n TÃ©cnica del Holybro X500 V2}'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_de_usuario/manual_usuario.toc
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_tecnico/build_pass1.log
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_tecnico/build_pass2.log
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_tecnico/compile_pass1.log
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_tecnico/compile_pass2.log
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_tecnico/manual_tecnico.aux
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_tecnico/manual_tecnico.log
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_tecnico/manual_tecnico.out
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_tecnico/manual_tecnico.pdf
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_tecnico/manual_tecnico.tex
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/Manual_tecnico/manual_tecnico.toc
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/presentation/ASSETS_REQUIREMENTS.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '# Presentation Assets Requirements'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/presentation/DEMO_SCRIPT.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '# Demo Script - WebGL Drone Viewer'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/presentation/DESIGN_SYSTEM.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '# Thesis Presentation Design System'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/presentation/KIMI_PROMPT.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '# Kimi Presentation Generation Prompt'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/presentation/PRESENTATION_OUTLINE.md
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Extraído: '# Presentation Package Index'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/validacion/CUESTIONARIO_NASA_TLX.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído: '# Cuestionario NASA-TLX'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/validacion/CUESTIONARIO_SUS.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído: '# Cuestionario de Usabilidad del Sistema (SUS)'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/validacion/GUIA_TAREAS_VALIDACION.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído: '# GuÃ­a de Tareas de ValidaciÃ³n'.
+- **Archivo:** E:/WebGL_tesis/Informe_final/validacion/PROTOCOLO_THINK_ALOUD.md
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Extraído: '# Protocolo Think-Aloud'.
+
+### Propuesta/ 
+
+- **Archivo:** E:/WebGL_tesis/Propuesta/.gitignore
+  - **Fecha:** 2025-11-27
+  - **Contenido/Función:** Extraído: '# LaTeX auxiliar files'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/3D_Web_Prototypes_for_Technical_Visualization.pdf
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/all_sections_content.txt
+  - **Fecha:** 2025-11-27
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/build_pass1.log
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/build_pass2.log
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/compile_pass1.log
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/compile_pass2.log
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/final_proposal.aux
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/final_proposal.log
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/final_proposal.lot
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/final_proposal.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Herramientas Fuente Curadas'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/final_proposal.out
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/final_proposal.pdf
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/final_proposal.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/final_proposal.toc
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/references.bib
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/RESPUESTA_ASESOR_PROPUESTA_2026-04.md
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '# Respuesta al Tutor sobre la Revision de la Propuesta'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/Audits/AUDITORIA_FINAL_PROPUESTA_2026-04-14.md
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '# Auditoria Final de la Propuesta'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/Audits/AUDITORIA_FORMATO_PROPUESTA_2026-04-12.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# AuditorÃ­a de Formato y OrtografÃ­a de la Propuesta'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/Audits/Auditoría Rigurosa de Propuesta Académica.docx
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/Audits/deep-research-report (1).md
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '# AuditorÃ­a de cumplimiento APA 7 segÃºn la UNAD en la propuesta corregida'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/Audits/deep-research-report (2).md
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '# AuditorÃ­a forense acadÃ©mica de mÃ¡xima exigencia de la propuesta de tesis'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/Audits/deep-research-report.md
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '# AuditorÃ­a acadÃ©mica de mÃ¡xima exigencia de la propuesta de tesis'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/justificacion/bibliografia.md
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Extraído: '# AnÃ¡lisis BibliogrÃ¡fico Detallado (Completo)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/justificacion/bibliografia.tex
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/justificacion/bibliografia_wrapper.pdf
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/justificacion/bibliografia_wrapper.tex
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/justificacion/presentation_design_prompt.md
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Extraído: '# Prompt de DiseÃ±o para PresentaciÃ³n de Tesis (Estilo: Engineering Minimalism)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/justificacion/sustentacion.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# GuÃ­a de SustentaciÃ³n Oral y Defensa de Propuesta'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/justificacion/sustentacion.pdf
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/justificacion/sustentacion.tex
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Extraído: '\title{GuÃ­a de SustentaciÃ³n Oral y Defensa de Propuesta}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/sections/bibliografia.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '\section{Referencias Bibliogr\'aficas}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/sections/cronograma.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '\section{Cronograma de Actividades}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/sections/estado_del_arte.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/sections/justificacion.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '\section{Justificaci\'on}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/sections/marco_conceptual.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/sections/marco_teorico.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/sections/metodologia.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '\section{Metodolog\'ia}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/sections/objetivos.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '\section{Objetivos}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/sections/planteamiento_problema.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '\section{Planteamiento del Problema}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/sections/recursos.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '\section{Recursos Necesarios}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/sections/resultados.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '\section{Resultados o Productos Esperados}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/references.bib
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/simplified_proposal.aux
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/simplified_proposal.log
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/simplified_proposal.lot
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/simplified_proposal.pdf
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/simplified_proposal.tex
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/simplified_proposal.toc
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/Audits/AUDITORIA_CLARIDAD_PROPUESTA_SIMPLIFICADA_2026-04-23.md
+  - **Fecha:** 2026-04-23
+  - **Contenido/Función:** Extraído: '# Auditoria de Claridad de la Propuesta Simplificada'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/sections/bibliografia.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '\section{Referencias Bibliogr\'aficas}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/sections/cronograma.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '\section{Cronograma de Actividades}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/sections/estado_del_arte.tex
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/sections/justificacion.tex
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '\section{Justificaci\'on}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/sections/marco_conceptual.tex
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/sections/marco_teorico.tex
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: 'Documento estructurado/auxiliar estático (LaTeX/PDF/Log)'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/sections/metodologia.tex
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '\section{Metodolog\'ia}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/sections/objetivos.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '\section{Objetivos}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/sections/planteamiento_problema.tex
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '\section{Planteamiento del Problema}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/sections/recursos.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '\section{Recursos Necesarios}'.
+- **Archivo:** E:/WebGL_tesis/Propuesta/simplified_proposal/sections/resultados.tex
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Extraído: '\section{Resultados o Productos Esperados}'.
+
+## 7. Directorios Restantes (Portafolio, Media, Telemetría, Datos, Archivos y Papelera)
+
+### $d/ 
+
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/README.md
+  - **Fecha:** 2026-04-22
+  - **Contenido/Función:** Extraído: '# Portafolio Personal'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/assets_fuente/README.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Assets Fuente para Portafolio'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/00_Indice_y_Organizacion.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# Ãndice y OrganizaciÃ³n del Portafolio'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/01_Checklist_Ejecutivo_Portafolio.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# Checklist Ejecutivo de Portafolio'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/02_Fuentes_y_Piezas_Candidatas.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# Fuentes y Piezas Candidatas'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/03_Checklist_Maestro_Reestructuracion.md
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Extraído: '# Checklist Maestro de ReestructuraciÃ³n'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/04_Breakdown_Pipeline_CAD_a_WebGL.md
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Extraído: '# Breakdown: Pipeline CAD a Unity WebGL'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/04_Justificacion_Piezas_Tecnicas.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# JustificaciÃ³n de Piezas TÃ©cnicas Curadas'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/05_Breakdown_Sistema_Visualizacion_Interactiva.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: '# Breakdown: Sistema de Visualizacion Interactiva'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/06_Plan_Activos_Visuales_Portafolio.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# Plan de Activos Visuales para Portafolio'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/07_Breakdown_Sistema_Termico_Hibrido.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# Breakdown: Sistema TÃ©rmico HÃ­brido'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/08_Portafolio_Tech_Artist.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: '# Portafolio Tech Artist - Enfoque de Cierre 2026'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/09_Matriz_Evidencia_y_Claims_Portafolio.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: '# Matriz de Evidencia y Claims del Portafolio'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/10_Articulo_ArtStation_Holybro_X500_V2.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# ArtStation Draft: Holybro X500 V2 WebGL Technical Viewer'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/11_README_Proyecto_Portafolio.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: '# README Curado del Proyecto'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/12_Guion_Carrusel_LinkedIn.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# Guion de Carrusel para LinkedIn'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/planeacion_carrera/alexander_woodcock_context.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '# Alexander Woodcock - Master RAG Context'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/planeacion_carrera/job_search_strategy.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '# JOB SEARCH STRATEGY: "THE HUNT"'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/planeacion_carrera/master_schedule.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '# MASTER SCHEDULE & EXECUTION ROADMAP'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/planeacion_carrera/plan_audit.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '# PLAN AUDIT v2: Alexander Woodcock'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/planeacion_carrera/portfolio_strategy.md
+  - **Fecha:** 2026-04-12
+  - **Contenido/Función:** Extraído: '# Estrategia de Portafolio: Technical Artist 2026'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/planeacion_carrera/task.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '# Career Guidance System - Alexander Woodcock'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/documentacion/planeacion_carrera/ticktick_schedule.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/entregables_finales/01_CV_Master_Abril_2026.md
+  - **Fecha:** 2026-04-22
+  - **Contenido/Función:** Extraído: '# Alexander Woodcock SalomÃ³n'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/entregables_finales/02a_ArtStation_Holybro_Main_Viewer.md
+  - **Fecha:** 2026-04-22
+  - **Contenido/Función:** Extraído: '# ArtStation Post 1: Interactive WebGL Technical Viewer (The Masterpiece)'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/entregables_finales/02b_ArtStation_Thermal_Shaders.md
+  - **Fecha:** 2026-04-22
+  - **Contenido/Función:** Extraído: '# ArtStation Post 2: Applied Technical Rendering & HLSL Shaders'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/entregables_finales/02c_ArtStation_Editor_Tools.md
+  - **Fecha:** 2026-04-22
+  - **Contenido/Función:** Extraído: '# ArtStation Post 3: Pipeline Automation & Editor Tooling'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/entregables_finales/02_ArtStation_Holybro.md
+  - **Fecha:** 2026-04-22
+  - **Contenido/Función:** Extraído: '# Holybro X500 V2: Technical WebGL Viewer for Interactive Visualization'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/entregables_finales/03_LinkedIn_Posts.md
+  - **Fecha:** 2026-04-22
+  - **Contenido/Función:** Extraído: '# Estrategia Frontal: LinkedIn (MÃXIMO IMPACTO)'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/entregables_finales/04_Elevator_Pitch_Entrevistas.md
+  - **Fecha:** 2026-04-22
+  - **Contenido/Función:** Extraído: '# Cheat Sheet Entrevistas (Junior/Mid Tech Art / Tools)'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/entregables_finales/05_GitHub_Repo_README.md
+  - **Fecha:** 2026-04-22
+  - **Contenido/Función:** Extraído: '# Holybro X500 V2: WebGL Technical Viewer & Pipeline Automation'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/entregables_finales/06_Prompt_Perplexity_Revisor.md
+  - **Fecha:** 2026-04-22
+  - **Contenido/Función:** Extraído: '# Prompt para Perplexity Pro (SimulaciÃ³n de Entrevista / Refinamiento de Portafolio)'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/entregables_finales/07_Tech_Math_Cheatsheet.md
+  - **Fecha:** 2026-04-22
+  - **Contenido/Función:** Extraído: '# Technical Walkthrough: The Math Behind the Drone Viewer'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/README.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Herramientas Fuente Curadas'
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/pipeline_holybro/cad_symmetry_addon_v5_ultimate.py
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/pipeline_holybro/cad_symmetry_addon_v6_batch.py
+  - **Fecha:** 2026-03-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/pipeline_holybro/generate_inventory.py
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/shaders/Blueprint.shader
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/shaders/ClippableLit.shader
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/shaders/EdgeDetection.shader
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/shaders/Ghosted.shader
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/shaders/Thermal.shader
+  - **Fecha:** 2026-03-05
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/shaders/WireframeWebGL.shader
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/shaders/XRay.shader
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/ui_tecnica/InputManager.cs
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/ui_tecnica/OrbitCameraController.cs
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/ui_tecnica/ProceduralCloseIcon.cs
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/ui_tecnica/ProceduralIconBase.cs
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/ui_tecnica/SelectionManager.cs
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/ui_tecnica/UIDetailsSheet.cs
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/portafolio_personal/herramientas_fuente/ui_tecnica/ViewModeManager.cs
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+
+### $d/ 
+
+- **Archivo:** E:/WebGL_tesis/blender_files/00.png
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/01.png
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/drone_00.blend
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/drone_01-instanced.blend
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/drone_01.blend
+  - **Fecha:** 2026-03-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/drone_02-instanced.blend
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/drone_03-instanced.blend
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/drone_04-instances_completed.blend
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/drone_05-decimating.blend
+  - **Fecha:** 2026-03-13
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/drone_05-decimating.blend1
+  - **Fecha:** 2026-04-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/drone_05-decimating_001.blend
+  - **Fecha:** 2026-03-17
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/drone_05-decimating_002.blend
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/export_mvp.py
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/imported8.blend@
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/12040-2.webp
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/12040_3_1800x1800_1bdb9920-0ae0-445c-8680-bf7781742e1d.webp
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/12044_8_1080x.webp
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/15008v24_5_1800x1800_dc9ba735-b26e-4fea-8c25-d706ca4da9db.webp
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/185998_3.jpg
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/19032-SiK_Telemetry_Radio_V3_-_915MHz__100mW-01.webp
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/5754-01.jpg
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/61z9ltRs0TL.jpg
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/D_NQ_NP_644596-CBT90266593246_082025-O.webp
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/D_NQ_NP_823024-MCO95760869000_102025-O.webp
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/D_NQ_NP_914489-MCO96202804883_102025-O.webp
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/FrSky-R-XSR-New-Smaller-Fully-Functional-XSR_f4871282-1069-4499-8046-31ed390afa9a_1024x1024.webp
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/HB-M10-12040_1_jpg.webp
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/holybro-m10-gps.jpg
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/holybro-micro-m10-gps.png
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/holybro_sik_telemetry_label.DHxAty-V.jpg
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/images.jpeg
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/JST-GH-connector.jpg
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/M10GPS-1_1080x.webp
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/Micro.M10.GPS.6_3b12c182-8c89-439b-9789-57801dc53955_783x641.webp
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/rxsr_1024x.webp
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/S4c1d1d056c874e52a2b42894122beb2el.avif
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/Sd8cfdbfbc9d24684b2b251ae806f0aeaF.avif
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/References/ypVnHDefLEF5_i3.jpg
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/First_bake.tbscene
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/Hex_AO.png
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/Hex_Normal_Atlas.png
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported.blend
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported.blend1
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported1.blend
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported1.blend1
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported10.blend
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported2.blend
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported2.blend1
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported2.blend2
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported3.blend
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported4.blend
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported5.blend
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported6.blend
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported7.blend
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported9.blend
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/imported9.blend1
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/lowestres.fbx
+  - **Fecha:** 2026-04-23
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/MASTERS_bake_ao.png
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/MASTERS_bake_curve.png
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/MASTERS_bake_normal.png
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/MASTERS_HIGH.fbx
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/MASTERS_LOW.fbx
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/MASTERS_LOW_rizomUV_output.fbx
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/multires-preparing_to_bake.blend
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/multires-preparing_to_bake1.blend
+  - **Fecha:** 2026-04-23
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/multires-preparing_to_bake10.fbx
+  - **Fecha:** 2026-04-24
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/multires-preparing_to_bake2.blend
+  - **Fecha:** 2026-04-28
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/multires-preparing_to_bake3.blend
+  - **Fecha:** 2026-04-30
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/multires-preparing_to_bake4.blend
+  - **Fecha:** 2026-05-06
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/multires-preparing_to_bake4.blend1
+  - **Fecha:** 2026-05-06
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/multires-preparing_to_bake4.blend2
+  - **Fecha:** 2026-05-06
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/multires-preparing_to_bake4.blend3
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/multires-preparing_to_bake5.blend
+  - **Fecha:** 2026-05-06
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/multires-preparing_to_bake5.blend1
+  - **Fecha:** 2026-05-06
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/multires-preparing_to_bake5.blend2
+  - **Fecha:** 2026-05-06
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/multires-preparing_to_bake5.blend3
+  - **Fecha:** 2026-05-06
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/Ngon_test1.blend
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/optimizing1.blend
+  - **Fecha:** 2026-04-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/optimizing2.blend
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/optimizing3-bolt_retopology.blend
+  - **Fecha:** 2026-04-13
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/optimizing4-bolt_retopology.blend
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/optimizing5.blend
+  - **Fecha:** 2026-04-15
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/optimizing6-STEPper.blend
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/optimizing6.blend
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/optimizing6.fbx
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/optimizing7.blend
+  - **Fecha:** 2026-04-20
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake.blend
+  - **Fecha:** 2026-05-06
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_001.blend
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_001.blend1
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_001.blend2
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_001.blend3
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_002.blend
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_002.blend1
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_002.blend2
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_002.blend3
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_003.blend
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_003.blend1
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_003.blend2
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_003.blend3
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_004.blend
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_004.blend1
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_004.blend2
+  - **Fecha:** 2026-05-07
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_005_rizomUV-packed.blend
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_005_rizomUV-packed.blend1
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_005_rizomUV-packed.blend2
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/ready-to-bake_005_rizomUV-packed.blend3
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/render_01.png
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/render_02.png
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/stepper.fbx
+  - **Fecha:** 2026-04-17
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/test_high.fbx
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/test_low.fbx
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/test_ZHIJIA_high.fbx
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/test_ZHIJIA_high.mtl
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/test_ZHIJIA_high.obj
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/test_ZHIJIA_low.fbx
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/test_ZHIJIA_low.mtl
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/test_ZHIJIA_low.obj
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/triang_high.fbx
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/triang_low.fbx
+  - **Fecha:** 2026-05-05
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/UVCHECK_high.fbx
+  - **Fecha:** 2026-05-04
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/UVCHECK_low.fbx
+  - **Fecha:** 2026-05-03
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/x500v2_runtime_low_final.fbx
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/assets/models/dji-mavic-3-clas_e1d0f21c-b02e-4688-9adb-c635727cee39/dji-mavic-3-classic-drone_2K_575bafd7-2481-4d0d-ad32-c977e9287459.blend
+  - **Fecha:** 2026-04-30
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/assets/models/dji-mavic-3-clas_e1d0f21c-b02e-4688-9adb-c635727cee39/preview.png
+  - **Fecha:** 2026-04-30
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/texturas/ATLAS_UV.png
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/texturas/base_color.clip
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/texturas/ChatGPT_Image_8_may_2026__12_44_03-removebg-preview.png
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/texturas/ChatGPT_Image_8_may_2026__12_52_18-removebg-preview.png
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** E:/WebGL_tesis/blender_files/welded/texturas/ChatGPT_Image_8_may_2026__12_54_58-removebg-preview.png
+  - **Fecha:** 2026-05-08
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+
+### $d/ 
+
+- **Archivo:** E:/WebGL_tesis/Telemetria/Unity_Builds/BuildLog_20260416_seed.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Build Telemetry (Semilla de Validacion)'
+- **Archivo:** E:/WebGL_tesis/Telemetria/Unity_Builds/README.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Telemetria/Unity_Builds'
+
+### $d/ 
+
+- **Archivo:** E:/WebGL_tesis/Datos/Sujetos_Prueba/README.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Datos/Sujetos_Prueba'
+- **Archivo:** E:/WebGL_tesis/Datos/Sujetos_Prueba/S_001_NASA_TLX.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Registro NASA-TLX - S_001'
+
+### $d/ 
+
+- **Archivo:** E:/WebGL_tesis/MOC_Ecuaciones/README.md
+  - **Fecha:** 2026-04-21
+  - **Contenido/Función:** Extraído: '# MOC_Ecuaciones'
+
+### $d/ 
+
+- **Archivo:** E:/WebGL_tesis/Excalidraw/Drawing 2026-04-16 17.24.16.excalidraw.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+
+### $d/ 
+
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Lit_2026_Karpathy_LLM_Wiki_Local.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# LLM-Wiki local como arquitectura de memoria operativa'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/README.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Investigacion/Notas_Conceptuales'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_akenine2018realtime.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: akenine2018realtime'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_bowman2004ui3d.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: bowman2004ui3d'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_burley2012disney.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: burley2012disney'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_fransson2024webgpu.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: fransson2024webgpu'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_kajiya1986rendering.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: kajiya1986rendering'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_karis2013real.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: karis2013real'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_khronos2011webgl.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: khronos2011webgl'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_lazar2017hci.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: lazar2017hci'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_mayer2005cambridge.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: mayer2005cambridge'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_nielsen2000fiveusers.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: nielsen2000fiveusers'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_norman2013doet.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: norman2013doet'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_paivio1986mental.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: paivio1986mental'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_schlick1994brdf.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: schlick1994brdf'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_unity2024memory.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: unity2024memory'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_unity2024urp.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: unity2024urp'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_unity2024webglgettingstarted.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: unity2024webglgettingstarted'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_unity2024webglinterop.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: unity2024webglinterop'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_unityndsystemrequirements.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: unityndsystemrequirements'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_walter2007microfacet.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: walter2007microfacet'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_ware2012viz.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: ware2012viz'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_webassemblyspec.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: webassemblyspec'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Evidencias/EVD_yu2023survey.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Evidencia de Fuente: yu2023survey'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_akenine2018realtime.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_bangor2008sus.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_bangor2009sus.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_bowman2004ui3d.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_brooke1996sus.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_burley2012disney.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_fransson2024webgpu.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_hart1988nasa.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_hart2006nasatlx.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_hevner2004design.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_kajiya1986rendering.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_karis2013real.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_khronos2011webgl.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_lazar2017hci.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_mayer2005cambridge.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_nielsen2000fiveusers.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_norman2013doet.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_paivio1986mental.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_peffers2007dsrm.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_schlick1994brdf.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_unity2024memory.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_unity2024urp.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_unity2024webglgettingstarted.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_unity2024webglinterop.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_unityndsystemrequirements.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_walter2007microfacet.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_ware2012viz.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_webassemblyspec.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+- **Archivo:** E:/WebGL_tesis/Investigacion/Notas_Conceptuales/Fuentes/SRC_yu2023survey.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Ficha de Fuente Bibliografica'
+
+### $d/ 
+
+- **Archivo:** desarrollo/CORE_DIRECTIVE.md
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Extraído: '# CORE SYSTEM DIRECTIVE: ANTIGRAVITY PERSONA'
+- **Archivo:** desarrollo/docs/investigacion/Holybro/cad_addon_iterations/cad_symmetry_addon.py
+  - **Fecha:** 2026-03-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/docs/investigacion/Holybro/cad_addon_iterations/cad_symmetry_addon_v2.py
+  - **Fecha:** 2026-03-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/docs/investigacion/Holybro/cad_addon_iterations/cad_symmetry_addon_v3.py
+  - **Fecha:** 2026-03-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/docs/investigacion/Holybro/cad_addon_iterations/cad_symmetry_addon_v4.py
+  - **Fecha:** 2026-03-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/.git_log.txt
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/git_log.txt
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/git_log_utf8.txt
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/git_push_error.txt
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/git_push_error_utf8.txt
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/git_show_37c570c.txt
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/git_show_5971d2a.txt
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/log8.txt
+  - **Fecha:** 2026-03-12
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/MERMAID_PREVIEW_TEST.md
+  - **Fecha:** 2026-04-16
+  - **Contenido/Función:** Extraído: '# Mermaid Preview Test'
+- **Archivo:** logs_historicos/temp_git_utf8.txt
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit.docx
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit.zip
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit_extracted.txt
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_uss.txt
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/unpushed_stats.txt
+  - **Fecha:** 2026-04-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit/[Content_Types].xml
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit/word/document.xml
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit/word/fontTable.xml
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit/word/numbering.xml
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit/word/settings.xml
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit/word/styles.xml
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit/word/media/image1.png
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit/word/media/image2.png
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit/word/media/image3.png
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit/word/media/image4.png
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit/word/theme/theme1.xml
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit/word/_rels/document.xml.rels
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** logs_historicos/tmp_gemini_audit/_rels/.rels
+  - **Fecha:** 2026-04-14
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+
+### $d/ 
+
+- **Archivo:** .cursor/mcp.json
+  - **Fecha:** 2026-03-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** blender_files/drone_00(step).blend@
+  - **Fecha:** 2026-03-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** blender_files/drone_00(stp).blend@
+  - **Fecha:** 2026-03-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** blender_files/drone_00.blend2
+  - **Fecha:** 2026-03-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/.output.txt
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/WEBGL_BUILD_GUIDE.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '# WebGL Build Settings Guide'
+- **Archivo:** desarrollo/unity_project/Assets/UI/Styles/MainTheme_OLD.uss
+  - **Fecha:** 2026-02-18
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/Assets/UI/Styles/MainTheme_OLD.uss.meta
+  - **Fecha:** 2026-02-18
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/Logs/agent_errors.json
+  - **Fecha:** 2026-03-05
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/Logs/agent_state.json
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/Logs/Packages-Update.log
+  - **Fecha:** 2025-12-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/Logs/shadercompiler-UnityShaderCompiler.exe-0.log
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/Logs/shadercompiler-UnityShaderCompiler.exe-1.log
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/Logs/shadercompiler-UnityShaderCompiler.exe-2.log
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/Logs/shadercompiler-UnityShaderCompiler.exe-3.log
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/Logs/shadercompiler-UnityShaderCompiler.exe-4.log
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/Logs/shadercompiler-UnityShaderCompiler.exe-5.log
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/.NETFramework,Version=v4.7.1.AssemblyAttributes.cs
+  - **Fecha:** 2025-12-19
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Assembly-CSharp-Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Assembly-CSharp-firstpass.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Assembly-CSharp-firstpass.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-20
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Assembly-CSharp.csproj.CopyComplete
+  - **Fecha:** 2026-02-23
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Assembly-CSharp.csproj.CoreCompileInputs.cache
+  - **Fecha:** 2026-02-20
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Assembly-CSharp.csproj.FileListAbsolute.txt
+  - **Fecha:** 2026-02-20
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Assembly-CSharp.dll
+  - **Fecha:** 2026-02-20
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Assembly-CSharp.pdb
+  - **Fecha:** 2026-02-20
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Core.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Core.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/MockTests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/PPv2URPConverters.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/TestNewCustomAssembly.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/UI.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/UI.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Animate.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Animate.Motion.Runtime.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Assistant.Agent.Dynamic.Extension.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Assistant.AvatarHelper.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Assistant.Bridge.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Assistant.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Assistant.UI.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Generators.Asset.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Generators.Chat.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Generators.Contexts.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Generators.Redux.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Generators.Sdk.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Generators.UI.AIDropdownIntegrations.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Generators.UI.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Image.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Material.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Material.Srp.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.ModelSelector.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.ModelTrainer.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Sound.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Toolkit.Accounts.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Toolkit.Asset.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Toolkit.Async.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Toolkit.Chat.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Toolkit.Compliance.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Toolkit.GenerationContextMenu.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AI.Toolkit.GenerationObjectPicker.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.Editor.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.InternalAPIBridge.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.InternalAPIBridge.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.MVVM.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.MVVM.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.Navigation.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.Navigation.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.Navigation.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.Redux.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.Redux.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.Redux.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.Undo.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.AppUI.Undo.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Burst.CodeGen.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Burst.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Burst.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Burst.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Cinemachine.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Cinemachine.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Cinemachine.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Collections.BurstCompatibilityGen.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Collections.CodeGen.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Collections.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Collections.DocCodeSamples.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Collections.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Collections.PerformanceTests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Collections.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Collections.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Collections.Tests.Playmode.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.EditorCoroutines.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.InferenceEngine.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.InferenceEngine.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.InferenceEngine.Editor.Visualizer.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.InferenceEngine.iOSBLAS.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.InferenceEngine.MacBLAS.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.InferenceEngine.Microsoft.Msagl.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.InferenceEngine.ONNX.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.InferenceEngine.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.InferenceEngine.Tokenization.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.InferenceEngine.Tokenization.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.InternalAPIEngineBridge.004.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.InternalAPIEngineBridge.004.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.LightTransport.Editor.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Mathematics.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Mathematics.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Mathematics.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Mathematics.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Multiplayer.Center.Common.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Multiplayer.Center.Common.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Multiplayer.Center.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Multiplayer.Center.Editor.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Multiplayer.Center.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Nuget.Mono-Cecil.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Performance.Profile-Analyzer.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Performance.Profile-Analyzer.EditorTests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.PerformanceTesting.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.PerformanceTesting.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.PerformanceTesting.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Rendering.LightTransport.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Rendering.LightTransport.Runtime.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Rendering.LightTransport.Runtime.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipeline.Universal.ShaderLibrary.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipeline.Universal.ShaderLibrary.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Core.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Core.Editor.Shared.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Core.Editor.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Core.Runtime.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Core.Runtime.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Core.Runtime.Shared.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Core.Runtime.Shared.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Core.Runtime.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Core.ShaderLibrary.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Core.ShaderLibrary.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.GPUDriven.Runtime.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.GPUDriven.Runtime.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Universal.2D.Editor.Overrides.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Universal.2D.Runtime.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Universal.2D.Runtime.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Universal.Config.Editor.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Universal.Config.Runtime.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Universal.Config.Runtime.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Universal.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Universal.Editor.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Universal.Runtime.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Universal.Runtime.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Universal.Runtime.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Universal.Shaders.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.RenderPipelines.Universal.Shaders.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Rider.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Searcher.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Searcher.EditorTests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Serialization.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Serialization.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Serialization.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Serialization.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Settings.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Settings.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.ShaderGraph.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.ShaderGraph.Editor.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.ShaderGraph.Utilities.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Splines.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Splines.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.Splines.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.TestTools.CodeCoverage.Editor.Compatibility.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.TestTools.CodeCoverage.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.TextMeshPro.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.TextMeshPro.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.TextMeshPro.Editor.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.TextMeshPro.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.TextMeshPro.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.UnifiedRayTracing.Editor.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2025-12-19
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.UnifiedRayTracing.Runtime.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.VisualStudio.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/Unity.VSCode.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/UnityEditor.TestRunner.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/UnityEditor.UI.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/UnityEditor.UI.EditorTests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/UnityEngine.TestRunner.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/UnityEngine.TestRunner.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/UnityEngine.UI.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/UnityEngine.UI.Player.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/UnityEngine.UI.Tests.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/obj/Debug/WebGL.Tests.Editor.csproj.AssemblyReference.cache
+  - **Fecha:** 2026-02-09
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/root_helper_scripts/fix_css.py
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/root_helper_scripts/injector.py
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/root_helper_scripts/injector_cs.py
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/root_helper_scripts/replace_uss.py
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** desarrollo/unity_project/root_helper_scripts/replace_uss2.py
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** docs/INSTALL_STATUS.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '# Estado de la instalaciÃ³n'
+- **Archivo:** Informe_final/informe_final.aux
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Informe_final/informe_final.log
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Informe_final/informe_final.lot
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Informe_final/informe_final.out
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Informe_final/informe_final.toc
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Informe_final/Manual_de_usuario/manual_usuario.aux
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Informe_final/Manual_de_usuario/manual_usuario.log
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Informe_final/Manual_de_usuario/manual_usuario.out
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Informe_final/Manual_de_usuario/manual_usuario.toc
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Informe_final/Manual_tecnico/manual_tecnico.aux
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Informe_final/Manual_tecnico/manual_tecnico.log
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Informe_final/Manual_tecnico/manual_tecnico.out
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Informe_final/Manual_tecnico/manual_tecnico.toc
+  - **Fecha:** 2026-03-11
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Informe_final/presentation/DEMO_SCRIPT.md
+  - **Fecha:** 2026-02-10
+  - **Contenido/Función:** Extraído: '# Demo Script - WebGL Drone Viewer'
+- **Archivo:** Propuesta/final_proposal.aux
+  - **Fecha:** 2025-12-04
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Propuesta/final_proposal.log
+  - **Fecha:** 2025-12-04
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Propuesta/final_proposal.lot
+  - **Fecha:** 2025-12-04
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Propuesta/final_proposal.out
+  - **Fecha:** 2025-12-04
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Propuesta/final_proposal.toc
+  - **Fecha:** 2025-12-04
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Propuesta/justificacion/bibliografia.log
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Propuesta/justificacion/bibliografia_wrapper.aux
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Propuesta/justificacion/bibliografia_wrapper.log
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Propuesta/justificacion/bibliografia_wrapper.out
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Propuesta/justificacion/sustentacion.aux
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Propuesta/justificacion/sustentacion.log
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** Propuesta/justificacion/sustentacion.out
+  - **Fecha:** 2025-11-28
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** raiz_repositorio/.git_log.txt
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** raiz_repositorio/blender_mcp_addon.py
+  - **Fecha:** 2026-03-10
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+- **Archivo:** raiz_repositorio/log8.txt
+  - **Fecha:** 2026-03-03
+  - **Contenido/Función:** Documento estructurado/auxiliar estático (Binario/Excalidraw/Media/Log)
+
+
+
