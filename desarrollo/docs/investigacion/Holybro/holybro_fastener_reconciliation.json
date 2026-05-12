@@ -1,7 +1,7 @@
 {
     "sourceScene": "Assets/Scenes/MainScene_Final.unity",
     "sourceDataset": "x500v2_blender_synced_parts.json",
-    "generatedAtUtc": "2026-05-11T00:38:25.7864297Z",
+    "generatedAtUtc": "2026-05-11T16:21:29.8896905Z",
     "aliases": [
         {
             "sceneTypeKey": "cap_screw_M25x10",
@@ -106,12 +106,6 @@
             "rationale": "Explicit Unity scene type to Holybro synced source mapping."
         },
         {
-            "sceneTypeKey": "rubber_grommet",
-            "sourceId": "x500v2_blend_huan_guijiao",
-            "blenderName": "HUAN-GUIJIAO",
-            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
-        },
-        {
             "sceneTypeKey": "self_lock_nut_M25",
             "sourceId": "x500v2_blend_zslm_m25",
             "blenderName": "ZSLM-M25",
@@ -149,7 +143,7 @@
             "sceneTypeKey": "lock_nut_M3",
             "sourceId": "x500v2_blend_lm_m3_ding",
             "instanceId": "",
-            "message": "Scene contains 17 instances while synced source expects 8."
+            "message": "Scene contains 16 instances while synced source expects 8."
         },
         {
             "severity": "info",
@@ -174,14 +168,6 @@
             "sourceId": "x500v2_blend_zslm_m25",
             "instanceId": "",
             "message": "Unity scene naming overrides the generic synced part label so the modular family better matches the runtime placeholder behavior."
-        },
-        {
-            "severity": "info",
-            "scope": "SourceOnly",
-            "sceneTypeKey": "",
-            "sourceId": "x500v2_blend_gpsv5_zhijia_luomao",
-            "instanceId": "",
-            "message": "Source fastener 'GPSV5-ZHIJIA-LUOMAO' does not have a direct Unity scene family match in the current temporary proxy scene."
         },
         {
             "severity": "info",

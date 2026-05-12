@@ -1,13 +1,14 @@
 ﻿# Auditoria UX de seleccion, piezas madre, hotspots y fasteners
 
-Fecha: 2026-05-10
+Fecha: 2026-05-10, actualizado 2026-05-11 con verificacion MCP Blender
 
 ## Resumen ejecutivo
 
 - La UX por capas ya tiene buena base, pero todavia necesita una fuente explicita de `subpieza -> fasteners` para no depender exclusivamente de contacto/bounds.
-- El mapa propuesto `holybro_subpiece_fastener_map.json` asigna los 170 fasteners actuales a subpiezas prioritarias y relaciones compartidas, con confianza `high`, `medium` o `low`.
+- El mapa propuesto `holybro_subpiece_fastener_map.json` debe reconciliarse contra el conteo Blender real: `161` fasteners primitivos (`19` masters + `142` instancias), no `170`.
 - Los hotspots principales ya son mucho mas coherentes, pero `Power Distribution` y `Propulsion System` todavia mezclan conceptos documentados con geometria ausente si no se comunica bien al usuario.
 - Las piezas documentadas sin geometria final (`PDB`, `RC Receiver`, `ESC`) no deben aparecer como seleccionables ni como proxies visuales; deben quedar como metadata pendiente o requisitos de modelo.
+- `HUAN-GUIJIAO` y `GPSV5-ZHIJIA-LUOMAO` se confirmaron como subpiezas runtime, no como fasteners primitivos. Cualquier fila previa que los trate como `RubberGrommet` o `lock_nut_M3` modular queda anulada.
 
 ## Mapa propuesto de fasteners por subpieza
 
@@ -16,32 +17,32 @@ Fuente detallada con IDs de instancia: `holybro_subpiece_fastener_map.json`.
 | Pieza madre | Subpieza | Fasteners prioritarios | Fasteners compartidos/contextuales | Confianza | Observacion |
 | --- | --- | --- | --- | --- | --- |
 | x500v2_arm_BL | BAN-DJ-DIAN-F2 | CountersunkScrew M2.5x6 x4 | SocketCapScrew M2.5x12 x2<br>SocketCapScrew M2.5x6 x4 | medium | Compartido desde HMX5V-ZUO-DJ-MUJU: M2.5x12 asociado al conjunto superior/inferior del motor mount. |
-| x500v2_arm_BL | CARBON-FIBER-TUBE300 | - | FlangeNut M3 x4<br>RubberGrommet x3<br>SocketCapScrew M2.5x10 x2<br>SocketCapScrew M3x38 x4 | low | Compartido desde JIA-GUAN: M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual. |
+| x500v2_arm_BL | CARBON-FIBER-TUBE300 | - | FlangeNut M3 x4<br>SocketCapScrew M2.5x10 x2<br>SocketCapScrew M3x38 x4 | low | Compartido desde JIA-GUAN: M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual. |
 | x500v2_arm_BL | HMX5V-DIGAI-DIANJIZUO-MUJU | SocketCapScrew M2.5x6 x4 | CountersunkScrew M2.5x6 x4<br>SocketCapScrew M2.5x12 x2 | medium | Compartido desde HMX5V-ZUO-DJ-MUJU: M2.5x12 asociado al conjunto superior/inferior del motor mount. |
-| x500v2_arm_BL | HMX5V-GUAN-DINGWEI | RubberGrommet x3 | - | low | Grommet en brazo inferido como stopper/dampener; requiere confirmacion. |
+| x500v2_arm_BL | HMX5V-GUAN-DINGWEI | - | - | high | `HUAN-GUIJIAO` no es fastener: queda como subpieza fisica de goma asociada al brazo/JIA-GUAN segun coleccion runtime. |
 | x500v2_arm_BL | HMX5V-JIBI-JIA-MUJU | FlangeNut M3 x4<br>SocketCapScrew M3x38 x4 | - | medium | M3x38 largo asociado a abrazadera de brazo/frame y tubo. |
 | x500v2_arm_BL | HMX5V-ZUO-DJ-MUJU | SocketCapScrew M2.5x12 x2 | CountersunkScrew M2.5x6 x4<br>SocketCapScrew M2.5x6 x4 | medium | M2.5x12 asociado al conjunto superior/inferior del motor mount. |
 | x500v2_arm_BL | JIA-GUAN | SocketCapScrew M2.5x10 x2 | - | low | M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual. |
 | x500v2_arm_BR | BAN-DJ-DIAN-F2 | - | SocketCapScrew M2.5x12 x3<br>SocketCapScrew M2.5x6 x4 | medium | Compartido desde HMX5V-ZUO-DJ-MUJU: M2.5x12 asociado al conjunto superior/inferior del motor mount. |
 | x500v2_arm_BR | BOTTOM-PLATE-X500-V5 | - | SocketCapScrew M3x25 x1<br>SocketCapScrew M3x8 x4 | low | Compartido desde HMX5V-JIBI-JIA-MUJU: M3x25 en brazo es anomalo por cantidad; revisar posicion exacta. |
-| x500v2_arm_BR | CARBON-FIBER-TUBE300 | - | CapNut M3 x1<br>FlangeNut M3 x4<br>RubberGrommet x1<br>SocketCapScrew M2.5x10 x2<br>SocketCapScrew M3x38 x4 | low | Compartido desde JIA-GUAN: M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual. |
+| x500v2_arm_BR | CARBON-FIBER-TUBE300 | - | CapNut M3 x1<br>FlangeNut M3 x4<br>SocketCapScrew M2.5x10 x2<br>SocketCapScrew M3x38 x4 | low | Compartido desde JIA-GUAN: M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual. |
 | x500v2_arm_BR | HMX5V-DIGAI-DIANJIZUO-MUJU | SocketCapScrew M2.5x6 x4 | SocketCapScrew M2.5x12 x3 | medium | Compartido desde HMX5V-ZUO-DJ-MUJU: M2.5x12 asociado al conjunto superior/inferior del motor mount. |
-| x500v2_arm_BR | HMX5V-GUAN-DINGWEI | RubberGrommet x1 | - | low | Grommet en brazo inferido como stopper/dampener; requiere confirmacion. |
+| x500v2_arm_BR | HMX5V-GUAN-DINGWEI | - | - | high | `HUAN-GUIJIAO` no es fastener: queda como subpieza fisica de goma asociada al brazo/JIA-GUAN segun coleccion runtime. |
 | x500v2_arm_BR | HMX5V-JIBI-JIA-MUJU | CapNut M3 x1<br>FlangeNut M3 x4<br>SocketCapScrew M3x25 x1<br>SocketCapScrew M3x38 x4<br>SocketCapScrew M3x8 x4 | - | low | M3x25 en brazo es anomalo por cantidad; revisar posicion exacta. |
 | x500v2_arm_BR | HMX5V-ZUO-DJ-MUJU | SocketCapScrew M2.5x12 x3 | SocketCapScrew M2.5x6 x4 | medium | M2.5x12 asociado al conjunto superior/inferior del motor mount. |
 | x500v2_arm_BR | JIA-GUAN | SocketCapScrew M2.5x10 x2 | - | low | M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual. |
 | x500v2_arm_BR | TOP-PLATE-X500-V5 | - | SocketCapScrew M3x8 x4 | low | Compartido desde HMX5V-JIBI-JIA-MUJU: M3x8 en brazo puede pertenecer a interfaz con placas; revisar posicion exacta. |
 | x500v2_arm_FL | BAN-DJ-DIAN-F2 | CountersunkScrew M2.5x6 x4 | SocketCapScrew M2.5x12 x2<br>SocketCapScrew M2.5x6 x4 | medium | Compartido desde HMX5V-ZUO-DJ-MUJU: M2.5x12 asociado al conjunto superior/inferior del motor mount. |
-| x500v2_arm_FL | CARBON-FIBER-TUBE300 | - | FlangeNut M3 x8<br>RubberGrommet x3<br>SocketCapScrew M2.5x10 x2<br>SocketCapScrew M3x38 x8 | low | Compartido desde JIA-GUAN: M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual. |
+| x500v2_arm_FL | CARBON-FIBER-TUBE300 | - | FlangeNut M3 x8<br>SocketCapScrew M2.5x10 x2<br>SocketCapScrew M3x38 x8 | low | Compartido desde JIA-GUAN: M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual. |
 | x500v2_arm_FL | HMX5V-DIGAI-DIANJIZUO-MUJU | SocketCapScrew M2.5x6 x4 | CountersunkScrew M2.5x6 x4<br>SocketCapScrew M2.5x12 x2 | medium | Compartido desde HMX5V-ZUO-DJ-MUJU: M2.5x12 asociado al conjunto superior/inferior del motor mount. |
-| x500v2_arm_FL | HMX5V-GUAN-DINGWEI | RubberGrommet x3 | - | low | Grommet en brazo inferido como stopper/dampener; requiere confirmacion. |
+| x500v2_arm_FL | HMX5V-GUAN-DINGWEI | - | - | high | `HUAN-GUIJIAO` no es fastener: queda como subpieza fisica de goma asociada al brazo/JIA-GUAN segun coleccion runtime. |
 | x500v2_arm_FL | HMX5V-JIBI-JIA-MUJU | FlangeNut M3 x8<br>SocketCapScrew M3x38 x8 | - | medium | M3x38 largo asociado a abrazadera de brazo/frame y tubo. |
 | x500v2_arm_FL | HMX5V-ZUO-DJ-MUJU | SocketCapScrew M2.5x12 x2 | CountersunkScrew M2.5x6 x4<br>SocketCapScrew M2.5x6 x4 | medium | M2.5x12 asociado al conjunto superior/inferior del motor mount. |
 | x500v2_arm_FL | JIA-GUAN | SocketCapScrew M2.5x10 x2 | - | low | M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual. |
 | x500v2_arm_FR | BAN-DJ-DIAN-F2 | - | SocketCapScrew M2.5x12 x2<br>SocketCapScrew M2.5x6 x4 | medium | Compartido desde HMX5V-ZUO-DJ-MUJU: M2.5x12 asociado al conjunto superior/inferior del motor mount. |
-| x500v2_arm_FR | CARBON-FIBER-TUBE300 | - | RubberGrommet x1<br>SocketCapScrew M2.5x10 x2 | low | Compartido desde JIA-GUAN: M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual. |
+| x500v2_arm_FR | CARBON-FIBER-TUBE300 | - | SocketCapScrew M2.5x10 x2 | low | Compartido desde JIA-GUAN: M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual. |
 | x500v2_arm_FR | HMX5V-DIGAI-DIANJIZUO-MUJU | SocketCapScrew M2.5x6 x4 | SocketCapScrew M2.5x12 x2 | medium | Compartido desde HMX5V-ZUO-DJ-MUJU: M2.5x12 asociado al conjunto superior/inferior del motor mount. |
-| x500v2_arm_FR | HMX5V-GUAN-DINGWEI | RubberGrommet x1 | - | low | Grommet en brazo inferido como stopper/dampener; requiere confirmacion. |
+| x500v2_arm_FR | HMX5V-GUAN-DINGWEI | - | - | high | `HUAN-GUIJIAO` no es fastener: queda como subpieza fisica de goma asociada al brazo/JIA-GUAN segun coleccion runtime. |
 | x500v2_arm_FR | HMX5V-JIBI-JIA-MUJU | - | - | high | - |
 | x500v2_arm_FR | HMX5V-ZUO-DJ-MUJU | SocketCapScrew M2.5x12 x2 | SocketCapScrew M2.5x6 x4 | medium | M2.5x12 asociado al conjunto superior/inferior del motor mount. |
 | x500v2_arm_FR | JIA-GUAN | SocketCapScrew M2.5x10 x2 | - | low | M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual. |
@@ -113,7 +114,7 @@ Fuente detallada con IDs de instancia: `holybro_subpiece_fastener_map.json`.
 | El hotspot `Battery` mezcla bateria y railes. | Correcto para montaje, pero confuso si el usuario solo quiere la bateria. | Mantener macro-hotspot, pero permitir foco interno `Battery` y `Rails / Mount`. |
 | No existe hotspot dedicado a tren de aterrizaje. | Una zona visible y pedagogica queda escondida en filtros estructurales. | Crear hotspot `Landing Gear` con `x500v2_landing_gear` y sus fasteners. |
 | Camara/optical flow viven bajo `bottom_plate`. | Correcto estructuralmente, pero invisibiliza sensores/payload. | Crear hotspot opcional `Vision / Payload Mounts` para `GAI-GUANGLIU` y `ZHIJIA-CAMERA-INTEL`. |
-| Fasteners low-confidence en brazos (`M2.5x10`, grommets, M3x8/M3x25). | Pueden aparecer en subpieza incorrecta si se usa solo semantica. | Confirmar con posicion Blender/Unity y ajustar prioridad por instancia. |
+| Fasteners low-confidence en brazos (`M2.5x10`, M3x8/M3x25). | Pueden aparecer en subpieza incorrecta si se usa solo semantica. | Confirmar con posicion Blender/Unity y ajustar prioridad por instancia. `HUAN-GUIJIAO` ya no se evalua como fastener. |
 
 ### Lo que ya esta bien
 

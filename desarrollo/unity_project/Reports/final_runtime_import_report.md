@@ -1,6 +1,6 @@
 # Final Runtime Import Report
 
-Fecha: 2026-05-10 19:38:28
+Fecha: 2026-05-11 11:22:16
 FBX: Assets/Models/x500v2_runtime_low_final.fbx
 FBX sync: FBX de Assets coincide con la fuente externa.
 FBX bytes: 8703308
@@ -21,19 +21,19 @@ Setup runtime: OK
 ## Normalizacion
 
 - Meshes importados en asset: 252
-- Meshes instanciados en escena: 254
+- Meshes instanciados en escena: 252
 - Helices renombradas: 4
 - Helices proxy creadas: 0
-- Fasteners renombrados/agrupados: 170
-- ExplodablePart en root activo: 194
+- Fasteners renombrados/agrupados: 161
+- ExplodablePart en root activo: 183
 - Anchors granulares x500v2_blend_* seleccionables: 0
-- Proxies canonicos temporales: 2
+- Proxies canonicos temporales: 0
 
 ## Instancing Unity
 
-- MeshFilters totales: 254
-- Mesh assets unicos: 253
-- Grupos de sharedMesh con mas de un usuario: 1
-- MeshFilters usando sharedMesh repetido: 2
+- MeshFilters totales: 252
+- Mesh assets unicos: 252
+- Grupos de sharedMesh con mas de un usuario: 0
+- MeshFilters usando sharedMesh repetido: 0
 
 Nota: si `sharedMesh` se repite, Unity preservo instanciacion logica de malla. Si no se repite, el FBX entro como meshes duplicados y debe revisarse el export desde Blender.

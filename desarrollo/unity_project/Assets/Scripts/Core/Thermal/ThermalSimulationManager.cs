@@ -71,6 +71,12 @@ namespace WebGL.Core.Thermal
         public float EffectiveConductance;
     }
 
+    internal sealed class ThermalBridgeCandidate
+    {
+        public string PresentPartId;
+        public float Conductance;
+    }
+
     public class ThermalSimulationManager : Singleton<ThermalSimulationManager>
     {
         [Header("Simulation")]
@@ -207,7 +213,7 @@ namespace WebGL.Core.Thermal
         public bool TryGetTemperature(string partId, out float temperatureC)
         {
             temperatureC = ambientTemperatureC;
-            if (!nodesById.TryGetValue(partId, out ThermalNodeRuntime node))
+            if (!TryGetNode(partId, out ThermalNodeRuntime node))
             {
                 return false;
             }
@@ -216,9 +222,45 @@ namespace WebGL.Core.Thermal
             return true;
         }
 
+        public bool TryGetHottestLinkedNeighbor(string partId, out string neighborPartId, out float temperatureC)
+        {
+            neighborPartId = string.Empty;
+            temperatureC = ambientTemperatureC;
+
+            if (!TryGetNode(partId, out ThermalNodeRuntime node))
+            {
+                return false;
+            }
+
+            bool found = false;
+            foreach (ThermalLinkRuntime link in links)
+            {
+                ThermalNodeRuntime neighbor = null;
+                if (link.A == node)
+                {
+                    neighbor = link.B;
+                }
+                else if (link.B == node)
+                {
+                    neighbor = link.A;
+                }
+
+                if (neighbor == null || (found && neighbor.CurrentTemperatureC <= temperatureC))
+                {
+                    continue;
+                }
+
+                found = true;
+                neighborPartId = neighbor.PartId;
+                temperatureC = neighbor.CurrentTemperatureC;
+            }
+
+            return found;
+        }
+
         public float GetNormalizedTemperature(string partId)
         {
-            if (!nodesById.TryGetValue(partId, out ThermalNodeRuntime node))
+            if (!TryGetNode(partId, out ThermalNodeRuntime node))
             {
                 return 0f;
             }
@@ -319,6 +361,9 @@ namespace WebGL.Core.Thermal
                     float conductance = EstimateConductanceFromGraph(linkData);
                     TryAddLink(linkData.fromPartId, linkData.toPartId, conductance);
                 }
+
+                AddBridgeLinksForMissingGraphNodes();
+                AddSupplementalRuntimeLinks();
                 return;
             }
 
@@ -338,6 +383,7 @@ namespace WebGL.Core.Thermal
             TryAddLink("x500v2_bottom_plate", "x500v2_rails_battery", 0.04f);
             TryAddLink("x500v2_rails_battery", "x500v2_battery", 0.05f);
             TryAddLink("x500v2_bottom_plate", "x500v2_landing_gear", 0.03f);
+            AddSupplementalRuntimeLinks();
         }
 
         private void ResolveContactGraph()
@@ -368,16 +414,16 @@ namespace WebGL.Core.Thermal
             TryAddLink($"x500v2_arm_{suffix}", "x500v2_top_plate", 0.04f);
         }
 
-        private void TryAddLink(string fromPartId, string toPartId, float baseConductance)
+        private bool TryAddLink(string fromPartId, string toPartId, float baseConductance)
         {
             if (string.IsNullOrWhiteSpace(fromPartId) || string.IsNullOrWhiteSpace(toPartId))
             {
-                return;
+                return false;
             }
 
-            if (!nodesById.TryGetValue(fromPartId, out ThermalNodeRuntime a) || !nodesById.TryGetValue(toPartId, out ThermalNodeRuntime b))
+            if (!TryGetNode(fromPartId, out ThermalNodeRuntime a) || !TryGetNode(toPartId, out ThermalNodeRuntime b))
             {
-                return;
+                return false;
             }
 
             foreach (ThermalLinkRuntime existing in links)
@@ -386,7 +432,7 @@ namespace WebGL.Core.Thermal
                 bool invertedDirection = existing.A == b && existing.B == a;
                 if (sameDirection || invertedDirection)
                 {
-                    return;
+                    return false;
                 }
             }
 
@@ -400,6 +446,94 @@ namespace WebGL.Core.Thermal
                 B = b,
                 EffectiveConductance = conductance,
             });
+
+            return true;
+        }
+
+        private void AddBridgeLinksForMissingGraphNodes()
+        {
+            if (contactGraph == null || contactGraph.links == null || contactGraph.links.Count == 0)
+            {
+                return;
+            }
+
+            var candidatesByMissingNode = new Dictionary<string, List<ThermalBridgeCandidate>>(StringComparer.OrdinalIgnoreCase);
+            foreach (ThermalContactLinkData linkData in contactGraph.links)
+            {
+                bool hasFrom = TryGetNode(linkData.fromPartId, out _);
+                bool hasTo = TryGetNode(linkData.toPartId, out _);
+                if (hasFrom == hasTo)
+                {
+                    continue;
+                }
+
+                string missingPartId = hasFrom ? linkData.toPartId : linkData.fromPartId;
+                string presentPartId = hasFrom ? linkData.fromPartId : linkData.toPartId;
+                if (string.IsNullOrWhiteSpace(missingPartId) || string.IsNullOrWhiteSpace(presentPartId))
+                {
+                    continue;
+                }
+
+                if (!candidatesByMissingNode.TryGetValue(missingPartId, out List<ThermalBridgeCandidate> candidates))
+                {
+                    candidates = new List<ThermalBridgeCandidate>();
+                    candidatesByMissingNode[missingPartId] = candidates;
+                }
+
+                candidates.Add(new ThermalBridgeCandidate
+                {
+                    PresentPartId = presentPartId,
+                    Conductance = EstimateConductanceFromGraph(linkData),
+                });
+            }
+
+            foreach (KeyValuePair<string, List<ThermalBridgeCandidate>> entry in candidatesByMissingNode)
+            {
+                List<ThermalBridgeCandidate> candidates = entry.Value;
+                for (int i = 0; i < candidates.Count; i++)
+                {
+                    for (int j = i + 1; j < candidates.Count; j++)
+                    {
+                        float bridgeConductance = Mathf.Min(candidates[i].Conductance, candidates[j].Conductance) * 0.45f;
+                        TryAddLink(candidates[i].PresentPartId, candidates[j].PresentPartId, bridgeConductance);
+                    }
+                }
+            }
+        }
+
+        private void AddSupplementalRuntimeLinks()
+        {
+            // The final FBX intentionally suppresses some documented proxies (PDB, ESCs, RC).
+            // These direct links preserve the physical conduction paths through real nearby geometry.
+            TryAddLink("x500v2_power_module", "x500v2_bottom_plate", 0.045f);
+            TryAddLink("x500v2_power_module", "x500v2_top_plate", 0.028f);
+            TryAddLink("x500v2_power_module", "x500v2_rails_battery", 0.024f);
+            TryAddLink("x500v2_pixhawk6c", "x500v2_top_plate", 0.07f);
+            TryAddLink("x500v2_platform_board", "x500v2_top_plate", 0.04f);
+            TryAddLink("x500v2_platform_board", "x500v2_gps_m10", 0.022f);
+            TryAddLink("x500v2_bottom_plate", "x500v2_top_plate", 0.04f);
+            TryAddLink("x500v2_bottom_plate", "x500v2_rails_battery", 0.045f);
+            TryAddLink("x500v2_bottom_plate", "x500v2_landing_gear", 0.035f);
+        }
+
+        private bool TryGetNode(string partId, out ThermalNodeRuntime node)
+        {
+            if (!string.IsNullOrWhiteSpace(partId) && nodesById.TryGetValue(partId, out node))
+            {
+                return true;
+            }
+
+            foreach (KeyValuePair<string, ThermalNodeRuntime> entry in nodesById)
+            {
+                if (string.Equals(entry.Key, partId, StringComparison.OrdinalIgnoreCase))
+                {
+                    node = entry.Value;
+                    return true;
+                }
+            }
+
+            node = null;
+            return false;
         }
 
         private float ComputeEquilibriumTemperature(ThermalNodeRuntime node)

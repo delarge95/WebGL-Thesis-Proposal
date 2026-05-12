@@ -833,3 +833,282 @@ Definir una base explicita para saber que fasteners pertenecen a cada subpieza y
 
 - El mapa esta documentado y listo para conectarse al runtime como fuente explicita.
 - La seleccion actual puede seguir usando contacto/bounds como fallback, pero el siguiente paso recomendado es que Unity lea `holybro_subpiece_fastener_map.json` para hacer deterministica la capa `subpieza + fasteners`.
+
+---
+
+## Registro de Cambios (Mayo 11, 2026) - Frontera Blender/Unity para fasteners primitivos
+
+### Objetivo
+
+Corregir la clasificacion de piezas importadas para que solo los objetos procedentes de colecciones primitivas de fasteners puedan activar el sistema modular, evitando que piezas fisicas como grommets o tuercas de soporte se compartan o reemplacen como tornillos.
+
+### Acciones Realizadas
+
+1. **Validacion por MCP Blender limitada a colecciones runtime**:
+   - _Implementacion_: Se revisaron `BAKE_MASTERS_LOW`, `ASSEMBLY_INSTANCES_LOW`, `PRIMITIVE_FASTENER_MASTERS` y `PRIMITIVE_FASTENER_INSTANCES`.
+   - _Resultado_: La escena contiene `91` meshes de piezas runtime y `161` meshes de fasteners primitivos (`19` masters + `142` instancias). La coleccion `PRIMITIVE_MASTER_INSTANCES` no existe literalmente en el archivo abierto; la coleccion activa es `PRIMITIVE_FASTENER_INSTANCES`.
+2. **Correccion de falsos fasteners estructurales**:
+   - _Implementacion_: `SelectionHierarchy`, `HolybroFastenerCatalogBuilder`, `SetupImportedDroneThermalTest` e `ImportedDroneRuntimeBinder` dejan de tratar `HUAN-GUIJIAO` y `GPSV5-ZHIJIA-LUOMAO` como fasteners primitivos.
+   - _Resultado_: `HUAN-GUIJIAO` queda como subpieza fisica de goma asociada a brazos/JIA-GUAN, y `GPSV5-ZHIJIA-LUOMAO` queda como subpieza del GPS.
+3. **Actualizacion de jerarquia y documentacion**:
+   - _Implementacion_: Se actualizaron `holybro_selection_hierarchy.json`, `holybro_subpiece_fastener_map.json`, `holybro_runtime_selection_mapping.md`, `holybro_selection_ux_audit.md` y el workflow Blender/Unity.
+   - _Resultado_: El mapa documental elimina `rubber_grommet_*` y `x500v2_fastener_lock_nut_M3_001` de asignaciones primitivas para evitar relaciones compartidas falsas.
+4. **Limpieza de recursos runtime generados**:
+   - _Implementacion_: Se actualizaron `holybro_fastener_families.json`, `holybro_fastener_instances.json` y `holybro_fastener_reconciliation.json` para retirar la familia `holybro_rubber_grommet` y la instancia obsoleta `x500v2_fastener_lock_nut_M3_001`.
+   - _Resultado_: El registro modular queda en `18` familias y `161` instancias, coherente con la validacion de Blender.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores.
+- `UI.Player.csproj` compila sin errores.
+- `Assembly-CSharp.csproj` compila sin errores.
+- La compilacion editor por `dotnet` sigue bloqueada por `UnityEditor.UI` del paquete `com.unity.ugui`, no por los cambios de clasificacion.
+- Tras reimportar el FBX desde Unity, el conteo esperado de fasteners normalizados debe acercarse a `161` y no debe incluir `HUAN-GUIJIAO` ni `GPSV5-ZHIJIA-LUOMAO` en `x500v2_fastener_group`.
+
+---
+
+## Registro de Cambios (Mayo 11, 2026) - Correccion de transferencia termica en FBX final
+
+### Objetivo
+
+Auditar y corregir el sistema termico sobre el FBX final importado, especialmente la falta de calentamiento visible en plates/frames y la sobrerrepresentacion visual de calor en subpiezas de Pixhawk como `MIANKE-PIXHAWK6C-LV-C1.001_low`.
+
+### Acciones Realizadas
+
+1. **Auditoria del grafo termico frente al FBX final**:
+   - _Implementacion_: Se reviso la relacion entre `ThermalCanonicalContactGraph.asset`, `ThermalSimulationManager` y las piezas presentes tras la importacion final.
+   - _Resultado_: Se identifico que nodos canonicos documentados pero ausentes como `x500v2_pdb`, `x500v2_esc_*` y `x500v2_rc_receiver` podian cortar rutas de conduccion si el enlace era descartado por falta de geometria runtime.
+2. **Puentes y enlaces suplementarios de conduccion**:
+   - _Implementacion_: `ThermalSimulationManager` crea puentes conservadores entre vecinos presentes cuando un nodo del grafo no existe en runtime, y agrega enlaces directos controlados para stack central, plates, rails y landing gear.
+   - _Resultado_: El sistema deja de depender de proxies eliminados y conserva transferencia visible hacia piezas estructurales.
+3. **Visualizacion termica por subpieza**:
+   - _Implementacion_: `ThermalViewController` cachea bounds canonicos, resuelve focos dinamicos por vecino caliente y aplica escala visual por subpieza.
+   - _Resultado_: `MIANKE` y `DIKE` de Pixhawk se ven menos calientes que PCB/IMU, mientras plates y carriers estructurales muestran zonas de contacto mas legibles.
+4. **Documentacion tecnica**:
+   - _Implementacion_: Se agrego `desarrollo/docs/sistema_termico/AUDIT_TERMICO_FBX_FINAL_2026-05-11.md` y se actualizo el indice/README del subsistema termico.
+   - _Resultado_: Quedan trazados los hallazgos, correcciones, limitaciones y checklist de aceptacion visual.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores.
+- `Assembly-CSharp.csproj` compila sin errores.
+- Falta validacion visual en Play Mode con el dron encendido, carga entre `60%` y `100%` y modo `Thermal` activo.
+
+---
+
+## Registro de Cambios (Mayo 11, 2026) - Estado neutro termico y audit de explode view
+
+### Objetivo
+
+Corregir la aparicion de focos radiales en `top_plate` cuando el dron esta frio/apagado o cerca del equilibrio ambiente, y dejar documentadas las correcciones necesarias para una vista explosionada mas estetica y pedagogica.
+
+### Acciones Realizadas
+
+1. **Zona muerta visual de equilibrio termico**:
+   - _Implementacion_: `ThermalViewController` introduce `neutralTemperatureDeadbandC` y `neutralActivationRampC`.
+   - _Resultado_: Cuando la temperatura visual esta dentro del rango neutro respecto al ambiente, el shader recibe modo uniforme, sin hotspot radial, sin variacion base y sin banda critica artificial.
+2. **Activacion progresiva del patron espacial**:
+   - _Implementacion_: El ancho de banda, edge cooling, variacion base y propagacion se mezclan segun actividad termica real.
+   - _Resultado_: Las plates permanecen uniformes en frio, pero recuperan el patron de contacto cuando existe transferencia de calor medible.
+3. **Audit de explode view**:
+   - _Implementacion_: Se genero `desarrollo/docs/investigacion/Holybro/holybro_explode_view_audit.md`.
+   - _Resultado_: Quedan listadas las correcciones necesarias: usar `explosionPriority`, centralizar un `ExplodeLayoutProfile`, calcular direcciones desde bounds, validar solapes y separar explosion global/contextual.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores; conserva advertencias conocidas de APIs Unity obsoletas y AG001.
+- `Assembly-CSharp.csproj` compila sin errores.
+- Falta validacion visual en Play Mode del estado frio: la top plate debe verse uniforme antes de que exista delta termico.
+
+---
+
+## Registro de Cambios (Mayo 11, 2026) - Primer arreglo de explode view
+
+### Objetivo
+
+Mejorar la vista explosionada desde el primer punto critico del audit: dejar de mover todas las piezas simultaneamente y usar la prioridad de explosion ya existente para construir una secuencia mas legible y estetica.
+
+### Acciones Realizadas
+
+1. **Secuencia por `explosionPriority`**:
+   - _Implementacion_: `ExplodedViewManager` calcula el rango de prioridades entre piezas no fastener y convierte el factor global en un factor local por pieza.
+   - _Resultado_: Las piezas entran por capas con `SmoothStep`, evitando la nube simultanea de componentes.
+2. **Presets runtime para anchors principales**:
+   - _Implementacion_: `ImportedDroneRuntimeBinder` define direcciones/distancias runtime para plates, brazos, motores, helices, Pixhawk, GPS, power module, rails, landing gear y bateria.
+   - _Resultado_: Motores y helices salen por cuadrante en lugar de apilarse solo en vertical.
+3. **Fasteners fuera del rango de prioridad global**:
+   - _Implementacion_: La categoria `Fasteners` no participa en `min/max priority`.
+   - _Resultado_: Los fasteners no adelantan ni distorsionan la secuencia principal, pero conservan sus offsets auxiliares.
+4. **Actualizacion de audit**:
+   - _Implementacion_: `holybro_explode_view_audit.md` marca el primer arreglo como implementado y lista el siguiente pulido recomendado.
+   - _Resultado_: Queda trazabilidad clara para ajustar con validacion visual.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores; conserva advertencias conocidas de APIs Unity obsoletas y AG001.
+- `Assembly-CSharp.csproj` compila sin errores.
+- Falta validacion visual en Play Mode para ajustar separacion lateral/altura de props, motores y stack central.
+
+---
+
+## Registro de Cambios (Mayo 11, 2026) - Base radial de explode view
+
+### Objetivo
+
+Corregir la base direccional de la vista explosionada para que las piezas salgan desde el centro real del dron hacia afuera, usando `x500v2_bottom_plate` como referencia principal del centro.
+
+### Acciones Realizadas
+
+1. **Centro comun de explosion**:
+   - _Implementacion_: `ExplodedViewManager` busca `x500v2_bottom_plate` y usa sus bounds como origen radial.
+   - _Resultado_: La direccion de salida de cada pieza se calcula respecto a un centro unico del dron, no desde presets aislados.
+2. **Target runtime por vector radial**:
+   - _Implementacion_: `ExplodablePart` agrega `ConfigureRuntimeExplosionTarget(...)` para recibir un target calculado en world space y convertirlo a local space.
+   - _Resultado_: La explosion puede recalcularse sin modificar assets ni depender de `explosionDirection` como fuente principal.
+3. **Bounds visuales por pieza**:
+   - _Implementacion_: El manager calcula el centro de cada pieza desde sus renderers, filtrando fasteners auxiliares cuando hay `PartRenderCategory`.
+   - _Resultado_: Brazos, motores, helices y stack central se alejan desde su posicion real respecto al bottom plate.
+4. **Fallback seguro para piezas centradas**:
+   - _Implementacion_: Piezas con vector casi cero usan fallback vertical controlado.
+   - _Resultado_: El bottom plate y piezas centradas no quedan sin movimiento ni generan direcciones invalidas.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores; conserva advertencias conocidas de APIs Unity obsoletas y AG001.
+- `Assembly-CSharp.csproj` compila sin errores.
+- Falta validacion visual en Play Mode para confirmar que ninguna pieza principal se mueve hacia el centro y ajustar despues delays/separacion.
+
+---
+
+## Registro de Cambios (Mayo 11, 2026) - Correccion de eje frontal y tubos compartidos en explode
+
+### Objetivo
+
+Corregir casos donde subpiezas de brazo, especialmente `CARBON-FIBER-TUBE300.002_low`, salian en una direccion lateral incorrecta durante la vista explosionada por depender de sufijos de instancia o del anchor canonico equivocado.
+
+### Acciones Realizadas
+
+1. **Referencia frontal fisica**:
+   - _Implementacion_: `SelectionHierarchy`, `ImportedDroneRuntimeBinder` y `SetupImportedDroneThermalTest` usan `ZHIJIA-CAMERA-INTEL` como referencia de frente y `BOTTOM-PLATE-X500-V5` como centro.
+   - _Resultado_: Los cuadrantes se resuelven con ejes derivados del modelo real importado, no solo con `world X/Z`.
+2. **Tubo `CARBON-FIBER-TUBE300` como miembro compartido**:
+   - _Implementacion_: Los sufijos `.001/.002` de `CARBON-FIBER-TUBE300` dejaron de interpretarse como propiedad `BR/FR`.
+   - _Resultado_: El tubo largo no queda forzado por nombre a un brazo derecho cuando su centro real esta sobre el eje medio.
+3. **Compensacion radial por subpieza estructural de brazo**:
+   - _Implementacion_: `ExplodedViewManager` agrega offsets radiales por renderer estructural dentro de anchors `x500v2_arm_*`.
+   - _Resultado_: Si una subpieza compartida vive temporalmente dentro de un anchor canonico, su desplazamiento visual se corrige hacia su normal real desde el centro del dron.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores; conserva advertencias conocidas de APIs Unity obsoletas y AG001.
+- `Assembly-CSharp.csproj` compila sin errores.
+- `Assembly-CSharp-Editor.csproj` no pudo usarse como verificacion limpia por errores externos de `UnityEditor.UI` en `PackageCache` y, al aislar referencias, por metadatos temporales no generados.
+- Falta validacion visual en Unity: reimportar/rebind y verificar `CARBON-FIBER-TUBE300.002_low` en explode.
+
+---
+
+## Registro de Cambios (Mayo 11, 2026) - Jerarquia explicita de brazos y explode planar
+
+### Objetivo
+
+Corregir la clasificacion de subpiezas de brazos y la direccion de explode de `HMX5V-JIBI-JIA-MUJU.002_low` y `HMX5V-JIBI-JIA-MUJU.004_low`, que salian hacia arriba o hacia anchors no correspondientes por depender de reglas genericas de sufijo Blender.
+
+### Acciones Realizadas
+
+1. **Mapa explicito de instancias de brazo**:
+   - _Implementacion_: `SelectionHierarchy.ResolveKnownArmInstanceQuadrantSuffix(...)` define el cuadrante fisico por familia Blender e indice de instancia.
+   - _Resultado_: `HMX5V-JIBI-JIA-MUJU.001/.002` comparten el mismo brazo fisico, `HMX5V-JIBI-JIA-MUJU.003/.004` comparten el siguiente, y las familias de motor mount/ESC clamp usan su correspondencia real.
+2. **Correccion de anchors de brazo ya asignados**:
+   - _Implementacion_: `ImportedDroneRuntimeBinder` puede corregir un objeto entre anchors `x500v2_arm_*` si el mapeo explicito detecta que esta en otro brazo.
+   - _Resultado_: Se evita preservar una asignacion previa incorrecta solo porque ya estaba bajo un anchor canonico estable.
+3. **Explode radial horizontal para subpiezas estructurales**:
+   - _Implementacion_: `ExplodedViewManager` proyecta la normal radial de cada renderer estructural sobre el plano horizontal antes de calcular su offset auxiliar.
+   - _Resultado_: Piezas elevadas del brazo no reciben una componente vertical excesiva y salen hacia su lado real del dron.
+4. **Secuencia fisica por dependencia**:
+   - _Implementacion_: `ImportedDroneRuntimeBinder` recalibra `explosionPriority` runtime: elementos desmontables externos primero, stack/electronica despues, estructura principal al final.
+   - _Resultado_: El delay conserva la lectura estetica actual, pero se alinea mejor con una secuencia fisica de desmontaje.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores.
+- `Assembly-CSharp.csproj` compila sin errores.
+- Falta validacion visual en Unity tras reimport/rebind: probar `HMX5V-JIBI-JIA-MUJU.002_low` contra `.001_low` y `.004_low` contra `.003_low`.
+
+---
+
+## Registro de Cambios (Mayo 11, 2026) - Perfil fisico de desmontaje para explode view
+
+### Objetivo
+
+Convertir la vista explosionada en una secuencia de desmontaje mas fisica: minimizar contacto entre piezas, liberar primero fasteners por su eje de montaje, separar piezas secundarias segun su conexion real y desplazar al final las estructuras principales.
+
+### Acciones Realizadas
+
+1. **Timing independiente para auxiliares**:
+   - _Implementacion_: `AuxiliaryExplodeOffset` ahora soporta ventana de secuencia, timing global y correccion radial independiente.
+   - _Resultado_: Un tornillo puede salir antes que su pieza madre aunque el anchor principal aun no haya empezado a desplazarse.
+2. **Fasteners por eje de montaje**:
+   - _Implementacion_: Los fasteners resuelven un eje probable desde su mesh/transform; tornillos salen hacia arriba o hacia afuera por su eje, tuercas salen hacia abajo/opuesto y separadores usan salida axial controlada.
+   - _Resultado_: La tornilleria deja de moverse solo como ruido radial y comunica mejor la direccion real de desmontaje.
+3. **Subpiezas de brazo con reglas fisicas**:
+   - _Implementacion_: `BAN-DJ-DIAN-F2`, `HMX5V-ZUO-DJ-MUJU`, `HMX5V-DIGAI-DIANJIZUO-MUJU`, `HMX5V-JIBI-JIA-MUJU`, `JIA-GUAN` y `HMX5V-GUAN-DINGWEI` reciben offsets manuales por tipo de conexion.
+   - _Resultado_: Motor mount y pieza superior tienden a subir, pieza inferior tiende a bajar, abrazaderas del brazo se separan despues de liberar sus fasteners.
+4. **Inicio diferido de piezas mayores**:
+   - _Implementacion_: `ExplodedViewManager` aplica un pequeno retraso global a piezas no fastener.
+   - _Resultado_: La lectura visual empieza por tornilleria/elementos de union antes de desplazar conjuntos grandes.
+5. **Fasteners como anchors independientes**:
+   - _Implementacion_: Los anchors de categoria `Fasteners` usan direccion axial, no solo radial desde el centro del dron.
+   - _Resultado_: Los fasteners del grupo raiz respetan la misma logica fisica que los fasteners visibles dentro de piezas madre y completan su salida en la ventana inicial del explode.
+6. **Movimiento compuesto pieza madre + separacion local**:
+   - _Implementacion_: `ExplodablePart` soporta targets compuestos: offset primario de la pieza madre y offset secundario de desmontaje local.
+   - _Resultado_: Fasteners, motores y helices pueden liberar su union primero, pero siguen acompasados con el recorrido radial del brazo o pieza principal.
+7. **Dependencia motor/helice -> brazo**:
+   - _Implementacion_: `ExplodedViewManager` hace que `x500v2_motor_*` y `x500v2_prop_*` sigan el offset radial del `x500v2_arm_*` correspondiente y sumen separacion vertical propia.
+   - _Resultado_: El extremo del brazo se comporta como subconjunto fisico: no queda congelado en el aire ni se separa con un destino independiente del brazo.
+8. **Separacion vertical refinada en soportes del extremo**:
+   - _Implementacion_: Se aumento la distancia axial de tornillos y se ajusto la diferencia vertical entre `BAN-DJ-DIAN-F2` y `HMX5V-ZUO-DJ-MUJU`.
+   - _Resultado_: Las piezas azules del extremo conservan mas espacio vertical y reducen el riesgo de volver a tocarse durante el explode.
+9. **Parent espacial de movimiento**:
+   - _Implementacion_: `ExplodedViewManager` resuelve un parent de movimiento por proximidad/bounds para fasteners, motores y helices, sin sobrescribir su parent semantico de seleccion.
+   - _Resultado_: Los fasteners que visualmente pertenecen a otra placa pueden seguir esa placa durante el explode, aunque el JSON conserve otra relacion canonica.
+10. **Correccion de direcciones conflictivas**:
+   - _Implementacion_: `HMX5V-JIBI-JIA-MUJU.001` y `.005` bajan de forma explicita; los motores/helices usan el brazo mas cercano por posicion real; `JIA-GUAN` y rubber/grommets dejan de recibir correccion radial temprana.
+   - _Resultado_: Se reduce el zigzag, los motores no deberian volver hacia el centro mientras el brazo se aleja, y los clamps del tubo viajan primero con el brazo antes de separarse.
+11. **Rails y landing gear**:
+   - _Implementacion_: `x500v2_rails_battery` queda forzado a una salida predominantemente hacia abajo; `GUAN-CHENG`, battery mount, pylons, landing connectors y pads reciben offsets auxiliares descendentes o inclinados.
+   - _Resultado_: El sistema de rails/battery mount se comporta como subconjunto inferior antes de separar sus elementos internos.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores; mantiene advertencias conocidas de APIs Unity obsoletas y AG001.
+- `Assembly-CSharp.csproj` compila sin errores.
+- Falta validacion visual en Unity para ajustar distancias finas de tornillos/tuercas y confirmar que no se generen solapes al final de la animacion.
+
+---
+
+## Registro de Cambios (Mayo 11, 2026) - Clearance final y correccion de landing gear en explode
+
+### Objetivo
+
+Corregir los casos donde piezas pequenas o conectores del explode quedaban pegados o se desplazaban por una familia incorrecta: `BAN-DJ-DIAN-F2` contra motor, rubber/grommets en eje contrario al tubo y `GUAN-CHENG` clasificado como rail/battery en lugar de tren de aterrizaje.
+
+### Acciones Realizadas
+
+1. **Clearance final entre piezas principales**:
+   - _Implementacion_: `ExplodedViewManager` ejecuta una pasada iterativa de separacion por bounds al calcular targets runtime.
+   - _Resultado_: La pose final de piezas canonicas evita contactos directos y mantiene un margen minimo configurable.
+2. **Mayor separacion motor/helice respecto al brazo**:
+   - _Implementacion_: Se aumento el offset secundario de motores y helices y se redujo la altura local de `BAN-DJ-DIAN-F2`.
+   - _Resultado_: El conjunto del extremo del brazo conserva una lectura vertical mas clara y reduce el riesgo de quedar pegado.
+3. **Rubber/grommets alineados al tubo**:
+   - _Implementacion_: Los grommets dejan de tratarse como standoffs/spacers verticales cuando llegan como fastener primitivo.
+   - _Resultado_: Su recorrido usa el vector planar del tubo/brazo y no un eje inverso calculado por la malla.
+4. **`GUAN-CHENG` como landing gear**:
+   - _Implementacion_: `holybro_selection_hierarchy.json`, `SelectionHierarchy` e `ImportedDroneRuntimeBinder` mapean `GUAN-CHENG` a `x500v2_landing_gear`.
+   - _Resultado_: La categorizacion, filtros y direccion de explode quedan alineados con su funcion fisica dentro del tren de aterrizaje.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores; mantiene advertencias conocidas de APIs Unity obsoletas y AG001.
+- `Assembly-CSharp.csproj` compila sin errores.
+- Falta validacion visual en Unity Play Mode para confirmar clearance fino de `GUAN-CHENG`, rubber/grommets, `BAN-DJ-DIAN-F2`, motores y helices.

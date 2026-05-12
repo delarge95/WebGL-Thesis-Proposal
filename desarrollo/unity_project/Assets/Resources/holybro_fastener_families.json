@@ -1,7 +1,7 @@
 {
     "sourceScene": "Assets/Scenes/MainScene_Final.unity",
     "sourceDataset": "x500v2_blender_synced_parts.json",
-    "generatedAtUtc": "2026-05-11T00:38:25.7864297Z",
+    "generatedAtUtc": "2026-05-11T16:21:29.8896905Z",
     "items": [
         {
             "familyId": "holybro_cap_screw_m25x10",
@@ -349,7 +349,7 @@
             "material": "Latón",
             "finish": "Brass",
             "quantityExpected": 8,
-            "notes": "Tuerca ciega. Pieza modelada en base al CAD LM-M3-DING. Synced source expects 8 units while the current temporary scene contains 17.",
+            "notes": "Tuerca ciega. Pieza modelada en base al CAD LM-M3-DING. Synced source expects 8 units while the current temporary scene contains 16.",
             "modularRecipe": {
                 "recipeKey": "lock_nut_M3_placeholder",
                 "builderType": "CapNut",
@@ -509,36 +509,6 @@
                 "shaftLengthRatio": 0.6399999856948853,
                 "tipLengthRatio": 0.10000000149011612,
                 "headDiameterScale": 1.0499999523162842,
-                "shaftDiameterScale": 0.5600000023841858,
-                "isInspectable": true
-            }
-        },
-        {
-            "familyId": "holybro_rubber_grommet",
-            "sourceId": "x500v2_blend_huan_guijiao",
-            "blenderName": "HUAN-GUIJIAO",
-            "sceneTypeKey": "rubber_grommet",
-            "subtype": "RubberGrommet",
-            "metric": "",
-            "nominalDiameterMm": 0.0,
-            "lengthMm": 0.0,
-            "headProfile": "Dampener",
-            "driveType": "N/A",
-            "threadPitchMm": 0.0,
-            "turnCount": 0,
-            "material": "Silicona",
-            "finish": "Silicone",
-            "quantityExpected": 8,
-            "notes": "Aislante anti-vibración para hardware. Pieza modelada en base al CAD HUAN-GUIJIAO.",
-            "modularRecipe": {
-                "recipeKey": "rubber_grommet_placeholder",
-                "builderType": "RubberGrommet",
-                "orientationMode": "ShortestAxis",
-                "middleSegments": 4,
-                "headLengthRatio": 0.20000000298023225,
-                "shaftLengthRatio": 0.6399999856948853,
-                "tipLengthRatio": 0.10000000149011612,
-                "headDiameterScale": 1.0,
                 "shaftDiameterScale": 0.5600000023841858,
                 "isInspectable": true
             }

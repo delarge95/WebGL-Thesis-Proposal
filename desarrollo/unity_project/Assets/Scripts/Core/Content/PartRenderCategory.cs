@@ -236,9 +236,6 @@ namespace WebGL.Core.Content
                    name.Contains("zslm-m25") ||
                    name.Contains("zslm-m3") ||
                    name.Contains("lm-m3") ||
-                   name.Contains("gpsv5-zhijia-luomao") ||
-                   name.Contains("luomao") ||
-                   name.Contains("huan-guijiao") ||
                    name.Contains("nilongzhu-m25") ||
                    name.Contains("nilongzhu-m3");
         }
@@ -251,7 +248,106 @@ namespace WebGL.Core.Content
             }
 
             string normalized = NormalizeToken(rawName);
-            return normalized.Contains("hmx5v-guan-dingwei");
+            return normalized.Contains("hmx5v-guan-dingwei") ||
+                   normalized.Contains("huan-guijiao") ||
+                   normalized.Contains("rubber-grommet") ||
+                   normalized.Contains("gpsv5-zhijia-luomao");
+        }
+
+        public static string ResolveKnownArmInstanceQuadrantSuffix(string rawName)
+        {
+            if (string.IsNullOrWhiteSpace(rawName))
+            {
+                return string.Empty;
+            }
+
+            string normalized = NormalizeToken(rawName);
+            int index = ExtractTrailingInstanceIndex(normalized);
+            if (index <= 0)
+            {
+                return string.Empty;
+            }
+
+            if (normalized.Contains("carbon-fiber-tube300"))
+            {
+                return string.Empty;
+            }
+
+            if (normalized.Contains("hmx5v-jibi-jia-muju"))
+            {
+                return index switch
+                {
+                    1 or 2 => "FL",
+                    3 or 4 => "FR",
+                    5 or 6 => "BR",
+                    7 or 8 => "BL",
+                    _ => string.Empty
+                };
+            }
+
+            if (normalized.Contains("ban-dj-dian-f2") ||
+                normalized.Contains("hmx5v-digai-dianjizuo-muju") ||
+                normalized.Contains("hmx5v-guan-dingwei") ||
+                normalized.Contains("hmx5v-zuo-dj-muju"))
+            {
+                return index switch
+                {
+                    1 => "FL",
+                    2 => "FR",
+                    3 => "BR",
+                    4 => "BL",
+                    _ => string.Empty
+                };
+            }
+
+            if (normalized.Contains("jia-guan"))
+            {
+                return index switch
+                {
+                    1 or 5 or 7 => "BR",
+                    2 or 6 or 8 => "BL",
+                    3 => "FR",
+                    4 => "FL",
+                    _ => string.Empty
+                };
+            }
+
+            if (normalized.Contains("dj-2216-kv880"))
+            {
+                return index switch
+                {
+                    1 => "FL",
+                    2 => "BL",
+                    3 => "BR",
+                    4 => "FR",
+                    _ => string.Empty
+                };
+            }
+
+            return string.Empty;
+        }
+
+        private static int ExtractTrailingInstanceIndex(string normalizedName)
+        {
+            if (string.IsNullOrWhiteSpace(normalizedName))
+            {
+                return -1;
+            }
+
+            string normalized = normalizedName;
+            if (normalized.EndsWith("-low", StringComparison.OrdinalIgnoreCase))
+            {
+                normalized = normalized.Substring(0, normalized.Length - 4);
+            }
+
+            int lastDash = normalized.LastIndexOf('-');
+            if (lastDash < 0 || lastDash + 1 >= normalized.Length)
+            {
+                return -1;
+            }
+
+            string suffix = normalized.Substring(lastDash + 1);
+            return int.TryParse(suffix, out int index) ? index : -1;
         }
 
         public static string ResolveCanonicalPartId(Transform target, Transform root, string fallbackCanonicalId = "")
@@ -323,8 +419,13 @@ namespace WebGL.Core.Content
                 return !string.IsNullOrWhiteSpace(quadrant) ? "x500v2_esc_" + quadrant.ToUpperInvariant() : string.Empty;
             }
 
+            if (token.Contains("guan-cheng"))
+            {
+                return "x500v2_landing_gear";
+            }
+
             if (token.Contains("battery-mounting") || token.Contains("battery-pad") ||
-                token.Contains("pylons-x500") || token.Contains("guan-cheng") ||
+                token.Contains("pylons-x500") ||
                 token.Contains("payload-rail"))
             {
                 return "x500v2_rails_battery";
@@ -544,30 +645,53 @@ namespace WebGL.Core.Content
             }
 
             string normalized = NormalizeToken(lowerName);
-            // Observed in the final Blender export / imported scene:
-            // .001=BR, .002=FR, .003=FL, .004=BL for fourfold quadrant instances.
-            if (normalized.Contains("-001-low")) return "BR";
-            if (normalized.Contains("-002-low")) return "FR";
-            if (normalized.Contains("-003-low")) return "FL";
-            if (normalized.Contains("-004-low")) return "BL";
-            if (normalized.EndsWith("-001", StringComparison.Ordinal)) return "BR";
-            if (normalized.EndsWith("-002", StringComparison.Ordinal)) return "FR";
-            if (normalized.EndsWith("-003", StringComparison.Ordinal)) return "FL";
-            if (normalized.EndsWith("-004", StringComparison.Ordinal)) return "BL";
-            return string.Empty;
+            return ResolveKnownArmInstanceQuadrantSuffix(normalized);
         }
 
         private static string ResolveQuadrantSuffixFromWorld(Vector3 worldPosition, Transform root)
         {
-            Vector3 center = root != null && TryComputeWorldCenter(root, out Vector3 rootCenter) ? rootCenter : Vector3.zero;
-            float dx = worldPosition.x - center.x;
-            float dz = worldPosition.z - center.z;
-            if (Mathf.Abs(dx) < 0.0001f && Mathf.Abs(dz) < 0.0001f)
+            Vector3 front = Vector3.forward;
+            Vector3 right = Vector3.right;
+            float dominantSize = 1f;
+            Vector3 center;
+            if (root != null && TryResolveDroneReferenceFrame(root, out Vector3 frameCenter, out front, out right, out dominantSize))
+            {
+                center = frameCenter;
+            }
+            else
+            {
+                center = root != null && TryComputeWorldCenter(root, out Vector3 rootCenter) ? rootCenter : Vector3.zero;
+            }
+
+            Vector3 offset = Vector3.ProjectOnPlane(worldPosition - center, Vector3.up);
+            if (offset.sqrMagnitude < 0.0000001f)
             {
                 return string.Empty;
             }
 
-            return (dz >= 0f ? "F" : "B") + (dx < 0f ? "L" : "R");
+            if (front.sqrMagnitude < 0.0001f || right.sqrMagnitude < 0.0001f)
+            {
+                front = Vector3.forward;
+                right = Vector3.right;
+                dominantSize = Mathf.Max(dominantSize, 1f);
+            }
+
+            float frontDot = Vector3.Dot(offset, front.normalized);
+            float rightDot = Vector3.Dot(offset, right.normalized);
+            float deadband = Mathf.Max(0.0005f, dominantSize * 0.01f);
+            if (Mathf.Abs(frontDot) < deadband && Mathf.Abs(rightDot) < deadband)
+            {
+                return string.Empty;
+            }
+
+            // Shared centerline parts need a deterministic non-right fallback so
+            // they are not stolen by the right-side anchor due to floating noise.
+            if (Mathf.Abs(rightDot) < deadband)
+            {
+                rightDot = -deadband;
+            }
+
+            return (frontDot >= 0f ? "F" : "B") + (rightDot < 0f ? "L" : "R");
         }
 
         private static bool TryComputeWorldCenter(Transform root, out Vector3 center)
@@ -604,6 +728,124 @@ namespace WebGL.Core.Content
             return true;
         }
 
+        private static bool TryResolveDroneReferenceFrame(
+            Transform root,
+            out Vector3 center,
+            out Vector3 front,
+            out Vector3 right,
+            out float dominantSize)
+        {
+            center = Vector3.zero;
+            front = Vector3.forward;
+            right = Vector3.right;
+            dominantSize = 1f;
+
+            if (root == null)
+            {
+                return false;
+            }
+
+            bool hasCenter = TryGetNamedRendererBounds(root, "bottom-plate-x500-v5", out Bounds bottomBounds);
+            bool hasAggregate = TryGetRendererBounds(root, out Bounds aggregateBounds);
+            if (hasCenter)
+            {
+                center = bottomBounds.center;
+                dominantSize = Mathf.Max(bottomBounds.size.x, bottomBounds.size.z, 1f);
+            }
+            else if (hasAggregate)
+            {
+                center = aggregateBounds.center;
+                dominantSize = Mathf.Max(aggregateBounds.size.x, aggregateBounds.size.z, 1f);
+            }
+            else
+            {
+                return false;
+            }
+
+            if (TryGetNamedRendererBounds(root, "zhijia-camera-intel", out Bounds cameraBounds))
+            {
+                Vector3 cameraFront = Vector3.ProjectOnPlane(cameraBounds.center - center, Vector3.up);
+                if (cameraFront.sqrMagnitude > 0.000001f)
+                {
+                    front = cameraFront.normalized;
+                    right = Vector3.Cross(Vector3.up, front).normalized;
+                    return right.sqrMagnitude > 0.0001f;
+                }
+            }
+
+            return hasCenter || hasAggregate;
+        }
+
+        private static bool TryGetNamedRendererBounds(Transform root, string normalizedNameToken, out Bounds bounds)
+        {
+            bounds = default;
+            if (root == null || string.IsNullOrWhiteSpace(normalizedNameToken))
+            {
+                return false;
+            }
+
+            bool found = false;
+            Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                Renderer renderer = renderers[i];
+                if (renderer == null)
+                {
+                    continue;
+                }
+
+                string normalized = NormalizeToken(renderer.transform.name);
+                if (!normalized.Contains(normalizedNameToken))
+                {
+                    continue;
+                }
+
+                if (!found)
+                {
+                    bounds = renderer.bounds;
+                    found = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(renderer.bounds);
+                }
+            }
+
+            return found;
+        }
+
+        private static bool TryGetRendererBounds(Transform root, out Bounds bounds)
+        {
+            bounds = default;
+            if (root == null)
+            {
+                return false;
+            }
+
+            bool found = false;
+            Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                Renderer renderer = renderers[i];
+                if (renderer == null || renderer.transform == root)
+                {
+                    continue;
+                }
+
+                if (!found)
+                {
+                    bounds = renderer.bounds;
+                    found = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(renderer.bounds);
+                }
+            }
+
+            return found;
+        }
+
         private static SelectionHierarchyCatalog BuildFallbackCatalog()
         {
             return new SelectionHierarchyCatalog
@@ -625,13 +867,13 @@ namespace WebGL.Core.Content
                     Group("x500v2_bottom_plate", "Carbon Fiber Bottom Plate", "BOTTOM-PLATE-X500-V5", "GAI-GUANGLIU", "ZHIJIA-CAMERA-INTEL"),
                     Group("x500v2_top_plate", "Carbon Fiber Top Plate", "TOP-PLATE-X500-V5"),
                     Group("x500v2_platform_board", "Platform Board", "PLATFORM-PLAT-X500"),
-                    Group("x500v2_rails_battery", "Rail System & Battery Mount", "BATTERY-MOUNTING-PLAT", "BATTERY-PAD", "PYLONS-X500", "GUAN-CHENG"),
+                    Group("x500v2_rails_battery", "Rail System & Battery Mount", "BATTERY-MOUNTING-PLAT", "BATTERY-PAD", "PYLONS-X500"),
                     Group("x500v2_pdb", "Power Distribution Board", "PDB"),
                     Group("x500v2_power_module", "Power Module PM06/XT60", "PCB-PM06", "TOU-XT60H-M-14AWG", "X500-TAO-XT60"),
                     Group("x500v2_pixhawk6c", "Pixhawk 6C Autopilot", "DIKE-PIXHAWK6C-LV-C1", "IMU-PIXHAWK6C", "MIANKE-PIXHAWK6C-LV-C1", "PCB-PIXHAWK6C-F1", "BM06B-WO"),
-                    Group("x500v2_gps_m10", "Holybro M10 GPS Module", "GAN-GPSV5-ZHIJIA", "GPS-ZHIJIA-ZHUANJIETOU", "GPS-ZHIJIA-ZUO", "GPSV5-ZHIJIA-TUOPAN"),
-                    Group("x500v2_landing_gear", "Landing Gear", "CARBON-FIBER-TUBE", "JIAO-EVA", "JIAO-LIANJIE", "MAO-JIAO"),
-                    Group("x500v2_arm", "Arm Assembly Quadrant", "CARBON-FIBER-TUBE300", "HMX5V-DIGAI-DIANJIZUO-MUJU", "HMX5V-GUAN-DINGWEI", "HMX5V-JIBI-JIA-MUJU", "HMX5V-ZUO-DJ-MUJU", "BAN-DJ-DIAN-F2", "JIA-GUAN"),
+                    Group("x500v2_gps_m10", "Holybro M10 GPS Module", "GAN-GPSV5-ZHIJIA", "GPS-ZHIJIA-ZHUANJIETOU", "GPS-ZHIJIA-ZUO", "GPSV5-ZHIJIA-LUOMAO", "GPSV5-ZHIJIA-TUOPAN"),
+                    Group("x500v2_landing_gear", "Landing Gear", "CARBON-FIBER-TUBE", "GUAN-CHENG", "JIAO-EVA", "JIAO-LIANJIE", "JIA-LIANJIE", "MAO-JIAO"),
+                    Group("x500v2_arm", "Arm Assembly Quadrant", "CARBON-FIBER-TUBE300", "HMX5V-DIGAI-DIANJIZUO-MUJU", "HMX5V-GUAN-DINGWEI", "HMX5V-JIBI-JIA-MUJU", "HMX5V-ZUO-DJ-MUJU", "BAN-DJ-DIAN-F2", "JIA-GUAN", "HUAN-GUIJIAO"),
                     Group("x500v2_motor", "Motor 2216 Quadrant", "DJ-2216-KV880"),
                     Group("x500v2_esc", "ESC Quadrant", "ESC"),
                     Group("x500v2_prop", "Propeller Quadrant", "PROPELLER", "PROP"),

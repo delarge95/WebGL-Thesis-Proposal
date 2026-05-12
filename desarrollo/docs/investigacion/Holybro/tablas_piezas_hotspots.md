@@ -1,5 +1,7 @@
 # Tablas de piezas, subpiezas y hotspots
 
+> Nota 2026-05-11: este archivo queda como referencia historica del catalogo previo. La fuente operativa actual para agrupacion runtime es `holybro_runtime_selection_mapping.md` junto con `holybro_selection_hierarchy.json`. En particular, `HUAN-GUIJIAO` y `GPSV5-ZHIJIA-LUOMAO` ya no deben leerse como fasteners modulares.
+
 Fuente consolidada: JSON de sincronizacion en `desarrollo/docs/investigacion/Holybro/x500v2_blender_synced_parts.json` y assets de Unity en `desarrollo/unity_project/Assets/Core/Data/X500V2Generated`.
 
 ## 1. Lista de subpiezas

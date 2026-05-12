@@ -90,14 +90,11 @@ internal static class HolybroFastenerCatalogBuilder
         { "nylon_lock_nut_M3", "x500v2_blend_lm_m3_nilong" },
         { "self_lock_nut_M25", "x500v2_blend_zslm_m25" },
         { "nylon_standoff_M25x5", "x500v2_blend_nilongzhu_m25_5" },
-        { "nylon_standoff_M3x5", "x500v2_blend_nilongzhu_m3_5" },
-        { "rubber_grommet", "x500v2_blend_huan_guijiao" }
+        { "nylon_standoff_M3x5", "x500v2_blend_nilongzhu_m3_5" }
     };
 
     private static readonly HashSet<string> ExplicitFastenerSourceIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "x500v2_blend_gpsv5_zhijia_luomao",
-        "x500v2_blend_huan_guijiao"
     };
 
     private static string HolybroDocsDir => Path.GetFullPath(Path.Combine(Application.dataPath, "..", "..", "docs", "investigacion", "Holybro"));
@@ -362,8 +359,6 @@ internal static class HolybroFastenerCatalogBuilder
                name.Contains("zslm-") ||
                name.Contains("lm-m3") ||
                name.Contains("nilongzhu") ||
-               name.Contains("huan-guijiao") ||
-               name.Contains("luomao") ||
                name.Contains("falan");
     }
 
@@ -653,13 +648,10 @@ internal static class HolybroFastenerCatalogBuilder
         return haystack.Contains("screw") ||
                haystack.Contains("nut") ||
                haystack.Contains("fastener") ||
-               haystack.Contains("grommet") ||
                haystack.Contains("standoff") ||
-               haystack.Contains("dampener") ||
                haystack.Contains("gb70") ||
                haystack.Contains("falan") ||
-               haystack.Contains("nilongzhu") ||
-               haystack.Contains("luomao");
+               haystack.Contains("nilongzhu");
     }
 
     private static SourcePart FindHeuristicSource(string sceneTypeKey, IEnumerable<SourcePart> sources, HashSet<string> usedSourceIds)
@@ -682,7 +674,6 @@ internal static class HolybroFastenerCatalogBuilder
                 (lowerType.Contains("pan_head") && lowerSource.Contains("pan")) ||
                 (lowerType.Contains("countersunk") && lowerSource.Contains("chen")) ||
                 (lowerType.Contains("flange_nut") && lowerSource.Contains("falan")) ||
-                (lowerType.Contains("grommet") && lowerSource.Contains("guijiao")) ||
                 (lowerType.Contains("standoff") && lowerSource.Contains("nilongzhu")) ||
                 (lowerType.Contains("lock_nut") && lowerSource.Contains("ding"));
 

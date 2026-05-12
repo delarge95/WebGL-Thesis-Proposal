@@ -1,22 +1,20 @@
 ﻿{
-    "version":  "2026-05-10-subpiece-fastener-map-v1-proposed",
-    "source":  "Generated from holybro_fastener_instances.json, holybro_fastener_families.json and current selection hierarchy.",
+    "version":  "2026-05-11-subpiece-fastener-map-v2-blender-primitive-boundary",
+    "source":  "Generated from Unity hierarchy plus Blender MCP validation restricted to BAKE_MASTERS_LOW, ASSEMBLY_INSTANCES_LOW, PRIMITIVE_FASTENER_MASTERS and PRIMITIVE_FASTENER_INSTANCES.",
     "rule":  "canonical part -\u003e Blender subpiece -\u003e priority/shared primitive fastener instance ids",
     "notes":  [
                   "priorityFastenerInstanceIds define the preferred subpiece layer for a fastener.",
                   "sharedFastenerInstanceIds define additional subpieces that should show the fastener as context, without stealing priority/history.",
-                  "low/review confidence rows must be confirmed in Unity/Blender before being treated as final engineering truth."
+                  "low/review confidence rows must be confirmed in Unity/Blender before being treated as final engineering truth.",
+                  "2026-05-11: HUAN-GUIJIAO is a runtime rubber subpiece, not a primitive fastener; rubber_grommet ids were removed from fastener assignments.",
+                  "2026-05-11: GPSV5-ZHIJIA-LUOMAO is a GPS runtime subpiece, not lock_nut_M3; x500v2_fastener_lock_nut_M3_001 was removed from this map."
               ],
     "items":  [
                   {
                       "canonicalPartId":  "x500v2_pixhawk6c",
                       "subpieceName":  "BM06B-WO",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -31,9 +29,7 @@
                                                           "x500v2_fastener_cap_screw_M25x10_003",
                                                           "x500v2_fastener_cap_screw_M25x10_004"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  2,
                       "sharedCount":  0,
                       "confidence":  "low",
@@ -44,12 +40,8 @@
                   {
                       "canonicalPartId":  "x500v2_pixhawk6c",
                       "subpieceName":  "DIKE-PIXHAWK6C-LV-C1",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -60,12 +52,8 @@
                   {
                       "canonicalPartId":  "x500v2_prop_FR",
                       "subpieceName":  "PROPELLER",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -76,12 +64,8 @@
                   {
                       "canonicalPartId":  "x500v2_telemetry_radio",
                       "subpieceName":  "RADIO",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -92,12 +76,8 @@
                   {
                       "canonicalPartId":  "x500v2_battery",
                       "subpieceName":  "BATTERY",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -124,9 +104,7 @@
                                                           "x500v2_fastener_flange_nut_M3_004",
                                                           "x500v2_fastener_lock_nut_M3_002"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  14,
                       "sharedCount":  0,
                       "confidence":  "low",
@@ -141,12 +119,8 @@
                   {
                       "canonicalPartId":  "x500v2_telemetry_radio",
                       "subpieceName":  "TELEMETRY",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -157,9 +131,7 @@
                   {
                       "canonicalPartId":  "x500v2_power_module",
                       "subpieceName":  "TOU-XT60H-M-14AWG",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_cap_screw_M3x25_002",
                                                         "x500v2_fastener_cap_screw_M3x8_005",
@@ -177,12 +149,8 @@
                   {
                       "canonicalPartId":  "x500v2_prop_BL",
                       "subpieceName":  "PROPELLER",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -230,9 +198,7 @@
                                                           "x500v2_fastener_cap_screw_M25x10_005",
                                                           "x500v2_fastener_cap_screw_M25x10_006"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  2,
                       "sharedCount":  0,
                       "confidence":  "low",
@@ -308,9 +274,7 @@
                                                           "x500v2_fastener_flange_nut_M3_011",
                                                           "x500v2_fastener_flange_nut_M3_012"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  16,
                       "sharedCount":  0,
                       "confidence":  "medium",
@@ -344,16 +308,13 @@
                   {
                       "canonicalPartId":  "x500v2_arm_FR",
                       "subpieceName":  "CARBON-FIBER-TUBE300",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_cap_screw_M25x10_003",
-                                                        "x500v2_fastener_cap_screw_M25x10_004",
-                                                        "x500v2_fastener_rubber_grommet_002"
+                                                        "x500v2_fastener_cap_screw_M25x10_004"
                                                     ],
                       "priorityCount":  0,
-                      "sharedCount":  3,
+                      "sharedCount":  2,
                       "confidence":  "low",
                       "reviewReasons":  [
                                             "Compartido desde JIA-GUAN: M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual.",
@@ -363,19 +324,13 @@
                   {
                       "canonicalPartId":  "x500v2_arm_FL",
                       "subpieceName":  "HMX5V-GUAN-DINGWEI",
-                      "priorityFastenerInstanceIds":  [
-                                                          "x500v2_fastener_rubber_grommet_003",
-                                                          "x500v2_fastener_rubber_grommet_005",
-                                                          "x500v2_fastener_rubber_grommet_007"
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
-                      "priorityCount":  3,
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
+                      "priorityCount":  0,
                       "sharedCount":  0,
-                      "confidence":  "low",
+                      "confidence":  "high",
                       "reviewReasons":  [
-                                            "Grommet en brazo inferido como stopper/dampener; requiere confirmacion."
+                                            "HUAN-GUIJIAO se trata como subpieza fisica de goma, no como fastener primitivo compartido."
                                         ]
                   },
                   {
@@ -387,9 +342,7 @@
                                                           "x500v2_fastener_cap_screw_M3x8_003",
                                                           "x500v2_fastener_cap_screw_M3x8_004"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  4,
                       "sharedCount":  0,
                       "confidence":  "medium",
@@ -400,12 +353,8 @@
                   {
                       "canonicalPartId":  "x500v2_esc_BR",
                       "subpieceName":  "ESC",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -416,9 +365,7 @@
                   {
                       "canonicalPartId":  "x500v2_landing_gear",
                       "subpieceName":  "CARBON-FIBER-TUBE",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_cap_screw_M3x21_001",
                                                         "x500v2_fastener_cap_screw_M3x21_002",
@@ -444,9 +391,7 @@
                   {
                       "canonicalPartId":  "x500v2_arm_BR",
                       "subpieceName":  "TOP-PLATE-X500-V5",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_cap_screw_M3x8_009",
                                                         "x500v2_fastener_cap_screw_M3x8_010",
@@ -485,12 +430,8 @@
                   {
                       "canonicalPartId":  "x500v2_pdb",
                       "subpieceName":  "PDB",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -501,9 +442,7 @@
                   {
                       "canonicalPartId":  "x500v2_arm_BR",
                       "subpieceName":  "BOTTOM-PLATE-X500-V5",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_cap_screw_M3x25_001",
                                                         "x500v2_fastener_cap_screw_M3x8_009",
@@ -522,12 +461,8 @@
                   {
                       "canonicalPartId":  "x500v2_pixhawk6c",
                       "subpieceName":  "IMU-PIXHAWK6C",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -544,9 +479,7 @@
                                                           "x500v2_fastener_countersunk_M25x6_011",
                                                           "x500v2_fastener_countersunk_M25x6_012"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  4,
                       "sharedCount":  0,
                       "confidence":  "medium",
@@ -557,9 +490,7 @@
                   {
                       "canonicalPartId":  "x500v2_landing_gear",
                       "subpieceName":  "JIAO-EVA",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_cap_screw_M3x8_001",
                                                         "x500v2_fastener_cap_screw_M3x8_002",
@@ -582,9 +513,7 @@
                                                           "x500v2_fastener_cap_screw_M3x6_015",
                                                           "x500v2_fastener_cap_screw_M3x6_016"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  4,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -595,17 +524,13 @@
                   {
                       "canonicalPartId":  "x500v2_arm_BR",
                       "subpieceName":  "HMX5V-GUAN-DINGWEI",
-                      "priorityFastenerInstanceIds":  [
-                                                          "x500v2_fastener_rubber_grommet_001"
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
-                      "priorityCount":  1,
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
+                      "priorityCount":  0,
                       "sharedCount":  0,
-                      "confidence":  "low",
+                      "confidence":  "high",
                       "reviewReasons":  [
-                                            "Grommet en brazo inferido como stopper/dampener; requiere confirmacion."
+                                            "HUAN-GUIJIAO se trata como subpieza fisica de goma, no como fastener primitivo compartido."
                                         ]
                   },
                   {
@@ -637,9 +562,7 @@
                   {
                       "canonicalPartId":  "x500v2_arm_FR",
                       "subpieceName":  "BAN-DJ-DIAN-F2",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_cap_screw_M25x12_007",
                                                         "x500v2_fastener_cap_screw_M25x12_008",
@@ -665,9 +588,7 @@
                                                           "x500v2_fastener_nylon_lock_nut_M3_001",
                                                           "x500v2_fastener_nylon_lock_nut_M3_002"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  4,
                       "sharedCount":  0,
                       "confidence":  "medium",
@@ -678,9 +599,7 @@
                   {
                       "canonicalPartId":  "x500v2_arm_FL",
                       "subpieceName":  "CARBON-FIBER-TUBE300",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_cap_screw_M25x10_005",
                                                         "x500v2_fastener_cap_screw_M25x10_006",
@@ -699,13 +618,10 @@
                                                         "x500v2_fastener_flange_nut_M3_009",
                                                         "x500v2_fastener_flange_nut_M3_010",
                                                         "x500v2_fastener_flange_nut_M3_011",
-                                                        "x500v2_fastener_flange_nut_M3_012",
-                                                        "x500v2_fastener_rubber_grommet_003",
-                                                        "x500v2_fastener_rubber_grommet_005",
-                                                        "x500v2_fastener_rubber_grommet_007"
+                                                        "x500v2_fastener_flange_nut_M3_012"
                                                     ],
                       "priorityCount":  0,
-                      "sharedCount":  21,
+                      "sharedCount":  18,
                       "confidence":  "low",
                       "reviewReasons":  [
                                             "Compartido desde JIA-GUAN: M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual.",
@@ -718,16 +634,13 @@
                       "canonicalPartId":  "x500v2_gps_m10",
                       "subpieceName":  "GPS-ZHIJIA-ZHUANJIETOU",
                       "priorityFastenerInstanceIds":  [
-                                                          "x500v2_fastener_lock_nut_M3_001",
                                                           "x500v2_fastener_lock_nut_M3_014",
                                                           "x500v2_fastener_lock_nut_M3_015",
                                                           "x500v2_fastener_lock_nut_M3_016",
                                                           "x500v2_fastener_lock_nut_M3_017"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
-                      "priorityCount":  5,
+                      "sharedFastenerInstanceIds":  null,
+                      "priorityCount":  4,
                       "sharedCount":  0,
                       "confidence":  "medium",
                       "reviewReasons":  [
@@ -763,12 +676,8 @@
                   {
                       "canonicalPartId":  "x500v2_prop_BR",
                       "subpieceName":  "PROPELLER",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -805,12 +714,8 @@
                   {
                       "canonicalPartId":  "x500v2_gps_m10",
                       "subpieceName":  "GAN-GPSV5-ZHIJIA",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -821,12 +726,8 @@
                   {
                       "canonicalPartId":  "x500v2_arm_FR",
                       "subpieceName":  "HMX5V-JIBI-JIA-MUJU",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -837,9 +738,7 @@
                   {
                       "canonicalPartId":  "x500v2_arm_BL",
                       "subpieceName":  "CARBON-FIBER-TUBE300",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_cap_screw_M25x10_007",
                                                         "x500v2_fastener_cap_screw_M25x10_008",
@@ -850,13 +749,10 @@
                                                         "x500v2_fastener_flange_nut_M3_013",
                                                         "x500v2_fastener_flange_nut_M3_014",
                                                         "x500v2_fastener_flange_nut_M3_015",
-                                                        "x500v2_fastener_flange_nut_M3_016",
-                                                        "x500v2_fastener_rubber_grommet_004",
-                                                        "x500v2_fastener_rubber_grommet_006",
-                                                        "x500v2_fastener_rubber_grommet_008"
+                                                        "x500v2_fastener_flange_nut_M3_016"
                                                     ],
                       "priorityCount":  0,
-                      "sharedCount":  13,
+                      "sharedCount":  10,
                       "confidence":  "low",
                       "reviewReasons":  [
                                             "Compartido desde JIA-GUAN: M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual.",
@@ -868,12 +764,8 @@
                   {
                       "canonicalPartId":  "x500v2_pixhawk6c",
                       "subpieceName":  "PCB-PIXHAWK6C-F1",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -884,9 +776,7 @@
                   {
                       "canonicalPartId":  "x500v2_rails_battery",
                       "subpieceName":  "PYLONS-X500",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_countersunk_M25x6_009",
                                                         "x500v2_fastener_countersunk_M25x6_010",
@@ -936,12 +826,8 @@
                   {
                       "canonicalPartId":  "x500v2_top_plate",
                       "subpieceName":  "TOP-PLATE-X500-V5",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -962,9 +848,7 @@
                                                           "x500v2_fastener_cap_screw_M25x6_007",
                                                           "x500v2_fastener_cap_screw_M25x6_008"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  8,
                       "sharedCount":  0,
                       "confidence":  "low",
@@ -975,17 +859,13 @@
                   {
                       "canonicalPartId":  "x500v2_arm_FR",
                       "subpieceName":  "HMX5V-GUAN-DINGWEI",
-                      "priorityFastenerInstanceIds":  [
-                                                          "x500v2_fastener_rubber_grommet_002"
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
-                      "priorityCount":  1,
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
+                      "priorityCount":  0,
                       "sharedCount":  0,
-                      "confidence":  "low",
+                      "confidence":  "high",
                       "reviewReasons":  [
-                                            "Grommet en brazo inferido como stopper/dampener; requiere confirmacion."
+                                            "HUAN-GUIJIAO se trata como subpieza fisica de goma, no como fastener primitivo compartido."
                                         ]
                   },
                   {
@@ -1019,14 +899,13 @@
                                                           "x500v2_fastener_pan_head_M3x10_004"
                                                       ],
                       "sharedFastenerInstanceIds":  [
-                                                        "x500v2_fastener_lock_nut_M3_001",
                                                         "x500v2_fastener_lock_nut_M3_014",
                                                         "x500v2_fastener_lock_nut_M3_015",
                                                         "x500v2_fastener_lock_nut_M3_016",
                                                         "x500v2_fastener_lock_nut_M3_017"
                                                     ],
                       "priorityCount":  4,
-                      "sharedCount":  5,
+                      "sharedCount":  4,
                       "confidence":  "medium",
                       "reviewReasons":  [
                                             "Compartido desde GPS-ZHIJIA-ZHUANJIETOU: Tuercas M3 asociadas al mastil/articulacion GPS; confirmar contra posicion final.",
@@ -1036,12 +915,8 @@
                   {
                       "canonicalPartId":  "x500v2_battery",
                       "subpieceName":  "BATTERY-STRAP",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1052,9 +927,7 @@
                   {
                       "canonicalPartId":  "x500v2_gps_m10",
                       "subpieceName":  "GPSV5-ZHIJIA-TUOPAN",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_pan_head_M3x10_001",
                                                         "x500v2_fastener_pan_head_M3x10_002",
@@ -1071,12 +944,8 @@
                   {
                       "canonicalPartId":  "x500v2_pixhawk6c",
                       "subpieceName":  "MIANKE-PIXHAWK6C-LV-C1",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1087,9 +956,7 @@
                   {
                       "canonicalPartId":  "x500v2_bottom_plate",
                       "subpieceName":  "BOTTOM-PLATE-X500-V5",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_cap_screw_M25x6_001",
                                                         "x500v2_fastener_cap_screw_M25x6_002",
@@ -1119,9 +986,7 @@
                                                           "x500v2_fastener_cap_screw_M25x10_001",
                                                           "x500v2_fastener_cap_screw_M25x10_002"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  2,
                       "sharedCount":  0,
                       "confidence":  "low",
@@ -1142,9 +1007,7 @@
                                                           "x500v2_fastener_lock_nut_M3_007",
                                                           "x500v2_fastener_lock_nut_M3_008"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  8,
                       "sharedCount":  0,
                       "confidence":  "medium",
@@ -1155,12 +1018,8 @@
                   {
                       "canonicalPartId":  "x500v2_prop_FR",
                       "subpieceName":  "PROP",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1171,12 +1030,8 @@
                   {
                       "canonicalPartId":  "x500v2_prop_FL",
                       "subpieceName":  "PROP",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1187,9 +1042,7 @@
                   {
                       "canonicalPartId":  "x500v2_arm_BR",
                       "subpieceName":  "CARBON-FIBER-TUBE300",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_cap_screw_M25x10_001",
                                                         "x500v2_fastener_cap_screw_M25x10_002",
@@ -1201,11 +1054,10 @@
                                                         "x500v2_fastener_flange_nut_M3_002",
                                                         "x500v2_fastener_flange_nut_M3_003",
                                                         "x500v2_fastener_flange_nut_M3_004",
-                                                        "x500v2_fastener_lock_nut_M3_002",
-                                                        "x500v2_fastener_rubber_grommet_001"
+                                                        "x500v2_fastener_lock_nut_M3_002"
                                                     ],
                       "priorityCount":  0,
-                      "sharedCount":  12,
+                      "sharedCount":  11,
                       "confidence":  "low",
                       "reviewReasons":  [
                                             "Compartido desde JIA-GUAN: M2.5x10 queda probablemente ligado a clamp/cable/ESC ausente; requiere confirmacion visual.",
@@ -1232,9 +1084,7 @@
                                                           "x500v2_fastener_self_lock_nut_M25_003",
                                                           "x500v2_fastener_self_lock_nut_M25_004"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  12,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1271,12 +1121,8 @@
                   {
                       "canonicalPartId":  "x500v2_prop_FL",
                       "subpieceName":  "PROPELLER",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1287,12 +1133,8 @@
                   {
                       "canonicalPartId":  "x500v2_esc_FL",
                       "subpieceName":  "ESC",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1309,9 +1151,7 @@
                                                           "x500v2_fastener_cap_screw_M3x6_007",
                                                           "x500v2_fastener_cap_screw_M3x6_008"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  4,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1332,9 +1172,7 @@
                                                           "x500v2_fastener_flange_nut_M3_015",
                                                           "x500v2_fastener_flange_nut_M3_016"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  8,
                       "sharedCount":  0,
                       "confidence":  "medium",
@@ -1346,9 +1184,7 @@
                   {
                       "canonicalPartId":  "x500v2_arm_BR",
                       "subpieceName":  "BAN-DJ-DIAN-F2",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_cap_screw_M25x12_001",
                                                         "x500v2_fastener_cap_screw_M25x12_005",
@@ -1399,9 +1235,7 @@
                                                           "x500v2_fastener_cap_screw_M25x10_007",
                                                           "x500v2_fastener_cap_screw_M25x10_008"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  2,
                       "sharedCount":  0,
                       "confidence":  "low",
@@ -1418,9 +1252,7 @@
                                                           "x500v2_fastener_cap_screw_M3x6_003",
                                                           "x500v2_fastener_cap_screw_M3x6_004"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  4,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1431,12 +1263,8 @@
                   {
                       "canonicalPartId":  "x500v2_prop_BL",
                       "subpieceName":  "PROP",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1447,30 +1275,20 @@
                   {
                       "canonicalPartId":  "x500v2_arm_BL",
                       "subpieceName":  "HMX5V-GUAN-DINGWEI",
-                      "priorityFastenerInstanceIds":  [
-                                                          "x500v2_fastener_rubber_grommet_004",
-                                                          "x500v2_fastener_rubber_grommet_006",
-                                                          "x500v2_fastener_rubber_grommet_008"
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
-                      "priorityCount":  3,
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
+                      "priorityCount":  0,
                       "sharedCount":  0,
-                      "confidence":  "low",
+                      "confidence":  "high",
                       "reviewReasons":  [
-                                            "Grommet en brazo inferido como stopper/dampener; requiere confirmacion."
+                                            "HUAN-GUIJIAO se trata como subpieza fisica de goma, no como fastener primitivo compartido."
                                         ]
                   },
                   {
                       "canonicalPartId":  "x500v2_prop_BR",
                       "subpieceName":  "PROP",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1481,9 +1299,7 @@
                   {
                       "canonicalPartId":  "x500v2_rails_battery",
                       "subpieceName":  "GUAN-CHENG",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
+                      "priorityFastenerInstanceIds":  null,
                       "sharedFastenerInstanceIds":  [
                                                         "x500v2_fastener_countersunk_M25x6_009",
                                                         "x500v2_fastener_countersunk_M25x6_010",
@@ -1500,12 +1316,8 @@
                   {
                       "canonicalPartId":  "x500v2_esc_BL",
                       "subpieceName":  "ESC",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1516,12 +1328,8 @@
                   {
                       "canonicalPartId":  "x500v2_esc_FR",
                       "subpieceName":  "ESC",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1532,12 +1340,8 @@
                   {
                       "canonicalPartId":  "x500v2_rc_receiver",
                       "subpieceName":  "RECEIVER",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1554,9 +1358,7 @@
                                                           "x500v2_fastener_cap_screw_M3x6_011",
                                                           "x500v2_fastener_cap_screw_M3x6_012"
                                                       ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  4,
                       "sharedCount":  0,
                       "confidence":  "high",
@@ -1567,12 +1369,8 @@
                   {
                       "canonicalPartId":  "x500v2_rails_battery",
                       "subpieceName":  "BATTERY-PAD",
-                      "priorityFastenerInstanceIds":  [
-
-                                                      ],
-                      "sharedFastenerInstanceIds":  [
-
-                                                    ],
+                      "priorityFastenerInstanceIds":  null,
+                      "sharedFastenerInstanceIds":  null,
                       "priorityCount":  0,
                       "sharedCount":  0,
                       "confidence":  "high",

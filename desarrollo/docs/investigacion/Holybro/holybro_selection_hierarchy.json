@@ -5,7 +5,8 @@
   "notes": [
     "Scene existence and transforms are resolved from the imported FBX.",
     "Technical fastener semantics are resolved from holybro_fastener_instances.json.",
-    "Objects outside PRIMITIVE_FASTENER_MASTERS / PRIMITIVE_FASTENER_INSTANCES must not receive modular fastener replacement."
+    "Objects outside PRIMITIVE_FASTENER_MASTERS / PRIMITIVE_FASTENER_INSTANCES must not receive modular fastener replacement.",
+    "Blender UI label PRIMITIVE_MASTER_INSTANCES was checked on 2026-05-11; the active collection name in the file is PRIMITIVE_FASTENER_INSTANCES."
   ],
   "hotspotGroups": [
     {
@@ -103,21 +104,21 @@
     {
       "canonicalPartId": "x500v2_gps_m10",
       "displayName": "Holybro M10 GPS Module",
-      "subpieceNames": ["GAN-GPSV5-ZHIJIA", "GPS-ZHIJIA-ZHUANJIETOU", "GPS-ZHIJIA-ZUO", "GPSV5-ZHIJIA-TUOPAN"],
-      "fastenerStatus": "Teorico 0, actuales 2; revisar contra montaje real."
+      "subpieceNames": ["GAN-GPSV5-ZHIJIA", "GPS-ZHIJIA-ZHUANJIETOU", "GPS-ZHIJIA-ZUO", "GPSV5-ZHIJIA-LUOMAO", "GPSV5-ZHIJIA-TUOPAN"],
+      "fastenerStatus": "GPSV5-ZHIJIA-LUOMAO se confirma como subpieza runtime, no como fastener primitivo."
     },
     {
       "canonicalPartId": "x500v2_landing_gear",
       "displayName": "Landing Gear",
-      "subpieceNames": ["CARBON-FIBER-TUBE", "JIAO-EVA", "JIAO-LIANJIE", "MAO-JIAO"],
+      "subpieceNames": ["CARBON-FIBER-TUBE", "JIAO-EVA", "JIAO-LIANJIE", "JIA-LIANJIE", "MAO-JIAO"],
       "fastenerStatus": "Esperados 12, actuales 6; revisar faltantes."
     },
     {
       "canonicalPartId": "x500v2_arm",
       "displayName": "Arm Assembly Quadrant",
       "resolvedRuntimeIds": ["x500v2_arm_FL", "x500v2_arm_FR", "x500v2_arm_BL", "x500v2_arm_BR"],
-      "subpieceNames": ["CARBON-FIBER-TUBE300", "HMX5V-DIGAI-DIANJIZUO-MUJU", "HMX5V-GUAN-DINGWEI", "HMX5V-JIBI-JIA-MUJU", "HMX5V-ZUO-DJ-MUJU", "BAN-DJ-DIAN-F2", "JIA-GUAN"],
-      "fastenerStatus": "Fasteners asociados por instancia primitiva y parentCanonicalPartId; no por nombre global."
+      "subpieceNames": ["CARBON-FIBER-TUBE300", "HMX5V-DIGAI-DIANJIZUO-MUJU", "HMX5V-GUAN-DINGWEI", "HMX5V-JIBI-JIA-MUJU", "HMX5V-ZUO-DJ-MUJU", "BAN-DJ-DIAN-F2", "JIA-GUAN", "HUAN-GUIJIAO"],
+      "fastenerStatus": "HUAN-GUIJIAO se confirma en BAKE/ASSEMBLY runtime como pieza de goma asociada al brazo/JIA-GUAN, no como fastener primitivo compartido."
     },
     {
       "canonicalPartId": "x500v2_motor",

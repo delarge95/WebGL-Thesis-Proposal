@@ -13,6 +13,7 @@ namespace WebGL.Core.Thermal
     {
         public string PartId;
         public string NormalizedPartId;
+        public string SubpieceId;
         public Renderer Renderer;
         public Transform Transform;
         public DronePartData Data;
@@ -32,12 +33,15 @@ namespace WebGL.Core.Thermal
         [SerializeField] private float defaultBandHalfWidth = 0.07f;
         [SerializeField] private float criticalBandHalfWidth = 0.12f;
         [SerializeField] private float passiveBandHalfWidth = 0.035f;
+        [SerializeField] private float neutralTemperatureDeadbandC = 0.4f;
+        [SerializeField] private float neutralActivationRampC = 2.0f;
 
         [Header("Debug")]
         [SerializeField] private bool logBindingSummary;
 
         private readonly List<ThermalRendererBinding> bindings = new List<ThermalRendererBinding>();
         private readonly Dictionary<string, ThermalRendererBinding> bindingsById = new Dictionary<string, ThermalRendererBinding>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, Bounds> canonicalBoundsById = new Dictionary<string, Bounds>(StringComparer.OrdinalIgnoreCase);
 
         private ThermalSimulationManager thermalSimulation;
         private ViewModeManager viewModeManager;
@@ -105,6 +109,7 @@ namespace WebGL.Core.Thermal
         {
             bindings.Clear();
             bindingsById.Clear();
+            canonicalBoundsById.Clear();
 
             HashSet<Renderer> seen = new HashSet<Renderer>();
             List<Renderer> renderers = DroneRenderResolver.CollectManagedRenderers();
@@ -116,6 +121,12 @@ namespace WebGL.Core.Thermal
                 }
 
                 ExplodablePart part = DroneRenderResolver.ResolveCanonicalPart(renderer.transform);
+                PartRenderCategory category = renderer.GetComponent<PartRenderCategory>();
+                if (category == null)
+                {
+                    category = renderer.GetComponentInParent<PartRenderCategory>();
+                }
+
                 ThermalSurfaceProfile profile = part != null
                     ? part.GetComponent<ThermalSurfaceProfile>()
                     : renderer.GetComponentInParent<ThermalSurfaceProfile>();
@@ -139,6 +150,7 @@ namespace WebGL.Core.Thermal
                 {
                     PartId = partId,
                     NormalizedPartId = normalizedPartId,
+                    SubpieceId = category != null ? category.SubpieceId : string.Empty,
                     Renderer = renderer,
                     Transform = renderer.transform,
                     Data = part != null ? part.Data : null,
@@ -150,6 +162,19 @@ namespace WebGL.Core.Thermal
                 };
 
                 bindings.Add(binding);
+                if (!string.IsNullOrWhiteSpace(normalizedPartId))
+                {
+                    if (canonicalBoundsById.TryGetValue(normalizedPartId, out Bounds existingBounds))
+                    {
+                        existingBounds.Encapsulate(renderer.bounds);
+                        canonicalBoundsById[normalizedPartId] = existingBounds;
+                    }
+                    else
+                    {
+                        canonicalBoundsById[normalizedPartId] = renderer.bounds;
+                    }
+                }
+
                 if (!string.IsNullOrWhiteSpace(normalizedPartId) && !bindingsById.ContainsKey(normalizedPartId))
                 {
                     bindingsById.Add(normalizedPartId, binding);
@@ -240,17 +265,24 @@ namespace WebGL.Core.Thermal
                     thermalSimulation.TryGetTemperature(binding.PartId, out temperatureC);
                 }
 
-                float normalizedTemperature = Mathf.InverseLerp(minDisplay, maxDisplay, temperatureC);
-                float bandHalfWidth = ResolveBandHalfWidth(binding);
+                float visualTemperatureC = ResolveVisualTemperature(binding, temperatureC, ambientTemperatureC);
+                float thermalActivity = ResolveThermalActivity(visualTemperatureC, ambientTemperatureC);
+                if (thermalActivity <= 0f)
+                {
+                    visualTemperatureC = ambientTemperatureC;
+                }
+
+                float normalizedTemperature = Mathf.InverseLerp(minDisplay, maxDisplay, visualTemperatureC);
+                float bandHalfWidth = ResolveBandHalfWidth(binding) * thermalActivity;
                 float minBand = Mathf.Clamp01(normalizedTemperature - bandHalfWidth);
                 float maxBand = Mathf.Clamp01(normalizedTemperature + bandHalfWidth);
-                float shaderMode = ResolveShaderMode(binding);
+                float shaderMode = thermalActivity > 0f ? ResolveShaderMode(binding) : 0f;
                 Vector3 hotspot = ResolveHotspot(binding);
                 Vector3 direction = ResolveDirection(binding, hotspot);
                 float spread = ResolveSpread(binding);
-                float edgeCooling = ResolveEdgeCooling(binding);
-                float baseVariation = ResolveBaseVariation(binding);
-                float propagation = ResolvePropagation(binding, normalizedTemperature);
+                float edgeCooling = ResolveEdgeCooling(binding) * thermalActivity;
+                float baseVariation = ResolveBaseVariation(binding) * thermalActivity;
+                float propagation = Mathf.Lerp(1f, ResolvePropagation(binding, normalizedTemperature), thermalActivity);
 
                 MaterialPropertyBlock block = binding.PropertyBlock ?? new MaterialPropertyBlock();
                 binding.Renderer.GetPropertyBlock(block);
@@ -301,6 +333,11 @@ namespace WebGL.Core.Thermal
             if (binding.Profile != null && binding.Profile.Pattern != ThermalSurfacePattern.Automatic)
             {
                 return binding.Profile.Pattern;
+            }
+
+            if (IsCanonicalPlatePart(binding.NormalizedPartId))
+            {
+                return ThermalSurfacePattern.Radial;
             }
 
             ThermalSurfacePattern canonicalPattern = ResolveCanonicalPattern(binding);
@@ -696,6 +733,17 @@ namespace WebGL.Core.Thermal
                 return true;
             }
 
+            if (IsCanonicalPlatePart(binding.NormalizedPartId))
+            {
+                if (TryResolveDynamicNeighborHotspot(binding, out hotspot))
+                {
+                    return true;
+                }
+
+                hotspot = Vector3.zero;
+                return true;
+            }
+
             return false;
         }
 
@@ -736,7 +784,10 @@ namespace WebGL.Core.Thermal
                     continue;
                 }
 
-                Vector3 localPoint = binding.Transform.InverseTransformPoint(neighbor.Renderer.bounds.center);
+                Vector3 neighborCenter = TryGetCanonicalBoundsCenter(NormalizePartId(neighborId), out Vector3 resolvedCenter)
+                    ? resolvedCenter
+                    : neighbor.Renderer.bounds.center;
+                Vector3 localPoint = binding.Transform.InverseTransformPoint(neighborCenter);
                 sum += localPoint;
                 count++;
             }
@@ -748,6 +799,45 @@ namespace WebGL.Core.Thermal
 
             hotspot = ClampLocalPointToExtents(sum / count, binding.LocalExtents * 0.95f);
             return true;
+        }
+
+        private bool TryResolveDynamicNeighborHotspot(ThermalRendererBinding binding, out Vector3 hotspot)
+        {
+            hotspot = Vector3.zero;
+            if (thermalSimulation == null || binding.Transform == null)
+            {
+                return false;
+            }
+
+            if (!thermalSimulation.TryGetHottestLinkedNeighbor(binding.PartId, out string neighborId, out _))
+            {
+                return false;
+            }
+
+            if (!bindingsById.TryGetValue(NormalizePartId(neighborId), out ThermalRendererBinding neighbor) || neighbor.Renderer == null)
+            {
+                return false;
+            }
+
+            Vector3 neighborCenter = TryGetCanonicalBoundsCenter(NormalizePartId(neighborId), out Vector3 resolvedCenter)
+                ? resolvedCenter
+                : neighbor.Renderer.bounds.center;
+            Vector3 localPoint = binding.Transform.InverseTransformPoint(neighborCenter);
+            hotspot = ClampLocalPointToExtents(localPoint, binding.LocalExtents * 0.95f);
+            return true;
+        }
+
+        private bool TryGetCanonicalBoundsCenter(string normalizedPartId, out Vector3 center)
+        {
+            if (!string.IsNullOrWhiteSpace(normalizedPartId) &&
+                canonicalBoundsById.TryGetValue(normalizedPartId, out Bounds bounds))
+            {
+                center = bounds.center;
+                return true;
+            }
+
+            center = Vector3.zero;
+            return false;
         }
 
         private static Vector3 ClampLocalPointToExtents(Vector3 point, Vector3 extents)
@@ -883,6 +973,102 @@ namespace WebGL.Core.Thermal
         private static float MaxComponent(Vector3 value)
         {
             return Mathf.Max(value.x, Mathf.Max(value.y, value.z));
+        }
+
+        private float ResolveVisualTemperature(ThermalRendererBinding binding, float solverTemperatureC, float ambientTemperatureC)
+        {
+            float solverDelta = Mathf.Max(0f, solverTemperatureC - ambientTemperatureC);
+            float contactDelta = ResolveContactVisualDelta(binding, ambientTemperatureC);
+            float resolvedDelta = Mathf.Max(solverDelta, contactDelta);
+            float subpieceScale = ResolveSubpieceThermalScale(binding);
+            return ambientTemperatureC + resolvedDelta * subpieceScale;
+        }
+
+        private float ResolveThermalActivity(float visualTemperatureC, float ambientTemperatureC)
+        {
+            float deltaC = Mathf.Max(0f, visualTemperatureC - ambientTemperatureC);
+            if (deltaC <= neutralTemperatureDeadbandC)
+            {
+                return 0f;
+            }
+
+            float ramp = Mathf.Max(neutralActivationRampC, 0.01f);
+            return Mathf.Clamp01((deltaC - neutralTemperatureDeadbandC) / ramp);
+        }
+
+        private float ResolveContactVisualDelta(ThermalRendererBinding binding, float ambientTemperatureC)
+        {
+            if (thermalSimulation == null)
+            {
+                return 0f;
+            }
+
+            bool isStructuralCarrier = IsCanonicalPlatePart(binding.NormalizedPartId)
+                || IsCanonicalArmPart(binding.NormalizedPartId)
+                || IsBatteryRailPart(binding.NormalizedPartId)
+                || string.Equals(binding.NormalizedPartId, "x500v2_landing_gear", StringComparison.Ordinal);
+
+            if (!isStructuralCarrier ||
+                !thermalSimulation.TryGetHottestLinkedNeighbor(binding.PartId, out _, out float neighborTemperatureC))
+            {
+                return 0f;
+            }
+
+            float neighborDelta = Mathf.Max(0f, neighborTemperatureC - ambientTemperatureC);
+            float transferScale = IsCanonicalPlatePart(binding.NormalizedPartId) ? 0.42f : 0.34f;
+            return neighborDelta * transferScale;
+        }
+
+        private static float ResolveSubpieceThermalScale(ThermalRendererBinding binding)
+        {
+            string subpiece = (binding.SubpieceId ?? string.Empty).ToLowerInvariant();
+            if (string.IsNullOrWhiteSpace(subpiece))
+            {
+                return 1f;
+            }
+
+            if (binding.NormalizedPartId == "x500v2_pixhawk6c")
+            {
+                if (subpiece.Contains("pcb") || subpiece.Contains("imu"))
+                {
+                    return 1f;
+                }
+
+                if (subpiece.Contains("mianke") || subpiece.Contains("dike"))
+                {
+                    return 0.58f;
+                }
+
+                if (subpiece.Contains("bm06b"))
+                {
+                    return 0.72f;
+                }
+            }
+
+            if (binding.NormalizedPartId == "x500v2_power_module")
+            {
+                if (subpiece.Contains("pcb") || subpiece.Contains("pm06"))
+                {
+                    return 1f;
+                }
+
+                if (subpiece.Contains("xt60"))
+                {
+                    return 0.82f;
+                }
+            }
+
+            if (subpiece.Contains("huan-guijiao") || subpiece.Contains("jiao-eva"))
+            {
+                return 0.45f;
+            }
+
+            if (subpiece.Contains("carbon-fiber") || subpiece.Contains("plate") || subpiece.Contains("guan-cheng"))
+            {
+                return 0.92f;
+            }
+
+            return 1f;
         }
     }
 }

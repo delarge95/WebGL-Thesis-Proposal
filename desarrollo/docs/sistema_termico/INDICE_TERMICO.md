@@ -13,6 +13,7 @@ Si el visor del chat falla o abre archivos vacios, usa este documento como mapa 
 5. `E:\WebGL_tesis\desarrollo\unity_project\Assets\Scripts\Core\Thermal\ThermalViewController.cs`
 6. `E:\WebGL_tesis\desarrollo\unity_project\Assets\Resources\ThermalCanonicalContactGraph.asset`
 7. `E:\WebGL_tesis\desarrollo\unity_project\Assets\Shaders\Thermal.shader`
+8. `E:\WebGL_tesis\desarrollo\docs\sistema_termico\AUDIT_TERMICO_FBX_FINAL_2026-05-11.md`
 
 ## Archivos clave
 
@@ -28,6 +29,8 @@ Si el visor del chat falla o abre archivos vacios, usa este documento como mapa 
   - Reglas de actualizacion de tesis, manuales y docs del subsistema.
 - `E:\WebGL_tesis\desarrollo\docs\sistema_termico\wolfram_verificaciones.md`
   - Trazabilidad matematica.
+- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\AUDIT_TERMICO_FBX_FINAL_2026-05-11.md`
+  - Audit del FBX final, hallazgos sobre transferencia visible y correcciones implementadas en el runtime termico.
 
 ### Runtime oficial
 

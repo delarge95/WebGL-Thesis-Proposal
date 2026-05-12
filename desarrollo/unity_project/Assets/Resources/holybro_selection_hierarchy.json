@@ -69,7 +69,7 @@
     {
       "canonicalPartId": "x500v2_rails_battery",
       "displayName": "Rail System & Battery Mount",
-      "subpieceNames": ["BATTERY-MOUNTING-PLAT", "BATTERY-PAD", "PYLONS-X500", "GUAN-CHENG"]
+      "subpieceNames": ["BATTERY-MOUNTING-PLAT", "BATTERY-PAD", "PYLONS-X500"]
     },
     {
       "canonicalPartId": "x500v2_pdb",
@@ -89,17 +89,17 @@
     {
       "canonicalPartId": "x500v2_gps_m10",
       "displayName": "Holybro M10 GPS Module",
-      "subpieceNames": ["GAN-GPSV5-ZHIJIA", "GPS-ZHIJIA-ZHUANJIETOU", "GPS-ZHIJIA-ZUO", "GPSV5-ZHIJIA-TUOPAN"]
+      "subpieceNames": ["GAN-GPSV5-ZHIJIA", "GPS-ZHIJIA-ZHUANJIETOU", "GPS-ZHIJIA-ZUO", "GPSV5-ZHIJIA-LUOMAO", "GPSV5-ZHIJIA-TUOPAN"]
     },
     {
       "canonicalPartId": "x500v2_landing_gear",
       "displayName": "Landing Gear",
-      "subpieceNames": ["CARBON-FIBER-TUBE", "JIAO-EVA", "JIAO-LIANJIE", "MAO-JIAO"]
+      "subpieceNames": ["CARBON-FIBER-TUBE", "GUAN-CHENG", "JIAO-EVA", "JIAO-LIANJIE", "JIA-LIANJIE", "MAO-JIAO"]
     },
     {
       "canonicalPartId": "x500v2_arm",
       "displayName": "Arm Assembly Quadrant",
-      "subpieceNames": ["CARBON-FIBER-TUBE300", "HMX5V-DIGAI-DIANJIZUO-MUJU", "HMX5V-GUAN-DINGWEI", "HMX5V-JIBI-JIA-MUJU", "HMX5V-ZUO-DJ-MUJU", "BAN-DJ-DIAN-F2", "JIA-GUAN"]
+      "subpieceNames": ["CARBON-FIBER-TUBE300", "HMX5V-DIGAI-DIANJIZUO-MUJU", "HMX5V-GUAN-DINGWEI", "HMX5V-JIBI-JIA-MUJU", "HMX5V-ZUO-DJ-MUJU", "BAN-DJ-DIAN-F2", "JIA-GUAN", "HUAN-GUIJIAO"]
     },
     {
       "canonicalPartId": "x500v2_motor",

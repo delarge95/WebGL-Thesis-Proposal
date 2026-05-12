@@ -255,12 +255,12 @@ namespace WebGL.Core.Utils
                     continue;
                 }
 
-                string parentId = ResolveDingweiParentCanonicalId(candidate.name);
+                string parentId = ResolveStructuralNonFastenerParentCanonicalId(candidate, droneRoot);
                 if (string.IsNullOrWhiteSpace(parentId) ||
                     !anchorsById.TryGetValue(parentId, out ExplodablePart parentPart) ||
                     parentPart == null)
                 {
-                    Debug.LogWarning($"[ImportedDroneRuntimeBinder] HMX5V-GUAN-DINGWEI sin padre canonico confiable: {candidate.name}");
+                    Debug.LogWarning($"[ImportedDroneRuntimeBinder] Falso fastener estructural sin padre canonico confiable: {candidate.name}");
                     continue;
                 }
 
@@ -280,7 +280,13 @@ namespace WebGL.Core.Utils
                 }
 
                 string primaryCategory = parentPart.Data != null ? parentPart.Data.category.ToString() : "SkeletonAirframe";
-                category.Configure(parentId, primaryCategory, string.Empty, parentId, "hmx5v-guan-dingwei");
+                string subpieceId = SelectionHierarchy.ResolveSubpieceId(candidate, parentId);
+                if (string.IsNullOrWhiteSpace(subpieceId))
+                {
+                    subpieceId = ResolveStructuralNonFastenerSubpieceId(candidate.name);
+                }
+
+                category.Configure(parentId, primaryCategory, string.Empty, parentId, subpieceId);
             }
         }
 
@@ -391,35 +397,272 @@ namespace WebGL.Core.Utils
             return SelectionHierarchy.IsKnownStructuralNonFastenerName(rawName);
         }
 
-        private static string ResolveDingweiParentCanonicalId(string rawName)
+        private static string ResolveStructuralNonFastenerParentCanonicalId(Transform candidate, Transform droneRoot)
+        {
+            if (candidate == null)
+            {
+                return string.Empty;
+            }
+
+            string resolved = SelectionHierarchy.ResolveCanonicalPartId(candidate, droneRoot);
+            if (!string.IsNullOrWhiteSpace(resolved))
+            {
+                return resolved;
+            }
+
+            string normalized = SelectionHierarchy.NormalizeToken(candidate.name);
+            if (normalized.Contains("gpsv5-zhijia-luomao"))
+            {
+                return "x500v2_gps_m10";
+            }
+
+            if (normalized.Contains("hmx5v-guan-dingwei") ||
+                normalized.Contains("huan-guijiao") ||
+                normalized.Contains("rubber-grommet"))
+            {
+                return ResolveQuadrantArmParentCanonicalId(candidate, droneRoot);
+            }
+
+            return string.Empty;
+        }
+
+        private static string ResolveStructuralNonFastenerSubpieceId(string rawName)
+        {
+            string normalized = SelectionHierarchy.NormalizeToken(rawName);
+            if (normalized.Contains("hmx5v-guan-dingwei")) return "hmx5v-guan-dingwei";
+            if (normalized.Contains("huan-guijiao") || normalized.Contains("rubber-grommet")) return "huan-guijiao";
+            if (normalized.Contains("gpsv5-zhijia-luomao")) return "gpsv5-zhijia-luomao";
+            return string.Empty;
+        }
+
+        private static string ResolveQuadrantArmParentCanonicalId(Transform candidate, Transform droneRoot)
+        {
+            if (candidate == null)
+            {
+                return string.Empty;
+            }
+
+            string explicitSuffix = ResolveStructuralInstanceSuffix(candidate.name);
+            if (!string.IsNullOrWhiteSpace(explicitSuffix))
+            {
+                return "x500v2_arm_" + explicitSuffix;
+            }
+
+            Renderer renderer = candidate.GetComponentInChildren<Renderer>(true);
+            Vector3 position = renderer != null ? renderer.bounds.center : candidate.position;
+            string worldSuffix = ResolveQuadrantSuffixFromWorld(position, droneRoot);
+            return string.IsNullOrWhiteSpace(worldSuffix) ? string.Empty : "x500v2_arm_" + worldSuffix;
+        }
+
+        private static string ResolveStructuralInstanceSuffix(string rawName)
         {
             if (string.IsNullOrWhiteSpace(rawName))
             {
                 return string.Empty;
             }
 
-            string typeKey = FastenerNamingUtility.ExtractSceneTypeKey(rawName).ToLowerInvariant();
-            if (typeKey.Contains(".001"))
+            return SelectionHierarchy.ResolveKnownArmInstanceQuadrantSuffix(rawName);
+        }
+
+        private static string ResolveQuadrantSuffixFromWorld(Vector3 worldPosition, Transform root)
+        {
+            Vector3 front = Vector3.forward;
+            Vector3 right = Vector3.right;
+            float dominantSize = 1f;
+            Vector3 center;
+            if (root != null && TryResolveDroneReferenceFrame(root, out Vector3 frameCenter, out front, out right, out dominantSize))
             {
-                return "x500v2_arm_BR";
+                center = frameCenter;
+            }
+            else
+            {
+                center = root != null && TryComputeWorldCenter(root, out Vector3 rootCenter) ? rootCenter : Vector3.zero;
             }
 
-            if (typeKey.Contains(".002"))
+            Vector3 offset = Vector3.ProjectOnPlane(worldPosition - center, Vector3.up);
+            if (offset.sqrMagnitude < 0.0000001f)
             {
-                return "x500v2_arm_FR";
+                return string.Empty;
             }
 
-            if (typeKey.Contains(".003"))
+            if (front.sqrMagnitude < 0.0001f || right.sqrMagnitude < 0.0001f)
             {
-                return "x500v2_arm_FL";
+                front = Vector3.forward;
+                right = Vector3.right;
+                dominantSize = Mathf.Max(dominantSize, 1f);
             }
 
-            if (typeKey.Contains(".004"))
+            float frontDot = Vector3.Dot(offset, front.normalized);
+            float rightDot = Vector3.Dot(offset, right.normalized);
+            float deadband = Mathf.Max(0.0005f, dominantSize * 0.01f);
+            if (Mathf.Abs(frontDot) < deadband && Mathf.Abs(rightDot) < deadband)
             {
-                return "x500v2_arm_BL";
+                return string.Empty;
             }
 
-            return string.Empty;
+            if (Mathf.Abs(rightDot) < deadband)
+            {
+                rightDot = -deadband;
+            }
+
+            return (frontDot >= 0f ? "F" : "B") + (rightDot < 0f ? "L" : "R");
+        }
+
+        private static bool TryComputeWorldCenter(Transform root, out Vector3 center)
+        {
+            center = Vector3.zero;
+            if (root == null)
+            {
+                return false;
+            }
+
+            Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+            Bounds bounds = default;
+            bool hasBounds = false;
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                Renderer renderer = renderers[i];
+                if (renderer == null || renderer.transform == root)
+                {
+                    continue;
+                }
+
+                if (!hasBounds)
+                {
+                    bounds = renderer.bounds;
+                    hasBounds = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(renderer.bounds);
+                }
+            }
+
+            if (!hasBounds)
+            {
+                return false;
+            }
+
+            center = bounds.center;
+            return true;
+        }
+
+        private static bool TryResolveDroneReferenceFrame(
+            Transform root,
+            out Vector3 center,
+            out Vector3 front,
+            out Vector3 right,
+            out float dominantSize)
+        {
+            center = Vector3.zero;
+            front = Vector3.forward;
+            right = Vector3.right;
+            dominantSize = 1f;
+
+            if (root == null)
+            {
+                return false;
+            }
+
+            bool hasCenter = TryGetNamedRendererBounds(root, "bottom-plate-x500-v5", out Bounds bottomBounds);
+            bool hasAggregate = TryGetRendererBounds(root, out Bounds aggregateBounds);
+            if (hasCenter)
+            {
+                center = bottomBounds.center;
+                dominantSize = Mathf.Max(bottomBounds.size.x, bottomBounds.size.z, 1f);
+            }
+            else if (hasAggregate)
+            {
+                center = aggregateBounds.center;
+                dominantSize = Mathf.Max(aggregateBounds.size.x, aggregateBounds.size.z, 1f);
+            }
+            else
+            {
+                return false;
+            }
+
+            if (TryGetNamedRendererBounds(root, "zhijia-camera-intel", out Bounds cameraBounds))
+            {
+                Vector3 cameraFront = Vector3.ProjectOnPlane(cameraBounds.center - center, Vector3.up);
+                if (cameraFront.sqrMagnitude > 0.000001f)
+                {
+                    front = cameraFront.normalized;
+                    right = Vector3.Cross(Vector3.up, front).normalized;
+                    return right.sqrMagnitude > 0.0001f;
+                }
+            }
+
+            return hasCenter || hasAggregate;
+        }
+
+        private static bool TryGetNamedRendererBounds(Transform root, string normalizedNameToken, out Bounds bounds)
+        {
+            bounds = default;
+            if (root == null || string.IsNullOrWhiteSpace(normalizedNameToken))
+            {
+                return false;
+            }
+
+            bool found = false;
+            Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                Renderer renderer = renderers[i];
+                if (renderer == null)
+                {
+                    continue;
+                }
+
+                string normalized = SelectionHierarchy.NormalizeToken(renderer.transform.name);
+                if (!normalized.Contains(normalizedNameToken))
+                {
+                    continue;
+                }
+
+                if (!found)
+                {
+                    bounds = renderer.bounds;
+                    found = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(renderer.bounds);
+                }
+            }
+
+            return found;
+        }
+
+        private static bool TryGetRendererBounds(Transform root, out Bounds bounds)
+        {
+            bounds = default;
+            if (root == null)
+            {
+                return false;
+            }
+
+            bool found = false;
+            Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                Renderer renderer = renderers[i];
+                if (renderer == null || renderer.transform == root)
+                {
+                    continue;
+                }
+
+                if (!found)
+                {
+                    bounds = renderer.bounds;
+                    found = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(renderer.bounds);
+                }
+            }
+
+            return found;
         }
 
         private static void DestroyComponent(Component component)
@@ -473,7 +716,12 @@ namespace WebGL.Core.Utils
                     continue;
                 }
 
-                if (IsStableCanonicalAnchorId(currentAnchorId) &&
+                bool canCorrectArmQuadrant =
+                    IsArmCanonicalAnchorId(currentAnchorId) &&
+                    IsArmCanonicalAnchorId(expectedAnchorId);
+
+                if (!canCorrectArmQuadrant &&
+                    IsStableCanonicalAnchorId(currentAnchorId) &&
                     !string.Equals(currentAnchorId, expectedAnchorId, StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
@@ -880,6 +1128,31 @@ namespace WebGL.Core.Utils
                 return;
             }
 
+            if (TryResolvePhysicalAuxiliaryProfile(
+                    member,
+                    anchor,
+                    auxiliaryCategory,
+                    out Vector3 physicalLocalDirection,
+                    out float physicalDistance,
+                    out float sequenceStart,
+                    out float sequenceEnd,
+                    out bool useGlobalTiming))
+            {
+                AuxiliaryExplodeOffset physicalOffset = member.GetComponent<AuxiliaryExplodeOffset>();
+                if (physicalOffset == null)
+                {
+                    physicalOffset = member.gameObject.AddComponent<AuxiliaryExplodeOffset>();
+                }
+
+                physicalOffset.ConfigureSequenced(
+                    physicalLocalDirection,
+                    physicalDistance,
+                    sequenceStart,
+                    sequenceEnd,
+                    useGlobalTiming);
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(auxiliaryCategory))
             {
                 AuxiliaryExplodeOffset existing = member.GetComponent<AuxiliaryExplodeOffset>();
@@ -906,6 +1179,340 @@ namespace WebGL.Core.Utils
             offset.Configure(localDirection, distance, lead);
         }
 
+        private static bool TryResolvePhysicalAuxiliaryProfile(
+            Transform member,
+            ExplodablePart anchor,
+            string auxiliaryCategory,
+            out Vector3 localDirection,
+            out float distance,
+            out float sequenceStart,
+            out float sequenceEnd,
+            out bool useGlobalTiming)
+        {
+            localDirection = Vector3.up;
+            distance = 0f;
+            sequenceStart = 0f;
+            sequenceEnd = 1f;
+            useGlobalTiming = true;
+
+            if (member == null || anchor == null)
+            {
+                return false;
+            }
+
+            string normalized = SelectionHierarchy.NormalizeToken(member.name);
+            bool isFastener = string.Equals(auxiliaryCategory, "Fasteners", StringComparison.OrdinalIgnoreCase) ||
+                              SelectionHierarchy.IsPrimitiveFastenerSource(member) ||
+                              member.GetComponent<FastenerRuntimeMarker>() != null;
+
+            Vector3 worldDirection;
+            if (isFastener)
+            {
+                worldDirection = ResolveFastenerAuxiliaryWorldDirection(member, anchor);
+                distance = ResolveFastenerAuxiliaryDistance(member);
+                sequenceStart = 0.00f;
+                sequenceEnd = 0.22f;
+            }
+            else if (normalized.Contains("ban-dj-dian-f2"))
+            {
+                worldDirection = ResolveSubpieceWorldDirection(member, anchor, Vector3.up, 0.78f);
+                distance = 0.52f;
+                sequenceStart = 0.22f;
+                sequenceEnd = 0.50f;
+            }
+            else if (normalized.Contains("hmx5v-zuo-dj-muju"))
+            {
+                worldDirection = ResolveSubpieceWorldDirection(member, anchor, Vector3.up, 0.82f);
+                distance = 0.42f;
+                sequenceStart = 0.38f;
+                sequenceEnd = 0.66f;
+            }
+            else if (normalized.Contains("hmx5v-digai-dianjizuo-muju"))
+            {
+                worldDirection = ResolveSubpieceWorldDirection(member, anchor, Vector3.down, 0.82f);
+                distance = 0.46f;
+                sequenceStart = 0.38f;
+                sequenceEnd = 0.66f;
+            }
+            else if (normalized.Contains("hmx5v-jibi-jia-muju"))
+            {
+                Vector3 center = ResolveWorldCenter(member);
+                Vector3 anchorCenter = ResolveWorldCenter(anchor.transform);
+                int index = ExtractTrailingInstanceIndex(normalized);
+                Vector3 vertical = index == 1 || index == 5
+                    ? Vector3.down
+                    : center.y >= anchorCenter.y ? Vector3.up : Vector3.down;
+                worldDirection = ResolveSubpieceWorldDirection(member, anchor, vertical, 0.76f);
+                distance = 0.46f;
+                sequenceStart = 0.56f;
+                sequenceEnd = 0.84f;
+            }
+            else if (normalized.Contains("jia-guan") || normalized.Contains("hmx5v-guan-dingwei"))
+            {
+                worldDirection = ResolveTubeAlignedWorldDirection(member, anchor);
+                distance = 0.20f;
+                sequenceStart = 0.72f;
+                sequenceEnd = 0.96f;
+            }
+            else if (normalized.Contains("guan-cheng") ||
+                     normalized.Contains("battery-pad") ||
+                     normalized.Contains("pylons-x500"))
+            {
+                worldDirection = ResolveSubpieceWorldDirection(member, anchor, Vector3.down, 0.86f);
+                distance = normalized.Contains("guan-cheng") ? 0.34f : 0.22f;
+                sequenceStart = 0.52f;
+                sequenceEnd = 0.84f;
+            }
+            else if (normalized.Contains("battery-mounting-plat"))
+            {
+                worldDirection = ResolveSubpieceWorldDirection(member, anchor, Vector3.down, 0.68f);
+                distance = 0.22f;
+                sequenceStart = 0.58f;
+                sequenceEnd = 0.86f;
+            }
+            else if (normalized.Contains("jia-lianjie") || normalized.Contains("jiao-lianjie"))
+            {
+                worldDirection = ResolveSubpieceWorldDirection(member, anchor, Vector3.down, 0.62f);
+                distance = 0.30f;
+                sequenceStart = 0.56f;
+                sequenceEnd = 0.88f;
+            }
+            else if (normalized.Contains("jiao-eva") ||
+                     normalized.Contains("mao-jiao") ||
+                     normalized.Contains("huan-guijiao") ||
+                     normalized.Contains("rubber-grommet"))
+            {
+                worldDirection = (normalized.Contains("huan-guijiao") || normalized.Contains("rubber-grommet"))
+                    ? ResolveTubeAlignedWorldDirection(member, anchor)
+                    : ResolveSubpieceWorldDirection(member, anchor, Vector3.down, 0.34f);
+                distance = normalized.Contains("huan-guijiao") || normalized.Contains("rubber-grommet") ? 0.12f : 0.18f;
+                sequenceStart = 0.72f;
+                sequenceEnd = 0.98f;
+            }
+            else
+            {
+                return false;
+            }
+
+            localDirection = member.parent != null
+                ? member.parent.InverseTransformVector(worldDirection)
+                : worldDirection;
+            if (localDirection.sqrMagnitude < 0.0001f)
+            {
+                localDirection = Vector3.up;
+            }
+
+            return true;
+        }
+
+        private static Vector3 ResolveFastenerAuxiliaryWorldDirection(Transform member, ExplodablePart anchor)
+        {
+            string normalized = SelectionHierarchy.NormalizeToken(member != null ? member.name : string.Empty);
+            FastenerRuntimeMarker marker = member != null ? member.GetComponent<FastenerRuntimeMarker>() : null;
+            string typeKey = marker != null ? SelectionHierarchy.NormalizeToken(marker.SceneTypeKey) : string.Empty;
+            string token = normalized + "-" + typeKey;
+            Vector3 axis = ResolveLikelyFastenerAxis(member);
+            Vector3 anchorCenter = anchor != null ? ResolveWorldCenter(anchor.transform) : Vector3.zero;
+            Vector3 away = member != null ? Vector3.ProjectOnPlane(ResolveWorldCenter(member) - anchorCenter, Vector3.up) : Vector3.zero;
+            if (away.sqrMagnitude < 0.0001f && member != null)
+            {
+                away = ResolveWorldCenter(member) - anchorCenter;
+            }
+            if (away.sqrMagnitude < 0.0001f)
+            {
+                away = Vector3.up;
+            }
+            away.Normalize();
+
+            bool isNut = IsNutToken(token);
+            if (IsRubberGrommetToken(token))
+            {
+                return ResolveTubeAlignedWorldDirection(member, anchor);
+            }
+
+            bool isSpacer = token.Contains("standoff") || token.Contains("nilongzhu");
+            if (axis.sqrMagnitude < 0.0001f)
+            {
+                return isNut ? Vector3.down : Vector3.up;
+            }
+
+            axis.Normalize();
+            float verticalDot = Vector3.Dot(axis, Vector3.up);
+            if (Mathf.Abs(verticalDot) > 0.35f)
+            {
+                if (isNut)
+                {
+                    return verticalDot > 0f ? -axis : axis;
+                }
+
+                if (isSpacer)
+                {
+                    Vector3 memberOffset = member != null ? ResolveWorldCenter(member) - anchorCenter : Vector3.up;
+                    return memberOffset.y >= 0f
+                        ? (verticalDot > 0f ? axis : -axis)
+                        : (verticalDot > 0f ? -axis : axis);
+                }
+
+                return verticalDot > 0f ? axis : -axis;
+            }
+
+            return Vector3.Dot(axis, away) >= 0f ? axis : -axis;
+        }
+
+        private static int ExtractTrailingInstanceIndex(string normalizedName)
+        {
+            if (string.IsNullOrWhiteSpace(normalizedName))
+            {
+                return -1;
+            }
+
+            string normalized = normalizedName;
+            if (normalized.EndsWith("-low", StringComparison.OrdinalIgnoreCase))
+            {
+                normalized = normalized.Substring(0, normalized.Length - 4);
+            }
+
+            int lastDash = normalized.LastIndexOf('-');
+            if (lastDash < 0 || lastDash + 1 >= normalized.Length)
+            {
+                return -1;
+            }
+
+            string suffix = normalized.Substring(lastDash + 1);
+            return int.TryParse(suffix, out int index) ? index : -1;
+        }
+
+        private static float ResolveFastenerAuxiliaryDistance(Transform member)
+        {
+            string normalized = SelectionHierarchy.NormalizeToken(member != null ? member.name : string.Empty);
+            FastenerRuntimeMarker marker = member != null ? member.GetComponent<FastenerRuntimeMarker>() : null;
+            string typeKey = marker != null ? SelectionHierarchy.NormalizeToken(marker.SceneTypeKey) : string.Empty;
+            string token = normalized + "-" + typeKey;
+
+            if (IsNutToken(token))
+            {
+                return 0.46f;
+            }
+
+            if (IsRubberGrommetToken(token))
+            {
+                return 0.14f;
+            }
+
+            if (token.Contains("standoff") || token.Contains("nilongzhu"))
+            {
+                return 0.38f;
+            }
+
+            return 0.72f;
+        }
+
+        private static Vector3 ResolveSubpieceWorldDirection(
+            Transform member,
+            ExplodablePart anchor,
+            Vector3 axialDirection,
+            float axialWeight)
+        {
+            Vector3 anchorCenter = anchor != null ? ResolveWorldCenter(anchor.transform) : Vector3.zero;
+            Vector3 memberCenter = member != null ? ResolveWorldCenter(member) : anchorCenter;
+            Vector3 radial = Vector3.ProjectOnPlane(memberCenter - anchorCenter, Vector3.up);
+            if (radial.sqrMagnitude < 0.0001f && anchor != null && anchor.Data != null)
+            {
+                radial = ResolveExplosionDirection(anchor);
+                radial = Vector3.ProjectOnPlane(radial, Vector3.up);
+            }
+
+            Vector3 resolvedAxial = axialDirection.sqrMagnitude > 0.0001f ? axialDirection.normalized : Vector3.up;
+            Vector3 resolvedRadial = radial.sqrMagnitude > 0.0001f ? radial.normalized : Vector3.zero;
+            Vector3 blended = resolvedRadial * Mathf.Clamp01(1f - axialWeight) + resolvedAxial * Mathf.Clamp01(axialWeight);
+            return blended.sqrMagnitude > 0.0001f ? blended.normalized : resolvedAxial;
+        }
+
+        private static Vector3 ResolveTubeAlignedWorldDirection(Transform member, ExplodablePart anchor)
+        {
+            Vector3 direction = anchor != null ? ResolveExplosionDirection(anchor) : Vector3.zero;
+            direction = Vector3.ProjectOnPlane(direction, Vector3.up);
+            if (direction.sqrMagnitude > 0.0001f)
+            {
+                return direction.normalized;
+            }
+
+            Vector3 anchorCenter = anchor != null ? ResolveWorldCenter(anchor.transform) : Vector3.zero;
+            Vector3 memberCenter = member != null ? ResolveWorldCenter(member) : anchorCenter;
+            direction = Vector3.ProjectOnPlane(memberCenter - anchorCenter, Vector3.up);
+            if (direction.sqrMagnitude > 0.0001f)
+            {
+                return direction.normalized;
+            }
+
+            return Vector3.forward;
+        }
+
+        private static Vector3 ResolveLikelyFastenerAxis(Transform fastener)
+        {
+            if (fastener == null)
+            {
+                return Vector3.up;
+            }
+
+            Renderer renderer = fastener.GetComponentInChildren<Renderer>(true);
+            MeshFilter meshFilter = renderer != null ? renderer.GetComponent<MeshFilter>() : fastener.GetComponentInChildren<MeshFilter>(true);
+            if (meshFilter == null || meshFilter.sharedMesh == null)
+            {
+                return fastener.up;
+            }
+
+            Vector3 size = meshFilter.sharedMesh.bounds.size;
+            Vector3 localAxis = Vector3.up;
+            if (size.x >= size.y && size.x >= size.z)
+            {
+                localAxis = Vector3.right;
+            }
+            else if (size.z >= size.x && size.z >= size.y)
+            {
+                localAxis = Vector3.forward;
+            }
+
+            return meshFilter.transform.TransformDirection(localAxis);
+        }
+
+        private static Vector3 ResolveWorldCenter(Transform transform)
+        {
+            if (transform == null)
+            {
+                return Vector3.zero;
+            }
+
+            Renderer renderer = transform.GetComponentInChildren<Renderer>(true);
+            return renderer != null ? renderer.bounds.center : transform.position;
+        }
+
+        private static bool IsNutToken(string token)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return false;
+            }
+
+            return token.Contains("nut") ||
+                   token.Contains("luomao") ||
+                   token.Contains("lm-m3") ||
+                   token.Contains("zslm") ||
+                   token.Contains("falan");
+        }
+
+        private static bool IsRubberGrommetToken(string token)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return false;
+            }
+
+            return token.Contains("grommet") ||
+                   token.Contains("rubber") ||
+                   token.Contains("huan-guijiao");
+        }
+
         private static void CalibrateExplosionPreset(string anchorId, ExplodablePart anchor)
         {
             if (anchor == null || anchor.Data == null)
@@ -913,8 +1520,19 @@ namespace WebGL.Core.Utils
                 return;
             }
 
-            // Keep authored explosion presets from DronePartData and only repair invalid values.
-            // This avoids forcing runtime axis changes that can disorient the exploded view.
+            string resolvedId = !string.IsNullOrWhiteSpace(anchor.Data.id) ? anchor.Data.id : anchorId;
+            anchor.Data.explosionPriority = ResolveRuntimeExplosionPriority(resolvedId, anchor.Data.partType, anchor.Data.explosionPriority);
+            if (TryResolveRuntimeExplosionPreset(resolvedId, anchor.Data.partType, out Vector3 direction, out float minDistance, out float maxDistance))
+            {
+                anchor.Data.explosionDirection = direction;
+                anchor.Data.explosionDistance = Mathf.Clamp(
+                    anchor.Data.explosionDistance > 0.001f ? anchor.Data.explosionDistance : minDistance,
+                    minDistance,
+                    maxDistance);
+                return;
+            }
+
+            // Keep authored presets for uncategorized pieces and only repair invalid values.
             if (anchor.Data.explosionDistance <= 0.001f)
             {
                 anchor.Data.explosionDistance = 0.2f;
@@ -928,6 +1546,151 @@ namespace WebGL.Core.Utils
             {
                 anchor.Data.explosionDirection = anchor.Data.explosionDirection.normalized;
             }
+        }
+
+        private static bool TryResolveRuntimeExplosionPreset(
+            string partId,
+            string partType,
+            out Vector3 direction,
+            out float minDistance,
+            out float maxDistance)
+        {
+            string id = (partId ?? string.Empty).ToLowerInvariant();
+            string type = (partType ?? string.Empty).ToLowerInvariant();
+
+            direction = Vector3.up;
+            minDistance = 0.2f;
+            maxDistance = 1.0f;
+
+            if (id.StartsWith("x500v2_prop_", StringComparison.Ordinal) || type.Contains("prop"))
+            {
+                direction = ResolveQuadrantDirection(id, 0.55f);
+                minDistance = 1.6f;
+                maxDistance = 2.2f;
+                return true;
+            }
+
+            if (id.StartsWith("x500v2_motor_", StringComparison.Ordinal) || type.Contains("motor"))
+            {
+                direction = ResolveQuadrantDirection(id, 0.45f);
+                minDistance = 1.0f;
+                maxDistance = 1.6f;
+                return true;
+            }
+
+            if (id.StartsWith("x500v2_arm_", StringComparison.Ordinal) || type.Contains("arm"))
+            {
+                direction = ResolveQuadrantDirection(id, 0.18f);
+                minDistance = 1.15f;
+                maxDistance = 1.6f;
+                return true;
+            }
+
+            if (id == "x500v2_top_plate")
+            {
+                direction = Vector3.up;
+                minDistance = 0.35f;
+                maxDistance = 0.75f;
+                return true;
+            }
+
+            if (id == "x500v2_bottom_plate")
+            {
+                direction = Vector3.down;
+                minDistance = 0.35f;
+                maxDistance = 0.75f;
+                return true;
+            }
+
+            if (id == "x500v2_platform_board")
+            {
+                direction = new Vector3(0f, 0.55f, 0.35f).normalized;
+                minDistance = 0.45f;
+                maxDistance = 0.85f;
+                return true;
+            }
+
+            if (id == "x500v2_pixhawk6c")
+            {
+                direction = new Vector3(0f, 0.9f, 0.12f).normalized;
+                minDistance = 0.55f;
+                maxDistance = 1.05f;
+                return true;
+            }
+
+            if (id == "x500v2_power_module")
+            {
+                direction = new Vector3(0f, -0.65f, 0.35f).normalized;
+                minDistance = 0.25f;
+                maxDistance = 0.55f;
+                return true;
+            }
+
+            if (id == "x500v2_rails_battery")
+            {
+                direction = new Vector3(0f, -0.75f, -0.25f).normalized;
+                minDistance = 0.7f;
+                maxDistance = 1.1f;
+                return true;
+            }
+
+            if (id == "x500v2_landing_gear" || type.Contains("landing"))
+            {
+                direction = Vector3.down;
+                minDistance = 0.7f;
+                maxDistance = 1.25f;
+                return true;
+            }
+
+            if (id == "x500v2_gps_m10" || type.Contains("gps"))
+            {
+                direction = new Vector3(0.18f, 1f, 0.08f).normalized;
+                minDistance = 0.9f;
+                maxDistance = 1.45f;
+                return true;
+            }
+
+            if (id == "x500v2_telemetry_radio" || id == "x500v2_rc_receiver")
+            {
+                direction = new Vector3(0.45f, 0.8f, 0.2f).normalized;
+                minDistance = 0.45f;
+                maxDistance = 0.85f;
+                return true;
+            }
+
+            if (id == "x500v2_battery" || type.Contains("battery"))
+            {
+                direction = new Vector3(0f, -1f, -0.25f).normalized;
+                minDistance = 0.8f;
+                maxDistance = 1.25f;
+                return true;
+            }
+
+            return false;
+        }
+
+        private static int ResolveRuntimeExplosionPriority(string partId, string partType, int fallbackPriority)
+        {
+            string id = (partId ?? string.Empty).ToLowerInvariant();
+            string type = (partType ?? string.Empty).ToLowerInvariant();
+
+            // Lower values start earlier in ExplodedViewManager. The order follows
+            // a disassembly reading: free/removable items first, structural anchors
+            // later, so dependent pieces do not visually drag their supports away.
+            if (id.StartsWith("x500v2_prop_", StringComparison.Ordinal) || type.Contains("prop")) return 1;
+            if (id == "x500v2_battery" || type.Contains("battery")) return 2;
+            if (id == "x500v2_gps_m10" || type.Contains("gps")) return 2;
+            if (id == "x500v2_rc_receiver" || id == "x500v2_telemetry_radio") return 2;
+            if (id.StartsWith("x500v2_motor_", StringComparison.Ordinal) || type.Contains("motor")) return 3;
+            if (id == "x500v2_pixhawk6c") return 4;
+            if (id == "x500v2_power_module" || id == "x500v2_pdb") return 4;
+            if (id == "x500v2_platform_board") return 4;
+            if (id == "x500v2_top_plate") return 5;
+            if (id == "x500v2_rails_battery" || id == "x500v2_landing_gear" || type.Contains("landing")) return 6;
+            if (id.StartsWith("x500v2_arm_", StringComparison.Ordinal) || type.Contains("arm")) return 7;
+            if (id == "x500v2_bottom_plate") return 8;
+
+            return fallbackPriority;
         }
 
         private static Vector3 ResolveExplosionDirection(ExplodablePart anchor)
@@ -998,7 +1761,8 @@ namespace WebGL.Core.Utils
             if (searchableName.Contains("prop") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_prop_{suffix.ToUpperInvariant()}";
             if ((searchableName.Contains("motor") || searchableName.Contains("dj-2216")) && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_motor_{suffix.ToUpperInvariant()}";
             if (searchableName.Contains("esc") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_esc_{suffix.ToUpperInvariant()}";
-            if (searchableName.Contains("battery-mounting") || searchableName.Contains("battery-pad") || searchableName.Contains("pylons") || searchableName.Contains("rail") || searchableName.Contains("guan-cheng")) return "x500v2_rails_battery";
+            if (searchableName.Contains("guan-cheng")) return "x500v2_landing_gear";
+            if (searchableName.Contains("battery-mounting") || searchableName.Contains("battery-pad") || searchableName.Contains("pylons") || searchableName.Contains("rail")) return "x500v2_rails_battery";
             if (searchableName.Contains("battery")) return "x500v2_battery";
             if (searchableName.Contains("pixhawk") || searchableName.Contains("imu-pixhawk") || searchableName.Contains("bm06b")) return "x500v2_pixhawk6c";
             if (searchableName.Contains("gps") || searchableName.Contains("gan-gpsv5") || searchableName.Contains("gpsv5-zhijia")) return "x500v2_gps_m10";
@@ -1096,9 +1860,14 @@ namespace WebGL.Core.Utils
                 return "x500v2_power_module";
             }
 
+            if (searchableName.Contains("guan-cheng"))
+            {
+                return "x500v2_landing_gear";
+            }
+
             if (searchableName.Contains("battery-mounting") || searchableName.Contains("battery-pad") ||
                 searchableName.Contains("pylons") || searchableName.Contains("rails") ||
-                searchableName.Contains("guan-cheng") || searchableName.Contains("strap"))
+                searchableName.Contains("strap"))
             {
                 return "x500v2_rails_battery";
             }
@@ -1141,6 +1910,12 @@ namespace WebGL.Core.Utils
                    !anchorId.StartsWith("x500v2_fastener.", StringComparison.OrdinalIgnoreCase) &&
                    !string.Equals(anchorId, FastenerGroupId, StringComparison.OrdinalIgnoreCase) &&
                    !string.Equals(anchorId, MiscGroupId, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsArmCanonicalAnchorId(string anchorId)
+        {
+            return !string.IsNullOrWhiteSpace(anchorId) &&
+                   anchorId.StartsWith("x500v2_arm_", StringComparison.OrdinalIgnoreCase);
         }
 
         private static string InferAuxiliaryCategory(string rawName)

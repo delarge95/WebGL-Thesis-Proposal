@@ -156,7 +156,8 @@ Este tool:
 - instancia el FBX final como `x500v2_Drone`;
 - preserva jerarquia y nombres del FBX;
 - normaliza helices con prefijo `x500v2_prop_`;
-- agrupa fasteners reconocidos (`GB70`, `PAN`, `CHEN`, `ZSLM`, `LM`, `NILONGZHU`, `HUAN-GUIJIAO`) bajo `x500v2_fastener_group`;
+- agrupa fasteners primitivos reconocidos (`GB70`, `PAN`, `CHEN`, `ZSLM`, `LM`, `NILONGZHU`) bajo `x500v2_fastener_group`;
+- mantiene `HUAN-GUIJIAO` y `GPSV5-ZHIJIA-LUOMAO` como subpiezas runtime porque pertenecen a `BAKE_MASTERS_LOW` / `ASSEMBLY_INSTANCES_LOW`, no a las colecciones primitivas de fasteners;
 - ejecuta `PrepareImportedDroneHeadless()` para reconstruir anchors, colliders, metadata, filtros, hotspots y fastener registry;
 - genera `Reports/final_runtime_import_report.md` con conteo de shared meshes para verificar si Unity preservo instancias logicas.
 

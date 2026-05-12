@@ -41,6 +41,16 @@ No debe afirmarse todavía:
 - FEA térmico completo,
 - precisión cuantitativa cerrada frente a mediciones reales.
 
+## Actualizacion 2026-05-11
+
+El FBX final importado ya no coincide exactamente con todos los nodos intermedios del grafo canonico original: algunas piezas documentadas funcionan como piezas canonicas de estudio, pero no existen como geometria visual runtime. Para evitar que esto corte rutas de conduccion, el solver crea puentes termicos conservadores entre vecinos presentes y mantiene enlaces suplementarios para el stack central, plates, rails y landing gear.
+
+La visualizacion tambien distingue subpiezas granulares dentro de una misma pieza canonica. El solver conserva temperaturas por nodo canonico, pero `ThermalViewController` aplica una escala visual por subpieza y usa focos de contacto dinamicos para plates y carriers estructurales.
+
+Audit relacionado:
+
+- `E:\WebGL_tesis\desarrollo\docs\sistema_termico\AUDIT_TERMICO_FBX_FINAL_2026-05-11.md`
+
 ## Decisiones cerradas
 
 - La simulación es cualitativa avanzada y defendible como aproximación física.

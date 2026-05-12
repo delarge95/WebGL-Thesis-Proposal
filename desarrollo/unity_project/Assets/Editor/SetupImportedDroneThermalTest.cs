@@ -770,21 +770,8 @@ public static class SetupImportedDroneThermalTest
             return string.Empty;
         }
 
-        Vector3 center = TryComputeWorldCenterFromDescendants(root, out Vector3 rootCenter)
-            ? rootCenter
-            : root.position;
         Vector3 position = GetReferenceWorldPosition(candidate);
-
-        float dx = position.x - center.x;
-        float dz = position.z - center.z;
-        if (Mathf.Abs(dx) < 0.0001f && Mathf.Abs(dz) < 0.0001f)
-        {
-            return string.Empty;
-        }
-
-        string frontBack = dz >= 0f ? "f" : "b";
-        string side = dx < 0f ? "l" : "r";
-        return frontBack + side;
+        return ResolveQuadrantSuffixFromWorld(position, root).ToLowerInvariant();
     }
 
     private static Vector3 GetReferenceWorldPosition(Transform target)
@@ -1404,10 +1391,10 @@ public static class SetupImportedDroneThermalTest
 
         foreach (Transform candidate in candidates)
         {
-            string parentId = ResolveDingweiParentCanonicalId(candidate.name);
+            string parentId = ResolveStructuralNonFastenerParentCanonicalId(candidate, root);
             if (string.IsNullOrWhiteSpace(parentId) || !anchorsById.TryGetValue(parentId, out Transform parentAnchor) || parentAnchor == null)
             {
-                Debug.LogWarning($"[SetupImportedDroneThermalTest] HMX5V-GUAN-DINGWEI sin padre canonico confiable: {candidate.name}");
+                Debug.LogWarning($"[SetupImportedDroneThermalTest] Falso fastener estructural sin padre canonico confiable: {candidate.name}");
                 continue;
             }
 
@@ -1441,7 +1428,14 @@ public static class SetupImportedDroneThermalTest
                     category = Undo.AddComponent<PartRenderCategory>(renderer.gameObject);
                 }
 
-                category.Configure(parentId, "SkeletonAirframe", string.Empty, parentId, "hmx5v-guan-dingwei");
+                string subpieceId = SelectionHierarchy.ResolveSubpieceId(renderer.transform, parentId);
+                if (string.IsNullOrWhiteSpace(subpieceId))
+                {
+                    subpieceId = ResolveStructuralNonFastenerSubpieceId(renderer.transform.name);
+                }
+
+                string primaryCategory = ResolveAnchorPrimaryCategory(parentAnchor, "SkeletonAirframe");
+                category.Configure(parentId, primaryCategory, string.Empty, parentId, subpieceId);
                 EditorUtility.SetDirty(category);
             }
 
@@ -1458,23 +1452,283 @@ public static class SetupImportedDroneThermalTest
         return SelectionHierarchy.IsKnownStructuralNonFastenerName(rawName);
     }
 
-    private static string ResolveDingweiParentCanonicalId(string rawName)
+    private static string ResolveStructuralNonFastenerParentCanonicalId(Transform candidate, Transform root)
+    {
+        if (candidate == null)
+        {
+            return string.Empty;
+        }
+
+        string resolved = SelectionHierarchy.ResolveCanonicalPartId(candidate, root);
+        if (!string.IsNullOrWhiteSpace(resolved))
+        {
+            return resolved;
+        }
+
+        string normalized = SelectionHierarchy.NormalizeToken(candidate.name);
+        if (normalized.Contains("gpsv5-zhijia-luomao"))
+        {
+            return "x500v2_gps_m10";
+        }
+
+        if (normalized.Contains("hmx5v-guan-dingwei") ||
+            normalized.Contains("huan-guijiao") ||
+            normalized.Contains("rubber-grommet"))
+        {
+            return ResolveQuadrantArmParentCanonicalId(candidate, root);
+        }
+
+        return string.Empty;
+    }
+
+    private static string ResolveStructuralNonFastenerSubpieceId(string rawName)
+    {
+        string normalized = SelectionHierarchy.NormalizeToken(rawName);
+        if (normalized.Contains("hmx5v-guan-dingwei")) return "hmx5v-guan-dingwei";
+        if (normalized.Contains("huan-guijiao") || normalized.Contains("rubber-grommet")) return "huan-guijiao";
+        if (normalized.Contains("gpsv5-zhijia-luomao")) return "gpsv5-zhijia-luomao";
+        return string.Empty;
+    }
+
+    private static string ResolveAnchorPrimaryCategory(Transform parentAnchor, string fallback)
+    {
+        ExplodablePart parentPart = parentAnchor != null ? parentAnchor.GetComponent<ExplodablePart>() : null;
+        if (parentPart != null && parentPart.Data != null)
+        {
+            return parentPart.Data.category.ToString();
+        }
+
+        return fallback;
+    }
+
+    private static string ResolveQuadrantArmParentCanonicalId(Transform candidate, Transform root)
+    {
+        if (candidate == null)
+        {
+            return string.Empty;
+        }
+
+        string explicitSuffix = ResolveStructuralInstanceSuffix(candidate.name);
+        if (!string.IsNullOrWhiteSpace(explicitSuffix))
+        {
+            return "x500v2_arm_" + explicitSuffix;
+        }
+
+        Renderer renderer = candidate.GetComponentInChildren<Renderer>(true);
+        Vector3 position = renderer != null ? renderer.bounds.center : candidate.position;
+        string worldSuffix = ResolveQuadrantSuffixFromWorld(position, root);
+        return string.IsNullOrWhiteSpace(worldSuffix) ? string.Empty : "x500v2_arm_" + worldSuffix;
+    }
+
+    private static string ResolveStructuralInstanceSuffix(string rawName)
     {
         if (string.IsNullOrWhiteSpace(rawName))
         {
             return string.Empty;
         }
 
-        string normalized = SelectionHierarchy.NormalizeToken(rawName);
-        if (normalized.Contains("-001-low")) return "x500v2_arm_BR";
-        if (normalized.Contains("-002-low")) return "x500v2_arm_FR";
-        if (normalized.Contains("-003-low")) return "x500v2_arm_FL";
-        if (normalized.Contains("-004-low")) return "x500v2_arm_BL";
-        if (normalized.EndsWith("-001", StringComparison.Ordinal)) return "x500v2_arm_BR";
-        if (normalized.EndsWith("-002", StringComparison.Ordinal)) return "x500v2_arm_FR";
-        if (normalized.EndsWith("-003", StringComparison.Ordinal)) return "x500v2_arm_FL";
-        if (normalized.EndsWith("-004", StringComparison.Ordinal)) return "x500v2_arm_BL";
-        return string.Empty;
+        return SelectionHierarchy.ResolveKnownArmInstanceQuadrantSuffix(rawName);
+    }
+
+    private static string ResolveQuadrantSuffixFromWorld(Vector3 worldPosition, Transform root)
+    {
+        Vector3 front = Vector3.forward;
+        Vector3 right = Vector3.right;
+        float dominantSize = 1f;
+        Vector3 center;
+        if (root != null && TryResolveDroneReferenceFrame(root, out Vector3 frameCenter, out front, out right, out dominantSize))
+        {
+            center = frameCenter;
+        }
+        else
+        {
+            center = root != null && TryComputeWorldCenter(root, out Vector3 rootCenter) ? rootCenter : Vector3.zero;
+        }
+
+        Vector3 offset = Vector3.ProjectOnPlane(worldPosition - center, Vector3.up);
+        if (offset.sqrMagnitude < 0.0000001f)
+        {
+            return string.Empty;
+        }
+
+        if (front.sqrMagnitude < 0.0001f || right.sqrMagnitude < 0.0001f)
+        {
+            front = Vector3.forward;
+            right = Vector3.right;
+            dominantSize = Mathf.Max(dominantSize, 1f);
+        }
+
+        float frontDot = Vector3.Dot(offset, front.normalized);
+        float rightDot = Vector3.Dot(offset, right.normalized);
+        float deadband = Mathf.Max(0.0005f, dominantSize * 0.01f);
+        if (Mathf.Abs(frontDot) < deadband && Mathf.Abs(rightDot) < deadband)
+        {
+            return string.Empty;
+        }
+
+        if (Mathf.Abs(rightDot) < deadband)
+        {
+            rightDot = -deadband;
+        }
+
+        return (frontDot >= 0f ? "F" : "B") + (rightDot < 0f ? "L" : "R");
+    }
+
+    private static bool TryComputeWorldCenter(Transform root, out Vector3 center)
+    {
+        center = Vector3.zero;
+        if (root == null)
+        {
+            return false;
+        }
+
+        Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+        Bounds bounds = default;
+        bool hasBounds = false;
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            Renderer renderer = renderers[i];
+            if (renderer == null || renderer.transform == root)
+            {
+                continue;
+            }
+
+            if (!hasBounds)
+            {
+                bounds = renderer.bounds;
+                hasBounds = true;
+            }
+            else
+            {
+                bounds.Encapsulate(renderer.bounds);
+            }
+        }
+
+        if (!hasBounds)
+        {
+            return false;
+        }
+
+        center = bounds.center;
+        return true;
+    }
+
+    private static bool TryResolveDroneReferenceFrame(
+        Transform root,
+        out Vector3 center,
+        out Vector3 front,
+        out Vector3 right,
+        out float dominantSize)
+    {
+        center = Vector3.zero;
+        front = Vector3.forward;
+        right = Vector3.right;
+        dominantSize = 1f;
+
+        if (root == null)
+        {
+            return false;
+        }
+
+        bool hasCenter = TryGetNamedRendererBounds(root, "bottom-plate-x500-v5", out Bounds bottomBounds);
+        bool hasAggregate = TryGetRendererBounds(root, out Bounds aggregateBounds);
+        if (hasCenter)
+        {
+            center = bottomBounds.center;
+            dominantSize = Mathf.Max(bottomBounds.size.x, bottomBounds.size.z, 1f);
+        }
+        else if (hasAggregate)
+        {
+            center = aggregateBounds.center;
+            dominantSize = Mathf.Max(aggregateBounds.size.x, aggregateBounds.size.z, 1f);
+        }
+        else
+        {
+            return false;
+        }
+
+        if (TryGetNamedRendererBounds(root, "zhijia-camera-intel", out Bounds cameraBounds))
+        {
+            Vector3 cameraFront = Vector3.ProjectOnPlane(cameraBounds.center - center, Vector3.up);
+            if (cameraFront.sqrMagnitude > 0.000001f)
+            {
+                front = cameraFront.normalized;
+                right = Vector3.Cross(Vector3.up, front).normalized;
+                return right.sqrMagnitude > 0.0001f;
+            }
+        }
+
+        return hasCenter || hasAggregate;
+    }
+
+    private static bool TryGetNamedRendererBounds(Transform root, string normalizedNameToken, out Bounds bounds)
+    {
+        bounds = default;
+        if (root == null || string.IsNullOrWhiteSpace(normalizedNameToken))
+        {
+            return false;
+        }
+
+        bool found = false;
+        Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            Renderer renderer = renderers[i];
+            if (renderer == null)
+            {
+                continue;
+            }
+
+            string normalized = SelectionHierarchy.NormalizeToken(renderer.transform.name);
+            if (!normalized.Contains(normalizedNameToken))
+            {
+                continue;
+            }
+
+            if (!found)
+            {
+                bounds = renderer.bounds;
+                found = true;
+            }
+            else
+            {
+                bounds.Encapsulate(renderer.bounds);
+            }
+        }
+
+        return found;
+    }
+
+    private static bool TryGetRendererBounds(Transform root, out Bounds bounds)
+    {
+        bounds = default;
+        if (root == null)
+        {
+            return false;
+        }
+
+        bool found = false;
+        Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            Renderer renderer = renderers[i];
+            if (renderer == null || renderer.transform == root)
+            {
+                continue;
+            }
+
+            if (!found)
+            {
+                bounds = renderer.bounds;
+                found = true;
+            }
+            else
+            {
+                bounds.Encapsulate(renderer.bounds);
+            }
+        }
+
+        return found;
     }
 
     private static void DestroyComponent(Component component)

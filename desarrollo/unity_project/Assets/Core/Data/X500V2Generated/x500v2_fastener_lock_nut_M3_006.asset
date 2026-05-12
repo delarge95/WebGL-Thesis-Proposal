@@ -16,7 +16,7 @@ MonoBehaviour:
   id: x500v2_fastener_lock_nut_M3_006
   partType: Cap Nut
   description: Tuerca ciega. Pieza modelada en base al CAD LM-M3-DING. Synced source
-    expects 8 units while the current temporary scene contains 17.
+    expects 8 units while the current temporary scene contains 16.
   weightKg: 0
   dimensions: M3
   function: Fastening / mounting | M3 | Cap
@@ -83,7 +83,7 @@ MonoBehaviour:
     isInspectable: 1
     fallbackReason: 
     notes: Tuerca ciega. Pieza modelada en base al CAD LM-M3-DING. Synced source
-      expects 8 units while the current temporary scene contains 17.
+      expects 8 units while the current temporary scene contains 16.
     recipeKey: lock_nut_M3_placeholder
     builderType: CapNut
     orientationMode: ShortestAxis
