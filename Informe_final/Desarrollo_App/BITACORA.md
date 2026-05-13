@@ -604,7 +604,7 @@ Corregir la contaminacion entre hotspots, piezas canonicas, subpiezas Blender y 
    - _Resultado_: La seleccion deja de depender de keywords amplias como `rail`, `mount`, `m3` o `dingwei`.
 2. **Hotspots explicitos**:
    - _Implementacion_: `HotspotManager` usa membresia canonica fija para `Power Distribution`, `Flight Controller`, `GPS & Compass`, `Propulsion System` y `Battery`.
-   - _Resultado_: `GUAN-CHENG` queda fuera de `Power Distribution` y permanece en el sistema de railes/bateria.
+   - _Resultado actualizado_: `GUAN-CHENG` queda fuera de `Power Distribution`; la correccion manual posterior lo ubica en `x500v2_landing_gear`.
 3. **Fasteners modulares restringidos**:
    - _Implementacion_: El reemplazo modular se limita a objetos identificados como fasteners primitivos o importados bajo el grupo runtime de fasteners.
    - _Resultado_: Subpiezas CAD como tubos, stoppers, grommets o brackets no se convierten en tornillos por heuristica de nombre.
@@ -1112,3 +1112,135 @@ Corregir los casos donde piezas pequenas o conectores del explode quedaban pegad
 - `Core.Player.csproj` compila sin errores; mantiene advertencias conocidas de APIs Unity obsoletas y AG001.
 - `Assembly-CSharp.csproj` compila sin errores.
 - Falta validacion visual en Unity Play Mode para confirmar clearance fino de `GUAN-CHENG`, rubber/grommets, `BAN-DJ-DIAN-F2`, motores y helices.
+
+---
+
+## Registro de Cambios (Mayo 12, 2026) - Agrupacion STEP para brazos HMX5V
+
+### Objetivo
+
+Usar la jerarquia real importada desde STEP en Blender como fuente de agrupacion para los brazos HMX5V, evitando que el runtime mezcle piezas de assemblies distintos por heuristicas amplias de nombre.
+
+### Acciones Realizadas
+
+1. **Revision de empties STEP con Blender MCP**:
+   - _Implementacion_: Se inspeccionaron los assemblies `HMX5V-ARM-V1_ASM*`, `HANGER-ZHU_ASM*` y `HANGER_ASM*`.
+   - _Resultado_: Se confirmo que cada `HMX5V-ARM-V1_ASM` contiene `HMX5V-GUAN-DINGWEI`, `HMX5V-ZUO-DJ-MUJU`, dos `HMX5V-JIBI-JIA-MUJU`, `HMX5V-DIGAI-DIANJIZUO-MUJU`, `BAN-DJ-DIAN-F2`, `DJ-2216-KV880` y fasteners; no contiene `CARBON-FIBER-TUBE300`, `JIA-GUAN` ni `HUAN-GUIJIAO`.
+2. **Limpieza del mapping de brazos**:
+   - _Implementacion_: `holybro_selection_hierarchy.json` y el fallback `SelectionHierarchy` dejan fuera tubos largos, grommets y `JIA-GUAN` del grupo `x500v2_arm`.
+   - _Resultado_: La seleccion por brazo queda alineada con el assembly CAD HMX5V y reduce contaminacion de piezas externas.
+3. **Motor y helice como companeros de ensamblaje**:
+   - _Implementacion_: Se agrego una relacion runtime `x500v2_arm_* -> x500v2_motor_* + x500v2_prop_*`.
+   - _Resultado_: El brazo mantiene identidad propia, pero al seleccionarse o aislarse puede mostrar motor/helice sin convertirlos en subpiezas hijas permanentes.
+4. **Correccion de cuadrantes por instancia**:
+   - _Implementacion_: Se invirtieron las asignaciones conflictivas FL/BR para las variantes HMX5V y motor, segun la lectura del STEP y el error observado en `arm tube front left/back right`.
+   - _Resultado_: Las variantes numeradas se resuelven con mayor consistencia frente al assembly real.
+
+### Estado Actual
+
+- `Core.Player.csproj` compila sin errores; mantiene advertencias conocidas de APIs Unity obsoletas y AG001.
+- Falta validacion visual en Unity tras reimport/rebind para confirmar que cada brazo selecciona exactamente su par HMX5V, motor, helice y fasteners asociados.
+## Registro de Cambios (Mayo 12, 2026) - Agrupacion completa desde empties STEP
+
+### Objetivo
+Corregir la jerarquia de seleccion para que no dependa de heuristicas amplias y siga la organizacion real del STEP importado en Blender, usando los empties de assembly como evidencia primaria.
+
+### Acciones Realizadas
+- Se inspecciono via Blender MCP el arbol `x500v2-frame.empties`, incluyendo `GPSV5-ZHIJIA_ASM`, `PCBA-PM06_ASM`, `HMX5V-ARM-V1_ASM*`, `HANGER_ASM*` y `HANGER-ZHU_ASM*`.
+- Se actualizo `holybro_selection_hierarchy.json` runtime y documental para mover `BM06B-WO` a `x500v2_power_module`, mover `JIA-GUAN/HUAN-GUIJIAO/CARBON-FIBER-TUBE300` a `x500v2_rails_battery` y mantener `GUAN-CHENG` en `x500v2_landing_gear`.
+- Se ajustaron fallbacks de codigo para que la reimportacion no vuelva a clasificar esas piezas por cercania o por tokens ambiguos.
+- Se actualizaron los assets generados principales y el catalogo `holybro_parent_subpieces.json` para conservar coherencia con la siguiente reimportacion.
+
+### Estado
+Pendiente QA visual en Unity tras ejecutar nuevamente `Tools -> Import Final Runtime Drone Model`, especialmente fasteners de `HANGER*`, tren de aterrizaje y conjunto HMX5V.
+
+---
+
+## Registro de Cambios (Mayo 12, 2026) - Correccion manual de piezas madre
+
+### Objetivo
+Aplicar las correcciones manuales finales de agrupacion para que la seleccion por capas parta de piezas madre coherentes y no de madres heredadas del catalogo anterior.
+
+### Acciones Realizadas
+- Se actualizo `holybro_selection_hierarchy.json` para fusionar `PLATFORM-PLAT-X500` y la LiPo dentro de `x500v2_rails_battery`.
+- Se suprimio la preparacion de anchors madre independientes para `x500v2_platform_board`, `x500v2_battery` y `x500v2_prop_*`; sus meshes pasan a resolverse como subpiezas de rails o brazos.
+- Se restringio `x500v2_pixhawk6c` a `DIKE-PIXHAWK6C-LV-C1`, `MIANKE-PIXHAWK6C-LV-C1` y `PCB-PIXHAWK6C-F1`.
+- Se movieron `GAI-GUANGLIU` e `IMU-PIXHAWK6C` a `x500v2_misc_group` para no asumir una pieza madre no indicada. Nota posterior: `ZHIJIA-CAMERA-INTEL` fue reasignado a `x500v2_rails_battery` por indicacion manual.
+- Se incorporaron reglas manuales por tipo/indice para fasteners: M3x38/flange por cuadrante de brazo con contexto compartido top/bottom; standoffs/cap nuts M2.5 de plataforma pasan a rails; M25x10 se distribuye por brazo; M3x8 pasa a landing gear con contexto compartido bottom plate.
+
+### Estado
+- JSON de jerarquia, fasteners y parent/subpieces validan correctamente.
+- Pendiente reimportar en Unity y revisar visualmente capas de `rails_battery`, brazos, bottom plate y misc.
+
+---
+
+## Registro de Cambios (Mayo 12, 2026) - Correccion puntual de orientacion y fasteners por pieza madre
+
+### Objetivo
+Corregir las agrupaciones que seguian contradiciendo la inspeccion manual: frente del dron definido por `ZHIJIA-CAMERA-INTEL`, camara dentro de rails/battery mount, Pixhawk sin fasteners y exclusion explicita de tornilleria sobrante en bottom plate, rails y landing gear.
+
+### Acciones Realizadas
+- Se ajusto la importacion final para instanciar `x500v2_Drone` con rotacion inicial de 90 grados en Y global, de modo que el frente fisico del dron quede orientado hacia la camara.
+- Se movio `ZHIJIA-CAMERA-INTEL` a `x500v2_rails_battery` en jerarquia, fallbacks runtime/editor, assets generados y mapa documental.
+- Se sincronizaron `holybro_parent_subpieces.json`, `holybro_runtime_selection_mapping.md` y los assets `X500V2Generated` desde la jerarquia vigente y `holybro_fastener_instances.json`.
+- Se endurecio la asociacion de fasteners por pieza madre para que seleccion/aislamiento no rescaten fasteners por simple cercania cuando su `parentCanonicalPartId` no pertenece al contexto activo.
+- Se validaron reglas criticas: Pixhawk sin fasteners; bottom plate sin `ZHIJIA-CAMERA-INTEL` ni fasteners M3x25/M25x12/M25 standoff/cap nut indicados; rails sin M3x38/flange, power module ni M3x8 sobrantes; landing gear sin fasteners de plataforma/GPS/power module.
+
+### Estado Actual
+- `Assembly-CSharp.csproj` compila sin errores.
+- `Core.Player.csproj` compila sin errores; mantiene advertencias conocidas de APIs Unity obsoletas y AG001.
+- `Assembly-CSharp-Editor.csproj` no completa por un problema externo del paquete `com.unity.ugui` (`DefaultControls.factory` readonly), no por las clases modificadas.
+- Pendiente QA visual tras ejecutar `Tools -> Import Final Runtime Drone Model` para confirmar orientacion frontal, capas de Rails/Bottom/Landing y conteo visual de fasteners.
+
+---
+
+## Registro de Cambios (Mayo 12, 2026) - Correccion de fasteners compartidos y propellers legados
+
+### Objetivo
+Corregir la regresion donde los tornillos M3x38 y sus tuercas quedaron solo como prioridad de brazos, perdiendo su pertenencia contextual a top/bottom plate, y corregir la relacion de propellers tras invertir los nombres logicos de brazos.
+
+### Acciones Realizadas
+- Se mantuvo la prioridad de `cap_screw_M3x38` y `flange_nut_M3` en los brazos, pero se agrego regla explicita de fastener compartido: top plate incluye todos los M3x38; bottom plate incluye todos los M3x38 y todas las flange nut M3 conectadas.
+- Se asignaron `cap_screw_M25x10_001-002` a `x500v2_arm_FL`, `003-004` a `x500v2_arm_FR`, `005-006` a `x500v2_arm_BR` y `007-008` a `x500v2_arm_BL`.
+- Se corrigio la normalizacion de propellers en importacion: el importador compensa el naming cruzado del FBX y renombra cada helice segun su cuadrante fisico real; despues de importar, `arm_FL` usa `prop_FL`, `arm_BL` usa `prop_BL`, `arm_FR` usa `prop_FR` y `arm_BR` usa `prop_BR`.
+- Se regeneraron `holybro_parent_subpieces.json`, `holybro_runtime_selection_mapping.md` y los assets generados para reflejar fasteners prioritarios y compartidos sin mezclar ambos conceptos.
+
+### Estado Actual
+- `Assembly-CSharp.csproj` compila sin errores.
+- `Core.Player.csproj` compila sin errores; mantiene advertencias conocidas de APIs Unity obsoletas y AG001.
+- Pendiente reimportar y validar visualmente: top plate con todos los M3x38, bottom plate con M3x38 + flange nuts, brazos con M25x10 y propellers correctos.
+
+---
+
+## Registro de Cambios (Mayo 12, 2026) - Cierre quirurgico de fasteners por pieza madre
+
+### Objetivo
+Aplicar literalmente la correccion manual final de brazos, rails/battery mount, landing gear, bottom plate y power module sin modificar `x500v2_top_plate`.
+
+### Acciones Realizadas
+- Se elimino el swap FL/BL y FR/BR de propellers: cada brazo vuelve a resolver su helice por el mismo sufijo canonico.
+- Se corrigio `cap_screw_M3x6`: FL 001-004, FR 005-008, BR 009-012 y BL 013-016.
+- Se reasignaron `countersunk_M3x16_001-002` a `x500v2_rails_battery`.
+- Se reasignaron `cap_screw_M3x8_001-012`, `cap_screw_M3x25_001-002` y `lock_nut_M3_001/008` a `x500v2_landing_gear`.
+- Se reasignaron `lock_nut_M3_009-012` a `x500v2_power_module`.
+- `x500v2_bottom_plate` conserva M3x38/flange compartidos y suma como contexto compartido `cap_screw_M3x8_005-012`, `pan_head_M3x14_001-004` y `nylon_standoff_M3x5_001-004`.
+
+### Estado Actual
+- `Assembly-CSharp.csproj` compila sin errores.
+- `Core.Player.csproj` compila sin errores; mantiene advertencias conocidas de APIs Unity obsoletas y AG001.
+- Pendiente QA visual tras reimportar el FBX final en Unity.
+
+---
+
+## Registro de Cambios (Mayo 12, 2026) - Ajuste final de propellers cruzados
+
+### Objetivo
+Corregir la ultima incongruencia de brazos: el FBX expone las helices con frente/atras cruzado respecto a su posicion fisica real en el dron.
+
+### Acciones Realizadas
+- Se movio la compensacion al importador: durante `NormalizePropellers`, el sufijo detectado se intercambia FL<->BL y FR<->BR antes de renombrar el objeto.
+- La seleccion vuelve a ser directa: `arm_FL -> prop_FL`, `arm_BL -> prop_BL`, `arm_FR -> prop_FR`, `arm_BR -> prop_BR` despues de reimportar.
+- No se modificaron fasteners, top plate, bottom plate, rails, landing gear ni power module.
+
+### Estado Actual
+- Pendiente reimportar en Unity y validar visualmente que cada brazo arrastre la helice fisicamente ubicada en su cuadrante.

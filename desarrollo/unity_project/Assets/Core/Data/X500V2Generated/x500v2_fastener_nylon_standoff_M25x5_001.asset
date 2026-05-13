@@ -65,7 +65,7 @@ MonoBehaviour:
     sourceId: x500v2_blend_nilongzhu_m25_5
     sceneObjectName: x500v2_fastener.nylon_standoff_M25x5_001
     hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_standoff_M25x5_001
-    parentCanonicalPartId: x500v2_platform_board
+    parentCanonicalPartId: x500v2_rails_battery
     blenderName: NILONGZHU-M25-5
     sceneTypeKey: nylon_standoff_M25x5
     subtype: Standoff

@@ -65,7 +65,7 @@ MonoBehaviour:
     sourceId: x500v2_blend_zslm_m3_falan
     sceneObjectName: x500v2_fastener.flange_nut_M3_004
     hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_004
-    parentCanonicalPartId: x500v2_arm_BR
+    parentCanonicalPartId: x500v2_arm_FL
     blenderName: ZSLM-M3-FALAN
     sceneTypeKey: flange_nut_M3
     subtype: FlangeNut

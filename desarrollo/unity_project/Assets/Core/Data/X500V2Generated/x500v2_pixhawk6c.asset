@@ -76,10 +76,8 @@ MonoBehaviour:
   screwSize: M2
   subComponentNames:
   - DIKE-PIXHAWK6C-LV-C1
-  - IMU-PIXHAWK6C
   - MIANKE-PIXHAWK6C-LV-C1
   - PCB-PIXHAWK6C-F1
-  - BM06B-WO
   fastenerMetadata:
     instanceId: 
     familyId: 

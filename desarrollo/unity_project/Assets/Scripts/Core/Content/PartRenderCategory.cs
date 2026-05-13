@@ -176,6 +176,94 @@ namespace WebGL.Core.Content
                    id.StartsWith("x500v2_prop_", StringComparison.OrdinalIgnoreCase);
         }
 
+        public static void AddAssemblyCompanionCanonicalIds(string canonicalPartId, HashSet<string> canonicalPartIds)
+        {
+            if (canonicalPartIds == null ||
+                !TryGetArmAssemblyCompanionIds(canonicalPartId, out string motorId, out string propId))
+            {
+                return;
+            }
+
+            canonicalPartIds.Add(motorId);
+            canonicalPartIds.Add(propId);
+        }
+
+        public static bool FastenerBelongsToCanonicalScope(FastenerRuntimeMarker marker, HashSet<string> canonicalPartIds)
+        {
+            if (marker == null || canonicalPartIds == null || canonicalPartIds.Count == 0)
+            {
+                return false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(marker.ParentCanonicalPartId) &&
+                canonicalPartIds.Contains(marker.ParentCanonicalPartId))
+            {
+                return true;
+            }
+
+            foreach (string canonicalPartId in canonicalPartIds)
+            {
+                if (IsSharedFastenerForCanonicalPart(marker, canonicalPartId))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool IsSharedFastenerForCanonicalPart(FastenerRuntimeMarker marker, string canonicalPartId)
+        {
+            if (marker == null || string.IsNullOrWhiteSpace(canonicalPartId))
+            {
+                return false;
+            }
+
+            string typeKey = NormalizeToken(marker.SceneTypeKey);
+            string instanceId = NormalizeToken(marker.FastenerInstanceId);
+            bool isM3x38 = typeKey.Contains("cap-screw-m3x38") || instanceId.Contains("cap-screw-m3x38");
+            bool isFlangeM3 = typeKey.Contains("flange-nut-m3") || instanceId.Contains("flange-nut-m3");
+            bool isM3x8 = typeKey.Contains("cap-screw-m3x8") || instanceId.Contains("cap-screw-m3x8");
+            bool isPanHeadM3x14 = typeKey.Contains("pan-head-m3x14") || instanceId.Contains("pan-head-m3x14");
+            bool isNylonStandoffM3x5 = typeKey.Contains("nylon-standoff-m3x5") || instanceId.Contains("nylon-standoff-m3x5");
+            int instanceIndex = ExtractTrailingInstanceIndex(instanceId);
+
+            if (string.Equals(canonicalPartId, "x500v2_top_plate", StringComparison.OrdinalIgnoreCase))
+            {
+                return isM3x38;
+            }
+
+            if (string.Equals(canonicalPartId, "x500v2_bottom_plate", StringComparison.OrdinalIgnoreCase))
+            {
+                bool isLandingGearBottomScrew = isM3x8 && instanceIndex >= 5 && instanceIndex <= 12;
+                bool isPowerModuleBottomStack = (isPanHeadM3x14 || isNylonStandoffM3x5) && instanceIndex >= 1 && instanceIndex <= 4;
+                return isM3x38 || isFlangeM3 || isLandingGearBottomScrew || isPowerModuleBottomStack;
+            }
+
+            return false;
+        }
+
+        public static bool TryGetArmAssemblyCompanionIds(string canonicalPartId, out string motorId, out string propId)
+        {
+            motorId = string.Empty;
+            propId = string.Empty;
+
+            string suffix = ExtractCanonicalQuadrantSuffix(canonicalPartId, "x500v2_arm_");
+            if (string.IsNullOrWhiteSpace(suffix))
+            {
+                return false;
+            }
+
+            motorId = "x500v2_motor_" + suffix;
+            propId = "x500v2_prop_" + ResolveLegacyPropellerSuffixForArm(suffix);
+            return true;
+        }
+
+        private static string ResolveLegacyPropellerSuffixForArm(string armSuffix)
+        {
+            return armSuffix;
+        }
+
         public static bool IsPrimitiveFastenerSource(Transform target)
         {
             if (target == null)
@@ -249,6 +337,8 @@ namespace WebGL.Core.Content
 
             string normalized = NormalizeToken(rawName);
             return normalized.Contains("hmx5v-guan-dingwei") ||
+                   normalized.Contains("carbon-fiber-tube300") ||
+                   normalized.Contains("jia-guan") ||
                    normalized.Contains("huan-guijiao") ||
                    normalized.Contains("rubber-grommet") ||
                    normalized.Contains("gpsv5-zhijia-luomao");
@@ -269,6 +359,13 @@ namespace WebGL.Core.Content
             }
 
             if (normalized.Contains("carbon-fiber-tube300"))
+            {
+                return string.Empty;
+            }
+
+            if (normalized.Contains("jia-guan") ||
+                normalized.Contains("huan-guijiao") ||
+                normalized.Contains("rubber-grommet"))
             {
                 return string.Empty;
             }
@@ -296,18 +393,6 @@ namespace WebGL.Core.Content
                     2 => "FR",
                     3 => "BR",
                     4 => "BL",
-                    _ => string.Empty
-                };
-            }
-
-            if (normalized.Contains("jia-guan"))
-            {
-                return index switch
-                {
-                    1 or 5 or 7 => "BR",
-                    2 or 6 or 8 => "BL",
-                    3 => "FR",
-                    4 => "FL",
                     _ => string.Empty
                 };
             }
@@ -350,6 +435,24 @@ namespace WebGL.Core.Content
             return int.TryParse(suffix, out int index) ? index : -1;
         }
 
+        private static string ExtractCanonicalQuadrantSuffix(string canonicalPartId, string prefix)
+        {
+            if (string.IsNullOrWhiteSpace(canonicalPartId) || string.IsNullOrWhiteSpace(prefix))
+            {
+                return string.Empty;
+            }
+
+            if (!canonicalPartId.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+            {
+                return string.Empty;
+            }
+
+            string suffix = canonicalPartId.Substring(prefix.Length).ToUpperInvariant();
+            return suffix == "FL" || suffix == "FR" || suffix == "BL" || suffix == "BR"
+                ? suffix
+                : string.Empty;
+        }
+
         public static string ResolveCanonicalPartId(Transform target, Transform root, string fallbackCanonicalId = "")
         {
             if (target == null)
@@ -376,6 +479,23 @@ namespace WebGL.Core.Content
             {
                 int dot = rawName.IndexOf('.');
                 string directId = dot > 0 ? rawName.Substring(0, dot) : rawName;
+                if (directId.StartsWith("x500v2_prop_", StringComparison.OrdinalIgnoreCase))
+                {
+                    string suffix = ExtractCanonicalQuadrantSuffix(directId, "x500v2_prop_");
+                    return string.IsNullOrWhiteSpace(suffix) ? string.Empty : "x500v2_arm_" + suffix;
+                }
+
+                if (string.Equals(directId, "x500v2_battery", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(directId, "x500v2_platform_board", StringComparison.OrdinalIgnoreCase))
+                {
+                    return "x500v2_rails_battery";
+                }
+
+                if (string.Equals(directId, "x500v2_pdb", StringComparison.OrdinalIgnoreCase))
+                {
+                    return string.Empty;
+                }
+
                 return IsCanonicalPartId(directId) ? directId : fallbackCanonicalId ?? string.Empty;
             }
 
@@ -411,7 +531,7 @@ namespace WebGL.Core.Content
 
             if (token.Contains("propeller") || token.Contains("prop"))
             {
-                return !string.IsNullOrWhiteSpace(quadrant) ? "x500v2_prop_" + quadrant.ToUpperInvariant() : string.Empty;
+                return !string.IsNullOrWhiteSpace(quadrant) ? "x500v2_arm_" + quadrant.ToUpperInvariant() : string.Empty;
             }
 
             if (token.Contains("esc"))
@@ -426,15 +546,21 @@ namespace WebGL.Core.Content
 
             if (token.Contains("battery-mounting") || token.Contains("battery-pad") ||
                 token.Contains("pylons-x500") ||
-                token.Contains("payload-rail"))
+                token.Contains("carbon-fiber-tube300") ||
+                token.Contains("jia-guan") ||
+                token.Contains("huan-guijiao") ||
+                token.Contains("payload-rail") ||
+                token.Contains("platform-plat") ||
+                token.Contains("camera-intel"))
             {
                 return "x500v2_rails_battery";
             }
 
-            if (token.Contains("battery")) return "x500v2_battery";
-            if (token.Contains("pdb")) return "x500v2_pdb";
-            if (token.Contains("pm06") || token.Contains("xt60") || token.Contains("power-module")) return "x500v2_power_module";
-            if (token.Contains("pixhawk") || token.Contains("imu-pixhawk") || token.Contains("bm06b")) return "x500v2_pixhawk6c";
+            if (token.Contains("battery")) return "x500v2_rails_battery";
+            if (token.Contains("pdb")) return string.Empty;
+            if (token.Contains("pm06") || token.Contains("xt60") || token.Contains("power-module") || token.Contains("bm06b")) return "x500v2_power_module";
+            if (token.Contains("imu-pixhawk") || token.Contains("guangliu")) return MiscGroupId;
+            if (token.Contains("pixhawk")) return "x500v2_pixhawk6c";
             if (token.Contains("gps") || token.Contains("gpsv5")) return "x500v2_gps_m10";
             if (token.Contains("receiver")) return "x500v2_rc_receiver";
             if (token.Contains("telemetry") || token.Contains("radio")) return "x500v2_telemetry_radio";
@@ -850,36 +976,36 @@ namespace WebGL.Core.Content
         {
             return new SelectionHierarchyCatalog
             {
-                version = "fallback-2026-05-08",
+                version = "fallback-2026-05-12-manual-mother-pieces",
                 hotspotGroups = new[]
                 {
                     Hotspot("hotspot_power_distribution", "Power Distribution", "PM06/XT60 power routing. PDB is documented but not synthesized when absent from the FBX.", true, "x500v2_power_module"),
                     Hotspot("hotspot_flight_controller", "Flight Controller", "Pixhawk 6C autopilot stack.", false, "x500v2_pixhawk6c"),
                     Hotspot("hotspot_gps_compass", "GPS & Compass", "GPS mast, antenna and compass module.", false, "x500v2_gps_m10"),
-                    Hotspot("hotspot_propulsion", "Propulsion System", "Four arms, motors, propellers and associated primitive fasteners. ESCs are documented but not synthesized when absent from the FBX.", true,
+                    Hotspot("hotspot_propulsion", "Propulsion System", "Four arms, motors, propellers and associated primitive fasteners. Propellers are included through each arm, not as independent mother pieces.", true,
                         "x500v2_arm_FL", "x500v2_arm_FR", "x500v2_arm_BL", "x500v2_arm_BR",
-                        "x500v2_motor_FL", "x500v2_motor_FR", "x500v2_motor_BL", "x500v2_motor_BR",
-                        "x500v2_prop_FL", "x500v2_prop_FR", "x500v2_prop_BL", "x500v2_prop_BR"),
-                    Hotspot("hotspot_battery", "Battery", "Battery and physical rail/mount system.", true, "x500v2_battery", "x500v2_rails_battery")
+                        "x500v2_motor_FL", "x500v2_motor_FR", "x500v2_motor_BL", "x500v2_motor_BR"),
+                    Hotspot("hotspot_battery", "Battery", "Rail, mount and LiPo support system.", true, "x500v2_rails_battery")
                 },
                 canonicalGroups = new[]
                 {
-                    Group("x500v2_bottom_plate", "Carbon Fiber Bottom Plate", "BOTTOM-PLATE-X500-V5", "GAI-GUANGLIU", "ZHIJIA-CAMERA-INTEL"),
+                    Group("x500v2_bottom_plate", "Carbon Fiber Bottom Plate", "BOTTOM-PLATE-X500-V5"),
                     Group("x500v2_top_plate", "Carbon Fiber Top Plate", "TOP-PLATE-X500-V5"),
-                    Group("x500v2_platform_board", "Platform Board", "PLATFORM-PLAT-X500"),
-                    Group("x500v2_rails_battery", "Rail System & Battery Mount", "BATTERY-MOUNTING-PLAT", "BATTERY-PAD", "PYLONS-X500"),
-                    Group("x500v2_pdb", "Power Distribution Board", "PDB"),
-                    Group("x500v2_power_module", "Power Module PM06/XT60", "PCB-PM06", "TOU-XT60H-M-14AWG", "X500-TAO-XT60"),
-                    Group("x500v2_pixhawk6c", "Pixhawk 6C Autopilot", "DIKE-PIXHAWK6C-LV-C1", "IMU-PIXHAWK6C", "MIANKE-PIXHAWK6C-LV-C1", "PCB-PIXHAWK6C-F1", "BM06B-WO"),
+                    Group("x500v2_platform_board", "Platform Board"),
+                    Group("x500v2_rails_battery", "Rail System & Battery Mount", "BATTERY-MOUNTING-PLAT", "BATTERY-PAD", "PYLONS-X500", "CARBON-FIBER-TUBE300", "JIA-GUAN", "HUAN-GUIJIAO", "PLATFORM-PLAT-X500", "ZHIJIA-CAMERA-INTEL", "LIPO", "BATTERY", "BATTERY-STRAP"),
+                    Group("x500v2_pdb", "Power Distribution Board"),
+                    Group("x500v2_power_module", "Power Module PM06/XT60", "PCB-PM06", "BM06B-WO", "TOU-XT60H-M-14AWG", "X500-TAO-XT60"),
+                    Group("x500v2_pixhawk6c", "Pixhawk 6C Autopilot", "DIKE-PIXHAWK6C-LV-C1", "MIANKE-PIXHAWK6C-LV-C1", "PCB-PIXHAWK6C-F1"),
                     Group("x500v2_gps_m10", "Holybro M10 GPS Module", "GAN-GPSV5-ZHIJIA", "GPS-ZHIJIA-ZHUANJIETOU", "GPS-ZHIJIA-ZUO", "GPSV5-ZHIJIA-LUOMAO", "GPSV5-ZHIJIA-TUOPAN"),
                     Group("x500v2_landing_gear", "Landing Gear", "CARBON-FIBER-TUBE", "GUAN-CHENG", "JIAO-EVA", "JIAO-LIANJIE", "JIA-LIANJIE", "MAO-JIAO"),
-                    Group("x500v2_arm", "Arm Assembly Quadrant", "CARBON-FIBER-TUBE300", "HMX5V-DIGAI-DIANJIZUO-MUJU", "HMX5V-GUAN-DINGWEI", "HMX5V-JIBI-JIA-MUJU", "HMX5V-ZUO-DJ-MUJU", "BAN-DJ-DIAN-F2", "JIA-GUAN", "HUAN-GUIJIAO"),
+                    Group("x500v2_arm", "Arm Assembly Quadrant", "HMX5V-DIGAI-DIANJIZUO-MUJU", "HMX5V-GUAN-DINGWEI", "HMX5V-JIBI-JIA-MUJU", "HMX5V-ZUO-DJ-MUJU", "BAN-DJ-DIAN-F2", "PROPELLER", "PROP"),
                     Group("x500v2_motor", "Motor 2216 Quadrant", "DJ-2216-KV880"),
                     Group("x500v2_esc", "ESC Quadrant", "ESC"),
-                    Group("x500v2_prop", "Propeller Quadrant", "PROPELLER", "PROP"),
-                    Group("x500v2_battery", "LiPo Battery", "BATTERY", "BATTERY-STRAP"),
+                    Group("x500v2_prop", "Propeller Quadrant"),
+                    Group("x500v2_battery", "LiPo Battery"),
                     Group("x500v2_rc_receiver", "RC Receiver", "RECEIVER"),
-                    Group("x500v2_telemetry_radio", "Telemetry Radio", "TELEMETRY", "RADIO")
+                    Group("x500v2_telemetry_radio", "Telemetry Radio", "TELEMETRY", "RADIO"),
+                    Group(MiscGroupId, "Misc Group", "GAI-GUANGLIU", "IMU-PIXHAWK6C")
                 }
             };
         }

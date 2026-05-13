@@ -63,9 +63,7 @@ MonoBehaviour:
   screwCount: 4
   screwSize: M3
   subComponentNames:
-  - DJ-2216-KV880 motor instance
-  - 'Fasteners: Socket Cap Screw M2.5 x 12 mm x2'
-  - 'Fasteners: Socket Cap Screw M2.5 x 6 mm x4'
+  - DJ-2216-KV880
   - 'Fasteners: Socket Cap Screw M3 x 6 mm x4'
   fastenerMetadata:
     instanceId: 

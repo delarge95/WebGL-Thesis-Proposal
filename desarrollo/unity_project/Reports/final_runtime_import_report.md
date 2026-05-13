@@ -1,6 +1,6 @@
 # Final Runtime Import Report
 
-Fecha: 2026-05-11 11:22:16
+Fecha: 2026-05-12 19:21:32
 FBX: Assets/Models/x500v2_runtime_low_final.fbx
 FBX sync: FBX de Assets coincide con la fuente externa.
 FBX bytes: 8703308
@@ -25,7 +25,7 @@ Setup runtime: OK
 - Helices renombradas: 4
 - Helices proxy creadas: 0
 - Fasteners renombrados/agrupados: 161
-- ExplodablePart en root activo: 183
+- ExplodablePart en root activo: 177
 - Anchors granulares x500v2_blend_* seleccionables: 0
 - Proxies canonicos temporales: 0
 

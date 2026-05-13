@@ -770,13 +770,15 @@ namespace WebGL.Core.Managers
                 return false;
             }
 
-            if (currentSubSelection != null &&
-                IsFastenerGeometricallyAssociatedWithScope(fastenerTransform, currentSubSelection))
+            FastenerRuntimeMarker marker = ResolveFastenerMarker(fastenerTransform);
+            if (!IsValidFastenerMarker(marker) || string.IsNullOrWhiteSpace(marker.ParentCanonicalPartId))
             {
-                return true;
+                return false;
             }
 
-            return IsFastenerGeometricallyAssociatedWithScope(fastenerTransform, currentFullSelection);
+            string contextCanonicalPartId = ResolveCanonicalPartId(currentFullSelection);
+            HashSet<string> canonicalScopeIds = BuildCanonicalPartScopeIds(contextCanonicalPartId);
+            return SelectionHierarchy.FastenerBelongsToCanonicalScope(marker, canonicalScopeIds);
         }
 
         private static bool IsFastenerGeometricallyAssociatedWithScope(Transform fastenerTransform, Transform scopeTransform)
@@ -868,14 +870,16 @@ namespace WebGL.Core.Managers
                 return;
             }
 
+            HashSet<string> canonicalScopeIds = BuildCanonicalPartScopeIds(canonicalPartId);
+            ApplyAssociatedAssemblyPartHighlights(canonicalPartId);
+
             FastenerRuntimeMarker[] markers = FindObjectsByType<FastenerRuntimeMarker>(FindObjectsSortMode.None);
             for (int i = 0; i < markers.Length; i++)
             {
                 FastenerRuntimeMarker marker = markers[i];
                 if (!IsValidFastenerMarker(marker) ||
                     string.IsNullOrWhiteSpace(marker.ParentCanonicalPartId) ||
-                    (!string.Equals(marker.ParentCanonicalPartId, canonicalPartId, System.StringComparison.OrdinalIgnoreCase) &&
-                     !IsFastenerGeometricallyAssociatedWithScope(marker.transform, selection)))
+                    !SelectionHierarchy.FastenerBelongsToCanonicalScope(marker, canonicalScopeIds))
                 {
                     continue;
                 }
@@ -900,6 +904,62 @@ namespace WebGL.Core.Managers
                 highlight.OnSelect(HighlightSystem.SelectionVisualMode.SoftTint);
                 currentAssociatedHighlights.Add(highlight);
             }
+        }
+
+        private void ApplyAssociatedAssemblyPartHighlights(string canonicalPartId)
+        {
+            HashSet<string> companionIds = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase);
+            SelectionHierarchy.AddAssemblyCompanionCanonicalIds(canonicalPartId, companionIds);
+            if (companionIds.Count == 0)
+            {
+                return;
+            }
+
+            ExplodablePart[] parts = FindObjectsByType<ExplodablePart>(FindObjectsSortMode.None);
+            for (int i = 0; i < parts.Length; i++)
+            {
+                ExplodablePart part = parts[i];
+                if (part == null ||
+                    part.Data == null ||
+                    string.IsNullOrWhiteSpace(part.Data.id) ||
+                    !companionIds.Contains(part.Data.id))
+                {
+                    continue;
+                }
+
+                Transform highlightTarget = ResolveHighlightTarget(part.transform);
+                if (highlightTarget == null)
+                {
+                    continue;
+                }
+
+                HighlightSystem highlight = highlightTarget.GetComponent<HighlightSystem>();
+                if (highlight == null)
+                {
+                    highlight = highlightTarget.gameObject.AddComponent<HighlightSystem>();
+                }
+
+                if (highlight == null || highlight == currentHighlight || currentAssociatedHighlights.Contains(highlight))
+                {
+                    continue;
+                }
+
+                highlight.OnSelect(HighlightSystem.SelectionVisualMode.SoftTint);
+                currentAssociatedHighlights.Add(highlight);
+            }
+        }
+
+        private static HashSet<string> BuildCanonicalPartScopeIds(string canonicalPartId)
+        {
+            HashSet<string> canonicalScopeIds = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase);
+            if (string.IsNullOrWhiteSpace(canonicalPartId))
+            {
+                return canonicalScopeIds;
+            }
+
+            canonicalScopeIds.Add(canonicalPartId);
+            SelectionHierarchy.AddAssemblyCompanionCanonicalIds(canonicalPartId, canonicalScopeIds);
+            return canonicalScopeIds;
         }
 
         private void ClearAssociatedSelectionHighlights()

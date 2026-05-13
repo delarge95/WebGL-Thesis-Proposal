@@ -33,6 +33,7 @@ public static class ImportDroneModel
     private const float TargetRuntimeDominantSize = 10f;
     private const float RuntimeScaleTolerance = 0.08f;
     private const float MaxImporterScaleMultiplier = 1000f;
+    private static readonly Quaternion RuntimeRootRotation = Quaternion.Euler(0f, 90f, 0f);
 
     [MenuItem("Tools/Import Final Runtime Drone Model")]
     public static void ImportFinalRuntimeModel()
@@ -83,7 +84,7 @@ public static class ImportDroneModel
         }
 
         instance.name = RootName;
-        instance.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        instance.transform.SetPositionAndRotation(Vector3.zero, RuntimeRootRotation);
         instance.transform.localScale = Vector3.one;
         PrefabUtility.UnpackPrefabInstance(instance, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
 
@@ -357,7 +358,7 @@ public static class ImportDroneModel
         foreach (Transform candidate in candidates.OrderByDescending(t => GetWorldCenter(t).z).ThenBy(t => GetWorldCenter(t).x))
         {
             Vector3 position = GetWorldCenter(candidate);
-            string suffix = ResolveQuadrantSuffix(position, center);
+            string suffix = ResolvePropellerImportSuffix(ResolveQuadrantSuffix(position, center));
             suffixCounts.TryGetValue(suffix, out int count);
             suffixCounts[suffix] = count + 1;
 
@@ -399,7 +400,7 @@ public static class ImportDroneModel
                      .Take(4))
         {
             Vector3 position = GetWorldCenter(motor);
-            string suffix = ResolveQuadrantSuffix(position, center);
+            string suffix = ResolvePropellerImportSuffix(ResolveQuadrantSuffix(position, center));
             string propellerName = $"x500v2_prop_{suffix}";
             if (!usedNames.Add(propellerName) || root.Find(propellerName) != null)
             {
@@ -565,6 +566,18 @@ public static class ImportDroneModel
         string side = position.x < center.x ? "L" : "R";
         string frontBack = position.z >= center.z ? "F" : "B";
         return frontBack + side;
+    }
+
+    private static string ResolvePropellerImportSuffix(string resolvedPhysicalSuffix)
+    {
+        return resolvedPhysicalSuffix switch
+        {
+            "FL" => "BL",
+            "BL" => "FL",
+            "FR" => "BR",
+            "BR" => "FR",
+            _ => resolvedPhysicalSuffix
+        };
     }
 
     private static Bounds BuildRendererBounds(Transform root)

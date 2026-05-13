@@ -1,10 +1,10 @@
 {
-  "version": "2026-05-10-selection-hierarchy-v2-runtime-fbx",
+  "version": "2026-05-12-selection-hierarchy-v4-manual-mother-pieces",
   "hotspotGroups": [
     {
       "groupId": "hotspot_power_distribution",
       "label": "Power Distribution",
-      "summary": "PM06/XT60 power routing. PDB is documented but not synthesized when absent from the FBX. Battery rails and GUAN-CHENG are intentionally excluded.",
+      "summary": "PCBA-PM06_ASM plus XT60 power routing. PDB is documented but not synthesized when absent from the FBX. Battery rails and GUAN-CHENG are intentionally excluded.",
       "includeAssociatedFasteners": true,
       "canonicalPartIds": ["x500v2_power_module"]
     },
@@ -25,7 +25,7 @@
     {
       "groupId": "hotspot_propulsion",
       "label": "Propulsion System",
-      "summary": "Four arm assemblies, motors, propellers and associated primitive fasteners. ESCs are documented but not synthesized when absent from the FBX.",
+      "summary": "Four arm assemblies, motors, propellers and associated primitive fasteners. Propellers are included through each arm, not as independent mother pieces.",
       "includeAssociatedFasteners": true,
       "canonicalPartIds": [
         "x500v2_arm_FL",
@@ -35,26 +35,22 @@
         "x500v2_motor_FL",
         "x500v2_motor_FR",
         "x500v2_motor_BL",
-        "x500v2_motor_BR",
-        "x500v2_prop_FL",
-        "x500v2_prop_FR",
-        "x500v2_prop_BL",
-        "x500v2_prop_BR"
+        "x500v2_motor_BR"
       ]
     },
     {
       "groupId": "hotspot_battery",
       "label": "Battery",
-      "summary": "Battery plus rail and mounting system.",
+      "summary": "Rail, mount and LiPo support system. The LiPo is included here, not as an independent mother piece.",
       "includeAssociatedFasteners": true,
-      "canonicalPartIds": ["x500v2_battery", "x500v2_rails_battery"]
+      "canonicalPartIds": ["x500v2_rails_battery"]
     }
   ],
   "canonicalGroups": [
     {
       "canonicalPartId": "x500v2_bottom_plate",
       "displayName": "Carbon Fiber Bottom Plate",
-      "subpieceNames": ["BOTTOM-PLATE-X500-V5", "GAI-GUANGLIU", "ZHIJIA-CAMERA-INTEL"]
+      "subpieceNames": ["BOTTOM-PLATE-X500-V5"]
     },
     {
       "canonicalPartId": "x500v2_top_plate",
@@ -64,27 +60,27 @@
     {
       "canonicalPartId": "x500v2_platform_board",
       "displayName": "Platform Board",
-      "subpieceNames": ["PLATFORM-PLAT-X500"]
+      "subpieceNames": []
     },
     {
       "canonicalPartId": "x500v2_rails_battery",
       "displayName": "Rail System & Battery Mount",
-      "subpieceNames": ["BATTERY-MOUNTING-PLAT", "BATTERY-PAD", "PYLONS-X500"]
+      "subpieceNames": ["BATTERY-MOUNTING-PLAT", "BATTERY-PAD", "PYLONS-X500", "CARBON-FIBER-TUBE300", "JIA-GUAN", "HUAN-GUIJIAO", "PLATFORM-PLAT-X500", "ZHIJIA-CAMERA-INTEL", "LIPO", "BATTERY", "BATTERY-STRAP"]
     },
     {
       "canonicalPartId": "x500v2_pdb",
       "displayName": "Power Distribution Board",
-      "subpieceNames": ["PDB"]
+      "subpieceNames": []
     },
     {
       "canonicalPartId": "x500v2_power_module",
       "displayName": "Power Module PM06/XT60",
-      "subpieceNames": ["PCB-PM06", "TOU-XT60H-M-14AWG", "X500-TAO-XT60"]
+      "subpieceNames": ["PCB-PM06", "BM06B-WO", "TOU-XT60H-M-14AWG", "X500-TAO-XT60"]
     },
     {
       "canonicalPartId": "x500v2_pixhawk6c",
       "displayName": "Pixhawk 6C Autopilot",
-      "subpieceNames": ["DIKE-PIXHAWK6C-LV-C1", "IMU-PIXHAWK6C", "MIANKE-PIXHAWK6C-LV-C1", "PCB-PIXHAWK6C-F1", "BM06B-WO"]
+      "subpieceNames": ["DIKE-PIXHAWK6C-LV-C1", "MIANKE-PIXHAWK6C-LV-C1", "PCB-PIXHAWK6C-F1"]
     },
     {
       "canonicalPartId": "x500v2_gps_m10",
@@ -99,7 +95,7 @@
     {
       "canonicalPartId": "x500v2_arm",
       "displayName": "Arm Assembly Quadrant",
-      "subpieceNames": ["CARBON-FIBER-TUBE300", "HMX5V-DIGAI-DIANJIZUO-MUJU", "HMX5V-GUAN-DINGWEI", "HMX5V-JIBI-JIA-MUJU", "HMX5V-ZUO-DJ-MUJU", "BAN-DJ-DIAN-F2", "JIA-GUAN", "HUAN-GUIJIAO"]
+      "subpieceNames": ["HMX5V-DIGAI-DIANJIZUO-MUJU", "HMX5V-GUAN-DINGWEI", "HMX5V-JIBI-JIA-MUJU", "HMX5V-ZUO-DJ-MUJU", "BAN-DJ-DIAN-F2", "PROPELLER", "PROP"]
     },
     {
       "canonicalPartId": "x500v2_motor",
@@ -114,12 +110,17 @@
     {
       "canonicalPartId": "x500v2_prop",
       "displayName": "Propeller Quadrant",
-      "subpieceNames": ["PROPELLER", "PROP"]
+      "subpieceNames": []
     },
     {
       "canonicalPartId": "x500v2_battery",
       "displayName": "LiPo Battery",
-      "subpieceNames": ["BATTERY", "BATTERY-STRAP"]
+      "subpieceNames": []
+    },
+    {
+      "canonicalPartId": "x500v2_misc_group",
+      "displayName": "Misc Group",
+      "subpieceNames": ["GAI-GUANGLIU", "IMU-PIXHAWK6C"]
     },
     {
       "canonicalPartId": "x500v2_rc_receiver",

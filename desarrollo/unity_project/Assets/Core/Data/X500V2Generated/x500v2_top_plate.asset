@@ -69,6 +69,7 @@ MonoBehaviour:
   screwSize: M3
   subComponentNames:
   - TOP-PLATE-X500-V5
+  - 'Shared Fasteners: Socket Cap Screw M3 x 38 mm x16'
   fastenerMetadata:
     instanceId: 
     familyId: 

@@ -65,7 +65,7 @@ MonoBehaviour:
     sourceId: x500v2_blend_zslm_m25
     sceneObjectName: x500v2_fastener.self_lock_nut_M25_002
     hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.self_lock_nut_M25_002
-    parentCanonicalPartId: x500v2_platform_board
+    parentCanonicalPartId: x500v2_rails_battery
     blenderName: ZSLM-M25
     sceneTypeKey: self_lock_nut_M25
     subtype: CapNut

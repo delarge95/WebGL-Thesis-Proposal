@@ -1255,7 +1255,7 @@
 
 ### Fixed
 
-- `GUAN-CHENG` ya no entra en `Power Distribution`; pertenece al grupo canonico `x500v2_rails_battery`.
+- `GUAN-CHENG` ya no entra en `Power Distribution`; la correccion manual vigente lo ubica en `x500v2_landing_gear`.
 - `HMX5V-GUAN-DINGWEI` deja de tratarse como tornillo por coincidencia de nombre; `GPSV5-ZHIJIA-LUOMAO` y `HUAN-GUIJIAO` quedan reservados para clasificacion explicita de tuerca/grommet cuando el catalogo Holybro lo confirme.
 - El primer click sobre un fastener selecciona su pieza madre; el segundo click dentro del contexto selecciona el fastener aislable.
 - `HotspotManager` ya no usa tokens amplios como `m2`, `m3`, `nut` o `screw` para decidir si un miembro debe tratarse como fastener.
@@ -1620,7 +1620,7 @@
 - Los motores dejan de depender solo del sufijo de instancia para elegir brazo de arrastre.
 - `HMX5V-JIBI-JIA-MUJU.001` y `.005` bajan explicitamente.
 - `JIA-GUAN` y rubber/grommets dejan de recibir correccion radial temprana que producia zigzag.
-- `GUAN-CHENG` y el sistema de rails/battery mount salen predominantemente hacia abajo.
+- `GUAN-CHENG` sale como parte de `x500v2_landing_gear`; el sistema de rails/battery mount mantiene su salida descendente propia.
 - `HMX5V-ZUO-DJ-MUJU`, `HMX5V-DIGAI-DIANJIZUO-MUJU`, `HMX5V-JIBI-JIA-MUJU`, `BAN-DJ-DIAN-F2`, `JIA-GUAN` y `HMX5V-GUAN-DINGWEI` reciben offsets de desmontaje acordes a su rol fisico en el brazo.
 
 ### Documentation
@@ -1663,3 +1663,119 @@
 ### Verification Pending
 
 - Validacion visual en Unity Play Mode: confirmar que la pose final no deje `BAN-DJ-DIAN-F2` pegada al motor y que `GUAN-CHENG`/rubber grommets sigan el recorrido esperado.
+
+## [Unreleased] - 2026-05-12 A
+
+### Changed
+
+- `SelectionHierarchy` incorpora companeros de ensamblaje para que `x500v2_arm_*` pueda incluir visualmente `x500v2_motor_*` y `x500v2_prop_*` sin perder la identidad independiente de motor/helice.
+- `holybro_selection_hierarchy.json` elimina `CARBON-FIBER-TUBE300`, `JIA-GUAN` y `HUAN-GUIJIAO` del grupo `x500v2_arm`, segun la jerarquia STEP revisada en Blender.
+- `holybro_parent_subpieces.json` y los assets `x500v2_arm_*` reflejan brazos HMX5V con motor/helice como componentes asociados.
+- La resolucion de cuadrantes por instancia HMX5V corrige el intercambio observado entre `front-left` y `back-right`.
+
+### Fixed
+
+- Seleccionar/aislar un brazo ya no depende de incluir tubos largos, grommets o `JIA-GUAN` como subpiezas del HMX5V.
+- El highlight y aislamiento de pieza madre puede incluir motor/helice asociados al brazo, junto con fasteners relacionados.
+- `HUAN-GUIJIAO` y rubber grommets dejan de ser forzados por el reparador runtime hacia `x500v2_arm_*`.
+
+### Documentation
+
+- `BITACORA.md`, `holybro_selection_hierarchy.json`, `holybro_parent_subpieces.json` y `holybro_runtime_selection_mapping.md` documentan la revision STEP/MCP y el criterio aplicado.
+
+### Verified
+
+- `dotnet build E:\WebGL_tesis\desarrollo\unity_project\Core.Player.csproj -nologo -m:1` sin errores.
+
+### Verification Pending
+
+- Reimportar en Unity y validar visualmente cada cuadrante: par `HMX5V-JIBI-JIA-MUJU`, `HMX5V-GUAN-DINGWEI`, `BAN-DJ-DIAN-F2`, motor, helice y fasteners.
+## [Unreleased] - 2026-05-12 B
+
+### Changed
+- Alineada la jerarquia de seleccion con los empties STEP importados en Blender.
+- `BM06B-WO` pasa de Pixhawk a `x500v2_power_module` por pertenecer a `PCBA-PM06_ASM`.
+- `JIA-GUAN`, `HUAN-GUIJIAO` y `CARBON-FIBER-TUBE300` pasan a `x500v2_rails_battery`; `GUAN-CHENG` queda en `x500v2_landing_gear`.
+
+### Fixed
+- Reducida la dependencia de heuristicas por nombre que mezclaban rails, tren de aterrizaje y brazos.
+- Actualizados fallbacks runtime/editor para evitar que una reimportacion regenere agrupaciones antiguas.
+
+### Verification
+- Pendiente reimportacion y QA visual en Unity.
+
+## [Unreleased] - 2026-05-12 C
+
+### Changed
+- `PLATFORM-PLAT-X500` y la LiPo se integran en `x500v2_rails_battery`; dejan de prepararse como piezas madre independientes.
+- `x500v2_prop_*` deja de prepararse como pieza madre independiente y pasa a resolverse como subpieza de `x500v2_arm_*`.
+- `x500v2_pixhawk6c` queda restringido a tapa/base/PCB Pixhawk; `IMU-PIXHAWK6C` pasa a `x500v2_misc_group`.
+- El catalogo de fasteners aplica reglas manuales por tipo e indice para bottom plate, rails, brazos, motores, GPS, power module y fasteners pendientes.
+
+### Fixed
+- Evitada la regeneracion de madres antiguas (`platform_board`, `battery`, `prop_*`) durante reimportacion.
+- `holybro_parent_subpieces.json` y `holybro_runtime_selection_mapping.md` se regeneran desde la jerarquia vigente y el catalogo de fasteners corregido.
+
+### Verification
+- Validacion JSON correcta para jerarquia, fasteners y parent/subpieces.
+- Pendiente ejecutar `Tools -> Import Final Runtime Drone Model` y QA visual de capas.
+
+## [Unreleased] - 2026-05-12 D
+
+### Changed
+- La importacion final instancia `x500v2_Drone` con rotacion inicial de 90 grados en Y global para alinear el frente fisico definido por `ZHIJIA-CAMERA-INTEL`.
+- `ZHIJIA-CAMERA-INTEL` queda dentro de `x500v2_rails_battery` en jerarquia, fallbacks runtime/editor, assets generados y documentacion.
+- `holybro_parent_subpieces.json`, `holybro_runtime_selection_mapping.md` y `X500V2Generated` se resincronizan desde la jerarquia y los fasteners corregidos.
+
+### Fixed
+- `x500v2_pixhawk6c` queda sin fasteners asociados.
+- Bottom plate, rails/battery mount y landing gear dejan de arrastrar fasteners explicitamente removidos por correccion manual.
+- Seleccion/aislamiento ya no asocia fasteners por cercania si el `parentCanonicalPartId` del fastener no pertenece al contexto canonico activo.
+
+### Verification
+- Validacion automatica de reglas de agrupacion critica: OK.
+- `dotnet build E:\WebGL_tesis\desarrollo\unity_project\Assembly-CSharp.csproj -nologo -p:BuildProjectReferences=false` sin errores.
+- `dotnet build E:\WebGL_tesis\desarrollo\unity_project\Core.Player.csproj -nologo -m:1 -p:BuildProjectReferences=false` sin errores.
+
+### Verification Pending
+- Reimportar en Unity y validar visualmente orientacion frontal, capas de `x500v2_rails_battery`, `x500v2_bottom_plate`, `x500v2_landing_gear` y fasteners pendientes en `x500v2_fastener_group`.
+
+## [Unreleased] - 2026-05-12 E
+
+### Changed
+- Los M3x38/flange nut conservan prioridad por brazo, pero top/bottom usan reglas compartidas explicitas para seleccion, highlight e isolate.
+- `cap_screw_M25x10` se asigna por brazo: FL 001-002, FR 003-004, BR 005-006, BL 007-008.
+- La normalizacion de propellers compensa el naming cruzado del FBX al importar; despues de importar la relacion contextual queda por mismo cuadrante canonico.
+
+### Fixed
+- `x500v2_top_plate` vuelve a incluir todos los `cap_screw_M3x38` durante seleccion/aislamiento.
+- `x500v2_bottom_plate` vuelve a incluir todos los `cap_screw_M3x38` y todas las `flange_nut_M3` conectadas.
+- Los brazos recuperan los dos `cap_screw_M25x10` faltantes y dejan de arrastrar el propeller del cuadrante logico incorrecto.
+
+### Verification
+- `dotnet build E:\WebGL_tesis\desarrollo\unity_project\Assembly-CSharp.csproj -nologo -p:BuildProjectReferences=false` sin errores.
+- `dotnet build E:\WebGL_tesis\desarrollo\unity_project\Core.Player.csproj -nologo -m:1 -p:BuildProjectReferences=false` sin errores.
+
+## [Unreleased] - 2026-05-12 F
+
+### Changed
+- `cap_screw_M3x6` queda corregido por motor: FL 001-004, FR 005-008, BR 009-012 y BL 013-016.
+- `countersunk_M3x16_001-002` pasa a `x500v2_rails_battery` y se retira de prioridad bottom plate.
+- `cap_screw_M3x8_001-012`, `cap_screw_M3x25_001-002` y `lock_nut_M3_001/008` pasan a `x500v2_landing_gear`.
+- `lock_nut_M3_009-012` pasa a `x500v2_power_module`.
+
+### Fixed
+- Los brazos ya no intercambian helices entre front/back.
+- `x500v2_bottom_plate` incluye como fasteners contextuales compartidos `cap_screw_M3x8_005-012`, `pan_head_M3x14_001-004` y `nylon_standoff_M3x5_001-004`, sin robar prioridad a landing gear/power module.
+
+### Verification
+- Validacion automatica de parents y reglas compartidas: OK.
+- `dotnet build E:\WebGL_tesis\desarrollo\unity_project\Assembly-CSharp.csproj -nologo -p:BuildProjectReferences=false` sin errores.
+- `dotnet build E:\WebGL_tesis\desarrollo\unity_project\Core.Player.csproj -nologo -m:1 -p:BuildProjectReferences=false` sin errores.
+
+## [Unreleased] - 2026-05-12 G
+
+### Fixed
+- Se movio la compensacion de propellers cruzados al importador: `NormalizePropellers` intercambia FL<->BL y FR<->BR antes de renombrar.
+- La seleccion de brazos queda directa tras reimportar: `arm_FL -> prop_FL`, `arm_BL -> prop_BL`, `arm_FR -> prop_FR`, `arm_BR -> prop_BR`.
+- No se tocaron reglas de fasteners ni piezas madre.

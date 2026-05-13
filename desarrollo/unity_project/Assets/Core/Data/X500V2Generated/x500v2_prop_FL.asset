@@ -64,8 +64,7 @@ MonoBehaviour:
   - Nut (self-locking)
   screwCount: 1
   screwSize: 
-  subComponentNames:
-  - Propeller proxy
+  subComponentNames: []
   fastenerMetadata:
     instanceId: 
     familyId: 

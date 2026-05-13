@@ -1,55 +1,39 @@
 ﻿{
     "sourceScene":  "Assets/Scenes/MainScene_Final.unity",
-    "sourceCatalog":  "holybro_fastener_instances.json + x500v2_subpiece_encapsulation_map.md",
-    "generatedAtUtc":  "2026-04-13T20:45:29.3801648Z",
+    "sourceCatalog":  "holybro_selection_hierarchy.json + holybro_fastener_instances.json",
+    "generatedAtUtc":  "2026-05-12T23:40:15.8829625Z",
     "items":  [
                   {
                       "parentCanonicalPartId":  "x500v2_bottom_plate",
                       "documentedSubpieces":  [
-                                                  "BOTTOM-PLATE-X500-V5",
-                                                  "GAI-GUANGLIU",
-                                                  "ZHIJIA-CAMERA-INTEL"
+                                                  "BOTTOM-PLATE-X500-V5"
                                               ],
                       "configuredSubpieces":  [
                                                   "BOTTOM-PLATE-X500-V5",
-                                                  "GAI-GUANGLIU",
-                                                  "ZHIJIA-CAMERA-INTEL",
-                                                  "Fasteners: Socket Cap Screw M3 x 25 mm x2",
-                                                  "Fasteners: Socket Cap Screw M3 x 8 mm x2",
-                                                  "Fasteners: Flange Nut M3 x2",
-                                                  "Fasteners: Cap Nut M3 x1",
-                                                  "Fasteners: Rubber Grommet x2"
+                                                  "Fasteners: Socket Cap Screw M2.5 x 6 mm x8",
+                                                  "Fasteners: NylocNut M3 x1",
+                                                  "Shared Fasteners: Socket Cap Screw M3 x 38 mm x16",
+                                                  "Shared Fasteners: Flange Nut M3 x16",
+                                                  "Shared Fasteners: Socket Cap Screw M3 x 8 mm x8",
+                                                  "Shared Fasteners: Pan Head Screw M3 x 14 mm x4",
+                                                  "Shared Fasteners: Nylon Standoff M3 x 5 mm x4"
                                               ],
                       "fastenerFamilies":  [
                                                {
-                                                   "familyId":  "holybro_cap_screw_m3x25",
-                                                   "displayName":  "Socket Cap Screw M3 x 25 mm",
-                                                   "quantity":  2
+                                                   "familyId":  "holybro_cap_screw_m25x6",
+                                                   "displayName":  "Socket Cap Screw M2.5 x 6 mm",
+                                                   "quantity":  8
                                                },
                                                {
-                                                   "familyId":  "holybro_cap_screw_m3x8",
-                                                   "displayName":  "Socket Cap Screw M3 x 8 mm",
-                                                   "quantity":  2
-                                               },
-                                               {
-                                                   "familyId":  "holybro_flange_nut_m3",
-                                                   "displayName":  "Flange Nut M3",
-                                                   "quantity":  2
-                                               },
-                                               {
-                                                   "familyId":  "holybro_lock_nut_m3",
-                                                   "displayName":  "Cap Nut M3",
+                                                   "familyId":  "holybro_nylon_lock_nut_m3",
+                                                   "displayName":  "NylocNut M3",
                                                    "quantity":  1
-                                               },
-                                               {
-                                                   "familyId":  "holybro_rubber_grommet",
-                                                   "displayName":  "Rubber Grommet",
-                                                   "quantity":  2
                                                }
                                            ],
                       "totalFasteners":  9,
                       "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
+                                    "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only.",
+                                    "Shared-context rule: all M3x38 screws and connected M3 flange nuts are included when selecting/isolation bottom plate, while their priority parent remains the corresponding arm."
                                 ]
                   },
                   {
@@ -58,31 +42,64 @@
                                                   "TOP-PLATE-X500-V5"
                                               ],
                       "configuredSubpieces":  [
-                                                  "TOP-PLATE-X500-V5"
+                                                  "TOP-PLATE-X500-V5",
+                                                  "Shared Fasteners: Socket Cap Screw M3 x 38 mm x16"
                                               ],
                       "fastenerFamilies":  [
 
                                            ],
                       "totalFasteners":  0,
                       "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
+                                    "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only.",
+                                    "Shared-context rule: all M3x38 screws are included when selecting/isolation top plate, while their priority parent remains the corresponding arm."
                                 ]
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_platform_board",
                       "documentedSubpieces":  [
-                                                  "PLATFORM-PLAT-X500"
+
                                               ],
                       "configuredSubpieces":  [
+
+                                              ],
+                      "fastenerFamilies":  [
+
+                                           ],
+                      "totalFasteners":  0,
+                      "notes":  "Merged into x500v2_rails_battery by manual correction 2026-05-12; no independent mother-piece anchor should be synthesized."
+                  },
+                  {
+                      "parentCanonicalPartId":  "x500v2_rails_battery",
+                      "documentedSubpieces":  [
+                                                  "BATTERY-MOUNTING-PLAT",
+                                                  "BATTERY-PAD",
+                                                  "PYLONS-X500",
+                                                  "CARBON-FIBER-TUBE300",
+                                                  "JIA-GUAN",
+                                                  "HUAN-GUIJIAO",
                                                   "PLATFORM-PLAT-X500",
+                                                  "ZHIJIA-CAMERA-INTEL",
+                                                  "LIPO",
+                                                  "BATTERY",
+                                                  "BATTERY-STRAP"
+                                              ],
+                      "configuredSubpieces":  [
+                                                  "BATTERY-MOUNTING-PLAT",
+                                                  "BATTERY-PAD",
+                                                  "PYLONS-X500",
+                                                  "CARBON-FIBER-TUBE300",
+                                                  "JIA-GUAN",
+                                                  "HUAN-GUIJIAO",
+                                                  "PLATFORM-PLAT-X500",
+                                                  "ZHIJIA-CAMERA-INTEL",
+                                                  "LIPO",
+                                                  "BATTERY",
+                                                  "BATTERY-STRAP",
                                                   "Fasteners: Socket Cap Screw M2.5 x 12 mm x4",
-                                                  "Fasteners: Countersunk Screw M2.5 x 6 mm x8",
-                                                  "Fasteners: Flange Nut M3 x2",
-                                                  "Fasteners: Standoff M2.5 x 5 mm x4",
-                                                  "Fasteners: Pan Head Screw M3 x 10 mm x4",
-                                                  "Fasteners: Rubber Grommet x4",
-                                                  "Fasteners: Cap Nut M2.5 x4",
-                                                  "Fasteners: Cap Nut M3 x4"
+                                                  "Fasteners: Countersunk Screw M2.5 x 6 mm x12",
+                                                  "Fasteners: Countersunk Screw M3 x 16 mm x2",
+                                                  "Fasteners: Nylon Standoff M2.5 x 5 mm x4",
+                                                  "Fasteners: Self-lock Nut M2.5 x4"
                                               ],
                       "fastenerFamilies":  [
                                                {
@@ -93,177 +110,95 @@
                                                {
                                                    "familyId":  "holybro_countersunk_m25x6",
                                                    "displayName":  "Countersunk Screw M2.5 x 6 mm",
-                                                   "quantity":  8
+                                                   "quantity":  12
                                                },
                                                {
-                                                   "familyId":  "holybro_flange_nut_m3",
-                                                   "displayName":  "Flange Nut M3",
+                                                   "familyId":  "holybro_countersunk_m3x16",
+                                                   "displayName":  "Countersunk Screw M3 x 16 mm",
                                                    "quantity":  2
                                                },
                                                {
                                                    "familyId":  "holybro_nylon_standoff_m25x5",
-                                                   "displayName":  "Standoff M2.5 x 5 mm",
-                                                   "quantity":  4
-                                               },
-                                               {
-                                                   "familyId":  "holybro_pan_head_m3x10",
-                                                   "displayName":  "Pan Head Screw M3 x 10 mm",
-                                                   "quantity":  4
-                                               },
-                                               {
-                                                   "familyId":  "holybro_rubber_grommet",
-                                                   "displayName":  "Rubber Grommet",
+                                                   "displayName":  "Nylon Standoff M2.5 x 5 mm",
                                                    "quantity":  4
                                                },
                                                {
                                                    "familyId":  "holybro_self_lock_nut_m25",
-                                                   "displayName":  "Cap Nut M2.5",
-                                                   "quantity":  4
-                                               },
-                                               {
-                                                   "familyId":  "holybro_self_lock_nut_m3",
-                                                   "displayName":  "Cap Nut M3",
+                                                   "displayName":  "Self-lock Nut M2.5",
                                                    "quantity":  4
                                                }
                                            ],
-                      "totalFasteners":  34,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  26,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
-                      "parentCanonicalPartId":  "x500v2_rails_battery",
+                      "parentCanonicalPartId":  "x500v2_pdb",
                       "documentedSubpieces":  [
-                                                  "BATTERY-MOUNTING-PLAT",
-                                                  "BATTERY-PAD",
-                                                  "PYLONS-X500",
-                                                  "GUAN-CHENG"
+
                                               ],
                       "configuredSubpieces":  [
-                                                  "BATTERY-MOUNTING-PLAT",
-                                                  "BATTERY-PAD",
-                                                  "PYLONS-X500",
-                                                  "GUAN-CHENG"
+
                                               ],
                       "fastenerFamilies":  [
 
                                            ],
                       "totalFasteners":  0,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
-                  },
-                  {
-                      "parentCanonicalPartId":  "x500v2_pdb",
-                      "documentedSubpieces":  [
-                                                  "PDB placeholder (temporary scene)"
-                                              ],
-                      "configuredSubpieces":  [
-                                                  "PDB placeholder (temporary scene)",
-                                                  "Fasteners: Standoff M3 x 5 mm x2",
-                                                  "Fasteners: Pan Head Screw M3 x 14 mm x2",
-                                                  "Fasteners: Cap Nut M3 x2"
-                                              ],
-                      "fastenerFamilies":  [
-                                               {
-                                                   "familyId":  "holybro_nylon_standoff_m3x5",
-                                                   "displayName":  "Standoff M3 x 5 mm",
-                                                   "quantity":  2
-                                               },
-                                               {
-                                                   "familyId":  "holybro_pan_head_m3x14",
-                                                   "displayName":  "Pan Head Screw M3 x 14 mm",
-                                                   "quantity":  2
-                                               },
-                                               {
-                                                   "familyId":  "holybro_self_lock_nut_m3",
-                                                   "displayName":  "Cap Nut M3",
-                                                   "quantity":  2
-                                               }
-                                           ],
-                      "totalFasteners":  6,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "notes":  "No physical PDB geometry in the current Blender export; no runtime proxy should be synthesized."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_power_module",
                       "documentedSubpieces":  [
                                                   "PCB-PM06",
+                                                  "BM06B-WO",
                                                   "TOU-XT60H-M-14AWG",
                                                   "X500-TAO-XT60"
                                               ],
                       "configuredSubpieces":  [
                                                   "PCB-PM06",
+                                                  "BM06B-WO",
                                                   "TOU-XT60H-M-14AWG",
                                                   "X500-TAO-XT60",
-                                                  "Fasteners: Socket Cap Screw M2.5 x 6 mm x4",
-                                                  "Fasteners: Socket Cap Screw M3 x 8 mm x2",
-                                                  "Fasteners: Standoff M3 x 5 mm x2",
-                                                  "Fasteners: Pan Head Screw M3 x 14 mm x2",
-                                                  "Fasteners: Rubber Grommet x2",
-                                                  "Fasteners: Cap Nut M3 x2"
+                                                  "Fasteners: CapNut M3 x4",
+                                                  "Fasteners: Nylon Standoff M3 x 5 mm x4",
+                                                  "Fasteners: Pan Head Screw M3 x 14 mm x4"
                                               ],
                       "fastenerFamilies":  [
                                                {
-                                                   "familyId":  "holybro_cap_screw_m25x6",
-                                                   "displayName":  "Socket Cap Screw M2.5 x 6 mm",
+                                                   "familyId":  "holybro_lock_nut_m3",
+                                                   "displayName":  "CapNut M3",
                                                    "quantity":  4
                                                },
                                                {
-                                                   "familyId":  "holybro_cap_screw_m3x8",
-                                                   "displayName":  "Socket Cap Screw M3 x 8 mm",
-                                                   "quantity":  2
-                                               },
-                                               {
                                                    "familyId":  "holybro_nylon_standoff_m3x5",
-                                                   "displayName":  "Standoff M3 x 5 mm",
-                                                   "quantity":  2
+                                                   "displayName":  "Nylon Standoff M3 x 5 mm",
+                                                   "quantity":  4
                                                },
                                                {
                                                    "familyId":  "holybro_pan_head_m3x14",
                                                    "displayName":  "Pan Head Screw M3 x 14 mm",
-                                                   "quantity":  2
-                                               },
-                                               {
-                                                   "familyId":  "holybro_rubber_grommet",
-                                                   "displayName":  "Rubber Grommet",
-                                                   "quantity":  2
-                                               },
-                                               {
-                                                   "familyId":  "holybro_self_lock_nut_m3",
-                                                   "displayName":  "Cap Nut M3",
-                                                   "quantity":  2
+                                                   "quantity":  4
                                                }
                                            ],
-                      "totalFasteners":  14,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  12,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_pixhawk6c",
                       "documentedSubpieces":  [
                                                   "DIKE-PIXHAWK6C-LV-C1",
-                                                  "IMU-PIXHAWK6C",
                                                   "MIANKE-PIXHAWK6C-LV-C1",
-                                                  "PCB-PIXHAWK6C-F1",
-                                                  "BM06B-WO"
+                                                  "PCB-PIXHAWK6C-F1"
                                               ],
                       "configuredSubpieces":  [
                                                   "DIKE-PIXHAWK6C-LV-C1",
-                                                  "IMU-PIXHAWK6C",
                                                   "MIANKE-PIXHAWK6C-LV-C1",
-                                                  "PCB-PIXHAWK6C-F1",
-                                                  "BM06B-WO"
+                                                  "PCB-PIXHAWK6C-F1"
                                               ],
                       "fastenerFamilies":  [
 
                                            ],
                       "totalFasteners":  0,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_gps_m10",
@@ -271,60 +206,122 @@
                                                   "GAN-GPSV5-ZHIJIA",
                                                   "GPS-ZHIJIA-ZHUANJIETOU",
                                                   "GPS-ZHIJIA-ZUO",
+                                                  "GPSV5-ZHIJIA-LUOMAO",
                                                   "GPSV5-ZHIJIA-TUOPAN"
                                               ],
                       "configuredSubpieces":  [
                                                   "GAN-GPSV5-ZHIJIA",
                                                   "GPS-ZHIJIA-ZHUANJIETOU",
                                                   "GPS-ZHIJIA-ZUO",
+                                                  "GPSV5-ZHIJIA-LUOMAO",
                                                   "GPSV5-ZHIJIA-TUOPAN",
-                                                  "Fasteners: Cap Nut M3 x1"
+                                                  "Fasteners: CapNut M3 x4",
+                                                  "Fasteners: Pan Head Screw M3 x 10 mm x4"
                                               ],
                       "fastenerFamilies":  [
                                                {
                                                    "familyId":  "holybro_lock_nut_m3",
-                                                   "displayName":  "Cap Nut M3",
-                                                   "quantity":  1
+                                                   "displayName":  "CapNut M3",
+                                                   "quantity":  4
+                                               },
+                                               {
+                                                   "familyId":  "holybro_pan_head_m3x10",
+                                                   "displayName":  "Pan Head Screw M3 x 10 mm",
+                                                   "quantity":  4
                                                }
                                            ],
-                      "totalFasteners":  1,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  8,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
-                      "parentCanonicalPartId":  "x500v2_telemetry_radio",
+                      "parentCanonicalPartId":  "x500v2_landing_gear",
                       "documentedSubpieces":  [
-                                                  "Telemetry radio proxy"
+                                                  "CARBON-FIBER-TUBE",
+                                                  "GUAN-CHENG",
+                                                  "JIAO-EVA",
+                                                  "JIAO-LIANJIE",
+                                                  "JIA-LIANJIE",
+                                                  "MAO-JIAO"
                                               ],
                       "configuredSubpieces":  [
-                                                  "Telemetry radio proxy",
-                                                  "Fasteners: Socket Cap Screw M3 x 38 mm x2"
+                                                  "CARBON-FIBER-TUBE",
+                                                  "GUAN-CHENG",
+                                                  "JIAO-EVA",
+                                                  "JIAO-LIANJIE",
+                                                  "JIA-LIANJIE",
+                                                  "MAO-JIAO",
+                                                  "Fasteners: holybro_cap_screw_m3x21 x2",
+                                                  "Fasteners: Socket Cap Screw M3 x 25 mm x2",
+                                                  "Fasteners: Socket Cap Screw M3 x 8 mm x12",
+                                                  "Fasteners: CapNut M3 x8",
+                                                  "Fasteners: NylocNut M3 x1"
                                               ],
                       "fastenerFamilies":  [
                                                {
-                                                   "familyId":  "holybro_cap_screw_m3x38",
-                                                   "displayName":  "Socket Cap Screw M3 x 38 mm",
+                                                   "familyId":  "holybro_cap_screw_m3x21",
+                                                   "displayName":  "holybro_cap_screw_m3x21",
                                                    "quantity":  2
+                                               },
+                                               {
+                                                   "familyId":  "holybro_cap_screw_m3x25",
+                                                   "displayName":  "Socket Cap Screw M3 x 25 mm",
+                                                   "quantity":  2
+                                               },
+                                               {
+                                                   "familyId":  "holybro_cap_screw_m3x8",
+                                                   "displayName":  "Socket Cap Screw M3 x 8 mm",
+                                                   "quantity":  12
+                                               },
+                                               {
+                                                   "familyId":  "holybro_lock_nut_m3",
+                                                   "displayName":  "CapNut M3",
+                                                   "quantity":  8
+                                               },
+                                               {
+                                                   "familyId":  "holybro_nylon_lock_nut_m3",
+                                                   "displayName":  "NylocNut M3",
+                                                   "quantity":  1
                                                }
                                            ],
-                      "totalFasteners":  2,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  25,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
-                      "parentCanonicalPartId":  "x500v2_rc_receiver",
+                      "parentCanonicalPartId":  "x500v2_arm_FL",
                       "documentedSubpieces":  [
-                                                  "RC receiver proxy"
+                                                  "HMX5V-DIGAI-DIANJIZUO-MUJU",
+                                                  "HMX5V-GUAN-DINGWEI",
+                                                  "HMX5V-JIBI-JIA-MUJU",
+                                                  "HMX5V-ZUO-DJ-MUJU",
+                                                  "BAN-DJ-DIAN-F2",
+                                                  "PROPELLER",
+                                                  "PROP"
                                               ],
                       "configuredSubpieces":  [
-                                                  "RC receiver proxy",
+                                                  "HMX5V-DIGAI-DIANJIZUO-MUJU",
+                                                  "HMX5V-GUAN-DINGWEI",
+                                                  "HMX5V-JIBI-JIA-MUJU",
+                                                  "HMX5V-ZUO-DJ-MUJU",
+                                                  "BAN-DJ-DIAN-F2",
+                                                  "PROPELLER",
+                                                  "PROP",
+                                                  "Fasteners: Socket Cap Screw M2.5 x 10 mm x2",
+                                                  "Fasteners: Socket Cap Screw M2.5 x 12 mm x3",
                                                   "Fasteners: Socket Cap Screw M2.5 x 6 mm x4",
-                                                  "Fasteners: Socket Cap Screw M3 x 38 mm x8",
+                                                  "Fasteners: Socket Cap Screw M3 x 38 mm x4",
                                                   "Fasteners: Flange Nut M3 x4"
                                               ],
                       "fastenerFamilies":  [
+                                               {
+                                                   "familyId":  "holybro_cap_screw_m25x10",
+                                                   "displayName":  "Socket Cap Screw M2.5 x 10 mm",
+                                                   "quantity":  2
+                                               },
+                                               {
+                                                   "familyId":  "holybro_cap_screw_m25x12",
+                                                   "displayName":  "Socket Cap Screw M2.5 x 12 mm",
+                                                   "quantity":  3
+                                               },
                                                {
                                                    "familyId":  "holybro_cap_screw_m25x6",
                                                    "displayName":  "Socket Cap Screw M2.5 x 6 mm",
@@ -333,7 +330,62 @@
                                                {
                                                    "familyId":  "holybro_cap_screw_m3x38",
                                                    "displayName":  "Socket Cap Screw M3 x 38 mm",
-                                                   "quantity":  8
+                                                   "quantity":  4
+                                               },
+                                               {
+                                                   "familyId":  "holybro_flange_nut_m3",
+                                                   "displayName":  "Flange Nut M3",
+                                                   "quantity":  4
+                                               }
+                                           ],
+                      "totalFasteners":  17,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
+                  },
+                  {
+                      "parentCanonicalPartId":  "x500v2_arm_FR",
+                      "documentedSubpieces":  [
+                                                  "HMX5V-DIGAI-DIANJIZUO-MUJU",
+                                                  "HMX5V-GUAN-DINGWEI",
+                                                  "HMX5V-JIBI-JIA-MUJU",
+                                                  "HMX5V-ZUO-DJ-MUJU",
+                                                  "BAN-DJ-DIAN-F2",
+                                                  "PROPELLER",
+                                                  "PROP"
+                                              ],
+                      "configuredSubpieces":  [
+                                                  "HMX5V-DIGAI-DIANJIZUO-MUJU",
+                                                  "HMX5V-GUAN-DINGWEI",
+                                                  "HMX5V-JIBI-JIA-MUJU",
+                                                  "HMX5V-ZUO-DJ-MUJU",
+                                                  "BAN-DJ-DIAN-F2",
+                                                  "PROPELLER",
+                                                  "PROP",
+                                                  "Fasteners: Socket Cap Screw M2.5 x 10 mm x2",
+                                                  "Fasteners: Socket Cap Screw M2.5 x 12 mm x2",
+                                                  "Fasteners: Socket Cap Screw M2.5 x 6 mm x4",
+                                                  "Fasteners: Socket Cap Screw M3 x 38 mm x4",
+                                                  "Fasteners: Flange Nut M3 x4"
+                                              ],
+                      "fastenerFamilies":  [
+                                               {
+                                                   "familyId":  "holybro_cap_screw_m25x10",
+                                                   "displayName":  "Socket Cap Screw M2.5 x 10 mm",
+                                                   "quantity":  2
+                                               },
+                                               {
+                                                   "familyId":  "holybro_cap_screw_m25x12",
+                                                   "displayName":  "Socket Cap Screw M2.5 x 12 mm",
+                                                   "quantity":  2
+                                               },
+                                               {
+                                                   "familyId":  "holybro_cap_screw_m25x6",
+                                                   "displayName":  "Socket Cap Screw M2.5 x 6 mm",
+                                                   "quantity":  4
+                                               },
+                                               {
+                                                   "familyId":  "holybro_cap_screw_m3x38",
+                                                   "displayName":  "Socket Cap Screw M3 x 38 mm",
+                                                   "quantity":  4
                                                },
                                                {
                                                    "familyId":  "holybro_flange_nut_m3",
@@ -342,553 +394,365 @@
                                                }
                                            ],
                       "totalFasteners":  16,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
-                  },
-                  {
-                      "parentCanonicalPartId":  "x500v2_battery",
-                      "documentedSubpieces":  [
-                                                  "Battery proxy",
-                                                  "Battery strap 1 proxy",
-                                                  "Battery strap 2 proxy"
-                                              ],
-                      "configuredSubpieces":  [
-                                                  "Battery proxy",
-                                                  "Battery strap 1 proxy",
-                                                  "Battery strap 2 proxy",
-                                                  "Fasteners: Countersunk Screw M2.5 x 6 mm x4"
-                                              ],
-                      "fastenerFamilies":  [
-                                               {
-                                                   "familyId":  "holybro_countersunk_m25x6",
-                                                   "displayName":  "Countersunk Screw M2.5 x 6 mm",
-                                                   "quantity":  4
-                                               }
-                                           ],
-                      "totalFasteners":  4,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
-                  },
-                  {
-                      "parentCanonicalPartId":  "x500v2_landing_gear",
-                      "documentedSubpieces":  [
-                                                  "CARBON-FIBER-TUBE",
-                                                  "JIAO-EVA",
-                                                  "JIAO-LIANJIE",
-                                                  "MAO-JIAO"
-                                              ],
-                      "configuredSubpieces":  [
-                                                  "CARBON-FIBER-TUBE",
-                                                  "JIAO-EVA",
-                                                  "JIAO-LIANJIE",
-                                                  "MAO-JIAO",
-                                                  "Fasteners: Socket Cap Screw M3 x 21 mm x2",
-                                                  "Fasteners: Socket Cap Screw M3 x 8 mm x4",
-                                                  "Fasteners: Cap Nut M3 x6"
-                                              ],
-                      "fastenerFamilies":  [
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m3x21",
-                                                   "displayName":  "Socket Cap Screw M3 x 21 mm",
-                                                   "quantity":  2
-                                               },
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m3x8",
-                                                   "displayName":  "Socket Cap Screw M3 x 8 mm",
-                                                   "quantity":  4
-                                               },
-                                               {
-                                                   "familyId":  "holybro_lock_nut_m3",
-                                                   "displayName":  "Cap Nut M3",
-                                                   "quantity":  6
-                                               }
-                                           ],
-                      "totalFasteners":  12,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
-                  },
-                  {
-                      "parentCanonicalPartId":  "x500v2_arm_FL",
-                      "documentedSubpieces":  [
-                                                  "CARBON-FIBER-TUBE300",
-                                                  "HMX5V-DIGAI-DIANJIZUO-MUJU",
-                                                  "HMX5V-GUAN-DINGWEI",
-                                                  "HMX5V-JIBI-JIA-MUJU",
-                                                  "HMX5V-ZUO-DJ-MUJU",
-                                                  "BAN-DJ-DIAN-F2"
-                                              ],
-                      "configuredSubpieces":  [
-                                                  "CARBON-FIBER-TUBE300",
-                                                  "HMX5V-DIGAI-DIANJIZUO-MUJU",
-                                                  "HMX5V-GUAN-DINGWEI",
-                                                  "HMX5V-JIBI-JIA-MUJU",
-                                                  "HMX5V-ZUO-DJ-MUJU",
-                                                  "BAN-DJ-DIAN-F2",
-                                                  "Fasteners: Countersunk Screw M3 x 16 mm x1",
-                                                  "Fasteners: Flange Nut M3 x1",
-                                                  "Fasteners: Nyloc Nut M3 x1"
-                                              ],
-                      "fastenerFamilies":  [
-                                               {
-                                                   "familyId":  "holybro_countersunk_m3x16",
-                                                   "displayName":  "Countersunk Screw M3 x 16 mm",
-                                                   "quantity":  1
-                                               },
-                                               {
-                                                   "familyId":  "holybro_flange_nut_m3",
-                                                   "displayName":  "Flange Nut M3",
-                                                   "quantity":  1
-                                               },
-                                               {
-                                                   "familyId":  "holybro_nylon_lock_nut_m3",
-                                                   "displayName":  "Nyloc Nut M3",
-                                                   "quantity":  1
-                                               }
-                                           ],
-                      "totalFasteners":  3,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
-                  },
-                  {
-                      "parentCanonicalPartId":  "x500v2_arm_FR",
-                      "documentedSubpieces":  [
-                                                  "CARBON-FIBER-TUBE300",
-                                                  "HMX5V-DIGAI-DIANJIZUO-MUJU",
-                                                  "HMX5V-GUAN-DINGWEI",
-                                                  "HMX5V-JIBI-JIA-MUJU",
-                                                  "HMX5V-ZUO-DJ-MUJU",
-                                                  "BAN-DJ-DIAN-F2"
-                                              ],
-                      "configuredSubpieces":  [
-                                                  "CARBON-FIBER-TUBE300",
-                                                  "HMX5V-DIGAI-DIANJIZUO-MUJU",
-                                                  "HMX5V-GUAN-DINGWEI",
-                                                  "HMX5V-JIBI-JIA-MUJU",
-                                                  "HMX5V-ZUO-DJ-MUJU",
-                                                  "BAN-DJ-DIAN-F2",
-                                                  "Fasteners: Socket Cap Screw M3 x 38 mm x3",
-                                                  "Fasteners: Socket Cap Screw M3 x 8 mm x2",
-                                                  "Fasteners: Flange Nut M3 x3"
-                                              ],
-                      "fastenerFamilies":  [
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m3x38",
-                                                   "displayName":  "Socket Cap Screw M3 x 38 mm",
-                                                   "quantity":  3
-                                               },
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m3x8",
-                                                   "displayName":  "Socket Cap Screw M3 x 8 mm",
-                                                   "quantity":  2
-                                               },
-                                               {
-                                                   "familyId":  "holybro_flange_nut_m3",
-                                                   "displayName":  "Flange Nut M3",
-                                                   "quantity":  3
-                                               }
-                                           ],
-                      "totalFasteners":  8,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_arm_BL",
                       "documentedSubpieces":  [
-                                                  "CARBON-FIBER-TUBE300",
-                                                  "HMX5V-DIGAI-DIANJIZUO-MUJU",
-                                                  "HMX5V-GUAN-DINGWEI",
-                                                  "HMX5V-JIBI-JIA-MUJU",
-                                                  "HMX5V-ZUO-DJ-MUJU",
-                                                  "BAN-DJ-DIAN-F2"
-                                              ],
-                      "configuredSubpieces":  [
-                                                  "CARBON-FIBER-TUBE300",
                                                   "HMX5V-DIGAI-DIANJIZUO-MUJU",
                                                   "HMX5V-GUAN-DINGWEI",
                                                   "HMX5V-JIBI-JIA-MUJU",
                                                   "HMX5V-ZUO-DJ-MUJU",
                                                   "BAN-DJ-DIAN-F2",
-                                                  "Fasteners: Countersunk Screw M3 x 16 mm x1",
-                                                  "Fasteners: Flange Nut M3 x1",
-                                                  "Fasteners: Nyloc Nut M3 x1"
+                                                  "PROPELLER",
+                                                  "PROP"
+                                              ],
+                      "configuredSubpieces":  [
+                                                  "HMX5V-DIGAI-DIANJIZUO-MUJU",
+                                                  "HMX5V-GUAN-DINGWEI",
+                                                  "HMX5V-JIBI-JIA-MUJU",
+                                                  "HMX5V-ZUO-DJ-MUJU",
+                                                  "BAN-DJ-DIAN-F2",
+                                                  "PROPELLER",
+                                                  "PROP",
+                                                  "Fasteners: Socket Cap Screw M2.5 x 10 mm x2",
+                                                  "Fasteners: Socket Cap Screw M2.5 x 12 mm x2",
+                                                  "Fasteners: Socket Cap Screw M2.5 x 6 mm x4",
+                                                  "Fasteners: Socket Cap Screw M3 x 38 mm x4",
+                                                  "Fasteners: Flange Nut M3 x4"
                                               ],
                       "fastenerFamilies":  [
                                                {
-                                                   "familyId":  "holybro_countersunk_m3x16",
-                                                   "displayName":  "Countersunk Screw M3 x 16 mm",
-                                                   "quantity":  1
+                                                   "familyId":  "holybro_cap_screw_m25x10",
+                                                   "displayName":  "Socket Cap Screw M2.5 x 10 mm",
+                                                   "quantity":  2
+                                               },
+                                               {
+                                                   "familyId":  "holybro_cap_screw_m25x12",
+                                                   "displayName":  "Socket Cap Screw M2.5 x 12 mm",
+                                                   "quantity":  2
+                                               },
+                                               {
+                                                   "familyId":  "holybro_cap_screw_m25x6",
+                                                   "displayName":  "Socket Cap Screw M2.5 x 6 mm",
+                                                   "quantity":  4
+                                               },
+                                               {
+                                                   "familyId":  "holybro_cap_screw_m3x38",
+                                                   "displayName":  "Socket Cap Screw M3 x 38 mm",
+                                                   "quantity":  4
                                                },
                                                {
                                                    "familyId":  "holybro_flange_nut_m3",
                                                    "displayName":  "Flange Nut M3",
-                                                   "quantity":  1
-                                               },
-                                               {
-                                                   "familyId":  "holybro_nylon_lock_nut_m3",
-                                                   "displayName":  "Nyloc Nut M3",
-                                                   "quantity":  1
+                                                   "quantity":  4
                                                }
                                            ],
-                      "totalFasteners":  3,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  16,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_arm_BR",
                       "documentedSubpieces":  [
-                                                  "CARBON-FIBER-TUBE300",
-                                                  "HMX5V-DIGAI-DIANJIZUO-MUJU",
-                                                  "HMX5V-GUAN-DINGWEI",
-                                                  "HMX5V-JIBI-JIA-MUJU",
-                                                  "HMX5V-ZUO-DJ-MUJU",
-                                                  "BAN-DJ-DIAN-F2"
-                                              ],
-                      "configuredSubpieces":  [
-                                                  "CARBON-FIBER-TUBE300",
                                                   "HMX5V-DIGAI-DIANJIZUO-MUJU",
                                                   "HMX5V-GUAN-DINGWEI",
                                                   "HMX5V-JIBI-JIA-MUJU",
                                                   "HMX5V-ZUO-DJ-MUJU",
                                                   "BAN-DJ-DIAN-F2",
-                                                  "Fasteners: Socket Cap Screw M3 x 38 mm x3",
-                                                  "Fasteners: Socket Cap Screw M3 x 8 mm x2",
-                                                  "Fasteners: Flange Nut M3 x3",
-                                                  "Fasteners: Cap Nut M3 x1"
+                                                  "PROPELLER",
+                                                  "PROP"
+                                              ],
+                      "configuredSubpieces":  [
+                                                  "HMX5V-DIGAI-DIANJIZUO-MUJU",
+                                                  "HMX5V-GUAN-DINGWEI",
+                                                  "HMX5V-JIBI-JIA-MUJU",
+                                                  "HMX5V-ZUO-DJ-MUJU",
+                                                  "BAN-DJ-DIAN-F2",
+                                                  "PROPELLER",
+                                                  "PROP",
+                                                  "Fasteners: Socket Cap Screw M2.5 x 10 mm x2",
+                                                  "Fasteners: Socket Cap Screw M2.5 x 12 mm x2",
+                                                  "Fasteners: Socket Cap Screw M2.5 x 6 mm x4",
+                                                  "Fasteners: Socket Cap Screw M3 x 38 mm x4",
+                                                  "Fasteners: Flange Nut M3 x4"
                                               ],
                       "fastenerFamilies":  [
                                                {
-                                                   "familyId":  "holybro_cap_screw_m3x38",
-                                                   "displayName":  "Socket Cap Screw M3 x 38 mm",
-                                                   "quantity":  3
+                                                   "familyId":  "holybro_cap_screw_m25x10",
+                                                   "displayName":  "Socket Cap Screw M2.5 x 10 mm",
+                                                   "quantity":  2
                                                },
                                                {
-                                                   "familyId":  "holybro_cap_screw_m3x8",
-                                                   "displayName":  "Socket Cap Screw M3 x 8 mm",
+                                                   "familyId":  "holybro_cap_screw_m25x12",
+                                                   "displayName":  "Socket Cap Screw M2.5 x 12 mm",
                                                    "quantity":  2
+                                               },
+                                               {
+                                                   "familyId":  "holybro_cap_screw_m25x6",
+                                                   "displayName":  "Socket Cap Screw M2.5 x 6 mm",
+                                                   "quantity":  4
+                                               },
+                                               {
+                                                   "familyId":  "holybro_cap_screw_m3x38",
+                                                   "displayName":  "Socket Cap Screw M3 x 38 mm",
+                                                   "quantity":  4
                                                },
                                                {
                                                    "familyId":  "holybro_flange_nut_m3",
                                                    "displayName":  "Flange Nut M3",
-                                                   "quantity":  3
-                                               },
-                                               {
-                                                   "familyId":  "holybro_lock_nut_m3",
-                                                   "displayName":  "Cap Nut M3",
-                                                   "quantity":  1
+                                                   "quantity":  4
                                                }
                                            ],
-                      "totalFasteners":  9,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  16,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_motor_FL",
                       "documentedSubpieces":  [
-                                                  "DJ-2216-KV880 motor instance"
+                                                  "DJ-2216-KV880"
                                               ],
                       "configuredSubpieces":  [
-                                                  "DJ-2216-KV880 motor instance",
-                                                  "Fasteners: Socket Cap Screw M2.5 x 12 mm x2",
-                                                  "Fasteners: Socket Cap Screw M2.5 x 6 mm x4",
+                                                  "DJ-2216-KV880",
                                                   "Fasteners: Socket Cap Screw M3 x 6 mm x4"
                                               ],
                       "fastenerFamilies":  [
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m25x12",
-                                                   "displayName":  "Socket Cap Screw M2.5 x 12 mm",
-                                                   "quantity":  2
-                                               },
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m25x6",
-                                                   "displayName":  "Socket Cap Screw M2.5 x 6 mm",
-                                                   "quantity":  4
-                                               },
                                                {
                                                    "familyId":  "holybro_cap_screw_m3x6",
                                                    "displayName":  "Socket Cap Screw M3 x 6 mm",
                                                    "quantity":  4
                                                }
                                            ],
-                      "totalFasteners":  10,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  4,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_motor_FR",
                       "documentedSubpieces":  [
-                                                  "DJ-2216-KV880 motor instance"
+                                                  "DJ-2216-KV880"
                                               ],
                       "configuredSubpieces":  [
-                                                  "DJ-2216-KV880 motor instance",
-                                                  "Fasteners: Socket Cap Screw M2.5 x 12 mm x2",
-                                                  "Fasteners: Socket Cap Screw M2.5 x 6 mm x4",
+                                                  "DJ-2216-KV880",
                                                   "Fasteners: Socket Cap Screw M3 x 6 mm x4"
                                               ],
                       "fastenerFamilies":  [
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m25x12",
-                                                   "displayName":  "Socket Cap Screw M2.5 x 12 mm",
-                                                   "quantity":  2
-                                               },
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m25x6",
-                                                   "displayName":  "Socket Cap Screw M2.5 x 6 mm",
-                                                   "quantity":  4
-                                               },
                                                {
                                                    "familyId":  "holybro_cap_screw_m3x6",
                                                    "displayName":  "Socket Cap Screw M3 x 6 mm",
                                                    "quantity":  4
                                                }
                                            ],
-                      "totalFasteners":  10,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  4,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_motor_BL",
                       "documentedSubpieces":  [
-                                                  "DJ-2216-KV880 motor instance"
+                                                  "DJ-2216-KV880"
                                               ],
                       "configuredSubpieces":  [
-                                                  "DJ-2216-KV880 motor instance",
-                                                  "Fasteners: Socket Cap Screw M2.5 x 12 mm x2",
-                                                  "Fasteners: Socket Cap Screw M2.5 x 6 mm x4",
+                                                  "DJ-2216-KV880",
                                                   "Fasteners: Socket Cap Screw M3 x 6 mm x4"
                                               ],
                       "fastenerFamilies":  [
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m25x12",
-                                                   "displayName":  "Socket Cap Screw M2.5 x 12 mm",
-                                                   "quantity":  2
-                                               },
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m25x6",
-                                                   "displayName":  "Socket Cap Screw M2.5 x 6 mm",
-                                                   "quantity":  4
-                                               },
                                                {
                                                    "familyId":  "holybro_cap_screw_m3x6",
                                                    "displayName":  "Socket Cap Screw M3 x 6 mm",
                                                    "quantity":  4
                                                }
                                            ],
-                      "totalFasteners":  10,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  4,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_motor_BR",
                       "documentedSubpieces":  [
-                                                  "DJ-2216-KV880 motor instance"
+                                                  "DJ-2216-KV880"
                                               ],
                       "configuredSubpieces":  [
-                                                  "DJ-2216-KV880 motor instance",
-                                                  "Fasteners: Socket Cap Screw M2.5 x 12 mm x2",
-                                                  "Fasteners: Socket Cap Screw M2.5 x 6 mm x4",
+                                                  "DJ-2216-KV880",
                                                   "Fasteners: Socket Cap Screw M3 x 6 mm x4"
                                               ],
                       "fastenerFamilies":  [
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m25x12",
-                                                   "displayName":  "Socket Cap Screw M2.5 x 12 mm",
-                                                   "quantity":  2
-                                               },
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m25x6",
-                                                   "displayName":  "Socket Cap Screw M2.5 x 6 mm",
-                                                   "quantity":  4
-                                               },
                                                {
                                                    "familyId":  "holybro_cap_screw_m3x6",
                                                    "displayName":  "Socket Cap Screw M3 x 6 mm",
                                                    "quantity":  4
                                                }
                                            ],
-                      "totalFasteners":  10,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  4,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_esc_FL",
                       "documentedSubpieces":  [
-                                                  "ESC placeholder (temporary scene)"
+                                                  "ESC"
                                               ],
                       "configuredSubpieces":  [
-                                                  "ESC placeholder (temporary scene)",
-                                                  "Fasteners: Socket Cap Screw M2.5 x 10 mm x2"
+                                                  "ESC"
                                               ],
                       "fastenerFamilies":  [
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m25x10",
-                                                   "displayName":  "Socket Cap Screw M2.5 x 10 mm",
-                                                   "quantity":  2
-                                               }
+
                                            ],
-                      "totalFasteners":  2,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  0,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_esc_FR",
                       "documentedSubpieces":  [
-                                                  "ESC placeholder (temporary scene)"
+                                                  "ESC"
                                               ],
                       "configuredSubpieces":  [
-                                                  "ESC placeholder (temporary scene)",
-                                                  "Fasteners: Socket Cap Screw M2.5 x 10 mm x2"
+                                                  "ESC"
                                               ],
                       "fastenerFamilies":  [
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m25x10",
-                                                   "displayName":  "Socket Cap Screw M2.5 x 10 mm",
-                                                   "quantity":  2
-                                               }
+
                                            ],
-                      "totalFasteners":  2,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  0,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_esc_BL",
                       "documentedSubpieces":  [
-                                                  "ESC placeholder (temporary scene)"
+                                                  "ESC"
                                               ],
                       "configuredSubpieces":  [
-                                                  "ESC placeholder (temporary scene)",
-                                                  "Fasteners: Socket Cap Screw M2.5 x 10 mm x2"
+                                                  "ESC"
                                               ],
                       "fastenerFamilies":  [
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m25x10",
-                                                   "displayName":  "Socket Cap Screw M2.5 x 10 mm",
-                                                   "quantity":  2
-                                               }
+
                                            ],
-                      "totalFasteners":  2,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  0,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_esc_BR",
                       "documentedSubpieces":  [
-                                                  "ESC placeholder (temporary scene)"
+                                                  "ESC"
                                               ],
                       "configuredSubpieces":  [
-                                                  "ESC placeholder (temporary scene)",
-                                                  "Fasteners: Socket Cap Screw M2.5 x 10 mm x2"
+                                                  "ESC"
                                               ],
                       "fastenerFamilies":  [
-                                               {
-                                                   "familyId":  "holybro_cap_screw_m25x10",
-                                                   "displayName":  "Socket Cap Screw M2.5 x 10 mm",
-                                                   "quantity":  2
-                                               }
+
                                            ],
-                      "totalFasteners":  2,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "totalFasteners":  0,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_prop_FL",
                       "documentedSubpieces":  [
-                                                  "Propeller proxy"
+
                                               ],
                       "configuredSubpieces":  [
-                                                  "Propeller proxy"
+
                                               ],
                       "fastenerFamilies":  [
 
                                            ],
                       "totalFasteners":  0,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "notes":  "Propellers are arm subpieces for selection/isolation, not independent mother pieces."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_prop_FR",
                       "documentedSubpieces":  [
-                                                  "Propeller proxy"
+
                                               ],
                       "configuredSubpieces":  [
-                                                  "Propeller proxy"
+
                                               ],
                       "fastenerFamilies":  [
 
                                            ],
                       "totalFasteners":  0,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "notes":  "Propellers are arm subpieces for selection/isolation, not independent mother pieces."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_prop_BL",
                       "documentedSubpieces":  [
-                                                  "Propeller proxy"
+
                                               ],
                       "configuredSubpieces":  [
-                                                  "Propeller proxy"
+
                                               ],
                       "fastenerFamilies":  [
 
                                            ],
                       "totalFasteners":  0,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "notes":  "Propellers are arm subpieces for selection/isolation, not independent mother pieces."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_prop_BR",
                       "documentedSubpieces":  [
-                                                  "Propeller proxy"
+
                                               ],
                       "configuredSubpieces":  [
-                                                  "Propeller proxy"
+
                                               ],
                       "fastenerFamilies":  [
 
                                            ],
                       "totalFasteners":  0,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "notes":  "Propellers are arm subpieces for selection/isolation, not independent mother pieces."
+                  },
+                  {
+                      "parentCanonicalPartId":  "x500v2_battery",
+                      "documentedSubpieces":  [
+
+                                              ],
+                      "configuredSubpieces":  [
+
+                                              ],
+                      "fastenerFamilies":  [
+
+                                           ],
+                      "totalFasteners":  0,
+                      "notes":  "LiPo battery is included under x500v2_rails_battery for selection/isolation, not as independent mother piece."
                   },
                   {
                       "parentCanonicalPartId":  "x500v2_misc_group",
                       "documentedSubpieces":  [
-                                                  "x500v2_misc_camera_mount",
-                                                  "x500v2_misc_frame_connector_0",
-                                                  "x500v2_misc_frame_connector_1",
-                                                  "x500v2_misc_light_cover"
+                                                  "GAI-GUANGLIU",
+                                                  "IMU-PIXHAWK6C"
                                               ],
                       "configuredSubpieces":  [
-                                                  "x500v2_misc_camera_mount",
-                                                  "x500v2_misc_frame_connector_0",
-                                                  "x500v2_misc_frame_connector_1",
-                                                  "x500v2_misc_light_cover"
+                                                  "GAI-GUANGLIU",
+                                                  "IMU-PIXHAWK6C"
                                               ],
                       "fastenerFamilies":  [
 
                                            ],
                       "totalFasteners":  0,
-                      "notes":  [
-                                    "Scene hierarchy is temporary proxy geometry; subpiece breakdown combines documented Holybro encapsulation with current fastener-parent reconciliation."
-                                ]
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
+                  },
+                  {
+                      "parentCanonicalPartId":  "x500v2_rc_receiver",
+                      "documentedSubpieces":  [
+                                                  "RECEIVER"
+                                              ],
+                      "configuredSubpieces":  [
+                                                  "RECEIVER"
+                                              ],
+                      "fastenerFamilies":  [
+
+                                           ],
+                      "totalFasteners":  0,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
+                  },
+                  {
+                      "parentCanonicalPartId":  "x500v2_telemetry_radio",
+                      "documentedSubpieces":  [
+                                                  "TELEMETRY",
+                                                  "RADIO"
+                                              ],
+                      "configuredSubpieces":  [
+                                                  "TELEMETRY",
+                                                  "RADIO"
+                                              ],
+                      "fastenerFamilies":  [
+
+                                           ],
+                      "totalFasteners":  0,
+                      "notes":  "Manual mother-piece correction 2026-05-12. Selection hierarchy is explicit; contact/bounds are fallback only."
                   }
               ]
 }

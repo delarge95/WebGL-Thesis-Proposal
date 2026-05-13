@@ -454,6 +454,12 @@ internal static class HolybroFastenerCatalogBuilder
             return string.Empty;
         }
 
+        string manualParent = ResolveManualParentCanonicalPartId(target);
+        if (!string.IsNullOrWhiteSpace(manualParent))
+        {
+            return manualParent;
+        }
+
         string immediateParent = target.parent != null ? target.parent.name : string.Empty;
         if (!string.IsNullOrWhiteSpace(immediateParent) &&
             !string.Equals(immediateParent, FastenerGroupId, StringComparison.OrdinalIgnoreCase) &&
@@ -498,6 +504,151 @@ internal static class HolybroFastenerCatalogBuilder
         }
 
         return bestCanonicalId;
+    }
+
+    private static string ResolveManualParentCanonicalPartId(Transform target)
+    {
+        string sceneTypeKey = FastenerNamingUtility.ExtractSceneTypeKey(target != null ? target.name : string.Empty);
+        string key = (sceneTypeKey ?? string.Empty).ToLowerInvariant();
+        int index = ExtractOneBasedInstanceIndex(target != null ? target.name : string.Empty);
+
+        switch (key)
+        {
+            case "cap_screw_m25x6":
+                if (index >= 1 && index <= 8) return "x500v2_bottom_plate";
+                return ResolveArmParentByIndex(index, 17, 20, 13, 16, 9, 12, 21, 24);
+
+            case "cap_screw_m25x10":
+                if (index >= 1 && index <= 2) return "x500v2_arm_FL";
+                if (index >= 3 && index <= 4) return "x500v2_arm_FR";
+                if (index >= 5 && index <= 6) return "x500v2_arm_BR";
+                if (index >= 7 && index <= 8) return "x500v2_arm_BL";
+                return FastenerGroupId;
+
+            case "cap_screw_m25x12":
+                if ((index >= 2 && index <= 4) || index == 13) return "x500v2_rails_battery";
+                if (index == 1 || (index >= 5 && index <= 6)) return "x500v2_arm_FL";
+                if (index >= 7 && index <= 8) return "x500v2_arm_FR";
+                if (index >= 9 && index <= 10) return "x500v2_arm_BR";
+                if (index >= 11 && index <= 12) return "x500v2_arm_BL";
+                return string.Empty;
+
+            case "countersunk_m25x6":
+                return "x500v2_rails_battery";
+
+            case "countersunk_m3x16":
+                return "x500v2_rails_battery";
+
+            case "nylon_lock_nut_m3":
+                return "x500v2_bottom_plate";
+
+            case "cap_screw_m3x8":
+                return "x500v2_landing_gear";
+
+            case "cap_screw_m3x21":
+                return "x500v2_landing_gear";
+
+            case "cap_screw_m3x25":
+                if (index >= 1 && index <= 2) return "x500v2_landing_gear";
+                return FastenerGroupId;
+
+            case "cap_screw_m3x38":
+            case "flange_nut_m3":
+                return ResolveArmParentByIndex(index, 9, 12, 5, 8, 1, 4, 13, 16);
+
+            case "cap_screw_m3x6":
+                return ResolveMotorParentByIndex(index);
+
+            case "lock_nut_m3":
+                if (index == 1 || index == 8) return "x500v2_landing_gear";
+                if (index >= 9 && index <= 12) return "x500v2_power_module";
+                if (index >= 13 && index <= 16) return "x500v2_gps_m10";
+                if (index >= 2 && index <= 7) return "x500v2_landing_gear";
+                return string.Empty;
+
+            case "nylon_standoff_m25x5":
+            case "self_lock_nut_m25":
+            case "rubber_grommet":
+                return "x500v2_rails_battery";
+
+            case "nylon_standoff_m3x5":
+            case "pan_head_m3x14":
+                return "x500v2_power_module";
+
+            case "pan_head_m3x10":
+                return "x500v2_gps_m10";
+
+            default:
+                return string.Empty;
+        }
+    }
+
+    private static string ResolveArmParentByIndex(
+        int index,
+        int brStart,
+        int brEnd,
+        int frStart,
+        int frEnd,
+        int flStart,
+        int flEnd,
+        int blStart,
+        int blEnd)
+    {
+        if (index >= brStart && index <= brEnd) return "x500v2_arm_BR";
+        if (index >= frStart && index <= frEnd) return "x500v2_arm_FR";
+        if (index >= flStart && index <= flEnd) return "x500v2_arm_FL";
+        if (index >= blStart && index <= blEnd) return "x500v2_arm_BL";
+        return string.Empty;
+    }
+
+    private static string ResolveMotorParentByIndex(int index)
+    {
+        if (index >= 1 && index <= 4) return "x500v2_motor_FL";
+        if (index >= 5 && index <= 8) return "x500v2_motor_FR";
+        if (index >= 9 && index <= 12) return "x500v2_motor_BR";
+        if (index >= 13 && index <= 16) return "x500v2_motor_BL";
+        return string.Empty;
+    }
+
+    private static int ExtractOneBasedInstanceIndex(string rawName)
+    {
+        if (string.IsNullOrWhiteSpace(rawName))
+        {
+            return -1;
+        }
+
+        string normalized = rawName.Trim();
+        if (normalized.EndsWith("_low", StringComparison.OrdinalIgnoreCase) ||
+            normalized.EndsWith("-low", StringComparison.OrdinalIgnoreCase))
+        {
+            normalized = normalized.Substring(0, normalized.Length - 4);
+        }
+
+        int end = normalized.Length - 1;
+        while (end >= 0 && !char.IsDigit(normalized[end]))
+        {
+            end--;
+        }
+
+        if (end < 0)
+        {
+            return -1;
+        }
+
+        int start = end;
+        while (start >= 0 && char.IsDigit(normalized[start]))
+        {
+            start--;
+        }
+
+        string digits = normalized.Substring(start + 1, end - start);
+        char separator = start >= 0 ? normalized[start] : '\0';
+        if ((separator != '_' && separator != '.') || digits.Length < 3)
+        {
+            return -1;
+        }
+
+        return int.TryParse(digits, NumberStyles.Integer, CultureInfo.InvariantCulture, out int value) ? value : -1;
     }
 
     private static string ResolveParentFromNearestCategorizedRenderer(Transform target)

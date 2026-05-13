@@ -177,9 +177,9 @@ namespace WebGL.Core.Managers
                 && !isFastenerIsolation
                 && isFullPartIsolation
                 && !string.IsNullOrWhiteSpace(selectedCanonicalPartId);
-            string associatedFastenerCanonicalPartId = includeFullPartAssociatedFasteners
-                ? selectedCanonicalPartId
-                : string.Empty;
+            HashSet<string> associatedFastenerCanonicalPartIds = includeFullPartAssociatedFasteners
+                ? BuildCanonicalPartScopeIds(selectedCanonicalPartId)
+                : null;
             if (fastenerMode == IsolationFastenerMode.IncludeSubpieceAssociated && !isFastenerIsolation)
             {
                 CollectAssociatedFastenerInstanceIds(isolatedTransform, selectedCanonicalPartId, isolatedAssociatedFastenerInstanceIds);
@@ -233,7 +233,7 @@ namespace WebGL.Core.Managers
                         renderer,
                         isolatedTransform,
                         isolatedFastenerInstanceId,
-                        associatedFastenerCanonicalPartId,
+                        associatedFastenerCanonicalPartIds,
                         isolatedAssociatedFastenerInstanceIds);
 
                     renderer.enabled = visible;
@@ -248,7 +248,7 @@ namespace WebGL.Core.Managers
                         Transform rt = renderer.transform;
                         bool byScope = rt == isolatedTransform || rt.IsChildOf(isolatedTransform);
                         bool byInstance = !string.IsNullOrWhiteSpace(isolatedFastenerInstanceId) && RendererBelongsToFastenerInstance(rt, isolatedFastenerInstanceId);
-                        bool byAssoc = !string.IsNullOrWhiteSpace(associatedFastenerCanonicalPartId) && RendererBelongsToAssociatedFastener(rt, associatedFastenerCanonicalPartId);
+                        bool byAssoc = associatedFastenerCanonicalPartIds != null && RendererBelongsToAssociatedFastener(rt, associatedFastenerCanonicalPartIds);
                         bool bySubpieceAssoc = RendererBelongsToFastenerInstance(rt, isolatedAssociatedFastenerInstanceIds);
                         FastenerRuntimeMarker rm = rt.GetComponent<FastenerRuntimeMarker>();
                         Debug.Log($"  [VISIBLE] {renderer.name} path={GetHierarchyPath(rt)} byScope={byScope} byInstance={byInstance} byAssoc={byAssoc} bySubpieceAssoc={bySubpieceAssoc} marker={(rm != null ? rm.FastenerInstanceId : "none")}");
@@ -266,7 +266,7 @@ namespace WebGL.Core.Managers
             anyRendererVisible |= ApplyStandaloneFastenerIsolation(
                 isolatedTransform,
                 isolatedFastenerInstanceId,
-                associatedFastenerCanonicalPartId,
+                associatedFastenerCanonicalPartIds,
                 isolatedAssociatedFastenerInstanceIds);
 
             if (enableIsolationDiagnostics)
@@ -332,7 +332,7 @@ namespace WebGL.Core.Managers
             Renderer renderer,
             Transform isolationScope,
             string fastenerInstanceId,
-            string selectedCanonicalPartId,
+            HashSet<string> selectedCanonicalPartIds,
             HashSet<string> associatedFastenerInstanceIds = null)
         {
             if (renderer == null || isolationScope == null)
@@ -353,8 +353,10 @@ namespace WebGL.Core.Managers
                 return true;
             }
 
-            if (!string.IsNullOrWhiteSpace(selectedCanonicalPartId) &&
-                RendererBelongsToAssociatedFastener(rendererTransform, selectedCanonicalPartId))
+            if (selectedCanonicalPartIds != null &&
+                selectedCanonicalPartIds.Count > 0 &&
+                (RendererBelongsToCanonicalPart(rendererTransform, selectedCanonicalPartIds) ||
+                 RendererBelongsToAssociatedFastener(rendererTransform, selectedCanonicalPartIds)))
             {
                 return true;
             }
@@ -410,7 +412,44 @@ namespace WebGL.Core.Managers
 
             return IsValidFastenerMarker(rendererMarker) &&
                    !string.IsNullOrWhiteSpace(rendererMarker.ParentCanonicalPartId) &&
-                   string.Equals(rendererMarker.ParentCanonicalPartId, selectedCanonicalPartId, StringComparison.OrdinalIgnoreCase);
+                   SelectionHierarchy.FastenerBelongsToCanonicalScope(
+                       rendererMarker,
+                       new HashSet<string>(StringComparer.OrdinalIgnoreCase) { selectedCanonicalPartId });
+        }
+
+        private static bool RendererBelongsToCanonicalPart(Transform rendererTransform, HashSet<string> targetCanonicalPartIds)
+        {
+            if (rendererTransform == null || targetCanonicalPartIds == null || targetCanonicalPartIds.Count == 0)
+            {
+                return false;
+            }
+
+            PartRenderCategory category = rendererTransform.GetComponent<PartRenderCategory>();
+            if (category != null &&
+                !string.IsNullOrWhiteSpace(category.CanonicalPartId) &&
+                targetCanonicalPartIds.Contains(category.CanonicalPartId))
+            {
+                return true;
+            }
+
+            ExplodablePart part = rendererTransform.GetComponentInParent<ExplodablePart>();
+            return part != null &&
+                   part.Data != null &&
+                   !string.IsNullOrWhiteSpace(part.Data.id) &&
+                   targetCanonicalPartIds.Contains(part.Data.id);
+        }
+
+        private static HashSet<string> BuildCanonicalPartScopeIds(string canonicalPartId)
+        {
+            HashSet<string> canonicalIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            if (string.IsNullOrWhiteSpace(canonicalPartId))
+            {
+                return canonicalIds;
+            }
+
+            canonicalIds.Add(canonicalPartId);
+            SelectionHierarchy.AddAssemblyCompanionCanonicalIds(canonicalPartId, canonicalIds);
+            return canonicalIds;
         }
 
         private static bool TryResolveFastenerInstanceId(Transform selection, out string fastenerInstanceId)
@@ -499,11 +538,13 @@ namespace WebGL.Core.Managers
                 }
 
                 bool sameCanonicalParent = !string.IsNullOrWhiteSpace(selectedCanonicalPartId) &&
-                                           !string.IsNullOrWhiteSpace(marker.ParentCanonicalPartId) &&
-                                           string.Equals(
-                                               marker.ParentCanonicalPartId,
-                                               selectedCanonicalPartId,
-                                               StringComparison.OrdinalIgnoreCase);
+                                           SelectionHierarchy.FastenerBelongsToCanonicalScope(
+                                               marker,
+                                               new HashSet<string>(StringComparer.OrdinalIgnoreCase) { selectedCanonicalPartId });
+                if (!sameCanonicalParent)
+                {
+                    continue;
+                }
 
                 float fastenerDominantSize = GetDominantSize(fastenerBounds);
                 float contactThreshold = ResolveSubpieceFastenerContactThreshold(
@@ -731,9 +772,11 @@ namespace WebGL.Core.Managers
                 }
 
                 bool isTargetPart = targets.Contains(p);
+                bool isRelatedCanonicalPart = includeAssociatedFasteners &&
+                                              PartMatchesCanonicalPartIds(p, targetCanonicalPartIds);
                 bool hasAssociatedFastenerRenderer = includeAssociatedFasteners &&
                                                     PartContainsAssociatedFastenerRenderers(p, targetCanonicalPartIds);
-                bool shouldKeepPartActive = isTargetPart || hasAssociatedFastenerRenderer;
+                bool shouldKeepPartActive = isTargetPart || isRelatedCanonicalPart || hasAssociatedFastenerRenderer;
 
                 if (shouldKeepPartActive)
                 {
@@ -744,6 +787,7 @@ namespace WebGL.Core.Managers
                     {
                         if (renderer == null) continue;
                         bool rendererVisible = isTargetPart ||
+                                               isRelatedCanonicalPart ||
                                                (includeAssociatedFasteners &&
                                                 RendererBelongsToAssociatedFastener(renderer.transform, targetCanonicalPartIds));
 
@@ -960,7 +1004,22 @@ namespace WebGL.Core.Managers
                 }
             }
 
+            ExpandCanonicalPartScopeIds(canonicalIds);
             return canonicalIds;
+        }
+
+        private static void ExpandCanonicalPartScopeIds(HashSet<string> canonicalIds)
+        {
+            if (canonicalIds == null || canonicalIds.Count == 0)
+            {
+                return;
+            }
+
+            List<string> seedIds = new List<string>(canonicalIds);
+            for (int i = 0; i < seedIds.Count; i++)
+            {
+                SelectionHierarchy.AddAssemblyCompanionCanonicalIds(seedIds[i], canonicalIds);
+            }
         }
 
         private static bool PartContainsAssociatedFastenerRenderers(ExplodablePart part, HashSet<string> targetCanonicalPartIds)
@@ -983,6 +1042,15 @@ namespace WebGL.Core.Managers
             return false;
         }
 
+        private static bool PartMatchesCanonicalPartIds(ExplodablePart part, HashSet<string> targetCanonicalPartIds)
+        {
+            return part != null &&
+                   part.Data != null &&
+                   !string.IsNullOrWhiteSpace(part.Data.id) &&
+                   targetCanonicalPartIds != null &&
+                   targetCanonicalPartIds.Contains(part.Data.id);
+        }
+
         private static bool RendererBelongsToAssociatedFastener(Transform rendererTransform, HashSet<string> targetCanonicalPartIds)
         {
             if (rendererTransform == null || targetCanonicalPartIds == null || targetCanonicalPartIds.Count == 0)
@@ -995,7 +1063,7 @@ namespace WebGL.Core.Managers
 
             return IsValidFastenerMarker(rendererMarker) &&
                    !string.IsNullOrWhiteSpace(rendererMarker.ParentCanonicalPartId) &&
-                   targetCanonicalPartIds.Contains(rendererMarker.ParentCanonicalPartId);
+                   SelectionHierarchy.FastenerBelongsToCanonicalScope(rendererMarker, targetCanonicalPartIds);
         }
 
         private static bool IsValidFastenerMarker(FastenerRuntimeMarker marker)
@@ -1020,9 +1088,9 @@ namespace WebGL.Core.Managers
                 && !isFastenerIsolation
                 && isFullPartIsolation
                 && !string.IsNullOrWhiteSpace(selectedCanonicalPartId);
-            string associatedFastenerCanonicalPartId = includeAssociatedFasteners
-                ? selectedCanonicalPartId
-                : string.Empty;
+            HashSet<string> associatedFastenerCanonicalPartIds = includeAssociatedFasteners
+                ? BuildCanonicalPartScopeIds(selectedCanonicalPartId)
+                : null;
             if (isolatedFastenerMode == IsolationFastenerMode.IncludeSubpieceAssociated && !isFastenerIsolation)
             {
                 isolatedAssociatedFastenerInstanceIds.Clear();
@@ -1066,7 +1134,7 @@ namespace WebGL.Core.Managers
                         renderer,
                         isolatedTransform,
                         isolatedFastenerInstanceId,
-                        associatedFastenerCanonicalPartId,
+                        associatedFastenerCanonicalPartIds,
                         isolatedAssociatedFastenerInstanceIds);
 
                     renderer.enabled = visible;
@@ -1082,7 +1150,7 @@ namespace WebGL.Core.Managers
             ApplyStandaloneFastenerIsolation(
                 isolatedTransform,
                 isolatedFastenerInstanceId,
-                associatedFastenerCanonicalPartId,
+                associatedFastenerCanonicalPartIds,
                 isolatedAssociatedFastenerInstanceIds);
         }
 
@@ -1122,9 +1190,11 @@ namespace WebGL.Core.Managers
                 }
 
                 bool isTargetPart = targets.Contains(part);
+                bool isRelatedCanonicalPart = storedGroupIncludeAssociatedFasteners &&
+                                              PartMatchesCanonicalPartIds(part, targetCanonicalPartIds);
                 bool hasAssociatedFastenerRenderer = storedGroupIncludeAssociatedFasteners &&
                                                     PartContainsAssociatedFastenerRenderers(part, targetCanonicalPartIds);
-                bool shouldKeepPartActive = isTargetPart || hasAssociatedFastenerRenderer;
+                bool shouldKeepPartActive = isTargetPart || isRelatedCanonicalPart || hasAssociatedFastenerRenderer;
 
                 if (shouldKeepPartActive)
                 {
@@ -1140,6 +1210,7 @@ namespace WebGL.Core.Managers
                         }
 
                         bool rendererVisible = isTargetPart ||
+                                               isRelatedCanonicalPart ||
                                                (storedGroupIncludeAssociatedFasteners &&
                                                 RendererBelongsToAssociatedFastener(renderer.transform, targetCanonicalPartIds));
 
@@ -1221,7 +1292,7 @@ namespace WebGL.Core.Managers
         private bool ApplyStandaloneFastenerIsolation(
             Transform isolationScope,
             string fastenerInstanceId,
-            string selectedCanonicalPartId,
+            HashSet<string> selectedCanonicalPartIds,
             HashSet<string> associatedFastenerInstanceIds = null)
         {
             bool anyVisible = false;
@@ -1237,7 +1308,7 @@ namespace WebGL.Core.Managers
                     renderer,
                     isolationScope,
                     fastenerInstanceId,
-                    selectedCanonicalPartId,
+                    selectedCanonicalPartIds,
                     associatedFastenerInstanceIds);
                 anyVisible |= visible;
                 ApplyRendererVisibility(renderer, visible);

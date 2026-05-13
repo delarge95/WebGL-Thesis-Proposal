@@ -182,7 +182,7 @@ public static class RuntimeDroneSceneAuditor
         info.Add($"ExplodablePart anchors: {parts.Length}.");
         info.Add($"Canonical ids documented: {canonicalIds.Length}.");
         info.Add($"Canonical ids required in current FBX: {requiredCanonicalIds.Length}.");
-        info.Add("Suppressed synthetic canonical ids: x500v2_pdb, x500v2_rc_receiver, x500v2_esc_FL/FR/BL/BR.");
+        info.Add("Suppressed synthetic canonical ids: x500v2_pdb, x500v2_platform_board, x500v2_battery, x500v2_rc_receiver, x500v2_prop_FL/FR/BL/BR, x500v2_esc_FL/FR/BL/BR.");
         info.Add($"MeshFilters with mesh: {meshFilters}.");
         info.Add($"Fastener markers: {fastenerMarkers}.");
         info.Add($"Fastener catalog instances: {fasteners.TotalInstances}.");
@@ -272,7 +272,10 @@ public static class RuntimeDroneSceneAuditor
         }
 
         return canonicalId.StartsWith("x500v2_esc_", StringComparison.OrdinalIgnoreCase) ||
+               canonicalId.StartsWith("x500v2_prop_", StringComparison.OrdinalIgnoreCase) ||
                string.Equals(canonicalId, "x500v2_pdb", StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(canonicalId, "x500v2_platform_board", StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(canonicalId, "x500v2_battery", StringComparison.OrdinalIgnoreCase) ||
                string.Equals(canonicalId, "x500v2_rc_receiver", StringComparison.OrdinalIgnoreCase);
     }
 

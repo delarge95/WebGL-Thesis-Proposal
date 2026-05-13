@@ -65,15 +65,18 @@ MonoBehaviour:
   screwCount: 2
   screwSize: M3
   subComponentNames:
-  - CARBON-FIBER-TUBE300
   - HMX5V-DIGAI-DIANJIZUO-MUJU
   - HMX5V-GUAN-DINGWEI
   - HMX5V-JIBI-JIA-MUJU
   - HMX5V-ZUO-DJ-MUJU
   - BAN-DJ-DIAN-F2
-  - 'Fasteners: Countersunk Screw M3 x 16 mm x1'
-  - 'Fasteners: Flange Nut M3 x1'
-  - 'Fasteners: Nyloc Nut M3 x1'
+  - PROPELLER
+  - PROP
+  - 'Fasteners: Socket Cap Screw M2.5 x 10 mm x2'
+  - 'Fasteners: Socket Cap Screw M2.5 x 12 mm x2'
+  - 'Fasteners: Socket Cap Screw M2.5 x 6 mm x4'
+  - 'Fasteners: Socket Cap Screw M3 x 38 mm x4'
+  - 'Fasteners: Flange Nut M3 x4'
   fastenerMetadata:
     instanceId: 
     familyId: 

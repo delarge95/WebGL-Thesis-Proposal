@@ -66,7 +66,7 @@ MonoBehaviour:
     sourceId: x500v2_blend_gb70_m25_12
     sceneObjectName: x500v2_fastener.cap_screw_M25x12_009
     hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_009
-    parentCanonicalPartId: x500v2_arm_FL
+    parentCanonicalPartId: x500v2_arm_BR
     blenderName: GB70-M25-12
     sceneTypeKey: cap_screw_M25x12
     subtype: SocketCapScrew

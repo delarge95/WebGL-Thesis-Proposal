@@ -58,10 +58,8 @@ MonoBehaviour:
   screwCount: 0
   screwSize: 
   subComponentNames:
-  - x500v2_misc_camera_mount
-  - x500v2_misc_frame_connector_0
-  - x500v2_misc_frame_connector_1
-  - x500v2_misc_light_cover
+  - GAI-GUANGLIU
+  - IMU-PIXHAWK6C
   fastenerMetadata:
     instanceId: 
     familyId: 

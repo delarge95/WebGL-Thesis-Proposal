@@ -14,6 +14,8 @@ Fecha: 2026-05-10, actualizado 2026-05-11 con verificacion MCP Blender
 
 Fuente detallada con IDs de instancia: `holybro_subpiece_fastener_map.json`.
 
+Nota de vigencia 2026-05-12: la tabla siguiente conserva hallazgos de auditoria, pero las filas corregidas manualmente ya no deben leerse como autoridad runtime. La fuente vigente para Unity es `holybro_selection_hierarchy.json` + `holybro_fastener_instances.json` + `holybro_parent_subpieces.json`.
+
 | Pieza madre | Subpieza | Fasteners prioritarios | Fasteners compartidos/contextuales | Confianza | Observacion |
 | --- | --- | --- | --- | --- | --- |
 | x500v2_arm_BL | BAN-DJ-DIAN-F2 | CountersunkScrew M2.5x6 x4 | SocketCapScrew M2.5x12 x2<br>SocketCapScrew M2.5x6 x4 | medium | Compartido desde HMX5V-ZUO-DJ-MUJU: M2.5x12 asociado al conjunto superior/inferior del motor mount. |
@@ -50,7 +52,7 @@ Fuente detallada con IDs de instancia: `holybro_subpiece_fastener_map.json`.
 | x500v2_battery | BATTERY-STRAP | - | - | high | - |
 | x500v2_bottom_plate | BOTTOM-PLATE-X500-V5 | - | CountersunkScrew M3x16 x2<br>NylocNut M3 x2<br>SocketCapScrew M2.5x6 x8 | low | Compartido desde GAI-GUANGLIU: M2.5x6 probablemente fija cubierta/sensor inferior; confirmar contra posicion. |
 | x500v2_bottom_plate | GAI-GUANGLIU | SocketCapScrew M2.5x6 x8 | - | low | M2.5x6 probablemente fija cubierta/sensor inferior; confirmar contra posicion. |
-| x500v2_bottom_plate | ZHIJIA-CAMERA-INTEL | CountersunkScrew M3x16 x2<br>NylocNut M3 x2 | - | medium | M3x16/nyloc asignados al bracket inferior de camara; revisar con posicion. |
+| x500v2_rails_battery | ZHIJIA-CAMERA-INTEL | - | - | high | Correccion manual: el bracket/camara Intel pertenece a rail system and battery mount, no a bottom plate. |
 | x500v2_esc_BL | ESC | - | - | high | - |
 | x500v2_esc_BR | ESC | - | - | high | - |
 | x500v2_esc_FL | ESC | - | - | high | - |
@@ -68,15 +70,15 @@ Fuente detallada con IDs de instancia: `holybro_subpiece_fastener_map.json`.
 | x500v2_motor_FL | DJ-2216-KV880 | SocketCapScrew M3x6 x4 | - | high | Motor tiene una subpieza mecanica clara y tornillos M3x6 de fijacion directa. |
 | x500v2_motor_FR | DJ-2216-KV880 | SocketCapScrew M3x6 x4 | - | high | Motor tiene una subpieza mecanica clara y tornillos M3x6 de fijacion directa. |
 | x500v2_pdb | PDB | - | - | high | - |
-| x500v2_pixhawk6c | BM06B-WO | - | - | high | - |
+| x500v2_power_module | BM06B-WO | - | - | high | Correccion manual: BM06B-WO pertenece al assembly PM06/XT60, no al Pixhawk. |
 | x500v2_pixhawk6c | DIKE-PIXHAWK6C-LV-C1 | - | - | high | - |
-| x500v2_pixhawk6c | IMU-PIXHAWK6C | - | - | high | - |
+| x500v2_misc_group | IMU-PIXHAWK6C | - | - | medium | Correccion manual: no forma parte de la pieza madre Pixhawk runtime actual. |
 | x500v2_pixhawk6c | MIANKE-PIXHAWK6C-LV-C1 | - | - | high | - |
 | x500v2_pixhawk6c | PCB-PIXHAWK6C-F1 | - | - | high | - |
-| x500v2_platform_board | PLATFORM-PLAT-X500 | CapNut M2.5 x4<br>SocketCapScrew M2.5x12 x4<br>Standoff M2.5x5 x4 | - | high | La pieza madre tiene una unica subpieza de board/plataforma. |
-| x500v2_power_module | PCB-PM06 | CapNut M3 x5<br>PanHeadScrew M3x14 x4<br>Standoff M3x5 x4 | SocketCapScrew M3x25 x1<br>SocketCapScrew M3x8 x4 | low | Compartido desde X500-TAO-XT60: Fastener de soporte/holder XT60 inferido por familia; requiere confirmar contra posicion en Blender. |
-| x500v2_power_module | TOU-XT60H-M-14AWG | - | SocketCapScrew M3x25 x1<br>SocketCapScrew M3x8 x4 | low | Compartido desde X500-TAO-XT60: Fastener de soporte/holder XT60 inferido por familia; requiere confirmar contra posicion en Blender. |
-| x500v2_power_module | X500-TAO-XT60 | SocketCapScrew M3x25 x1<br>SocketCapScrew M3x8 x4 | CapNut M3 x5<br>PanHeadScrew M3x14 x4<br>Standoff M3x5 x4 | low | Fastener de soporte/holder XT60 inferido por familia; requiere confirmar contra posicion en Blender. |
+| x500v2_rails_battery | PLATFORM-PLAT-X500 | CapNut M2.5 x4<br>SocketCapScrew M2.5x12 x4<br>Standoff M2.5x5 x4 | - | high | Correccion manual: platform board se fusiona dentro de rails/battery mount. |
+| x500v2_power_module | PCB-PM06 | PanHeadScrew M3x14 x4<br>Standoff M3x5 x4 | - | high | Correccion manual: solo se conservan fasteners en contacto con PCB-PM06. |
+| x500v2_power_module | TOU-XT60H-M-14AWG | - | - | high | No arrastra M3x25/M3x8 por inferencia; esos quedan pendientes si no hay pieza madre confirmada. |
+| x500v2_power_module | X500-TAO-XT60 | - | - | high | No arrastra M3x25/M3x8 por inferencia; esos quedan pendientes si no hay pieza madre confirmada. |
 | x500v2_prop_BL | PROP | - | - | high | - |
 | x500v2_prop_BL | PROPELLER | - | - | high | - |
 | x500v2_prop_BR | PROP | - | - | high | - |
@@ -87,7 +89,7 @@ Fuente detallada con IDs de instancia: `holybro_subpiece_fastener_map.json`.
 | x500v2_prop_FR | PROPELLER | - | - | high | - |
 | x500v2_rails_battery | BATTERY-MOUNTING-PLAT | CountersunkScrew M2.5x6 x4 | - | medium | Countersunk M2.5x6 asignados al board de montaje; comparten interfaz con railes/clips. |
 | x500v2_rails_battery | BATTERY-PAD | - | - | high | - |
-| x500v2_rails_battery | GUAN-CHENG | - | CountersunkScrew M2.5x6 x4 | medium | Compartido desde BATTERY-MOUNTING-PLAT: Countersunk M2.5x6 asignados al board de montaje; comparten interfaz con railes/clips. |
+| x500v2_landing_gear | GUAN-CHENG | - | - | high | Correccion manual: GUAN-CHENG pertenece al tren de aterrizaje, no a rails/battery. |
 | x500v2_rails_battery | PYLONS-X500 | - | CountersunkScrew M2.5x6 x4 | medium | Compartido desde BATTERY-MOUNTING-PLAT: Countersunk M2.5x6 asignados al board de montaje; comparten interfaz con railes/clips. |
 | x500v2_rc_receiver | RECEIVER | - | - | high | - |
 | x500v2_telemetry_radio | RADIO | - | - | high | - |
@@ -113,7 +115,7 @@ Fuente detallada con IDs de instancia: `holybro_subpiece_fastener_map.json`.
 | Inconsistencia de motores: metadata `KV920` vs Blender `KV880`. | Debilita confianza tecnica. | Confirmar modelo real y dejar un solo valor en UI/documentacion. |
 | El hotspot `Battery` mezcla bateria y railes. | Correcto para montaje, pero confuso si el usuario solo quiere la bateria. | Mantener macro-hotspot, pero permitir foco interno `Battery` y `Rails / Mount`. |
 | No existe hotspot dedicado a tren de aterrizaje. | Una zona visible y pedagogica queda escondida en filtros estructurales. | Crear hotspot `Landing Gear` con `x500v2_landing_gear` y sus fasteners. |
-| Camara/optical flow viven bajo `bottom_plate`. | Correcto estructuralmente, pero invisibiliza sensores/payload. | Crear hotspot opcional `Vision / Payload Mounts` para `GAI-GUANGLIU` y `ZHIJIA-CAMERA-INTEL`. |
+| Camara Intel vive bajo `rails_battery`; optical flow/light cover queda en `misc_group`. | Correcto para el montaje manual actual, pero puede quedar escondido si el usuario espera sensores/payload. | Crear hotspot opcional `Vision / Payload Mounts` que apunte a `ZHIJIA-CAMERA-INTEL` desde rails y a `GAI-GUANGLIU` desde misc, sin mover su pieza madre fisica. |
 | Fasteners low-confidence en brazos (`M2.5x10`, M3x8/M3x25). | Pueden aparecer en subpieza incorrecta si se usa solo semantica. | Confirmar con posicion Blender/Unity y ajustar prioridad por instancia. `HUAN-GUIJIAO` ya no se evalua como fastener. |
 
 ### Lo que ya esta bien
@@ -121,7 +123,7 @@ Fuente detallada con IDs de instancia: `holybro_subpiece_fastener_map.json`.
 | Aspecto | Estado |
 | --- | --- |
 | Hotspots sin keywords vagas | Bien: la configuracion ya no depende de palabras como `battery`, `mount`, `m3` o `fastener`. |
-| `GUAN-CHENG` fuera de Power Distribution | Bien: pertenece a railes/bateria, no a la cadena electrica. |
+| `GUAN-CHENG` fuera de Power Distribution | Bien: pertenece al tren de aterrizaje, no a la cadena electrica ni a rails/bateria. |
 | Fasteners como entidades modulares | Bien: se conservan como primitivos inspeccionables y reemplazables. |
 | Historial de capas | Bien: permite volver por el mismo camino cuando hay fasteners compartidos. |
 
@@ -136,10 +138,39 @@ Fuente detallada con IDs de instancia: `holybro_subpiece_fastener_map.json`.
 | `Propulsion FL/FR/BL/BR` | brazo + motor + helice del cuadrante | Mejor flujo de inspeccion y menor ruido visual. |
 | `Battery & Rails` | `x500v2_battery`, `x500v2_rails_battery` | Correcto como macro-grupo de montaje. |
 | `Landing Gear` | `x500v2_landing_gear` | Mejora lectura de ensamblaje y fasteners inferiores. |
-| `Vision / Payload Mounts` | subpiezas `GAI-GUANGLIU`, `ZHIJIA-CAMERA-INTEL` dentro de bottom plate | Aporta narrativa tecnica para sensores/soportes sin romper pieza madre estructural. |
+| `Vision / Payload Mounts` | `ZHIJIA-CAMERA-INTEL` desde `x500v2_rails_battery`; `GAI-GUANGLIU` desde `x500v2_misc_group` | Aporta narrativa tecnica para sensores/soportes sin romper la pieza madre fisica asignada. |
 
 ## Criterio de cierre
 
 - Antes de conectar el mapa al runtime, confirmar las filas `low` contra posicion real en Blender/Unity.
 - Una vez confirmado, Unity debe usar prioridad por subpieza desde JSON y solo recurrir a bounds para fasteners no mapeados o nuevos.
 - La seleccion de pieza madre debe incluir todos los fasteners prioritarios de sus subpiezas y los compartidos que entren por contexto/historial.
+## Revision STEP/MCP - 2026-05-12
+
+La jerarquia STEP resuelve una ambiguedad UX importante: el usuario espera que `HMX5V-ARM-V1_ASM` sea el conjunto de brazo de extremo con motor, helice y soportes, no el tubo largo ni sus clamps de hanger.
+
+Decisiones actualizadas:
+
+- Para aprendizaje por capas, `x500v2_arm_*` debe abrir el conjunto HMX5V con motor/helice asociados.
+- `CARBON-FIBER-TUBE300`, `JIA-GUAN` y `HUAN-GUIJIAO` no deben aparecer como subpiezas del brazo HMX5V; si se requiere inspeccion fina del tubo, debe tratarse como grupo/assembly separado.
+- Los grommets no deben compartirse como fasteners entre piezas madre: son piezas estructurales/aislantes de su assembly y no tornilleria modular.
+- La asociacion motor/helice con brazo debe ser contextual para seleccion/aislamiento, manteniendo filtros y metadata independientes de motor y propeller.
+# Auditoria UX STEP/MCP completa - 2026-05-12
+
+La organizacion STEP resuelve varias ambiguedades de UX:
+- El usuario que selecciona `BM06B-WO` debe leer contexto de power module, no Flight Controller, porque el STEP lo ubica dentro de `PCBA-PM06_ASM`.
+- El usuario que selecciona `JIA-GUAN`, `HUAN-GUIJIAO` o `CARBON-FIBER-TUBE300` debe entrar al sistema de rails/battery mount, no a los brazos ni al tren de aterrizaje inferior.
+- El usuario que selecciona `GUAN-CHENG`, `JIAO-*`, `MAO-JIAO` o `CARBON-FIBER-TUBE` debe entrar al tren de aterrizaje.
+- Los brazos HMX5V deben sentirse como subconjuntos de propulsion: soporte HMX5V, par JIBI, motor y helice; los tubos/rails no deben contaminar el highlight de ese conjunto.
+
+Pendiente de QA visual tras reimportacion: confirmar que los fasteners cercanos a `HANGER*` queden asociados a `x500v2_rails_battery`, que los fasteners de patines queden en `x500v2_landing_gear` y que los tornillos del conjunto `HMX5V-ARM-V1_ASM*` sigan el cuadrante correcto.
+
+## Correccion manual de cierre - 2026-05-12
+
+Decisiones vigentes tras validacion:
+
+- El frente fisico del dron se define por `ZHIJIA-CAMERA-INTEL`; la importacion Unity aplica rotacion inicial de 90 grados en Y global para presentar ese frente hacia la camara.
+- `ZHIJIA-CAMERA-INTEL` pertenece a `x500v2_rails_battery`, no a bottom plate ni a misc.
+- `x500v2_pixhawk6c` no contiene fasteners en la configuracion actual.
+- Bottom plate, rails/battery mount y landing gear solo pueden mostrar fasteners cuyo `parentCanonicalPartId` explicito coincida con su contexto; contacto/bounds queda como apoyo visual, no como autoridad semantica.
+- Los fasteners removidos sin pieza madre confirmada quedan en `x500v2_fastener_group` para revision manual, no se reasignan por suposicion.

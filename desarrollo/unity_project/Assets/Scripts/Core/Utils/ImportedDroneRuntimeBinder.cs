@@ -416,9 +416,7 @@ namespace WebGL.Core.Utils
                 return "x500v2_gps_m10";
             }
 
-            if (normalized.Contains("hmx5v-guan-dingwei") ||
-                normalized.Contains("huan-guijiao") ||
-                normalized.Contains("rubber-grommet"))
+            if (normalized.Contains("hmx5v-guan-dingwei"))
             {
                 return ResolveQuadrantArmParentCanonicalId(candidate, droneRoot);
             }
@@ -430,6 +428,8 @@ namespace WebGL.Core.Utils
         {
             string normalized = SelectionHierarchy.NormalizeToken(rawName);
             if (normalized.Contains("hmx5v-guan-dingwei")) return "hmx5v-guan-dingwei";
+            if (normalized.Contains("carbon-fiber-tube300")) return "carbon-fiber-tube300";
+            if (normalized.Contains("jia-guan")) return "jia-guan";
             if (normalized.Contains("huan-guijiao") || normalized.Contains("rubber-grommet")) return "huan-guijiao";
             if (normalized.Contains("gpsv5-zhijia-luomao")) return "gpsv5-zhijia-luomao";
             return string.Empty;
@@ -1762,18 +1762,30 @@ namespace WebGL.Core.Utils
             if ((searchableName.Contains("motor") || searchableName.Contains("dj-2216")) && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_motor_{suffix.ToUpperInvariant()}";
             if (searchableName.Contains("esc") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_esc_{suffix.ToUpperInvariant()}";
             if (searchableName.Contains("guan-cheng")) return "x500v2_landing_gear";
-            if (searchableName.Contains("battery-mounting") || searchableName.Contains("battery-pad") || searchableName.Contains("pylons") || searchableName.Contains("rail")) return "x500v2_rails_battery";
+            if (searchableName.Contains("battery-mounting") || searchableName.Contains("battery-pad") ||
+                searchableName.Contains("pylons") || searchableName.Contains("rail") ||
+                searchableName.Contains("carbon-fiber-tube300") ||
+                searchableName.Contains("camera-intel") ||
+                searchableName.Contains("jia-guan") ||
+                searchableName.Contains("huan-guijiao") ||
+                searchableName.Contains("rubber-grommet"))
+            {
+                return "x500v2_rails_battery";
+            }
             if (searchableName.Contains("battery")) return "x500v2_battery";
-            if (searchableName.Contains("pixhawk") || searchableName.Contains("imu-pixhawk") || searchableName.Contains("bm06b")) return "x500v2_pixhawk6c";
+            if (searchableName.Contains("imu-pixhawk")) return MiscGroupId;
+            if (searchableName.Contains("pixhawk")) return "x500v2_pixhawk6c";
             if (searchableName.Contains("gps") || searchableName.Contains("gan-gpsv5") || searchableName.Contains("gpsv5-zhijia")) return "x500v2_gps_m10";
-            if (searchableName.Contains("pdb")) return "x500v2_pdb";
-            if (searchableName.Contains("power-module") || searchableName.Contains("pm06") || searchableName.Contains("xt60")) return "x500v2_power_module";
+            if (searchableName.Contains("pdb")) return string.Empty;
+            if (searchableName.Contains("power-module") || searchableName.Contains("pm06") || searchableName.Contains("xt60") || searchableName.Contains("bm06b")) return "x500v2_power_module";
             if (searchableName.Contains("receiver")) return "x500v2_rc_receiver";
             if (searchableName.Contains("telemetry") || searchableName.Contains("radio")) return "x500v2_telemetry_radio";
             if (searchableName.Contains("landing") || searchableName.Contains("jiao-") || searchableName.Contains("mao-jiao")) return "x500v2_landing_gear";
             if (searchableName.Contains("top-plate")) return "x500v2_top_plate";
-            if (searchableName.Contains("bottom-plate") || searchableName.Contains("camera-intel") || searchableName.Contains("guangliu")) return "x500v2_bottom_plate";
-            if (searchableName.Contains("platform-plat")) return "x500v2_platform_board";
+            if (searchableName.Contains("camera-intel")) return "x500v2_rails_battery";
+            if (searchableName.Contains("guangliu")) return MiscGroupId;
+            if (searchableName.Contains("bottom-plate")) return "x500v2_bottom_plate";
+            if (searchableName.Contains("platform-plat")) return "x500v2_rails_battery";
 
             return anchorId;
         }
@@ -1812,13 +1824,13 @@ namespace WebGL.Core.Utils
                 return string.Empty;
             }
 
-            // Propulsion anchors remain selectable and thermally independent. The arm
-            // assembly keeps only structural arm meshes; fasteners are resolved by
-            // catalog metadata instead of broad name heuristics.
+            // Propellers are visual/functional subpieces of each arm. They remain
+            // thermally independent through InferThermalSourcePartId, but selection
+            // and isolation treat them as part of the arm assembly.
             if (!string.IsNullOrWhiteSpace(suffix) &&
                 (searchableName.Contains("propeller") || searchableName.Contains("prop")))
             {
-                return $"x500v2_prop_{suffix.ToUpperInvariant()}";
+                return $"x500v2_arm_{suffix.ToUpperInvariant()}";
             }
 
             if (!string.IsNullOrWhiteSpace(suffix) &&
@@ -1833,14 +1845,23 @@ namespace WebGL.Core.Utils
             }
 
             if (!string.IsNullOrWhiteSpace(suffix) &&
-                (searchableName.Contains("arm") || searchableName.Contains("carbon-fiber-tube300") || searchableName.Contains("hmx5v") ||
-                 searchableName.Contains("ban-dj") || searchableName.Contains("jia-guan")))
+                (searchableName.Contains("arm") || searchableName.Contains("hmx5v") ||
+                 searchableName.Contains("ban-dj")) &&
+                !searchableName.Contains("carbon-fiber-tube300") &&
+                !searchableName.Contains("jia-guan") &&
+                !searchableName.Contains("huan-guijiao") &&
+                !searchableName.Contains("rubber-grommet"))
             {
                 return $"x500v2_arm_{suffix.ToUpperInvariant()}";
             }
 
             // Core electronics family
-            if (searchableName.Contains("pixhawk") || searchableName.Contains("imu-pixhawk") || searchableName.Contains("pcb-pixhawk") || searchableName.Contains("bm06b"))
+            if (searchableName.Contains("imu-pixhawk"))
+            {
+                return MiscGroupId;
+            }
+
+            if (searchableName.Contains("pixhawk") || searchableName.Contains("pcb-pixhawk"))
             {
                 return "x500v2_pixhawk6c";
             }
@@ -1852,10 +1873,10 @@ namespace WebGL.Core.Utils
 
             if (searchableName.Contains("pdb"))
             {
-                return "x500v2_pdb";
+                return string.Empty;
             }
 
-            if (searchableName.Contains("power-module") || searchableName.Contains("pm06") || searchableName.Contains("xt60"))
+            if (searchableName.Contains("power-module") || searchableName.Contains("pm06") || searchableName.Contains("xt60") || searchableName.Contains("bm06b"))
             {
                 return "x500v2_power_module";
             }
@@ -1867,14 +1888,20 @@ namespace WebGL.Core.Utils
 
             if (searchableName.Contains("battery-mounting") || searchableName.Contains("battery-pad") ||
                 searchableName.Contains("pylons") || searchableName.Contains("rails") ||
-                searchableName.Contains("strap"))
+                searchableName.Contains("strap") ||
+                searchableName.Contains("platform-plat") ||
+                searchableName.Contains("camera-intel") ||
+                searchableName.Contains("carbon-fiber-tube300") ||
+                searchableName.Contains("jia-guan") ||
+                searchableName.Contains("huan-guijiao") ||
+                searchableName.Contains("rubber-grommet"))
             {
                 return "x500v2_rails_battery";
             }
 
             if (searchableName.Contains("battery"))
             {
-                return "x500v2_battery";
+                return "x500v2_rails_battery";
             }
 
             // Frame / landing family
@@ -1889,14 +1916,24 @@ namespace WebGL.Core.Utils
                 return "x500v2_top_plate";
             }
 
-            if (searchableName.Contains("bottom-plate") || searchableName.Contains("camera-intel") || searchableName.Contains("guangliu"))
+            if (searchableName.Contains("camera-intel"))
+            {
+                return "x500v2_rails_battery";
+            }
+
+            if (searchableName.Contains("guangliu"))
+            {
+                return MiscGroupId;
+            }
+
+            if (searchableName.Contains("bottom-plate"))
             {
                 return "x500v2_bottom_plate";
             }
 
             if (searchableName.Contains("platform-plat"))
             {
-                return "x500v2_platform_board";
+                return "x500v2_rails_battery";
             }
 
             return fallbackAnchorId ?? string.Empty;

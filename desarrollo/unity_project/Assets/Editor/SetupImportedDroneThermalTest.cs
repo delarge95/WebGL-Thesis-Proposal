@@ -179,12 +179,18 @@ public static class SetupImportedDroneThermalTest
         int heuristicReparented = 0;
         int runtimeProxyAnchors = 0;
         int suppressedRuntimeProxies = RemoveSuppressedRuntimeProxyAnchors(root.transform);
+        int suppressedCanonicalAnchorsDemoted = 0;
         int structuralFastenersRestored = 0;
         int warnings = 0;
 
         foreach (DronePartJson jsonPart in jsonParts)
         {
             if (string.IsNullOrWhiteSpace(jsonPart.id))
+            {
+                continue;
+            }
+
+            if (ShouldSuppressRuntimeProxy(jsonPart.id))
             {
                 continue;
             }
@@ -256,6 +262,7 @@ public static class SetupImportedDroneThermalTest
             prepared++;
         }
 
+        suppressedCanonicalAnchorsDemoted = DemoteSuppressedCanonicalAnchors(root.transform);
         structuralFastenersRestored = RestoreMisclassifiedStructuralFasteners(root.transform, anchorsById);
 
         auxiliaryReparented = ReparentAuxiliaryChildren(
@@ -307,6 +314,7 @@ public static class SetupImportedDroneThermalTest
             $"Subpiezas granularizadas sin anchor seleccionable: {demotedSubpieceAnchors}\n" +
             $"Proxies canonicos temporales: {runtimeProxyAnchors}\n" +
             $"Proxies canonicos omitidos/eliminados: {suppressedRuntimeProxies}\n" +
+            $"Anchors canonicos fusionados como subpiezas: {suppressedCanonicalAnchorsDemoted}\n" +
             $"Fastener families exportadas: {fastenerCatalog?.FamiliesCatalog?.items?.Length ?? 0}\n" +
             $"Fastener instances exportadas: {fastenerCatalog?.InstancesCatalog?.items?.Length ?? 0}\n" +
             $"Warnings: {warnings}";
@@ -902,7 +910,10 @@ public static class SetupImportedDroneThermalTest
         // These anchors are catalog placeholders only in the current FBX. We keep
         // their metadata in documentation, but we do not synthesize fake geometry.
         return canonicalId.StartsWith("x500v2_esc_", StringComparison.OrdinalIgnoreCase) ||
+               canonicalId.StartsWith("x500v2_prop_", StringComparison.OrdinalIgnoreCase) ||
                string.Equals(canonicalId, "x500v2_pdb", StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(canonicalId, "x500v2_platform_board", StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(canonicalId, "x500v2_battery", StringComparison.OrdinalIgnoreCase) ||
                string.Equals(canonicalId, "x500v2_rc_receiver", StringComparison.OrdinalIgnoreCase);
     }
 
@@ -965,6 +976,42 @@ public static class SetupImportedDroneThermalTest
         }
 
         return hasRuntimeProxyRenderer;
+    }
+
+    private static int DemoteSuppressedCanonicalAnchors(Transform root)
+    {
+        if (root == null)
+        {
+            return 0;
+        }
+
+        int demoted = 0;
+        List<Transform> candidates = new List<Transform>();
+        foreach (Transform child in root)
+        {
+            if (child != null &&
+                ShouldSuppressRuntimeProxy(child.name) &&
+                !IsGeneratedRuntimeProxyAnchor(child))
+            {
+                candidates.Add(child);
+            }
+        }
+
+        for (int i = 0; i < candidates.Count; i++)
+        {
+            Transform candidate = candidates[i];
+            if (candidate == null)
+            {
+                continue;
+            }
+
+            DestroyComponent(candidate.GetComponent<ExplodablePart>());
+            DestroyComponent(candidate.GetComponent<MaterialController>());
+            DestroyComponent(candidate.GetComponent<HighlightSystem>());
+            demoted++;
+        }
+
+        return demoted;
     }
 
     private static Vector3 ResolveRuntimeProxyPosition(
@@ -1471,9 +1518,7 @@ public static class SetupImportedDroneThermalTest
             return "x500v2_gps_m10";
         }
 
-        if (normalized.Contains("hmx5v-guan-dingwei") ||
-            normalized.Contains("huan-guijiao") ||
-            normalized.Contains("rubber-grommet"))
+        if (normalized.Contains("hmx5v-guan-dingwei"))
         {
             return ResolveQuadrantArmParentCanonicalId(candidate, root);
         }
@@ -1485,6 +1530,8 @@ public static class SetupImportedDroneThermalTest
     {
         string normalized = SelectionHierarchy.NormalizeToken(rawName);
         if (normalized.Contains("hmx5v-guan-dingwei")) return "hmx5v-guan-dingwei";
+        if (normalized.Contains("carbon-fiber-tube300")) return "carbon-fiber-tube300";
+        if (normalized.Contains("jia-guan")) return "jia-guan";
         if (normalized.Contains("huan-guijiao") || normalized.Contains("rubber-grommet")) return "huan-guijiao";
         if (normalized.Contains("gpsv5-zhijia-luomao")) return "gpsv5-zhijia-luomao";
         return string.Empty;
@@ -2449,17 +2496,32 @@ public static class SetupImportedDroneThermalTest
         if (lowerName.Contains("prop") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_prop_{suffix.ToUpperInvariant()}";
         if (lowerName.Contains("motor") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_motor_{suffix.ToUpperInvariant()}";
         if (lowerName.Contains("esc") && !string.IsNullOrWhiteSpace(suffix)) return $"x500v2_esc_{suffix.ToUpperInvariant()}";
+        if (lowerName.Contains("guan-cheng")) return "x500v2_landing_gear";
+        if (lowerName.Contains("battery-mounting") || lowerName.Contains("battery-pad") ||
+            lowerName.Contains("pylons") || lowerName.Contains("rail") ||
+            lowerName.Contains("carbon-fiber-tube300") ||
+            lowerName.Contains("camera-intel") ||
+            lowerName.Contains("jia-guan") ||
+            lowerName.Contains("huan-guijiao") ||
+            lowerName.Contains("rubber-grommet"))
+        {
+            return "x500v2_rails_battery";
+        }
         if (lowerName.Contains("battery")) return "x500v2_battery";
+        if (lowerName.Contains("imu-pixhawk")) return "x500v2_misc_group";
         if (lowerName.Contains("pixhawk")) return "x500v2_pixhawk6c";
         if (lowerName.Contains("gps")) return "x500v2_gps_m10";
-        if (lowerName.Contains("pdb")) return "x500v2_pdb";
-        if (lowerName.Contains("power_module")) return "x500v2_power_module";
+        if (lowerName.Contains("pdb")) return string.Empty;
+        if (lowerName.Contains("power_module") || lowerName.Contains("pm06") || lowerName.Contains("xt60") || lowerName.Contains("bm06b")) return "x500v2_power_module";
         if (lowerName.Contains("receiver")) return "x500v2_rc_receiver";
         if (lowerName.Contains("telemetry") || lowerName.Contains("radio")) return "x500v2_telemetry_radio";
-        if (lowerName.Contains("rail")) return "x500v2_rails_battery";
-        if (lowerName.Contains("landing")) return "x500v2_landing_gear";
+        if (lowerName.Contains("landing") || lowerName.Contains("jiao-") || lowerName.Contains("mao-jiao") ||
+            (lowerName.Contains("carbon-fiber-tube") && !lowerName.Contains("tube300"))) return "x500v2_landing_gear";
         if (lowerName.Contains("top_plate")) return "x500v2_top_plate";
         if (lowerName.Contains("bottom_plate")) return "x500v2_bottom_plate";
+        if (lowerName.Contains("camera-intel")) return "x500v2_rails_battery";
+        if (lowerName.Contains("guangliu")) return "x500v2_misc_group";
+        if (lowerName.Contains("platform-plat")) return "x500v2_rails_battery";
 
         return anchorId;
     }

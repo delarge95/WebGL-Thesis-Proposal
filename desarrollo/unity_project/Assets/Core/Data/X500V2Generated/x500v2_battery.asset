@@ -69,11 +69,7 @@ MonoBehaviour:
   - Velcro Strap
   screwCount: 0
   screwSize: 
-  subComponentNames:
-  - Battery proxy
-  - Battery strap 1 proxy
-  - Battery strap 2 proxy
-  - 'Fasteners: Countersunk Screw M2.5 x 6 mm x4'
+  subComponentNames: []
   fastenerMetadata:
     instanceId: 
     familyId: 

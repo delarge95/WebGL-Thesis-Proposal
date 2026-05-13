@@ -65,10 +65,7 @@ MonoBehaviour:
   screwCount: 0
   screwSize: 
   subComponentNames:
-  - RC receiver proxy
-  - 'Fasteners: Socket Cap Screw M2.5 x 6 mm x4'
-  - 'Fasteners: Socket Cap Screw M3 x 38 mm x8'
-  - 'Fasteners: Flange Nut M3 x4'
+  - RECEIVER
   fastenerMetadata:
     instanceId: 
     familyId: 

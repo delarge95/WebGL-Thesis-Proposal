@@ -70,14 +70,12 @@ MonoBehaviour:
   screwSize: 
   subComponentNames:
   - PCB-PM06
+  - BM06B-WO
   - TOU-XT60H-M-14AWG
   - X500-TAO-XT60
-  - 'Fasteners: Socket Cap Screw M2.5 x 6 mm x4'
-  - 'Fasteners: Socket Cap Screw M3 x 8 mm x2'
-  - 'Fasteners: Standoff M3 x 5 mm x2'
-  - 'Fasteners: Pan Head Screw M3 x 14 mm x2'
-  - 'Fasteners: Rubber Grommet x2'
-  - 'Fasteners: Cap Nut M3 x2'
+  - 'Fasteners: CapNut M3 x4'
+  - 'Fasteners: Nylon Standoff M3 x 5 mm x4'
+  - 'Fasteners: Pan Head Screw M3 x 14 mm x4'
   fastenerMetadata:
     instanceId: 
     familyId: 

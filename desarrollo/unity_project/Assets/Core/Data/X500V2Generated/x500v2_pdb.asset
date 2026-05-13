@@ -70,11 +70,7 @@ MonoBehaviour:
   - XT30 Plug
   screwCount: 4
   screwSize: M3
-  subComponentNames:
-  - PDB placeholder (temporary scene)
-  - 'Fasteners: Standoff M3 x 5 mm x2'
-  - 'Fasteners: Pan Head Screw M3 x 14 mm x2'
-  - 'Fasteners: Cap Nut M3 x2'
+  subComponentNames: []
   fastenerMetadata:
     instanceId: 
     familyId: 

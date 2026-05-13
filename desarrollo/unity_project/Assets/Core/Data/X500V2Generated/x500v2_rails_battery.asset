@@ -71,7 +71,19 @@ MonoBehaviour:
   - BATTERY-MOUNTING-PLAT
   - BATTERY-PAD
   - PYLONS-X500
-  - GUAN-CHENG
+  - CARBON-FIBER-TUBE300
+  - JIA-GUAN
+  - HUAN-GUIJIAO
+  - PLATFORM-PLAT-X500
+  - ZHIJIA-CAMERA-INTEL
+  - LIPO
+  - BATTERY
+  - BATTERY-STRAP
+  - 'Fasteners: Socket Cap Screw M2.5 x 12 mm x4'
+  - 'Fasteners: Countersunk Screw M2.5 x 6 mm x12'
+  - 'Fasteners: Countersunk Screw M3 x 16 mm x2'
+  - 'Fasteners: Nylon Standoff M2.5 x 5 mm x4'
+  - 'Fasteners: Self-lock Nut M2.5 x4'
   fastenerMetadata:
     instanceId: 
     familyId: 

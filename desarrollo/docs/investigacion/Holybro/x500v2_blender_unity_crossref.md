@@ -85,16 +85,16 @@
 |---|---|---|---|
 | 1 | `BOTTOM-PLATE-X500-V5` | `x500v2_bottom_plate` | ✅ Rename |
 | 2 | `TOP-PLATE-X500-V5` | `x500v2_top_plate` | ✅ Rename |
-| 3 | `PLATFORM-PLAT-X500` | `x500v2_platform_board` | ✅ Rename |
+| 3 | `PLATFORM-PLAT-X500` | `x500v2_rails_battery` (sub: platform board) | Merge manual -> `x500v2_rails_battery` |
 | 4 | `BATTERY-MOUNTING-PLAT` | `x500v2_rails_battery` (sub: mounting plate) | ✅ Merge → `x500v2_rails_battery` |
 | 5 | `BATTERY-PAD` | `x500v2_rails_battery` (sub: silicone pad) | ✅ Merge → `x500v2_rails_battery` |
 | 6 | `PYLONS-X500` | `x500v2_rails_battery` (sub: carbon rails) | ✅ Merge → `x500v2_rails_battery` |
-| 7 | `GUAN-CHENG` | `x500v2_rails_battery` (sub: rail clip) | ✅ Merge → `x500v2_rails_battery` |
-| 8 | `HUAN-GUIJIAO` (73K verts!) | ⚠️ Silicone dampener — hereda de padre | ⚠️ NO EN UNITY — hereda `x500v2_bottom_plate` |
-| 9 | `JIA-GUAN` | ⚠️ Cable clamp — hereda de padre | ⚠️ NO EN UNITY — hereda padre más cercano |
+| 7 | `GUAN-CHENG` | `x500v2_landing_gear` (sub: landing connector) | Correccion manual -> `x500v2_landing_gear` |
+| 8 | `HUAN-GUIJIAO` (73K verts!) | `x500v2_rails_battery` (sub: rubber grommet) | Merge manual -> `x500v2_rails_battery` |
+| 9 | `JIA-GUAN` | `x500v2_rails_battery` (sub: clamp) | Merge manual -> `x500v2_rails_battery` |
 | 10 | `JIA-LIANJIE` | ⚠️ Frame clip — hereda de padre | ⚠️ NO EN UNITY — hereda padre más cercano |
 | 11 | `GAI-GUANGLIU` | ⚠️ Optical flow cover — hereda | ⚠️ NO EN UNITY — hereda `x500v2_bottom_plate` |
-| 12 | `ZHIJIA-CAMERA-INTEL` | ⚠️ Camera bracket — hereda | ⚠️ NO EN UNITY — hereda `x500v2_bottom_plate` |
+| 12 | `ZHIJIA-CAMERA-INTEL` | `x500v2_rails_battery` (sub: camera bracket) | Correccion manual -> `x500v2_rails_battery` |
 
 ### 05b — Arm (subcategories/Structure/Arm)
 
@@ -161,7 +161,7 @@
 | 5 | `x500v2_arm_BL` | ↑ | ✅ Merge + instance |
 | 6 | `x500v2_arm_BR` | ↑ | ✅ Merge + instance |
 | 7 | `x500v2_landing_gear` | Tube + EVA + end caps + T-connectors | ✅ Merge |
-| 8 | `x500v2_platform_board` | `PLATFORM-PLAT-X500` | ✅ Rename |
+| 8 | `x500v2_platform_board` | - | Documentado; runtime fusionado en `x500v2_rails_battery` |
 | 9 | `x500v2_rails_battery` | Mounting plate + pad + pylons + clips | ✅ Merge |
 | 10 | `x500v2_pdb` | — | 🔴 **FALTA** |
 | 11 | `x500v2_power_module` | `PCB-PM06` + `TOU-XT60H-M-14AWG` + `X500-TAO-XT60` | ✅ Merge |
@@ -212,10 +212,10 @@
 
 | Nombre Blender | Padre térmico sugerido |
 |---|---|
-| `HUAN-GUIJIAO` (dampeners ×8) | `x500v2_bottom_plate` |
-| `JIA-GUAN` (cable clamps ×8) | Padre más cercano |
+| `HUAN-GUIJIAO` (dampeners ×8) | `x500v2_rails_battery` |
+| `JIA-GUAN` (cable clamps ×8) | `x500v2_rails_battery` |
 | `JIA-LIANJIE` (frame clips ×2) | Padre más cercano |
 | `GAI-GUANGLIU` (optical flow cover) | `x500v2_bottom_plate` |
-| `ZHIJIA-CAMERA-INTEL` (camera bracket) | `x500v2_bottom_plate` |
+| `ZHIJIA-CAMERA-INTEL` (camera bracket) | `x500v2_rails_battery` |
 | 19 tipos de fasteners (tornillos/tuercas) | Padre más cercano |
 | `x500v2_battery_strap_1/2_PROXY` | `x500v2_battery` |

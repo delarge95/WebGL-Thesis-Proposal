@@ -65,7 +65,7 @@ MonoBehaviour:
     sourceId: x500v2_blend_m25_6_chen_liu
     sceneObjectName: x500v2_fastener.countersunk_M25x6_007
     hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_007
-    parentCanonicalPartId: x500v2_arm_BL
+    parentCanonicalPartId: x500v2_rails_battery
     blenderName: M25-6-CHEN-LIU
     sceneTypeKey: countersunk_M25x6
     subtype: CountersunkScrew

@@ -67,13 +67,13 @@ MonoBehaviour:
   screwSize: M3
   subComponentNames:
   - BOTTOM-PLATE-X500-V5
-  - GAI-GUANGLIU
-  - ZHIJIA-CAMERA-INTEL
-  - 'Fasteners: Socket Cap Screw M3 x 25 mm x2'
-  - 'Fasteners: Socket Cap Screw M3 x 8 mm x2'
-  - 'Fasteners: Flange Nut M3 x2'
-  - 'Fasteners: Cap Nut M3 x1'
-  - 'Fasteners: Rubber Grommet x2'
+  - 'Fasteners: Socket Cap Screw M2.5 x 6 mm x8'
+  - 'Fasteners: NylocNut M3 x1'
+  - 'Shared Fasteners: Socket Cap Screw M3 x 38 mm x16'
+  - 'Shared Fasteners: Flange Nut M3 x16'
+  - 'Shared Fasteners: Socket Cap Screw M3 x 8 mm x8'
+  - 'Shared Fasteners: Pan Head Screw M3 x 14 mm x4'
+  - 'Shared Fasteners: Nylon Standoff M3 x 5 mm x4'
   fastenerMetadata:
     instanceId: 
     familyId: 
