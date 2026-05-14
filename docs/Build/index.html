@@ -27,21 +27,18 @@
       var canvas = document.querySelector("#unity-canvas");
 
       // Shows a temporary message banner/ribbon for a few seconds, or
-      // a permanent error message on top of the canvas if type=='error'.
+      // a permanent error message on top of the canvas if type == 'error'.
       function unityShowBanner(msg, type) {
         var warningBanner = document.querySelector("#unity-warning");
         function updateBannerVisibility() {
-          warningBanner.style.display = warningBanner.children.length
-            ? "block"
-            : "none";
+          warningBanner.style.display = warningBanner.children.length ? "block" : "none";
         }
         var div = document.createElement("div");
         div.innerHTML = msg;
         warningBanner.appendChild(div);
         if (type == "error") div.style = "background: red; padding: 10px;";
         else {
-          if (type == "warning")
-            div.style = "background: yellow; padding: 10px;";
+          if (type == "warning") div.style = "background: yellow; padding: 10px;";
           setTimeout(function () {
             warningBanner.removeChild(div);
             updateBannerVisibility();
@@ -52,9 +49,9 @@
 
       var config = {
         arguments: [],
-        dataUrl: "9fc82a7fbd3e71bc3bd6903d0bf0d658.data.br",
-        frameworkUrl: "ba100b54d5abae410cb1a6187616ebfa.framework.js.br",
-        codeUrl: "87cc06ac289a742fbbc8bb936abc1b42.wasm.br",
+        dataUrl: "ca189b9a998d716139c0f7488c1cadfe.data.br",
+        frameworkUrl: "8ce526bf821b0f96ee6364fcc48782fb.framework.js.br",
+        codeUrl: "d53a0885dc38f04ae7387392863779d2.wasm.br",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "UNAD",
         productName: "WebGL Drone Viewer",
@@ -66,7 +63,7 @@
       };
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas
+        // Mobile device style: fill the whole browser client area with the game canvas.
         var meta = document.createElement("meta");
         meta.name = "viewport";
         meta.content =
@@ -75,7 +72,7 @@
         document.querySelector("#unity-container").className = "unity-mobile";
         canvas.className = "unity-mobile";
       } else {
-        // Desktop style: Fill available space (matches iframe container)
+        // Desktop style: fill available space (matches iframe container).
         canvas.style.width = "100%";
         canvas.style.height = "100%";
       }
@@ -83,11 +80,10 @@
       document.querySelector("#unity-loading-bar").style.display = "block";
 
       var script = document.createElement("script");
-      script.src = "4ae38918cf1f2e876cc0bc938499e029.loader.js";
+      script.src = "391341dde24a56134a7547fd55659abd.loader.js";
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
-          document.querySelector("#unity-progress-bar-full").style.width =
-            100 * progress + "%";
+          document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
         })
           .then((unityInstance) => {
             document.querySelector("#unity-loading-bar").style.display = "none";
