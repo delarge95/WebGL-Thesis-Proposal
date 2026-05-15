@@ -23,14 +23,11 @@
 5. [Shader: Blueprint](#5-shader-blueprint)
 6. [Shader: XRay](#6-shader-xray)
 7. [Shader: SolidColor](#7-shader-solidcolor)
-8. [Shader: Wireframe](#8-shader-wireframe)
-9. [Shader: WireframeWebGL](#9-shader-wireframewebgl)
-10. [Shader: Thermal](#10-shader-thermal)
-11. [Shader: Ghosted](#11-shader-ghosted)
-12. [Shader: AnimatedGradientSkybox](#12-shader-animatedgradientskybox)
-13. [Restricciones WebGL y Estrategias de Compatibilidad](#13-restricciones-webgl-y-estrategias-de-compatibilidad)
-14. [MaterialPropertyBlock: Uso y Justificación](#14-materialpropertyblock-uso-y-justificación)
-15. [Inventario de Propiedades Shader Globales](#15-inventario-de-propiedades-shader-globales)
+8. [Shader: Thermal](#10-shader-thermal)
+9. [Shader: AnimatedGradientSkybox](#12-shader-animatedgradientskybox)
+10. [Restricciones WebGL y Estrategias de Compatibilidad](#13-restricciones-webgl-y-estrategias-de-compatibilidad)
+11. [MaterialPropertyBlock: Uso y Justificación](#14-materialpropertyblock-uso-y-justificación)
+12. [Inventario de Propiedades Shader Globales](#15-inventario-de-propiedades-shader-globales)
 
 ---
 
@@ -85,7 +82,7 @@ Frame Loop (WebGL = single-threaded, ~60Hz target)
 
 | Manager                 | Shader(s) Usado(s)            | Mecanismo                                                                  |
 | ----------------------- | ----------------------------- | -------------------------------------------------------------------------- |
-| `ViewModeManager`       | Todos (6 modos + Realistic)   | `Shader.Find()` → `new Material(shader)` → `renderer.sharedMaterial = mat` |
+| `ViewModeManager`       | Modos de vista operativos     | `Shader.Find()` → `new Material(shader)` → `renderer.sharedMaterial = mat` |
 | `CrossSectionManager`   | ClippableLit (modo Realistic) | `Shader.SetGlobalVector/Float` para planos globales                        |
 | `HighlightSystem`       | Cualquiera activo             | `MaterialPropertyBlock.SetColor("_BaseColor"/"_EmissionColor")`            |
 | `PartVisibilityManager` | Cualquiera activo             | `MaterialPropertyBlock.SetColor` con alpha (fade)                          |
@@ -527,151 +524,7 @@ Escribe profundidad con clipping dual. Permite que los objetos en modo SolidColo
 
 ---
 
-## 8. Shader: Wireframe
-
-**Ruta:** `Assets/Shaders/Wireframe.shader`  
-**Líneas:** 255  
-**Nombre:** `"WebGL/Wireframe"`  
-**Tags:** `"Queue"="Geometry" "RenderType"="Opaque"`
-
-### 8.1 Propósito
-
-Renderiza los bordes de cada triángulo como líneas finas sobre un fondo sólido. Usa un **geometry shader** (no disponible en WebGL, por eso existe `WireframeWebGL`).
-
-### 8.2 Properties
-
-| Propiedad        | Tipo  | Default              |
-| ---------------- | ----- | -------------------- |
-| `_BaseColor`     | Color | (0.05, 0.05, 0.1, 1) |
-| `_WireColor`     | Color | (0.0, 0.8, 1.0, 1)   |
-| `_WireThickness` | Float | 1.5                  |
-| `_WireSmoothing` | Float | 1.0                  |
-
-### 8.3 SubShader 1: Con Geometry Shader (Desktop/Standalone)
-
-**Vertex → Geometry → Fragment pipeline:**
-
-```hlsl
-// VERTEX: paso directo, solo transforma
-VertexOutput vert(VertexInput v) {
-    o.positionCS = TransformObjectToHClip(v.posOS);
-    o.positionWS = TransformObjectToWorld(v.posOS);
-    return o;
-}
-
-// GEOMETRY: por cada triángulo, calcula distancias de borde
-[maxvertexcount(3)]
-void geom(triangle VertexOutput input[3],
-          inout TriangleStream<GeomOutput> stream)
-{
-    // Proyectar vértices a screen space
-    float2 p0 = input[0].positionCS.xy / input[0].positionCS.w * _ScreenParams.xy;
-    float2 p1 = input[1].positionCS.xy / input[1].positionCS.w * _ScreenParams.xy;
-    float2 p2 = input[2].positionCS.xy / input[2].positionCS.w * _ScreenParams.xy;
-
-    // Calcular distancia de cada vértice al borde opuesto
-    float d0 = DistancePointToLine(p0, p1, p2);  // distancia de v0 al borde v1-v2
-    float d1 = DistancePointToLine(p1, p0, p2);
-    float d2 = DistancePointToLine(p2, p0, p1);
-
-    // Emitir vértices con coordenadas baricéntricas de distancia
-    GeomOutput go;
-    go = input[0]; go.dist = float3(d0, 0, 0); stream.Append(go);
-    go = input[1]; go.dist = float3(0, d1, 0); stream.Append(go);
-    go = input[2]; go.dist = float3(0, 0, d2); stream.Append(go);
-}
-
-// FRAGMENT: usa distancia mínima para determinar cercanía a un borde
-float4 frag(GeomOutput IN) : SV_Target
-{
-    ClipAgainstGlobalPlanes(IN.positionWS);
-
-    float minDist = min(IN.dist.x, min(IN.dist.y, IN.dist.z));
-    float wireAlpha = 1.0 - smoothstep(_WireThickness - _WireSmoothing,
-                                        _WireThickness + _WireSmoothing,
-                                        minDist);
-    float3 color = lerp(_BaseColor.rgb, _WireColor.rgb, wireAlpha);
-    return float4(color, 1.0);
-}
-```
-
-**Técnica — Screen-space edge distance:** En lugar de dibujar líneas reales (Line primitive), el geometry shader calcula la distancia de cada fragmento al borde más cercano del triángulo **en píxeles de pantalla**. Esto produce líneas de grosor constante en píxeles independientemente de la distancia al objeto (a diferencia de líneas en world-space que se engrosan al acercarse).
-
-### 8.4 SubShader 2: Fallback sin Geometry Shader
-
-```hlsl
-// Fallback simple: UV-based grid pattern (similar a WireframeWebGL)
-frag(Varyings IN) : SV_Target
-{
-    float3 color = _BaseColor.rgb;
-    float fresnel = pow(1.0 - saturate(dot(IN.normalWS, IN.viewDirWS)), 2.0);
-    color += _WireColor.rgb * fresnel * 0.5;
-    return float4(color, 1.0);
-}
-```
-
----
-
-## 9. Shader: WireframeWebGL
-
-**Ruta:** `Assets/Shaders/WireframeWebGL.shader`  
-**Líneas:** 132  
-**Nombre:** `"WebGL/WireframeWebGL"`  
-**Tags:** `"Queue"="Geometry" "RenderType"="Opaque"`
-
-### 9.1 Propósito
-
-Versión compatible con WebGL del wireframe. WebGL 2.0 (OpenGL ES 3.0) **NO soporta geometry shaders**. Esta versión usa una grilla UV + Fresnel para aproximar el efecto wireframe.
-
-### 9.2 Properties
-
-| Propiedad        | Tipo  | Default               |
-| ---------------- | ----- | --------------------- |
-| `_BaseColor`     | Color | (0.05, 0.05, 0.15, 1) |
-| `_WireColor`     | Color | (0.0, 0.8, 1.0, 1)    |
-| `_GridDensity`   | Float | 10                    |
-| `_WireThickness` | Float | 0.05                  |
-| `_FresnelPower`  | Float | 2                     |
-
-### 9.3 Fragment Stage
-
-```hlsl
-frag(Varyings IN) : SV_Target
-{
-    ClipAgainstGlobalPlanes(IN.positionWS);
-
-    // UV grid pattern (10x10 celdas por defecto)
-    float2 gridUV = IN.uv * _GridDensity;
-    float2 grid = abs(frac(gridUV) - 0.5);
-    float gridLine = min(grid.x, grid.y);
-    float gridAlpha = 1.0 - smoothstep(0.0, _WireThickness, gridLine);
-
-    // Fresnel edge enhancement
-    float fresnel = pow(1.0 - saturate(dot(IN.normalWS, IN.viewDirWS)), _FresnelPower);
-
-    // Composición
-    float3 color = _BaseColor.rgb;
-    color = lerp(color, _WireColor.rgb, gridAlpha);
-    color += _WireColor.rgb * fresnel * 0.3;
-
-    return float4(color, 1.0);
-}
-```
-
-### 9.4 Limitaciones vs Wireframe "Real"
-
-| Aspecto              | Wireframe (Geometry Shader)      | WireframeWebGL (UV Grid)           |
-| -------------------- | -------------------------------- | ---------------------------------- |
-| Fidelidad            | Bordes reales de cada triángulo  | Grilla rectangular en UV space     |
-| Grosor constante     | Sí (screen-space)                | No (se distorsiona con UV mapping) |
-| Dependencia UV       | No                               | Sí (requiere UVs bien mapeados)    |
-| Compatibilidad WebGL | No                               | Sí                                 |
-| Costo GPU            | Mayor (geometry shader overhead) | Menor (solo fragment shader)       |
-| Efecto visual        | Técnicamente preciso             | Aproximación estética              |
-
----
-
-## 10. Shader: Thermal
+## 8. Shader: Thermal
 
 **Ruta:** `Assets/Shaders/Thermal.shader`  
 **Líneas:** 192  
@@ -763,58 +616,7 @@ frag(Varyings IN) : SV_Target
 
 ---
 
-## 11. Shader: Ghosted
-
-**Ruta:** `Assets/Shaders/Ghosted.shader`  
-**Líneas:** 135  
-**Nombre:** `"WebGL/Ghosted"`  
-**Tags:** `"Queue"="Transparent" "RenderType"="Transparent"`
-
-### 11.1 Propósito
-
-Efecto de transparencia tipo "fantasma": las superficies son altamente transparentes en el centro y más opacas en los bordes (efecto Fresnel invertido), permitiendo ver el interior del modelo.
-
-### 11.2 Properties
-
-| Propiedad       | Tipo  | Default              |
-| --------------- | ----- | -------------------- |
-| `_BaseColor`    | Color | (0.5, 0.7, 1.0, 0.3) |
-| `_FresnelPower` | Float | 3                    |
-| `_MinAlpha`     | Float | 0.05                 |
-| `_MaxAlpha`     | Float | 0.4                  |
-| `_DepthFade`    | Float | 1.0                  |
-
-### 11.3 Fragment Stage
-
-```hlsl
-Blend SrcAlpha OneMinusSrcAlpha
-ZWrite Off
-Cull Off  // Renderiza ambas caras (para ver interior)
-
-frag(Varyings IN) : SV_Target
-{
-    ClipAgainstGlobalPlanes(IN.positionWS);
-
-    float fresnel = pow(1.0 - saturate(dot(IN.normalWS, IN.viewDirWS)), _FresnelPower);
-    float alpha = lerp(_MinAlpha, _MaxAlpha, fresnel);
-
-    // Depth fade (atenua transparencia de superficies distantes)
-    float sceneDepth = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, uv));
-    float fragDepth = IN.positionCS.z;
-    float depthDiff = saturate((sceneDepth - fragDepth) * _DepthFade);
-    alpha *= depthDiff;
-
-    return float4(_BaseColor.rgb, alpha);
-}
-```
-
-**`Cull Off` (Double-sided rendering):** A diferencia de los shaders opacos (que solo renderizan caras frontales), Ghosted renderiza **ambas caras**. Esto permite que el usuario vea tanto la superficie exterior como la interior del modelo, creando la ilusión de un objeto translúcido.
-
-**Depth fade:** Cuando múltiples superficies translúcidas se superponen, sin depth fade se produce una saturación de color (accumulation). El depth fade atenúa el alpha de superficies que están detrás de otras, reduciendo este artefacto.
-
----
-
-## 12. Shader: AnimatedGradientSkybox
+## 9. Shader: AnimatedGradientSkybox
 
 **Ruta:** `Assets/Content/Shaders/Skybox/AnimatedGradientSkybox.shader`  
 **Líneas:** 68  
@@ -876,7 +678,7 @@ fixed4 frag(v2f i) : SV_Target
 
 ---
 
-## 13. Restricciones WebGL y Estrategias de Compatibilidad
+## 10. Restricciones WebGL y Estrategias de Compatibilidad
 
 ### 13.1 Limitaciones de WebGL 2.0 (OpenGL ES 3.0)
 
@@ -924,7 +726,7 @@ Unity selecciona automáticamente el primer SubShader compatible. En Desktop (Di
 
 ---
 
-## 14. MaterialPropertyBlock: Uso y Justificación
+## 11. MaterialPropertyBlock: Uso y Justificación
 
 ### 14.1 ¿Qué es MaterialPropertyBlock?
 
@@ -961,7 +763,7 @@ renderer.SetPropertyBlock(block);
 
 ---
 
-## 15. Inventario de Propiedades Shader Globales
+## 12. Inventario de Propiedades Shader Globales
 
 | Propiedad             | Tipo    | Establecida por                          | Leída por                                                                             |
 | --------------------- | ------- | ---------------------------------------- | ------------------------------------------------------------------------------------- |

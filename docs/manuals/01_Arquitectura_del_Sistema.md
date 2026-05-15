@@ -181,8 +181,6 @@ No todos los estados deben venderse como pantallas visibles independientes; algu
 - `XRay`
 - `Blueprint`
 - `SolidColor`
-- `Wireframe`
-- `Ghosted`
 - `Thermal`
 
 La UI final visible no expone todos esos modos al mismo tiempo. `Realistic` funciona como modo base; la tarjeta visible principal permite alternar `XRay`, `SolidColor` y `Thermal`, mientras otros modos quedan implementados pero ocultos.
