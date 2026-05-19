@@ -48,7 +48,7 @@ Inventario tecnico resumido de los modulos relevantes para el cierre, dividido p
 | Modulo | Estado | Motivo |
 | --- | --- | --- |
 | `MeasurementTool` | oculto | no se expone hasta validar escala util del modelo |
-| `Blueprint`, `Wireframe`, `Ghosted` | oculto | implementados en `ViewModeManager` pero no expuestos en la UI final |
+| `Blueprint` | oculto | implementado en `ViewModeManager` pero activado indirectamente vía presets de entorno |
 | `EnvPreset_Neutral` | oculto | boton presente en UXML con `display: none` |
 | partes del flujo termico avanzado | oculto | se preservan como base tecnica, no como feature cerrada |
 
