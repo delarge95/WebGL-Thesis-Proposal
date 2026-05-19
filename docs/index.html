@@ -1370,6 +1370,8 @@
         const scrollHint = document.querySelector(".scroll-hint");
         const body = document.body;
         let appHistoryEntryActive = false;
+        let forceClosingApp = false;
+        let pendingBackTimer = null;
 
         // Doc Viewer Elements
         const docOverlay = document.getElementById("docOverlay");
@@ -1625,6 +1627,8 @@
         function closeAppOverlay() {
           if (!isAppOpen()) return;
 
+          forceClosingApp = false;
+          appHistoryEntryActive = false;
           body.classList.remove("no-scroll");
           const exitTl = gsap.timeline();
           exitTl
@@ -1644,6 +1648,7 @@
           if (!isAppOpen()) return;
 
           if (appHistoryEntryActive) {
+            forceClosingApp = true;
             window.history.back();
             return;
           }
@@ -1665,6 +1670,47 @@
           );
         }
 
+        function isTrustedUnityBackResult(event) {
+          const sameFrame = appFrame && event.source === appFrame.contentWindow;
+          const sameOrigin =
+            window.location.protocol === "file:" ||
+            event.origin === window.location.origin;
+
+          return (
+            sameFrame &&
+            sameOrigin &&
+            event.data &&
+            event.data.type === "x500v2:browser-back-result"
+          );
+        }
+
+        function pushAppHistoryEntry() {
+          if (!appHistoryEntryActive && isAppOpen()) {
+            window.history.pushState({ x500v2AppOpen: true }, "", "#app");
+            appHistoryEntryActive = true;
+          }
+        }
+
+        function requestUnityLayerBack() {
+          if (!appFrame || !appFrame.contentWindow) {
+            closeAppOverlay();
+            return;
+          }
+
+          window.clearTimeout(pendingBackTimer);
+          const targetOrigin =
+            window.location.protocol === "file:" ? "*" : window.location.origin;
+          appFrame.contentWindow.postMessage(
+            { type: "x500v2:browser-back" },
+            targetOrigin
+          );
+
+          pendingBackTimer = window.setTimeout(() => {
+            pendingBackTimer = null;
+            closeAppOverlay();
+          }, 900);
+        }
+
         // 4. SEAMLESS TRANSITION LOGIC
         btnStart.addEventListener("click", openAppOverlay);
 
@@ -1672,12 +1718,32 @@
         window.addEventListener("popstate", () => {
           if (!appHistoryEntryActive) return;
           appHistoryEntryActive = false;
+
+          if (forceClosingApp) {
+            closeAppOverlay();
+            return;
+          }
+
+          if (isAppOpen()) {
+            requestUnityLayerBack();
+            return;
+          }
+
           closeAppOverlay();
         });
 
         window.addEventListener("message", (event) => {
           if (isTrustedUnityExitMessage(event)) {
             requestAppExit();
+          } else if (isTrustedUnityBackResult(event)) {
+            window.clearTimeout(pendingBackTimer);
+            pendingBackTimer = null;
+
+            if (event.data.handled) {
+              pushAppHistoryEntry();
+            } else {
+              closeAppOverlay();
+            }
           }
         });
 
