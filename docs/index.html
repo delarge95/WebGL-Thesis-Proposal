@@ -559,30 +559,6 @@
         opacity: 1;
       }
 
-      .btn-exit {
-        position: absolute;
-        top: 2rem;
-        right: 2rem;
-        background: rgba(0, 0, 0, 0.5);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: var(--text-main);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 101;
-        transition: all 0.3s;
-        font-family: "Inter", sans-serif;
-      }
-
-      .btn-exit:hover {
-        border-color: var(--text-main);
-        background: rgba(255, 255, 255, 0.1);
-      }
-
       /* INFO SECTIONS - Minimalist (Below Fold) */
       .info-section {
         padding-block: 8rem; /* Vertical only, preserves container horizontal padding */
@@ -1186,7 +1162,6 @@
 
     <!-- APP OVERLAY (Seamless Transition) -->
     <div class="app-overlay" id="appOverlay">
-      <button class="btn-exit" id="btnExit">✕</button>
       <!-- Iframe loads here. Preload it but keep hidden -->
       <iframe
         src="./Build/index.html"
@@ -1388,12 +1363,13 @@
 
         // Elements
         const btnStart = document.getElementById("btnStart");
-        const btnExit = document.getElementById("btnExit");
         const appOverlay = document.getElementById("appOverlay");
+        const appFrame = document.getElementById("appFrame");
         const heroGraphic = document.getElementById("heroGraphic");
         const heroContent = document.querySelector(".hero-content");
         const scrollHint = document.querySelector(".scroll-hint");
         const body = document.body;
+        let appHistoryEntryActive = false;
 
         // Doc Viewer Elements
         const docOverlay = document.getElementById("docOverlay");
@@ -1619,9 +1595,19 @@
             .to(scrollHint, { opacity: 0 }, "<"),
         });
 
-        // 4. SEAMLESS TRANSITION LOGIC
-        btnStart.addEventListener("click", () => {
+        function isAppOpen() {
+          return appOverlay.classList.contains("active");
+        }
+
+        function openAppOverlay() {
+          if (isAppOpen()) return;
+
           body.classList.add("no-scroll");
+          if (!appHistoryEntryActive) {
+            window.history.pushState({ x500v2AppOpen: true }, "", "#app");
+            appHistoryEntryActive = true;
+          }
+
           const transitionTl = gsap.timeline();
           transitionTl
             .to(heroGraphic, {
@@ -1634,10 +1620,11 @@
             .to(scrollHint, { opacity: 0, duration: 0.5 }, "-=1.5")
             .set(appOverlay, { className: "app-overlay active" })
             .to(appOverlay, { opacity: 1, duration: 0.5 }, "-=0.5");
-        });
+        }
 
-        // 5. EXIT LOGIC
-        btnExit.addEventListener("click", () => {
+        function closeAppOverlay() {
+          if (!isAppOpen()) return;
+
           body.classList.remove("no-scroll");
           const exitTl = gsap.timeline();
           exitTl
@@ -1651,6 +1638,47 @@
             })
             .to(heroContent, { opacity: 1, duration: 0.5 }, "-=1.0")
             .to(scrollHint, { opacity: 1, duration: 0.5 }, "-=1.0");
+        }
+
+        function requestAppExit() {
+          if (!isAppOpen()) return;
+
+          if (appHistoryEntryActive) {
+            window.history.back();
+            return;
+          }
+
+          closeAppOverlay();
+        }
+
+        function isTrustedUnityExitMessage(event) {
+          const sameFrame = appFrame && event.source === appFrame.contentWindow;
+          const sameOrigin =
+            window.location.protocol === "file:" ||
+            event.origin === window.location.origin;
+
+          return (
+            sameFrame &&
+            sameOrigin &&
+            event.data &&
+            event.data.type === "x500v2:exit-app"
+          );
+        }
+
+        // 4. SEAMLESS TRANSITION LOGIC
+        btnStart.addEventListener("click", openAppOverlay);
+
+        // 5. EXIT LOGIC
+        window.addEventListener("popstate", () => {
+          if (!appHistoryEntryActive) return;
+          appHistoryEntryActive = false;
+          closeAppOverlay();
+        });
+
+        window.addEventListener("message", (event) => {
+          if (isTrustedUnityExitMessage(event)) {
+            requestAppExit();
+          }
         });
 
         // 6. Scroll Animations with enhanced stagger
