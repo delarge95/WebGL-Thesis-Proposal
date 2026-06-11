@@ -1,0 +1,7 @@
+﻿<Solution>
+  <Project Path="Core.csproj" />
+  <Project Path="WebGL.Tests.Editor.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
+  <Project Path="UI.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+</Solution>

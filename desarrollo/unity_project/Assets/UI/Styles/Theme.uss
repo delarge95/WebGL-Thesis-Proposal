@@ -1,0 +1,2867 @@
+/*
+   TYPE RAMP  (UX-H06)
+   ----------------------------------------
+   Display    : 64px  - Hero title (SpaceGrotesk-SemiBold)
+   Panel-title: 36px  - Panel / mode headings
+   H1         : 28px  - Section titles, about title
+   Sheet-title: 24px  - Sheet header, app logo
+   H2         : 20px  - Panel headings, hero subtitle
+   Body-lg    : 18px  - Card titles, sub-headings
+   Body       : 16px  - Buttons, body text
+   Body-sm    : 14px  - Descriptions, secondary text, data rows
+   Caption    : 12px  - Counters, foldout labels
+
+   FONTS:
+   SpaceGrotesk-SemiBold  - Display, hero titles
+   SpaceGrotesk-SemiBold - Sheet titles, emphasis
+   SpaceGrotesk-Regular  - Section headings
+   Inter-Regular         - All body text (base)
+   ---------------------------------------- */
+/* ============================================================
+   TwinSight X500 — Main Theme Stylesheet
+   2026 Futuristic Minimalist · 8pt Grid · HIG/MD3 Compliant
+   ============================================================ */
+
+/* Import Modules */
+@import "Hotspots.uss";
+
+/* ────────────────────────────────────────────────
+   Design Tokens (Direct Values — USS has no vars)
+   Aligned with web landing page (docs/src/index.css)
+   
+   Background:     rgb(0, 0, 0)             #000000
+   Surface:        rgba(1, 1, 1, 0.92)   #010101
+   Primary:        rgb(255, 255, 255)       White (matches web --accent)
+   On-Surface:     rgb(255, 255, 255)       White
+   On-Surface-Dim: rgba(255, 255, 255, 0.65) Muted (WCAG 4.5:1 on #000000)
+   Border:         rgba(255, 255, 255, 0.1)
+   Border-Hover:   rgba(255, 255, 255, 0.2) White
+   Radius-Pill:    half of height (56px→28, 112px→56)
+   Radius-LG:      24px  (bottom sheet)
+   Radius-MD:      16px  (cards, sliders, containers)
+   Radius-SM:      12px  (glass panels, sidebar)
+   ──────────────────────────────────────────────── */
+
+/* ────────────────────────────────────────────────
+   Base Root
+   ──────────────────────────────────────────────── */
+.root {
+    flex-grow: 1;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    -unity-font-definition: initial;
+    -unity-font: resource("Fonts/Inter/Inter-Regular");
+    font-size: 24px;
+}
+
+/* Full Screen Overlay */
+.app-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+
+    transition-property: opacity;
+    transition-duration: 0.8s;
+}
+
+.app-container--active {
+    opacity: 1;
+
+}
+
+/* ────────────────────────────────────────────────
+   Hero / Landing Screen
+   ──────────────────────────────────────────────── */
+.hero-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0, 0, 0);
+    transition-property: opacity;
+    transition-duration: 0.5s;
+}
+
+.hero-title {
+    font-size: 64px;
+    -unity-font-definition: initial;
+    -unity-font: resource("Fonts/SpaceGrotesk/SpaceGrotesk-SemiBold");
+    -unity-font-style: normal;
+    color: white;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+}
+
+.hero-subtitle {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.35);
+    margin-bottom: 48px;
+    letter-spacing: 1px;
+}
+
+/* ────────────────────────────────────────────────
+   Root Container
+   ──────────────────────────────────────────────── */
+.root-container {
+    flex-grow: 1;
+    background-color: transparent;
+    justify-content: space-between;
+}
+
+/* ────────────────────────────────────────────────
+   Top Bar (Header)
+   Height: 64px (8pt grid), margin-top: 80px safe area
+   ──────────────────────────────────────────────── */
+.top-bar {
+    height: 56px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    margin-top: 42px;
+}
+
+.header-title {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.65);
+    -unity-font-style: bold;
+    letter-spacing: 4px;
+}
+
+#HomeBtn {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    translate: 0 -50%;
+}
+
+#ResetViewBtn {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    translate: 0 -50%;
+}
+
+/* HotspotBtn moved to Category Menu */
+
+/* ────────────────────────────────────────────────
+   Bottom Bar (Controls — Thumb Zone)
+   ──────────────────────────────────────────────── */
+.bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    padding-bottom: 0;
+
+    /* Smooth shift for sheet */
+    transition-property: bottom, translate;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+/* Actions Row — The Unified Glass Pill */
+.actions-row {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: transparent;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.3);
+    border-radius: 56px; /* True pill: half of 112px height — matches .btn pill language */
+    padding: 0 48px;
+    min-width: 480px;
+    height: 112px;
+    
+    margin-bottom: 8px;
+    
+    transition-property: width, opacity, translate;
+    transition-duration: 0.3s;
+}
+
+/* ────────────────────────────────────────────────
+   Icon Buttons (Inside Pill)
+   ──────────────────────────────────────────────── */
+.icon-button {
+    width: 64px;
+    height: 64px;
+    margin-left: 8px;
+    margin-right: 8px;
+
+    /* Transparent by default inside pill */
+    background-color: transparent;
+    border-radius: 50%;
+    border-width: 0;
+    border-color: transparent;
+
+    justify-content: center;
+    align-items: center;
+
+    transition-property: background-color, color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.icon-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.icon-button:active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ────────────────────────────────────────────────
+   Mode Buttons (3-Mode System: Explore, Analyze, Studio)
+   ──────────────────────────────────────────────── */
+.mode-btn {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 96px;
+    margin-left: 12px;
+    margin-right: 12px;
+    
+    background-color: transparent;
+    border-radius: 0;
+    border-width: 0;
+    border-color: transparent;
+    
+    transition-property: opacity;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.mode-btn:hover {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.mode-btn:active {
+    background-color: transparent;
+}
+
+.mode-btn--active {
+    background-color: transparent;
+    border-width: 0;
+}
+
+.mode-btn--active .mode-btn-icon {
+    -unity-background-image-tint-color: rgba(70, 175, 255, 1);
+}
+
+.mode-btn--active:hover {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.mode-btn-icon {
+    width: 56px;
+    min-width: 56px;
+    max-width: 56px;
+    height: 56px;
+    min-height: 56px;
+    max-height: 56px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    scale: 1 1;
+    -unity-background-scale-mode: scale-to-fit;
+    margin-bottom: 8px;
+}
+
+.mode-btn-label {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 1px;
+    -unity-font-style: bold;
+}
+
+.mode-btn--active .mode-btn-label {
+    color: rgba(70, 175, 255, 0.9);
+}
+
+/* Mode-specific icons */
+.icon-explore { background-image: resource("UI/Icons/icon_explore"); }
+.icon-analyze { background-image: resource("UI/Icons/icon_analyze"); }
+.icon-studio  { background-image: resource("UI/Icons/icon_studio"); }
+.icon-cross-section { background-image: resource("UI/Icons/icon_cross_section"); }
+
+/* ────────────────────────────────────────────────
+   Mode Containers (above bottom bar, contextual tool panels)
+   ──────────────────────────────────────────────── */
+.mode-container {
+    /* Now lives INSIDE BottomBar — no absolute positioning */
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    
+    width: 680px;
+    max-width: 92%;
+    
+    background-color: transparent;
+    margin-bottom: 8px;
+    
+    transition-property: opacity, scale;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.mode--hidden {
+    display: none;
+    opacity: 0;
+    scale: 0.96 0.96;
+}
+
+/* Submenus inside mode-containers: override absolute positioning */
+.mode-submenu {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    translate: 0 0;
+    
+    width: 100%;
+    
+    background-color: transparent;
+    border-width: 0;
+    border-radius: 0;
+    padding: 8px 0;
+    
+    align-items: center;
+    margin-bottom: 8px;
+    
+    transition-property: opacity, translate, scale;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+/* ────────────────────────────────────────────────
+   Mode Action Bar (tool buttons inside each mode container)
+   ──────────────────────────────────────────────── */
+.mode-action-bar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0;
+    margin-bottom: 8px;
+    background-color: transparent;
+    border-radius: 0;
+    border-width: 0;
+}
+
+.mode-action-btn {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 64px;
+    margin-left: 12px;
+    margin-right: 12px;
+    background-color: transparent;
+    border-radius: 0;
+    border-width: 0;
+    transition-property: opacity;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.mode-action-btn:hover {
+    background-color: transparent;
+}
+
+.mode-action-btn:active {
+    background-color: transparent;
+}
+
+.mode-action-btn--active {
+    background-color: transparent;
+    border-width: 0;
+}
+
+.mode-action-btn--active .mode-action-icon {
+    -unity-background-image-tint-color: rgba(70, 175, 255, 1);
+}
+
+.mode-action-btn--active:hover {
+    background-color: transparent;
+}
+
+.mode-action-icon {
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
+    height: 40px;
+    min-height: 40px;
+    max-height: 40px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    scale: 1 1;
+    margin-bottom: 4px;
+}
+
+.mode-action-label {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 1px;
+    -unity-font-style: bold;
+}
+
+.mode-action-btn--active .mode-action-label {
+    color: rgba(70, 175, 255, 0.9);
+}
+
+/* Icon references for mode action buttons (removed) */
+
+/* ────────────────────────────────────────────────
+   Cross-Section Panel (inside Analyze Mode)
+   ──────────────────────────────────────────────── */
+.cross-section-panel {
+    width: 100%;
+    align-items: center;
+}
+
+.cross-section-row {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.cross-section-toggle {
+    min-width: 88px;
+    margin-right: 0;
+    margin-bottom: 8px;
+}
+
+.cross-section-controls {
+    flex-direction: column;
+    align-items: stretch;
+    flex-grow: 0;
+    width: 100%;
+    max-width: 500px;
+    align-self: center;
+    overflow: hidden;
+    
+    transition-property: max-height, opacity, translate, scale, margin-top;
+    transition-duration: 0.34s;
+    transition-timing-function: ease-out;
+}
+
+.cross-section-controls--hidden {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    translate: 0 -12px;
+    scale: 0.985 0.985;
+}
+
+.cross-section-controls--visible {
+    max-height: 130px;
+    opacity: 1;
+    margin-top: 12px;
+    translate: 0 0;
+    scale: 1 1;
+}
+
+.cross-section-control-row {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    align-self: center;
+    padding: 0 16px;
+    margin-bottom: 18px;
+    gap: 0;
+}
+
+.cross-section-axis-group {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    gap: 8px;
+}
+
+.cross-section-axis-btn {
+    flex-grow: 1;
+    min-width: 0;
+    height: 60px;
+    margin: 0;
+    
+    background-color: transparent;
+    border-radius: 16px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    transition-property: border-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.cross-section-axis-btn:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.cross-section-axis-btn:active {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.cross-section-axis-btn.submenu-card--active {
+    border-color: rgba(70, 175, 255, 1);
+}
+
+.cross-section-axis-label {
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.65);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    letter-spacing: 1px;
+}
+
+.cross-section-axis-btn.submenu-card--active .cross-section-axis-label {
+    color: rgba(70, 175, 255, 1);
+}
+
+.cross-section-plane-group {
+    width: 100%;
+    max-width: 500px;
+    align-self: center;
+}
+
+.cross-section-controls .cross-section-plane-group {
+    padding-top: 14px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+.cross-section-plane-caption {
+    padding: 0 16px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.38);
+    letter-spacing: 2.6px;
+    -unity-font-style: bold;
+}
+
+.cross-section-slider-row {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    align-self: center;
+    padding: 0 16px;
+    gap: 0;
+}
+
+.cross-section-slider {
+    width: auto;
+    height: 60px;
+    min-height: 60px;
+    align-self: center;
+    margin: 0;
+    padding: 0 14px;
+    background-color: transparent;
+    border-width: 0;
+    flex-grow: 1;
+}
+
+.cross-section-config-btn {
+    width: 60px;
+    min-width: 60px;
+    height: 60px;
+    min-height: 60px;
+    margin: 0;
+
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 30px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    transition-property: border-color, background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.cross-section-config-btn:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.24);
+}
+
+.cross-section-config-btn:active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.cross-section-config-btn.submenu-card--active {
+    background-color: rgba(70, 175, 255, 0.08);
+    border-color: rgba(70, 175, 255, 0.9);
+}
+
+.cross-section-config-btn > .cross-section-axis-label {
+    display: none;
+}
+
+.cross-section-config-icon {
+    width: 30px;
+    min-width: 30px;
+    max-width: 30px;
+    height: 30px;
+    min-height: 30px;
+    max-height: 30px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    scale: 1 1;
+}
+
+.cross-section-control-row > #CrossSectionCombineBtn {
+    flex-grow: 0;
+    overflow: hidden;
+    transition-property: width, min-width, opacity, scale, margin-left;
+    transition-duration: 0.34s;
+    transition-timing-function: ease-out;
+}
+
+.cross-section-control-row > #CrossSectionCombineBtn.cross-section-config-btn--hidden {
+    width: 0;
+    min-width: 0;
+    opacity: 0;
+    scale: 0.88;
+    margin-left: 0;
+}
+
+.cross-section-control-row > #CrossSectionCombineBtn.cross-section-config-btn--visible {
+    width: 60px;
+    min-width: 60px;
+    opacity: 1;
+    scale: 1;
+    margin-left: 28px;
+}
+
+.cross-section-slider-row > .cross-section-config-btn {
+    margin-left: 28px;
+}
+
+/* .icon-cross-section handled procedurally */
+
+/* ────────────────────────────────────────────────
+   Icon Buttons (100px — exceeds 48dp minimum)
+   ──────────────────────────────────────────────── */
+/* Old .icon-button styles removed — see above */
+
+/* Specific Buttons Icons */
+/* HomeBtn, ResetViewBtn, HotspotBtn handled procedurally */
+
+/* Phase 2 Cleanup: #ShaderBtn, #LayerBtn, #ExplodeBtn, #InfoBtn, #EnvBtn removed
+   — old 5-button toolbar replaced by 3-mode system (ModeExploreBtn/ModeAnalyzeBtn/ModeStudioBtn) */
+
+/* Hide text when icon is present, or make it minimal */
+.button-icon-text, .button-icon-text-small {
+    display: none;
+}
+
+/* Ensure background scales correctly */
+.icon-button, .icon-button-small, .btn-tag {
+    -unity-background-scale-mode: scale-to-fit;
+    /* In Unity 6 this might be slightly different property name depending on version, generic is safe */
+}
+
+/* Small Icon Button (Top Bar — Reset, Home, Hotspot) */
+.icon-button-small {
+    width: 64px;
+    height: 64px;
+    background-color: transparent;
+    border-radius: 50%;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    justify-content: center;
+    align-items: center;
+    transition-property: border-color, background-color;
+    transition-duration: 0.2s;
+    margin-right: 12px;
+}
+
+.icon-button-small:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.icon-button-small:active {
+    border-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.button-icon-text-small {
+    font-size: 20px;
+    color: white;
+}
+
+/* ────────────────────────────────────────────────
+   Selection Label (Below Buttons)
+   ──────────────────────────────────────────────── */
+.info-row {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    margin-bottom: 4px;
+}
+
+.selection-label {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.75);
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+
+    background-color: rgba(255, 255, 255, 0.10);
+    padding: 8px 16px;
+    border-radius: 16px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.15);
+
+    /* Smooth fade — NO display:none */
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.selection-label--hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* ── Hero Submenus (Full Screen Overlays) ── */
+.hero-submenu {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition-duration: 0.3s;
+    transition-property: opacity;
+    padding: 0 48px;
+}
+
+.hero-submenu--active {
+    display: flex;
+    opacity: 1;
+}
+
+.btn-back {
+    position: absolute;
+    top: 32px;
+    left: 24px;
+    width: 64px;
+    height: 64px;
+    background-color: transparent;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    -unity-font-definition: initial;
+    -unity-font: resource("Fonts/Inter/Inter-Regular");
+    font-size: 24px;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    transition-property: border-color, background-color;
+    transition-duration: 0.2s;
+}
+
+.btn-back:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-back:active {
+    border-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.submenu-scroll {
+    width: 600px;
+    max-height: 70%;
+    margin-top: 24px;
+}
+
+/* ────────────────────────────────────────────────
+   Bottom Sheet (Details Panel)
+   Slides up from bottom. Buttons sit above via z-order.
+   ──────────────────────────────────────────────── */
+.details-sheet {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 55%;
+
+    background-color: rgba(0, 0, 0, 0.82);
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.10);
+    padding: 80px 24px 40px 24px;
+    overflow: hidden;
+
+    translate: 0 0;
+    opacity: 1;
+    transition-property: translate, opacity;
+    transition-duration: 0.4s, 0.3s;
+    transition-timing-function: ease-out, ease-out;
+}
+
+.details-sheet--hidden {
+    translate: 0 105%;
+    opacity: 0;
+}
+
+.sheet-handle {
+    width: 112px;
+    min-width: 112px;
+    max-width: 112px;
+    height: 28px;
+    min-height: 28px;
+    max-height: 28px;
+    background-color: rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.10);
+    align-self: center;
+    margin-bottom: 12px;
+}
+
+.sheet-header {
+    margin-bottom: 4px;
+    flex-direction: row;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sheet-title {
+    font-size: 28px;
+    -unity-font-definition: initial;
+    -unity-font: resource("Fonts/SpaceGrotesk/SpaceGrotesk-Regular");
+    -unity-font-style: normal;
+    color: white;
+    margin-bottom: 0;
+    letter-spacing: -0.5px;
+}
+
+.sheet-hint {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.65);
+    -unity-font-style: italic;
+}
+
+.sheet-content {
+    opacity: 1;
+    transition-duration: 0.2s;
+    flex-grow: 1;
+}
+
+.read-only-text {
+    background-color: transparent;
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+    -unity-font-style: normal;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: normal; /* text-wrap in new Unity */
+}
+
+.read-only-text > .unity-text-field__input {
+    background-color: transparent;
+    border-width: 0;
+    padding: 0;
+    white-space: normal;
+}
+
+/* Force right alignment for data values converted to text fields */
+.data-value.read-only-text > .unity-text-field__input {
+    -unity-text-align: middle-right;
+    font-size: 17px;
+}
+
+/* Sheet Close Button � see canonical definition at bottom of file */
+
+.sheet-scroll {
+    flex-grow: 1;
+    margin-top: 8px;
+}
+
+/* UI Shift on Sheet Expand (Full Height) — moves bottom bar up above the sheet */
+.ui-shifted {
+    bottom: 55%;      /* Match panel height so bar bottom = panel top */
+    translate: 0 64px; /* Compensate pill offset (0 pad + 8 margin + 56 half-height) */
+}
+
+/* UI Soft Shift (When Peek Bar spawns) — nudges bottom bar slightly up */
+.ui-shifted-soft {
+    bottom: 72px; /* Peek height (56) + safe breathing room so the peek never overlaps the mode pill */
+    translate: 0 0;
+}
+
+/* Pill bar becomes opaque when sheet is open to prevent content bleeding through */
+.actions-row--sheet-open {
+    background-color: rgba(0, 0, 0, 0.96);
+    border-color: rgba(255, 255, 255, 0.08);
+    transition-property: background-color, border-color;
+    transition-duration: 0.3s;
+}
+
+/* ────────────────────────────────────────────────
+   Unified Grid Submenus (Shader, Category, etc.)
+   ──────────────────────────────────────────────── */
+.submenu-container {
+    position: absolute;
+    bottom: 300px;
+    left: 50%;
+    translate: -50% 0;
+    
+    background-color: rgba(255, 255, 255, 0.08);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 16px;
+    
+    width: 680px;
+    max-width: 92%;
+    
+    align-items: center;
+    
+    transition-property: opacity, translate, scale;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.submenu--hidden {
+    opacity: 0;
+    scale: 0.95 0.95;
+    translate: 0 8px;
+    display: none;
+}
+
+.submenu-title {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    -unity-font-style: bold;
+}
+
+.submenu-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-left: 0;
+    width: 476px;
+    align-self: center;
+}
+
+/* Card Item (Button) */
+.submenu-card {
+    width: 148px;
+    height: 148px;
+    margin: 4px;
+    
+    background-color: transparent;
+    border-radius: 16px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    transition-property: border-color, background-color;
+    transition-duration: 0.15s;
+}
+
+.submenu-card:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+.submenu-card:active {
+    border-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.07);
+}
+
+.submenu-card--active {
+    border-color: rgba(70, 175, 255, 1);
+}
+
+.submenu-icon {
+    width: 56px;
+    min-width: 56px;
+    max-width: 56px;
+    height: 56px;
+    min-height: 56px;
+    max-height: 56px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    scale: 1 1;
+    margin-bottom: 8px;
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.65);
+}
+
+.submenu-label {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 0.5px;
+    -unity-text-align: middle-center;
+}
+
+.submenu-card--active .submenu-label {
+    color: rgba(70, 175, 255, 1);
+    -unity-font-style: bold;
+}
+
+.submenu-card--active .submenu-icon {
+    -unity-background-image-tint-color: rgba(70, 175, 255, 1);
+}
+
+.env-cycle-dots {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 7px;
+    height: 8px;
+}
+
+.env-cycle-dot {
+    width: 6px;
+    height: 6px;
+    min-width: 6px;
+    min-height: 6px;
+    max-width: 6px;
+    max-height: 6px;
+    border-radius: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    background-color: rgba(255, 255, 255, 0.22);
+}
+
+.env-cycle-dot--active {
+    background-color: rgba(70, 175, 255, 1);
+}
+
+/* Specific Icons handled procedurally */
+
+/* Section title spacing (Studio combined panel) */
+.submenu-title--section {
+    margin-top: 16px;
+}
+
+.btn-tag:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.btn-tag--active {
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+/* ────────────────────────────────────────────────
+   Explosion Slider
+   ──────────────────────────────────────────────── */
+.slider-container {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    translate: 0 0;
+    margin-left: 0;
+
+    width: 480px;
+    height: 56px;
+    align-self: center;
+
+    background-color: transparent;
+    padding: 0 16px;
+    border-width: 0;
+
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+
+    /* Smooth show/hide */
+    opacity: 1;
+    transition-duration: 0.25s;
+    transition-property: opacity, translate, scale;
+    transition-timing-function: ease-out;
+}
+
+.slider-hidden {
+    display: none;
+    opacity: 0;
+    scale: 0.96 0.96;
+}
+
+
+
+/* slider-container--shifted-up removed — menus inside BottomBar now */
+
+.slider-label {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 1px;
+    margin-right: 12px;
+    -unity-font-style: bold;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Slider Track/Dragger */
+.glass-slider {
+    min-height: 44px;
+    margin: 0;
+    padding: 0;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.glass-slider #unity-drag-container {
+    height: 100%;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.glass-slider .unity-base-slider__tracker {
+    background-color: rgba(255, 255, 255, 0.12);
+    height: 4px;
+    border-radius: 2px;
+    border-width: 0;
+    top: 50%;
+    margin-top: -1px;
+}
+
+.glass-slider .unity-base-slider__dragger {
+    /* Pure absolute sizing to prevent UI Toolkit anchoring offsets */
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    
+    border-radius: 50%;
+    
+    /* Stroke-only with black fill (outline style) */
+    background-color: rgb(0, 0, 0);
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.6);
+    
+    top: 50%;
+    transition-property: width, height, margin-top, background-color, border-width, border-color;
+    transition-duration: 0.15s;
+}
+
+.glass-slider .unity-base-slider__dragger:hover {
+    /* Grow + solid white fill */
+    width: 28px;
+    height: 28px;
+    margin-top: -14px;
+    background-color: rgb(255, 255, 255);
+    border-width: 0px;
+    border-color: rgba(255, 255, 255, 0);
+}
+
+/* Blue accent while pointer is pressed (compound selector overrides :hover) */
+.glass-slider .unity-base-slider__dragger:hover:active,
+.glass-slider .unity-base-slider__dragger:active {
+    width: 22px;
+    height: 22px;
+    margin-top: -11px;
+    background-color: rgba(70, 175, 255, 1);
+    border-width: 0px;
+    border-color: rgba(70, 175, 255, 0);
+}
+
+/* ────────────────────────────────────────────────
+   Data Grid (Sheet Content)
+   ──────────────────────────────────────────────── */
+.data-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 8px 0;
+    min-height: 44px;
+}
+
+.data-label {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 15px;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+    min-width: 100px;
+}
+
+.data-value {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 17px;
+    -unity-font-style: bold;
+    flex: 1;
+    -unity-text-align: upper-right;
+    white-space: normal;
+}
+
+.data-value-status {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.data-value-list {
+    -unity-text-align: upper-left;
+    -unity-font-style: normal;
+}
+
+.sheet-foldout--secondary {
+    border-top-color: rgba(255, 255, 255, 0.035);
+}
+
+.sheet-foldout--secondary .data-label {
+    color: rgba(255, 255, 255, 0.28);
+}
+
+.sheet-foldout--secondary .data-value {
+    color: rgba(255, 255, 255, 0.56);
+    -unity-font-style: normal;
+}
+
+/* ────────────────────────────────────────────────
+   Glassmorphic Panel (Reusable)
+   ──────────────────────────────────────────────── */
+.glass-panel {
+    background-color: rgba(1, 1, 1, 0.88);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 24px;
+    transition-property: background-color, border-color;
+    transition-duration: 0.25s;
+}
+
+.glass-panel:hover {
+    background-color: rgba(1, 1, 1, 0.92);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ────────────────────────────────────────────────
+   Buttons (Generic)
+   ──────────────────────────────────────────────── */
+.btn {
+    border-width: 1px;
+    border-radius: 28px; /* Pill Radius (Half of Height: 56/2 = 28) - CHANGE CURVATURE HERE */
+    padding: 0 40px;
+    font-size: 16px;
+    -unity-font-style: normal;
+    letter-spacing: 4px; /* CHANGE TEXT SPACING HERE */
+    transition-property: background-color, border-color, scale;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-primary {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    border-width: 1px;
+}
+
+.btn-primary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    scale: 1.05;
+}
+
+.btn-ghost {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    border-width: 1px;
+}
+
+.btn-ghost:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.btn-icon {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+    border-width: 1px;
+    transition-property: border-color, background-color;
+    transition-duration: 0.2s;
+}
+
+.btn-icon:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.btn-wide {
+    width: 380px; /* CHANGE WIDTH HERE */
+    height: 56px; /* CHANGE HEIGHT HERE */
+    margin-bottom: 16px;
+}
+
+.about-tool-btn {
+    width: 220px;
+    height: 40px;
+    min-height: 40px;
+    margin-bottom: 14px;
+    padding: 0 18px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    opacity: 0.72;
+    align-self: center;
+}
+
+.about-tool-btn:hover {
+    opacity: 1;
+}
+
+.btn-language {
+    width: 112px;
+    align-self: center;
+}
+
+.hero-language-switch {
+    width: 112px;
+    height: 44px;
+    padding: 0;
+    margin-top: 2px;
+    align-self: center;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 22px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.16);
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.hero-language-switch:hover {
+    background-color: rgba(255, 255, 255, 0.10);
+    border-color: rgba(123, 195, 255, 0.55);
+}
+
+.hero-language-corner {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    margin-top: 0;
+    align-self: auto;
+    flex-shrink: 0;
+}
+
+.hero-language-switch-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 13px;
+    padding-right: 13px;
+}
+
+.hero-language-thumb {
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    width: 50px;
+    height: 32px;
+    translate: 0 -50%;
+    border-radius: 16px;
+    background-color: rgba(255, 255, 255, 0.96);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.28);
+    transition: left 0.22s ease, background-color 0.22s ease, border-color 0.22s ease;
+}
+
+.hero-language-switch--es .hero-language-thumb {
+    left: 58px;
+    background-color: rgba(103, 186, 255, 0.98);
+    border-color: rgba(157, 218, 255, 0.92);
+}
+
+.hero-language-option {
+    position: relative;
+    width: 32px;
+    height: 100%;
+    -unity-text-align: middle-center;
+    font-size: 13px;
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.48);
+    transition: color 0.22s ease, scale 0.22s ease;
+}
+
+.hero-language-option--active {
+    color: #08111d;
+    scale: 1.05 1.05;
+}
+
+.ui-light-bg .hero-container .hero-language-switch {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+.ui-light-bg .hero-container .hero-language-switch:hover {
+    background-color: rgba(255, 255, 255, 0.10);
+    border-color: rgba(123, 195, 255, 0.55);
+}
+
+.btn-full-width {
+    width: 100%;
+}
+
+/* ────────────────────────────────────────────────
+   Utility / Tag Dots
+   ──────────────────────────────────────────────── */
+.tag-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.tag-dot-accent {
+    background-color: rgb(255, 255, 255);
+}
+
+.tag-dot-energy {
+    background-color: rgb(33, 203, 255);
+}
+
+.tag-dot-mechanical {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ────────────────────────────────────────────────
+   Sidebar (Desktop — Left Edge)
+   ──────────────────────────────────────────────── */
+.sidebar {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    translate: 0 -50%;
+    background-color: rgba(1, 1, 1, 0.88);
+    border-color: rgba(255, 255, 255, 0.08);
+    border-width: 1px;
+    border-radius: 12px;
+    padding: 16px;
+    width: 64px;
+    align-items: center;
+    transition-property: border-color;
+    transition-duration: 0.25s;
+}
+
+.sidebar:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-spacer {
+    height: 24px;
+}
+
+/* ────────────────────────────────────────────────
+   Details Panel (Desktop — Right Side)
+   ──────────────────────────────────────────────── */
+.details-panel {
+    position: absolute;
+    right: 24px;
+    top: 152px;
+    bottom: 200px;
+    width: 600px;
+    background-color: rgba(0, 0, 0, 0.95);
+    border-color: rgba(255, 255, 255, 0.08);
+    border-width: 1px;
+    border-radius: 12px;
+    padding: 24px;
+    translate: 110% 0;
+    transition-property: translate;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-out;
+}
+
+.details-panel--visible {
+    translate: 0 0;
+}
+
+.panel-header {
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
+.panel-title {
+    font-size: 36px;
+    color: white;
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+}
+
+.panel-subtitle {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 1px;
+}
+
+.panel-spacer {
+    flex-grow: 1;
+}
+
+/* ────────────────────────────────────────────────
+   HUD Bars
+   ──────────────────────────────────────────────── */
+.hud-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 120px;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 32px;
+    background-color: transparent;
+}
+
+.hud-top {
+    top: 0;
+    justify-content: space-between;
+}
+
+.hud-bottom {
+    bottom: 0;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding-bottom: 24px;
+}
+
+.app-logo {
+    font-size: 24px;
+    -unity-font-style: bold;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 4px;
+}
+
+/* ────────────────────────────────────────────────
+   Misc Text
+   ──────────────────────────────────────────────── */
+.reset-icon-label {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* Sheet description � editorial subtitle below part name */
+.sheet-description {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 17px;
+    white-space: normal;
+    margin-bottom: 20px;
+    padding-right: 48px;
+}
+
+
+/* ----------------------------------------------------------------
+   Collapsible Sheet Sections (Foldout)
+   ---------------------------------------------------------------- */
+.sheet-foldout {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.sheet-foldout--first {
+    border-top-width: 0;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.sheet-foldout > .unity-foldout__toggle {
+    margin: 0;
+    padding: 0;
+    min-height: 44px;
+}
+
+.sheet-foldout > .unity-foldout__toggle > .unity-toggle__input {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.sheet-foldout > .unity-foldout__toggle > .unity-toggle__input > .unity-foldout__text {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 4px;
+    -unity-font-style: bold;
+}
+
+.sheet-foldout > .unity-foldout__toggle > .unity-toggle__input > .unity-toggle__checkmark {
+    background-color: transparent;
+    border-width: 0;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.4);
+    width: 20px;
+    height: 20px;
+}
+
+.sheet-foldout > .unity-foldout__content {
+    margin-left: 0;
+    padding-left: 0;
+}
+/* ────────────────────────────────────────────────
+   Assembly Section (Inside Sheet)
+   ──────────────────────────────────────────────── */
+.assembly-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.section-title {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 4px;
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+}
+
+.data-value-stars {
+    color: rgb(255, 149, 7);
+}
+
+/* ────────────────────────────────────────────────
+   Shader Menu (Phase 1 — Long Press Popup)
+   ──────────────────────────────────────────────── */
+/* Old shader-menu and env-panel styles removed (replaced by .submenu-container) */
+
+/* Inline slider row (shown below card grid for Explode) */
+.explode-inline-slider {
+    width: 100%;
+    margin-top: 8px;
+    padding: 0 16px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.explosion-value-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    min-width: 40px;
+    -unity-text-align: middle-right;
+    margin-left: 8px;
+}
+
+.env-slider-group {
+    width: 476px;
+    height: 56px;
+    align-self: center;
+    margin-top: 8px;
+    padding: 0 16px;
+
+    background-color: transparent;
+    border-width: 0;
+
+    flex-direction: row;
+    align-items: center;
+}
+
+.env-slider-label {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 1px;
+    margin-right: 12px;
+    margin-bottom: 0;
+    -unity-font-style: bold;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.env-slider {
+    flex-grow: 1;
+    min-height: 44px;
+}
+
+/* Popup Blocker */
+.popup-blocker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+}
+
+.popup-blocker--hidden {
+    display: none;
+}
+
+/* ────────────────────────────────────────────────
+   Hero Menu (Phase 4)
+   ──────────────────────────────────────────────── */
+.hero-menu {
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-menu > .btn {
+    margin-bottom: 16px;
+}
+
+.hero--hidden {
+    opacity: 0;
+
+    transition-property: opacity;
+    transition-duration: 0.5s;
+}
+
+/* ────────────────────────────────────────────────
+   About Panel (Phase 4)
+   ──────────────────────────────────────────────── */
+.about-panel {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    width: 500px;
+    background-color: rgba(0, 0, 0, 0.96);
+    border-radius: 12px;
+    padding: 40px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    align-items: center;
+    opacity: 1;
+    transition-property: opacity, scale;
+    transition-duration: 0.3s;
+}
+
+.about-panel--hidden {
+    display: none;
+}
+
+.about-title {
+    font-size: 28px;
+    -unity-font-style: bold;
+    color: white;
+    margin-bottom: 16px;
+}
+
+.about-desc {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.35);
+    white-space: normal;
+    -unity-text-align: middle-center;
+    margin-bottom: 16px;
+}
+
+.about-credit {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.about-separator {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.08);
+    margin-top: 24px;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.about-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+/* ────────────────────────────────────────────────
+   Device Selector (Hero submenu)
+   ──────────────────────────────────────────────── */
+.device-selector {
+    margin-top: 24px;
+    width: 400px;
+    background-color: rgba(1, 1, 1, 0.92);
+    border-radius: 12px;
+    padding: 12px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    align-items: stretch;
+    opacity: 1;
+    scale: 1 1;
+    transition-property: opacity, scale;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.device-selector--hidden {
+    display: none;
+}
+
+
+/* ────────────────────────────────────────────────
+   Global Scrollbar Hiding
+   ──────────────────────────────────────────────── */
+.unity-scroller {
+    display: none;
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+/* ────────────────────────────────────────────────
+   Submenu Content Styles
+   ──────────────────────────────────────────────── */
+.submenu-scroll {
+    width: 100%;
+    max-width: 400px;
+    overflow: hidden;
+    align-self: center; /* Ensure scrollview itself is centered */
+}
+
+.submenu-scroll #unity-content-container {
+    width: 100%;
+    align-items: stretch;
+    padding: 0;
+    margin: 0;
+}
+
+.about-desc {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.35);
+    white-space: normal;
+    -unity-text-align: upper-center;
+    margin-bottom: 16px;
+}
+
+.about-credit {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.35);
+    -unity-text-align: upper-center;
+    letter-spacing: 2px;
+    margin-bottom: 32px;
+}
+
+.device-option {
+    width: 100%;
+    height: 64px;
+    min-height: 64px;
+    flex-shrink: 0;
+    margin-bottom: 12px;
+    padding: 0 24px;
+    font-size: 20px;
+    
+    background-color: rgba(255, 255, 255, 0.05);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 28px;
+    
+    color: rgba(255, 255, 255, 0.8);
+    justify-content: flex-start;
+    align-items: center;
+    transition-duration: 0.2s;
+}
+
+/* Device scroll — ensure enough height for all buttons */
+.device-scroll {
+    min-height: 280px;
+    max-height: 50%;
+    overflow: scroll;
+    flex-shrink: 1;
+}
+
+.device-scroll #unity-content-container {
+    padding: 0 4px 16px 4px;
+}
+
+.device-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: white;
+}
+
+.device-option--active {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    color: white;
+    -unity-font-style: bold;
+}
+
+.device-option:disabled {
+    opacity: 0.25;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* ---------------------------------------------------
+   Onboarding Help Overlay
+   --------------------------------------------------- */
+
+.onboard-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.72);
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.onboard-overlay--hidden {
+    opacity: 0;
+}
+
+.onboard-card {
+    position: relative;
+    background-color: rgba(28, 28, 32, 0.92);
+    border-radius: 20px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    padding: 68px 26px 26px 26px;
+    width: 96%;
+    max-width: 860px;
+    min-width: 320px;
+    height: 99%;
+    max-height: 99%;
+    min-height: 1100px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.onboard-platform-switch {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    width: 112px;
+    height: 44px;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 22px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.16);
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.onboard-platform-switch:hover {
+    background-color: rgba(255, 255, 255, 0.10);
+    border-color: rgba(123, 195, 255, 0.55);
+}
+
+.onboard-platform-switch--pc {
+    border-color: rgba(255, 255, 255, 0.26);
+}
+
+.onboard-platform-switch--touch {
+    border-color: rgba(123, 195, 255, 0.62);
+}
+
+.onboard-platform-switch-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.onboard-platform-thumb {
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    width: 50px;
+    height: 32px;
+    translate: 0 -50%;
+    border-radius: 16px;
+    background-color: rgba(255, 255, 255, 0.96);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.28);
+    transition: left 0.22s ease, background-color 0.22s ease, border-color 0.22s ease;
+}
+
+.onboard-platform-switch--pc .onboard-platform-thumb {
+    background-color: rgba(255, 255, 255, 0.96);
+    border-color: rgba(255, 255, 255, 0.32);
+}
+
+.onboard-platform-switch--touch .onboard-platform-thumb {
+    left: 58px;
+    background-color: rgba(103, 186, 255, 0.98);
+    border-color: rgba(157, 218, 255, 0.92);
+}
+
+.onboard-platform-icon {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.42);
+    transition: color 0.22s ease, scale 0.22s ease;
+}
+
+.onboard-platform-icon--active {
+    scale: 1.05 1.05;
+}
+
+.onboard-platform-switch--touch .onboard-platform-icon--mobile,
+.onboard-platform-switch--pc .onboard-platform-icon--pc {
+    color: #08111d;
+    scale: 1.05 1.05;
+}
+
+.onboard-platform-switch--pc .onboard-platform-icon--mobile {
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.onboard-platform-switch--touch .onboard-platform-icon--pc {
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.onboard-platform-pc-screen {
+    width: 15px;
+    height: 10px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.78);
+    border-radius: 2px;
+}
+
+.onboard-platform-pc-stand {
+    position: absolute;
+    bottom: 0;
+    width: 6px;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.78);
+    border-radius: 1px;
+}
+
+.onboard-platform-mobile-body {
+    width: 9px;
+    height: 15px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.78);
+    border-radius: 3px;
+}
+
+.onboard-platform-mobile-notch {
+    position: absolute;
+    top: 3px;
+    width: 2px;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.78);
+    border-radius: 1px;
+}
+
+.onboard-platform-switch--pc .onboard-platform-pc-screen,
+.onboard-platform-switch--pc .onboard-platform-pc-stand,
+.onboard-platform-switch--touch .onboard-platform-mobile-body,
+.onboard-platform-switch--touch .onboard-platform-mobile-notch {
+    border-color: #08111d;
+    background-color: #08111d;
+}
+
+/* Step counter ------------------------------- */
+
+.onboard-counter {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 2px;
+    -unity-text-align: upper-center;
+    margin-bottom: 24px;
+    -unity-font-style: bold;
+}
+
+/* Icon area ---------------------------------- */
+
+.onboard-icon-area {
+    width: 100%;
+    max-width: 780px;
+    height: 860px;
+    border-radius: 24px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    padding: 24px 24px 10px 24px;
+}
+
+.onboard-media {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition-property: border-color, background-color, scale;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.onboard-media--static {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.onboard-media--animated {
+    background-color: rgba(70, 175, 255, 0.10);
+    border-color: rgba(70, 175, 255, 0.30);
+}
+
+.onboard-media--phase-alt {
+    background-color: rgba(70, 175, 255, 0.10);
+    border-color: rgba(70, 175, 255, 0.30);
+    scale: 1 1;
+}
+
+.onboard-visual-stage {
+    position: relative;
+    width: 448px;
+    height: 782px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.onboard-demo-view {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.onboard-demo-tab-label {
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 1.6px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.onboard-demo-panel-label {
+    position: absolute;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.76);
+    letter-spacing: 0.5px;
+    -unity-text-align: middle-left;
+}
+
+.onboard-icon {
+    font-size: 100px;
+    -unity-text-align: middle-center;
+    color: white;
+}
+
+.onboard-procedural-icon {
+    width: 204px;
+    height: 204px;
+}
+
+.onboard-procedural-icon--hidden {
+    display: none;
+}
+
+.onboard-media-caption {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.62);
+    letter-spacing: 1.8px;
+    -unity-font-style: bold;
+    -unity-text-align: upper-center;
+    margin-top: 8px;
+}
+
+.onboard-media-cue {
+    font-size: 20px;
+    color: rgba(70, 175, 255, 0.95);
+    letter-spacing: 1px;
+    -unity-font-style: bold;
+    -unity-text-align: upper-center;
+    margin-top: 8px;
+}
+
+/* Text --------------------------------------- */
+
+.onboard-title {
+    font-size: 30px;
+    color: white;
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+    -unity-text-align: upper-center;
+    margin-bottom: 12px;
+    min-height: 36px;
+}
+
+.onboard-desc {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.72);
+    -unity-text-align: upper-center;
+    white-space: normal;
+    margin-bottom: 12px;
+    max-width: 620px;
+    min-height: 96px;
+}
+
+.onboard-desc--with-footer {
+    margin-bottom: 2px;
+}
+
+.onboard-desc-footer {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-height: 32px;
+    margin-bottom: 4px;
+}
+
+.onboard-desc-reset-icon {
+    width: 38px;
+    height: 38px;
+    margin-right: 4px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.16);
+    border-radius: 19px;
+    padding: 7px;
+}
+
+.onboard-desc-footer-text {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.72);
+    -unity-text-align: middle-center;
+}
+
+/* Progress dots ------------------------------ */
+
+.onboard-dots {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: 24px;
+}
+
+.onboard-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.15);
+    margin-left: 5px;
+    margin-right: 5px;
+    transition: background-color 0.25s ease, scale 0.25s ease;
+}
+
+.onboard-dot--active {
+    background-color: white;
+    scale: 1.25 1.25;
+}
+
+/* Actions row -------------------------------- */
+
+.onboard-actions {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 0;
+}
+
+.onboard-prev-btn {
+    min-width: 124px;
+    height: 56px;
+    min-height: 56px;
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.onboard-skip-btn {
+    min-width: 132px;
+    height: 56px;
+    min-height: 56px;
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.onboard-next-btn {
+    min-width: 164px;
+    height: 56px;
+    min-height: 56px;
+    font-size: 16px;
+}
+
+/* --- Info Bar Peek (Bottom Sheet Pre-peek) --- */
+
+.info-bar-peek {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    translate: -50% 100%; /* Hidden off-screen bottom by default */
+    width: 320px;
+    height: 68px;
+    background-color: rgba(0, 0, 0, 0.96);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 0;
+    border-color: rgba(255, 255, 255, 0.08);
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 12px;
+    transition-property: translate, background-color, width, border-color;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.info-bar-peek:hover {
+    background-color: rgba(20, 20, 20, 0.98);
+    border-color: rgba(255, 255, 255, 0.15);
+    height: 60px;
+}
+
+.info-bar-peek:active {
+    background-color: rgba(30, 30, 30, 1);
+    height: 64px;
+}
+
+.info-bar-peek--visible {
+    translate: -50% 0; /* Slide up, fully visible against bottom edge */
+    opacity: 1;
+    visibility: visible;
+}
+
+.info-bar-peek--hidden {
+    translate: -50% 100%;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* When sheet is fully open, peek slides up behind the pill bar (hidden under it) */
+.info-bar-peek--sheet-open {
+    translate: -50% -100%;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.peek-handle {
+    width: 72px;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    margin-bottom: 6px;
+}
+
+.peek-label {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 2px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+/* =======================================================
+   Sheet Close Button ("X") - Apple HIG / Material 3
+   Placed absolute right within the relative header.
+   ======================================================= */
+.sheet-close-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+    background-color: transparent;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+    -unity-text-align: middle-center;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    transition-property: border-color, color, background-color;
+    transition-duration: 0.2s;
+}
+
+.sheet-close-btn:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgb(255, 255, 255);
+}
+
+.sheet-close-btn:active {
+    border-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.sheet-close-icon {
+    width: 32px;
+    min-width: 32px;
+    max-width: 32px;
+    height: 32px;
+    min-height: 32px;
+    max-height: 32px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    scale: 1 1;
+    transition-property: color;
+    transition-duration: 0.2s;
+}
+
+/* ------------------------------------------------------
+   Light Background Overrides � Adaptive UI Contrast
+   Toggled via .ui-light-bg on root when the environment
+   preset produces a bright gradient (White, Day, Yellow�)
+   ------------------------------------------------------ */
+
+/* -- Top Bar -- */
+.ui-light-bg .header-title {
+    color: rgba(32, 30, 28, 0.84);
+}
+
+/* -- Mode Buttons -- */
+.ui-light-bg .mode-btn-label {
+    color: rgba(248, 243, 236, 0.86);
+}
+
+.ui-light-bg .mode-btn--active .mode-btn-label {
+    color: rgba(84, 222, 201, 1);
+}
+
+/* -- Selection Indicator -- */
+.ui-light-bg .selection-label {
+    color: rgba(26, 30, 36, 0.88);
+    background-color: rgba(255, 255, 255, 0.22);
+    border-color: rgba(0, 0, 0, 0.16);
+}
+
+/* -- Icon Buttons -- */
+.ui-light-bg .icon-button {
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.7);
+}
+
+.ui-light-bg .icon-button:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.ui-light-bg .icon-button:active {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+/* -- Small Icon Buttons -- */
+.ui-light-bg .icon-button-small {
+    background-color: rgba(255, 255, 255, 0.18);
+    border-color: rgba(0, 0, 0, 0.18);
+    -unity-background-image-tint-color: rgba(17, 19, 22, 0.88);
+}
+
+.ui-light-bg .icon-button-small:hover {
+    background-color: rgba(255, 255, 255, 0.24);
+    border-color: rgba(0, 0, 0, 0.26);
+}
+
+.ui-light-bg .icon-button-small:active {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(0, 0, 0, 0.34);
+}
+
+/* -- Actions Row (Bottom Bar Pill) -- */
+.ui-light-bg .actions-row {
+    background-color: rgba(22, 22, 28, 0.38);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* -- Glassmorphic Panel -- */
+.ui-light-bg .glass-panel {
+    background-color: rgba(255, 255, 255, 0.88);
+    border-color: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.ui-light-bg .glass-panel:hover {
+    background-color: rgba(255, 255, 255, 0.92);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* -- Sheet Content -- */
+.ui-light-bg .sheet-title {
+    color: rgba(250, 246, 240, 0.96);
+}
+
+.ui-light-bg .sheet-hint {
+    color: rgba(250, 244, 236, 0.66);
+}
+
+.ui-light-bg .sheet-description {
+    color: rgba(250, 244, 236, 0.72);
+}
+
+.ui-light-bg .sheet-foldout {
+    border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+.ui-light-bg .data-label {
+    color: rgba(248, 240, 232, 0.62);
+}
+
+.ui-light-bg .data-value {
+    color: rgba(255, 250, 245, 0.96);
+}
+
+.ui-light-bg .data-value-status {
+    color: rgba(255, 250, 245, 0.98);
+}
+
+/* -- Peek Bar -- */
+.ui-light-bg .peek-handle {
+    background-color: rgba(255, 255, 255, 0.26);
+}
+
+.ui-light-bg .peek-label {
+    color: rgba(250, 244, 236, 0.82);
+}
+
+/* -- Sheet Close Button -- */
+.ui-light-bg .sheet-close-btn {
+    border-color: rgba(255, 255, 255, 0.16);
+    color: rgba(250, 246, 240, 0.78);
+}
+
+.ui-light-bg .sheet-close-btn:hover {
+    border-color: rgba(255, 255, 255, 0.28);
+    color: rgba(255, 250, 245, 0.96);
+}
+
+.ui-light-bg .sheet-close-btn:active {
+    border-color: rgba(255, 255, 255, 0.34);
+    color: rgba(255, 250, 245, 0.88);
+}
+
+/* -- Submenu Cards -- */
+.ui-light-bg .submenu-card {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(0, 0, 0, 0.16);
+}
+
+.ui-light-bg .submenu-card:hover {
+    background-color: rgba(255, 255, 255, 0.28);
+    border-color: rgba(0, 0, 0, 0.24);
+}
+
+.ui-light-bg .submenu-card:active {
+    background-color: rgba(255, 255, 255, 0.34);
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.ui-light-bg .submenu-label {
+    color: rgba(22, 24, 28, 0.84);
+}
+
+.ui-light-bg .submenu-icon {
+    -unity-background-image-tint-color: rgba(22, 24, 28, 0.76);
+}
+
+.ui-light-bg .env-cycle-dot {
+    background-color: rgba(22, 24, 28, 0.28);
+}
+
+.ui-light-bg .env-cycle-dot--active {
+    background-color: rgba(0, 95, 130, 1);
+}
+
+.ui-light-bg .submenu-title {
+    color: rgba(28, 26, 24, 0.74);
+}
+
+.ui-light-bg .cross-section-axis-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(0, 0, 0, 0.16);
+}
+
+.ui-light-bg .cross-section-axis-btn:hover {
+    background-color: rgba(255, 255, 255, 0.28);
+    border-color: rgba(0, 0, 0, 0.24);
+}
+
+.ui-light-bg .cross-section-axis-label {
+    color: rgba(22, 24, 28, 0.84);
+}
+
+.ui-light-bg .cross-section-plane-caption {
+    color: rgba(22, 24, 28, 0.48);
+}
+
+.ui-light-bg .cross-section-controls .cross-section-plane-group {
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+.ui-light-bg .cross-section-config-btn {
+    background-color: rgba(255, 255, 255, 0.34);
+    border-color: rgba(0, 0, 0, 0.16);
+}
+
+.ui-light-bg .cross-section-config-btn:hover {
+    background-color: rgba(255, 255, 255, 0.44);
+    border-color: rgba(0, 0, 0, 0.24);
+}
+
+.ui-light-bg .cross-section-config-btn.submenu-card--active {
+    background-color: rgba(70, 175, 255, 0.12);
+    border-color: rgba(70, 175, 255, 0.78);
+}
+
+/* -- Buttons -- */
+.ui-light-bg .btn-primary {
+    border-color: rgba(0, 0, 0, 0.3);
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.ui-light-bg .btn-primary:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.8);
+}
+
+.ui-light-bg .btn-ghost {
+    border-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.ui-light-bg .btn-ghost:hover {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+/* -- Tag Buttons -- */
+.ui-light-bg .btn-tag:hover {
+    border-color: rgba(0, 0, 0, 0.3);
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.ui-light-bg .btn-tag--active {
+    background-color: rgb(0, 0, 0);
+    border-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+
+/* -- Hero keeps its original dark menu palette even on bright environments -- */
+.ui-light-bg .hero-container .btn-primary {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.ui-light-bg .hero-container .btn-primary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: white;
+}
+
+.ui-light-bg .hero-container .btn-ghost {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.ui-light-bg .hero-container .btn-ghost:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.ui-light-bg .hero-container .btn-back {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.ui-light-bg .hero-container .btn-back:hover {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.ui-light-bg .hero-container .btn-back:active {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* -- Mode Button Icons -- */
+.ui-light-bg .mode-btn-icon {
+    -unity-background-image-tint-color: rgba(248, 243, 236, 0.8);
+}
+
+.ui-light-bg .mode-btn--active .mode-btn-icon {
+    -unity-background-image-tint-color: rgba(84, 222, 201, 1);
+}
+
+/* -- Sheet Handle -- */
+.ui-light-bg .sheet-handle {
+    background-color: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* -- Details Sheet (darkened tint of the bright environment) -- */
+.ui-light-bg .details-sheet {
+    background-color: rgba(18, 18, 24, 0.58);
+    border-top-color: rgba(255, 255, 255, 0.14);
+}
+
+/* -- Info Bar Peek -- */
+.ui-light-bg .info-bar-peek {
+    background-color: rgba(18, 18, 24, 0.48);
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+.ui-light-bg .info-bar-peek:hover {
+    background-color: rgba(18, 18, 24, 0.58);
+    border-color: rgba(255, 255, 255, 0.22);
+}
+
+.ui-light-bg .info-bar-peek:active {
+    background-color: rgba(18, 18, 24, 0.66);
+}
+
+/* -- Actions Row � opaque pill when sheet is open -- */
+.ui-light-bg .actions-row--sheet-open {
+    background-color: rgba(18, 18, 24, 0.7);
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* -- Back Button -- */
+.ui-light-bg .btn-back {
+    background-color: rgba(255, 255, 255, 0.18);
+    border-color: rgba(0, 0, 0, 0.16);
+    color: rgba(17, 19, 22, 0.84);
+}
+
+.ui-light-bg .btn-back:hover {
+    background-color: rgba(255, 255, 255, 0.24);
+    border-color: rgba(0, 0, 0, 0.24);
+}
+
+.ui-light-bg .btn-back:active {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(0, 0, 0, 0.32);
+}
+
+/* -- Read-Only Text (Description) -- */
+.ui-light-bg .read-only-text {
+    color: rgba(250, 244, 236, 0.72);
+}
+
+.ui-light-bg .read-only-text > .unity-text-field__input {
+    color: rgba(250, 244, 236, 0.72);
+}
+
+/* -- Foldout Headers (Identification / Specifications / Assembly) -- */
+.ui-light-bg .unity-foldout__toggle {
+    color: rgba(248, 240, 232, 0.86);
+}
+
+.ui-light-bg .unity-foldout__toggle .unity-toggle__checkmark {
+    -unity-background-image-tint-color: rgba(248, 240, 232, 0.68);
+}
+
+.ui-light-bg .sheet-foldout > .unity-foldout__toggle > .unity-toggle__input > .unity-foldout__text {
+    color: rgba(248, 240, 232, 0.6);
+}
+
+/* -- Slider on light bg -- */
+.ui-light-bg .glass-slider .unity-base-slider__tracker {
+    background-color: rgba(24, 26, 30, 0.24);
+}
+
+.ui-light-bg .glass-slider .unity-base-slider__dragger {
+    background-color: rgba(255, 250, 245, 0.92);
+    border-width: 2px;
+    border-color: rgba(24, 26, 30, 0.32);
+}
+
+.ui-light-bg .glass-slider .unity-base-slider__dragger:hover {
+    background-color: rgba(255, 255, 255, 1);
+    border-color: rgba(24, 26, 30, 0.46);
+}
+
+.ui-light-bg .glass-slider .unity-base-slider__dragger:hover:active,
+.ui-light-bg .glass-slider .unity-base-slider__dragger:active {
+    background-color: rgba(84, 222, 201, 1);
+    border-color: rgba(84, 222, 201, 1);
+}
+
+/* 
+   Thermal Legend
+    */
+.thermal-legend {
+    position: absolute;
+    right: 24px;
+    bottom: 200px; /* Above bottom bar and info peek */
+    width: 64px;
+    height: 320px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 32px;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-width: 1px;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    transition-property: opacity, translate;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
+    -unity-text-align: middle-center;
+}
+
+.thermal-legend--hidden {
+    opacity: 0;
+    translate: 100px 0;
+}
+
+.thermal-legend-label {
+    color: white;
+    font-size: 14px;
+    -unity-font-style: bold;
+    margin: 0;
+    padding: 0;
+}
+
+.thermal-legend-gradient {
+    width: 16px;
+    flex-grow: 1;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.15);
+}

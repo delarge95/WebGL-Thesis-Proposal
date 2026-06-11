@@ -1,0 +1,35 @@
+# Unity WebGL Thesis - Git attributes
+# ===================================
+#
+# LFS policy after the final-build cleanup:
+# - Do not track broad binary patterns in LFS.
+# - Only explicit, production-critical 3D assets should enter LFS.
+# - Existing historical LFS objects on GitHub are not removed by changing this
+#   file; remote purging requires GitHub Support or repository recreation.
+
+# Production FBX files intentionally allowed in LFS.
+desarrollo/unity_project/Assets/Models/x500v2_runtime_low_final.fbx filter=lfs diff=lfs merge=lfs -text
+desarrollo/unity_project/Assets/Resources/FastenerModules/modular_screw_parts.fbx filter=lfs diff=lfs merge=lfs -text
+
+# Latest Blender source intentionally allowed in LFS.
+blender_files/welded/modular_fasteners.blend filter=lfs diff=lfs merge=lfs -text
+
+# Unity text serialization.
+*.unity text eol=lf merge=unityyamlmerge
+*.prefab text eol=lf merge=unityyamlmerge
+*.asset text eol=lf merge=unityyamlmerge
+*.meta text eol=lf
+*.mat text eol=lf
+*.anim text eol=lf
+*.controller text eol=lf
+
+# GitHub Pages serves the WebGL build directly from docs/.
+# Unity exports can appear either as docs/Build/* or docs/Build/Build/* depending
+# on the selected output folder. Both layouts must remain regular Git files.
+# Pages must receive real WebGL binaries, not Git LFS pointers.
+docs/Build/*.br -filter -diff -merge -text
+docs/Build/*.unityweb -filter -diff -merge -text
+docs/Build/*.js -filter -diff -merge text eol=lf
+docs/Build/Build/*.br -filter -diff -merge -text
+docs/Build/Build/*.unityweb -filter -diff -merge -text
+docs/Build/Build/*.js -filter -diff -merge text eol=lf

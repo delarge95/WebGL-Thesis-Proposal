@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_pixhawk6c
+  m_EditorClassIdentifier: 
+  partName: Pixhawk 6C Autopilot
+  id: x500v2_pixhawk6c
+  partType: FlightController
+  description: "Pixhawk 6C autopilot that runs PX4 or ArduPilot and commands motors through PWM/DShot outputs. Includes anodized aluminum housing."
+  weightKg: 0.035
+  dimensions: "84.8 \xD7 44 \xD7 12.4 mm"
+  function: "Procesamiento de vuelo, fusi\xF3n de sensores, control de motores y
+    navegaci\xF3n aut\xF3noma"
+  materialType: "FR4 PCB, anodized aluminum housing"
+  materialProperties: Procesador de alto rendimiento, sensores redundantes, carcasa
+    disipadora
+  manufacturer: Holybro
+  partNumber: Pixhawk 6C
+  powerConsumption: 2.5
+  maxLoad: 0
+  operatingTemp: 70
+  operatingTempMin: -20
+  operatingTempMax: 70
+  thermalPeak: 60
+  thermalHover: 42
+  thermalWarmupSeconds: 6
+  thermalExposure: 0.45
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.5
+  isThermallyCritical: 1
+  icon: {fileID: 0}
+  highlightColor: {r: 0, g: 0.8, b: 0.2, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 1
+  hotspotLabel: Flight Controller
+  explosionDirection: {x: 0, y: 1, z: 0}
+  explosionDistance: 1
+  explosionPriority: 5
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - Destornillador M2
+  - "Pad espuma anti-vibraci\xF3n"
+  - "Pulsera antiest\xE1tica"
+  safetyWarnings:
+  - "Manipular con protecci\xF3n antiest\xE1tica"
+  - Alinear flecha con frente del frame
+  - No energizar sin conexiones verificadas
+  installationTips: Montar centrado sobre top plate con flecha al frente. Pad de
+    espuma para aislar vibraciones. Cables pasan por huecos del top plate.
+  installationTimeMinutes: 10
+  difficultyLevel: 3
+  torqueSpec: 0.3 Nm
+  assemblyOrder: 5
+  prerequisites:
+  - x500v2_top_plate
+  - x500v2_pdb
+  - x500v2_power_module
+  connectionTypes:
+  - Adhesive pad
+  - GH 1.25mm cables
+  screwCount: 4
+  screwSize: M2
+  subComponentNames:
+  - DIKE-PIXHAWK6C-LV-C1
+  - MIANKE-PIXHAWK6C-LV-C1
+  - PCB-PIXHAWK6C-F1
+  fastenerMetadata:
+    instanceId: 
+    familyId: 
+    sourceId: 
+    sceneObjectName: 
+    hierarchyPath: 
+    parentCanonicalPartId: 
+    blenderName: 
+    sceneTypeKey: 
+    subtype: 
+    metric: 
+    nominalDiameterMm: 0
+    lengthMm: 0
+    headProfile: 
+    driveType: 
+    threadPitchMm: 0
+    turnCount: 0
+    material: 
+    finish: 
+    quantityExpected: 0
+    isInspectable: 0
+    fallbackReason: 
+    notes: 
+    recipeKey: 
+    builderType: 
+    orientationMode: 
+  category: 0

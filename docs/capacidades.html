@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Visualización interactiva de capacidades del TwinSight X500" />
+    <title>Capacidades | TwinSight X500</title>
+    
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    
+    <!-- CDNs for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Shared Stylesheet -->
+    <link rel="stylesheet" href="style_scrollytelling.css" />
+    
+    <style>
+      /* Capabilities specific styles */
+      .viewport-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      /* Visualización (Split View) */
+      .split-screen-stage {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        overflow: hidden;
+      }
+      .split-half {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .split-left {
+        clip-path: inset(0 var(--split-percent, 50%) 0 0);
+      }
+      .split-right {
+        clip-path: inset(0 0 0 calc(100% - var(--split-percent, 50%)));
+      }
+      .split-drone {
+        width: 150px;
+        height: 90px;
+        fill: none;
+      }
+      .split-left .split-drone {
+        stroke: var(--text-muted);
+        stroke-width: 1.5;
+      }
+      .split-right .split-drone {
+        stroke: var(--accent-color);
+        stroke-width: 2.2;
+        filter: drop-shadow(0 0 8px var(--accent-color));
+      }
+      .split-line {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: calc(var(--split-percent, 50%) - 1px);
+        width: 2px;
+        background: var(--accent-color);
+        box-shadow: 0 0 10px var(--accent-color);
+        pointer-events: none;
+      }
+
+      /* Interacción (Exploded assembly) */
+      .assembly-stage {
+        transform: rotateX(40deg) rotateZ(-15deg);
+        transform-style: preserve-3d;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        position: relative;
+      }
+      .assembly-layer {
+        width: 120px;
+        height: 16px;
+        border: 1px solid var(--text-muted);
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 0.65rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        transform: translateZ(0);
+      }
+      .assembly-layer:hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+        background: var(--accent-glow);
+      }
+      .assembly-layer.selected-layer {
+        border-color: var(--text-main);
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-main);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+      }
+      
+      /* Telemetry Chart Canvas */
+      .telemetry-chart {
+        width: 100%;
+        height: 100%;
+        background: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- FLOATING HEADER CONTROLS -->
+    <div class="floating-header">
+      <a href="index.html" class="floating-back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Volver a la Landing
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+        <svg class="theme-icon icon-moon" viewBox="0 0 24 24">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+        <svg class="theme-icon icon-sun" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- SCROLLYTELLING CONTAINER -->
+    <div class="scrolly-container">
+      
+      <!-- SCROLL COLUMN (LEFT) -->
+      <div class="scrolly-scroll-col">
+        <!-- Step 1 -->
+        <div class="scrolly-step active" data-step="0">
+          <span class="scrolly-step-tag">Visualización de Ingeniería // 01</span>
+          <h2>Visualización Avanzada</h2>
+          <p>La aplicación ofrece hasta **7 modos de renderizado** diferentes para estudiar la estructura geométrica e interna del Holybro X500 V2.</p>
+          <p>Alterna entre la visualización de la malla poligonal (Wireframe) para verificar las uniones y aristas, el modo Rayos X para inspeccionar componentes internos y un renderizado térmico heurístico que estima puntos calientes del motor.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">7 modos de representación</span>
+            <span class="scrolly-meta-tag">Análisis Estructural</span>
+          </div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="scrolly-step" data-step="1">
+          <span class="scrolly-step-tag">Visualización de Ingeniería // 02</span>
+          <h2>Interacción Total</h2>
+          <p>Explora a fondo la estructura con el sistema de **despiece explosivo**. Separa las capas de ensamble arrastrando el control en tiempo real.</p>
+          <p>Puedes hacer clic sobre cualquiera de las capas (Hélices, Electrónica, Chasis, Motores) para aislar la pieza, revelando especificaciones de materiales e instrucciones del manual técnico.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Despiece Explosivo Dinámico</span>
+            <span class="scrolly-meta-tag">Inspección de Materiales</span>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="scrolly-step" data-step="2">
+          <span class="scrolly-step-tag">Visualización de Ingeniería // 03</span>
+          <h2>Análisis de Ingeniería</h2>
+          <p>Inicializa simulaciones operativas. Enciende el drone para simular revoluciones (RPM) de hélices y observar la telemetría.</p>
+          <p>El registrador de datos de ingeniería genera gráficos de carga de batería, temperaturas de bobinados y vibración estructural. Puedes introducir **turbulencia del aire** sobrevolando la gráfica con el cursor para alterar los registros.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Simulación de Telemetría</span>
+            <span class="scrolly-meta-tag">Vibraciones y Estabilidad</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- PINNED VISUAL COLUMN (RIGHT) -->
+      <div class="scrolly-pinned-col">
+        <div class="scrolly-stage">
+          <div class="stage-header">
+            <h3 id="stageTitle">Visualización</h3>
+            <span id="stageStatus">RENDER_SOLID</span>
+          </div>
+          
+          <div class="stage-viewport" id="stageViewport">
+            <!-- Animation structure loads here -->
+          </div>
+          
+          <div class="stage-controls" id="stageControls">
+            <!-- Controls widgets are loaded here -->
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Reusable Javascript effects and GSAP binder -->
+    <script src="shared_effects.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const steps = gsap.utils.toArray(".scrolly-step");
+        
+        steps.forEach((step, i) => {
+          ScrollTrigger.create({
+            trigger: step,
+            start: "top 55%",
+            end: "bottom 45%",
+            onEnter: () => activateStep(i),
+            onEnterBack: () => activateStep(i)
+          });
+        });
+
+        let activeIndex = -1;
+        let chartInterval = null;
+
+        // --- DEFINE INTERACTIVE CAPABILITIES CONFIGURATIONS ---
+        const capabilitiesData = [
+          // 01. Visualización (Split sweep + toggle styles)
+          {
+            title: "Modos de Visualización",
+            status: "RENDER_COMPOSITE",
+            html: `
+              <div class="split-screen-stage" id="splitStage">
+                <div class="split-half split-left">
+                  <svg class="split-drone" viewBox="0 0 100 60">
+                    <path d="M10,30 L90,30 M50,10 L50,50" />
+                    <circle cx="50" cy="30" r="14" />
+                    <circle cx="20" cy="30" r="6" />
+                    <circle cx="80" cy="30" r="6" />
+                  </svg>
+                </div>
+                <div class="split-half split-right">
+                  <svg class="split-drone" viewBox="0 0 100 60">
+                    <path d="M10,30 L90,30 M50,10 L50,50" />
+                    <circle cx="50" cy="30" r="14" />
+                    <circle cx="20" cy="30" r="6" />
+                    <circle cx="80" cy="30" r="6" />
+                  </svg>
+                </div>
+                <div class="split-line" id="splitLine"></div>
+              </div>
+            `,
+            controls: `
+              <div class="control-row">
+                <label>Barrido Scan</label>
+                <input type="range" class="scrolly-slider" id="splitSlider" min="0" max="100" value="50" />
+              </div>
+              <div class="control-row">
+                <label>Render GPU</label>
+                <div class="control-btn-group">
+                  <button class="control-btn active" id="btnSolid">Sólido</button>
+                  <button class="control-btn" id="btnWire">Wireframe</button>
+                  <button class="control-btn" id="btnThermal">Térmico</button>
+                </div>
+              </div>
+            `,
+            setup: (container, controls) => {
+              const slider = controls.querySelector("#splitSlider");
+              const stage = container.querySelector("#splitStage");
+              const leftDrone = container.querySelector(".split-left .split-drone");
+              const rightDrone = container.querySelector(".split-right .split-drone");
+              
+              // Bind slider to split swipe percent
+              slider.addEventListener("input", (e) => {
+                stage.style.setProperty("--split-percent", `${e.target.value}%`);
+              });
+
+              // Bind style buttons
+              const btnSolid = controls.querySelector("#btnSolid");
+              const btnWire = controls.querySelector("#btnWire");
+              const btnThermal = controls.querySelector("#btnThermal");
+
+              btnSolid.addEventListener("click", () => {
+                setActiveBtn(btnSolid);
+                document.getElementById("stageStatus").innerText = "RENDER_SOLID";
+                applyFilters("none", "var(--accent-color)");
+              });
+
+              btnWire.addEventListener("click", () => {
+                setActiveBtn(btnWire);
+                document.getElementById("stageStatus").innerText = "RENDER_WIREFRAME";
+                applyFilters("none", "var(--text-muted)");
+              });
+
+              btnThermal.addEventListener("click", () => {
+                setActiveBtn(btnThermal);
+                document.getElementById("stageStatus").innerText = "RENDER_THERMAL_HEURISTIC";
+                applyFilters("hue-rotate(180deg) saturate(3)", "#ef4444");
+              });
+
+              function setActiveBtn(activeBtn) {
+                [btnSolid, btnWire, btnThermal].forEach(btn => btn.classList.remove("active"));
+                activeBtn.classList.add("active");
+              }
+
+              function applyFilters(filterVal, strokeColor) {
+                leftDrone.style.filter = filterVal;
+                rightDrone.style.filter = filterVal;
+                rightDrone.style.stroke = strokeColor;
+              }
+            }
+          },
+          // 02. Interacción (Exploded assembly with click specs)
+          {
+            title: "Despiece Explosivo",
+            status: "GAP_45mm",
+            html: `
+              <div class="viewport-container" style="perspective: 800px;">
+                <div class="assembly-stage" id="assemblyStage">
+                  <div class="assembly-layer" data-layer="Propelas" style="transform: translateZ(0px);">HÉLICES</div>
+                  <div class="assembly-layer" data-layer="Electrónica" style="transform: translateZ(0px);">PCB / GPS</div>
+                  <div class="assembly-layer" data-layer="Chasis" style="transform: translateZ(0px);">CORP_PLATE</div>
+                  <div class="assembly-layer" data-layer="Motores" style="transform: translateZ(0px);">MOTORES</div>
+                </div>
+              </div>
+            `,
+            controls: `
+              <div class="control-row">
+                <label>Expansión</label>
+                <input type="range" class="scrolly-slider" id="explodeSlider" min="0" max="100" value="0" />
+              </div>
+              <div class="control-row" style="background:rgba(0,0,0,0.2); padding:0.8rem; border-radius:8px; border:1px solid var(--border-primary);">
+                <div style="font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:var(--text-secondary); width:100%;">
+                  <div style="font-weight:600; color:var(--text-main); margin-bottom:0.25rem;" id="partName">SELECCIONA UNA CAPA</div>
+                  <div id="partSpec">Haz clic sobre las capas tridimensionales para aislar componentes y cargar especificaciones de ingeniería.</div>
+                </div>
+              </div>
+            `,
+            setup: (container, controls) => {
+              const slider = controls.querySelector("#explodeSlider");
+              const layers = container.querySelectorAll(".assembly-layer");
+              const partName = controls.querySelector("#partName");
+              const partSpec = controls.querySelector("#partSpec");
+              
+              // Explode animation on slider change
+              slider.addEventListener("input", (e) => {
+                const percent = e.target.value;
+                const gap = Math.round(45 + percent * 1.55);
+                document.getElementById("stageStatus").innerText = `GAP_${gap}mm`;
+                
+                // Explode layers outwards
+                const layersArray = Array.from(layers);
+                layersArray[0].style.transform = `translateY(-${percent * 0.8}px)`; // Props
+                layersArray[1].style.transform = `translateY(-${percent * 0.3}px)`; // Electronics
+                layersArray[3].style.transform = `translateY(${percent * 0.5}px)`;  // Motors
+              });
+
+              // Click specs
+              const specSheet = {
+                "HÉLICES": { name: "HÉLICES // CW & CCW", desc: "Holybro X500 original 1045 propelas de alta eficiencia. Fabricadas en plástico reforzado de alta rigidez aerodinámica." },
+                "PCB / GPS": { name: "AUTOPILOTO & GPS", desc: "Pixhawk 6C en montaje amortiguado. Sensor GPS Holybro M8N configurado para fijación satelital activa en exteriores." },
+                "CORP_PLATE": { name: "CHASIS CENTRAL", desc: "Placas central de fibra de carbono. Alta resistencia de torsión estructural con orificios de montura integrados." },
+                "MOTORES": { name: "MOTORES BRUSHLESS", desc: "Motores brushless de 2216 880KV de bajo consumo térmico. Configuración nominal de empuje de 4 celdas LiPo." }
+              };
+
+              layers.forEach(layer => {
+                layer.addEventListener("click", () => {
+                  layers.forEach(l => l.classList.remove("selected-layer"));
+                  layer.classList.add("selected-layer");
+                  
+                  const layerName = layer.textContent.trim();
+                  const specs = specSheet[layerName];
+                  if (specs) {
+                    partName.textContent = specs.name;
+                    partSpec.textContent = specs.desc;
+                  }
+                });
+              });
+            }
+          },
+          // 03. Análisis (Telemetry chart canvas with hover turbulence)
+          {
+            title: "Simulación de Telemetría",
+            status: "TELEMETRY_IDLE",
+            html: `
+              <div class="viewport-container" style="background:#09090c; border-radius:12px;">
+                <canvas class="telemetry-chart" id="telemetryChart"></canvas>
+              </div>
+            `,
+            controls: `
+              <div class="control-row">
+                <label>Establecer Vuelo</label>
+                <button class="control-btn" id="btnFly">Iniciar Simulación</button>
+              </div>
+              <div style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:var(--text-muted); text-align:center; margin-top:0.5rem;">
+                SOBREVUELE LA GRÁFICA CON EL CURSOR PARA PROVOCAR TURBULENCIAS
+              </div>
+            `,
+            setup: (container, controls) => {
+              const canvas = container.querySelector("#telemetryChart");
+              const ctx = canvas.getContext("2d");
+              const btnFly = controls.querySelector("#btnFly");
+              
+              // Set canvas dimensions
+              const parent = canvas.parentElement;
+              canvas.width = parent.clientWidth;
+              canvas.height = 200;
+
+              let isFlying = false;
+              let time = 0;
+              let points = [];
+              let turbulence = 0;
+
+              // Track cursor for turbulence
+              canvas.addEventListener("mousemove", () => {
+                if (isFlying) turbulence = 25;
+              });
+
+              btnFly.addEventListener("click", () => {
+                isFlying = !isFlying;
+                if (isFlying) {
+                  btnFly.textContent = "Detener Vuelo";
+                  btnFly.classList.add("active");
+                  document.getElementById("stageStatus").innerText = "TELEMETRY_ACTIVE";
+                  startPlotting();
+                } else {
+                  btnFly.textContent = "Iniciar Simulación";
+                  btnFly.classList.remove("active");
+                  document.getElementById("stageStatus").innerText = "TELEMETRY_IDLE";
+                  stopPlotting();
+                }
+              });
+
+              function startPlotting() {
+                points = Array(50).fill(100);
+                chartInterval = setInterval(() => {
+                  time += 0.15;
+                  
+                  // Compute telemetry value (sine waves + noise + turbulence)
+                  let base = 100 + Math.sin(time) * 15;
+                  if (turbulence > 0) {
+                    base += (Math.random() - 0.5) * turbulence;
+                    turbulence *= 0.92; // Decay
+                  }
+                  
+                  points.push(base);
+                  if (points.length > 50) points.shift();
+                  
+                  drawChart();
+                }, 80);
+              }
+
+              function stopPlotting() {
+                clearInterval(chartInterval);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+              }
+
+              function drawChart() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw grid lines
+                ctx.strokeStyle = "rgba(255,255,255,0.04)";
+                ctx.lineWidth = 1;
+                for (let x = 0; x < canvas.width; x += 30) {
+                  ctx.beginPath();
+                  ctx.moveTo(x, 0);
+                  ctx.lineTo(x, canvas.height);
+                  ctx.stroke();
+                }
+                for (let y = 0; y < canvas.height; y += 40) {
+                  ctx.beginPath();
+                  ctx.moveTo(0, y);
+                  ctx.lineTo(canvas.width, y);
+                  ctx.stroke();
+                }
+
+                // Draw line
+                ctx.strokeStyle = "var(--accent-color)";
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                
+                const stepX = canvas.width / 49;
+                ctx.moveTo(0, points[0]);
+                for (let i = 1; i < points.length; i++) {
+                  ctx.lineTo(i * stepX, points[i]);
+                }
+                ctx.stroke();
+
+                // Draw fill under chart
+                ctx.fillStyle = "rgba(96, 165, 250, 0.08)";
+                ctx.lineTo((points.length - 1) * stepX, canvas.height);
+                ctx.lineTo(0, canvas.height);
+                ctx.closePath();
+                ctx.fill();
+              }
+            }
+          }
+        ];
+
+        // --- ACTIVATE STEP FUNCTION ---
+        function activateStep(index) {
+          if (index === activeIndex) return;
+          activeIndex = index;
+
+          // Clear running intervals if any
+          if (chartInterval) clearInterval(chartInterval);
+
+          steps.forEach((step, idx) => {
+            if (idx === index) step.classList.add("active");
+            else step.classList.remove("active");
+          });
+
+          const stepData = capabilitiesData[index];
+          if (!stepData) return;
+
+          document.getElementById("stageTitle").innerText = stepData.title;
+          document.getElementById("stageStatus").innerText = stepData.status;
+
+          const viewport = document.getElementById("stageViewport");
+          const controls = document.getElementById("stageControls");
+
+          viewport.innerHTML = stepData.html;
+          controls.innerHTML = stepData.controls;
+
+          stepData.setup(viewport, controls);
+        }
+
+        // Initialize step 0
+        activateStep(0);
+      });
+    </script>
+  </body>
+</html>

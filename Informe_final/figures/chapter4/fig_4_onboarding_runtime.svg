@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M 0 0 L 10 4 L 0 8 Z" fill="#222"/>
+    </marker>
+    <pattern id="grid" width="18" height="18" patternUnits="userSpaceOnUse">
+      <path d="M 18 0 L 0 0 0 18" fill="none" stroke="#dddddd" stroke-width="0.7"/>
+    </pattern>
+  </defs>
+  <style>
+    text { font-family: Roboto, Arial, Helvetica, sans-serif; fill: #111; }
+    .title { font-size: 25px; font-weight: 700; }
+    .subtitle { font-size: 15px; fill: #444; }
+    .boxTitle { font-size: 17px; font-weight: 700; }
+    .body { font-size: 14.5px; fill: #222; }
+    .small { font-size: 13px; fill: #333; }
+    .smallBold { font-size: 13px; font-weight: 700; fill: #111; }
+    .note { font-size: 13px; fill: #555; font-style: italic; }
+    .arrow { fill: none; stroke: #222; stroke-width: 1.5; marker-end: url(#arrow); }
+    .dashed { stroke-dasharray: 5 5; }
+    .thin { fill: none; stroke: #222; stroke-width: 1.2; }
+    .muted { fill: #eeeeee; stroke: #222; stroke-width: 1.2; }
+  </style>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+  <text x="500" y="42" class="title" text-anchor="middle">Onboarding procedural integrado al runtime</text>
+  <text x="500" y="68" class="subtitle" text-anchor="middle">Ayuda contextual generada por codigo; no depende de GIF, video ni spritesheets</text>
+  
+  <rect x="60" y="130" width="210" height="100" rx="6" fill="#f0f0f0" stroke="#222" stroke-width="1.4"/>
+  <text x="165" y="158" class="boxTitle" text-anchor="middle">OnboardingController</text>
+  <text x="165" y="186" class="body" text-anchor="middle">estado de tarjeta</text>
+<text x="165" y="204" class="body" text-anchor="middle">plataforma</text>
+<text x="165" y="222" class="body" text-anchor="middle">avance / cierre</text>
+  
+  
+  <rect x="395" y="130" width="210" height="100" rx="6" fill="#f7f7f7" stroke="#222" stroke-width="1.4"/>
+  <text x="500" y="158" class="boxTitle" text-anchor="middle">Cards y cues</text>
+  <text x="500" y="186" class="body" text-anchor="middle">copy breve</text>
+<text x="500" y="204" class="body" text-anchor="middle">accion esperada</text>
+<text x="500" y="222" class="body" text-anchor="middle">respuesta visual</text>
+  
+  
+  <rect x="730" y="130" width="210" height="100" rx="6" fill="#f0f0f0" stroke="#222" stroke-width="1.4"/>
+  <text x="835" y="158" class="boxTitle" text-anchor="middle">AnimationView</text>
+  <text x="835" y="186" class="body" text-anchor="middle">Painter2D</text>
+<text x="835" y="204" class="body" text-anchor="middle">actor + objetivo</text>
+<text x="835" y="222" class="body" text-anchor="middle">respuesta UI</text>
+  
+  <path d="M 270 180 L 395 180" class="arrow"/>
+  <path d="M 605 180 L 730 180" class="arrow"/>
+  
+  <rect x="245" y="320" width="210" height="96" rx="6" fill="#f7f7f7" stroke="#222" stroke-width="1.4"/>
+  <text x="350" y="348" class="boxTitle" text-anchor="middle">Desktop actor</text>
+  <text x="350" y="376" class="body" text-anchor="middle">cursor</text>
+<text x="350" y="394" class="body" text-anchor="middle">click / rueda</text>
+<text x="350" y="412" class="body" text-anchor="middle">anillos de feedback</text>
+  
+  
+  <rect x="545" y="320" width="210" height="96" rx="6" fill="#f7f7f7" stroke="#222" stroke-width="1.4"/>
+  <text x="650" y="348" class="boxTitle" text-anchor="middle">Mobile actor</text>
+  <text x="650" y="376" class="body" text-anchor="middle">tap / ripple</text>
+<text x="650" y="394" class="body" text-anchor="middle">drag</text>
+<text x="650" y="412" class="body" text-anchor="middle">pinch abstracto</text>
+  
+  <path d="M 835 230 L 350 320" class="arrow dashed"/>
+  <path d="M 835 230 L 650 320" class="arrow dashed"/>
+  <rect x="180" y="465" width="640" height="46" rx="6" fill="#fff" stroke="#222" stroke-width="1.2"/>
+  <text x="500" y="494" class="small" text-anchor="middle">El overlay reduce friccion de entrada y conserva coherencia con el lenguaje visual de la app.</text>
+  
+</svg>

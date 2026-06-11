@@ -1,0 +1,511 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns:pi="WebGL.UI.ProceduralIcons" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Styles/Theme.uss" />
+    
+    <!-- ═══════════════════════════════════════════════
+         Root Container — MUST be Ignore so clicks pass to 3D scene
+         ═══════════════════════════════════════════════ -->
+    <ui:VisualElement name="Root" class="root-container" picking-mode="Ignore">
+        
+        <!-- World Space UI Container (hotspots) -->
+        <ui:VisualElement name="WorldSpaceContainer" class="world-space-container" picking-mode="Ignore" />
+
+        <ui:VisualElement name="TopBar" class="top-bar" picking-mode="Ignore">
+            <ui:Button name="HomeBtn" class="icon-button-small" tooltip="Return to Menu">
+                <pi:ProceduralHomeIcon style="width: 48px; height: 48px;" picking-mode="Ignore"/>
+            </ui:Button>
+            <ui:Label text="SELECT A PART" name="TopContextLabel" class="header-title" picking-mode="Ignore" />
+            <ui:Button name="ResetViewBtn" class="icon-button-small" tooltip="Reset Camera">
+                <pi:ProceduralResetIcon style="width: 48px; height: 48px;" picking-mode="Ignore"/>
+            </ui:Button>
+        </ui:VisualElement>
+
+        <!-- ═══════════════════════════════════════════════
+             Bottom Sheet (Details — slides up from very bottom)
+             Rendered BEFORE BottomBar so bar stays on top visually
+             ═══════════════════════════════════════════════ -->
+        <ui:VisualElement name="BottomSheet" class="details-sheet details-sheet--hidden" picking-mode="Ignore">
+            <ui:VisualElement class="sheet-handle" picking-mode="Ignore" />
+            
+            <!-- Header (Always visible in sheet) -->
+            <ui:VisualElement class="sheet-header">
+                <ui:Label text="SELECT A PART" name="SheetTitle" class="sheet-title" picking-mode="Ignore" />
+            </ui:VisualElement>
+
+            <!-- Close button — absolute top-right of sheet, above header -->
+            <ui:Button name="SheetCloseBtn" class="sheet-close-btn" tooltip="Close panel" picking-mode="Position">
+                <pi:ProceduralCloseIcon class="sheet-close-icon" picking-mode="Ignore" />
+            </ui:Button>
+            
+            <!-- Content Container: DETAILS (Part Info) -->
+            <ui:VisualElement name="SheetContent_Details" class="sheet-content sheet-content--active" picking-mode="Position">
+                <ui:ScrollView class="sheet-scroll" mode="Vertical" touch-scroll-type="Elastic" picking-mode="Position">
+
+                    <!-- Part Description — editorial subtitle directly below title -->
+                    <ui:Label name="PartDescription" class="sheet-description" picking-mode="Ignore" />
+
+                    <!-- Section 1: Identification -->
+                    <ui:Foldout text="IDENTIFICATION" name="FoldoutIdentification" value="false" class="sheet-foldout sheet-foldout--first">
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="CATEGORY" class="data-label" />
+                            <ui:Label name="PartCategory" class="data-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="FUNCTION" class="data-label" />
+                            <ui:Label name="PartFunction" class="data-value" />
+                        </ui:VisualElement>
+                    </ui:Foldout>
+
+                    <!-- Section 2: Specifications -->
+                    <ui:Foldout text="SPECIFICATIONS" name="FoldoutSpecifications" value="false" class="sheet-foldout">
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="MATERIAL" class="data-label" />
+                            <ui:Label name="PartMaterial" class="data-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="WEIGHT" class="data-label" />
+                            <ui:Label name="PartWeight" class="data-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="DIMENSIONS" class="data-label" />
+                            <ui:Label name="PartDimensions" class="data-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="POWER" class="data-label" />
+                            <ui:Label name="PartPower" class="data-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="TEMP" class="data-label" />
+                            <ui:Label name="PartTemp" class="data-value" />
+                        </ui:VisualElement>
+                    </ui:Foldout>
+
+                    <!-- Section 3: Relationship -->
+                    <ui:Foldout text="CONTAINED PARTS" name="FoldoutRelationship" value="false" class="sheet-foldout">
+                    </ui:Foldout>
+
+                    <!-- Section 3: Assembly -->
+                    <ui:Foldout text="ASSEMBLY" name="FoldoutAssembly" value="false" class="sheet-foldout">
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="DIFFICULTY" class="data-label" />
+                            <ui:Label name="PartDifficulty" class="data-value data-value-stars" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="TOOLS" class="data-label" />
+                            <ui:Label name="PartTools" class="data-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="TIME" class="data-label" />
+                            <ui:Label name="PartAssemblyTime" class="data-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="TORQUE" class="data-label" />
+                            <ui:Label name="PartTorque" class="data-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="CONNECTIONS" class="data-label" />
+                            <ui:Label name="PartConnections" class="data-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="SAFETY" class="data-label" />
+                            <ui:Label name="PartSafety" class="data-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="SERVICE NOTE" class="data-label" />
+                            <ui:Label name="PartServiceNote" class="data-value" />
+                        </ui:VisualElement>
+                    </ui:Foldout>
+
+                    <!-- Section 5: Key / References -->
+                    <ui:Foldout text="KEY &amp; REFERENCES" name="FoldoutReferences" value="false" class="sheet-foldout sheet-foldout--secondary">
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="KEY NAME" class="data-label" />
+                            <ui:Label name="PartKeyName" class="data-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="PART / SKU" class="data-label" />
+                            <ui:Label name="PartNumber" class="data-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="MAKER" class="data-label" />
+                            <ui:Label name="PartMaker" class="data-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="data-row">
+                            <ui:Label text="SOURCE REFS" class="data-label" />
+                            <ui:Label name="PartReferences" class="data-value" />
+                        </ui:VisualElement>
+                    </ui:Foldout>
+
+                </ui:ScrollView>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ═══ THERMAL LEGEND ═══ -->
+        <ui:VisualElement name="ThermalLegendContainer" class="thermal-legend thermal-legend--hidden" picking-mode="Ignore">
+            <ui:Label name="ThermalMaxTemp" text="100°C" class="thermal-legend-label" picking-mode="Ignore" />
+            <ui:VisualElement name="ThermalLegendGradient" class="thermal-legend-gradient" picking-mode="Ignore" />
+            <ui:Label name="ThermalMinTemp" text="20°C" class="thermal-legend-label" picking-mode="Ignore" />
+        </ui:VisualElement>
+
+        <!-- ═══════════════════════════════════════════════
+             Bottom Bar — Mode containers + master buttons + label
+             Mode containers live INSIDE the bar so they shift
+             together when the info sheet pushes the bar up.
+             ═══════════════════════════════════════════════ -->
+        <ui:VisualElement name="BottomBar" class="bottom-bar" picking-mode="Ignore">
+
+            <!-- ═══ INSPECT MODE ═══ Info, Pins, Isolate (all toggles) -->
+            <ui:VisualElement name="ToolsModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
+                <ui:VisualElement name="ToolsCardGrid" class="mode-submenu" picking-mode="Position">
+                    <ui:Label text="INSPECT" class="submenu-title" picking-mode="Ignore"/>
+                    <ui:VisualElement class="submenu-grid">
+                        <ui:Button name="ToolHotspotBtn" class="submenu-card" tooltip="Toggle Hotspots">
+                            <pi:ProceduralPinsIcon class="submenu-icon" picking-mode="Ignore"/>
+                            <ui:Label text="PINS" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="ToolIsolateBtn" class="submenu-card" tooltip="Isolate Selected Part">
+                            <pi:ProceduralIsolateIcon class="submenu-icon" picking-mode="Ignore"/>
+                            <ui:Label text="ISOLATE" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="ToolPowerBtn" class="submenu-card" tooltip="Toggle Drone Power">
+                            <pi:ProceduralPowerIcon class="submenu-icon" picking-mode="Ignore"/>
+                            <ui:Label text="POWER" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <!-- Measure tool hidden — planned for future release (see PLAN_TRABAJO_FINAL.md)
+                        <ui:Button name="ToolMeasureBtn" class="submenu-card" tooltip="Measure Distance">
+                            <pi:ProceduralMeasureIcon class="submenu-icon" picking-mode="Ignore"/>
+                            <ui:Label text="MEASURE" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        -->
+                    </ui:VisualElement>
+                    <ui:VisualElement name="ToolPowerLoadPanel" class="inspect-power-panel" picking-mode="Position" style="width: 476px; min-height: 72px; align-self: center; margin-top: 12px; padding: 4px 0 0 0; border-width: 0; border-radius: 0; background-color: rgba(0,0,0,0);">
+                        <ui:VisualElement class="inspect-power-header" picking-mode="Ignore" style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <ui:Label name="ToolPowerStateLabel" text="OFF" class="inspect-power-state" picking-mode="Ignore" style="font-size: 16px; color: rgba(255,255,255,0.78); -unity-font-style: bold; letter-spacing: 1px;" />
+                            <ui:Label name="ToolPowerLoadValue" text="0%" class="inspect-power-value" picking-mode="Ignore" style="font-size: 16px; color: rgba(70,175,255,0.98); -unity-font-style: bold;" />
+                        </ui:VisualElement>
+                        <ui:Slider name="ToolPowerLoadSlider" low-value="0" high-value="1" value="0" class="glass-slider inspect-power-slider" picking-mode="Position" style="flex-grow: 1; min-height: 44px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- ═══ ANALYZE MODE ═══ Cut, Explode, Filter -->
+            <ui:VisualElement name="AnalyzeModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
+                <!-- Level 1 — Card Grid -->
+                <ui:VisualElement name="AnalyzeCardGrid" class="mode-submenu" picking-mode="Position">
+                    <ui:Label text="ANALYZE" class="submenu-title" picking-mode="Ignore"/>
+                    <ui:VisualElement class="submenu-grid">
+                        <ui:Button name="AnalyzeCrossSectionBtn" class="submenu-card" tooltip="Cross Section">
+                            <pi:ProceduralCutIcon class="submenu-icon" picking-mode="Ignore"/>
+                            <ui:Label text="CUT" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="AnalyzeExplodeBtn" class="submenu-card" tooltip="Exploded View">
+                            <pi:ProceduralExplodeIcon class="submenu-icon" picking-mode="Ignore"/>
+                            <ui:Label text="EXPLODE" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="AnalyzeFilterBtn" class="submenu-card" tooltip="Filter Categories">
+                            <pi:ProceduralFilterIcon class="submenu-icon" picking-mode="Ignore"/>
+                            <ui:Label text="FILTER" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                    </ui:VisualElement>
+
+                    <!-- Inline slider for Explode (toggled by Explode card) -->
+                    <ui:VisualElement name="ExplodeInlineSlider" class="explode-inline-slider submenu--hidden" picking-mode="Position">
+                        <ui:Slider name="ExplosionSlider" low-value="0" high-value="1" class="glass-slider env-slider" picking-mode="Position" />
+                        <ui:Label name="ExplosionValue" text="0%" class="explosion-value-label" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <!-- Level 2a — Cross-Section Panel -->
+                <ui:VisualElement name="CrossSectionPanel" class="mode-submenu cross-section-panel submenu--hidden" picking-mode="Position">
+                    <ui:Label text="CROSS SECTION" class="submenu-title" picking-mode="Ignore" />
+                    <ui:VisualElement class="cross-section-control-row" picking-mode="Position">
+                        <ui:VisualElement class="cross-section-axis-group" picking-mode="Position">
+                            <ui:Button name="CrossSectionAxisX" class="cross-section-axis-btn">
+                                <ui:Label text="X" class="cross-section-axis-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                            <ui:Button name="CrossSectionAxisY" class="cross-section-axis-btn submenu-card--active">
+                                <ui:Label text="Y" class="cross-section-axis-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                            <ui:Button name="CrossSectionAxisZ" class="cross-section-axis-btn">
+                                <ui:Label text="Z" class="cross-section-axis-label" picking-mode="Ignore"/>
+                            </ui:Button>
+                        </ui:VisualElement>
+                        <ui:Button name="CrossSectionCombineBtn" class="cross-section-config-btn cross-section-config-btn--hidden" picking-mode="Ignore" tooltip="Combine active planes">
+                            <pi:ProceduralAngleIcon class="cross-section-config-icon" picking-mode="Ignore"/>
+                        </ui:Button>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="cross-section-plane-group" picking-mode="Ignore">
+                        <ui:Label text="PLANE 1 OFFSET" class="cross-section-plane-caption" picking-mode="Ignore"/>
+                        <ui:VisualElement class="cross-section-slider-row" picking-mode="Position">
+                            <ui:Slider name="CrossSectionPosition" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
+                            <ui:Button name="CrossSectionInvertBtnInline" class="cross-section-config-btn" tooltip="Invert plane direction">
+                                <pi:ProceduralInvertIcon class="cross-section-config-icon" picking-mode="Ignore"/>
+                            </ui:Button>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="CrossSectionControls2" class="cross-section-controls cross-section-controls--hidden" picking-mode="Ignore">
+                        <ui:VisualElement class="cross-section-plane-group" picking-mode="Ignore">
+                            <ui:Label text="PLANE 2 OFFSET" class="cross-section-plane-caption" picking-mode="Ignore"/>
+                            <ui:VisualElement class="cross-section-slider-row" picking-mode="Position">
+                                <ui:Slider name="CrossSectionPosition2" low-value="-2" high-value="2" value="0" class="glass-slider cross-section-slider" picking-mode="Position" />
+                                <ui:Button name="CrossSectionInvertBtn2Inline" class="cross-section-config-btn" tooltip="Invert second plane direction">
+                                    <pi:ProceduralInvertIcon class="cross-section-config-icon" picking-mode="Ignore"/>
+                                </ui:Button>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <!-- Level 2c — Filter Sub-Panel -->
+                <ui:VisualElement name="FilterSubPanel" class="mode-submenu submenu--hidden" picking-mode="Position">
+                    <ui:Label text="FILTER CATEGORY" class="submenu-title" picking-mode="Ignore"/>
+                    <ui:VisualElement class="submenu-grid">
+                        <ui:Button name="CatBtn_Structure" class="submenu-card">
+                            <ui:VisualElement class="submenu-icon icon-structure" picking-mode="Ignore"/>
+                            <ui:Label text="AIRFRAME" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="CatBtn_Propulsion" class="submenu-card">
+                            <ui:VisualElement class="submenu-icon icon-propulsion" picking-mode="Ignore"/>
+                            <ui:Label text="PROPULSION" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="CatBtn_Avionics" class="submenu-card">
+                            <ui:VisualElement class="submenu-icon icon-avionics" picking-mode="Ignore"/>
+                            <ui:Label text="AVIONICS" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="CatBtn_Sensors" class="submenu-card">
+                            <ui:VisualElement class="submenu-icon icon-avionics" picking-mode="Ignore"/>
+                            <ui:Label text="SENSORS" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="CatBtn_Power" class="submenu-card">
+                            <ui:VisualElement class="submenu-icon icon-power" picking-mode="Ignore"/>
+                            <ui:Label text="POWER" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="CatBtn_Payload" class="submenu-card">
+                            <ui:VisualElement class="submenu-icon icon-payload" picking-mode="Ignore"/>
+                            <ui:Label text="FASTENERS" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- ═══ STUDIO MODE ═══ Shaders + Environment + Lighting (single panel) -->
+            <ui:VisualElement name="StudioModeContainer" class="mode-container mode--hidden" picking-mode="Ignore">
+                <ui:VisualElement name="StudioPanel" class="mode-submenu" picking-mode="Position">
+                    <!-- Shader Section -->
+                    <ui:Label text="RENDER MODE" class="submenu-title" picking-mode="Ignore" />
+                    <ui:VisualElement name="ShaderMenu" class="submenu-grid">
+                        <ui:Button name="ShaderMode_Realistic" class="submenu-card submenu-card--active" style="display: none;">
+                            <pi:ProceduralShadersIcon class="submenu-icon" picking-mode="Ignore"/>
+                            <ui:Label text="REALISTIC" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="ShaderMode_XRay" class="submenu-card">
+                            <ui:VisualElement class="submenu-icon icon-xray" picking-mode="Ignore"/>
+                            <ui:Label text="X-RAY" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="ShaderMode_Blueprint" class="submenu-card" style="display: none;">
+                            <ui:VisualElement class="submenu-icon icon-blueprint" picking-mode="Ignore"/>
+                            <ui:Label text="BLUEPRINT" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="ShaderMode_SolidColor" class="submenu-card">
+                            <ui:VisualElement class="submenu-icon icon-solid" picking-mode="Ignore"/>
+                            <ui:Label text="SOLID" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="ShaderMode_Wireframe" class="submenu-card" style="display: none;">
+                            <ui:VisualElement class="submenu-icon icon-wire" picking-mode="Ignore"/>
+                            <ui:Label text="WIRE" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="ShaderMode_Ghosted" class="submenu-card" style="display: none;">
+                            <ui:VisualElement class="submenu-icon icon-ghost" picking-mode="Ignore"/>
+                            <ui:Label text="GHOST" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="ShaderMode_Thermal" class="submenu-card">
+                            <ui:VisualElement class="submenu-icon icon-thermal" picking-mode="Ignore"/>
+                            <ui:Label text="THERMAL" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                    </ui:VisualElement>
+
+                    <!-- Environment Section -->
+                    <ui:Label text="ENVIRONMENT" class="submenu-title submenu-title--section" picking-mode="Ignore" />
+                    <ui:VisualElement name="EnvGrid" class="submenu-grid">
+                        <ui:Button name="EnvPreset_Studio" class="submenu-card submenu-card--active">
+                            <ui:VisualElement class="submenu-icon icon-env-studio" picking-mode="Ignore"/>
+                            <ui:Label text="STUDIO" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="EnvPreset_Night" class="submenu-card">
+                            <ui:VisualElement class="submenu-icon icon-env-night" picking-mode="Ignore"/>
+                            <ui:Label text="TIME" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="EnvPreset_Blueprint" class="submenu-card">
+                            <ui:VisualElement class="submenu-icon icon-env-blue" picking-mode="Ignore"/>
+                            <ui:Label text="COLOR" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                        <ui:Button name="EnvPreset_Neutral" class="submenu-card" style="display: none;">
+                            <ui:VisualElement class="submenu-icon icon-env-neutral" picking-mode="Ignore"/>
+                            <ui:Label text="NEUTRAL" class="submenu-label" picking-mode="Ignore"/>
+                        </ui:Button>
+                    </ui:VisualElement>
+
+                    <!-- Sliders -->
+                    <ui:VisualElement class="env-slider-group" picking-mode="Position">
+                        <ui:Label text="LIGHT ROTATION" class="env-slider-label" picking-mode="Position" />
+                        <ui:Slider name="EnvLightRotation" low-value="0" high-value="360" value="45" class="glass-slider env-slider" picking-mode="Position" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="env-slider-group" picking-mode="Position">
+                        <ui:Label text="OBJECT INTENSITY" class="env-slider-label" picking-mode="Position" />
+                        <ui:Slider name="EnvLightIntensity" low-value="0.1" high-value="3" value="1" class="glass-slider env-slider" picking-mode="Position" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="env-slider-group" picking-mode="Position">
+                        <ui:Label text="BACKGROUND TONE" class="env-slider-label" picking-mode="Position" />
+                        <ui:Slider name="EnvBackgroundIntensity" low-value="0" high-value="100" value="100" class="glass-slider env-slider" picking-mode="Position" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Mode Buttons Row — 3 master modes -->
+            <ui:VisualElement class="actions-row" picking-mode="Ignore">
+                <ui:Button name="ModeToolsBtn" class="mode-btn" tooltip="Inspect - Pins, Isolate, Power">
+                    <pi:ProceduralInspectIcon class="mode-btn-icon" picking-mode="Ignore"/>
+                    <ui:Label text="INSPECT" class="mode-btn-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="ModeAnalyzeBtn" class="mode-btn" tooltip="Analyze — Cut, Explode, Filter">
+                    <pi:ProceduralAnalyzeIcon class="mode-btn-icon" picking-mode="Ignore"/>
+                    <ui:Label text="ANALYZE" class="mode-btn-label" picking-mode="Ignore"/>
+                </ui:Button>
+                <ui:Button name="ModeStudioBtn" class="mode-btn" tooltip="Studio — Shaders, Environment &amp; Lighting">
+                    <pi:ProceduralStudioIcon class="mode-btn-icon" picking-mode="Ignore"/>
+                    <ui:Label text="STUDIO" class="mode-btn-label" picking-mode="Ignore"/>
+                </ui:Button>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ═══ PRE-PEEK INFO BAR (Option 1) ═══
+             Appears at the very bottom when a part is selected. -->
+        <ui:VisualElement name="InfoBarPeek" class="info-bar-peek info-bar-peek--hidden" picking-mode="Position">
+            <ui:VisualElement class="peek-handle" picking-mode="Ignore" />
+            <ui:Label name="PeekLabel" text="PART INFO" class="peek-label" picking-mode="Ignore" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+
+    <!-- ═══════════════════════════════════════════════
+         Hero / Pre-Load Menu (overlay — LAST so it's on top)
+         picking-mode Ignore when hidden so it doesn't block 3D clicks
+         ═══════════════════════════════════════════════ -->
+    <ui:VisualElement name="HeroContainer" class="hero-container">
+        <!-- Main Hero Content -->
+        <ui:VisualElement name="HeroMain" style="width: 100%; height: 100%; align-items: center; justify-content: center;">
+            <ui:Button name="HeroLanguageBtn" class="hero-language-switch hero-language-switch--en hero-language-corner" text="">
+                <ui:VisualElement class="hero-language-switch-track" picking-mode="Ignore">
+                    <ui:VisualElement name="HeroLanguageThumb" class="hero-language-thumb" picking-mode="Ignore" />
+                    <ui:Label name="HeroLangEnLabel" text="EN" class="hero-language-option hero-language-option--en hero-language-option--active" picking-mode="Ignore" />
+                    <ui:Label name="HeroLangEsLabel" text="ES" class="hero-language-option hero-language-option--es" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:Label text="TwinSight X500" class="hero-title" picking-mode="Ignore" />
+            <ui:Label text="Visual-semantic WebGL viewer" class="hero-subtitle" picking-mode="Ignore" />
+            
+            <ui:VisualElement class="hero-menu">
+                <ui:Button name="HeroExploreBtn" class="btn btn-primary btn-wide" text="EXPLORE" />
+                <ui:Button name="HeroDeviceBtn" class="btn btn-ghost btn-wide" text="DEVICE" />
+                <ui:Button name="HeroAboutBtn" class="btn btn-ghost btn-wide" text="ABOUT" />
+                <ui:Button name="HeroExitBtn" class="btn btn-ghost btn-wide" text="EXIT" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Submenu: DEVICES -->
+        <ui:VisualElement name="HeroSubmenu_Devices" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
+            <ui:Button name="SubmenuBackBtn_Devices" class="btn-back" text="&lt;" />
+            <ui:Label text="Device" class="hero-title" />
+            <ui:ScrollView class="submenu-scroll device-scroll" mode="Vertical" touch-scroll-type="Elastic">
+                <ui:Button name="DeviceBtn_Drone" class="device-option device-option--active" text="Holybro X500 Base" />
+                <ui:Button name="DeviceBtn_Robot" class="device-option" text="Additional Device Slot (Coming Soon)" enabled="false" />
+                <ui:Button name="DeviceBtn_Satellite" class="device-option" text="Additional Device Slot (Coming Soon)" enabled="false" />
+            </ui:ScrollView>
+        </ui:VisualElement>
+
+        <!-- Submenu: ABOUT -->
+        <ui:VisualElement name="HeroSubmenu_About" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
+            <ui:Button name="SubmenuBackBtn_About" class="btn-back" text="&lt;" />
+            <ui:Label text="About" class="hero-title" />
+            <ui:ScrollView class="submenu-scroll" mode="Vertical" touch-scroll-type="Elastic">
+                <ui:Label text="TwinSight X500 is an interactive 3D technical viewer for the Holybro X500 V2 thesis prototype. Built with Unity WebGL." class="about-desc" />
+                <ui:Label text="Thesis Project — 2026" class="about-credit" />
+                <ui:Button name="HeroHelpBtn" text="VIEW TUTORIAL" class="btn btn-ghost btn-wide" />
+                <ui:VisualElement class="about-separator" />
+                <ui:Button name="HeroPerfCaptureBtn" text="PERF CAPTURE" class="btn btn-ghost about-tool-btn" />
+                <ui:Button name="HeroGithubBtn" text="VIEW SOURCE REPOSITORY" class="btn btn-ghost btn-wide" />
+            </ui:ScrollView>
+        </ui:VisualElement>
+
+        <!-- Submenu: EXIT -->
+        <ui:VisualElement name="HeroSubmenu_Exit" class="hero-submenu hero-submenu--hidden" picking-mode="Position">
+            <ui:Button name="SubmenuBackBtn_Exit" class="btn-back" text="&lt;" />
+            <ui:Label text="Exit app" class="hero-title" />
+            <ui:Label text="Are you sure you want to stop the experience?" class="about-desc" />
+            <ui:VisualElement class="actions-row-centered">
+                <ui:Button name="ExitConfirmBtn" text="EXIT APP" class="btn btn-primary btn-wide" />
+                <ui:Button name="ExitCancelBtn" text="CANCEL" class="btn btn-ghost btn-wide" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Device Selector removed / moved to BottomSheet -->
+    </ui:VisualElement>
+
+    <!-- ═══════════════════════════════════════════════
+         Onboarding Overlay (first-visit help — LAST so it's on top of everything)
+         ═══════════════════════════════════════════════ -->
+    <ui:VisualElement name="OnboardingOverlay" class="onboard-overlay" style="display: none;">
+        <ui:VisualElement class="onboard-card">
+            <ui:Button name="OnboardPlatformSwitch" class="onboard-platform-switch" text="">
+                <ui:VisualElement class="onboard-platform-switch-track" picking-mode="Ignore">
+                    <ui:VisualElement name="OnboardPlatformThumb" class="onboard-platform-thumb" picking-mode="Ignore" />
+                    <ui:VisualElement name="OnboardPlatformPcIcon" class="onboard-platform-icon onboard-platform-icon--pc" picking-mode="Ignore">
+                        <ui:VisualElement class="onboard-platform-pc-screen" picking-mode="Ignore" />
+                        <ui:VisualElement class="onboard-platform-pc-stand" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="OnboardPlatformMobileIcon" class="onboard-platform-icon onboard-platform-icon--mobile" picking-mode="Ignore">
+                        <ui:VisualElement class="onboard-platform-mobile-body" picking-mode="Ignore" />
+                        <ui:VisualElement class="onboard-platform-mobile-notch" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:Button>
+
+            <!-- Step counter -->
+            <ui:Label name="OnboardStepCounter" text="1 / 15" class="onboard-counter" picking-mode="Ignore" />
+
+            <!-- Visual area -->
+            <ui:VisualElement name="OnboardStepIcon" class="onboard-icon-area onboard-media onboard-media--static" picking-mode="Ignore">
+                <ui:VisualElement name="OnboardVisualStage" class="onboard-visual-stage" picking-mode="Ignore">
+                    <ui:Label name="OnboardIconLabel" text="🖱" class="onboard-icon" picking-mode="Ignore" />
+                    <pi:ProceduralPinsIcon name="OnboardVisualHotspots" class="onboard-procedural-icon onboard-procedural-icon--hidden" picking-mode="Ignore" />
+                    <pi:ProceduralInspectIcon name="OnboardVisualInspect" class="onboard-procedural-icon onboard-procedural-icon--hidden" picking-mode="Ignore" />
+                    <pi:ProceduralPowerIcon name="OnboardVisualPower" class="onboard-procedural-icon onboard-procedural-icon--hidden" picking-mode="Ignore" />
+                    <pi:ProceduralAnalyzeIcon name="OnboardVisualAnalyze" class="onboard-procedural-icon onboard-procedural-icon--hidden" picking-mode="Ignore" />
+                    <pi:ProceduralShadersIcon name="OnboardVisualThermal" class="onboard-procedural-icon onboard-procedural-icon--hidden" picking-mode="Ignore" />
+                    <pi:ProceduralStudioIcon name="OnboardVisualStudio" class="onboard-procedural-icon onboard-procedural-icon--hidden" picking-mode="Ignore" />
+                </ui:VisualElement>
+                <ui:Label name="OnboardMediaCaption" text="GESTURE" class="onboard-media-caption" picking-mode="Ignore" />
+                <ui:Label name="OnboardMediaCue" text="ORBIT" class="onboard-media-cue" picking-mode="Ignore" />
+            </ui:VisualElement>
+
+            <!-- Title + Description -->
+            <ui:Label name="OnboardStepTitle" text="NAVIGATE" class="onboard-title" picking-mode="Ignore" />
+            <ui:Label name="OnboardStepDesc" text="Right mouse button + drag to orbit the drone. Mouse wheel to control distance. Middle mouse button + drag to reframe the model." class="onboard-desc" picking-mode="Ignore" />
+            <ui:VisualElement name="OnboardStepFooter" class="onboard-desc-footer" style="display: none;" picking-mode="Ignore">
+                <pi:ProceduralResetIcon name="OnboardStepFooterIcon" class="onboard-desc-reset-icon" picking-mode="Ignore" />
+                <ui:Label name="OnboardStepFooterText" text="restores the default camera framing." class="onboard-desc-footer-text" picking-mode="Ignore" />
+            </ui:VisualElement>
+
+            <!-- Progress dots -->
+            <ui:VisualElement name="OnboardDots" class="onboard-dots" picking-mode="Ignore" />
+
+            <!-- Actions -->
+            <ui:VisualElement class="onboard-actions">
+                <ui:Button name="OnboardPrevBtn" text="PREV" class="btn btn-ghost onboard-prev-btn" />
+                <ui:Button name="OnboardSkipBtn" text="SKIP" class="btn btn-ghost onboard-skip-btn" />
+                <ui:Button name="OnboardNextBtn" text="NEXT" class="btn btn-primary onboard-next-btn" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+</ui:UXML>
+

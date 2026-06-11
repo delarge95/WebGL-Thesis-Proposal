@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 280" width="700" height="280">
+    <style>
+        .title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 24px; font-weight: bold; fill: #1a1a1a; }
+        .subtitle { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 18px; fill: #4a4a4a; }
+        .box-text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; fill: #1a1a1a; }
+        .box-text-bold { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #1a1a1a; }
+        .note { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-style: italic; fill: #666666; }
+        .box { fill: #f9f9f9; stroke: #333333; stroke-width: 1.5; rx: 4; ry: 4; }
+        .box-dark { fill: #e0e0e0; stroke: #333333; stroke-width: 1.5; rx: 4; ry: 4; }
+        .box-header { fill: #cccccc; stroke: #333333; stroke-width: 1.5; rx: 4; ry: 4; }
+        .arrow { fill: none; stroke: #333333; stroke-width: 1.5; marker-end: url(#arrowhead); }
+        .line { fill: none; stroke: #333333; stroke-width: 1.5; stroke-dasharray: 4,4; }
+    </style>
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#333333"/>
+        </marker>
+    </defs>
+    <rect width="100%" height="100%" fill="white"/>
+    <text x="350" y="30" text-anchor="middle" class="title">Ciclo de QA Formativo y Ajuste de Interacción</text><rect x="250" y="80" width="220" height="60" class="box-header"/>
+<text x="360.0" y="105.0" text-anchor="middle" class="box-text">1. Observación</text>
+<text x="360.0" y="125.0" text-anchor="middle" class="box-text">(Think-Aloud)</text><path d="M 470 110 L 520 110 L 520 170" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#arrowhead)"/><rect x="420" y="175" width="220" height="60" class="box-dark"/>
+<text x="530.0" y="200.0" text-anchor="middle" class="box-text">2. Corrección Técnica</text>
+<text x="530.0" y="220.0" text-anchor="middle" class="box-text">(Ajuste de UI/Input)</text><path d="M 420 205 L 200 205 L 200 170" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#arrowhead)"/><rect x="80" y="175" width="220" height="60" class="box"/>
+<text x="190.0" y="200.0" text-anchor="middle" class="box-text">3. Evidencia y Cierre</text>
+<text x="190.0" y="220.0" text-anchor="middle" class="box-text">(Validación en móvil)</text><path d="M 200 170 L 200 110 L 250 110" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+</svg>

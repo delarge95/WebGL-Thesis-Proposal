@@ -1,0 +1,114 @@
+% Tablas generadas a partir de los archivos en:
+% Telemetria/Mediciones_WebGL
+%
+% Criterio de procesamiento:
+% - FPS promedio y frame time promedio se calcularon como promedios ponderados
+%   por duración a partir de los campos exportados por el profiler interno.
+% - Se excluyeron de los agregados los segmentos identificados como arranque
+%   corto, captura accidental o suspensión atípica del navegador.
+% - Se excluyó la captura Chrome 91 con peor frame de 87699 ms por ser una
+%   sesión atípica compatible con pausa, background o suspensión del navegador.
+% - Unity WebGL reportó algunos navegadores móviles como deviceType=Desktop; la
+%   clasificación de dispositivo se hizo por sistema operativo, navegador, GPU y
+%   resolución.
+
+\begin{table}[H]
+    \caption{Resumen de rendimiento WebGL por dispositivo y escenario operativo}
+    \label{tab:rendimiento_webgl_resumen_dispositivos}
+    \centering
+    \scriptsize
+    \singlespacing
+    \renewcommand{\arraystretch}{1.08}
+    \setlength{\tabcolsep}{2pt}
+    \begin{tabular}{p{2.5cm}p{2.1cm}p{2.65cm}p{0.9cm}p{1.05cm}p{1.25cm}p{1.1cm}p{2.15cm}}
+        \hline
+        \textbf{Dispositivo} & \textbf{SO / navegador} & \textbf{Escenarios válidos} & \textbf{Dur. (s)} & \textbf{FPS prom.} & \textbf{Frame prom.} & \textbf{Pico mem.} & \textbf{Lectura} \\ \hline
+        PC escritorio (Intel Core i7-5820K, GTX 980 Ti, 48 GB RAM), 1910\(\times\)903 & Windows 11 / Chrome 141 & Base, selección/aislamiento, explode, cut, thermal/studio & 253.4 & 59.8 & 16.7 ms & 413 MB & Fluidez estable en todos los escenarios operativos. \\
+        Móvil Android (Adreno 610), 720x1300 & Android 10 / Chrome 148 & Base, selección/aislamiento, explode, cut, thermal/studio & 389.5 & 24.5 & 52.1 ms & 311 MB & Rendimiento usable, con picos perceptibles y thermal/studio como escenario más exigente. \\
+        Móvil Android (Adreno 610), 720x1410 & Android 12 / Chrome 114 & Base, selección/aislamiento, explode, cut, thermal/studio & 115.4 & 17.6 & 61.4 ms & 263 MB & Límite inferior móvil: navegable, pero por debajo de la meta de 30 FPS. \\
+        Móvil Android (Adreno 650), 1280x1914 & Android 12 / Chrome 114 & Base, selección/aislamiento, explode, cut, thermal/studio & 149.8 & 30.0 & 36.2 ms & 254 MB & Cerca de la meta de 30 FPS, con picos aislados durante cut. \\
+        Redmi Note 10S (Mali-G76), 924x1862 & MIUI Global 14.0.11 / Chrome 148 & Base, selección/aislamiento, thermal/studio, explode, cut & 156.7 & 26.5 & 40.3 ms & 226 MB & Experiencia móvil funcional en el flujo principal. \\
+        iPhone 17 Pro (A19 Pro), 1206x2622 & iOS / Safari & Base, selección/aislamiento, explode, cut, thermal/studio & 180.0 & 58.7 & 17.0 ms & 356 MB & Fluidez cercana al objetivo de 60 FPS en recorrido completo. \\
+        Móvil Android (Adreno 650), 1280x1808 & Android 12 / Chrome 91 & Base & -- & -- & -- & 119 MB & Captura descartada del agregado por comportamiento atípico de pausa o suspensión. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \apanote{Los promedios se calcularon sobre sesiones operativas exportadas por el profiler interno de la app. Se excluyeron segmentos de arranque corto, capturas accidentales y una captura atípica de Chrome 91 con peor frame de 87699 ms. Elaboración propia a partir de las mediciones técnicas WebGL del 4 de junio de 2026.}
+\end{table}
+
+\begin{table}[H]
+    \caption{KPIs complementarios de build, memoria y escena runtime}
+    \label{tab:kpis_complementarios_build_memoria}
+    \centering
+    \scriptsize
+    \singlespacing
+    \renewcommand{\arraystretch}{1.08}
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{p{3.8cm}p{3.2cm}p{7.0cm}}
+        \hline
+        \textbf{Indicador} & \textbf{Valor reportado} & \textbf{Lectura para validación} \\ \hline
+        Payload activo publicado & 15.78 MB (15.05 MiB) & Suma de los artefactos activos referenciados por \texttt{docs/Build/index.html}: \texttt{.data}, \texttt{.wasm}, framework y loader. \\
+        Archivo \texttt{.data.unityweb} & 8.48 MB & Huella principal de datos iniciales del visor WebGL publicado. \\
+        Archivo \texttt{.wasm.unityweb} & 7.11 MB & Código WebAssembly comprimido asociado a la build Unity Web. \\
+        Framework + loader & 0.19 MB & Capa JavaScript de arranque y puente de carga del runtime web: 0.08 MB de framework y 0.12 MB de loader. \\
+        Heap WebGL configurado & 32 MB inicial / 512 MB máximo & Configuración de Unity WebGL con crecimiento geométrico habilitado para escalar memoria sin reservar el máximo desde el inicio. \\
+        Crecimiento de heap & Paso geométrico 20\%, cap 96 MB & Estrategia de crecimiento registrada en \texttt{ProjectSettings.asset}; reduce riesgo de arranque pesado y permite expansión controlada. \\
+        Pico de memoria reservada observado & 413 MB escritorio; 311 MB Android Adreno 610; 226 MB Redmi Note 10S; 356 MB iOS & El pico se interpreta como indicador comparativo por sesión y no como memoria física total del dispositivo. \\
+        Escena runtime instrumentada & 252 renderers, 252 mallas, 229\,054 triángulos estimados & Conteo exportado por el profiler interno para asociar rendimiento observado con complejidad renderizable de la escena evaluada. \\
+        Primera captura operativa del profiler & 2.8 s escritorio; 3.8--4.1 s Android; 27.0 s Redmi Note 10S & Tiempo hasta inicio de sesión de profiler interno, usado como referencia operativa de captura y no como cronometraje de tareas de usuario. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \apanote{Los artefactos corresponden a la build publicada en \texttt{docs/Build} y fueron recalculados sobre los archivos activos generados el 10 de junio de 2026: \texttt{6cd0d03c140b38df116217ef412de022.data.unityweb}, \texttt{6b3071039ac238a7bac2d1c430852e0e.wasm.unityweb}, \texttt{00424fe2ea5640673e2c8862c0cca28e.framework.js.unityweb} y \texttt{c02a0bc936202d8ae347ae331e242c98.loader.js}. Los parámetros de heap provienen de la configuración WebGL del proyecto Unity y las cifras de escena runtime provienen de las exportaciones JSON/CSV del profiler interno. Elaboración propia.}
+\end{table}
+
+{
+\scriptsize
+\singlespacing
+\renewcommand{\arraystretch}{1.08}
+\setlength{\tabcolsep}{2pt}
+\begin{longtable}{p{3.1cm}p{2.65cm}p{1.1cm}p{1.05cm}p{1.25cm}p{1.25cm}p{1.35cm}p{1.55cm}}
+    \caption{Detalle de sesiones de rendimiento WebGL por dispositivo y escenario}
+    \label{tab:rendimiento_webgl_detalle_sesiones}\\
+    \hline
+    \textbf{Dispositivo} & \textbf{Escenario} & \textbf{Dur. (s)} & \textbf{FPS} & \textbf{Frame ms} & \textbf{Peor ms} & \textbf{Pico mem.} & \textbf{Uso} \\ \hline
+    \endfirsthead
+    \hline
+    \textbf{Dispositivo} & \textbf{Escenario} & \textbf{Dur. (s)} & \textbf{FPS} & \textbf{Frame ms} & \textbf{Peor ms} & \textbf{Pico mem.} & \textbf{Uso} \\ \hline
+    \endhead
+    PC escritorio (GTX 980 Ti) & Base & 5.8 & 54.5 & 24.6 & 93.7 & 119 MB & Excluida: arranque corto \\
+    PC escritorio (GTX 980 Ti) & Base & 24.7 & 59.9 & 16.7 & 17.8 & 146 MB & Agregada \\
+    PC escritorio (GTX 980 Ti) & Selección/aislamiento & 31.4 & 59.0 & 17.0 & 20.9 & 342 MB & Agregada \\
+    PC escritorio (GTX 980 Ti) & Explode & 38.5 & 59.8 & 16.7 & 18.5 & 371 MB & Agregada \\
+    PC escritorio (GTX 980 Ti) & Cut / corte & 65.9 & 60.0 & 16.7 & 17.2 & 372 MB & Agregada \\
+    PC escritorio (GTX 980 Ti) & Thermal/Studio & 92.9 & 59.8 & 16.7 & 18.6 & 413 MB & Agregada \\
+    Móvil Android (Adreno 610) & Base & 93.7 & 25.0 & 73.3 & 1468.0 & 120 MB & Agregada \\
+    Móvil Android (Adreno 610) & Base & 86.4 & 25.9 & 40.3 & 67.9 & 205 MB & Agregada \\
+    Móvil Android (Adreno 610) & Selección/aislamiento & 71.3 & 24.6 & 46.3 & 218.5 & 280 MB & Agregada \\
+    Móvil Android (Adreno 610) & Explode & 29.5 & 26.3 & 38.4 & 50.1 & 309 MB & Agregada \\
+    Móvil Android (Adreno 610) & Cut / corte & 40.5 & 26.6 & 38.5 & 62.5 & 309 MB & Agregada \\
+    Móvil Android (Adreno 610) & Thermal/Studio & 68.1 & 20.0 & 57.9 & 303.0 & 311 MB & Agregada \\
+    Móvil Android (Adreno 610, Chrome 114) & Base & 7.9 & 17.6 & 172.9 & 911.8 & 118 MB & Excluida: arranque corto \\
+    Móvil Android (Adreno 610, Chrome 114) & Base & 9.9 & 15.7 & 71.6 & 139.5 & 157 MB & Agregada \\
+    Móvil Android (Adreno 610, Chrome 114) & Selección/aislamiento & 25.2 & 20.0 & 54.3 & 147.0 & 233 MB & Agregada \\
+    Móvil Android (Adreno 610, Chrome 114) & Explode & 22.0 & 18.8 & 53.9 & 70.9 & 261 MB & Agregada \\
+    Móvil Android (Adreno 610, Chrome 114) & Cut / corte & 20.3 & 18.7 & 56.3 & 126.2 & 262 MB & Agregada \\
+    Móvil Android (Adreno 610, Chrome 114) & Thermal/Studio & 38.0 & 15.3 & 70.5 & 136.3 & 263 MB & Agregada \\
+    Móvil Android (Adreno 650) & Base & 4.8 & 32.3 & 73.9 & 264.6 & 118 MB & Excluida: arranque corto \\
+    Móvil Android (Adreno 650) & Base & 20.4 & 32.8 & 31.7 & 40.8 & 149 MB & Agregada \\
+    Móvil Android (Adreno 650) & Selección/aislamiento & 18.0 & 37.2 & 28.1 & 47.4 & 199 MB & Agregada \\
+    Móvil Android (Adreno 650) & Explode & 19.4 & 29.3 & 34.4 & 43.1 & 225 MB & Agregada \\
+    Móvil Android (Adreno 650) & Cut / corte & 41.3 & 32.6 & 33.8 & 142.7 & 226 MB & Agregada \\
+    Móvil Android (Adreno 650) & Thermal/Studio & 50.7 & 24.4 & 43.4 & 58.8 & 254 MB & Agregada \\
+    Redmi Note 10S (Mali-G76) & Base & 17.7 & 29.0 & 38.3 & 126.0 & 157 MB & Agregada \\
+    Redmi Note 10S (Mali-G76) & Base & 15.2 & 30.7 & 33.4 & 43.6 & 157 MB & Agregada \\
+    Redmi Note 10S (Mali-G76) & Selección/aislamiento & 26.3 & 30.9 & 34.3 & 104.0 & 221 MB & Agregada \\
+    Redmi Note 10S (Mali-G76) & Thermal/Studio & 38.7 & 21.5 & 48.0 & 88.8 & 225 MB & Agregada \\
+    Redmi Note 10S (Mali-G76) & Base & 0.9 & 21.3 & 47.1 & 48.5 & 225 MB & Excluida: segmento corto \\
+    Redmi Note 10S (Mali-G76) & Explode & 28.1 & 26.5 & 38.6 & 60.2 & 225 MB & Agregada \\
+    Redmi Note 10S (Mali-G76) & Cut / corte & 30.8 & 25.6 & 41.8 & 100.6 & 226 MB & Agregada \\
+    iPhone 17 Pro (A19 Pro, Safari) & Recorrido completo & 180.0 & 58.7 & 17.0 & 24.8 & 356 MB & Agregada \\
+    Móvil Android (Adreno 650, Chrome 91) & Base & 406.4 & 21.6 & 2369.6 & 87699.0 & 119 MB & Excluida: captura atípica \\
+    \hline
+    \noalign{\vskip 2pt}
+    \multicolumn{8}{p{15.1cm}}{\footnotesize\textit{Nota}. El campo ``Pico mem.'' corresponde al pico de memoria reservada reportado por el profiler interno. La memoria del navegador WebGL debe interpretarse como indicador comparativo de la sesión, no como memoria física total del dispositivo. Elaboración propia.}
+\end{longtable}
+}

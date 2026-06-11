@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_gps_m10
+  m_EditorClassIdentifier: 
+  partName: Holybro M10 GPS Module
+  id: x500v2_gps_m10
+  partType: GPS
+  description: "Holybro GPS/GNSS and compass module mounted on the included carbon fiber mast. The mast keeps the antenna away from electromagnetic interference."
+  weightKg: 0.032
+  dimensions: "\u230050 \xD7 14.4 mm (m\xF3dulo), m\xE1stil ~100 mm"
+  function: "GNSS positioning and compass heading reference"
+  materialType: "Ceramic antenna, PCB and carbon fiber mast"
+  materialProperties: "Recepci\xF3n multiband, bater\xEDa backup para warm starts"
+  manufacturer: Holybro
+  partNumber: SKU12040
+  powerConsumption: 0.5
+  maxLoad: 0
+  operatingTemp: 70
+  operatingTempMin: -40
+  operatingTempMax: 80
+  thermalPeak: 40
+  thermalHover: 28
+  thermalWarmupSeconds: 2
+  thermalExposure: 0.55
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.2
+  isThermallyCritical: 0
+  icon: {fileID: 0}
+  highlightColor: {r: 0.2, g: 0.6, b: 1, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 1
+  hotspotLabel: GPS & Compass
+  explosionDirection: {x: 0, y: 1, z: 0}
+  explosionDistance: 1.5
+  explosionPriority: 7
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - Destornillador M2.5
+  safetyWarnings:
+  - "Alejar de fuentes de interferencia magn\xE9tica (PDB, cables de alta corriente)"
+  installationTips: "The mast keeps the GPS away from EM interference. Verify COMPASS_ORIENT in ArduPilot when applicable."
+  installationTimeMinutes: 5
+  difficultyLevel: 2
+  torqueSpec: 
+  assemblyOrder: 7
+  prerequisites:
+  - x500v2_platform_board
+  - x500v2_pixhawk6c
+  connectionTypes:
+  - Screw M2.5
+  - JST GHR 1.25mm 10-pin
+  screwCount: 2
+  screwSize: M2.5
+  subComponentNames:
+  - GAN-GPSV5-ZHIJIA
+  - GPS-ZHIJIA-ZHUANJIETOU
+  - GPS-ZHIJIA-ZUO
+  - GPSV5-ZHIJIA-LUOMAO
+  - GPSV5-ZHIJIA-TUOPAN
+  - 'Fasteners: CapNut M3 x4'
+  - 'Fasteners: Pan Head Screw M3 x 10 mm x4'
+  fastenerMetadata:
+    instanceId: 
+    familyId: 
+    sourceId: 
+    sceneObjectName: 
+    hierarchyPath: 
+    parentCanonicalPartId: 
+    blenderName: 
+    sceneTypeKey: 
+    subtype: 
+    metric: 
+    nominalDiameterMm: 0
+    lengthMm: 0
+    headProfile: 
+    driveType: 
+    threadPitchMm: 0
+    turnCount: 0
+    material: 
+    finish: 
+    quantityExpected: 0
+    isInspectable: 0
+    fallbackReason: 
+    notes: 
+    recipeKey: 
+    builderType: 
+    orientationMode: 
+  category: 1

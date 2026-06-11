@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="470" viewBox="0 0 1180 470">
+  <defs>
+    <style>
+      text { font-family: Roboto, Arial, Helvetica, sans-serif; fill: #000; }
+      .title { font-size: 28px; font-weight: 700; }
+      .step-title { font-size: 17px; font-weight: 700; }
+      .step-body { font-size: 14px; font-weight: 400; }
+      .note { font-size: 13px; font-weight: 400; fill: #333; }
+      .box { fill: #fff; stroke: #000; stroke-width: 1.4; rx: 10; }
+      .arrow { fill: none; stroke: #000; stroke-width: 1.4; marker-end: url(#arrowhead); }
+      .dash { fill: none; stroke: #555; stroke-width: 1.2; stroke-dasharray: 7 6; marker-end: url(#arrowhead-gray); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000"/>
+    </marker>
+    <marker id="arrowhead-gray" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#555"/>
+    </marker>
+  </defs>
+
+  <text class="title" x="590" y="44" text-anchor="middle">Ciclo DSRM aplicado al prototipo WebGL</text>
+  <text class="note" x="590" y="72" text-anchor="middle">El ciclo conecta problema, artefacto construido, demostración, evaluación y comunicación documental.</text>
+
+  <rect class="box" x="42" y="130" width="160" height="150"/>
+  <text class="step-title" x="122" y="158" text-anchor="middle">1. Problema</text>
+  <text class="step-body" x="122" y="190" text-anchor="middle">
+    <tspan x="122" dy="0">Documentación 2D,</tspan>
+    <tspan x="122" dy="18">CAD pesado y datos</tspan>
+    <tspan x="122" dy="18">fragmentados.</tspan>
+  </text>
+
+  <rect class="box" x="232" y="130" width="160" height="150"/>
+  <text class="step-title" x="312" y="158" text-anchor="middle">2. Objetivos</text>
+  <text class="step-body" x="312" y="190" text-anchor="middle">
+    <tspan x="312" dy="0">Visor web 3D</tspan>
+    <tspan x="312" dy="18">interactivo, legible</tspan>
+    <tspan x="312" dy="18">y medible.</tspan>
+  </text>
+
+  <rect class="box" x="422" y="130" width="160" height="150"/>
+  <text class="step-title" x="502" y="158" text-anchor="middle">3. Desarrollo</text>
+  <text class="step-body" x="502" y="190" text-anchor="middle">
+    <tspan x="502" dy="0">Pipeline CAD-WebGL,</tspan>
+    <tspan x="502" dy="18">UI, selección, corte,</tspan>
+    <tspan x="502" dy="18">explode y modos.</tspan>
+  </text>
+
+  <rect class="box" x="612" y="130" width="160" height="150"/>
+  <text class="step-title" x="692" y="158" text-anchor="middle">4. Demostración</text>
+  <text class="step-body" x="692" y="190" text-anchor="middle">
+    <tspan x="692" dy="0">Build publicada,</tspan>
+    <tspan x="692" dy="18">tareas de inspección</tspan>
+    <tspan x="692" dy="18">y uso móvil.</tspan>
+  </text>
+
+  <rect class="box" x="802" y="130" width="160" height="150"/>
+  <text class="step-title" x="882" y="158" text-anchor="middle">5. Evaluación</text>
+  <text class="step-body" x="882" y="190" text-anchor="middle">
+    <tspan x="882" dy="0">KPIs técnicos, tareas,</tspan>
+    <tspan x="882" dy="18">SUS, NASA-TLX Raw</tspan>
+    <tspan x="882" dy="18">y Think-Aloud.</tspan>
+  </text>
+
+  <rect class="box" x="992" y="130" width="146" height="150"/>
+  <text class="step-title" x="1065" y="158" text-anchor="middle">6. Comunicación</text>
+  <text class="step-body" x="1065" y="190" text-anchor="middle">
+    <tspan x="1065" dy="0">Informe, manuales,</tspan>
+    <tspan x="1065" dy="18">bitácora, changelog</tspan>
+    <tspan x="1065" dy="18">y roadmap.</tspan>
+  </text>
+
+  <path class="arrow" d="M202 205 H224"/>
+  <path class="arrow" d="M392 205 H414"/>
+  <path class="arrow" d="M582 205 H604"/>
+  <path class="arrow" d="M772 205 H794"/>
+  <path class="arrow" d="M962 205 H984"/>
+
+  <path class="dash" d="M882 288 C882 382 514 382 514 288"/>
+  <text class="note" x="698" y="405" text-anchor="middle">La evaluación retroalimenta ajustes de diseño sin cambiar el alcance: visual product twin, no digital twin operacional.</text>
+</svg>

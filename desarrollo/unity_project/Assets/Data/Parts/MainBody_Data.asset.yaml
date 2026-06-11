@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: PLACEHOLDER_GUID, type: 3}
+  m_Name: MainBody_Data
+  m_EditorClassIdentifier: 
+  id: body-001
+  partName: Main Body Frame
+  category: Frame
+  description: Central carbon fiber frame housing all core electronics and providing structural support for arms and components.
+  weight: 245.5
+  dimensions: 25 x 25 x 8 cm
+  material: Carbon Fiber Composite
+  partType: 1
+  materialProperties:
+    primaryColor: {r: 0.15, g: 0.15, b: 0.18, a: 1}
+    roughness: 0.3
+    metallic: 0.1
+  requiredTools:
+    - Hex Key Set (2.5mm, 3mm)
+    - Torque Screwdriver
+  safetyWarnings:
+    - Handle with care - carbon fiber edges can be sharp
+    - Ensure all electronics are disconnected before removal
+  installationTips:
+    - Align mounting holes before inserting screws
+    - Apply threadlocker to critical mounting points
+  installationTimeMinutes: 15
+  difficultyLevel: 2
+  torqueSpec: 0.8 Nm
+  assemblyOrder: 1
+  prerequisites: []
+  connectionTypes:
+    - Screw
+  screwCount: 8
+  screwSize: M3x8

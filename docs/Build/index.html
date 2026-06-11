@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes"
+    />
+    <title>Unity Web Player | TwinSight X500</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+    <link rel="stylesheet" href="TemplateData/style.css" />
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        background: #1f1f20;
+      }
+
+      #unity-container,
+      #unity-canvas {
+        width: 100%;
+        height: 100%;
+      }
+
+      #unity-canvas {
+        display: block;
+        background: #1f1f20;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"></div>
+      <div id="unity-footer">
+        <div id="unity-logo-title-footer"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">TwinSight X500</div>
+      </div>
+    </div>
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
+
+      function unityShowBanner(msg, type) {
+        var warningBanner = document.querySelector("#unity-warning");
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? "block" : "none";
+        }
+        var div = document.createElement("div");
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type === "error") {
+          div.style = "background: red; padding: 10px;";
+        } else {
+          if (type === "warning") div.style = "background: yellow; padding: 10px;";
+          setTimeout(function () {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+
+      function installX500V2Bridge(unityInstance) {
+        window.x500v2UnityInstance = unityInstance;
+        window.addEventListener("message", function (event) {
+          if (!event.data || event.data.type !== "x500v2:browser-back") {
+            return;
+          }
+
+          unityInstance.SendMessage(
+            "X500V2BrowserBackBridge",
+            "HandleBrowserBackFromPage"
+          );
+        });
+      }
+
+      var config = {
+        arguments: [],
+        dataUrl: "Build/6cd0d03c140b38df116217ef412de022.data.unityweb",
+        frameworkUrl: "Build/00424fe2ea5640673e2c8862c0cca28e.framework.js.unityweb",
+        codeUrl: "Build/6b3071039ac238a7bac2d1c430852e0e.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "UNAD",
+        productName: "TwinSight X500",
+        productVersion: "1.0",
+        showBanner: unityShowBanner,
+        devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+      };
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        document.querySelector("#unity-container").className = "unity-mobile";
+        canvas.className = "unity-mobile";
+      } else {
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
+      }
+
+      document.querySelector("#unity-loading-bar").style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = "Build/c02a0bc936202d8ae347ae331e242c98.loader.js";
+      script.onload = function () {
+        createUnityInstance(canvas, config, function (progress) {
+          document.querySelector("#unity-progress-bar-full").style.width =
+            100 * progress + "%";
+        })
+          .then(function (unityInstance) {
+            installX500V2Bridge(unityInstance);
+            document.querySelector("#unity-loading-bar").style.display = "none";
+            document.querySelector("#unity-fullscreen-button").onclick = function () {
+              unityInstance.SetFullscreen(1);
+            };
+          })
+          .catch(function (message) {
+            alert(message);
+          });
+      };
+
+      document.body.appendChild(script);
+    </script>
+  </body>
+</html>

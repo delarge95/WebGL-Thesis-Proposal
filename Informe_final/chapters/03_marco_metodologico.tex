@@ -1,0 +1,272 @@
+\section{Marco Metodológico}
+
+Este capítulo describe el diseño metodológico adoptado para el desarrollo y la evaluación del prototipo web del Holybro X500~V2. La investigación se formuló como aplicada, con enfoque mixto y predominio cualitativo-formativo. El trabajo articuló diseño, construcción y evaluación de un artefacto digital, por lo que adoptó \textit{Design Science Research} (DSR) como marco principal, complementado con prototipado iterativo, observación de uso, cuestionarios estandarizados y medición de KPIs técnicos. La identificación del problema no se restringió al caso del dron, sino que partió de una necesidad industrial más amplia: la visualización, documentación y preparación semántica de hardware complejo.
+
+\subsection{Tipo de investigación y enfoque}
+
+\begin{itemize}
+    \item \textbf{Tipo de investigación:} aplicada, porque busca resolver una necesidad concreta de visualización técnica en entorno web.
+    \item \textbf{Enfoque:} mixto, con predominio cualitativo-formativo y un componente cuantitativo descriptivo y exploratorio.
+    \item \textbf{Marco metodológico:} DSR para construir y evaluar el artefacto, complementado con observación cualitativa de uso, cuestionarios estandarizados y medición de KPIs técnicos.
+    \item \textbf{Unidad de análisis:} la interacción de usuarios con un prototipo web de visualización técnica del dron Holybro X500~V2, contrastada con un soporte 2D de referencia para tareas equivalentes.
+\end{itemize}
+
+\subsection{Marco de Design Science Research}
+
+La investigación se enmarcó en la epistemología de \textit{Design Science Research}. En términos procedimentales, el proyecto adoptó el modelo de seis fases del DSRM propuesto por Peffers et al. (2007), mientras que la evaluación de rigor y relevancia del artefacto se fundamentó en las siete directrices establecidas por Hevner et al. (2004). De este modo, el proceso de construcción y evaluación del artefacto quedó diferenciado de las pautas con las que se juzga su consistencia metodológica y su aporte disciplinar. La Figura \ref{fig:dsrm_aplicado_proyecto} sintetiza esa aplicación del ciclo DSRM al caso del visor WebGL.
+
+\begin{enumerate}
+    \item \textbf{Identificación del problema y motivación.} La documentación 2D tradicional dificulta la comprensión espacial y funcional de sistemas de hardware con múltiples componentes; además, la industria suele mantener separados CAD, manuales, listas de materiales, procedimientos, sensores y conocimiento experto.
+    \item \textbf{Definición de objetivos de la solución.} Desarrollar un visor web interactivo orientado a facilitar la exploración y lectura técnica del dron Holybro X500~V2 bajo restricciones reales de rendimiento, entendiendo el prototipo como una capa visual-semántica previa a posibles fases de \textit{digital shadow}.
+    \item \textbf{Diseño y desarrollo.} Construir el prototipo en Unity con un \textit{pipeline} CAD a web, UI responsiva y herramientas de análisis visual.
+    \item \textbf{Demostración.} Publicar el prototipo en entorno web y ejecutar tareas representativas de exploración, identificación y análisis.
+    \item \textbf{Evaluación.} Analizar de forma formativa el rendimiento técnico, la usabilidad percibida y la carga de trabajo percibida del prototipo.
+    \item \textbf{Comunicación.} Documentar el proceso, la arquitectura, las decisiones de diseño y los resultados obtenidos.
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \caption{Aplicación del ciclo Design Science Research al proyecto WebGL.}
+    \label{fig:dsrm_aplicado_proyecto}
+    \centering
+    \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{figures/chapter3/fig_3_dsrm_aplicado_proyecto.pdf}
+    \par\vspace{0.5\baselineskip}
+    \apanote{La evaluación retroalimenta ajustes del artefacto, pero no cambia el alcance metodológico: se evalúa un \textit{visual product twin}, no un gemelo digital operacional. Elaboración propia.}
+\end{figure}
+
+\subsection{Delimitación metodológica como visual product twin}
+
+El artefacto evaluado en este informe se delimita como \textit{visual product twin} o modelo visual-semántico de producto, no como \textit{digital twin} operacional. Esta delimitación metodológica evita evaluar el sistema con criterios que no corresponden a su alcance actual. Por tanto, la validación se concentra en viabilidad web, comprensión espacial, inspección visual, usabilidad percibida, carga de trabajo subjetiva y coherencia funcional de la interfaz. No se evalúan sincronización con activo físico, mantenimiento predictivo, integración PLM/CMMS/SCADA ni modelos calibrados de simulación, porque esas capacidades pertenecen al roadmap futuro.
+
+Esta decisión también orienta los instrumentos. Los KPIs técnicos y las pruebas de usuario permiten juzgar si la capa visual-semántica es funcional, comprensible y defendible como base de trabajo; no permiten afirmar que el sistema sea una sombra digital o un gemelo digital. Para evolucionar a esas categorías serían necesarios, como mínimo, un \textit{twin manifest} por pieza, telemetría histórica o en vivo, trazabilidad de eventos, reglas de mantenimiento y validación de datos operacionales (véase la Figura \ref{fig:frontera_metodologica_visual_twin}).
+
+\begin{figure}[htbp]
+    \caption{Frontera metodológica entre lo evaluado y lo proyectado.}
+    \label{fig:frontera_metodologica_visual_twin}
+    \centering
+    \includegraphics[width=0.78\textwidth,height=0.58\textheight,keepaspectratio]{figures/chapter3/fig_3_frontera_metodologica.pdf}
+    \par\vspace{0.5\baselineskip}
+    \apanote{Las capacidades de telemetría, sincronización, mantenimiento predictivo y simulación calibrada se mantienen fuera de la evaluación actual. Elaboración propia.}
+\end{figure}
+
+\subsection{Fases de trabajo}
+
+\begin{enumerate}
+    \item \textbf{Análisis y fundamentación.} Revisión bibliográfica sobre WebGL, visualización 3D, teoría de la carga cognitiva, carga de trabajo percibida, UX, hardware complejo, \textit{digital model}, \textit{digital shadow}, \textit{digital twin} e interoperabilidad; selección del caso de estudio; definición de metas de rendimiento y alcance funcional.
+    \item \textbf{Pipeline de activos y visualización.} Limpieza, optimización e integración del modelo CAD; preparación de materiales y mallas para visualización en tiempo real; configuración del proyecto Unity y del \textit{pipeline} web.
+    \item \textbf{Implementación del prototipo.} Desarrollo de interacciones, selección de piezas, flujo de detalle, modos de análisis visual, vista explosionada, corte transversal e interfaces responsivas.
+    \item \textbf{Evaluación formativa y cierre.} Medición de KPIs técnicos, aplicación de SUS, NASA-TLX Raw y \textit{Think-Aloud}, consolidación del informe, manuales y anexos, y formulación de un roadmap de evolución hacia \textit{twin manifest}, telemetría histórica, \textit{live digital shadow} y modo de servicio (véase la Figura \ref{fig:fases_trabajo_proyecto}).
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \caption{Fases de trabajo del proyecto.}
+    \label{fig:fases_trabajo_proyecto}
+    \centering
+    \includegraphics[width=0.94\textwidth,height=0.54\textheight,keepaspectratio]{figures/chapter3/fig_3_fases_trabajo.pdf}
+    \par\vspace{0.5\baselineskip}
+    \apanote{Las fases agrupan fundamentación, preparación de activos, implementación y cierre evaluativo-documental. Elaboración propia.}
+\end{figure}
+
+\subsection{Prueba breve formativa previa a la evaluación final}
+
+En este informe, las etiquetas P1 y P2 se usan como niveles internos de prioridad de QA: P1 agrupa correcciones críticas para que el flujo principal sea usable y defendible; P2 agrupa ajustes importantes de pulido, consistencia o reducción de fricción que no bloquean por sí solos la demostración del prototipo.
+
+Antes de aplicar los instrumentos con la muestra final, se realizó una prueba breve exploratoria con usuarios para observar fricciones tempranas de interacción. Esta actividad se considera una iteración formativa previa, alineada con el enfoque \textit{Think-Aloud} y con observación de acciones espontáneas o inconscientes, y permitió ajustar la versión que luego fue evaluada con SUS, NASA-TLX Raw y protocolo comparativo 3D/2D.
+
+El objetivo de esta prueba previa fue identificar gestos que los usuarios intentaban realizar de manera automática antes de recibir instrucción detallada. Entre los patrones observados se registraron intentos de hacer \textit{swipe} sobre las tarjetas del tutorial, uso de gestos verticales para abrir o cerrar el panel de información, sensibilidad excesiva percibida en el zoom táctil, expectativa de doble toque para aislar elementos y rechazo a la apertura automática del panel de información cuando la intención principal era aislar una pieza. Estos hallazgos alimentaron los ajustes de cierre de la interfaz para hacer que la aplicación respondiera mejor a expectativas naturales de uso en la evaluación posterior.
+
+La revisión formativa produjo una lista de correcciones priorizadas que se trabajó antes del cierre de QA de P1 y P2. En particular, se ajustaron los gestos del tutorial, la apertura y cierre del \textit{bottom sheet}, el bloqueo táctil del panel de información para evitar interacción accidental con el dron, la sensibilidad de zoom y órbita, el doble toque sobre piezas y hotspots, la navegación por capas con el botón Atrás del navegador, la eliminación de la X externa del contenedor WebGL y la estabilización de iconos y microinteracciones en móvil. Por tanto, esta prueba breve se reporta como evidencia formativa de diseño iterativo y se distingue de los resultados con usuarios consolidados en el capítulo 5 (véase la Figura \ref{fig:ciclo_qa_formativa}).
+
+\begin{figure}[htbp]
+    \caption{Ciclo de QA formativo y optimización de interacción.}
+    \label{fig:ciclo_qa_formativa}
+    \centering
+    \includegraphics[width=0.88\textwidth,height=0.58\textheight,keepaspectratio]{figures/chapter3/fig_3_ciclo_qa_formativa.pdf}
+    \par\vspace{0.5\baselineskip}
+    \apanote{Proceso iterativo de detección de fricciones de interfaz y su correspondiente ajuste funcional en la build. Elaboración propia.}
+\end{figure}
+
+\subsection{Muestra y perfil de participantes}
+
+Se proyectó una muestra no probabilística por conveniencia de al menos 30 participantes como escenario deseable para fortalecer la lectura descriptiva de los instrumentos estandarizados.
+
+El estudio integrado en el informe se realizó con 12 participantes anonimizados, dentro del escenario mínimo operativo definido para evaluación formativa. El perfil esperado corresponde a estudiantes avanzados, técnicos o profesionales de ingeniería, manufactura digital o mantenimiento. Esta decisión se apoyó en la tradición de evaluaciones formativas en HCI y UX, donde muestras reducidas permiten identificar problemas recurrentes de interacción y generar insumos de rediseño (Nielsen, 2000; Lazar et al., 2017). En consecuencia, los resultados de SUS y NASA-TLX Raw se interpretan de forma descriptiva y exploratoria, sin pretensión de inferencia estadística poblacional.
+
+La caracterización efectiva de la muestra se reporta de forma agregada para preservar el anonimato de los participantes y evitar la asociación directa entre perfil profesional y respuestas individuales. La muestra quedó conformada por perfiles afines a ingeniería, desarrollo de software, diseño de interacción y visualización 3D, coherentes con el carácter técnico-formativo de la evaluación (véase la Tabla \ref{tab:perfil_agregado_participantes}).
+
+\begin{table}[H]
+    \caption{Perfil académico o profesional agregado de la muestra}
+    \label{tab:perfil_agregado_participantes}
+    \centering
+    \small
+    \singlespacing
+    \begin{tabular}{p{10.4cm}r}
+        \hline
+        \textbf{Perfil académico o profesional} & \textbf{Cantidad} \\ \hline
+        Ingeniería de sistemas, estudiantes o profesionales & 3 \\
+        Desarrollo de software & 1 \\
+        Ingeniería multimedia & 1 \\
+        Ingeniería mecatrónica & 1 \\
+        Ingeniería civil & 1 \\
+        Ingeniería electrónica & 2 \\
+        Ingeniería mecánica & 1 \\
+        Diseño gráfico con énfasis en UX/UI & 1 \\
+        Entusiasta 3D & 1 \\ \hline
+        \textbf{Total} & \textbf{12} \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \apanote{La tabla presenta datos agregados de caracterización y no permite asociar perfiles con respuestas individuales. Elaboración propia.}
+\end{table}
+
+\subsection{Variables de investigación}
+
+\subsubsection{Variable independiente}
+
+\textbf{Tipo de visualización técnica}
+\begin{itemize}
+    \item \textbf{Definición conceptual:} medio utilizado para consultar y comprender la información del sistema.
+    \item \textbf{Definición operacional:} comparación entre el visor 3D interactivo en web y un soporte 2D de referencia.
+    \item \textbf{Niveles:} visor 3D interactivo / documentación 2D.
+\end{itemize}
+
+\subsubsection{Variables dependientes}
+
+\textbf{Usabilidad percibida}
+\begin{itemize}
+    \item \textbf{Definición conceptual:} grado en que el usuario percibe el sistema como fácil de aprender, consistente y útil.
+    \item \textbf{Definición operacional:} puntaje total del cuestionario \textit{System Usability Scale} (Brooke, 1996), aplicado únicamente al prototipo 3D interactivo y expresado en escala de 0 a 100.
+    \item \textbf{Criterio de interpretación:} 68 se toma como referencia del promedio histórico del instrumento y no como sinónimo de usabilidad alta. Como guía contextual, puntajes en el rango de 70 a 72 se interpretan como favorables o por encima del centro de referencia, mientras que puntajes en los ochenta corresponden a niveles claramente superiores de aceptación. Estas lecturas se usan solo como contextualización descriptiva y se respaldan en Bangor et al. (2008, 2009) y Sauro y Lewis (2016), no como umbrales absolutos de validación.
+\end{itemize}
+
+\textbf{Carga de trabajo percibida}
+\begin{itemize}
+    \item \textbf{Definición conceptual:} percepción subjetiva de demanda y esfuerzo durante la ejecución de tareas, incluyendo demanda mental, demanda temporal, esfuerzo, frustración y percepción de rendimiento.
+    \item \textbf{Definición operacional:} promedio de las seis dimensiones del NASA-TLX Raw (Hart \& Staveland, 1988), en escala de 0 a 100.
+    \item \textbf{Criterio de interpretación:} describir la magnitud de la carga de trabajo percibida y contrastar si el prototipo 3D tiende a producir una carga de trabajo igual o menor que el soporte 2D de referencia en tareas comparables. En este informe, NASA-TLX no se interpreta como una medición directa de las categorías intrínseca, extrínseca y germana de la Teoría de la Carga Cognitiva, sino como un indicador de carga de trabajo subjetiva percibida durante la tarea.
+\end{itemize}
+
+\textbf{Desempeño en tareas de inspección}
+\begin{itemize}
+    \item \textbf{Definición conceptual:} capacidad del usuario para completar tareas representativas de identificación, ubicación y consulta técnica sobre el ensamblaje.
+    \item \textbf{Definición operacional:} tiempo en segundos para T1, T2 y T3, tasa de tareas completadas, completitud autónoma, número de errores observados, solicitudes de ayuda y observaciones cualitativas registradas por condición.
+    \item \textbf{Criterio de interpretación:} se considera más favorable la condición que permita resolver las tareas con menor tiempo medio en T1--T3, mayor porcentaje de completitud, menor intervención del moderador y verbalizaciones que indiquen mejor orientación durante la inspección.
+\end{itemize}
+
+\textbf{Rendimiento técnico y uso de memoria}
+\begin{itemize}
+    \item \textbf{Definición conceptual:} desempeño del prototipo web durante la carga y la interacción en tiempo real, junto con el comportamiento de memoria asociado al despliegue en navegador.
+    \item \textbf{Definición operacional:} medición de FPS, \textit{frame time}, primera captura operativa del profiler, lotes renderizables o \textit{draw calls} de referencia cuando estuvieran disponibles, presupuesto geométrico, tamaño de artefactos de \textit{build} relevantes para la carga inicial (especialmente archivos \texttt{.data} y asociados), tamaño del \textit{heap} configurado para Web, crecimiento efectivo del \textit{heap} durante la sesión y memoria observada del runtime en navegador, acompañados del registro explícito del equipo, navegador, resolución y escenario técnico.
+    \item \textbf{Metas operativas de referencia:} 30 FPS o más y \textit{frame time} promedio igual o inferior a 33,33\,ms en el entorno de prueba controlado definido para la validación. Los indicadores de memoria se reportan de forma trazable y contextualizada, evitando reducirlos a una única cifra desanclada del dispositivo y del navegador.
+\end{itemize}
+
+\subsubsection{Variables de control y condiciones registradas}
+
+\begin{itemize}
+    \item código anónimo del participante, fecha, perfil académico o profesional agregado, experiencia previa declarada, dispositivo de uso, sistema operativo, navegador y resolución;
+    \item condición aplicada en cada bloque de prueba: visor 3D o soporte 2D de referencia;
+    \item orden de exposición a las condiciones 3D y 2D;
+    \item versión de build, estado de caché y URL o archivo utilizado durante la evaluación;
+    \item para mediciones técnicas WebGL: dispositivo, sistema operativo, navegador, resolución, escenario, versión de build y archivo JSON/CSV exportado por el profiler interno.
+\end{itemize}
+
+El entorno de prueba controlado quedó delimitado por la misma build usada en la recolección de datos técnicos y en la evaluación con usuarios, correspondiente al cierre final documentado en el commit \texttt{4bdc153}. El commit \texttt{5eebc81} se conserva como referencia intermedia de vinculación documental, pero no como identificador último de la entrega. La build se ejecutó con la caché del navegador previamente cargada. En escritorio se usó el mismo equipo empleado en las pruebas técnicas: Intel Core i7-5820K, NVIDIA GTX 980 Ti, 48 GB RAM, resolución efectiva del viewport de 1910\(\times\)903, Windows 11 y Google Chrome 141. En móvil se utilizó un Redmi Note 10S con MIUI Global 14.0.11 y Google Chrome 148. Estas condiciones se registran para asegurar trazabilidad y evitar extrapolar el comportamiento observado a equipos o configuraciones no evaluadas. Cuando los archivos exportados por Unity WebGL reportan sistemas como \texttt{Windows 10} o \texttt{Android 10}, ese valor se interpreta como metadato normalizado del navegador o del runtime, y se prioriza el registro manual del dispositivo, sistema operativo y navegador consignado por el moderador.
+
+\subsection{Diseño comparativo y condiciones de prueba}
+
+La evaluación con usuarios se planteó como un diseño intra-sujeto de carácter formativo. Cada participante interactuó con dos condiciones funcionalmente equivalentes: \textbf{Condición A}, correspondiente al prototipo 3D interactivo en navegador, y \textbf{Condición B}, correspondiente a un soporte 2D de referencia construido a partir de documentación técnica estática del mismo sistema. La comparación no pretendió probar causalidad psicológica concluyente, sino describir diferencias observables de percepción y uso entre ambos medios.
+
+\paragraph{Definición operativa de la condición 2D} La condición 2D se implementó mediante un paquete documental controlado, fijo para todos los participantes, derivado de los manuales del fabricante ---\textit{X500 Kit Assembly Manual} y \textit{Holybro X500 Frame Kit Assembly Guide}--- y complementado con una lámina de rotulado alineada con la taxonomía canónica del proyecto (Holybro, s.\,f.-a, s.\,f.-b).
+
+Para mantener equivalencia informativa con la condición 3D, dicho paquete incluyó una vista general del ensamblaje, una secuencia o despiece del frame, una lámina de identificación de subsistemas de propulsión y electrónica, y una ficha textual de componentes por categoría. Durante la prueba, los participantes consultaron únicamente ese paquete estático mediante lectura, desplazamiento o cambio de página, sin rotación 3D, filtros interactivos ni herramientas analíticas propias de la condición 3D.
+
+Para mitigar sesgos de aprendizaje o fatiga, el orden de exposición se contrabalanceó mediante dos secuencias posibles: AB y BA. La asignación del orden se realizó por alternancia simple: los participantes con código impar siguieron la secuencia AB, es decir, visor 3D primero y soporte 2D después; los participantes con código par siguieron la secuencia BA, es decir, soporte 2D primero y visor 3D después. Esta regla permitió distribuir de forma controlada el posible efecto de aprendizaje o fatiga sin introducir una asignación subjetiva por parte del moderador. Las tareas mantuvieron el mismo objetivo funcional en ambas condiciones y variaron únicamente en el medio de representación. El moderador empleó instrucciones equivalentes y una misma matriz de registro para tiempo en T1--T3, éxito, errores, ayudas y observaciones.
+
+El entorno técnico se documentó de forma explícita en las sesiones de rendimiento WebGL, incluyendo equipo, sistema operativo, navegador, resolución, escenario evaluado y archivo exportado por el profiler interno. Los KPIs técnicos de la build web se interpretan junto con esas condiciones de ejecución para evitar extrapolaciones ambiguas del desempeño.
+
+En cuanto al alcance de plataforma, el prototipo se concibió para ejecutarse en navegadores web compatibles de escritorio y móviles soportados por la plataforma web de Unity. La compatibilidad efectiva depende del navegador, su versión, la memoria disponible y el nivel de optimización de la build. Por ello, la evaluación técnica registró dispositivo, navegador, resolución, escenario y medidas fechadas, evitando extrapolar el comportamiento observado a equipos no incluidos en la prueba (Unity Technologies, s.\,f.).
+
+Una mejora operativa de la condición 3D frente a la referencia 2D se define por la convergencia descriptiva de varios indicadores: mayor porcentaje de éxito en tareas, menos errores o ayudas requeridas, carga de trabajo percibida igual o inferior y verbalizaciones cualitativas que indiquen mejor orientación durante la inspección. El SUS se utiliza por separado como lectura global de usabilidad del prototipo 3D y no como métrica comparativa entre condiciones (véase la Figura \ref{fig:diseno_comparativo_3d_2d}).
+
+\begin{figure}[H]
+    \caption[Diseño comparativo 3D frente a 2D]{Diseño comparativo entre condición 3D interactiva y soporte 2D de referencia.}
+    \label{fig:diseno_comparativo_3d_2d}
+    \centering
+    \includegraphics[width=\textwidth,height=0.66\textheight,keepaspectratio]{figures/chapter3/fig_3_diseno_comparativo_3d_2d.pdf}
+    \par\vspace{0.5\baselineskip}
+    \apanote{El diseño usa tareas equivalentes y orden contrabalanceado; SUS se reporta para el prototipo 3D como lectura global de usabilidad. Elaboración propia.}
+\end{figure}
+
+\subsection{Instrumentos}
+\label{sec:instrumentos}
+
+\begin{itemize}
+    \item \textbf{KPIs técnicos:} Unity Profiler mediante \textit{Development Build} y \textit{Autoconnect Profiler} cuando corresponda, herramientas del navegador, auditorías de cobertura y jerarquía, y el profiler interno de la aplicación WebGL para capturar sesiones por escenario desde la propia build.
+    \item \textbf{Registro de desempeño en tareas:} matriz estructurada por condición para documentar tiempo en segundos para T1, T2 y T3, porcentaje de éxito, completitud autónoma, errores observables, ayudas requeridas y observaciones.
+    \item \textbf{SUS:} cuestionario posterior a la interacción con el prototipo 3D para estimar usabilidad percibida mediante 10 ítems en escala Likert de 1 a 5.
+    \item \textbf{NASA-TLX Raw:} cuestionario posterior a tareas para estimar carga de trabajo percibida en seis dimensiones, cada una en escala de 0 a 100. Se usa como medida de carga de trabajo percibida y no como medición directa de la Teoría de la Carga Cognitiva. En este informe se adopta la variante \textit{Raw TLX} por su pertinencia para lectura formativa rápida sin ponderación pareada adicional (Hart \& Staveland, 1988; Hart, 2006).
+    \item \textbf{Think-Aloud:} protocolo de verbalización concurrente con instrucción estandarizada, intervención neutral del moderador y apoyo de matriz de observación, audio y captura de pantalla cuando el entorno lo permita (véase la Figura \ref{fig:instrumentos_evaluacion_prototipo}).
+\end{itemize}
+
+\begin{figure}[H]
+    \caption{Instrumentos de evaluación del prototipo.}
+    \label{fig:instrumentos_evaluacion_prototipo}
+    \centering
+    \includegraphics[width=0.92\textwidth,height=0.50\textheight,keepaspectratio]{figures/chapter3/fig_3_instrumentos_evaluacion.pdf}
+    \par\vspace{0.5\baselineskip}
+    \apanote{Los instrumentos se organizan por capas técnica, conductual, perceptiva y cualitativa para evitar depender de un único indicador. Elaboración propia.}
+\end{figure}
+
+\subsection{Protocolo de tareas}
+
+Las tareas de validación se alinearon con el flujo visible final de la aplicación y se organizaron en cuatro bloques equivalentes para ambas condiciones:
+
+\begin{enumerate}
+    \item \textbf{Ubicación de componente:} localizar un componente específico del dron en el visor 3D o en el soporte 2D.
+    \item \textbf{Interpretación funcional:} explicar la función general del componente y su relación con el sistema.
+    \item \textbf{Relación espacial:} identificar vínculos espaciales entre el componente, piezas cercanas y el ensamblaje.
+    \item \textbf{Análisis visual guiado:} usar una herramienta visible del visor ---por ejemplo \texttt{Explode}, \texttt{Cut}, \textit{X-Ray}, \textit{Thermal} o presets de \textit{Studio}--- o interpretar la información equivalente en el soporte 2D.
+\end{enumerate}
+
+\subsection{Procedimiento de análisis}
+
+\subsubsection{Análisis cuantitativo}
+
+El componente cuantitativo del estudio tuvo carácter descriptivo y exploratorio. La lectura cuantitativa se organizó por tipo de dato: desempeño en tareas por condición, usabilidad global del prototipo 3D, carga de trabajo percibida por condición y KPIs técnicos de la build web bajo entorno controlado.
+
+El puntaje SUS se calcula según el procedimiento estándar de Brooke:
+\[
+SUS = \left(\sum_{j \in impares}(R_j - 1) + \sum_{j \in pares}(5 - R_j)\right)\times 2.5
+\]
+donde $R_j$ corresponde a la respuesta del participante en el ítem $j$. Un puntaje alto indica mejor usabilidad percibida. Para su lectura, 68 se considera una referencia histórica aproximada del instrumento, mientras que puntajes en el rango 70--72 se interpretan como favorables o por encima del centro de referencia y los valores en los ochenta como claramente superiores, siempre de forma descriptiva y no como umbral absoluto (Bangor et al., 2008, 2009; Sauro \& Lewis, 2016). En este estudio, el SUS se reporta únicamente para la condición 3D.
+
+Para NASA-TLX Raw se promedian las seis dimensiones del instrumento y se obtiene un resultado independiente para cada condición de prueba:
+\[
+NASA\text{-}TLX_{Raw} = \frac{1}{6}\sum_{i=1}^{6} D_i
+\]
+donde $D_i$ corresponde al puntaje observado en demanda mental, demanda física, demanda temporal, rendimiento, esfuerzo y frustración. En esta adaptación se utiliza la variante \textit{Raw TLX}, por lo que no se aplica ponderación por comparaciones pareadas. La dimensión de rendimiento se diligencia con orientación invertida (0 = desempeño perfecto, 100 = desempeño deficiente) para conservar coherencia direccional en el promedio global. Además del promedio agregado, se reportan las subescalas para evitar interpretaciones excesivamente reductivas (Hart \& Staveland, 1988; Hart, 2006).
+
+Los KPIs técnicos se contrastaron con las metas operativas del proyecto a partir de datos obtenidos sobre la build publicada. La aplicación integra herramientas internas de captura por escenario en JSON/CSV; por ello el informe reporta FPS, \textit{frame time}, memoria, artefactos de build, presupuesto geométrico y compatibilidad mediante tablas cuantitativas trazables.
+
+\subsubsection{Análisis cualitativo}
+
+El protocolo \textit{Think-Aloud} se aplicó en modalidad concurrente durante la ejecución de tareas. A cada participante se le solicitó verbalizar qué intentaba hacer, cómo interpretaba la interfaz, qué dudas le surgían, qué errores percibía y con qué criterio decidía su siguiente acción. El evaluador registró verbalizaciones relevantes, pausas, puntos de vacilación, errores de navegación, solicitudes de ayuda y estrategias de recuperación mediante una matriz estructurada por tarea y por condición.
+
+Posteriormente, las observaciones se codificaron por categorías analíticas: comprensión espacial del ensamblaje, navegación y control de cámara, interpretación de la interfaz, correspondencia terminológica, errores o bloqueos y sugerencias de mejora. La codificación se realizó mediante lectura de los registros del moderador, una segunda pasada de revisión y consolidación de memos breves por participante. Esta lectura cualitativa permite triangular los resultados de SUS y NASA-TLX y explicar por qué determinadas tareas resultaron más claras, ambiguas o demandantes para el usuario (Ericsson \& Simon, 1993).
+
+\subsubsection{Triangulación de hallazgos}
+
+La integración final de resultados sigue una lógica de triangulación convergente. En primer lugar, los indicadores de desempeño en tareas y los KPIs técnicos describen la viabilidad operativa de la build web en el entorno de prueba documentado. En segundo lugar, SUS aporta una lectura global de usabilidad del prototipo 3D, mientras que NASA-TLX compara la carga de trabajo percibida entre la condición interactiva y la referencia 2D. En tercer lugar, el \textit{Think-Aloud} y la observación estructurada explican por qué determinadas tareas producen fricción, claridad o ambigüedad. Un hallazgo se considera más sólido cuando muestra consistencia entre estas capas de evidencia, teniendo en cuenta que la comparación entre 3D y 2D se apoya en desempeño y carga de trabajo percibida, mientras que la usabilidad global se informa para el prototipo interactivo (véase la Figura \ref{fig:triangulacion_evidencia}).
+
+\begin{figure}[htbp]
+    \caption{Triangulación de evidencia para interpretar el prototipo.}
+    \label{fig:triangulacion_evidencia}
+    \centering
+    \includegraphics[width=0.92\textwidth,height=0.58\textheight,keepaspectratio]{figures/chapter3/fig_3_triangulacion_evidencia.pdf}
+    \par\vspace{0.5\baselineskip}
+    \apanote{La interpretación final combina KPIs técnicos, desempeño en tareas, SUS, NASA-TLX Raw, \textit{Think-Aloud} y observación estructurada. Elaboración propia.}
+\end{figure}
+
+\subsection{Consideraciones éticas}
+
+La participación en pruebas fue voluntaria. Los participantes fueron identificados mediante códigos anónimos y los resultados se reportan de forma agregada o anonimizada. No se recolectaron datos sensibles ni se realizaron intervenciones físicas. Cualquier registro de audio, pantalla o fotografía quedó condicionado a autorización explícita, y los documentos de validación se conservaron únicamente como soporte académico del proyecto. El estudio no contempla exposición a riesgos adicionales para los participantes.
+
+\newpage

@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Detalles técnicos e infraestructura del TwinSight X500" />
+    <title>Tecnología | TwinSight X500</title>
+    
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    
+    <!-- CDNs for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Shared Stylesheet -->
+    <link rel="stylesheet" href="style_scrollytelling.css" />
+    
+    <style>
+      /* Tech specific styles */
+      .tech-viewport {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .absolute-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      
+      /* Unity Editor Viewport */
+      .unity-viewport-gizmo {
+        width: 120px;
+        height: 120px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .unity-axis {
+        position: absolute;
+        background: var(--text-muted);
+        opacity: 0.15;
+        transition: all 0.3s;
+      }
+      .axis-translate-x { width: 90px; height: 2px; top: 50%; left: 15px; }
+      .axis-translate-y { width: 2px; height: 90px; left: 50%; top: 15px; }
+      .axis-translate-z { width: 90px; height: 2px; top: 50%; left: 15px; transform: rotate(45deg); }
+      .axis-translate-x.active-axis { background-color: #ef4444; opacity: 1; box-shadow: 0 0 8px #ef4444; }
+      .axis-translate-y.active-axis { background-color: #22c55e; opacity: 1; box-shadow: 0 0 8px #22c55e; }
+      .axis-translate-z.active-axis { background-color: #3b82f6; opacity: 1; box-shadow: 0 0 8px #3b82f6; }
+      
+      /* Compiler layout */
+      .compiler-console {
+        width: 90%;
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1rem;
+        background: #060608;
+        border: 1px solid var(--border-primary);
+        border-radius: 8px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.68rem;
+        color: var(--text-muted);
+      }
+      .benchmark-bar-wrapper {
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .benchmark-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .benchmark-label {
+        width: 60px;
+        font-size: 0.65rem;
+      }
+      .benchmark-track {
+        flex: 1;
+        height: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .benchmark-fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 4px;
+        transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      
+      .shader-overlay-code {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        z-index: 10;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.65rem;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--border-primary);
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- FLOATING HEADER CONTROLS -->
+    <div class="floating-header">
+      <a href="index.html" class="floating-back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Volver a la Landing
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+        <svg class="theme-icon icon-moon" viewBox="0 0 24 24">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+        <svg class="theme-icon icon-sun" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- SCROLLYTELLING CONTAINER -->
+    <div class="scrolly-container">
+      
+      <!-- SCROLL COLUMN (LEFT) -->
+      <div class="scrolly-scroll-col">
+        <!-- Step 1 -->
+        <div class="scrolly-step active" data-step="0">
+          <span class="scrolly-step-tag">Tecnología de Desarrollo // 01</span>
+          <h2>Unity 6 LTS</h2>
+          <p>El motor gráfico de la aplicación. Configurado bajo el pipeline de renderizado universal (URP) de Unity.</p>
+          <p>La integración con herramientas de edición en runtime permite controlar transformaciones espaciales en 3D (Traslación, Rotación y Escala) mediante gizmos interactivos configurados en base a vectores cartesianos.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Universal Render Pipeline</span>
+            <span class="scrolly-meta-tag">Gizmos Vectoriales</span>
+          </div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="scrolly-step" data-step="1">
+          <span class="scrolly-step-tag">Tecnología de Desarrollo // 02</span>
+          <h2>WebGL 2.0</h2>
+          <p>Proporciona aceleración por hardware directa en el navegador. La GPU procesa mallas y cálculos matriciales de cámara sin plugins.</p>
+          <p>La simulación muestra un **Point Cloud (nube de puntos) interactivo** en 3D. Las partículas son rechazadas magnéticamente por el cursor, y puedes ordenarles cambiar de forma en tiempo real.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">HTML5 Canvas GPU</span>
+            <span class="scrolly-meta-tag">Point Cloud 3D</span>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="scrolly-step" data-step="2">
+          <span class="scrolly-step-tag">Tecnología de Desarrollo // 03</span>
+          <h2>WebAssembly</h2>
+          <p>Permite ejecutar código compilado nativo (C# traducido a C++ e IL2CPP) en el navegador a máxima velocidad.</p>
+          <p>Al pulsar "COMPILAR", la simulación corre el árbol de compilación del compilador IL2CPP de Unity y grafica el rendimiento final frente a un intérprete Javascript convencional.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">IL2CPP Compilation</span>
+            <span class="scrolly-meta-tag">WASM Virtual Machine</span>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="scrolly-step" data-step="3">
+          <span class="scrolly-step-tag">Tecnología de Desarrollo // 04</span>
+          <h2>HLSL Shaders</h2>
+          <p>Cálculo de píxeles a nivel GPU. Usados en la aplicación para colorear la malla en modo Rayos X o simular el espectro térmico.</p>
+          <p>Manipula las variables uniformes del shader de fragmentos (velocidad, frecuencia de onda y distorsión de metaballs) con los controles deslizantes para ver los resultados matemáticos aplicados al instante.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Pixel Shaders</span>
+            <span class="scrolly-meta-tag">Uniform Variables</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- PINNED VISUAL COLUMN (RIGHT) -->
+      <div class="scrolly-pinned-col">
+        <div class="scrolly-stage">
+          <div class="stage-header">
+            <h3 id="stageTitle">Unity 6 LTS</h3>
+            <span id="stageStatus">EDITOR_IDLE</span>
+          </div>
+          
+          <div class="stage-viewport" id="stageViewport">
+            <!-- Dynamic tech viewports load here -->
+          </div>
+          
+          <div class="stage-controls" id="stageControls">
+            <!-- Widgets controls load here -->
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Reusable Javascript effects and GSAP binder -->
+    <script src="shared_effects.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const steps = gsap.utils.toArray(".scrolly-step");
+        
+        steps.forEach((step, i) => {
+          ScrollTrigger.create({
+            trigger: step,
+            start: "top 55%",
+            end: "bottom 45%",
+            onEnter: () => activateStep(i),
+            onEnterBack: () => activateStep(i)
+          });
+        });
+
+        let activeIndex = -1;
+        
+        // Shader Global Variables
+        let shaderProgramGl = null;
+        let shaderGlContext = null;
+        let shaderTime = 0.0;
+        let targetMouseX = 150, targetMouseY = 60;
+        let sMouseX = 150, sMouseY = 60;
+        let shaderAnimFrame = null;
+        let shaderUniforms = { speed: 0.02, freq: 8.0, warp: 1.0 };
+
+        // WebGL Point Cloud Variables
+        let pcAnimFrame = null;
+
+        // --- DEFINE INTERACTIVE TECHNICAL VIEWS ---
+        const techData = [
+          // 01. Unity 6 (RGB axis gizmos interactives)
+          {
+            title: "Editor de Transformaciones",
+            status: "TRANSFORM_GIZMO",
+            html: `
+              <div class="tech-viewport">
+                <div class="unity-viewport-gizmo" id="unityGizmo">
+                  <div class="unity-axis axis-translate-x" id="axisX"></div>
+                  <div class="unity-axis axis-translate-y" id="axisY"></div>
+                  <div class="unity-axis axis-translate-z" id="axisZ"></div>
+                  <svg class="sim-unity-drone" viewBox="0 0 100 100" style="width:70px; height:70px; stroke:var(--text-muted); fill:none; z-index:5;">
+                    <circle cx="50" cy="50" r="10" stroke-width="1.5" />
+                    <line x1="15" y1="15" x2="85" y2="85" stroke-width="1.2" />
+                    <line x1="85" y1="15" x2="15" y2="85" stroke-width="1.2" />
+                    <circle cx="15" cy="15" r="8" stroke-dasharray="2 2" />
+                    <circle cx="85" cy="15" r="8" stroke-dasharray="2 2" />
+                    <circle cx="15" cy="85" r="8" stroke-dasharray="2 2" />
+                    <circle cx="85" cy="85" r="8" stroke-dasharray="2 2" />
+                  </svg>
+                </div>
+              </div>
+            `,
+            controls: `
+              <div class="control-row">
+                <label>Eje Activo</label>
+                <div class="control-btn-group">
+                  <button class="control-btn" id="btnAxisX">Eje X (Rojo)</button>
+                  <button class="control-btn" id="btnAxisY">Eje Y (Verde)</button>
+                  <button class="control-btn" id="btnAxisZ">Eje Z (Azul)</button>
+                </div>
+              </div>
+              <div class="control-row" style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:var(--text-muted); justify-content:center;">
+                PRESIONA W / E / R EN LA APLICACIÓN PARA ALTERNAR GIZMOS
+              </div>
+            `,
+            setup: (container, controls) => {
+              const axisX = container.querySelector("#axisX");
+              const axisY = container.querySelector("#axisY");
+              const axisZ = container.querySelector("#axisZ");
+
+              const btnX = controls.querySelector("#btnAxisX");
+              const btnY = controls.querySelector("#btnAxisY");
+              const btnZ = controls.querySelector("#btnAxisZ");
+
+              btnX.addEventListener("click", () => {
+                resetAxes();
+                btnX.classList.add("active");
+                axisX.classList.add("active-axis");
+                document.getElementById("stageStatus").innerText = "GIZMO_TRANSLATE_X";
+              });
+              btnY.addEventListener("click", () => {
+                resetAxes();
+                btnY.classList.add("active");
+                axisY.classList.add("active-axis");
+                document.getElementById("stageStatus").innerText = "GIZMO_TRANSLATE_Y";
+              });
+              btnZ.addEventListener("click", () => {
+                resetAxes();
+                btnZ.classList.add("active");
+                axisZ.classList.add("active-axis");
+                document.getElementById("stageStatus").innerText = "GIZMO_TRANSLATE_Z";
+              });
+
+              function resetAxes() {
+                [btnX, btnY, btnZ].forEach(b => b.classList.remove("active"));
+                [axisX, axisY, axisZ].forEach(a => a.classList.remove("active-axis"));
+              }
+              
+              // Trigger default Axis X
+              btnX.click();
+            }
+          },
+          // 02. WebGL 2.0 (Interactive Point cloud particle canvas)
+          {
+            title: "Point Cloud GPU",
+            status: "GRID_12480_VERTS",
+            html: `
+              <div class="tech-viewport" style="background:#000000; border-radius:16px;">
+                <canvas class="absolute-canvas" id="pcCanvas"></canvas>
+              </div>
+            `,
+            controls: `
+              <div class="control-row">
+                <label>Formación</label>
+                <div class="control-btn-group">
+                  <button class="control-btn active" id="btnFormDrone">Dron</button>
+                  <button class="control-btn" id="btnFormSphere">Esfera</button>
+                  <button class="control-btn" id="btnFormWave">Ola</button>
+                </div>
+              </div>
+            `,
+            setup: (container, controls) => {
+              const canvas = container.querySelector("#pcCanvas");
+              const ctx = canvas.getContext("2d");
+              const rectContainer = canvas.parentElement;
+              canvas.width = rectContainer.clientWidth;
+              canvas.height = 250;
+
+              let particles = [];
+              let formMode = "drone"; // drone, sphere, wave
+              let mouse = { x: null, y: null, active: false };
+
+              canvas.addEventListener("mousemove", (e) => {
+                const rect = canvas.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+                mouse.active = true;
+              });
+              canvas.addEventListener("mouseleave", () => {
+                mouse.active = false;
+              });
+
+              // Create points
+              const cols = 24;
+              const rows = 12;
+              const stepX = canvas.width / (cols + 1);
+              const stepY = canvas.height / (rows + 1);
+
+              function createParticles() {
+                particles = [];
+                for (let i = 0; i < cols; i++) {
+                  for (let j = 0; j < rows; j++) {
+                    const bx = (i + 1) * stepX;
+                    const by = (j + 1) * stepY;
+                    particles.push({
+                      x: bx,
+                      y: by,
+                      baseX: bx,
+                      baseY: by,
+                      destX: bx,
+                      destY: by,
+                      speed: Math.random() * 0.05 + 0.05
+                    });
+                  }
+                }
+              }
+              createParticles();
+              updateDestinations();
+
+              function updateDestinations() {
+                particles.forEach((p, idx) => {
+                  const i = idx % cols;
+                  const j = Math.floor(idx / cols);
+                  
+                  if (formMode === "drone") {
+                    // Coordinates outlining a drone chassis roughly
+                    const cx = canvas.width / 2;
+                    const cy = canvas.height / 2;
+                    const armLength = 70;
+                    
+                    // X shape + circle center
+                    if (idx % 3 === 0) {
+                      // center core
+                      const angle = (idx / particles.length) * Math.PI * 2;
+                      p.destX = cx + Math.sin(angle) * 15;
+                      p.destY = cy + Math.cos(angle) * 15;
+                    } else if (idx % 2 === 0) {
+                      // arm 1
+                      const offset = ((i / cols) - 0.5) * armLength * 2;
+                      p.destX = cx + offset;
+                      p.destY = cy + offset * 0.5;
+                    } else {
+                      // arm 2
+                      const offset = ((i / cols) - 0.5) * armLength * 2;
+                      p.destX = cx + offset;
+                      p.destY = cy - offset * 0.5;
+                    }
+                  } else if (formMode === "sphere") {
+                    const cx = canvas.width / 2;
+                    const cy = canvas.height / 2;
+                    const angle = (idx / particles.length) * Math.PI * 2;
+                    const r = 60 + Math.sin(idx * 0.5) * 10;
+                    p.destX = cx + Math.sin(angle) * r;
+                    p.destY = cy + Math.cos(angle) * r;
+                  } else if (formMode === "wave") {
+                    p.destX = (i + 1) * stepX;
+                    p.destY = canvas.height / 2 + Math.sin(i * 0.4) * 30 + Math.cos(j * 0.5) * 10;
+                  }
+                });
+              }
+
+              function loop() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "rgba(96, 165, 250, 0.8)";
+
+                particles.forEach(p => {
+                  // Morph towards destination
+                  p.baseX += (p.destX - p.baseX) * p.speed;
+                  p.baseY += (p.destY - p.baseY) * p.speed;
+
+                  // Apply mouse magnet push
+                  let xVal = p.baseX;
+                  let yVal = p.baseY;
+
+                  if (mouse.active) {
+                    const dx = mouse.x - p.baseX;
+                    const dy = mouse.y - p.baseY;
+                    const d = Math.sqrt(dx * dx + dy * dy);
+                    if (d < 45) {
+                      const force = (45 - d) / 45;
+                      xVal -= (dx / d) * force * 18;
+                      yVal -= (dy / d) * force * 18;
+                    }
+                  }
+
+                  p.x += (xVal - p.x) * 0.2;
+                  p.y += (yVal - p.y) * 0.2;
+
+                  ctx.beginPath();
+                  ctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
+                  ctx.fill();
+                });
+
+                pcAnimFrame = requestAnimationFrame(loop);
+              }
+              loop();
+
+              // Bind buttons
+              const btnD = controls.querySelector("#btnFormDrone");
+              const btnS = controls.querySelector("#btnFormSphere");
+              const btnW = controls.querySelector("#btnFormWave");
+
+              function setForm(mode, activeBtn) {
+                formMode = mode;
+                [btnD, btnS, btnW].forEach(b => b.classList.remove("active"));
+                activeBtn.classList.add("active");
+                updateDestinations();
+              }
+
+              btnD.addEventListener("click", () => setForm("drone", btnD));
+              btnS.addEventListener("click", () => setForm("sphere", btnS));
+              btnW.addEventListener("click", () => setForm("wave", btnW));
+            }
+          },
+          // 03. WebAssembly (C# to IL2CPP to wasm terminal + bar chart)
+          {
+            title: "Pipeline WebAssembly",
+            status: "WASM_VM_STANDBY",
+            html: `
+              <div class="tech-viewport">
+                <div class="compiler-console" id="wasmConsole">
+                  <div style="color:var(--accent-color); font-weight:600; border-bottom:1px solid var(--border-primary); padding-bottom:0.25rem;">COMPILER // IL2CPP_STDOUT</div>
+                  <div style="flex:1; overflow-y:auto; padding-top:0.4rem; font-size:0.6rem; line-height:1.4;" id="logLines">
+                    > C# virtual execution core ready.<br/>
+                    > Click "COMPILAR" to translate C# code into WebAssembly.
+                  </div>
+                  <div class="benchmark-bar-wrapper">
+                    <div class="benchmark-row">
+                      <span class="benchmark-label">JS Engine</span>
+                      <div class="benchmark-track"><div class="benchmark-fill" id="fillJs" style="background:#ef4444;"></div></div>
+                      <span style="font-size:0.6rem;" id="txtJs">-- ms</span>
+                    </div>
+                    <div class="benchmark-row">
+                      <span class="benchmark-label">WASM Core</span>
+                      <div class="benchmark-track"><div class="benchmark-fill" id="fillWasm" style="background:#22c55e;"></div></div>
+                      <span style="font-size:0.6rem;" id="txtWasm">-- ms</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `,
+            controls: `
+              <div class="control-row">
+                <label>Código C#</label>
+                <button class="control-btn" id="btnCompile">Compilar y Medir</button>
+              </div>
+            `,
+            setup: (container, controls) => {
+              const btn = controls.querySelector("#btnCompile");
+              const logLines = container.querySelector("#logLines");
+              const fillJs = container.querySelector("#fillJs");
+              const fillWasm = container.querySelector("#fillWasm");
+              const txtJs = container.querySelector("#txtJs");
+              const txtWasm = container.querySelector("#txtWasm");
+
+              btn.addEventListener("click", () => {
+                btn.disabled = true;
+                logLines.innerHTML = "> Init IL2CPP compiler suite...<br/>";
+                document.getElementById("stageStatus").innerText = "WASM_COMPILING";
+                
+                // Clear bar chart
+                fillJs.style.width = "0%";
+                fillWasm.style.width = "0%";
+                txtJs.innerText = "-- ms";
+                txtWasm.innerText = "-- ms";
+
+                const compilationLogs = [
+                  { txt: "> Parsing C# syntax trees (Roslyn CLI)...", delay: 300 },
+                  { txt: "> Emitting Intermediate Language bytecode...", delay: 600 },
+                  { txt: "> Running IL2CPP managed to C++ code translation...", delay: 1000 },
+                  { txt: "> Emitting Clang optimization flags (-O3)...", delay: 1400 },
+                  { txt: "> WebAssembly Virtual Machine Success. Size: 18.2 MB", delay: 1800 }
+                ];
+
+                compilationLogs.forEach(log => {
+                  setTimeout(() => {
+                    logLines.innerHTML += `${log.txt}<br/>`;
+                    logLines.scrollTop = logLines.scrollHeight;
+                  }, log.delay);
+                });
+
+                // Animate comparative benchmark graphs
+                setTimeout(() => {
+                  document.getElementById("stageStatus").innerText = "WASM_RUNNING_47X_FASTER";
+                  fillJs.style.width = "100%";
+                  fillWasm.style.width = "4.2%"; // 24x faster
+                  txtJs.innerText = "280.2 ms";
+                  txtWasm.innerText = "6.5 ms";
+                  btn.disabled = false;
+                }, 2200);
+              });
+            }
+          },
+          // 04. HLSL Shaders (Real fragment shader WebGL canvas with sliders)
+          {
+            title: "Fragment Shader GPU",
+            status: "GL_PIPELINE_ACTIVE",
+            html: `
+              <div class="tech-viewport" style="background:#000000; border-radius:16px;">
+                <canvas class="absolute-canvas" id="shaderCanvas"></canvas>
+                <div class="shader-overlay-code" id="shaderLabelCode">float4 frag()</div>
+              </div>
+            `,
+            controls: `
+              <div class="control-row">
+                <label>Frecuencia</label>
+                <input type="range" class="scrolly-slider" id="sldFreq" min="1" max="25" value="8" />
+              </div>
+              <div class="control-row">
+                <label>Distorsión</label>
+                <input type="range" class="scrolly-slider" id="sldWarp" min="0" max="4" step="0.1" value="1.0" />
+              </div>
+            `,
+            setup: (container, controls) => {
+              const canvas = container.querySelector("#shaderCanvas");
+              const gl = canvas.getContext("webgl");
+              const parent = canvas.parentElement;
+              canvas.width = parent.clientWidth;
+              canvas.height = 200;
+
+              // Bind Sliders
+              const sldFreq = controls.querySelector("#sldFreq");
+              const sldWarp = controls.querySelector("#sldWarp");
+
+              sldFreq.addEventListener("input", (e) => shaderUniforms.freq = parseFloat(e.target.value));
+              sldWarp.addEventListener("input", (e) => shaderUniforms.warp = parseFloat(e.target.value));
+
+              if (!gl) return;
+              gl.viewport(0, 0, canvas.width, canvas.height);
+
+              const vsSource = `
+                attribute vec2 position;
+                void main() {
+                  gl_Position = vec4(position, 0.0, 1.0);
+                }
+              `;
+
+              const fsSource = `
+                precision mediump float;
+                uniform vec2 u_resolution;
+                uniform vec2 u_mouse;
+                uniform float u_time;
+                uniform float u_freq;
+                uniform float u_warp;
+
+                void main() {
+                  vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+                  vec2 mouse = u_mouse / u_resolution.xy;
+                  mouse.y = 1.0 - mouse.y; // invert y
+
+                  float d = distance(uv, mouse);
+                  
+                  // Compute plasma waveform based on frequency and warp uniforms
+                  float wave = sin(uv.x * u_freq + u_time) * cos(uv.y * u_freq + u_time);
+                  wave += sin(distance(uv, vec2(0.5, 0.5)) * (u_freq * 1.5) - u_time * 2.0) * u_warp;
+                  wave += (1.0 - smoothstep(0.0, 0.4, d)) * 2.0;
+
+                  vec3 col = vec3(
+                    0.2 + 0.8 * sin(wave + u_time),
+                    0.1 + 0.4 * cos(wave + u_time * 1.2),
+                    0.7 + 0.3 * sin(wave * 1.5)
+                  );
+
+                  float glow = 0.4 + 0.6 * (1.0 - smoothstep(0.0, 0.5, d));
+                  gl_FragColor = vec4(col * glow, 0.9);
+                }
+              `;
+
+              function compileShader(source, type) {
+                const s = gl.createShader(type);
+                gl.shaderSource(s, source);
+                gl.compileShader(s);
+                return s;
+              }
+
+              const vs = compileShader(vsSource, gl.VERTEX_SHADER);
+              const fs = compileShader(fsSource, gl.FRAGMENT_SHADER);
+              const prog = gl.createProgram();
+              gl.attachShader(prog, vs);
+              gl.attachShader(prog, fs);
+              gl.linkProgram(prog);
+              gl.useProgram(prog);
+
+              const vertices = new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]);
+              const buf = gl.createBuffer();
+              gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+              gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+              const posLoc = gl.getAttribLocation(prog, "position");
+              gl.enableVertexAttribArray(posLoc);
+              gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+              const uRes = gl.getUniformLocation(prog, "u_resolution");
+              const uMouse = gl.getUniformLocation(prog, "u_mouse");
+              const uTime = gl.getUniformLocation(prog, "u_time");
+              const uFreq = gl.getUniformLocation(prog, "u_freq");
+              const uWarp = gl.getUniformLocation(prog, "u_warp");
+
+              canvas.addEventListener("mousemove", (e) => {
+                const rect = canvas.getBoundingClientRect();
+                targetMouseX = e.clientX - rect.left;
+                targetMouseY = e.clientY - rect.top;
+              });
+
+              function render() {
+                shaderTime += 0.02;
+                sMouseX += (targetMouseX - sMouseX) * 0.1;
+                sMouseY += (targetMouseY - sMouseY) * 0.1;
+
+                gl.uniform2f(uRes, canvas.width, canvas.height);
+                gl.uniform2f(uMouse, sMouseX, sMouseY);
+                gl.uniform1f(uTime, shaderTime);
+                gl.uniform1f(uFreq, shaderUniforms.freq);
+                gl.uniform1f(uWarp, shaderUniforms.warp);
+
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+                shaderAnimFrame = requestAnimationFrame(render);
+              }
+              render();
+            }
+          }
+        ];
+
+        // --- ACTIVATE STEP FUNCTION ---
+        function activateStep(index) {
+          if (index === activeIndex) return;
+          activeIndex = index;
+
+          // Clear animation frames
+          if (pcAnimFrame) cancelAnimationFrame(pcAnimFrame);
+          if (shaderAnimFrame) cancelAnimationFrame(shaderAnimFrame);
+
+          steps.forEach((step, idx) => {
+            if (idx === index) step.classList.add("active");
+            else step.classList.remove("active");
+          });
+
+          const stepData = techData[index];
+          if (!stepData) return;
+
+          document.getElementById("stageTitle").innerText = stepData.title;
+          document.getElementById("stageStatus").innerText = stepData.status;
+
+          const viewport = document.getElementById("stageViewport");
+          const controls = document.getElementById("stageControls");
+
+          viewport.innerHTML = stepData.html;
+          controls.innerHTML = stepData.controls;
+
+          stepData.setup(viewport, controls);
+        }
+
+        // Initialize step 0
+        activateStep(0);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_power_module
+  m_EditorClassIdentifier: 
+  partName: Power Module PM02 V3
+  id: x500v2_power_module
+  partType: PowerModule
+  description: "M\xF3dulo en serie entre bater\xEDa (XT60) y PDB. Regulador 5.2V
+    para Pixhawk. Sensor de corriente y voltaje del sistema. Compatible hasta 12S.
+    Conectado al Pixhawk v\xEDa GH 1.25mm 6-pin."
+  weightKg: 0.028
+  dimensions: "~55 \xD7 17 \xD7 8 mm"
+  function: "Regulaci\xF3n 5V para autopiloto y medici\xF3n de voltaje/corriente
+    del sistema"
+  materialType: "FR4 PCB with SMD components and XT60 connectors"
+  materialProperties: 
+  manufacturer: Holybro
+  partNumber: PM02 V3
+  powerConsumption: 1.5
+  maxLoad: 0
+  operatingTemp: 70
+  operatingTempMin: -20
+  operatingTempMax: 70
+  thermalPeak: 55
+  thermalHover: 35
+  thermalWarmupSeconds: 3
+  thermalExposure: 0.55
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.5
+  isThermallyCritical: 1
+  icon: {fileID: 0}
+  highlightColor: {r: 1, g: 0.65, b: 0.2, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: -0.3, z: 0.2}
+  explosionDistance: 0.3
+  explosionPriority: 2
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - Bridas de nylon
+  - Pad adhesivo 3M
+  safetyWarnings:
+  - Verify the connection before powering on
+  installationTips: "Fijar con pad adhesivo cerca de la PDB dentro de la bah\xEDa
+    central. Cable datos al puerto POWER1."
+  installationTimeMinutes: 2
+  difficultyLevel: 2
+  torqueSpec: 
+  assemblyOrder: 2
+  prerequisites:
+  - x500v2_pdb
+  connectionTypes:
+  - XT60 Plug
+  - GH 1.25mm cable
+  screwCount: 0
+  screwSize: 
+  subComponentNames:
+  - PCB-PM06
+  - BM06B-WO
+  - TOU-XT60H-M-14AWG
+  - X500-TAO-XT60
+  - 'Fasteners: CapNut M3 x4'
+  - 'Fasteners: Nylon Standoff M3 x 5 mm x4'
+  - 'Fasteners: Pan Head Screw M3 x 14 mm x4'
+  fastenerMetadata:
+    instanceId: 
+    familyId: 
+    sourceId: 
+    sceneObjectName: 
+    hierarchyPath: 
+    parentCanonicalPartId: 
+    blenderName: 
+    sceneTypeKey: 
+    subtype: 
+    metric: 
+    nominalDiameterMm: 0
+    lengthMm: 0
+    headProfile: 
+    driveType: 
+    threadPitchMm: 0
+    turnCount: 0
+    material: 
+    finish: 
+    quantityExpected: 0
+    isInspectable: 0
+    fallbackReason: 
+    notes: 
+    recipeKey: 
+    builderType: 
+    orientationMode: 
+  category: 2

@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_fastener_pan_head_M3x14_000
+  m_EditorClassIdentifier: 
+  partName: M3 Pan/Countersunk Screw
+  id: x500v2_fastener_pan_head_M3x14_000
+  partType: Structure
+  description: Countersunk fastening hardware. Modeled from CAD M3-14-PAN.
+  weightKg: 0.001
+  dimensions: M3
+  function: Countersunk fastening hardware
+  materialType: Stainless Steel
+  materialProperties: Stainless
+  manufacturer: Holybro
+  partNumber: M3-14-PAN
+  powerConsumption: 0
+  maxLoad: 0
+  operatingTemp: 0
+  operatingTempMin: 0
+  operatingTempMax: 0
+  thermalPeak: 0
+  thermalHover: 0
+  thermalWarmupSeconds: 0
+  thermalExposure: 0
+  thermalConductionScale: 0
+  thermalSourceWeight: 0
+  isThermallyCritical: 0
+  icon: {fileID: 0}
+  highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: 0, z: 0}
+  explosionDistance: 0.03
+  explosionPriority: 0
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools: []
+  safetyWarnings: []
+  installationTips: 
+  installationTimeMinutes: 0
+  difficultyLevel: 0
+  torqueSpec: 
+  assemblyOrder: 0
+  prerequisites: []
+  connectionTypes:
+  - Threaded
+  screwCount: 1
+  screwSize: M3
+  subComponentNames: []
+  fastenerMetadata:
+    instanceId: x500v2_fastener_pan_head_M3x14_000
+    familyId: holybro_pan_head_m3x14
+    sourceId: x500v2_blend_m3_14_pan
+    sceneObjectName: x500v2_fastener.pan_head_M3x14_000
+    hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.pan_head_M3x14_000
+    parentCanonicalPartId: x500v2_power_module
+    blenderName: M3-14-PAN
+    sceneTypeKey: pan_head_M3x14
+    subtype: PanHeadScrew
+    metric: M3
+    nominalDiameterMm: 3
+    lengthMm: 14
+    headProfile: Pan/Button
+    driveType: Unknown
+    threadPitchMm: 0.5
+    turnCount: 12
+    material: Stainless Steel
+    finish: Stainless
+    quantityExpected: 4
+    isInspectable: 1
+    fallbackReason: 
+    notes: Countersunk fastening hardware. Modeled from CAD M3-14-PAN.
+    recipeKey: pan_head_M3x14_placeholder
+    builderType: PanHeadScrew
+    orientationMode: LongestAxis
+  category: 5

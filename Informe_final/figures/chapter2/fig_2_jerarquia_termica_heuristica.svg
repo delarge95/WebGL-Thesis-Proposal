@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#111111"/>
+    </marker>
+    <style>
+      text { font-family: Roboto, Arial, sans-serif; fill: #111111; }
+      .title { font-size: 28px; font-weight: 700; }
+      .subtitle { font-size: 15px; fill: #333333; }
+      .head { font-size: 17px; font-weight: 700; }
+      .body { font-size: 13px; fill: #222222; }
+      .small { font-size: 12px; fill: #333333; }
+      .box { fill: #ffffff; stroke: #111111; stroke-width: 2; rx: 8; ry: 8; }
+      .dark { fill: #d9d9d9; stroke: #111111; stroke-width: 2; rx: 8; ry: 8; }
+      .mid { fill: #eeeeee; stroke: #333333; stroke-width: 1.6; rx: 7; ry: 7; }
+      .light { fill: #f8f8f8; stroke: #555555; stroke-width: 1.5; rx: 7; ry: 7; }
+      .dash { fill: #ffffff; stroke: #666666; stroke-width: 1.5; stroke-dasharray: 7 5; rx: 8; ry: 8; }
+      .arrow { stroke: #111111; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <text class="title" x="550" y="42" text-anchor="middle">Jerarquía térmica heurística por componentes</text>
+  <text class="subtitle" x="550" y="70" text-anchor="middle">Lectura visual cualitativa para inspección; no es termografía, telemetría ni simulación FEA calibrada</text>
+
+  <rect class="box" x="45" y="110" width="250" height="295"/>
+  <text class="head" x="170" y="140" text-anchor="middle">Límite de interpretación</text>
+  <text class="body" x="70" y="178">El modo Thermal comunica</text>
+  <text class="body" x="70" y="199">zonas relativas de interés</text>
+  <text class="body" x="70" y="220">dentro de la build WebGL.</text>
+  <line x1="70" y1="244" x2="270" y2="244" stroke="#999999" stroke-width="1"/>
+  <text class="small" x="70" y="272">No mide temperatura real.</text>
+  <text class="small" x="70" y="294">No sincroniza sensores.</text>
+  <text class="small" x="70" y="316">No predice falla térmica.</text>
+  <text class="small" x="70" y="338">No reemplaza validación física.</text>
+
+  <line class="arrow" x1="295" y1="258" x2="350" y2="258"/>
+
+  <rect class="box" x="350" y="103" width="360" height="335"/>
+  <text class="head" x="530" y="133" text-anchor="middle">Asignación por familias funcionales</text>
+  <rect class="dark" x="385" y="155" width="290" height="58"/>
+  <text class="body" x="530" y="179" text-anchor="middle">Intensidad alta</text>
+  <text class="small" x="530" y="199" text-anchor="middle">motores y batería</text>
+  <rect class="mid" x="385" y="226" width="290" height="58"/>
+  <text class="body" x="530" y="250" text-anchor="middle">Intensidad media</text>
+  <text class="small" x="530" y="270" text-anchor="middle">ESC, controladora y electrónica</text>
+  <rect class="light" x="385" y="297" width="290" height="58"/>
+  <text class="body" x="530" y="321" text-anchor="middle">Respuesta estructural</text>
+  <text class="small" x="530" y="341" text-anchor="middle">brazos, placas y rieles</text>
+  <rect class="dash" x="385" y="368" width="290" height="52"/>
+  <text class="body" x="530" y="390" text-anchor="middle">Respuesta pasiva baja</text>
+  <text class="small" x="530" y="410" text-anchor="middle">hélices acopladas al hub</text>
+
+  <line class="arrow" x1="710" y1="258" x2="765" y2="258"/>
+
+  <rect class="box" x="765" y="120" width="290" height="275"/>
+  <text class="head" x="910" y="150" text-anchor="middle">Flujo visual en shader</text>
+  <rect class="light" x="795" y="180" width="230" height="42"/>
+  <text class="body" x="910" y="207" text-anchor="middle">familia de componente</text>
+  <line class="arrow" x1="910" y1="222" x2="910" y2="252"/>
+  <rect class="light" x="795" y="252" width="230" height="42"/>
+  <text class="body" x="910" y="279" text-anchor="middle">intensidad normalizada</text>
+  <line class="arrow" x1="910" y1="294" x2="910" y2="324"/>
+  <rect class="light" x="795" y="324" width="230" height="42"/>
+  <text class="body" x="910" y="351" text-anchor="middle">gradiente y leyenda relativa</text>
+
+  <text class="subtitle" x="550" y="478" text-anchor="middle">La figura separa fuentes activas, piezas estructurales y piezas pasivas para evitar que el color sugiera una temperatura física medida.</text>
+</svg>

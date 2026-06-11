@@ -1,0 +1,2300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="TwinSight X500: visual-semantic WebGL viewer for the Holybro X500 V2, with interactive technical inspection, analytical modes and final project documentation."
+    />
+    <title>TwinSight X500 | UNAD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- External Libraries for Doc Viewer -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.8/purify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+    <style>
+      /* ==========================================
+       MINIMALIST & SEAMLESS DESIGN
+       2026 Aesthetic: Elegant, Void, Fluid
+       ========================================== */
+
+      /* DOC VIEWER OVERLAY */
+      .doc-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(5, 5, 5, 0.85); /* Glass dark */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 200; /* Above app overlay */
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s var(--transition-ease);
+        display: flex;
+        justify-content: center;
+        align-items: center; /* Center initially, but allow scroll */
+      }
+
+      .doc-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .doc-modal {
+        width: 100%;
+        height: 100%;
+        max-width: 900px;
+        background: #0a0e14;
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        transform: translateY(20px);
+        transition: transform 0.4s var(--transition-ease);
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .doc-overlay.active .doc-modal {
+        transform: translateY(0);
+      }
+
+      .doc-header {
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(10, 14, 20, 0.95);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      /* NAV BUTTONS (Floating Outside) */
+      .btn-nav-doc {
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--text-muted);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        z-index: 210; /* Above modal */
+        font-size: 1.5rem;
+        backdrop-filter: blur(5px);
+      }
+      .btn-nav-doc:hover {
+        border-color: var(--text-main);
+        color: var(--text-main);
+        background: rgba(255, 255, 255, 0.1);
+        scale: 1.1;
+      }
+      .btn-nav-doc:disabled {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #prevDoc {
+        left: 2rem;
+      }
+      #nextDoc {
+        right: 2rem;
+      }
+
+      /* PDF BUTTON */
+      .btn-pdf {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        padding: 0.5rem 1rem;
+        border-radius: 100px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: all 0.2s;
+        margin-left: auto; /* Push to right */
+        margin-right: 1rem;
+      }
+      .btn-pdf:hover {
+        border-color: var(--text-main);
+        color: var(--text-main);
+      }
+      .btn-pdf.hidden {
+        display: none;
+      }
+
+      /* Lightbox for Mermaid */
+      .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 300;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      .lightbox.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .lightbox-content {
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* Scrollable if large */
+        display: flex;
+        justify-content: center;
+        align-items: start; /* Align top for long charts */
+        padding: 2rem;
+      }
+      .lightbox-content svg {
+        width: auto;
+        height: auto;
+        max-width: none; /* Allow expansion */
+        min-width: 100%; /* Force mobile readability */
+        background: #0d1117;
+        padding: 1rem;
+        border-radius: 8px;
+      }
+      .lightbox-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Fix Grid Mobile */
+      @media (max-width: 768px) {
+        #prevDoc,
+        #nextDoc {
+          display: none;
+        } /* Hide arrows, use swipe */
+        .grid-minimal {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+        .section-header {
+          text-align: center;
+        }
+      }
+
+      .doc-title {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1rem;
+        color: var(--text-main);
+        text-align: center;
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      @media (min-width: 768px) {
+        .doc-title {
+          font-size: 1.2rem;
+          max-width: 500px;
+        }
+      }
+
+      .btn-close-doc {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+      .btn-close-doc:hover {
+        border-color: var(--text-main);
+        color: var(--text-main);
+      }
+
+      /* GitHub Link Style */
+      .link-item.github-link {
+        margin-top: 1rem;
+        border: 1px solid var(--border);
+        padding: 1.5rem;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .link-item.github-link:hover {
+        border-color: var(--text-main);
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .github-icon {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+        margin-right: 0.5rem;
+      }
+
+      .doc-content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 3rem 4rem;
+        color: #cbd5e1; /* Slate-300 for readability */
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
+      /* Markdown Styles */
+      .markdown-body h1,
+      .markdown-body h2,
+      .markdown-body h3 {
+        font-family: "Space Grotesk", sans-serif;
+        color: var(--text-main);
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+      }
+      .markdown-body h1 {
+        font-size: 2.2rem;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 0.5rem;
+      }
+      .markdown-body h2 {
+        font-size: 1.7rem;
+      }
+      .markdown-body p {
+        margin-bottom: 1.5rem;
+        color: #94a3b8;
+      }
+      .markdown-body ul,
+      .markdown-body ol {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+      }
+      .markdown-body li {
+        margin-bottom: 0.5rem;
+      }
+      .markdown-body strong {
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .markdown-body code {
+        font-family: "JetBrains Mono", monospace;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.2em 0.4em;
+        border-radius: 4px;
+        font-size: 0.9em;
+        color: #e2e8f0;
+      }
+
+      .markdown-body pre {
+        background: #050505;
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--border);
+      }
+      .markdown-body pre code {
+        background: transparent;
+        padding: 0;
+        color: #f8fafc;
+      }
+
+      .markdown-body a {
+        color: #ffffff;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+      }
+      .markdown-body a:hover {
+        border-color: #ffffff;
+      }
+
+      .markdown-body blockquote {
+        border-left: 4px solid var(--border);
+        padding-left: 1rem;
+        margin-left: 0;
+        font-style: italic;
+        color: var(--text-muted);
+      }
+
+      /* Mermaid Container */
+      .mermaid {
+        background: rgba(255, 255, 255, 0.02);
+        padding: 2rem;
+        border-radius: 8px;
+        margin: 2rem 0;
+        display: flex;
+        justify-content: center;
+      }
+
+      /* Mobile Doc */
+      @media (max-width: 768px) {
+        .doc-modal {
+          width: 100%;
+          border: none;
+        }
+        .doc-content {
+          padding: 2rem 1.5rem;
+        }
+      }
+
+      :root {
+        --bg: #050505;
+        --text-main: #ffffff;
+        --text-muted: #888888;
+        --accent: #ffffff; /* Minimalist accent is white */
+        --border: rgba(255, 255, 255, 0.1);
+        --transition-ease: cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        background: var(--bg);
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text-main);
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* Typography */
+      h1,
+      h2,
+      h3 {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 400;
+        letter-spacing: 0;
+      }
+      p {
+        font-weight: 300;
+        line-height: 1.6;
+        color: var(--text-muted);
+      }
+
+      /* Layout */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      /* HERO SECTION - The "Welcome Screen" */
+      .hero {
+        height: 86vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 10;
+        overflow: hidden;
+      }
+
+      .language-toggle {
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        z-index: 4;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+        background: rgba(5, 5, 5, 0.42);
+        backdrop-filter: blur(18px) saturate(140%);
+        -webkit-backdrop-filter: blur(18px) saturate(140%);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      }
+
+      .language-toggle__button {
+        min-width: 2.6rem;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.62);
+        cursor: pointer;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 0.72rem;
+        letter-spacing: 0.16em;
+        padding: 0.55rem 0.7rem;
+        transition: color 0.25s var(--transition-ease),
+          background 0.25s var(--transition-ease),
+          transform 0.25s var(--transition-ease);
+      }
+
+      .language-toggle__button:hover {
+        color: var(--text-main);
+      }
+
+      .language-toggle__button.is-active {
+        background: rgba(255, 255, 255, 0.92);
+        color: #050505;
+      }
+
+      .language-toggle__button:focus-visible {
+        outline: 1px solid rgba(255, 255, 255, 0.72);
+        outline-offset: 3px;
+      }
+
+      .hero-content {
+        text-align: center;
+        z-index: 2;
+        mix-blend-mode: difference; /* Ensures text is visible over graphic */
+        width: min(calc(100% - 2rem), 1180px);
+        padding: 0 1rem;
+      }
+
+      .hero-title {
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        line-height: 1;
+        margin-bottom: 1.5rem;
+        max-width: 100%;
+        overflow-wrap: break-word;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .hero-subtitle {
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        max-width: 500px;
+        margin: 0 auto 3rem;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* The Animated Graphic - Acts as the transition element */
+      .hero-graphic {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60vh;
+        height: 60vh;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(0, 0, 0, 0) 70%
+        );
+        border-radius: 50%;
+        z-index: 1;
+        filter: blur(40px);
+        opacity: 0;
+        transition: opacity 2s ease;
+      }
+
+      /* Start Button - Minimalist */
+      .btn-start {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: var(--text-main);
+        padding: 1rem 3rem;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        cursor: pointer;
+        border-radius: 100px;
+        transition: all 0.4s var(--transition-ease);
+        opacity: 1;
+        transform: translateY(0);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-start:hover {
+        border-color: var(--text-main);
+        background: rgba(255, 255, 255, 0.05);
+        padding: 1rem 4rem; /* Subtle expansion */
+      }
+
+      /* Scroll Indicator */
+      .scroll-hint {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 1;
+        transition: opacity 0.5s;
+      }
+      .scroll-hint span {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--text-muted);
+      }
+      .scroll-line {
+        width: 1px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      /* APP CONTAINER - The Seamless Overlay */
+      .app-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--bg); /* Matches body bg for seamless fade */
+        z-index: 100;
+        opacity: 0;
+        pointer-events: none; /* Click-through when hidden */
+        transition: opacity 1s var(--transition-ease);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .app-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .app-frame {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        border: none;
+        opacity: 0; /* Fades in slightly after overlay */
+        transition: opacity 1s ease 0.5s;
+      }
+
+      .app-overlay.active .app-frame {
+        opacity: 1;
+      }
+
+      /* INFO SECTIONS - Minimalist (Below Fold) */
+      .info-section {
+        padding-block: 6rem; /* Vertical only, preserves container horizontal padding */
+        border-top: 1px solid var(--border);
+      }
+
+      .section-header {
+        margin-bottom: 4rem;
+      }
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      /* Minimal Grid */
+      .grid-minimal {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 4rem 2rem;
+      }
+
+      .capabilities-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .grid-item h3 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        color: var(--text-main);
+      }
+      .grid-item p {
+        font-size: 0.9rem;
+      }
+      .grid-icon {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-muted);
+      }
+
+      /* Links List */
+      .link-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .link-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 0;
+        padding-right: 2rem; /* Espacio extra para la flecha */
+        border-bottom: 1px solid var(--border);
+        text-decoration: none;
+        color: var(--text-muted);
+        transition: color 0.3s;
+      }
+      .link-item:hover {
+        color: var(--text-main);
+      }
+      .link-item span {
+        font-size: 1rem;
+      }
+      .link-arrow {
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.3s;
+        flex-shrink: 0; /* Evita que la flecha se comprima */
+        min-width: 1.5rem; /* Ancho mínimo para la flecha */
+      }
+      .link-item:hover .link-arrow {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* ==========================================
+       MICRO INTERACTIONS - Capacidades & Tecnología
+       Subtle, Professional, Unique per Card
+       ========================================== */
+
+      /* Base card styles with refined transitions */
+      .grid-item {
+        position: relative;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.018);
+        transition: border-color 0.45s var(--transition-ease),
+          background 0.45s var(--transition-ease),
+          transform 0.45s var(--transition-ease);
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      /* Soft glow layer (behind content) */
+      .grid-item::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 12px;
+        background: transparent;
+        opacity: 0;
+        transition: opacity 0.6s ease, background 0.6s ease;
+        z-index: -1;
+      }
+
+      /* Animated border gradient */
+      .grid-item::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 12px;
+        padding: 1px;
+        background: linear-gradient(
+          135deg,
+          transparent 40%,
+          rgba(255, 255, 255, 0.1) 50%,
+          transparent 60%
+        );
+        background-size: 200% 200%;
+        background-position: 100% 100%;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.5s ease, background-position 0.8s ease;
+        pointer-events: none;
+      }
+
+      .grid-item:hover::after {
+        opacity: 1;
+        background-position: 0% 0%;
+      }
+
+      .grid-item:hover {
+        border-color: rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.035);
+        transform: translateY(-4px) !important;
+      }
+
+      .grid-item:hover::before {
+        opacity: 1 !important;
+        background: radial-gradient(
+          circle at 50% 0%,
+          rgba(255, 255, 255, 0.045) 0%,
+          transparent 72%
+        ) !important;
+        animation: none !important;
+      }
+
+      .grid-item:hover h3,
+      .grid-item:hover p,
+      .grid-item:hover .grid-icon {
+        background: none !important;
+        color: var(--text-main) !important;
+        -webkit-text-fill-color: currentColor !important;
+        text-shadow: none !important;
+        letter-spacing: 0 !important;
+        transform: none !important;
+        animation: none !important;
+      }
+
+      /* Card 01 - Visualización: Subtle pulse glow */
+      .grid-item:nth-child(1):hover::before {
+        opacity: 1;
+        background: radial-gradient(
+          circle at 50% 50%,
+          rgba(255, 255, 255, 0.045) 0%,
+          transparent 70%
+        );
+        animation: pulse-glow-1 2s ease-in-out infinite;
+      }
+
+      .grid-item:nth-child(1) .grid-icon {
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .grid-item:nth-child(1):hover .grid-icon {
+        color: #ffffff;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.22);
+        transform: translateY(-2px);
+      }
+
+      @keyframes pulse-glow-1 {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.6;
+        }
+      }
+
+      /* Card 02 - Interacción: Floating effect */
+      .grid-item:nth-child(2):hover {
+        transform: translateY(-8px);
+      }
+
+      .grid-item:nth-child(2):hover::before {
+        opacity: 1;
+        background: radial-gradient(
+          ellipse at bottom,
+          rgba(255, 255, 255, 0.04) 0%,
+          transparent 70%
+        );
+      }
+
+      .grid-item:nth-child(2) .grid-icon {
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .grid-item:nth-child(2):hover .grid-icon {
+        color: #ffffff;
+        transform: translateY(-4px) scale(1.1);
+      }
+
+      .grid-item:nth-child(2) h3 {
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0.05s;
+      }
+
+      .grid-item:nth-child(2):hover h3 {
+        transform: translateY(-2px);
+      }
+
+      /* Card 03 - Ingeniería: Precision scan line */
+      .grid-item:nth-child(3)::after {
+        background: linear-gradient(
+          90deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.18) 50%,
+          transparent 70%
+        );
+        background-size: 200% 100%;
+        background-position: 100% 0;
+      }
+
+      .grid-item:nth-child(3):hover::after {
+        animation: scan-line 1.5s ease-in-out infinite;
+      }
+
+      .grid-item:nth-child(3):hover::before {
+        opacity: 1;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.032) 0%,
+          transparent 100%
+        );
+      }
+
+      .grid-item:nth-child(3) .grid-icon {
+        transition: all 0.4s ease;
+        position: relative;
+      }
+
+      .grid-item:nth-child(3):hover .grid-icon {
+        color: #ffffff;
+        letter-spacing: 0.1em;
+      }
+
+      @keyframes scan-line {
+        0% {
+          background-position: 100% 0;
+        }
+        100% {
+          background-position: -100% 0;
+        }
+      }
+
+      /* Card 04 - Unity: Subtle rotation hint */
+      .grid-item:nth-child(4):hover::before {
+        opacity: 1;
+        background: conic-gradient(
+          from 180deg at 50% 50%,
+          rgba(255, 255, 255, 0.028) 0deg,
+          transparent 120deg,
+          rgba(255, 255, 255, 0.022) 240deg,
+          transparent 360deg
+        );
+      }
+
+      .grid-item:nth-child(4) h3 {
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .grid-item:nth-child(4):hover h3 {
+        background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.68));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Card 05 - WebGL: Render shimmer */
+      .grid-item:nth-child(5):hover::before {
+        opacity: 1;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.034) 0%,
+          transparent 50%,
+          rgba(255, 255, 255, 0.02) 100%
+        );
+      }
+
+      .grid-item:nth-child(5) h3 {
+        transition: all 0.4s ease;
+      }
+
+      .grid-item:nth-child(5):hover h3 {
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.16);
+      }
+
+      .grid-item:nth-child(5) p {
+        transition: color 0.4s ease 0.1s;
+      }
+
+      .grid-item:nth-child(5):hover p {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      /* Card 06 - WebAssembly: Code compile effect */
+      .grid-item:nth-child(6):hover::before {
+        opacity: 1;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.018) 2px,
+          rgba(255, 255, 255, 0.018) 4px
+        );
+        animation: compile-lines 0.5s steps(10) infinite;
+      }
+
+      .grid-item:nth-child(6) h3 {
+        transition: all 0.3s ease;
+        font-family: "Space Grotesk", monospace;
+      }
+
+      .grid-item:nth-child(6):hover h3 {
+        letter-spacing: 0.02em;
+        color: #ffffff;
+      }
+
+      @keyframes compile-lines {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(4px);
+        }
+      }
+
+      /* Card 07 - HLSL Shaders: Gradient flow */
+      .grid-item:nth-child(7):hover::before {
+        opacity: 1;
+        background: linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.026) 0%,
+          rgba(255, 255, 255, 0.032) 50%,
+          rgba(255, 255, 255, 0.024) 100%
+        );
+        background-size: 200% 200%;
+        animation: gradient-flow 3s ease infinite;
+      }
+
+      .grid-item:nth-child(7) h3 {
+        transition: all 0.5s ease;
+      }
+
+      .grid-item:nth-child(7):hover h3 {
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.72), #ffffff, rgba(255, 255, 255, 0.72));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        background-size: 200% auto;
+        animation: gradient-text 2s ease infinite;
+      }
+
+      @keyframes gradient-flow {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      @keyframes gradient-text {
+        0%,
+        100% {
+          background-position: 0% center;
+        }
+        50% {
+          background-position: 100% center;
+        }
+      }
+
+      /* Text animations for all cards */
+      .grid-item h3 {
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+          color 0.4s ease;
+      }
+
+      .grid-item p {
+        transition: color 0.4s ease 0.05s,
+          transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0.05s;
+      }
+
+      .grid-item:hover p {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      /* Stagger animation on hover for child elements */
+      .grid-item .grid-icon,
+      .grid-item h3,
+      .grid-item p {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Footer */
+      footer {
+        padding: 4rem 0;
+        text-align: center;
+        border-top: 1px solid var(--border);
+      }
+      footer p {
+        font-size: 0.8rem;
+        opacity: 0.5;
+      }
+
+      /* ==========================================
+       LINK ITEM MICRO INTERACTIONS
+       Refined hover effects for documentation
+       ========================================== */
+
+      .link-item {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .link-item::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.72);
+        transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .link-item:hover::before {
+        width: 100%;
+      }
+
+      .link-item span:first-child {
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+          color 0.3s ease;
+      }
+
+      .link-item:hover span:first-child {
+        transform: translateX(8px);
+        color: var(--text-main);
+      }
+
+      .link-arrow {
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .link-item:hover .link-arrow {
+        opacity: 1;
+        transform: translateX(4px);
+        color: #ffffff;
+      }
+
+      /* GitHub link special effect */
+      .github-link {
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .github-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .github-link svg {
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .github-link:hover svg {
+        transform: rotate(360deg);
+      }
+
+      /* ==========================================
+       BUTTON MICRO INTERACTIONS
+       Professional hover states
+       ========================================== */
+
+      .btn-start {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      .btn-start::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 0.1) 0%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        transform: scale(0.5);
+        z-index: -1;
+      }
+
+      .btn-start:hover::before {
+        opacity: 1;
+        transform: scale(2);
+      }
+
+      .btn-start::after {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        border-radius: inherit;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        background-size: 200% 100%;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+      }
+
+      .btn-start:hover::after {
+        opacity: 1;
+        animation: shimmer-btn 2s infinite;
+      }
+
+      @keyframes shimmer-btn {
+        0% {
+          background-position: -200% 0;
+        }
+        100% {
+          background-position: 200% 0;
+        }
+      }
+
+      /* Section title subtle animation */
+      .section-title {
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        width: 2rem;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.6),
+          transparent
+        );
+        transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .info-section:hover .section-title::after {
+        width: 4rem;
+      }
+
+      /* Utility */
+      .hidden {
+        display: none;
+      }
+      .no-scroll {
+        overflow: hidden;
+      }
+
+      /* Mobile Responsiveness */
+      @media (max-width: 768px) {
+        .language-toggle {
+          top: 1rem;
+          right: 1rem;
+        }
+
+        .language-toggle__button {
+          min-width: 2.35rem;
+          padding: 0.48rem 0.58rem;
+          font-size: 0.68rem;
+        }
+
+        .hero-content {
+          padding: 0 3rem; /* Significantly increased breathing room */
+        }
+
+        .container {
+          padding: 0 3rem; /* Significantly increased breathing room */
+        }
+
+        .hero-title {
+          font-size: 2.1rem; /* Slightly smaller to prevent overflow with new padding */
+        }
+
+        .info-section {
+          padding-block: 6rem; /* Vertical only */
+        }
+
+        .grid-minimal {
+          gap: 3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HERO / WELCOME SCREEN -->
+    <section class="hero">
+      <div class="hero-graphic" id="heroGraphic"></div>
+
+      <div class="language-toggle" aria-label="Language selector">
+        <button
+          class="language-toggle__button is-active"
+          type="button"
+          data-lang="en"
+          aria-pressed="true"
+        >
+          EN
+        </button>
+        <button
+          class="language-toggle__button"
+          type="button"
+          data-lang="es"
+          aria-pressed="false"
+        >
+          ES
+        </button>
+      </div>
+
+      <div class="hero-content">
+        <h1 class="hero-title">TwinSight<br />X500</h1>
+        <p class="hero-subtitle" data-i18n-html="heroSubtitle">
+          Visual-semantic WebGL viewer
+        </p>
+        <button class="btn-start" id="btnStart" data-i18n="heroCta">Open viewer</button>
+      </div>
+
+      <div class="scroll-hint">
+        <span data-i18n="scrollHint">Explore</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- APP OVERLAY (Seamless Transition) -->
+    <div class="app-overlay" id="appOverlay">
+      <!-- Iframe loads here. Preload it but keep hidden -->
+      <iframe
+        src="./Build/index.html"
+        class="app-frame"
+        id="appFrame"
+        allow="fullscreen"
+      ></iframe>
+    </div>
+
+    <!-- DOC VIEWER OVERLAY -->
+    <div class="doc-overlay" id="docOverlay">
+      <!-- Nav Buttons (Outside Modal) -->
+      <button class="btn-nav-doc" id="prevDoc" aria-label="Previous">←</button>
+      <button class="btn-nav-doc" id="nextDoc" aria-label="Next">→</button>
+
+      <div class="doc-modal">
+        <div class="doc-header">
+          <span class="doc-title" id="docTitle" data-i18n="docTitle">Document</span>
+
+          <a href="#" target="_blank" class="btn-pdf hidden" id="btnPdf">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              ></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span data-i18n="viewPdf">View PDF</span>
+          </a>
+
+          <button class="btn-close-doc" id="btnCloseDoc">✕</button>
+        </div>
+        <div class="doc-content markdown-body" id="docContent">
+          <!-- Markdown renders here -->
+          <div style="text-align: center; color: var(--text-muted)">
+            <span data-i18n="loading">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-wrapper">
+      <!-- Features -->
+      <section class="info-section" id="capabilities">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title" data-i18n="capabilitiesTitle">Capabilities</h2>
+          </div>
+          <div class="grid-minimal capabilities-grid">
+            <div class="grid-item">
+              <h3 data-i18n="capabilityModelTitle">Model and traceability</h3>
+              <p data-i18n="capabilitySemanticText">
+                Interactive representation of the Holybro X500 V2 with 28
+                canonical parts, 30 scene anchors and technical traceability
+                by component.
+              </p>
+            </div>
+            <div class="grid-item">
+              <h3 data-i18n="capabilityInspectionTitle">Inspection workflow</h3>
+              <p data-i18n="capabilityInspectionText">
+                Hierarchical selection, hotspots, isolation, bottom sheet and
+                technical sheets with identification, specifications and
+                assembly data.
+              </p>
+            </div>
+            <div class="grid-item">
+              <h3 data-i18n="capabilityAnalysisTitle">Analysis and visual modes</h3>
+              <p data-i18n="capabilityAssemblyText">
+                Exploded view, cross sections, functional-family filters,
+                reconciled fastener reading and technical visual modes including
+                X-Ray, Solid, Blueprint and heuristic Thermal.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tech Stack -->
+      <section class="info-section">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title" data-i18n="technologyTitle">Technology</h2>
+          </div>
+          <div class="grid-minimal">
+            <div class="grid-item">
+              <h3>Unity 6</h3>
+              <p data-i18n="techUnityText">Project built in Unity 6000.4.3f1 with URP 17.x and WebGL output.</p>
+            </div>
+            <div class="grid-item">
+              <h3>WebGL 2.0</h3>
+              <p data-i18n="techWebglText">Browser-based 3D rendering without plugins, using a responsive canvas.</p>
+            </div>
+            <div class="grid-item">
+              <h3>WebAssembly</h3>
+              <p data-i18n="techWasmText">C#/IL2CPP runtime compiled for web execution.</p>
+            </div>
+            <div class="grid-item">
+              <h3>UI Toolkit</h3>
+              <p data-i18n="techUiText">Runtime interface with mobile-first layout, bottom sheet and modal controls.</p>
+            </div>
+            <div class="grid-item">
+              <h3 data-i18n="techBlenderTitle">Blender to Unity</h3>
+              <p data-i18n="techBlenderText">CAD-to-runtime pipeline with geometry cleanup, instances and manifests.</p>
+            </div>
+            <div class="grid-item">
+              <h3>Shaders HLSL</h3>
+              <p data-i18n="techShadersText">X-Ray, Solid, clipping, Blueprint, Thermal and PBR materials adapted to WebGL.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Closure State -->
+      <section class="info-section">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title" data-i18n="closureTitle">Closing state</h2>
+          </div>
+          <div class="grid-minimal">
+            <div class="grid-item">
+              <h3 data-i18n="closureBuildTitle">Published build</h3>
+              <p data-i18n-html="closureBuildText">
+                The active execution entrypoint is <code>docs/Build/index.html</code>;
+                <code>docs/Build/Build</code> contains the Unity payload.
+              </p>
+            </div>
+            <div class="grid-item">
+              <h3 data-i18n="closureDocsTitle">Synchronized documentation</h3>
+              <p data-i18n="closureDocsText">
+                The landing links manuals, architecture, modules, shaders,
+                deployment, WebGL configuration, thermal system and instruments.
+              </p>
+            </div>
+            <div class="grid-item">
+              <h3 data-i18n="closureResultsTitle">Traceable results</h3>
+              <p data-i18n="closureResultsText">
+                Performance, SUS, NASA-TLX and Think-Aloud evidence is consolidated
+                in the final report and validation annexes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Documentation -->
+      <section class="info-section">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title" data-i18n="documentationTitle">Documentation</h2>
+          </div>
+          <div class="link-list" id="docLinksList">
+            <a href="./manuals/manual_usuario.md" class="link-item doc-trigger">
+              <span data-i18n="docUserManual">User Manual</span>
+              <span class="link-arrow">→</span>
+            </a>
+            <a href="./manuals/manual_tecnico.md" class="link-item doc-trigger">
+              <span data-i18n="docTechnicalManual">Technical Manual</span>
+              <span class="link-arrow">→</span>
+            </a>
+            <a href="./manuals/01_Arquitectura_del_Sistema.md" class="link-item doc-trigger">
+              <span data-i18n="docArchitecture">System Architecture</span>
+              <span class="link-arrow">→</span>
+            </a>
+            <a href="./manuals/02_Referencia_Tecnica_Modulos.md" class="link-item doc-trigger">
+              <span data-i18n="docModules">Technical Module Reference</span>
+              <span class="link-arrow">→</span>
+            </a>
+            <a href="./manuals/03_Pipeline_Renderizado_Shaders.md" class="link-item doc-trigger">
+              <span data-i18n="docPipeline">Rendering Pipeline and Shaders</span>
+              <span class="link-arrow">→</span>
+            </a>
+            <a href="./manuals/04_Guia_Despliegue.md" class="link-item doc-trigger">
+              <span data-i18n="docDeployment">Deployment Guide</span>
+              <span class="link-arrow">→</span>
+            </a>
+            <a href="./manuals/05_Configuracion_WebGL.md" class="link-item doc-trigger">
+              <span data-i18n="docWebglConfig">WebGL Configuration</span>
+              <span class="link-arrow">→</span>
+            </a>
+            <a href="./manuals/06_Assets_Audio.md" class="link-item doc-trigger">
+              <span data-i18n="docAssetsAudio">Assets and Audio Scope</span>
+              <span class="link-arrow">→</span>
+            </a>
+            <a href="./manuals/07_Guia_Demo.md" class="link-item doc-trigger">
+              <span data-i18n="docDemoGuide">Demo Guide</span>
+              <span class="link-arrow">→</span>
+            </a>
+            <a href="./manuals/08_Sistema_Termico_Hibrido.md" class="link-item doc-trigger">
+              <span data-i18n="docThermal">Hybrid Thermal System</span>
+              <span class="link-arrow">→</span>
+            </a>
+            <a href="./manuals/CUESTIONARIO_SUS.md" class="link-item doc-trigger">
+              <span data-i18n="docSus">SUS Questionnaire</span>
+              <span class="link-arrow">→</span>
+            </a>
+            <a href="./manuals/CUESTIONARIO_NASA_TLX.md" class="link-item doc-trigger">
+              <span data-i18n="docNasa">NASA-TLX Questionnaire</span>
+              <span class="link-arrow">→</span>
+            </a>
+            <a href="./manuals/PROTOCOLO_THINK_ALOUD.md" class="link-item doc-trigger">
+              <span data-i18n="docThinkAloud">Think Aloud Protocol</span>
+              <span class="link-arrow">→</span>
+            </a>
+            <a href="./manuals/GUIA_TAREAS_VALIDACION.md" class="link-item doc-trigger">
+              <span data-i18n="docValidationTasks">Validation Task Guide</span>
+              <span class="link-arrow">→</span>
+            </a>
+
+            <a href="./manuals/informe_final.pdf" class="link-item" target="_blank" rel="noopener noreferrer">
+              <span data-i18n="docFinalReport">Final Report</span>
+              <span class="link-arrow">PDF</span>
+            </a>
+
+            <a
+              href="https://github.com/delarge95/WebGL-Thesis-Proposal"
+              class="link-item github-link"
+              target="_blank"
+            >
+              <div style="display: flex; align-items: center">
+                <svg class="github-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  />
+                </svg>
+                <span data-i18n="docGithub">GitHub Repository</span>
+              </div>
+              <span class="link-arrow">↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="container">
+          <p data-i18n="footerText">2026 · UNAD · Multimedia Engineering</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- MERMAID LIGHTBOX -->
+    <div id="chartLightbox" class="lightbox">
+      <button class="lightbox-close" id="lightboxClose">✕</button>
+      <div class="lightbox-content" id="lightboxContent"></div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Initialize Libraries
+        const hasMermaid =
+          window.mermaid && typeof mermaid.initialize === "function";
+        const hasGsap = window.gsap && typeof gsap.timeline === "function";
+        const hasScrollTrigger = hasGsap && window.ScrollTrigger;
+
+        if (hasMermaid) {
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: "dark",
+            securityLevel: "loose",
+          });
+        }
+
+        // Elements
+        const btnStart = document.getElementById("btnStart");
+        const appOverlay = document.getElementById("appOverlay");
+        const appFrame = document.getElementById("appFrame");
+        const heroGraphic = document.getElementById("heroGraphic");
+        const heroContent = document.querySelector(".hero-content");
+        const languageToggle = document.querySelector(".language-toggle");
+        const heroChrome = languageToggle ? [heroContent, languageToggle] : [heroContent];
+        const scrollHint = document.querySelector(".scroll-hint");
+        const languageButtons = Array.from(
+          document.querySelectorAll(".language-toggle__button")
+        );
+        const body = document.body;
+        let appHistoryEntryActive = false;
+        let forceClosingApp = false;
+        let pendingBackTimer = null;
+
+        const translations = {
+          en: {
+            metaDescription:
+              "TwinSight X500: visual-semantic WebGL viewer for the Holybro X500 V2, with interactive technical inspection, analytical modes and final project documentation.",
+            heroSubtitle: "Visual-semantic WebGL viewer",
+            heroCta: "Open viewer",
+            scrollHint: "Explore",
+            docTitle: "Document",
+            viewPdf: "View PDF",
+            loading: "Loading...",
+            loadingDocument: "Loading document...",
+            loadErrorTitle: "Loading error",
+            loadErrorNoteTitle: "IMPORTANT NOTE:",
+            loadErrorNote:
+              "If you are viewing this locally (file://), browsers block file loading for security reasons.",
+            loadErrorAction:
+              "Please use a local server (for example VS Code Live Server or python -m http.server) or publish it through GitHub Pages.",
+            previous: "Previous",
+            next: "Next",
+            capabilitiesTitle: "Capabilities",
+            capabilityModelTitle: "Model and traceability",
+            capabilitySemanticText:
+              "Interactive representation of the Holybro X500 V2 with 28 canonical parts, 30 scene anchors and technical traceability by component.",
+            capabilityInspectionTitle: "Inspection workflow",
+            capabilityInspectionText:
+              "Hierarchical selection, hotspots, isolation, bottom sheet and technical sheets with identification, specifications and assembly data.",
+            capabilityAnalysisTitle: "Analysis and visual modes",
+            capabilityAssemblyText:
+              "Exploded view, cross sections, functional-family filters, reconciled fastener reading and technical visual modes including X-Ray, Solid, Blueprint and heuristic Thermal.",
+            technologyTitle: "Technology",
+            techUnityText:
+              "Project built in Unity 6000.4.3f1 with URP 17.x and WebGL output.",
+            techWebglText:
+              "Browser-based 3D rendering without plugins, using a responsive canvas.",
+            techWasmText: "C#/IL2CPP runtime compiled for web execution.",
+            techUiText:
+              "Runtime interface with mobile-first layout, bottom sheet and modal controls.",
+            techBlenderTitle: "Blender to Unity",
+            techBlenderText:
+              "CAD-to-runtime pipeline with geometry cleanup, instances and manifests.",
+            techShadersText:
+              "X-Ray, Solid, clipping, Blueprint, Thermal and PBR materials adapted to WebGL.",
+            closureTitle: "Closing state",
+            closureBuildTitle: "Published build",
+            closureBuildText:
+              'The active execution entrypoint is <code>docs/Build/index.html</code>; <code>docs/Build/Build</code> contains the Unity payload.',
+            closureDocsTitle: "Synchronized documentation",
+            closureDocsText:
+              "The landing links manuals, architecture, modules, shaders, deployment, WebGL configuration, thermal system and instruments.",
+            closureResultsTitle: "Traceable results",
+            closureResultsText:
+              "Performance, SUS, NASA-TLX and Think-Aloud evidence is consolidated in the final report and validation annexes.",
+            documentationTitle: "Documentation",
+            docUserManual: "User Manual",
+            docTechnicalManual: "Technical Manual",
+            docArchitecture: "System Architecture",
+            docModules: "Technical Module Reference",
+            docPipeline: "Rendering Pipeline and Shaders",
+            docDeployment: "Deployment Guide",
+            docWebglConfig: "WebGL Configuration",
+            docAssetsAudio: "Assets and Audio Scope",
+            docDemoGuide: "Demo Guide",
+            docThermal: "Hybrid Thermal System",
+            docSus: "SUS Questionnaire",
+            docNasa: "NASA-TLX Questionnaire",
+            docThinkAloud: "Think Aloud Protocol",
+            docValidationTasks: "Validation Task Guide",
+            docFinalReport: "Final Report",
+            docGithub: "GitHub Repository",
+            footerText: "2026 · UNAD · Multimedia Engineering",
+          },
+          es: {
+            metaDescription:
+              "TwinSight X500: visor WebGL académico del Holybro X500 V2 con modelo visual-semántico interactivo, inspección técnica, modos analíticos y documentación de cierre.",
+            heroSubtitle: "Visor WebGL visual-semántico",
+            heroCta: "Abrir visor",
+            scrollHint: "Explorar",
+            docTitle: "Documento",
+            viewPdf: "Ver PDF",
+            loading: "Cargando...",
+            loadingDocument: "Cargando documento...",
+            loadErrorTitle: "Error de carga",
+            loadErrorNoteTitle: "NOTA IMPORTANTE:",
+            loadErrorNote:
+              "Si estás viendo esto localmente (file://), los navegadores bloquean la carga de archivos por seguridad.",
+            loadErrorAction:
+              "Por favor usa un servidor local (ej. VS Code Live Server, python -m http.server) o súbelo a GitHub Pages.",
+            previous: "Anterior",
+            next: "Siguiente",
+            capabilitiesTitle: "Capacidades",
+            capabilityModelTitle: "Modelo y trazabilidad",
+            capabilitySemanticText:
+              "Representación interactiva del Holybro X500 V2 con 28 piezas canónicas, 30 anchors de escena y trazabilidad técnica por componente.",
+            capabilityInspectionTitle: "Flujo de inspección",
+            capabilityInspectionText:
+              "Selección jerárquica, hotspots, aislamiento, bottom sheet y fichas con identificación, especificaciones y datos de ensamblaje.",
+            capabilityAnalysisTitle: "Análisis y modos visuales",
+            capabilityAssemblyText:
+              "Despiece explosivo, cortes transversales, filtros por familia funcional, lectura de fasteners reconciliados y modos técnicos como X-Ray, Solid, Blueprint y Thermal heurístico.",
+            technologyTitle: "Tecnología",
+            techUnityText:
+              "Proyecto en Unity 6000.4.3f1 con URP 17.x y build WebGL.",
+            techWebglText:
+              "Renderizado 3D en navegador sin plugins y con canvas responsive.",
+            techWasmText: "Runtime C#/IL2CPP compilado para ejecución web.",
+            techUiText:
+              "Interfaz runtime con layout mobile-first, bottom sheet y controles modales.",
+            techBlenderTitle: "Blender a Unity",
+            techBlenderText:
+              "Pipeline CAD-runtime con saneamiento geométrico, instancias y manifests.",
+            techShadersText:
+              "X-Ray, Solid, clipping, Blueprint, Thermal y materiales PBR adaptados a WebGL.",
+            closureTitle: "Estado del cierre",
+            closureBuildTitle: "Build publicada",
+            closureBuildText:
+              'El punto activo de ejecución es <code>docs/Build/index.html</code>; la carpeta <code>docs/Build/Build</code> conserva el payload de Unity.',
+            closureDocsTitle: "Documentación sincronizada",
+            closureDocsText:
+              "La landing enlaza manuales, arquitectura, módulos, shaders, despliegue, configuración WebGL, sistema térmico e instrumentos.",
+            closureResultsTitle: "Resultados trazables",
+            closureResultsText:
+              "Las métricas de rendimiento, SUS, NASA-TLX y Think-Aloud quedan consolidadas en el informe final y los anexos de validación.",
+            documentationTitle: "Documentación",
+            docUserManual: "Manual de Usuario",
+            docTechnicalManual: "Manual Técnico",
+            docArchitecture: "Arquitectura del Sistema",
+            docModules: "Referencia Técnica de Módulos",
+            docPipeline: "Pipeline de Renderizado y Shaders",
+            docDeployment: "Guía de Despliegue",
+            docWebglConfig: "Configuración WebGL",
+            docAssetsAudio: "Alcance de Assets y Audio",
+            docDemoGuide: "Guía de Demo",
+            docThermal: "Sistema Térmico Híbrido",
+            docSus: "Cuestionario SUS",
+            docNasa: "Cuestionario NASA-TLX",
+            docThinkAloud: "Protocolo Think Aloud",
+            docValidationTasks: "Guía de Tareas de Validación",
+            docFinalReport: "Informe final",
+            docGithub: "Repositorio GitHub",
+            footerText: "2026 · UNAD · Ingeniería Multimedia",
+          },
+        };
+
+        let activeLang = "en";
+
+        // Doc Viewer Elements
+        const docOverlay = document.getElementById("docOverlay");
+        const btnCloseDoc = document.getElementById("btnCloseDoc");
+        const docContent = document.getElementById("docContent");
+        const docTitleLabel = document.getElementById("docTitle");
+        const btnPdf = document.getElementById("btnPdf"); // PDF Button
+
+        const btnPrevDoc = document.getElementById("prevDoc");
+        const btnNextDoc = document.getElementById("nextDoc");
+
+        let docLinks = [];
+        let currentDocIndex = -1;
+
+        // Extract doc links dynamically
+        const docLinkElements = Array.from(
+          document.querySelectorAll(".doc-trigger")
+        );
+
+        function rebuildDocLinks() {
+          docLinks = docLinkElements.map((el) => ({
+            url: el.getAttribute("href"),
+            title: el.querySelector("span").innerText,
+            // Heuristic: Assume PDF has same name but .pdf extension
+            pdfUrl: el.getAttribute("href").replace(".md", ".pdf"),
+          }));
+        }
+
+        function applyLanguage(lang) {
+          const copy = translations[lang] || translations.en;
+          activeLang = lang;
+          document.documentElement.lang = lang;
+
+          const metaDescription = document.querySelector(
+            'meta[name="description"]'
+          );
+          if (metaDescription) {
+            metaDescription.setAttribute("content", copy.metaDescription);
+          }
+
+          document.querySelectorAll("[data-i18n]").forEach((element) => {
+            const key = element.dataset.i18n;
+            if (copy[key]) element.textContent = copy[key];
+          });
+
+          document.querySelectorAll("[data-i18n-html]").forEach((element) => {
+            const key = element.dataset.i18nHtml;
+            if (copy[key]) element.innerHTML = copy[key];
+          });
+
+          languageButtons.forEach((button) => {
+            const isActive = button.dataset.lang === lang;
+            button.classList.toggle("is-active", isActive);
+            button.setAttribute("aria-pressed", String(isActive));
+          });
+
+          btnPrevDoc.setAttribute("aria-label", copy.previous);
+          btnNextDoc.setAttribute("aria-label", copy.next);
+          rebuildDocLinks();
+
+          if (docOverlay.classList.contains("active") && currentDocIndex >= 0) {
+            updateViewerState();
+          }
+        }
+
+        languageButtons.forEach((button) => {
+          button.addEventListener("click", () => applyLanguage(button.dataset.lang));
+        });
+
+        applyLanguage("en");
+
+        // Click Handlers
+        docLinkElements.forEach((link, index) => {
+          link.addEventListener("click", async (e) => {
+            e.preventDefault();
+            currentDocIndex = index;
+            updateViewerState();
+            await loadMarkdown(docLinks[index].url);
+          });
+        });
+
+        // Navigation
+        btnPrevDoc.addEventListener("click", (e) => {
+          e.stopPropagation();
+          navigateDoc(-1);
+        });
+        btnNextDoc.addEventListener("click", (e) => {
+          e.stopPropagation();
+          navigateDoc(1);
+        });
+
+        async function navigateDoc(direction) {
+          const newIndex = currentDocIndex + direction;
+          if (newIndex >= 0 && newIndex < docLinks.length) {
+            currentDocIndex = newIndex;
+            updateViewerState();
+
+            docContent.style.opacity = "0.5";
+            await loadMarkdown(docLinks[currentDocIndex].url);
+            docContent.style.opacity = "1";
+          }
+        }
+
+        function updateViewerState() {
+          const doc = docLinks[currentDocIndex];
+          docTitleLabel.innerText = doc.title;
+
+          // Nav Buttons
+          btnPrevDoc.disabled = currentDocIndex <= 0;
+          btnNextDoc.disabled = currentDocIndex >= docLinks.length - 1;
+          btnPrevDoc.style.opacity = btnPrevDoc.disabled ? "0" : "1"; // Hide if disabled
+          btnNextDoc.style.opacity = btnNextDoc.disabled ? "0" : "1";
+
+          // PDF Button Logic
+          // Only show if it matches likely PDF manuals (manual_usuario, manual_tecnico)
+          // Since we don't know for sure if others have PDFs, we'll check naming convention
+          const isManual =
+            doc.url.includes("manual_usuario") ||
+            doc.url.includes("manual_tecnico");
+
+          if (isManual) {
+            btnPdf.classList.remove("hidden");
+            btnPdf.href = doc.pdfUrl;
+          } else {
+            btnPdf.classList.add("hidden");
+          }
+
+          openDocViewer();
+        }
+
+        function openDocViewer() {
+          if (!docOverlay.classList.contains("active")) {
+            const copy = translations[activeLang] || translations.en;
+            docContent.innerHTML =
+              `<div style="text-align: center; padding: 4rem;">${copy.loadingDocument}</div>`;
+            docOverlay.classList.add("active");
+            document.body.classList.add("no-scroll");
+          }
+        }
+
+        function closeDocViewer() {
+          docOverlay.classList.remove("active");
+          document.body.classList.remove("no-scroll");
+          setTimeout(() => {
+            docContent.innerHTML = "";
+          }, 400);
+        }
+
+        btnCloseDoc.addEventListener("click", closeDocViewer);
+
+        docOverlay.addEventListener("click", (e) => {
+          if (e.target === docOverlay) closeDocViewer();
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            if (docOverlay.classList.contains("active")) closeDocViewer();
+            if (chartLightbox.classList.contains("active")) closeLightbox();
+          }
+          // Arrow keys navigation
+          if (docOverlay.classList.contains("active")) {
+            if (e.key === "ArrowLeft") navigateDoc(-1);
+            if (e.key === "ArrowRight") navigateDoc(1);
+          }
+        });
+
+        // --- MOBILE SWIPE LOGIC ---
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        docOverlay.addEventListener(
+          "touchstart",
+          (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+          },
+          { passive: true }
+        );
+
+        docOverlay.addEventListener(
+          "touchend",
+          (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+          },
+          { passive: true }
+        );
+
+        function handleSwipe() {
+          if (touchEndX < touchStartX - 50) navigateDoc(1); // Swipe Left -> Next
+          if (touchEndX > touchStartX + 50) navigateDoc(-1); // Swipe Right -> Prev
+        }
+
+        // --- MERMAID LIGHTBOX LOGIC ---
+        const chartLightbox = document.getElementById("chartLightbox");
+        const lightboxContent = document.getElementById("lightboxContent");
+        const lightboxClose = document.getElementById("lightboxClose");
+
+        // Global click delegation for Mermaid charts (dynamic content)
+        docContent.addEventListener("click", (e) => {
+          const svg = e.target.closest(".mermaid svg");
+          if (svg) {
+            e.stopPropagation();
+            openLightbox(svg);
+          }
+        });
+
+        function openLightbox(originalSvg) {
+          lightboxContent.innerHTML = "";
+          const clone = originalSvg.cloneNode(true);
+          // Clean fixed sizes to allow scaling
+          clone.style.maxWidth = "none";
+          clone.style.height = "auto";
+          lightboxContent.appendChild(clone);
+          chartLightbox.classList.add("active");
+        }
+
+        function closeLightbox() {
+          chartLightbox.classList.remove("active");
+          setTimeout(() => (lightboxContent.innerHTML = ""), 300);
+        }
+
+        lightboxClose.addEventListener("click", closeLightbox);
+        chartLightbox.addEventListener("click", (e) => {
+          if (e.target === chartLightbox || e.target === lightboxContent)
+            closeLightbox();
+        });
+
+        // 1. Intro Animation. The page remains readable if CDN scripts fail.
+        if (hasGsap) {
+          gsap.set(heroGraphic, { opacity: 0 });
+
+          const tl = gsap.timeline();
+
+          tl.to(heroGraphic, { opacity: 1, duration: 2, ease: "power2.out" })
+            .to(
+              ".hero-title",
+              { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
+              "-=1.5"
+            )
+            .to(
+              ".hero-subtitle",
+              { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
+              "-=0.8"
+            )
+            .to(
+              ".btn-start",
+              { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
+              "-=0.8"
+            )
+            .to(".scroll-hint", { opacity: 1, duration: 1 }, "-=0.5");
+
+          // 2. Continuous Graphic Animation (Breathing)
+          gsap.to(heroGraphic, {
+            scale: 1.2,
+            opacity: 0.8,
+            duration: 4,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          });
+        }
+
+        // 3. SCROLL "SPEED BUMP" (Pinning Effect)
+        if (hasScrollTrigger) {
+          ScrollTrigger.create({
+            trigger: ".hero",
+            start: "top top",
+            end: "+=500",
+            pin: true,
+            scrub: 1,
+            animation: gsap
+              .timeline()
+              .to(heroChrome, { y: -100, autoAlpha: 0, scale: 0.9 })
+              .to(heroGraphic, { y: -50, opacity: 0.5, scale: 0.8 }, "<")
+              .to(scrollHint, { opacity: 0 }, "<"),
+          });
+        }
+
+        function isAppOpen() {
+          return appOverlay.classList.contains("active");
+        }
+
+        function openAppOverlay() {
+          if (isAppOpen()) return;
+
+          body.classList.add("no-scroll");
+          if (!appHistoryEntryActive) {
+            window.history.pushState({ x500v2AppOpen: true }, "", "#app");
+            appHistoryEntryActive = true;
+          }
+
+          if (hasGsap) {
+            const transitionTl = gsap.timeline();
+            transitionTl
+              .to(heroGraphic, {
+                scale: 50,
+                opacity: 1,
+                duration: 1.5,
+                ease: "power2.inIn",
+              })
+              .to(heroChrome, { autoAlpha: 0, duration: 0.5 }, "-=1.5")
+              .to(scrollHint, { opacity: 0, duration: 0.5 }, "-=1.5")
+              .set(appOverlay, { className: "app-overlay active" })
+              .to(appOverlay, { opacity: 1, duration: 0.5 }, "-=0.5");
+          } else {
+            appOverlay.classList.add("active");
+            appOverlay.style.opacity = "1";
+            if (languageToggle) {
+              languageToggle.style.opacity = "0";
+              languageToggle.style.visibility = "hidden";
+            }
+          }
+        }
+
+        function closeAppOverlay() {
+          if (!isAppOpen()) return;
+
+          forceClosingApp = false;
+          appHistoryEntryActive = false;
+          body.classList.remove("no-scroll");
+          if (hasGsap) {
+            const exitTl = gsap.timeline();
+            exitTl
+              .to(appOverlay, { opacity: 0, duration: 0.5 })
+              .set(appOverlay, { className: "app-overlay" })
+              .to(heroGraphic, {
+                scale: 1,
+                opacity: 1,
+                duration: 1.5,
+                ease: "power2.out",
+              })
+              .to(heroChrome, { autoAlpha: 1, duration: 0.5 }, "-=1.0")
+              .to(scrollHint, { opacity: 1, duration: 0.5 }, "-=1.0");
+          } else {
+            appOverlay.classList.remove("active");
+            appOverlay.style.opacity = "0";
+            heroContent.style.opacity = "1";
+            if (languageToggle) {
+              languageToggle.style.opacity = "1";
+              languageToggle.style.visibility = "visible";
+            }
+            scrollHint.style.opacity = "1";
+          }
+        }
+
+        function normalizeAppUrlAfterExit() {
+          if (window.location.hash !== "#app") return;
+
+          try {
+            const cleanUrl =
+              window.location.pathname +
+              window.location.search;
+            window.history.replaceState({ x500v2AppOpen: false }, "", cleanUrl);
+          } catch (error) {
+            console.warn("Could not normalize app URL after exit.", error);
+          }
+        }
+
+        function requestAppExit() {
+          if (!isAppOpen()) return;
+
+          window.clearTimeout(pendingBackTimer);
+          pendingBackTimer = null;
+          forceClosingApp = false;
+          closeAppOverlay();
+          appHistoryEntryActive = false;
+          normalizeAppUrlAfterExit();
+        }
+
+        window.x500v2ExitApp = requestAppExit;
+        window.requestAppExit = requestAppExit;
+
+        function isTrustedUnityExitMessage(event) {
+          const sameOrigin =
+            window.location.protocol === "file:" ||
+            event.origin === window.location.origin;
+          const sameFrame = appFrame && event.source === appFrame.contentWindow;
+          const validExitMessage =
+            event.data &&
+            event.data.type === "x500v2:exit-app";
+
+          return validExitMessage && sameOrigin && (sameFrame || isAppOpen());
+        }
+
+        function isTrustedUnityBackResult(event) {
+          const sameOrigin =
+            window.location.protocol === "file:" ||
+            event.origin === window.location.origin;
+          const sameFrame = appFrame && event.source === appFrame.contentWindow;
+          const validBackMessage =
+            event.data &&
+            event.data.type === "x500v2:browser-back-result";
+
+          return validBackMessage && sameOrigin && (sameFrame || isAppOpen());
+        }
+
+        function pushAppHistoryEntry() {
+          if (!appHistoryEntryActive && isAppOpen()) {
+            window.history.pushState({ x500v2AppOpen: true }, "", "#app");
+            appHistoryEntryActive = true;
+          }
+        }
+
+        function requestUnityLayerBack() {
+          if (!appFrame || !appFrame.contentWindow) {
+            pushAppHistoryEntry();
+            return;
+          }
+
+          window.clearTimeout(pendingBackTimer);
+          const targetOrigin =
+            window.location.protocol === "file:" ? "*" : window.location.origin;
+          appFrame.contentWindow.postMessage(
+            { type: "x500v2:browser-back" },
+            targetOrigin
+          );
+
+          pendingBackTimer = window.setTimeout(() => {
+            pendingBackTimer = null;
+            // If Unity does not respond, keep the app trapped in #app. Exiting is
+            // only allowed from Unity's own confirmed EXIT APP flow.
+            if (isAppOpen()) {
+              pushAppHistoryEntry();
+              console.warn("Unity did not respond to browser Back; app overlay preserved.");
+            }
+          }, 900);
+        }
+
+        // 4. SEAMLESS TRANSITION LOGIC
+        btnStart.addEventListener("click", openAppOverlay);
+
+        // 5. EXIT LOGIC
+        window.addEventListener("popstate", () => {
+          if (!appHistoryEntryActive) {
+            if (isAppOpen() && window.location.hash !== "#app") {
+              closeAppOverlay();
+            }
+            return;
+          }
+
+          if (forceClosingApp) {
+            appHistoryEntryActive = false;
+            closeAppOverlay();
+            return;
+          }
+
+          if (isAppOpen()) {
+            // Trap the back button immediately so double-taps don't exit the site
+            window.history.pushState({ x500v2AppOpen: true }, "", "#app");
+            requestUnityLayerBack();
+            return;
+          }
+
+          appHistoryEntryActive = false;
+          closeAppOverlay();
+        });
+
+        window.addEventListener("message", (event) => {
+          if (isTrustedUnityExitMessage(event)) {
+            requestAppExit();
+          } else if (isTrustedUnityBackResult(event)) {
+            window.clearTimeout(pendingBackTimer);
+            pendingBackTimer = null;
+
+            if (!event.data.handled) {
+              // Treat an unhandled response as a safe no-op. The user can exit
+              // only after Unity shows and confirms its EXIT APP submenu.
+              pushAppHistoryEntry();
+            }
+          }
+        });
+
+        // 6. Scroll Animations with enhanced stagger
+        if (hasScrollTrigger) {
+          gsap.utils.toArray(".info-section").forEach((section) => {
+            const items = section.querySelectorAll(".grid-item, .link-item");
+
+            // Asegurar visibilidad inicial (fix para hard refresh)
+            gsap.set(items, { opacity: 1, y: 0 });
+
+            // Enhanced entrance animation with stagger
+            gsap.from(items, {
+              opacity: 0,
+              y: 40,
+              duration: 0.8,
+              stagger: {
+                each: 0.1,
+                from: "start",
+              },
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: section,
+                start: "top 85%",
+                toggleActions: "play none none reverse",
+                // Refresh después de cargar para recalcular posiciones
+                onRefresh: (self) => {
+                  if (!self.isActive) {
+                    gsap.set(items, { opacity: 1, y: 0 });
+                  }
+                },
+              },
+            });
+
+            // Subtle parallax for section headers
+            const header = section.querySelector(".section-header");
+            if (header) {
+              gsap.to(header, {
+                y: -20,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: section,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: 0.5,
+                },
+              });
+            }
+          });
+        }
+
+        // 7. Grid items enhanced hover (GSAP for smoother feel)
+        if (hasGsap) {
+          document.querySelectorAll(".grid-item").forEach((item) => {
+            item.addEventListener("mouseenter", () => {
+              gsap.to(item, {
+                scale: 1.02,
+                duration: 0.4,
+                ease: "power2.out",
+              });
+            });
+
+            item.addEventListener("mouseleave", () => {
+              gsap.to(item, {
+                scale: 1,
+                duration: 0.4,
+                ease: "power2.out",
+              });
+            });
+          });
+        }
+
+        async function loadMarkdown(url) {
+          try {
+            const response = await fetch(url);
+            if (!response.ok)
+              throw new Error(`HTTP error! status: ${response.status}`);
+            const text = await response.text();
+
+            const html =
+              window.marked && window.DOMPurify
+                ? DOMPurify.sanitize(marked.parse(text))
+                : `<pre>${text.replace(/[&<>]/g, (char) => ({
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                  }[char]))}</pre>`;
+            docContent.innerHTML = html;
+
+            // Mermaid Render
+            const mermaidBlocks = docContent.querySelectorAll(
+              "code.language-mermaid"
+            );
+            if (hasMermaid && mermaidBlocks.length > 0) {
+              mermaidBlocks.forEach((block, index) => {
+                const pre = block.parentElement;
+                const div = document.createElement("div");
+                div.className = "mermaid";
+                div.textContent = block.textContent;
+                div.id = `mermaid-${index}`;
+                pre.replaceWith(div);
+              });
+              await mermaid.run({ querySelector: ".mermaid" });
+            }
+          } catch (err) {
+            const copy = translations[activeLang] || translations.en;
+            docContent.innerHTML = `<div style="text-align: center; color: #ef4444; padding: 4rem;">
+            <h3>${copy.loadErrorTitle}</h3>
+            <p>${err.message}</p>
+            <br>
+            <p style="font-size: 0.9em; color: var(--text-muted);">
+              <strong>${copy.loadErrorNoteTitle}</strong><br>
+              ${copy.loadErrorNote}<br>
+              ${copy.loadErrorAction}
+            </p>
+          </div>`;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

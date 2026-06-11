@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_esc_FL
+  m_EditorClassIdentifier: 
+  partName: ESC BLHeli-S 20A FL
+  id: x500v2_esc_FL
+  partType: ESC
+  description: "ESC BLHeli-S, MCU EFM8BB21. 20A continuo, 30A r\xE1faga (~10s). LiPo
+    2\u20134S. Sin BEC. PWM/Oneshot/DShot. 500k eRPM max. Formato compacto ~25\xD713
+    mm. Preinstalled on the arm con XT30. Position FL."
+  weightKg: 0.007
+  dimensions: "~25 \xD7 13 \xD7 5 mm"
+  function: "Control de velocidad del motor FL; conmutaci\xF3n de potencia"
+  materialType: PCB FR4 con MOSFETs de silicio y pistas de cobre
+  materialProperties: 
+  manufacturer: Holybro
+  partNumber: BLHeli-S ESC 20A
+  powerConsumption: 296
+  maxLoad: 20
+  operatingTemp: 80
+  operatingTempMin: -20
+  operatingTempMax: 90
+  thermalPeak: 90
+  thermalHover: 50
+  thermalWarmupSeconds: 6
+  thermalExposure: 0.8
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.92
+  isThermallyCritical: 1
+  icon: {fileID: 0}
+  highlightColor: {r: 0.6, g: 0.1, b: 0.1, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: -1, y: 1, z: 1}
+  explosionDistance: 1.8
+  explosionPriority: 9
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - Ninguna (plug-and-play XT30)
+  safetyWarnings:
+  - Verify there is no short circuit before connecting
+  installationTips: "Preinstalled on the arm. Cable XT30 interno conecta a PDB. Se\xF1al
+    PWM/DShot al Pixhawk MAIN 1."
+  installationTimeMinutes: 1
+  difficultyLevel: 1
+  torqueSpec: 
+  assemblyOrder: 2
+  prerequisites:
+  - x500v2_arm_FL
+  - x500v2_motor_FL
+  connectionTypes:
+  - XT30 Plug
+  - 3-wire solder (motor)
+  - PWM/DShot wire
+  screwCount: 0
+  screwSize: 
+  subComponentNames:
+  - ESC
+  fastenerMetadata:
+    instanceId: 
+    familyId: 
+    sourceId: 
+    sceneObjectName: 
+    hierarchyPath: 
+    parentCanonicalPartId: 
+    blenderName: 
+    sceneTypeKey: 
+    subtype: 
+    metric: 
+    nominalDiameterMm: 0
+    lengthMm: 0
+    headProfile: 
+    driveType: 
+    threadPitchMm: 0
+    turnCount: 0
+    material: 
+    finish: 
+    quantityExpected: 0
+    isInspectable: 0
+    fallbackReason: 
+    notes: 
+    recipeKey: 
+    builderType: 
+    orientationMode: 
+  category: 3

@@ -1,0 +1,186 @@
+# Unity WebGL Thesis - Drone Visualization
+
+## Archivos ignorados
+
+# Unity
+desarrollo/unity_project/Library/
+desarrollo/unity_project/Temp/
+desarrollo/unity_project/Obj/
+desarrollo/unity_project/Build/
+desarrollo/unity_project/Builds/
+desarrollo/unity_project/Logs/
+desarrollo/unity_project/UserSettings/
+desarrollo/unity_project/MemoryCaptures/
+desarrollo/unity_project/*.csproj
+desarrollo/unity_project/*.unityproj
+desarrollo/unity_project/*.sln
+desarrollo/unity_project/*.suo
+desarrollo/unity_project/*.tmp
+desarrollo/unity_project/*.user
+desarrollo/unity_project/*.userprefs
+desarrollo/unity_project/*.pidb
+desarrollo/unity_project/*.booproj
+desarrollo/unity_project/*.svd
+desarrollo/unity_project/*.pdb
+desarrollo/unity_project/*.mdb
+desarrollo/unity_project/*.opendb
+desarrollo/unity_project/*.VC.db
+desarrollo/unity_project/*.pidb.meta
+desarrollo/unity_project/*.pdb.meta
+desarrollo/unity_project/*.mdb.meta
+
+# Blender
+desarrollo/blender_assets/*.blend
+desarrollo/blender_assets/*.blend1
+desarrollo/blender_assets/*.blend2
+desarrollo/blender_assets/*.blend[0-9]
+blender_files/**/*.blend
+blender_files/**/*.blend1
+blender_files/**/*.blend2
+blender_files/**/*.blend[0-9]
+blender_files/**/*.blend@
+
+# LaTeX
+Propuesta/*.aux
+Propuesta/*.log
+Propuesta/*.out
+Propuesta/*.toc
+Propuesta/*.lot
+Propuesta/*.lof
+Propuesta/*.synctex.gz
+Propuesta/*.fls
+Propuesta/*.fdb_latexmk
+Propuesta/*.bbl
+Propuesta/*.blg
+
+Informe_final/*.aux
+Informe_final/*.log
+Informe_final/*.out
+Informe_final/*.toc
+Informe_final/*.lot
+Informe_final/*.lof
+Informe_final/*.synctex.gz
+
+Informe_final/Manual_tecnico/*.aux
+Informe_final/Manual_tecnico/*.log
+Informe_final/Manual_tecnico/*.out
+Informe_final/Manual_tecnico/*.toc
+
+Informe_final/Manual_de_usuario/*.aux
+Informe_final/Manual_de_usuario/*.log
+Informe_final/Manual_de_usuario/*.out
+Informe_final/Manual_de_usuario/*.toc
+
+# LaTeX generated files in nested figure/build folders
+Informe_final/**/*.aux
+Informe_final/**/*.log
+Informe_final/**/*.out
+Informe_final/**/*.toc
+Informe_final/**/*.lot
+Informe_final/**/*.lof
+Informe_final/**/*.synctex.gz
+Informe_final/**/*.fls
+Informe_final/**/*.fdb_latexmk
+
+# Non-canonical report variants kept locally only.
+# Canonical academic source: Informe_final/
+informe_final_APA/
+archive/Informe_final_pre_APA_2026-06-06/
+Informe_final/informe_corregido_gemini/
+archive/
+
+# Public-boundary exclusions: kept locally, not published in the academic repo.
+External_docs/
+Cerebro_Digital/
+Propuesta/
+Datos/
+Investigacion/
+Excalidraw/
+MOC_Ecuaciones/
+blender_files/
+scripts/
+Informe_final/Audits/
+Informe_final/Desarrollo_App/Audits/
+Informe_final/Desarrollo_App/ALL_FILES_CONSOLIDATED.md
+Informe_final/Desarrollo_App/BITACORA.md
+Informe_final/Desarrollo_App/CHANGELOG.md
+Informe_final/Desarrollo_App/CLEANUP_MANIFEST.md
+Informe_final/Desarrollo_App/PAQUETE_DE_ENTREGA.md
+Informe_final/Desarrollo_App/README.md
+Informe_final/Desarrollo_App/REPO_RESTRUCTURING_PROPOSAL.md
+Informe_final/Desarrollo_App/TECHNOLOGY_STACK.md
+Informe_final/Desarrollo_App/design_system/
+Informe_final/Desarrollo_App/hojas_de_ruta/
+Informe_final/Desarrollo_App/sesiones/
+Informe_final/validacion/usuarios/
+Informe_final/estudio_pdf/
+Informe_final/VARIANTE_ESTUDIO_OBSIDIAN.md
+Informe_final/informe_final_estudio_hipervinculado.*
+Informe_final/informe_final_tmp.pdf
+Informe_final/convert_and_replace.py
+docs/manuals/informe_final_estudio_hipervinculado.pdf
+docs/install.ps1
+docs/install-and-test.bat
+docs/INSTALL_STATUS.md
+desarrollo/docs/
+desarrollo/README.md
+desarrollo/unity_project/.output.txt
+desarrollo/unity_project/Assets/_Recovery.meta
+desarrollo/unity_project/Assets/UI/Styles/git_uss_log.txt
+desarrollo/unity_project/Assets/UI/Styles/git_uss_log.txt.meta
+add_metadata.ps1
+convert_manuals.py
+CATALOGO_MAESTRO_REPOSITORIO.md
+ESTRUCTURA_COMPARATIVA.md
+MOC_UI_UX_Complete.md
+PLAN_ANIMACIONES_ONBOARDING.md
+PROPUESTA_REESTRUCTURACION.md
+solving_isolating_problem.md
+UV_Unwrapping_Strategy.md
+
+# Local agent/plugin/editor working state. These folders are not part of the
+# public academic surface of the repository.
+.agent/
+.claude/
+.kilo/
+.obsidian/
+.planning/
+.venv/
+.vscode/
+excalidraw/
+
+# Local scratch, browser profiles, generated maps and recovery files
+tmp/
+trash/
+logs/
+portafolio_personal/
+codebase-map.html
+docs/index_copy.html
+docs/styles_copy.css
+docs/landing-audit-clone.html
+desarrollo/unity_project/Assets/_Recovery/
+
+# Local telemetry drafts not yet promoted as canonical evidence
+Telemetria/Unity_Builds/BuildLog_*.md
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+.vs/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Node
+node_modules/
+
+# Build outputs
+*.exe
+*.dll
+*.so
+*.dylib

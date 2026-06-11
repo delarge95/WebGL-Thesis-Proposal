@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_arm_BR
+  m_EditorClassIdentifier: 
+  partName: Arm Tube Back-Right
+  id: x500v2_arm_BR
+  partType: Arm
+  description: "16 mm carbon fiber arm tube with reinforced nylon connectors. Includes preinstalled 2216 motor and BLHeli-S 20A ESC, with internal XT30 wiring routed toward the PDB. Position: back-right, quad-X configuration."
+  weightKg: 0.03
+  dimensions: "\u230016 mm \xD7 ~220 mm"
+  function: "Motor and ESC support; wiring conduit; thrust transfer to the frame"
+  materialType: "Carbon fiber with reinforced nylon connectors"
+  materialProperties: "High stiffness-to-weight ratio, partial vibration absorption"
+  manufacturer: Holybro
+  partNumber: '#510177'
+  powerConsumption: 0
+  maxLoad: 1200
+  operatingTemp: 80
+  operatingTempMin: -20
+  operatingTempMax: 80
+  thermalPeak: 45
+  thermalHover: 30
+  thermalWarmupSeconds: 8
+  thermalExposure: 0.8
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.2
+  isThermallyCritical: 1
+  icon: {fileID: 0}
+  highlightColor: {r: 0.25, g: 0.25, b: 0.25, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 1, y: 1, z: -1}
+  explosionDistance: 1.5
+  explosionPriority: 2
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - M3 hex key
+  safetyWarnings: []
+  installationTips: "The nylon connector notches align with the rectangular pockets on the bottom plate."
+  installationTimeMinutes: 3
+  difficultyLevel: 2
+  torqueSpec: 
+  assemblyOrder: 2
+  prerequisites:
+  - x500v2_bottom_plate
+  connectionTypes:
+  - Screw
+  - Snap
+  screwCount: 2
+  screwSize: M3
+  subComponentNames:
+  - HMX5V-DIGAI-DIANJIZUO-MUJU
+  - HMX5V-GUAN-DINGWEI
+  - HMX5V-JIBI-JIA-MUJU
+  - HMX5V-ZUO-DJ-MUJU
+  - BAN-DJ-DIAN-F2
+  - PROPELLER
+  - PROP
+  - 'Fasteners: Socket Cap Screw M2.5 x 10 mm x2'
+  - 'Fasteners: Socket Cap Screw M2.5 x 12 mm x2'
+  - 'Fasteners: Socket Cap Screw M2.5 x 6 mm x4'
+  - 'Fasteners: Socket Cap Screw M3 x 38 mm x4'
+  - 'Fasteners: Flange Nut M3 x4'
+  fastenerMetadata:
+    instanceId: 
+    familyId: 
+    sourceId: 
+    sceneObjectName: 
+    hierarchyPath: 
+    parentCanonicalPartId: 
+    blenderName: 
+    sceneTypeKey: 
+    subtype: 
+    metric: 
+    nominalDiameterMm: 0
+    lengthMm: 0
+    headProfile: 
+    driveType: 
+    threadPitchMm: 0
+    turnCount: 0
+    material: 
+    finish: 
+    quantityExpected: 0
+    isInspectable: 0
+    fallbackReason: 
+    notes: 
+    recipeKey: 
+    builderType: 
+    orientationMode: 
+  category: 4

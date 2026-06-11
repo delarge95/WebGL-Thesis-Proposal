@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360">
+  <rect width="720" height="360" fill="#ffffff"/>
+  <style>
+    .title{font:700 24px Arial, sans-serif; fill:#111;}
+    .sub{font:16px Arial, sans-serif; fill:#111;}
+    .boxTitle{font:16px Arial, sans-serif; fill:#111;}
+    .boxText{font:13px Arial, sans-serif; fill:#111;}
+    .mid{font:700 17px Arial, sans-serif; fill:#111;}
+    .line{stroke:#111; stroke-width:1.6; fill:none;}
+    .box{fill:#eeeeee; stroke:#111; stroke-width:1.4;}
+  </style>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#111"/></marker></defs>
+  <text x="360" y="28" text-anchor="middle" class="title">Flujo PBR en URP y modos visuales de la app</text>
+  <text x="360" y="52" text-anchor="middle" class="sub">URP resuelve la base material realista; TwinSight X500 agrega lecturas técnicas</text>
+  <text x="360" y="72" text-anchor="middle" class="sub">para inspección y análisis visual.</text>
+  <rect x="36" y="104" width="154" height="72" rx="4" class="box"/><text x="113" y="130" text-anchor="middle" class="boxTitle">Entradas de material</text><text x="113" y="151" text-anchor="middle" class="boxText">albedo, normal, metalness</text><text x="113" y="168" text-anchor="middle" class="boxText">roughness y AO</text>
+  <rect x="224" y="104" width="154" height="72" rx="4" class="box"/><text x="301" y="136" text-anchor="middle" class="boxTitle">Iluminación URP</text><text x="301" y="158" text-anchor="middle" class="boxText">luces, ambiente e IBL</text>
+  <rect x="412" y="104" width="154" height="72" rx="4" class="box"/><text x="489" y="130" text-anchor="middle" class="boxTitle">BRDF PBR</text><text x="489" y="152" text-anchor="middle" class="boxText">microfacetas, Fresnel</text><text x="489" y="169" text-anchor="middle" class="boxText">y energía</text>
+  <rect x="600" y="111" width="96" height="58" rx="4" class="box"/><text x="648" y="136" text-anchor="middle" class="boxTitle">Realistic</text><text x="648" y="158" text-anchor="middle" class="boxText">lectura base</text>
+  <line x1="190" y1="140" x2="224" y2="140" class="line" marker-end="url(#arrow)"/><line x1="378" y1="140" x2="412" y2="140" class="line" marker-end="url(#arrow)"/><line x1="566" y1="140" x2="600" y2="140" class="line" marker-end="url(#arrow)"/>
+  <line x1="489" y1="176" x2="489" y2="204" class="line"/><line x1="112" y1="204" x2="630" y2="204" class="line"/><text x="360" y="199" text-anchor="middle" class="mid">Extensiones visibles sobre la base PBR</text>
+  <rect x="56" y="258" width="130" height="58" rx="4" class="box"/><text x="121" y="282" text-anchor="middle" class="boxTitle">Solid View</text><text x="121" y="304" text-anchor="middle" class="boxText">forma y contraste</text>
+  <rect x="226" y="258" width="130" height="58" rx="4" class="box"/><text x="291" y="282" text-anchor="middle" class="boxTitle">X-Ray</text><text x="291" y="304" text-anchor="middle" class="boxText">transparencia y borde</text>
+  <rect x="396" y="258" width="130" height="58" rx="4" class="box"/><text x="461" y="282" text-anchor="middle" class="boxTitle">Blueprint</text><text x="461" y="304" text-anchor="middle" class="boxText">lectura de planos</text>
+  <rect x="566" y="258" width="130" height="58" rx="4" class="box"/><text x="631" y="282" text-anchor="middle" class="boxTitle">Thermal</text><text x="631" y="304" text-anchor="middle" class="boxText">heurística térmica</text>
+  <line x1="112" y1="204" x2="112" y2="258" class="line" marker-end="url(#arrow)"/><line x1="291" y1="204" x2="291" y2="258" class="line" marker-end="url(#arrow)"/><line x1="461" y1="204" x2="461" y2="258" class="line" marker-end="url(#arrow)"/><line x1="631" y1="204" x2="631" y2="258" class="line" marker-end="url(#arrow)"/>
+  <line x1="121" y1="316" x2="121" y2="330" class="line" marker-end="url(#arrow)"/><line x1="291" y1="316" x2="291" y2="330" class="line" marker-end="url(#arrow)"/><line x1="461" y1="316" x2="461" y2="330" class="line" marker-end="url(#arrow)"/><line x1="631" y1="316" x2="631" y2="330" class="line" marker-end="url(#arrow)"/>
+  <rect x="24" y="330" width="672" height="26" rx="4" class="box"/><text x="360" y="348" text-anchor="middle" class="sub">Corte transversal y vista explosionada modifican la lectura espacial sin cambiar la malla original.</text>
+</svg>

@@ -1,0 +1,136 @@
+{
+  "version": "2026-05-12-selection-hierarchy-v4-manual-mother-pieces",
+  "hotspotGroups": [
+    {
+      "groupId": "hotspot_power_distribution",
+      "label": "Power Distribution",
+      "summary": "PCBA-PM06_ASM plus XT60 power routing. PDB is documented but not synthesized when absent from the FBX. Battery rails and GUAN-CHENG are intentionally excluded.",
+      "includeAssociatedFasteners": true,
+      "canonicalPartIds": ["x500v2_power_module"]
+    },
+    {
+      "groupId": "hotspot_flight_controller",
+      "label": "Flight Controller",
+      "summary": "Pixhawk 6C autopilot stack.",
+      "includeAssociatedFasteners": false,
+      "canonicalPartIds": ["x500v2_pixhawk6c"]
+    },
+    {
+      "groupId": "hotspot_gps_compass",
+      "label": "GPS & Compass",
+      "summary": "GPS mast, antenna and compass assembly.",
+      "includeAssociatedFasteners": false,
+      "canonicalPartIds": ["x500v2_gps_m10"]
+    },
+    {
+      "groupId": "hotspot_propulsion",
+      "label": "Propulsion System",
+      "summary": "Four arm assemblies, motors, propellers and associated primitive fasteners. Propellers are included through each arm, not as independent mother pieces.",
+      "includeAssociatedFasteners": true,
+      "canonicalPartIds": [
+        "x500v2_arm_FL",
+        "x500v2_arm_FR",
+        "x500v2_arm_BL",
+        "x500v2_arm_BR",
+        "x500v2_motor_FL",
+        "x500v2_motor_FR",
+        "x500v2_motor_BL",
+        "x500v2_motor_BR"
+      ]
+    },
+    {
+      "groupId": "hotspot_battery",
+      "label": "Battery",
+      "summary": "Rail, mount and LiPo support system. The LiPo is included here, not as an independent mother piece.",
+      "includeAssociatedFasteners": true,
+      "canonicalPartIds": ["x500v2_rails_battery"]
+    }
+  ],
+  "canonicalGroups": [
+    {
+      "canonicalPartId": "x500v2_bottom_plate",
+      "displayName": "Carbon Fiber Bottom Plate",
+      "subpieceNames": ["BOTTOM-PLATE-X500-V5"]
+    },
+    {
+      "canonicalPartId": "x500v2_top_plate",
+      "displayName": "Carbon Fiber Top Plate",
+      "subpieceNames": ["TOP-PLATE-X500-V5"]
+    },
+    {
+      "canonicalPartId": "x500v2_platform_board",
+      "displayName": "Platform Board",
+      "subpieceNames": []
+    },
+    {
+      "canonicalPartId": "x500v2_rails_battery",
+      "displayName": "Rail System & Battery Mount",
+      "subpieceNames": ["BATTERY-MOUNTING-PLAT", "BATTERY-PAD", "PYLONS-X500", "CARBON-FIBER-TUBE300", "JIA-GUAN", "HUAN-GUIJIAO", "PLATFORM-PLAT-X500", "ZHIJIA-CAMERA-INTEL", "GAI-GUANGLIU", "LIPO", "BATTERY", "BATTERY-STRAP"]
+    },
+    {
+      "canonicalPartId": "x500v2_pdb",
+      "displayName": "Power Distribution Board",
+      "subpieceNames": []
+    },
+    {
+      "canonicalPartId": "x500v2_power_module",
+      "displayName": "Power Module PM06/XT60",
+      "subpieceNames": ["PCB-PM06", "BM06B-WO", "TOU-XT60H-M-14AWG", "X500-TAO-XT60"]
+    },
+    {
+      "canonicalPartId": "x500v2_pixhawk6c",
+      "displayName": "Pixhawk 6C Autopilot",
+      "subpieceNames": ["DIKE-PIXHAWK6C-LV-C1", "MIANKE-PIXHAWK6C-LV-C1", "PCB-PIXHAWK6C-F1"]
+    },
+    {
+      "canonicalPartId": "x500v2_gps_m10",
+      "displayName": "Holybro M10 GPS Module",
+      "subpieceNames": ["GAN-GPSV5-ZHIJIA", "GPS-ZHIJIA-ZHUANJIETOU", "GPS-ZHIJIA-ZUO", "GPSV5-ZHIJIA-LUOMAO", "GPSV5-ZHIJIA-TUOPAN"]
+    },
+    {
+      "canonicalPartId": "x500v2_landing_gear",
+      "displayName": "Landing Gear",
+      "subpieceNames": ["CARBON-FIBER-TUBE", "GUAN-CHENG", "JIAO-EVA", "JIAO-LIANJIE", "JIA-LIANJIE", "MAO-JIAO"]
+    },
+    {
+      "canonicalPartId": "x500v2_arm",
+      "displayName": "Arm Assembly Quadrant",
+      "subpieceNames": ["HMX5V-DIGAI-DIANJIZUO-MUJU", "HMX5V-GUAN-DINGWEI", "HMX5V-JIBI-JIA-MUJU", "HMX5V-ZUO-DJ-MUJU", "BAN-DJ-DIAN-F2", "PROPELLER", "PROP"]
+    },
+    {
+      "canonicalPartId": "x500v2_motor",
+      "displayName": "Motor 2216 Quadrant",
+      "subpieceNames": ["DJ-2216-KV880"]
+    },
+    {
+      "canonicalPartId": "x500v2_esc",
+      "displayName": "ESC Quadrant",
+      "subpieceNames": ["ESC"]
+    },
+    {
+      "canonicalPartId": "x500v2_prop",
+      "displayName": "Propeller Quadrant",
+      "subpieceNames": []
+    },
+    {
+      "canonicalPartId": "x500v2_battery",
+      "displayName": "LiPo Battery",
+      "subpieceNames": []
+    },
+    {
+      "canonicalPartId": "x500v2_misc_group",
+      "displayName": "Misc Group",
+      "subpieceNames": ["IMU-PIXHAWK6C"]
+    },
+    {
+      "canonicalPartId": "x500v2_rc_receiver",
+      "displayName": "RC Receiver",
+      "subpieceNames": ["RECEIVER"]
+    },
+    {
+      "canonicalPartId": "x500v2_telemetry_radio",
+      "displayName": "Telemetry Radio",
+      "subpieceNames": ["TELEMETRY", "RADIO"]
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_fastener_cap_screw_M25x12_002
+  m_EditorClassIdentifier: 
+  partName: Socket Cap Screw M2.5 x 12 mm
+  id: x500v2_fastener_cap_screw_M25x12_002
+  partType: Socket Cap Screw
+  description: "Chassis fastening and tightening. Modeled from CAD GB70-M25-12.
+    Synced source expects 12 units while the current temporary scene contains 13."
+  weightKg: 0
+  dimensions: M2.5 x 12 mm
+  function: Fastening / mounting | M2.5 x 12 mm | Socket Cap | Hex Socket
+  materialType: Stainless steel
+  materialProperties: Stainless
+  manufacturer: Holybro
+  partNumber: GB70-M25-12
+  powerConsumption: 0
+  maxLoad: 0
+  operatingTemp: 0
+  operatingTempMin: 0
+  operatingTempMax: 0
+  thermalPeak: 0
+  thermalHover: 0
+  thermalWarmupSeconds: 0
+  thermalExposure: 0
+  thermalConductionScale: 0
+  thermalSourceWeight: 0
+  isThermallyCritical: 0
+  icon: {fileID: 0}
+  highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: 1, z: 0}
+  explosionDistance: 0.03
+  explosionPriority: 0
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools: []
+  safetyWarnings: []
+  installationTips: 
+  installationTimeMinutes: 0
+  difficultyLevel: 0
+  torqueSpec: 
+  assemblyOrder: 0
+  prerequisites: []
+  connectionTypes:
+  - Threaded
+  screwCount: 1
+  screwSize: M2.5
+  subComponentNames: []
+  fastenerMetadata:
+    instanceId: x500v2_fastener_cap_screw_M25x12_002
+    familyId: holybro_cap_screw_m25x12
+    sourceId: x500v2_blend_gb70_m25_12
+    sceneObjectName: x500v2_fastener.cap_screw_M25x12_002
+    hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_002
+    parentCanonicalPartId: x500v2_rails_battery
+    blenderName: GB70-M25-12
+    sceneTypeKey: cap_screw_M25x12
+    subtype: SocketCapScrew
+    metric: M2.5
+    nominalDiameterMm: 2.5
+    lengthMm: 12
+    headProfile: Socket Cap
+    driveType: Hex Socket
+    threadPitchMm: 0.45
+    turnCount: 12
+    material: Stainless steel
+    finish: Stainless
+    quantityExpected: 12
+    isInspectable: 1
+    fallbackReason: 
+    notes: "Chassis fastening and tightening. Modeled from CAD GB70-M25-12.
+      Synced source expects 12 units while the current temporary scene contains 13."
+    recipeKey: cap_screw_M25x12_placeholder
+    builderType: SocketCapScrew
+    orientationMode: LongestAxis
+  category: 5

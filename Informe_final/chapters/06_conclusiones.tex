@@ -1,0 +1,68 @@
+\section{Conclusiones}
+
+El proyecto permitió construir y validar de forma descriptiva TwinSight X500 como prototipo WebGL para visualización técnica de hardware complejo. La build publicada integra el flujo principal de exploración, selección, aislamiento, ficha contextual, modos de inspección/análisis/estudio, corte transversal, vista explosionada, filtros y visualización térmica heurística. Los resultados técnicos y de usuario se integraron con datos fechados: mediciones del profiler interno, reducción geométrica del activo y evaluación con 12 participantes mediante SUS, NASA-TLX Raw y protocolo \textit{Think-Aloud}. Por su alcance real, el artefacto queda delimitado como \textit{visual product twin}: un modelo visual-semántico de producto preparado para inspección técnica y evolución futura, sin telemetría en vivo ni sincronización operacional con un activo físico.
+
+\subsection{Respecto al objetivo general}
+
+Se logró construir un visor web interactivo para la visualización técnica del Holybro X500~V2, accesible desde navegador y capaz de integrar navegación 3D, selección de piezas, información contextual y herramientas de análisis visual. La validación formativa con 12 participantes registró un puntaje SUS promedio de 91,88, un promedio NASA-TLX Raw de 8,69 para el visor 3D frente a 19,89 para el soporte 2D y menor tiempo medio en T1, T2 y T3 para la condición 3D. Estos resultados se interpretan de forma descriptiva, dentro de una muestra no probabilística y un diseño formativo, y muestran una recepción favorable del prototipo junto con una menor carga de trabajo percibida durante la exploración 3D. Además, la taxonomía por piezas, los grupos de escena, las fichas y las herramientas de inspección constituyen una base razonable para evolucionar hacia modelos con datos operativos, siempre que esa evolución se aborde por fases.
+
+\subsection{Respecto a los objetivos específicos}
+
+\paragraph{OE1: pipeline de optimización y preparación de activos} Se consolidaron el caso de estudio, la taxonomía canónica y un pipeline defendible que combina importación CAD, saneamiento geométrico, remodelado hard-surface, modularización delimitada de fasteners, automatización puntual y preparación para runtime web. La comparación geométrica muestra una reducción desde rutas CAD superiores a 6,5 millones de triángulos hasta un modelo base optimizado de 95\,617 triángulos, incluyendo piezas adicionales modeladas desde cero como hélices. Esta reducción permitió conservar legibilidad formal y hacer viable la interacción WebGL dentro del alcance del MVP, sin confundir ese conteo de activo base con la complejidad de la escena runtime instrumentada.
+
+\paragraph{OE2: materiales, modos de visualización y rendimiento WebGL} Se integró en Unity URP una capa visual que combina renderizado realista, modos analíticos y presets de presentación: \textit{Realistic}, \textit{X-Ray}, \textit{Solid View}, \textit{Thermal}, \textit{Blueprint}, entornos de \textit{Studio}, corte transversal, filtros y vista explosionada. Las mediciones muestran cumplimiento pleno de la meta de 30 FPS en escritorio y equipos de mayor capacidad; en móviles de gama media-alta el comportamiento fue cercano a la meta y en el límite inferior quedó por debajo de 30 FPS, aunque mantuvo navegabilidad en el flujo principal. Por ello, la compatibilidad móvil debe leerse como funcional en los dispositivos evaluados y no como garantía universal para cualquier hardware.
+
+\paragraph{OE3: implementación del prototipo interactivo} Se obtuvo una arquitectura funcional basada en Unity Web, C\#, UI Toolkit, gestores de escena, orquestación de modos y saneamiento del import mediante \texttt{ImportedDroneRuntimeBinder}. La build publicada integra navegación, selección, aislamiento, ficha contextual inferior, menús \textit{Inspect}, \textit{Analyze} y \textit{Studio}, \texttt{Explode}, \texttt{Cut}, filtros, modos visuales, tutorial y adaptación de la experiencia \textit{mobile-first} a escritorio. La separación entre UI visible, código oculto y código no integrado mejora la trazabilidad del sistema y evita documentar como alcance final capacidades que permanecen fuera del flujo publicado.
+
+\paragraph{OE4: evaluación formativa 3D vs.\ 2D, usabilidad y carga de trabajo} La evaluación con 12 participantes permitió describir la experiencia del prototipo desde capas complementarias. La matriz de desempeño registró cuatro tareas equivalentes por condición y 96 registros tarea-condición completados, con una ayuda baja en el visor 3D y sin errores de tarea en la matriz estructurada. En las tres tareas cronometradas, el visor 3D presentó menor tiempo medio que el soporte 2D, mientras que NASA-TLX Raw mostró menor carga percibida en la condición 3D en los 12 casos observados. La completitud total en ambas condiciones sugiere un efecto techo en la matriz de desempeño, por lo que la ventaja del visor 3D se interpreta principalmente en términos de menor demanda subjetiva, mejor orientación espacial y menor tiempo descriptivo de resolución, no como prueba inferencial de superioridad causal. El \textit{Think-Aloud} explicó esta lectura: los participantes valoraron la comprensión espacial, el aislamiento, las vistas analíticas y el panel de pieza, mientras que las principales fricciones se concentraron en navegación móvil, lectura de iconos y selección de elementos pequeños. La documentación producida queda como soporte de transferencia y mantenimiento, no como objetivo específico independiente.
+
+\subsection{Limitaciones}
+
+\begin{itemize}
+    \item la muestra de usuarios fue no probabilística y estuvo compuesta por 12 participantes, por lo que los resultados se interpretan de manera descriptiva y formativa;
+    \item las observaciones sobre rendimiento corresponden a los dispositivos, navegadores y sesiones registradas; no constituyen garantía universal para todos los equipos o condiciones de red;
+    \item las sesiones con usuarios se realizaron en dispositivos controlados y sobre la misma build asociada al commit final \texttt{4bdc153}; el commit \texttt{5eebc81} se conserva como referencia intermedia de vinculación documental. La caché del navegador se cargó previamente, lo que mejora la trazabilidad de la medición pero limita la generalización a otros equipos;
+    \item la T4 se trató como tarea exploratoria guiada y no como tarea cronometrada, por lo que su aporte se interpreta desde la observación cualitativa y no desde el análisis temporal;
+    \item los tiempos de T1--T3 se reportan como evidencia descriptiva de desempeño, sin inferencia estadística por el tamaño y tipo de muestra;
+    \item la visualización térmica debe entenderse como simulación híbrida heurística por componentes, no como FEA ni medición física calibrada;
+    \item el sistema no integra telemetría real, historial operacional, conectores IoT, SCADA, CMMS o PLM ni sincronización con activo físico;
+    \item no existe todavía un \textit{twin manifest} formal que convierta cada pieza en entidad interoperable con sensores, fallas, repuestos y procedimientos;
+    \item varias herramientas existen en código pero no hacen parte de la UI final visible;
+    \item no se incluyeron cables, conexiones ni todos los elementos electrónicos internos por restricciones de tiempo de modelado, optimización e interacción dentro de Unity;
+    \item la versión de escritorio funciona correctamente como adaptación del diseño \textit{mobile-first}, aunque no constituye un rediseño desktop independiente con el mismo nivel de profundidad.
+\end{itemize}
+
+\subsection{Trabajo futuro}
+
+El trabajo futuro se organiza como una ruta de madurez incremental (véase la Figura \ref{fig:roadmap_visual_product_twin}). La prioridad consiste en ampliar evidencia, datos e interoperabilidad por etapas, antes de aspirar a inteligencia artificial predictiva o a un gemelo digital operacional completo.
+
+\begin{enumerate}
+    \item \textbf{Fase 0: ampliación del visual product twin.} Replicar la validación con una muestra mayor, idealmente cercana a 30 participantes, contrastar nuevos dispositivos y depurar la interacción móvil con énfasis en navegación, iconos y selección de piezas pequeñas.
+    \item \textbf{Fase 1: formalización del \textit{twin manifest}.} Definir un esquema JSON o equivalente que conecte cada pieza con identificador estable, categoría, material, función, sensores posibles, variables esperadas, fallas comunes, repuestos, procedimientos y documentos asociados.
+    \item \textbf{Fase 2: telemetría histórica y digital shadow de reproducción.} Importar logs o datasets CSV/JSON para reproducir estados por componente en una línea de tiempo, sin exigir todavía conexión en vivo.
+    \item \textbf{Fase 3: live digital shadow.} Incorporar adaptadores WebSocket, MQTT, REST, MAVLink, ROS, OPC UA o W3C WoT según el dominio, con frecuencia de actualización definida y control de rendimiento WebGL.
+    \item \textbf{Fase 4: modo servicio y mantenimiento guiado.} Añadir síntomas, causas probables, checklists, herramientas, repuestos, evidencia, severidad y exportación de reportes por pieza.
+    \item \textbf{Fase 5: digital twin operacional.} Integrar modelos calibrados, simulaciones \textit{what-if}, predicción de umbrales y decisiones human-in-the-loop solo cuando existan datos históricos confiables y validación con eventos reales.
+    \item \textbf{Mejoras transversales.} Diseñar una UI desktop específica, modelar cables y conexiones electrónicas relevantes, evaluar con datos si una ruta nativa de LOD aporta una mejora real al pipeline, calibrar el subsistema térmico e incorporar soporte multi-idioma.
+\end{enumerate}
+
+\begin{figure}[H]
+    \caption{Roadmap visual de evolución desde visual product twin hasta digital twin operacional.}
+    \label{fig:roadmap_visual_product_twin}
+    \centering
+    \includegraphics[width=\textwidth,height=0.50\textheight,keepaspectratio]{figures/chapter6/fig_6_roadmap_visual_product_twin.pdf}
+    \par\vspace{0.5\baselineskip}
+    \apanote{La ruta separa el cierre visual documentado de fases posteriores con manifest, telemetría, sombra digital en vivo, modo servicio y gemelo operacional. Elaboración propia.}
+\end{figure}
+
+\subsection{Recomendaciones}
+
+\begin{enumerate}
+    \item mantener una única taxonomía documental para piezas, \textit{anchors} y \textit{renderers};
+    \item documentar como finales solo las funciones visibles y verificables de la build publicada;
+    \item preservar trazabilidad de versión, dispositivo, navegador y fecha cada vez que se actualicen métricas técnicas o pruebas de usuario;
+    \item preservar el resto del código como base técnica, distinguiendo siempre entre integrado, oculto y futuro;
+    \item utilizar ``visual product twin'' para describir el alcance actual y reservar ``digital shadow'' o ``digital twin'' para fases con datos operativos, sincronización y validación.
+\end{enumerate}
+
+\newpage

@@ -1,0 +1,102 @@
+﻿/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Smart Hotspots â€” Professional Polish
+   Based on Sketchfab / Automotive Configurator UX
+   8pt Grid Â· HIG/MD3 Compliant
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+.world-space-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    picking-mode: ignore;
+}
+
+/* â”€â”€â”€ Base Dot â”€â”€â”€ */
+.hotspot-dot {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+
+    /* 44px touch target (WCAG/HIG) — enlarged from 24px for accessibility */
+    background-color: rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.5);
+
+    /* Center on world coordinate */
+    translate: -50% -50%;
+
+    /* Smooth transitions */
+    transition-duration: 0.25s;
+    transition-property: scale, opacity, background-color, border-color, border-width;
+    transition-timing-function: ease-out;
+
+    /* Clickable */
+    picking-mode: position;
+
+    /* Overflow visible for label tooltip */
+    overflow: visible;
+}
+
+/* â”€â”€â”€ Hover State â”€â”€â”€ */
+.hotspot-dot--hover {
+    scale: 1.15 1.15;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgb(255, 255, 255);
+    border-width: 3px;
+}
+
+/* â”€â”€â”€ Active/Selected â”€â”€â”€ */
+.hotspot-dot--active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: white;
+    border-width: 3px;
+    scale: 1.1 1.1;
+}
+
+/* â”€â”€â”€ Hidden (Smooth Fade) â”€â”€â”€ */
+.hotspot-dot--hidden {
+    opacity: 0;
+    scale: 0.3 0.3;
+    picking-mode: ignore;
+}
+
+/* â”€â”€â”€ Name Label (Tooltip) â”€â”€â”€ */
+.hotspot-label {
+    position: absolute;
+    left: 48px;  /* Right of 44px dot + 4px gap */
+    top: 50%;
+    translate: 0 -50%;
+
+    /* Glass pill */
+    background-color: rgba(1, 1, 1, 0.92);
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.15);
+    padding: 4px 16px;
+
+    /* Typography â€” 16px min per guide */
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+    white-space: nowrap;
+
+    /* Hidden by default */
+    opacity: 0;
+    scale: 0.9 0.9;
+    picking-mode: ignore;
+
+    /* Transition */
+    transition-duration: 0.2s;
+    transition-property: opacity, scale;
+    transition-timing-function: ease-out;
+}
+
+/* â”€â”€â”€ Label Visible (on hover) â”€â”€â”€ */
+.hotspot-label--visible {
+    opacity: 1;
+    scale: 1 1;
+}

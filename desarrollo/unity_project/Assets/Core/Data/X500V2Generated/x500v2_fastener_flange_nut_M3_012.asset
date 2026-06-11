@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_fastener_flange_nut_M3_012
+  m_EditorClassIdentifier: 
+  partName: Flange Nut M3
+  id: x500v2_fastener_flange_nut_M3_012
+  partType: Flange Nut
+  description: Flange nut. Modeled from CAD ZSLM-M3-FALAN.
+  weightKg: 0
+  dimensions: M3
+  function: Fastening / mounting | M3 | Flange
+  materialType: Steel
+  materialProperties: Standard
+  manufacturer: Holybro
+  partNumber: ZSLM-M3-FALAN
+  powerConsumption: 0
+  maxLoad: 0
+  operatingTemp: 0
+  operatingTempMin: 0
+  operatingTempMax: 0
+  thermalPeak: 0
+  thermalHover: 0
+  thermalWarmupSeconds: 0
+  thermalExposure: 0
+  thermalConductionScale: 0
+  thermalSourceWeight: 0
+  isThermallyCritical: 0
+  icon: {fileID: 0}
+  highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: 1, z: 0}
+  explosionDistance: 0.03
+  explosionPriority: 0
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools: []
+  safetyWarnings: []
+  installationTips: 
+  installationTimeMinutes: 0
+  difficultyLevel: 0
+  torqueSpec: 
+  assemblyOrder: 0
+  prerequisites: []
+  connectionTypes:
+  - Threaded
+  screwCount: 1
+  screwSize: M3
+  subComponentNames: []
+  fastenerMetadata:
+    instanceId: x500v2_fastener_flange_nut_M3_012
+    familyId: holybro_flange_nut_m3
+    sourceId: x500v2_blend_zslm_m3_falan
+    sceneObjectName: x500v2_fastener.flange_nut_M3_012
+    hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_012
+    parentCanonicalPartId: x500v2_arm_BR
+    blenderName: ZSLM-M3-FALAN
+    sceneTypeKey: flange_nut_M3
+    subtype: FlangeNut
+    metric: M3
+    nominalDiameterMm: 3
+    lengthMm: 0
+    headProfile: Flange
+    driveType: N/A
+    threadPitchMm: 0
+    turnCount: 0
+    material: Steel
+    finish: Standard
+    quantityExpected: 16
+    isInspectable: 1
+    fallbackReason: 
+    notes: Flange nut. Modeled from CAD ZSLM-M3-FALAN.
+    recipeKey: flange_nut_M3_placeholder
+    builderType: FlangeNut
+    orientationMode: ShortestAxis
+  category: 5

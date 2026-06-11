@@ -1,0 +1,28 @@
+{
+    "generatedAtUtc": "2026-04-18T03:12:51.0734295Z",
+    "unityVersion": "6000.4.3f1",
+    "buildRoot": "docs/Build",
+    "dataArtifact": {
+        "artifactType": ".br",
+        "relativePath": "docs/Build/Build/9fc82a7fbd3e71bc3bd6903d0bf0d658.data.br",
+        "bytes": 206901894,
+        "sizeMb": 197.3170166015625,
+        "modifiedAtUtc": "2026-04-10T19:28:08.4802399Z"
+    },
+    "wasmArtifact": {
+        "artifactType": ".br",
+        "relativePath": "docs/Build/Build/87cc06ac289a742fbbc8bb936abc1b42.wasm.br",
+        "bytes": 6636388,
+        "sizeMb": 6.328952789306641,
+        "modifiedAtUtc": "2026-04-10T19:27:36.3859698Z"
+    },
+    "frameworkArtifact": {
+        "artifactType": ".br",
+        "relativePath": "docs/Build/Build/ba100b54d5abae410cb1a6187616ebfa.framework.js.br",
+        "bytes": 71885,
+        "sizeMb": 0.06855487823486328,
+        "modifiedAtUtc": "2026-04-10T19:28:08.9879435Z"
+    },
+    "totalBytes": 213610167,
+    "totalSizeMb": 203.7145233154297
+}

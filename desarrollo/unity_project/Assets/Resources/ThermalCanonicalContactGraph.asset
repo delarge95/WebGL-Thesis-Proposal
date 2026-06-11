@@ -1,0 +1,238 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddbf9f2a8cd704249944ff86a2462a58, type: 3}
+  m_Name: ThermalCanonicalContactGraph
+  m_EditorClassIdentifier: 
+  buildInfo:
+    sourceSceneName: CanonicalDataset
+    sourceRootName: HolybroX500V2Canonical28
+    generatedUtc: 2026-03-19T00:00:00Z
+    maxGapMm: 0.1
+    minContactAreaCm2: 0.1
+    minPathLengthMm: 1
+    generatedFromBounds: 0
+  nodeIds:
+  - x500v2_bottom_plate
+  - x500v2_top_plate
+  - x500v2_arm_FL
+  - x500v2_arm_FR
+  - x500v2_arm_BL
+  - x500v2_arm_BR
+  - x500v2_landing_gear
+  - x500v2_platform_board
+  - x500v2_rails_battery
+  - x500v2_pdb
+  - x500v2_power_module
+  - x500v2_pixhawk6c
+  - x500v2_gps_m10
+  - x500v2_telemetry_radio
+  - x500v2_motor_FL
+  - x500v2_motor_FR
+  - x500v2_motor_BL
+  - x500v2_motor_BR
+  - x500v2_esc_FL
+  - x500v2_esc_FR
+  - x500v2_esc_BL
+  - x500v2_esc_BR
+  - x500v2_prop_FL
+  - x500v2_prop_FR
+  - x500v2_prop_BL
+  - x500v2_prop_BR
+  - x500v2_battery
+  - x500v2_rc_receiver
+  links:
+  - fromPartId: x500v2_motor_FL
+    toPartId: x500v2_esc_FL
+    contactAreaCm2: 2
+    pathLengthMm: 4
+    conductionScale: 0.6
+    notes: canonical motor to esc contact
+  - fromPartId: x500v2_motor_FL
+    toPartId: x500v2_arm_FL
+    contactAreaCm2: 5
+    pathLengthMm: 4
+    conductionScale: 0.8
+    notes: canonical motor mount to arm
+  - fromPartId: x500v2_esc_FL
+    toPartId: x500v2_arm_FL
+    contactAreaCm2: 4
+    pathLengthMm: 3
+    conductionScale: 0.7
+    notes: canonical esc strap to arm
+  - fromPartId: x500v2_arm_FL
+    toPartId: x500v2_bottom_plate
+    contactAreaCm2: 5
+    pathLengthMm: 5
+    conductionScale: 0.6
+    notes: canonical arm to bottom plate
+  - fromPartId: x500v2_arm_FL
+    toPartId: x500v2_top_plate
+    contactAreaCm2: 4
+    pathLengthMm: 6
+    conductionScale: 0.5
+    notes: canonical arm to top plate
+  - fromPartId: x500v2_motor_FR
+    toPartId: x500v2_esc_FR
+    contactAreaCm2: 2
+    pathLengthMm: 4
+    conductionScale: 0.6
+    notes: canonical motor to esc contact
+  - fromPartId: x500v2_motor_FR
+    toPartId: x500v2_arm_FR
+    contactAreaCm2: 5
+    pathLengthMm: 4
+    conductionScale: 0.8
+    notes: canonical motor mount to arm
+  - fromPartId: x500v2_esc_FR
+    toPartId: x500v2_arm_FR
+    contactAreaCm2: 4
+    pathLengthMm: 3
+    conductionScale: 0.7
+    notes: canonical esc strap to arm
+  - fromPartId: x500v2_arm_FR
+    toPartId: x500v2_bottom_plate
+    contactAreaCm2: 5
+    pathLengthMm: 5
+    conductionScale: 0.6
+    notes: canonical arm to bottom plate
+  - fromPartId: x500v2_arm_FR
+    toPartId: x500v2_top_plate
+    contactAreaCm2: 4
+    pathLengthMm: 6
+    conductionScale: 0.5
+    notes: canonical arm to top plate
+  - fromPartId: x500v2_motor_BL
+    toPartId: x500v2_esc_BL
+    contactAreaCm2: 2
+    pathLengthMm: 4
+    conductionScale: 0.6
+    notes: canonical motor to esc contact
+  - fromPartId: x500v2_motor_BL
+    toPartId: x500v2_arm_BL
+    contactAreaCm2: 5
+    pathLengthMm: 4
+    conductionScale: 0.8
+    notes: canonical motor mount to arm
+  - fromPartId: x500v2_esc_BL
+    toPartId: x500v2_arm_BL
+    contactAreaCm2: 4
+    pathLengthMm: 3
+    conductionScale: 0.7
+    notes: canonical esc strap to arm
+  - fromPartId: x500v2_arm_BL
+    toPartId: x500v2_bottom_plate
+    contactAreaCm2: 5
+    pathLengthMm: 5
+    conductionScale: 0.6
+    notes: canonical arm to bottom plate
+  - fromPartId: x500v2_arm_BL
+    toPartId: x500v2_top_plate
+    contactAreaCm2: 4
+    pathLengthMm: 6
+    conductionScale: 0.5
+    notes: canonical arm to top plate
+  - fromPartId: x500v2_motor_BR
+    toPartId: x500v2_esc_BR
+    contactAreaCm2: 2
+    pathLengthMm: 4
+    conductionScale: 0.6
+    notes: canonical motor to esc contact
+  - fromPartId: x500v2_motor_BR
+    toPartId: x500v2_arm_BR
+    contactAreaCm2: 5
+    pathLengthMm: 4
+    conductionScale: 0.8
+    notes: canonical motor mount to arm
+  - fromPartId: x500v2_esc_BR
+    toPartId: x500v2_arm_BR
+    contactAreaCm2: 4
+    pathLengthMm: 3
+    conductionScale: 0.7
+    notes: canonical esc strap to arm
+  - fromPartId: x500v2_arm_BR
+    toPartId: x500v2_bottom_plate
+    contactAreaCm2: 5
+    pathLengthMm: 5
+    conductionScale: 0.6
+    notes: canonical arm to bottom plate
+  - fromPartId: x500v2_arm_BR
+    toPartId: x500v2_top_plate
+    contactAreaCm2: 4
+    pathLengthMm: 6
+    conductionScale: 0.5
+    notes: canonical arm to top plate
+  - fromPartId: x500v2_bottom_plate
+    toPartId: x500v2_top_plate
+    contactAreaCm2: 3
+    pathLengthMm: 10
+    conductionScale: 0.5
+    notes: standoff stack coupling
+  - fromPartId: x500v2_bottom_plate
+    toPartId: x500v2_pdb
+    contactAreaCm2: 6
+    pathLengthMm: 4
+    conductionScale: 0.5
+    notes: pdb mounted over bottom plate
+  - fromPartId: x500v2_pdb
+    toPartId: x500v2_power_module
+    contactAreaCm2: 1.5
+    pathLengthMm: 5
+    conductionScale: 0.7
+    notes: power module wiring and mount
+  - fromPartId: x500v2_top_plate
+    toPartId: x500v2_pixhawk6c
+    contactAreaCm2: 3
+    pathLengthMm: 8
+    conductionScale: 0.4
+    notes: pixhawk stack over top plate
+  - fromPartId: x500v2_top_plate
+    toPartId: x500v2_platform_board
+    contactAreaCm2: 4
+    pathLengthMm: 6
+    conductionScale: 0.4
+    notes: platform board supported by top plate
+  - fromPartId: x500v2_top_plate
+    toPartId: x500v2_telemetry_radio
+    contactAreaCm2: 1.5
+    pathLengthMm: 10
+    conductionScale: 0.4
+    notes: radio mounted over top plate
+  - fromPartId: x500v2_top_plate
+    toPartId: x500v2_rc_receiver
+    contactAreaCm2: 1
+    pathLengthMm: 10
+    conductionScale: 0.4
+    notes: receiver mounted over top plate
+  - fromPartId: x500v2_top_plate
+    toPartId: x500v2_gps_m10
+    contactAreaCm2: 1
+    pathLengthMm: 24
+    conductionScale: 0.35
+    notes: gps mast conduction proxy
+  - fromPartId: x500v2_bottom_plate
+    toPartId: x500v2_rails_battery
+    contactAreaCm2: 5
+    pathLengthMm: 6
+    conductionScale: 0.5
+    notes: battery rails mounted on bottom plate
+  - fromPartId: x500v2_rails_battery
+    toPartId: x500v2_battery
+    contactAreaCm2: 8
+    pathLengthMm: 5
+    conductionScale: 0.35
+    notes: battery strap and tray contact proxy
+  - fromPartId: x500v2_bottom_plate
+    toPartId: x500v2_landing_gear
+    contactAreaCm2: 4
+    pathLengthMm: 6
+    conductionScale: 0.4
+    notes: landing gear mount to bottom plate

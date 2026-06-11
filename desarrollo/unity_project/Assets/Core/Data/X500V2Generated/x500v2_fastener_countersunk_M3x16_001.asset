@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_fastener_countersunk_M3x16_001
+  m_EditorClassIdentifier: 
+  partName: Countersunk Screw M3 x 16 mm
+  id: x500v2_fastener_countersunk_M3x16_001
+  partType: Countersunk Screw
+  description: "Flush mounting hardware. Modeled from CAD M3-16-CHEN-LIU."
+  weightKg: 0
+  dimensions: M3 x 16 mm
+  function: Fastening / mounting | M3 x 16 mm | Countersunk | Unknown
+  materialType: Stainless steel
+  materialProperties: Stainless
+  manufacturer: Holybro
+  partNumber: M3-16-CHEN-LIU
+  powerConsumption: 0
+  maxLoad: 0
+  operatingTemp: 0
+  operatingTempMin: 0
+  operatingTempMax: 0
+  thermalPeak: 0
+  thermalHover: 0
+  thermalWarmupSeconds: 0
+  thermalExposure: 0
+  thermalConductionScale: 0
+  thermalSourceWeight: 0
+  isThermallyCritical: 0
+  icon: {fileID: 0}
+  highlightColor: {r: 1, g: 0.72, b: 0.2, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: 1, z: 0}
+  explosionDistance: 0.03
+  explosionPriority: 0
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools: []
+  safetyWarnings: []
+  installationTips: 
+  installationTimeMinutes: 0
+  difficultyLevel: 0
+  torqueSpec: 
+  assemblyOrder: 0
+  prerequisites: []
+  connectionTypes:
+  - Threaded
+  screwCount: 1
+  screwSize: M3
+  subComponentNames: []
+  fastenerMetadata:
+    instanceId: x500v2_fastener_countersunk_M3x16_001
+    familyId: holybro_countersunk_m3x16
+    sourceId: x500v2_blend_m3_16_chen_liu
+    sceneObjectName: x500v2_fastener.countersunk_M3x16_001
+    hierarchyPath: x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M3x16_001
+    parentCanonicalPartId: x500v2_rails_battery
+    blenderName: M3-16-CHEN-LIU
+    sceneTypeKey: countersunk_M3x16
+    subtype: CountersunkScrew
+    metric: M3
+    nominalDiameterMm: 3
+    lengthMm: 16
+    headProfile: Countersunk
+    driveType: Unknown
+    threadPitchMm: 0.5
+    turnCount: 12
+    material: Stainless steel
+    finish: Stainless
+    quantityExpected: 2
+    isInspectable: 1
+    fallbackReason: 
+    notes: "Flush mounting hardware. Modeled from CAD M3-16-CHEN-LIU."
+    recipeKey: countersunk_M3x16_placeholder
+    builderType: CountersunkScrew
+    orientationMode: LongestAxis
+  category: 5

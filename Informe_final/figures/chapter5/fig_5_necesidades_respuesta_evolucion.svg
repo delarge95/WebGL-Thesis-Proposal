@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="984" height="1488" viewBox="0 0 984 1488">
+  <defs>
+    <style>
+      .title { font: 700 30px Arial, Helvetica, sans-serif; fill: #000000; }
+      .subtitle { font: 400 16px Arial, Helvetica, sans-serif; fill: #333333; }
+      .header { font: 700 18px Arial, Helvetica, sans-serif; fill: #000000; }
+      .row-title { font: 700 15px Arial, Helvetica, sans-serif; fill: #000000; }
+      .body { font: 400 14px Arial, Helvetica, sans-serif; fill: #222222; }
+      .note-title { font: 700 15px Arial, Helvetica, sans-serif; fill: #000000; }
+      .note { font: 400 14px Arial, Helvetica, sans-serif; fill: #222222; }
+      .small { font: 400 12px Arial, Helvetica, sans-serif; fill: #555555; }
+      .need-fill { fill: #ffffff; }
+      .need-stroke { stroke: #000000; }
+      .current-fill { fill: #ffffff; }
+      .current-stroke { stroke: #000000; }
+      .future-fill { fill: #ffffff; }
+      .future-stroke { stroke: #000000; }
+      .soft-stroke { stroke: #777777; }
+      .box { stroke-width: 1.5; rx: 18; ry: 18; }
+      .header-box { rx: 18; ry: 18; }
+      .arrow { stroke: #555555; stroke-width: 1.4; fill: none; marker-end: url(#arrowhead); }
+      .divider { stroke: #cbd5e1; stroke-width: 1; stroke-dasharray: 4 6; }
+    </style>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M 0 0 L 8 4 L 0 8 z" fill="#555555"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="984" height="1488" fill="#ffffff"/>
+
+  <text class="title" x="492" y="56" text-anchor="middle">Necesidades industriales, respuesta actual y evolución futura</text>
+  <text class="subtitle" x="492" y="84" text-anchor="middle">El prototipo funciona como visual product twin: resuelve una capa visual-semántica y deja una ruta clara hacia digital shadow y digital twin.</text>
+
+  <rect class="header-box" x="44" y="116" width="280" height="62" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <rect class="header-box" x="352" y="116" width="280" height="62" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <rect class="header-box" x="660" y="116" width="280" height="62" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text class="header bw-header" x="184" y="153" text-anchor="middle">Necesidad industrial</text>
+  <text class="header bw-header" x="492" y="153" text-anchor="middle">Respuesta actual</text>
+  <text class="header bw-header" x="800" y="153" text-anchor="middle">Evolución recomendada</text>
+
+  <!-- Row 1 -->
+  <rect class="box need-fill need-stroke" x="44" y="208" width="280" height="118"/>
+  <rect class="box current-fill current-stroke" x="352" y="208" width="280" height="118"/>
+  <rect class="box future-fill future-stroke" x="660" y="208" width="280" height="118"/>
+  <text class="row-title" x="66" y="236">Comprensión espacial</text>
+  <text class="body" x="66" y="263"><tspan x="66" dy="0">Entender relaciones físicas,</tspan><tspan x="66" dy="18">accesos y jerarquía de piezas</tspan><tspan x="66" dy="18">en hardware multicomponente.</tspan></text>
+  <text class="body" x="374" y="245"><tspan x="374" dy="0">Navegación 3D, selección,</tspan><tspan x="374" dy="18">aislamiento, corte y vista</tspan><tspan x="374" dy="18">explosionada para leer el</tspan><tspan x="374" dy="18">ensamble.</tspan></text>
+  <text class="body" x="682" y="254"><tspan x="682" dy="0">Guías de tarea, anotaciones</tspan><tspan x="682" dy="18">y comparativas para</tspan><tspan x="682" dy="18">entrenamiento técnico.</tspan></text>
+  <path class="arrow" d="M 324 267 L 346 267"/>
+  <path class="arrow" d="M 632 267 L 654 267"/>
+
+  <!-- Row 2 -->
+  <rect class="box need-fill need-stroke" x="44" y="354" width="280" height="118"/>
+  <rect class="box current-fill current-stroke" x="352" y="354" width="280" height="118"/>
+  <rect class="box future-fill future-stroke" x="660" y="354" width="280" height="118"/>
+  <text class="row-title" x="66" y="382">Transferencia de conocimiento</text>
+  <text class="body" x="66" y="409"><tspan x="66" dy="0">Reducir dependencia de</tspan><tspan x="66" dy="18">expertos y de documentación</tspan><tspan x="66" dy="18">estática fragmentada.</tspan></text>
+  <text class="body" x="374" y="400"><tspan x="374" dy="0">Onboarding, hotspots y fichas</tspan><tspan x="374" dy="18">por pieza convierten el modelo</tspan><tspan x="374" dy="18">en soporte explicativo.</tspan></text>
+  <text class="body" x="682" y="400"><tspan x="682" dy="0">Rutas de aprendizaje, glosario,</tspan><tspan x="682" dy="18">escenarios por perfil y</tspan><tspan x="682" dy="18">tareas guiadas.</tspan></text>
+  <path class="arrow" d="M 324 413 L 346 413"/>
+  <path class="arrow" d="M 632 413 L 654 413"/>
+
+  <!-- Row 3 -->
+  <rect class="box need-fill need-stroke" x="44" y="500" width="280" height="118"/>
+  <rect class="box current-fill current-stroke" x="352" y="500" width="280" height="118"/>
+  <rect class="box future-fill future-stroke" x="660" y="500" width="280" height="118"/>
+  <text class="row-title" x="66" y="528">CAD pesado a activo web</text>
+  <text class="body" x="66" y="555"><tspan x="66" dy="0">Publicar modelos técnicos</tspan><tspan x="66" dy="18">sin trasladar CAD bruto, peso</tspan><tspan x="66" dy="18">excesivo ni errores de malla.</tspan></text>
+  <text class="body" x="374" y="546"><tspan x="374" dy="0">Pipeline CAD / Blender / Unity,</tspan><tspan x="374" dy="18">saneamiento, instancias,</tspan><tspan x="374" dy="18">proxies y presupuesto WebGL.</tspan></text>
+  <text class="body" x="682" y="537"><tspan x="682" dy="0">Validadores automáticos de</tspan><tspan x="682" dy="18">geometría, peso, materiales,</tspan><tspan x="682" dy="18">nombres y consistencia antes</tspan><tspan x="682" dy="18">de publicar.</tspan></text>
+  <path class="arrow" d="M 324 559 L 346 559"/>
+  <path class="arrow" d="M 632 559 L 654 559"/>
+
+  <!-- Row 4 -->
+  <rect class="box need-fill need-stroke" x="44" y="646" width="280" height="118"/>
+  <rect class="box current-fill current-stroke" x="352" y="646" width="280" height="118"/>
+  <rect class="box future-fill future-stroke" x="660" y="646" width="280" height="118"/>
+  <text class="row-title" x="66" y="674">Datos semánticos por pieza</text>
+  <text class="body" x="66" y="701"><tspan x="66" dy="0">Conectar geometría, nombre,</tspan><tspan x="66" dy="18">función, subsistema y</tspan><tspan x="66" dy="18">documentos técnicos.</tspan></text>
+  <text class="body" x="374" y="692"><tspan x="374" dy="0">Taxonomía 28/30/257, anchors,</tspan><tspan x="374" dy="18">categorías funcionales y</tspan><tspan x="374" dy="18">metadatos de componente.</tspan></text>
+  <text class="body" x="682" y="683"><tspan x="682" dy="0">twin_manifest: partId, material,</tspan><tspan x="682" dy="18">subsistema, variables, manuales,</tspan><tspan x="682" dy="18">fallas comunes y repuestos.</tspan></text>
+  <path class="arrow" d="M 324 705 L 346 705"/>
+  <path class="arrow" d="M 632 705 L 654 705"/>
+
+  <!-- Row 5 -->
+  <rect class="box need-fill need-stroke" x="44" y="792" width="280" height="118"/>
+  <rect class="box current-fill current-stroke" x="352" y="792" width="280" height="118"/>
+  <rect class="box future-fill future-stroke" x="660" y="792" width="280" height="118"/>
+  <text class="row-title" x="66" y="820">Soporte y mantenimiento</text>
+  <text class="body" x="66" y="847"><tspan x="66" dy="0">Identificar piezas, síntomas,</tspan><tspan x="66" dy="18">procedimientos, herramientas</tspan><tspan x="66" dy="18">y repuestos sin ambigüedad.</tspan></text>
+  <text class="body" x="374" y="847"><tspan x="374" dy="0">Selección contextual y paneles</tspan><tspan x="374" dy="18">preparan la identificación</tspan><tspan x="374" dy="18">técnica de componentes.</tspan></text>
+  <text class="body" x="682" y="838"><tspan x="682" dy="0">Modo servicio: síntomas, pasos</tspan><tspan x="682" dy="18">de inspección, herramientas,</tspan><tspan x="682" dy="18">repuestos y orden de trabajo.</tspan></text>
+  <path class="arrow" d="M 324 851 L 346 851"/>
+  <path class="arrow" d="M 632 851 L 654 851"/>
+
+  <!-- Row 6 -->
+  <rect class="box need-fill need-stroke" x="44" y="938" width="280" height="118"/>
+  <rect class="box current-fill current-stroke" x="352" y="938" width="280" height="118"/>
+  <rect class="box future-fill future-stroke" x="660" y="938" width="280" height="118"/>
+  <text class="row-title" x="66" y="966">Estado operacional</text>
+  <text class="body" x="66" y="993"><tspan x="66" dy="0">Pasar de geometría estática a</tspan><tspan x="66" dy="18">lectura de estado, carga, salud</tspan><tspan x="66" dy="18">y comportamiento del activo.</tspan></text>
+  <text class="body" x="374" y="984"><tspan x="374" dy="0">Thermal heurístico y profiler</tspan><tspan x="374" dy="18">interno comunican estados</tspan><tspan x="374" dy="18">aproximados sin telemetría real.</tspan></text>
+  <text class="body" x="682" y="984"><tspan x="682" dy="0">Playback de telemetría, digital</tspan><tspan x="682" dy="18">shadow y variables de estado</tspan><tspan x="682" dy="18">asociadas a componentes.</tspan></text>
+  <path class="arrow" d="M 324 997 L 346 997"/>
+  <path class="arrow" d="M 632 997 L 654 997"/>
+
+  <!-- Row 7 -->
+  <rect class="box need-fill need-stroke" x="44" y="1084" width="280" height="118"/>
+  <rect class="box current-fill current-stroke" x="352" y="1084" width="280" height="118"/>
+  <rect class="box future-fill future-stroke" x="660" y="1084" width="280" height="118"/>
+  <text class="row-title" x="66" y="1112">Evidencia de cierre</text>
+  <text class="body" x="66" y="1139"><tspan x="66" dy="0">Demostrar rendimiento,</tspan><tspan x="66" dy="18">usabilidad y coherencia entre</tspan><tspan x="66" dy="18">app, informe y manuales.</tspan></text>
+  <text class="body" x="374" y="1130"><tspan x="374" dy="0">Profiler interno, QA móvil,</tspan><tspan x="374" dy="18">prueba Think-Aloud, SUS,</tspan><tspan x="374" dy="18">NASA-TLX y métricas finales.</tspan></text>
+  <text class="body" x="682" y="1130"><tspan x="682" dy="0">Datos cuantitativos consolidados,</tspan><tspan x="682" dy="18">gráficas finales y roadmap hacia</tspan><tspan x="682" dy="18">twin operacional.</tspan></text>
+  <path class="arrow" d="M 324 1143 L 346 1143"/>
+  <path class="arrow" d="M 632 1143 L 654 1143"/>
+
+  <line class="divider" x1="44" y1="1236" x2="940" y2="1236"/>
+
+  <rect x="44" y="1266" width="896" height="118" rx="20" ry="20" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text class="note-title" x="74" y="1300">Lectura del diagrama</text>
+  <text class="note" x="74" y="1328"><tspan x="74" dy="0">De izquierda a derecha: necesidad industrial -> capacidad ya entregada -> evolución futura defendible.</tspan></text>
+  <text class="note" x="74" y="1354"><tspan x="74" dy="0">Alcance actual: visual product twin validable. No se presenta como digital twin operacional hasta integrar telemetría, sincronización y datos de mantenimiento.</tspan></text>
+  <text class="small" x="74" y="1418">Fuente: elaboración propia a partir del prototipo WebGL, documentación técnica, pruebas formativas y roadmap del proyecto.</text>
+</svg>
+

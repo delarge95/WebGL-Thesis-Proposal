@@ -1,0 +1,3871 @@
+{
+    "sourceScene": "Assets/Scenes/MainScene_Final.unity",
+    "sourceDataset": "x500v2_blender_synced_parts.json",
+    "generatedAtUtc": "2026-05-14T01:31:17.1002983Z",
+    "items": [
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x10_001",
+            "familyId": "holybro_cap_screw_m25x10",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x10_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x10_001",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 2.43312931060791,
+                "y": 1.683532476425171,
+                "z": -2.1548736095428469
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x10_002",
+            "familyId": "holybro_cap_screw_m25x10",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x10_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x10_002",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 2.1553421020507814,
+                "y": 1.683532476425171,
+                "z": -2.432666063308716
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x10_003",
+            "familyId": "holybro_cap_screw_m25x10",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x10_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x10_003",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 2.1548023223876955,
+                "y": 1.68353271484375,
+                "z": 2.43320631980896
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x10_004",
+            "familyId": "holybro_cap_screw_m25x10",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x10_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x10_004",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 2.432666063308716,
+                "y": 1.68353271484375,
+                "z": 2.1553421020507814
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x10_005",
+            "familyId": "holybro_cap_screw_m25x10",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x10_005",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x10_005",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -2.433206081390381,
+                "y": 1.68353271484375,
+                "z": 2.1548025608062746
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x10_006",
+            "familyId": "holybro_cap_screw_m25x10",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x10_006",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x10_006",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -2.1553421020507814,
+                "y": 1.68353271484375,
+                "z": 2.432666540145874
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x10_007",
+            "familyId": "holybro_cap_screw_m25x10",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x10_007",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x10_007",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -2.1548023223876955,
+                "y": 1.683532476425171,
+                "z": -2.4332058429718019
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x10_008",
+            "familyId": "holybro_cap_screw_m25x10",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x10_008",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x10_008",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -2.432666301727295,
+                "y": 1.683532476425171,
+                "z": -2.1553421020507814
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x12_001",
+            "familyId": "holybro_cap_screw_m25x12",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x12_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_001",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 2.7339584827423097,
+                "y": 1.6999058723449708,
+                "z": -2.456094264984131
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 135.00001525878907,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99999237060547,
+                "y": 99.99999237060547,
+                "z": 100.0
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x12_002",
+            "familyId": "holybro_cap_screw_m25x12",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x12_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_002",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -2.096158504486084,
+                "y": 0.9139890670776367,
+                "z": -0.704055666923523
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x12_003",
+            "familyId": "holybro_cap_screw_m25x12",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x12_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_003",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.1465084552764893,
+                "y": 0.9139890670776367,
+                "z": -0.7040557265281677
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x12_004",
+            "familyId": "holybro_cap_screw_m25x12",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x12_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_004",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.1465084552764893,
+                "y": 0.9139891862869263,
+                "z": 0.7040457725524902
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x12_005",
+            "familyId": "holybro_cap_screw_m25x12",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x12_005",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_005",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 2.734222412109375,
+                "y": 1.6999057531356812,
+                "z": -2.455822706222534
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x12_006",
+            "familyId": "holybro_cap_screw_m25x12",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x12_006",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_006",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 2.4563591480255129,
+                "y": 1.6999058723449708,
+                "z": -2.7336859703063967
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x12_007",
+            "familyId": "holybro_cap_screw_m25x12",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x12_007",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_007",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 2.455822706222534,
+                "y": 1.6999059915542603,
+                "z": 2.734222412109375
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x12_008",
+            "familyId": "holybro_cap_screw_m25x12",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x12_008",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_008",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 2.7336859703063967,
+                "y": 1.6999059915542603,
+                "z": 2.4563591480255129
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x12_009",
+            "familyId": "holybro_cap_screw_m25x12",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x12_009",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_009",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -2.734222173690796,
+                "y": 1.6999059915542603,
+                "z": 2.4558229446411135
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x12_010",
+            "familyId": "holybro_cap_screw_m25x12",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x12_010",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_010",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -2.4563589096069338,
+                "y": 1.6999059915542603,
+                "z": 2.7336862087249758
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x12_011",
+            "familyId": "holybro_cap_screw_m25x12",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x12_011",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_011",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -2.455822706222534,
+                "y": 1.6999058723449708,
+                "z": -2.734222412109375
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x12_012",
+            "familyId": "holybro_cap_screw_m25x12",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x12_012",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_012",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -2.7336859703063967,
+                "y": 1.6999057531356812,
+                "z": -2.4563589096069338
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x12_013",
+            "familyId": "holybro_cap_screw_m25x12",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x12_013",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x12_013",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -2.096158504486084,
+                "y": 0.9139891862869263,
+                "z": 0.7040457725524902
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_001",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_001",
+            "parentCanonicalPartId": "x500v2_bottom_plate",
+            "localPosition": {
+                "x": -0.8186600804328919,
+                "y": 1.421560525894165,
+                "z": 0.6054253578186035
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_002",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_002",
+            "parentCanonicalPartId": "x500v2_bottom_plate",
+            "localPosition": {
+                "x": -0.8186600208282471,
+                "y": 1.421560525894165,
+                "z": 0.3761993646621704
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_003",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_003",
+            "parentCanonicalPartId": "x500v2_bottom_plate",
+            "localPosition": {
+                "x": -0.8186600804328919,
+                "y": 1.4215604066848755,
+                "z": -0.3769713342189789
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_004",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_004",
+            "parentCanonicalPartId": "x500v2_bottom_plate",
+            "localPosition": {
+                "x": -0.8186600804328919,
+                "y": 1.4215604066848755,
+                "z": -0.6061970591545105
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_005",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_005",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_005",
+            "parentCanonicalPartId": "x500v2_bottom_plate",
+            "localPosition": {
+                "x": 0.8186675906181336,
+                "y": 1.421560525894165,
+                "z": 0.6054251790046692
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_006",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_006",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_006",
+            "parentCanonicalPartId": "x500v2_bottom_plate",
+            "localPosition": {
+                "x": 0.8186676502227783,
+                "y": 1.421560525894165,
+                "z": 0.3761993944644928
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_007",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_007",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_007",
+            "parentCanonicalPartId": "x500v2_bottom_plate",
+            "localPosition": {
+                "x": 0.8186675310134888,
+                "y": 1.4215604066848755,
+                "z": -0.37697142362594607
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_008",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_008",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_008",
+            "parentCanonicalPartId": "x500v2_bottom_plate",
+            "localPosition": {
+                "x": 0.8186676502227783,
+                "y": 1.4215604066848755,
+                "z": -0.6061971783638
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_009",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_009",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_009",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 3.220491409301758,
+                "y": 1.7490254640579224,
+                "z": -2.895770311355591
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_010",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_010",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_010",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 2.8963160514831545,
+                "y": 1.7490254640579224,
+                "z": -3.219944953918457
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_011",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_011",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_011",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 3.219945192337036,
+                "y": 1.5895334482192994,
+                "z": -2.8963165283203127
+            },
+            "localRotationEuler": {
+                "x": 90.0,
+                "y": 270.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99999237060547,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_012",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_012",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_012",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 2.895770311355591,
+                "y": 1.5895335674285889,
+                "z": -3.220491647720337
+            },
+            "localRotationEuler": {
+                "x": 90.0,
+                "y": 270.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99999237060547,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_013",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_013",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_013",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 2.8957698345184328,
+                "y": 1.749025821685791,
+                "z": 3.2204911708831789
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_014",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_014",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_014",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 3.219944715499878,
+                "y": 1.749025821685791,
+                "z": 2.8963160514831545
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_015",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_015",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_015",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 2.8963160514831545,
+                "y": 1.589533805847168,
+                "z": 3.219944953918457
+            },
+            "localRotationEuler": {
+                "x": 90.0,
+                "y": 90.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99999237060547,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_016",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_016",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_016",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 3.2204909324645998,
+                "y": 1.5895336866378785,
+                "z": 2.8957698345184328
+            },
+            "localRotationEuler": {
+                "x": 90.0,
+                "y": 90.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99999237060547,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_017",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_017",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_017",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -3.220491409301758,
+                "y": 1.749025821685791,
+                "z": 2.895770311355591
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_018",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_018",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_018",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -2.8963165283203127,
+                "y": 1.749025821685791,
+                "z": 3.2199454307556154
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_019",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_019",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_019",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -3.219945192337036,
+                "y": 1.5895336866378785,
+                "z": 2.8963165283203127
+            },
+            "localRotationEuler": {
+                "x": 90.0,
+                "y": 270.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99999237060547,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_020",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_020",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_020",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -2.895770311355591,
+                "y": 1.589533805847168,
+                "z": 3.220491647720337
+            },
+            "localRotationEuler": {
+                "x": 90.0,
+                "y": 270.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99999237060547,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_021",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_021",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_021",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -2.8957695960998537,
+                "y": 1.7490254640579224,
+                "z": -3.2204911708831789
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_022",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_022",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_022",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -3.219944477081299,
+                "y": 1.7490254640579224,
+                "z": -2.8963160514831545
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_023",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_023",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_023",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -2.896315813064575,
+                "y": 1.5895335674285889,
+                "z": -3.219944477081299
+            },
+            "localRotationEuler": {
+                "x": 90.0,
+                "y": 270.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99999237060547,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M25x6_024",
+            "familyId": "holybro_cap_screw_m25x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M25x6_024",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M25x6_024",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -3.2204909324645998,
+                "y": 1.5895334482192994,
+                "z": -2.8957698345184328
+            },
+            "localRotationEuler": {
+                "x": 90.0,
+                "y": 270.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99999237060547,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x21_001",
+            "familyId": "holybro_cap_screw_m3x21",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x21_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x21_001",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": 1.1827796697616577e-7,
+                "y": -1.8340470790863038,
+                "z": -1.9503530263900757
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x21_002",
+            "familyId": "holybro_cap_screw_m3x21",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x21_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x21_002",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": 1.1827796697616577e-7,
+                "y": -1.8183770179748536,
+                "z": 1.9456136226654053
+            },
+            "localRotationEuler": {
+                "x": 54.352352142333987,
+                "y": -0.000023667804271099158,
+                "z": -0.000023667804271099158
+            },
+            "localScale": {
+                "x": 100.00001525878906,
+                "y": 100.0,
+                "z": 100.00001525878906
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x25_001",
+            "familyId": "holybro_cap_screw_m3x25",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x25_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x25_001",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": 0.006549357436597347,
+                "y": 1.2108736038208008,
+                "z": -0.9619152545928955
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x25_002",
+            "familyId": "holybro_cap_screw_m3x25",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x25_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x25_002",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": -0.00654924102127552,
+                "y": 1.2108737230300904,
+                "z": 0.9619160294532776
+            },
+            "localRotationEuler": {
+                "x": 296.09063720703127,
+                "y": 180.0,
+                "z": 0.000004957619239576161
+            },
+            "localScale": {
+                "x": 99.99998474121094,
+                "y": 99.99996948242188,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_001",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_001",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 1.0900359153747559,
+                "y": 1.6545436382293702,
+                "z": -0.8353275060653687
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_002",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_002",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 0.8353277444839478,
+                "y": 1.6545436382293702,
+                "z": -1.0900354385375977
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_003",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_003",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 0.6963959336280823,
+                "y": 1.6545437574386597,
+                "z": -0.9511039853096008
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_004",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_004",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 0.951104462146759,
+                "y": 1.6545436382293702,
+                "z": -0.6963953971862793
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_005",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_005",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_005",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 0.8353279232978821,
+                "y": 1.6545438766479493,
+                "z": 1.090036392211914
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_006",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_006",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_006",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 1.0900359153747559,
+                "y": 1.6545438766479493,
+                "z": 0.835328221321106
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_007",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_007",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_007",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 0.9511043429374695,
+                "y": 1.6545438766479493,
+                "z": 0.6963961720466614
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_008",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_008",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_008",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 0.6963958740234375,
+                "y": 1.6545438766479493,
+                "z": 0.9511047005653381
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_009",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_009",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_009",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -1.0900360345840455,
+                "y": 1.6545438766479493,
+                "z": 0.835328221321106
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_010",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_010",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_010",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -0.8353277444839478,
+                "y": 1.6545438766479493,
+                "z": 1.090036392211914
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_011",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_011",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_011",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -0.6963958144187927,
+                "y": 1.6545438766479493,
+                "z": 0.9511048197746277
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_012",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_012",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_012",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -0.9511042833328247,
+                "y": 1.6545438766479493,
+                "z": 0.6963962912559509
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_013",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_013",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_013",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -0.8353277444839478,
+                "y": 1.6545436382293702,
+                "z": -1.0900354385375977
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_014",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_014",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_014",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -1.0900359153747559,
+                "y": 1.6545436382293702,
+                "z": -0.8353273272514343
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_015",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_015",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_015",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -0.9511042237281799,
+                "y": 1.6545436382293702,
+                "z": -0.6963952779769898
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x38_016",
+            "familyId": "holybro_cap_screw_m3x38",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x38_016",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x38_016",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -0.6963956952095032,
+                "y": 1.6545437574386597,
+                "z": -0.9511038661003113
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000009659346687840298,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_001",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_001",
+            "parentCanonicalPartId": "x500v2_motor_FL",
+            "localPosition": {
+                "x": 3.0515925884246828,
+                "y": 1.7740684747695923,
+                "z": -2.896045207977295
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_002",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_002",
+            "parentCanonicalPartId": "x500v2_motor_FL",
+            "localPosition": {
+                "x": 2.740499258041382,
+                "y": 1.7740684747695923,
+                "z": -2.896045207977295
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_003",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_003",
+            "parentCanonicalPartId": "x500v2_motor_FL",
+            "localPosition": {
+                "x": 2.896044969558716,
+                "y": 1.7740684747695923,
+                "z": -2.765058994293213
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_004",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_004",
+            "parentCanonicalPartId": "x500v2_motor_FL",
+            "localPosition": {
+                "x": 2.8960459232330324,
+                "y": 1.7740684747695923,
+                "z": -3.0270330905914308
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_005",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_005",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_005",
+            "parentCanonicalPartId": "x500v2_motor_FR",
+            "localPosition": {
+                "x": 2.896045207977295,
+                "y": 1.7740687131881714,
+                "z": 3.0515921115875246
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000014489017303276341,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.00000762939453,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_006",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_006",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_006",
+            "parentCanonicalPartId": "x500v2_motor_FR",
+            "localPosition": {
+                "x": 2.896045207977295,
+                "y": 1.7740687131881714,
+                "z": 2.740499496459961
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000014489017303276341,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.00000762939453,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_007",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_007",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_007",
+            "parentCanonicalPartId": "x500v2_motor_FR",
+            "localPosition": {
+                "x": 2.765059232711792,
+                "y": 1.7740687131881714,
+                "z": 2.896045446395874
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000014489017303276341,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.00000762939453,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_008",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_008",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_008",
+            "parentCanonicalPartId": "x500v2_motor_FR",
+            "localPosition": {
+                "x": 3.0270328521728517,
+                "y": 1.7740687131881714,
+                "z": 2.896045684814453
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000014489017303276341,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.00000762939453,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_009",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_009",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_009",
+            "parentCanonicalPartId": "x500v2_motor_BR",
+            "localPosition": {
+                "x": -3.0515928268432619,
+                "y": 1.7740687131881714,
+                "z": 2.8960459232330324
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000014489017303276341,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.00000762939453,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_010",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_010",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_010",
+            "parentCanonicalPartId": "x500v2_motor_BR",
+            "localPosition": {
+                "x": -2.740499496459961,
+                "y": 1.7740687131881714,
+                "z": 2.896045446395874
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000014489017303276341,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.00000762939453,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_011",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_011",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_011",
+            "parentCanonicalPartId": "x500v2_motor_BR",
+            "localPosition": {
+                "x": -2.896045446395874,
+                "y": 1.7740687131881714,
+                "z": 2.765059471130371
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000014489017303276341,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.00000762939453,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_012",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_012",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_012",
+            "parentCanonicalPartId": "x500v2_motor_BR",
+            "localPosition": {
+                "x": -2.896045684814453,
+                "y": 1.7740687131881714,
+                "z": 3.0270333290100099
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": -0.000014489017303276341,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.00000762939453,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_013",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_013",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_013",
+            "parentCanonicalPartId": "x500v2_motor_BL",
+            "localPosition": {
+                "x": -2.896045207977295,
+                "y": 1.7740684747695923,
+                "z": -3.0515921115875246
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_014",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_014",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_014",
+            "parentCanonicalPartId": "x500v2_motor_BL",
+            "localPosition": {
+                "x": -2.896045207977295,
+                "y": 1.7740684747695923,
+                "z": -2.7404990196228029
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_015",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_015",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_015",
+            "parentCanonicalPartId": "x500v2_motor_BL",
+            "localPosition": {
+                "x": -2.765058755874634,
+                "y": 1.7740684747695923,
+                "z": -2.896045207977295
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x6_016",
+            "familyId": "holybro_cap_screw_m3x6",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x6_016",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x6_016",
+            "parentCanonicalPartId": "x500v2_motor_BL",
+            "localPosition": {
+                "x": -3.0270326137542726,
+                "y": 1.7740684747695923,
+                "z": -2.896045684814453
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x8_001",
+            "familyId": "holybro_cap_screw_m3x8",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x8_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x8_001",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": 0.19647935032844544,
+                "y": -1.6269476413726807,
+                "z": -1.8703081607818604
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x8_002",
+            "familyId": "holybro_cap_screw_m3x8",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x8_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x8_002",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": -0.19409193098545075,
+                "y": -1.6363539695739747,
+                "z": -1.8413803577423096
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.9999771118164,
+                "z": 99.99996948242188
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x8_003",
+            "familyId": "holybro_cap_screw_m3x8",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x8_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x8_003",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": 0.19647946953773499,
+                "y": -1.6427719593048096,
+                "z": 1.8759676218032838
+            },
+            "localRotationEuler": {
+                "x": 55.22687911987305,
+                "y": 0.00033312966115772724,
+                "z": 0.0003052946995012462
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.9999771118164,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x8_004",
+            "familyId": "holybro_cap_screw_m3x8",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x8_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x8_004",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": -0.1964792162179947,
+                "y": -1.6424078941345215,
+                "z": 1.8761547803878785
+            },
+            "localRotationEuler": {
+                "x": 54.67914962768555,
+                "y": 0.0003242854727432132,
+                "z": 0.00029260708834044635
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 100.0
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x8_005",
+            "familyId": "holybro_cap_screw_m3x8",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x8_005",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x8_005",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": -0.2210390865802765,
+                "y": 1.4089607000350953,
+                "z": 1.1227049827575684
+            },
+            "localRotationEuler": {
+                "x": 342.2598571777344,
+                "y": -0.000006532549377880059,
+                "z": -0.0000024369562652282186
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x8_006",
+            "familyId": "holybro_cap_screw_m3x8",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x8_006",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x8_006",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": 0.2210393249988556,
+                "y": 1.4089607000350953,
+                "z": 1.1227049827575684
+            },
+            "localRotationEuler": {
+                "x": 342.2598571777344,
+                "y": -0.000006532549377880059,
+                "z": -0.0000024369562652282186
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x8_007",
+            "familyId": "holybro_cap_screw_m3x8",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x8_007",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x8_007",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": 0.2210393249988556,
+                "y": 1.4089607000350953,
+                "z": 0.7133729457855225
+            },
+            "localRotationEuler": {
+                "x": 342.2598571777344,
+                "y": -0.000006532549377880059,
+                "z": -0.0000024369562652282186
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x8_008",
+            "familyId": "holybro_cap_screw_m3x8",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x8_008",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x8_008",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": -0.22103914618492127,
+                "y": 1.4089607000350953,
+                "z": 0.7133729457855225
+            },
+            "localRotationEuler": {
+                "x": 342.2598571777344,
+                "y": -0.000006532549377880059,
+                "z": -0.0000024369562652282186
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x8_009",
+            "familyId": "holybro_cap_screw_m3x8",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x8_009",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x8_009",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": 0.22103920578956605,
+                "y": 1.4089604616165162,
+                "z": -1.1040605306625367
+            },
+            "localRotationEuler": {
+                "x": 342.2598571777344,
+                "y": -0.000006532549377880059,
+                "z": -0.0000024369562652282186
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x8_010",
+            "familyId": "holybro_cap_screw_m3x8",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x8_010",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x8_010",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": -0.22103914618492127,
+                "y": 1.4089604616165162,
+                "z": -1.1040605306625367
+            },
+            "localRotationEuler": {
+                "x": 342.2598571777344,
+                "y": -0.000006532549377880059,
+                "z": -0.0000024369562652282186
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x8_011",
+            "familyId": "holybro_cap_screw_m3x8",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x8_011",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x8_011",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": -0.22103920578956605,
+                "y": 1.4089605808258057,
+                "z": -0.6947287321090698
+            },
+            "localRotationEuler": {
+                "x": 342.2598571777344,
+                "y": -0.000006532549377880059,
+                "z": -0.0000024369562652282186
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_cap_screw_M3x8_012",
+            "familyId": "holybro_cap_screw_m3x8",
+            "sceneObjectName": "x500v2_fastener.cap_screw_M3x8_012",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.cap_screw_M3x8_012",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": 0.2210393249988556,
+                "y": 1.4089605808258057,
+                "z": -0.6947286128997803
+            },
+            "localRotationEuler": {
+                "x": 342.2598571777344,
+                "y": -0.000006532549377880059,
+                "z": -0.0000024369562652282186
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M25x6_001",
+            "familyId": "holybro_countersunk_m25x6",
+            "sceneObjectName": "x500v2_fastener.countersunk_M25x6_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_001",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.9156732559204102,
+                "y": 1.0094082355499268,
+                "z": 0.5976250171661377
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M25x6_002",
+            "familyId": "holybro_countersunk_m25x6",
+            "sceneObjectName": "x500v2_fastener.countersunk_M25x6_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_002",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.9156733751296998,
+                "y": 1.009437084197998,
+                "z": 0.3683990240097046
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000019318693375680596,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M25x6_003",
+            "familyId": "holybro_countersunk_m25x6",
+            "sceneObjectName": "x500v2_fastener.countersunk_M25x6_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_003",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.9156732559204102,
+                "y": 1.009437084197998,
+                "z": -0.3683983087539673
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000019318693375680596,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M25x6_004",
+            "familyId": "holybro_countersunk_m25x6",
+            "sceneObjectName": "x500v2_fastener.countersunk_M25x6_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_004",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.9156734943389893,
+                "y": 1.009437084197998,
+                "z": -0.5976240634918213
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000019318693375680596,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M25x6_005",
+            "familyId": "holybro_countersunk_m25x6",
+            "sceneObjectName": "x500v2_fastener.countersunk_M25x6_005",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_005",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.326235294342041,
+                "y": 1.009437084197998,
+                "z": 0.5976250171661377
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000019318693375680596,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M25x6_006",
+            "familyId": "holybro_countersunk_m25x6",
+            "sceneObjectName": "x500v2_fastener.countersunk_M25x6_006",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_006",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.326235055923462,
+                "y": 1.009437084197998,
+                "z": 0.36839914321899416
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000019318693375680596,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M25x6_007",
+            "familyId": "holybro_countersunk_m25x6",
+            "sceneObjectName": "x500v2_fastener.countersunk_M25x6_007",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_007",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.326235055923462,
+                "y": 1.009437084197998,
+                "z": -0.3683983087539673
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000019318693375680596,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M25x6_008",
+            "familyId": "holybro_countersunk_m25x6",
+            "sceneObjectName": "x500v2_fastener.countersunk_M25x6_008",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_008",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.326235055923462,
+                "y": 1.009437084197998,
+                "z": -0.5976241230964661
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000019318693375680596,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M25x6_009",
+            "familyId": "holybro_countersunk_m25x6",
+            "sceneObjectName": "x500v2_fastener.countersunk_M25x6_009",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_009",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -0.573228120803833,
+                "y": 0.7062935829162598,
+                "z": -0.20466551184654237
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M25x6_010",
+            "familyId": "holybro_countersunk_m25x6",
+            "sceneObjectName": "x500v2_fastener.countersunk_M25x6_010",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_010",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -0.573228120803833,
+                "y": 0.7062937021255493,
+                "z": 0.2046663761138916
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M25x6_011",
+            "familyId": "holybro_countersunk_m25x6",
+            "sceneObjectName": "x500v2_fastener.countersunk_M25x6_011",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_011",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": 0.5729011297225952,
+                "y": 0.7062935829162598,
+                "z": -0.20466554164886475
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M25x6_012",
+            "familyId": "holybro_countersunk_m25x6",
+            "sceneObjectName": "x500v2_fastener.countersunk_M25x6_012",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M25x6_012",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": 0.5729011297225952,
+                "y": 0.7062937021255493,
+                "z": 0.2046663761138916
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M3x16_001",
+            "familyId": "holybro_countersunk_m3x16",
+            "sceneObjectName": "x500v2_fastener.countersunk_M3x16_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M3x16_001",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": 1.727380633354187,
+                "y": 0.7433714866638184,
+                "z": 0.2292262315750122
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_countersunk_M3x16_002",
+            "familyId": "holybro_countersunk_m3x16",
+            "sceneObjectName": "x500v2_fastener.countersunk_M3x16_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.countersunk_M3x16_002",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": 1.7273805141448975,
+                "y": 0.7433713674545288,
+                "z": -0.22922539710998536
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_001",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_001",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 0.9511191844940186,
+                "y": 1.38083016872406,
+                "z": -0.6962602734565735
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_002",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_002",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 1.0900359153747559,
+                "y": 1.38029146194458,
+                "z": -0.8353275060653687
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 30.197025299072267,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.00000762939453,
+                "y": 99.99998474121094,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_003",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_003",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 0.8353277444839478,
+                "y": 1.3802915811538697,
+                "z": -1.0900354385375977
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 29.524381637573243,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.00001525878906,
+                "y": 100.00001525878906,
+                "z": 100.00001525878906
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_004",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_004",
+            "parentCanonicalPartId": "x500v2_arm_FL",
+            "localPosition": {
+                "x": 0.6963959336280823,
+                "y": 1.3802915811538697,
+                "z": -0.9511039853096008
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 30.093505859375,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.00000762939453,
+                "y": 100.0,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_005",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_005",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_005",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 0.6963958740234375,
+                "y": 1.3802917003631592,
+                "z": 0.9511047005653381
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000004829672889172798,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_006",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_006",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_006",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 0.8353279232978821,
+                "y": 1.3802917003631592,
+                "z": 1.090036392211914
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000004829672889172798,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_007",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_007",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_007",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 1.0900359153747559,
+                "y": 1.3802917003631592,
+                "z": 0.835328221321106
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000004829672889172798,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_008",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_008",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_008",
+            "parentCanonicalPartId": "x500v2_arm_FR",
+            "localPosition": {
+                "x": 0.9511043429374695,
+                "y": 1.3802917003631592,
+                "z": 0.6963961720466614
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.000004829672889172798,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_009",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_009",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_009",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -0.9511042833328247,
+                "y": 1.3802917003631592,
+                "z": 0.6963962912559509
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 29.95017433166504,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99999237060547,
+                "y": 100.00000762939453,
+                "z": 100.0
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_010",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_010",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_010",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -1.0900360345840455,
+                "y": 1.3802917003631592,
+                "z": 0.835328221321106
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 30.55139923095703,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99999237060547,
+                "y": 99.9999771118164,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_011",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_011",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_011",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -0.8353277444839478,
+                "y": 1.3802917003631592,
+                "z": 1.090036392211914
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 30.091651916503908,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 100.0
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_012",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_012",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_012",
+            "parentCanonicalPartId": "x500v2_arm_BR",
+            "localPosition": {
+                "x": -0.6963958144187927,
+                "y": 1.3802917003631592,
+                "z": 0.9511048197746277
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 329.7102966308594,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_013",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_013",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_013",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -0.6963956952095032,
+                "y": 1.3802915811538697,
+                "z": -0.9511038661003113
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_014",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_014",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_014",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -0.8353277444839478,
+                "y": 1.3802915811538697,
+                "z": -1.0900354385375977
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_015",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_015",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_015",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -1.0900360345840455,
+                "y": 1.38029146194458,
+                "z": -0.8353274464607239
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_flange_nut_M3_016",
+            "familyId": "holybro_flange_nut_m3",
+            "sceneObjectName": "x500v2_fastener.flange_nut_M3_016",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.flange_nut_M3_016",
+            "parentCanonicalPartId": "x500v2_arm_BL",
+            "localPosition": {
+                "x": -0.9511042237281799,
+                "y": 1.38029146194458,
+                "z": -0.6963953971862793
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_001",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_001",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": 0.17200250923633576,
+                "y": 1.2108734846115113,
+                "z": -0.9619154334068298
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_002",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_002",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": -0.1964792162179947,
+                "y": -1.6486296653747559,
+                "z": -1.8299411535263062
+            },
+            "localRotationEuler": {
+                "x": 294.68072509765627,
+                "y": 313.62835693359377,
+                "z": 133.62832641601563
+            },
+            "localScale": {
+                "x": 99.99998474121094,
+                "y": 99.9999771118164,
+                "z": 100.00001525878906
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_003",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_003",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": 0.19647923111915589,
+                "y": -1.6486296653747559,
+                "z": -1.8299411535263062
+            },
+            "localRotationEuler": {
+                "x": 294.68072509765627,
+                "y": 313.62835693359377,
+                "z": 133.62832641601563
+            },
+            "localScale": {
+                "x": 99.99998474121094,
+                "y": 99.9999771118164,
+                "z": 100.00001525878906
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_004",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_004",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": -9.313225746154786e-10,
+                "y": -1.7917613983154297,
+                "z": -2.0556788444519045
+            },
+            "localRotationEuler": {
+                "x": 290.64739990234377,
+                "y": 32.70707321166992,
+                "z": 58.99770736694336
+            },
+            "localScale": {
+                "x": 99.99998474121094,
+                "y": 100.00000762939453,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_005",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_005",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_005",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": 0.19647946953773499,
+                "y": -1.6486294269561768,
+                "z": 1.8299425840377808
+            },
+            "localRotationEuler": {
+                "x": 294.6690368652344,
+                "y": 133.65768432617188,
+                "z": 133.60165405273438
+            },
+            "localScale": {
+                "x": 99.99998474121094,
+                "y": 99.99998474121094,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_006",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_006",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_006",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": -0.19647909700870515,
+                "y": -1.648630142211914,
+                "z": 1.8299403190612794
+            },
+            "localRotationEuler": {
+                "x": 314.71649169921877,
+                "y": 108.67665100097656,
+                "z": 334.5598449707031
+            },
+            "localScale": {
+                "x": 99.9999771118164,
+                "y": 100.00001525878906,
+                "z": 100.00000762939453
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_007",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_007",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_007",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": -9.313225746154786e-10,
+                "y": -1.7917625904083253,
+                "z": 2.0556774139404299
+            },
+            "localRotationEuler": {
+                "x": 343.4231872558594,
+                "y": 95.41587829589844,
+                "z": 341.6180114746094
+            },
+            "localScale": {
+                "x": 100.00004577636719,
+                "y": 100.0,
+                "z": 100.00003814697266
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_008",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_008",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_008",
+            "parentCanonicalPartId": "x500v2_landing_gear",
+            "localPosition": {
+                "x": -0.17191793024539948,
+                "y": 1.2108737230300904,
+                "z": 0.9619159698486328
+            },
+            "localRotationEuler": {
+                "x": 304.72900390625,
+                "y": 180.0,
+                "z": 180.0
+            },
+            "localScale": {
+                "x": 100.00000762939453,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_009",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_009",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_009",
+            "parentCanonicalPartId": "x500v2_power_module",
+            "localPosition": {
+                "x": -0.24969245493412019,
+                "y": 1.5851750373840333,
+                "z": 0.24969293177127839
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_010",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_010",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_010",
+            "parentCanonicalPartId": "x500v2_power_module",
+            "localPosition": {
+                "x": -0.2496924102306366,
+                "y": 1.5849573612213135,
+                "z": -0.24969205260276795
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_011",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_011",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_011",
+            "parentCanonicalPartId": "x500v2_power_module",
+            "localPosition": {
+                "x": 0.24969255924224854,
+                "y": 1.5849573612213135,
+                "z": -0.24969205260276795
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_012",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_012",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_012",
+            "parentCanonicalPartId": "x500v2_power_module",
+            "localPosition": {
+                "x": 0.24969252943992616,
+                "y": 1.5849573612213135,
+                "z": 0.24969284236431123
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_013",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_013",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_013",
+            "parentCanonicalPartId": "x500v2_gps_m10",
+            "localPosition": {
+                "x": -1.8061970472335816,
+                "y": 1.0577383041381837,
+                "z": 0.18524277210235597
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_014",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_014",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_014",
+            "parentCanonicalPartId": "x500v2_gps_m10",
+            "localPosition": {
+                "x": -1.8061970472335816,
+                "y": 1.0577383041381837,
+                "z": -0.18524205684661866
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_015",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_015",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_015",
+            "parentCanonicalPartId": "x500v2_gps_m10",
+            "localPosition": {
+                "x": -1.4357117414474488,
+                "y": 1.0577383041381837,
+                "z": -0.18524205684661866
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_lock_nut_M3_016",
+            "familyId": "holybro_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.lock_nut_M3_016",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.lock_nut_M3_016",
+            "parentCanonicalPartId": "x500v2_gps_m10",
+            "localPosition": {
+                "x": -1.4357117414474488,
+                "y": 1.0577383041381837,
+                "z": 0.18524277210235597
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_nylon_lock_nut_M3_001",
+            "familyId": "holybro_nylon_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.nylon_lock_nut_M3_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_lock_nut_M3_001",
+            "parentCanonicalPartId": "x500v2_bottom_plate",
+            "localPosition": {
+                "x": 1.7273805141448975,
+                "y": 0.7736606597900391,
+                "z": -0.22922539710998536
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_nylon_lock_nut_M3_002",
+            "familyId": "holybro_nylon_lock_nut_m3",
+            "sceneObjectName": "x500v2_fastener.nylon_lock_nut_M3_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_lock_nut_M3_002",
+            "parentCanonicalPartId": "x500v2_bottom_plate",
+            "localPosition": {
+                "x": 1.727380633354187,
+                "y": 0.7736606597900391,
+                "z": 0.2292262315750122
+            },
+            "localRotationEuler": {
+                "x": 90.0,
+                "y": 300.49737548828127,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.9999771118164,
+                "y": 99.9999771118164,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_nylon_standoff_M25x5_001",
+            "familyId": "holybro_nylon_standoff_m25x5",
+            "sceneObjectName": "x500v2_fastener.nylon_standoff_M25x5_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_standoff_M25x5_001",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -2.0957794189453127,
+                "y": 0.9202028512954712,
+                "z": 0.7040510177612305
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 330.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99999237060547,
+                "y": 99.9999771118164,
+                "z": 99.99998474121094
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_nylon_standoff_M25x5_002",
+            "familyId": "holybro_nylon_standoff_m25x5",
+            "sceneObjectName": "x500v2_fastener.nylon_standoff_M25x5_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_standoff_M25x5_002",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -2.0957794189453127,
+                "y": 0.9202027320861816,
+                "z": -0.7040504217147827
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 270.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.00000762939453,
+                "z": 100.0
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_nylon_standoff_M25x5_003",
+            "familyId": "holybro_nylon_standoff_m25x5",
+            "sceneObjectName": "x500v2_fastener.nylon_standoff_M25x5_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_standoff_M25x5_003",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.1461291313171387,
+                "y": 0.9202027320861816,
+                "z": -0.7040504217147827
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 270.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.00000762939453,
+                "z": 100.0
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_nylon_standoff_M25x5_004",
+            "familyId": "holybro_nylon_standoff_m25x5",
+            "sceneObjectName": "x500v2_fastener.nylon_standoff_M25x5_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_standoff_M25x5_004",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.1461293697357178,
+                "y": 0.9202028512954712,
+                "z": 0.70405113697052
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 270.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 100.00000762939453,
+                "z": 100.0
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_nylon_standoff_M3x5_001",
+            "familyId": "holybro_nylon_standoff_m3x5",
+            "sceneObjectName": "x500v2_fastener.nylon_standoff_M3x5_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_standoff_M3x5_001",
+            "parentCanonicalPartId": "x500v2_power_module",
+            "localPosition": {
+                "x": -0.2496924251317978,
+                "y": 1.4932670593261719,
+                "z": -0.24969205260276795
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_nylon_standoff_M3x5_002",
+            "familyId": "holybro_nylon_standoff_m3x5",
+            "sceneObjectName": "x500v2_fastener.nylon_standoff_M3x5_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_standoff_M3x5_002",
+            "parentCanonicalPartId": "x500v2_power_module",
+            "localPosition": {
+                "x": 0.24969255924224854,
+                "y": 1.4932670593261719,
+                "z": -0.24969205260276795
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 180.00001525878907,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99996948242188,
+                "y": 99.9999771118164,
+                "z": 99.99996948242188
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_nylon_standoff_M3x5_003",
+            "familyId": "holybro_nylon_standoff_m3x5",
+            "sceneObjectName": "x500v2_fastener.nylon_standoff_M3x5_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_standoff_M3x5_003",
+            "parentCanonicalPartId": "x500v2_power_module",
+            "localPosition": {
+                "x": 0.24969252943992616,
+                "y": 1.4932671785354615,
+                "z": 0.249692901968956
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 180.00001525878907,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99996948242188,
+                "y": 99.9999771118164,
+                "z": 99.99996948242188
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_nylon_standoff_M3x5_004",
+            "familyId": "holybro_nylon_standoff_m3x5",
+            "sceneObjectName": "x500v2_fastener.nylon_standoff_M3x5_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.nylon_standoff_M3x5_004",
+            "parentCanonicalPartId": "x500v2_power_module",
+            "localPosition": {
+                "x": -0.24969236552715302,
+                "y": 1.4932671785354615,
+                "z": 0.249692901968956
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 180.00001525878907,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 99.99996948242188,
+                "y": 99.9999771118164,
+                "z": 99.99996948242188
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_pan_head_M3x10_001",
+            "familyId": "holybro_pan_head_m3x10",
+            "sceneObjectName": "x500v2_fastener.pan_head_M3x10_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.pan_head_M3x10_001",
+            "parentCanonicalPartId": "x500v2_gps_m10",
+            "localPosition": {
+                "x": -1.8061970472335816,
+                "y": 1.0188781023025513,
+                "z": 0.18524277210235597
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_pan_head_M3x10_002",
+            "familyId": "holybro_pan_head_m3x10",
+            "sceneObjectName": "x500v2_fastener.pan_head_M3x10_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.pan_head_M3x10_002",
+            "parentCanonicalPartId": "x500v2_gps_m10",
+            "localPosition": {
+                "x": -1.4357117414474488,
+                "y": 1.0176236629486085,
+                "z": 0.18524277210235597
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_pan_head_M3x10_003",
+            "familyId": "holybro_pan_head_m3x10",
+            "sceneObjectName": "x500v2_fastener.pan_head_M3x10_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.pan_head_M3x10_003",
+            "parentCanonicalPartId": "x500v2_gps_m10",
+            "localPosition": {
+                "x": -1.4357118606567383,
+                "y": 1.0176236629486085,
+                "z": -0.1852421760559082
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_pan_head_M3x10_004",
+            "familyId": "holybro_pan_head_m3x10",
+            "sceneObjectName": "x500v2_fastener.pan_head_M3x10_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.pan_head_M3x10_004",
+            "parentCanonicalPartId": "x500v2_gps_m10",
+            "localPosition": {
+                "x": -1.806197166442871,
+                "y": 1.0176236629486085,
+                "z": -0.1852421760559082
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_pan_head_M3x14_001",
+            "familyId": "holybro_pan_head_m3x14",
+            "sceneObjectName": "x500v2_fastener.pan_head_M3x14_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.pan_head_M3x14_001",
+            "parentCanonicalPartId": "x500v2_power_module",
+            "localPosition": {
+                "x": -0.2496923804283142,
+                "y": 1.5208287239074708,
+                "z": -0.24969205260276795
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_pan_head_M3x14_002",
+            "familyId": "holybro_pan_head_m3x14",
+            "sceneObjectName": "x500v2_fastener.pan_head_M3x14_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.pan_head_M3x14_002",
+            "parentCanonicalPartId": "x500v2_power_module",
+            "localPosition": {
+                "x": 0.24969255924224854,
+                "y": 1.5194642543792725,
+                "z": -0.24969205260276795
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_pan_head_M3x14_003",
+            "familyId": "holybro_pan_head_m3x14",
+            "sceneObjectName": "x500v2_fastener.pan_head_M3x14_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.pan_head_M3x14_003",
+            "parentCanonicalPartId": "x500v2_power_module",
+            "localPosition": {
+                "x": 0.24969252943992616,
+                "y": 1.519464373588562,
+                "z": 0.24969284236431123
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_pan_head_M3x14_004",
+            "familyId": "holybro_pan_head_m3x14",
+            "sceneObjectName": "x500v2_fastener.pan_head_M3x14_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.pan_head_M3x14_004",
+            "parentCanonicalPartId": "x500v2_power_module",
+            "localPosition": {
+                "x": -0.24969236552715302,
+                "y": 1.519464373588562,
+                "z": 0.24969284236431123
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99999237060547,
+                "z": 99.99999237060547
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_self_lock_nut_M25_001",
+            "familyId": "holybro_self_lock_nut_m25",
+            "sceneObjectName": "x500v2_fastener.self_lock_nut_M25_001",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.self_lock_nut_M25_001",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -2.0957794189453127,
+                "y": 0.825998067855835,
+                "z": 0.7040514945983887
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_self_lock_nut_M25_002",
+            "familyId": "holybro_self_lock_nut_m25",
+            "sceneObjectName": "x500v2_fastener.self_lock_nut_M25_002",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.self_lock_nut_M25_002",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -2.0957794189453127,
+                "y": 0.8271583318710327,
+                "z": -0.7040504217147827
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_self_lock_nut_M25_003",
+            "familyId": "holybro_self_lock_nut_m25",
+            "sceneObjectName": "x500v2_fastener.self_lock_nut_M25_003",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.self_lock_nut_M25_003",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.1461291313171387,
+                "y": 0.8271583318710327,
+                "z": -0.7040503621101379
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        },
+        {
+            "instanceId": "x500v2_fastener_self_lock_nut_M25_004",
+            "familyId": "holybro_self_lock_nut_m25",
+            "sceneObjectName": "x500v2_fastener.self_lock_nut_M25_004",
+            "hierarchyPath": "x500v2_Drone/x500v2_fastener_group/x500v2_fastener.self_lock_nut_M25_004",
+            "parentCanonicalPartId": "x500v2_rails_battery",
+            "localPosition": {
+                "x": -1.1461293697357178,
+                "y": 0.8271584510803223,
+                "z": 0.7040512561798096
+            },
+            "localRotationEuler": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 100.0,
+                "y": 99.99998474121094,
+                "z": 99.9999771118164
+            },
+            "isInspectable": true,
+            "fallbackReason": ""
+        }
+    ]
+}

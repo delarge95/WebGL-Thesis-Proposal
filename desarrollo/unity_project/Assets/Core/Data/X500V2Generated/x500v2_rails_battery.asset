@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_rails_battery
+  m_EditorClassIdentifier: 
+  partName: Rail System & Battery Mount
+  id: x500v2_rails_battery
+  partType: Frame
+  description: "Two 10 mm carbon fiber rails mounted below the bottom plate for battery, payload and accessory support."
+  weightKg: 0.025
+  dimensions: "2\xD7 barras \u230010 mm \xD7 250 mm"
+  function: "Battery, payload and accessory support rail system"
+  materialType: "Carbon fiber rails with reinforced plastic clamps"
+  materialProperties: 
+  manufacturer: Holybro
+  partNumber: Incluido en SKU30120
+  powerConsumption: 0
+  maxLoad: 0
+  operatingTemp: 80
+  operatingTempMin: -20
+  operatingTempMax: 80
+  thermalPeak: 25
+  thermalHover: 22
+  thermalWarmupSeconds: 0
+  thermalExposure: 0.55
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.2
+  isThermallyCritical: 0
+  icon: {fileID: 0}
+  highlightColor: {r: 0.4, g: 0.38, b: 0.35, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: -1, z: 0}
+  explosionDistance: 1
+  explosionPriority: 8
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - M3 hex key
+  - "Correas de bater\xEDa"
+  safetyWarnings:
+  - "Asegurar firmemente la bater\xEDa antes de volar"
+  installationTips: "Centrar bater\xEDa para mantener CG. Board ajustable acomoda
+    distintos tama\xF1os."
+  installationTimeMinutes: 3
+  difficultyLevel: 1
+  torqueSpec: 
+  assemblyOrder: 8
+  prerequisites:
+  - x500v2_bottom_plate
+  - x500v2_landing_gear
+  connectionTypes:
+  - Screw
+  - Velcro Strap
+  screwCount: 4
+  screwSize: M3
+  subComponentNames:
+  - BATTERY-MOUNTING-PLAT
+  - BATTERY-PAD
+  - PYLONS-X500
+  - CARBON-FIBER-TUBE300
+  - JIA-GUAN
+  - HUAN-GUIJIAO
+  - PLATFORM-PLAT-X500
+  - ZHIJIA-CAMERA-INTEL
+  - LIPO
+  - BATTERY
+  - BATTERY-STRAP
+  - 'Fasteners: Socket Cap Screw M2.5 x 12 mm x4'
+  - 'Fasteners: Countersunk Screw M2.5 x 6 mm x12'
+  - 'Fasteners: Countersunk Screw M3 x 16 mm x2'
+  - 'Fasteners: Nylon Standoff M2.5 x 5 mm x4'
+  - 'Fasteners: Self-lock Nut M2.5 x4'
+  fastenerMetadata:
+    instanceId: 
+    familyId: 
+    sourceId: 
+    sceneObjectName: 
+    hierarchyPath: 
+    parentCanonicalPartId: 
+    blenderName: 
+    sceneTypeKey: 
+    subtype: 
+    metric: 
+    nominalDiameterMm: 0
+    lengthMm: 0
+    headProfile: 
+    driveType: 
+    threadPitchMm: 0
+    turnCount: 0
+    material: 
+    finish: 
+    quantityExpected: 0
+    isInspectable: 0
+    fallbackReason: 
+    notes: 
+    recipeKey: 
+    builderType: 
+    orientationMode: 
+  category: 2

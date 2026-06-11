@@ -1,0 +1,126 @@
+Shader "Skybox/AnimatedGradientSkybox"
+{
+    Properties
+    {
+        _TopColor ("Center Color", Color) = (0.04, 0.04, 0.06, 1)
+        _BottomColor ("Edge Color", Color) = (0, 0, 0, 1)
+        _Speed ("Pulse Speed", Range(0, 10)) = 0.5
+        _Scale ("Radius", Range(0.1, 3.0)) = 1.2
+        [Toggle] _PulseEnabled ("Enable Pulse", Float) = 1
+        _DitherStrength ("Dither Strength", Range(0, 1)) = 0.1
+
+        [Header(Blueprint Grid)]
+        [Toggle] _GridEnabled ("Enable Grid", Float) = 0
+        _GridScale ("Grid Scale", Range(5, 80)) = 20
+        _GridLineWidth ("Grid Line Width", Range(0.005, 0.05)) = 0.015
+        _GridColor ("Grid Line Color", Color) = (0.4, 0.55, 0.8, 0.15)
+    }
+    SubShader
+    {
+        Tags { "Queue"="Background" "RenderType"="Background" "PreviewType"="Skybox" }
+        Cull Off ZWrite Off
+
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "UnityCG.cginc"
+
+            struct appdata_t
+            {
+                float4 vertex : POSITION;
+            };
+
+            struct v2f
+            {
+                float4 vertex : SV_POSITION;
+                float4 screenPos : TEXCOORD0;
+            };
+
+            fixed4 _TopColor;
+            fixed4 _BottomColor;
+            half _Speed;
+            half _Scale;
+            half _PulseEnabled;
+            half _DitherStrength;
+
+            half _GridEnabled;
+            half _GridScale;
+            half _GridLineWidth;
+            fixed4 _GridColor;
+
+            v2f vert (appdata_t v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.screenPos = ComputeScreenPos(o.vertex);
+                return o;
+            }
+
+            fixed4 frag (v2f i) : SV_Target
+            {
+                float2 uv = i.screenPos.xy / i.screenPos.w;
+                float aspect = _ScreenParams.x / _ScreenParams.y;
+                float2 centeredUV = uv - 0.5;
+                centeredUV.x *= aspect;
+                
+                float dist = length(centeredUV);
+                
+                // Max distance from center to screen corner (aspect-corrected)
+                float maxDist = length(float2(0.5 * aspect, 0.5));
+                
+                // Breathing pulse (toggleable)
+                float pulse = _PulseEnabled > 0.5
+                    ? sin(_Time.y * _Speed) * 0.04
+                    : 0.0;
+                
+                // Normalize to [0,1] where 1 = screen corners.
+                // _Scale controls how far center color extends:
+                // >1 spreads center beyond corners, <1 compresses.
+                float nd = saturate(dist / (maxDist * (_Scale + pulse)));
+                
+                // Soft gradient: smoothstep for zero-derivative boundaries,
+                // then sqrt to stretch the mid-tones wider (opposite of squaring).
+                // This makes the transition ultra-gradual — no visible edge anywhere.
+                float t = smoothstep(0.0, 1.0, nd);
+                t = sqrt(t);
+                
+                fixed4 col = lerp(_TopColor, _BottomColor, t);
+                
+                // Dithering: triangular noise scaled by _DitherStrength to eliminate color banding
+                float2 seed = uv * _ScreenParams.xy;
+                float n1 = frac(sin(dot(seed, float2(12.9898, 78.233))) * 43758.5453);
+                float n2 = frac(sin(dot(seed, float2(39.346, 11.135))) * 23421.6312);
+                float dither = (n1 + n2 - 1.0) / 255.0 * _DitherStrength * 6.0;
+                col.rgb += dither;
+                
+                // Blueprint grid overlay (screen-space)
+                if (_GridEnabled > 0.5)
+                {
+                    float gridAspect = _ScreenParams.x / _ScreenParams.y;
+                    float2 gridBase = float2(uv.x * gridAspect, uv.y) * _GridScale;
+                    
+                    // Distance to nearest grid line center (continuous, no wrap discontinuity)
+                    float2 fw = fwidth(gridBase);
+                    float2 d = abs(frac(gridBase - 0.5) - 0.5);
+                    float2 aa = smoothstep(fw * 1.5, fw * 0.5, d);
+                    float gLine = max(aa.x, aa.y);
+                    
+                    // Sub-grid (5x finer)
+                    float2 gridBase2 = gridBase * 5.0;
+                    float2 fw2 = fwidth(gridBase2);
+                    float2 d2 = abs(frac(gridBase2 - 0.5) - 0.5);
+                    float2 aa2 = smoothstep(fw2 * 1.5, fw2 * 0.5, d2);
+                    float gLine2 = max(aa2.x, aa2.y) * 0.3;
+                    
+                    float gAlpha = saturate(gLine + gLine2) * _GridColor.a;
+                    col.rgb = lerp(col.rgb, _GridColor.rgb, gAlpha);
+                }
+                
+                return col;
+            }
+            ENDCG
+        }
+    }
+}

@@ -1,0 +1,270 @@
+\newpage
+\section*{Apéndices}
+\addcontentsline{toc}{section}{Apéndices}
+
+Este capítulo lista los artefactos anexos activos que respaldan el informe, la app publicada, la validación técnica y la evaluación con usuarios.
+
+\subsection*{Apéndice A: Repositorio de código fuente}
+\addcontentsline{toc}{subsection}{Apéndice A: Repositorio de código fuente}
+
+Repositorio principal del proyecto:
+\begin{center}
+\url{https://github.com/delarge95/WebGL-Thesis-Proposal}
+\end{center}
+
+\noindent Este repositorio, junto con el \textit{snapshot} local del proyecto y los anexos versionados, funciona como referencia técnica principal para escena, scripts, herramientas de editor y documentación de desarrollo. El cierre final documentado en este informe se asocia al commit \texttt{4bdc153}. El commit \texttt{5eebc81} se conserva como referencia intermedia de vinculación documental, pero no sustituye el identificador último de la entrega.
+
+\noindent Si el repositorio público no expone todos los artefactos internos por razones de limpieza, peso o información sensible, la evaluación académica debe apoyarse en la URL de demo publicada, los anexos activos del informe, la documentación técnica interna versionada y el \textit{snapshot} local disponible para revisión.
+
+\subsection*{Apéndice B: Manual de usuario}
+\addcontentsline{toc}{subsection}{Apéndice B: Manual de usuario}
+
+Ruta del manual activo:
+\begin{center}
+\texttt{Informe\_final/Manual\_de\_usuario/manual\_usuario.tex}
+\end{center}
+
+\subsection*{Apéndice C: Manual técnico}
+\addcontentsline{toc}{subsection}{Apéndice C: Manual técnico}
+
+Ruta del manual activo:
+\begin{center}
+\texttt{Informe\_final/Manual\_tecnico/manual\_tecnico.tex}
+\end{center}
+
+\subsection*{Apéndice D: Documentación técnica activa}
+\addcontentsline{toc}{subsection}{Apéndice D: Documentación técnica activa}
+
+Documentos activos:
+\begin{itemize}
+    \item \path{Informe_final/Desarrollo_App/Documentacion_Tecnica/01_Arquitectura_del_Sistema.md}
+    \item \path{Informe_final/Desarrollo_App/Documentacion_Tecnica/02_Referencia_Tecnica_Modulos.md}
+    \item \path{Informe_final/Desarrollo_App/Documentacion_Tecnica/03_Pipeline_Renderizado_Shaders.md}
+    \item \path{Informe_final/Desarrollo_App/Documentacion_Tecnica/04_Guia_Despliegue.md}
+    \item \path{Informe_final/Desarrollo_App/Documentacion_Tecnica/05_Configuracion_WebGL.md}
+    \item \path{Informe_final/Desarrollo_App/Documentacion_Tecnica/08_Sistema_Termico_Hibrido.md}
+\end{itemize}
+
+\noindent La versión publicada para consulta desde la landing se conserva en \path{docs/manuals/}. Esta copia se sincroniza con los documentos internos cuando se actualiza el cierre técnico.
+
+\subsection*{Apéndice E: Matriz de desconexiones}
+\addcontentsline{toc}{subsection}{Apéndice E: Matriz de desconexiones}
+
+La matriz maestra de desconexiones entre app y documentación se encuentra en:
+\begin{center}
+\small\path{Informe_final/Desarrollo_App/MATRIZ_DESCONEXIONES_APP_DOCUMENTACION.md}
+\end{center}
+
+\subsection*{Apéndice F: Catálogo canónico del Holybro X500 V2}
+\addcontentsline{toc}{subsection}{Apéndice F: Catálogo canónico del Holybro X500 V2}
+
+La taxonomía semántica del proyecto se fija a partir de:
+\begin{center}
+\texttt{desarrollo/docs/investigacion/Holybro/x500v2\_parts\_data.json}
+\end{center}
+
+\noindent Esta fuente define 28 piezas canónicas. La escena final opera adicionalmente con 30 \textit{anchors} y 257 \textit{renderers}/\textit{colliders} auditados.
+
+\subsection*{Apéndice G: Validación funcional de la escena final}
+\addcontentsline{toc}{subsection}{Apéndice G: Validación funcional de la escena final}
+
+El documento de referencia para la build funcional es:
+\begin{center}
+\small\path{Informe_final/Desarrollo_App/VALIDACION_FUNCIONAL_FINA_2026-04-09.md}
+\end{center}
+
+\subsection*{Apéndice H: Instrumentos y registros de evaluación}
+\addcontentsline{toc}{subsection}{Apéndice H: Instrumentos y registros de evaluación}
+
+Los instrumentos metodológicos activos del cierre son:
+\begin{itemize}
+    \item cuestionario SUS;
+    \item NASA-TLX Raw;
+    \item protocolo \textit{Think-Aloud};
+    \item guía de mediciones técnicas WebGL;
+    \item guía de tareas comparativas 3D vs.\ 2D;
+    \item tablas de KPIs técnicos asociadas a sesiones fechadas del profiler interno.
+\end{itemize}
+
+\noindent Las tareas de prueba se alinean con cuatro acciones equivalentes: ubicar un componente, interpretar su función, explicar una relación espacial y resolver una acción de análisis visual guiado. En la condición 3D estas tareas se apoyan en navegación, selección, \textit{bottom sheet}, \textit{Explode}, \texttt{Cut} y modos visuales; en la condición 2D se resuelven mediante el paquete documental estático de referencia.
+
+\noindent Para mantener coherencia con la metodología vigente, SUS se reporta como lectura global del prototipo 3D y NASA-TLX Raw se reporta como comparación de carga de trabajo percibida entre la condición 3D y el soporte 2D de referencia.
+
+\begin{table}[H]
+    \caption{Matriz de equivalencia informativa entre visor 3D y soporte 2D}
+    \label{tab:equivalencia_soporte_2d_visor_3d}
+    \centering
+    \scriptsize\singlespacing
+    \begin{tabular}{p{3.4cm}p{4.7cm}p{4.7cm}}
+        \hline
+        \textbf{Tarea} & \textbf{Condición 3D} & \textbf{Condición 2D} \\ \hline
+        Ubicación de componente & Navegación orbit/pan/zoom, selección directa y foco sobre pieza. & Vista general, lámina de rotulado o página del soporte con el mismo componente. \\
+        Interpretación funcional & Ficha inferior de pieza, categoría y lectura contextual del ensamblaje. & Ficha textual o fragmento documental equivalente del paquete 2D. \\
+        Relación espacial & Inspección 3D, aislamiento, vista explosionada o corte cuando aplica. & Despiece, vista del frame o diagrama estático con relación entre piezas. \\
+        Análisis visual guiado & Uso de \texttt{Explode}, \texttt{Cut}, \textit{X-Ray}, \textit{Thermal} o presets de \textit{Studio}. & Interpretación de vista estática equivalente para responder la misma pregunta técnica. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \apanote{La equivalencia es funcional, no formal: el visor 3D ofrece interacción espacial, mientras que el soporte 2D conserva información suficiente para resolver la misma intención de tarea. Elaboración propia.}
+\end{table}
+
+\noindent Las versiones activas y versionadas de instrumentos y registros se conservan en:
+\begin{itemize}
+    \item \path{Informe_final/validacion/CUESTIONARIO_SUS.md}
+    \item \path{Informe_final/validacion/CUESTIONARIO_NASA_TLX.md}
+    \item \path{Informe_final/validacion/GUIA_TAREAS_VALIDACION.md}
+    \item \path{Informe_final/validacion/PROTOCOLO_THINK_ALOUD.md}
+    \item \path{Informe_final/validacion/06_GUIA_MEDICIONES_TECNICAS_WEBGL.md}
+    \item \path{Informe_final/validacion/07_TABLAS_RENDIMIENTO_WEBGL_MEDICIONES.tex}
+\end{itemize}
+
+\noindent Los registros completos por participante se conservan como evidencia interna de evaluación y no forman parte de la superficie pública del repositorio. En el capítulo 5 se reportan únicamente datos agregados y participantes anonimizados; si un jurado o asesor requiere auditar los registros individuales, estos deben entregarse por un canal académico controlado y no mediante publicación pública.
+
+\noindent Como respaldo visual del proceso de medición técnica, la Figura \ref{fig:evidencia_capturas_profiler_interno} muestra una captura puntual del profiler interno conservada junto con las capturas de cierre de la aplicación.
+
+\begin{figure}[H]
+    \caption{Muestra de una captura del profiler interno.}
+    \label{fig:evidencia_capturas_profiler_interno}
+    \centering
+    \includegraphics[width=0.92\textwidth,height=0.58\textheight,keepaspectratio]{figures/screenshots_contextual/fig_profiler_internal_evidence.png}
+    \par\vspace{0.5\baselineskip}
+    \apanote{La figura documenta una captura puntual del profiler interno conservada en \path{desarrollo/Screenshots/profiler.png}. Su función es respaldar visualmente el proceso de recolección técnica; los valores oficiales de FPS, memoria, renderers, mallas y triángulos reportados en las tablas técnicas provienen de las exportaciones JSON/CSV del profiler interno, no de lectura manual de esta imagen. Elaboración propia.}
+\end{figure}
+
+\subsection*{Apéndice I: Estado del pipeline de activos}
+\addcontentsline{toc}{subsection}{Apéndice I: Estado del pipeline de activos}
+
+Para efectos de cierre documental:
+\begin{itemize}
+    \item Blender y Unity conforman la ruta defendible de la versión final activa;
+    \item el FBX runtime final se documenta como unión de masters e instancias; su trazabilidad exige reporte de importación Unity, revisión de grupos, fasteners, hotspots, filtros y hélices;
+    \item cualquier ruta nativa de LOD se documenta como decisión evaluada; si existen herramientas o scripts posteriores de LOD, no se presentan como mejora validada del estudio mientras no exista profiling y QA comparativo sobre la build publicada;
+    \item Houdini se mantiene como herramienta evaluada o experimental, no como pipeline oficial de la build cerrada, salvo evidencia nueva derivada del reimport final;
+    \item las texturas/materiales no publicados deben mantenerse como mejora futura o documentarse expresamente si se integran a una build posterior.
+\end{itemize}
+
+El estado actual del pipeline puede verse consolidado en la Tabla \ref{tab:pipeline_3d_cierre}.
+
+\begin{table}[H]
+    \caption{Estado del pipeline 3D al cierre documental}
+    \label{tab:pipeline_3d_cierre}
+    \centering
+    \scriptsize\singlespacing
+    \begin{tabular}{p{3.1cm}p{3.1cm}p{2.8cm}p{4.6cm}}
+        \hline
+        \textbf{Etapa} & \textbf{Herramienta principal} & \textbf{Estado} & \textbf{Lectura editorial} \\ \hline
+        Preparación y limpieza de activos & Blender & Activa & Ruta defendible del cierre para ajuste de malla, organización y exportación. \\
+        Conversión CAD con control de teselación & Blender directo para inspección / STEPper / MoI3D & Activa / evaluada & El pipeline combinó rutas de apertura rápida y rutas con mayor control de teselación según la complejidad geométrica de cada pieza. \\
+        Texturizado y materiales & Unity URP / materiales del proyecto & Activa & El informe final documenta el flujo material realmente visible en la build y sus restricciones web. \\
+        Integración en motor & Unity & Activa & Núcleo del producto final y punto de verdad para escena, UI y \textit{runtime binding}. \\
+        Auditoría de cobertura y \textit{runtime repair} & Tooling de editor + binder de runtime importado & Activa & Parte esencial del cierre técnico y de la coherencia entre escena y documentación. \\
+        Ruta nativa de LOD & Investigación técnica del proyecto & Evaluada / no validada comparativamente & Debe explicarse como evolución de planeación técnica; si existen scripts posteriores, no deben presentarse como mejora medida de la build sin profiling y QA comparativo. \\
+        Houdini & Evaluación experimental & No canónico & Puede citarse como exploración o trabajo futuro, pero no como pipeline oficial de la versión final. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \apanote{Esta tabla evita presentar como pipeline oficial herramientas que no quedaron integradas de forma cerrada en la build final. Elaboración propia.}
+\end{table}
+
+\subsection*{Apéndice J: Demo público}
+\addcontentsline{toc}{subsection}{Apéndice J: Demo público}
+
+La URL pública del demo publicado para la entrega es:
+\begin{center}
+\url{https://delarge95.github.io/WebGL-Thesis-Proposal/}
+\end{center}
+
+\noindent Esta URL corresponde al punto de acceso a la build WebGL publicada. Las métricas del capítulo 5 registran la fecha y el contexto de medición utilizado para evitar inconsistencias entre documento y producto.
+
+\subsection*{Apéndice K: Audio y alcance no integrado}
+\addcontentsline{toc}{subsection}{Apéndice K: Audio y alcance no integrado}
+
+Al momento de este cierre documental:
+\begin{itemize}
+    \item no existen clips de audio integrados en \texttt{Assets};
+    \item por defecto, el audio se clasifica como trabajo futuro si no entra en la build publicada;
+    \item el capítulo 5 reporta la evaluación técnica y de usuarios con los datos disponibles para esta versión del informe.
+\end{itemize}
+
+\subsection*{Apéndice L: Auditoría matemática y trazabilidad con Wolfram}
+\addcontentsline{toc}{subsection}{Apéndice L: Auditoría matemática y trazabilidad con Wolfram}
+
+La auditoría activa de coherencia entre fórmulas documentadas, lógica de código y arquitectura real se consolida en:
+\begin{center}
+\small\path{Informe_final/Desarrollo_App/AUDITORIA_MATEMATICA_Y_ARQUITECTURA_2026-04-12.md}
+\end{center}
+
+\noindent Como soporte técnico adicional, el registro histórico de verificaciones del subsistema térmico mediante el \textit{workflow} local basado en WolframAlpha se conserva en:
+\begin{center}
+\texttt{desarrollo/docs/sistema\_termico/wolfram\_verificaciones.md}
+\end{center}
+
+\noindent Ambos documentos respaldan la interpretación correcta del modo \textit{Thermal} como simulación híbrida heurística y no como FEA en tiempo real.
+
+\subsection*{Apéndice M: Correlación entre la propuesta y el informe final}
+\addcontentsline{toc}{subsection}{Apéndice M: Correlación entre la propuesta y el informe final}
+
+La siguiente tabla resume la correlación de las tablas presentadas en la propuesta (véase la Tabla \ref{tab:correlacion_tablas_propuesta_informe}).
+
+\begin{table}[H]
+    \caption{Correlación entre tablas de la propuesta y el informe final}
+    \label{tab:correlacion_tablas_propuesta_informe}
+    \centering
+    \scriptsize\singlespacing
+    \begin{tabular}{p{4.1cm}p{3.6cm}p{4.8cm}}
+        \hline
+        \textbf{Tabla en la propuesta} & \textbf{Estado en el informe final} & \textbf{Justificación} \\ \hline
+        Comparativa de soluciones Web 3D & Conservada en el Capítulo 2 & Sigue siendo pertinente como sustento del estado del arte y de la selección de Unity Web. \\
+        Cronograma general del proyecto & Se conserva solo en la propuesta & Es un artefacto de planeación; en el informe final pierde valor analítico y se sustituye por narrativa de ejecución y cierre. \\
+        Presupuesto estimado de recursos & Se conserva solo en la propuesta & Corresponde a la viabilidad ex ante del proyecto; no es un resultado ni un artefacto técnico del cierre. \\
+        Resultados o productos esperados & Transformada en tabla de productos entregados vs.\ esperados & En el informe final se requiere contrastar expectativa inicial con estado real de entrega y frentes de medición. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \apanote{La ausencia de una tabla del documento final no implica incoherencia si su función era exclusivamente prospectiva en la propuesta. Elaboración propia.}
+\end{table}
+
+Asimismo, la Tabla \ref{tab:productos_entregados_esperados} presenta un contraste entre los productos entregados y los originalmente esperados.
+
+\begin{table}[H]
+    \caption{Productos entregados vs.\ esperados al cierre documental}
+    \label{tab:productos_entregados_esperados}
+    \centering
+    \scriptsize\singlespacing
+    \begin{tabular}{p{4.3cm}p{2.5cm}p{5.5cm}}
+        \hline
+        \textbf{Producto esperado en la propuesta} & \textbf{Estado} & \textbf{Observación de cierre} \\ \hline
+        Prototipo de software web funcional & Cerrado funcionalmente & El flujo principal es funcional, publicado y documentable; las métricas cuantitativas se consolidan por escenario y dispositivo. \\
+        Sistema de shaders URP optimizados & Entregado & La arquitectura y los modos visibles/ocultos quedaron documentados; la versión final debe seguir diferenciando lo publicado de lo oculto. \\
+        Conjunto de modelos 3D optimizados & Entregado para el alcance actual & Existe pipeline defendible y escena funcional; mejoras de reimport, texturas o fasteners Blender quedan como trabajo futuro si no forman parte de la build publicada. \\
+        Documento de trabajo de grado & En cierre final & Propuesta e informe final quedaron saneados; el capítulo 5 organiza datos reales de rendimiento y usuarios. \\
+        Informe de usabilidad y carga de trabajo percibida & Entregado con datos de validación & El capítulo 5 consolida SUS, NASA-TLX Raw, tareas completadas, observación \textit{Think-Aloud} y lectura cualitativa por categorías. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \apanote{Esta tabla actualiza el horizonte de productos de la propuesta sin borrar la diferencia entre expectativa inicial y estado real de cierre. Elaboración propia.}
+\end{table}
+
+\subsection*{Apéndice N: Resumen de artefactos activos del cierre}
+\addcontentsline{toc}{subsection}{Apéndice N: Resumen de artefactos activos del cierre}
+
+A continuación se presentan los artefactos activos resultantes del cierre (véase la Tabla \ref{tab:resumen_artefactos_cierre}).
+
+\begin{table}[H]
+    \caption{Resumen de artefactos activos del cierre documental}
+    \label{tab:resumen_artefactos_cierre}
+    \centering
+    \scriptsize\singlespacing
+    \begin{tabular}{p{4.0cm}p{3.8cm}p{2.2cm}p{4.0cm}}
+        \hline
+        \textbf{Artefacto} & \textbf{Ubicación principal} & \textbf{Estado} & \textbf{Uso en defensa o cierre} \\ \hline
+        Informe final actual & \path{Informe_final/informe_final.pdf} & Activo & Documento principal para evaluación académica. \\
+        Manual de usuario & \path{Informe_final/Manual_de_usuario/manual_usuario.pdf} & Activo & Soporte al flujo visible y a la experiencia de uso final. \\
+        Manual técnico & \path{Informe_final/Manual_tecnico/manual_tecnico.pdf} & Activo & Soporte de arquitectura, módulos y tooling. \\
+        Landing y documentación pública & \path{docs/index.html}, \path{docs/manuals/} & Activo & Punto de acceso a la build, manuales, guías técnicas e instrumentos de evaluación. \\
+        Validación agregada e instrumentos & \path{Informe_final/validacion/}, \path{docs/manuals/} & Activo & Evidencia pública anonimizada y protocolos de evaluación; los registros individuales se conservan por canal académico controlado. \\
+        Telemetría técnica agregada & \path{Telemetria/Mediciones_WebGL/} & Activo & Exportaciones de profiler y mediciones WebGL usadas para las tablas de rendimiento. \\
+        Diagramas Mermaid exportados & \path{Informe_final/figures/chapter4/} & Activo & Explican arquitectura, flujo, restricciones y despliegue. \\
+        Anexos técnicos seleccionados & \path{Informe_final/Desarrollo_App/Documentacion_Tecnica/} & Activo & Documentan arquitectura, despliegue, WebGL y sistema térmico en la forma citada por este informe. \\ \hline
+    \end{tabular}
+    \par\vspace{0.5\baselineskip}
+    \apanote{Esta tabla resume únicamente artefactos activos para consulta pública del cierre; auditorías históricas, bitácoras de trabajo, borradores y registros individuales se conservan como evidencia interna o por canal académico controlado, pero no como fuente primaria pública. Elaboración propia.}
+\end{table}
+
+\newpage

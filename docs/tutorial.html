@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Guía interactiva de Onboarding y herramientas de análisis del TwinSight X500" />
+    <title>Tutorial de Onboarding | TwinSight X500</title>
+    
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    
+    <!-- CDNs for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Shared Stylesheet -->
+    <link rel="stylesheet" href="style_scrollytelling.css" />
+    
+    <style>
+      /* Page-specific overrides or interactive elements positioning */
+      .stage-viewport svg {
+        width: 100%;
+        height: 100%;
+        max-width: 320px;
+        max-height: 220px;
+      }
+      
+      /* Props rotation velocity for Step 07 */
+      .rotor-spin {
+        transform-origin: center;
+        animation: spin-prop 0.2s linear infinite;
+      }
+      @keyframes spin-prop {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      
+      /* Pulses for step 05 pins */
+      .hotspot-pulse {
+        animation: pulse-ring 1.8s infinite ease-out;
+        transform-origin: center;
+      }
+      @keyframes pulse-ring {
+        0% { transform: scale(0.6); opacity: 1; }
+        100% { transform: scale(2.2); opacity: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- FLOATING HEADER CONTROLS -->
+    <div class="floating-header">
+      <a href="index.html" class="floating-back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Volver a la Landing
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+        <svg class="theme-icon icon-moon" viewBox="0 0 24 24">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+        <svg class="theme-icon icon-sun" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- SCROLLYTELLING CONTAINER -->
+    <div class="scrolly-container">
+      
+      <!-- SCROLL COLUMN (LEFT) -->
+      <div class="scrolly-scroll-col">
+        <!-- Step 1 -->
+        <div class="scrolly-step active" data-step="0">
+          <span class="scrolly-step-tag">Navegación e Info // Step 01</span>
+          <h2>01. Navegación 3D</h2>
+          <p>La base de la interacción espacial. Puedes orbitar libremente, acercar o alejar el punto de mira, y desplazar lateralmente la vista.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">PC: Clic Derecho / Rueda</span>
+            <span class="scrolly-meta-tag">MÓVIL: Un Dedo / Pellizco</span>
+          </div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="scrolly-step" data-step="1">
+          <span class="scrolly-step-tag">Navegación e Info // Step 02</span>
+          <h2>02. Selección Jerárquica</h2>
+          <p>Los componentes del Holybro X500 V2 están organizados de forma jerárquica. El primer clic selecciona el módulo general; el segundo entra a nivel subpieza.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">PC: Clic Izquierdo</span>
+            <span class="scrolly-meta-tag">MÓVIL: Un Tap / Doble Tap</span>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="scrolly-step" data-step="2">
+          <span class="scrolly-step-tag">Navegación e Info // Step 03</span>
+          <h2>03. Ficha Técnica</h2>
+          <p>Al seleccionar una pieza, la app revela su información técnica en un panel inferior tipo tarjeta. Puedes deslizarla hacia arriba para ver especificaciones de armado.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Acción: Deslizar Panel</span>
+            <span class="scrolly-meta-tag">Specs: Material, ID, Función</span>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="scrolly-step" data-step="3">
+          <span class="scrolly-step-tag">Módulos de Inspección // Step 04</span>
+          <h2>04. Menú Inspeccionar</h2>
+          <p>Despliega un abanico radial de herramientas destinadas al escaneo de hardware y control de potencia del drone.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Acción: Menú Radial</span>
+            <span class="scrolly-meta-tag">Contenido: Pins, Aislar, Power</span>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="scrolly-step" data-step="4">
+          <span class="scrolly-step-tag">Módulos de Inspección // Step 05</span>
+          <h2>05. Puntos de Interés (Pins)</h2>
+          <p>Proyecta marcadores tridimensionales sobre elementos críticos (Batería, ESC, GPS). Al tocarlos, abren globos de diagnóstico.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Acción: Toggle Pins</span>
+            <span class="scrolly-meta-tag">Glow: Hotspots Interactivos</span>
+          </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="scrolly-step" data-step="5">
+          <span class="scrolly-step-tag">Módulos de Inspección // Step 06</span>
+          <h2>06. Aislamiento Visual</h2>
+          <p>Oculta de forma temporal todo el ensamblaje excepto el componente seleccionado, permitiendo estudiar su estructura libre de obstrucciones.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Acción: Isolate Toggle</span>
+            <span class="scrolly-meta-tag">Efecto: Ghosting Estructural</span>
+          </div>
+        </div>
+
+        <!-- Step 7 -->
+        <div class="scrolly-step" data-step="6">
+          <span class="scrolly-step-tag">Módulos de Inspección // Step 07</span>
+          <h2>07. Encendido del Drone (Power)</h2>
+          <p>Activa el flujo eléctrico. Los rotores comienzan a girar, la telemetría se inicializa y el drone pasa a estado activo de operación.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Acción: Power ON/OFF</span>
+            <span class="scrolly-meta-tag">Visual: Rotación Propelas + Telemetría</span>
+          </div>
+        </div>
+
+        <!-- Step 8 -->
+        <div class="scrolly-step" data-step="7">
+          <span class="scrolly-step-tag">Módulos de Análisis // Step 08</span>
+          <h2>08. Menú Analizar</h2>
+          <p>Accede a herramientas avanzadas de ingeniería para desarmar, rebanar y filtrar componentes del sistema.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Acción: Desplegar Menú</span>
+            <span class="scrolly-meta-tag">Contenido: Corte, Explode, Filtro</span>
+          </div>
+        </div>
+
+        <!-- Step 9 -->
+        <div class="scrolly-step" data-step="8">
+          <span class="scrolly-step-tag">Módulos de Análisis // Step 09</span>
+          <h2>09. Plano de Corte</h2>
+          <p>Rebana el dron usando un plano dinámico. Revela un corte transversal técnico mostrando la distribución física del motor y el chasis interno.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Ejes: X, Y, Z</span>
+            <span class="scrolly-meta-tag">Visual: Relleno de Sección</span>
+          </div>
+        </div>
+
+        <!-- Step 10 -->
+        <div class="scrolly-step" data-step="9">
+          <span class="scrolly-step-tag">Módulos de Análisis // Step 10</span>
+          <h2>10. Vista Explosiva</h2>
+          <p>Desarma el drone separando sus componentes en sus ejes locales de alineación. Ideal para comprender la secuencia y encaje de fasteners.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Acción: Control Deslizante</span>
+            <span class="scrolly-meta-tag">Métrica: Separación en mm</span>
+          </div>
+        </div>
+
+        <!-- Step 11 -->
+        <div class="scrolly-step" data-step="10">
+          <span class="scrolly-step-tag">Módulos de Análisis // Step 11</span>
+          <h2>11. Filtro de Categoría</h2>
+          <p>Aísla bloques funcionales mediante chips selectores. Elige mostrar únicamente propulsión, electrónica de control, o elementos estructurales.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Categorías: Estructura, Control, Motores</span>
+            <span class="scrolly-meta-tag">Specs: Reconciliación total</span>
+          </div>
+        </div>
+
+        <!-- Step 12 -->
+        <div class="scrolly-step" data-step="11">
+          <span class="scrolly-step-tag">Estudio Fotográfico // Step 12</span>
+          <h2>12. Menú Estudio</h2>
+          <p>Herramientas destinadas a modificar la representación gráfica, el cielo de fondo y la orientación de la iluminación direccional.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Acción: Menú Estudio</span>
+            <span class="scrolly-meta-tag">Contenido: Render, Cielo, Iluminación</span>
+          </div>
+        </div>
+
+        <!-- Step 13 -->
+        <div class="scrolly-step" data-step="12">
+          <span class="scrolly-step-tag">Estudio Fotográfico // Step 13</span>
+          <h2>13. Modos de Renderizado</h2>
+          <p>Alterna la forma en que la GPU dibuja el modelo: realista sombreado, rayos x poligonal, o un gradiente térmico de diagnóstico físico.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Estilos: Solid, Wireframe, Heatmap</span>
+            <span class="scrolly-meta-tag">Aceleración: GPU directa</span>
+          </div>
+        </div>
+
+        <!-- Step 14 -->
+        <div class="scrolly-step" data-step="13">
+          <span class="scrolly-step-tag">Estudio Fotográfico // Step 14</span>
+          <h2>14. Entorno y Cielo</h2>
+          <p>Cambia las texturas del cielo (Daylight, Sunset, Night). El chasis del dron absorberá y reflejará los nuevos colores del ambiente en tiempo real.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Presets: Estudio, Atardecer, Noche</span>
+            <span class="scrolly-meta-tag">Cálculo: Skybox reflections</span>
+          </div>
+        </div>
+
+        <!-- Step 15 -->
+        <div class="scrolly-step" data-step="14">
+          <span class="scrolly-step-tag">Estudio Fotográfico // Step 15</span>
+          <h2>15. Iluminación Direccional</h2>
+          <p>Gira la fuente de luz principal. Observa cómo las sombras físicas proyectadas por los brazos y rotores cambian según el vector de incidencia.</p>
+          <div class="scrolly-step-meta">
+            <span class="scrolly-meta-tag">Acción: Rotación Lumínica</span>
+            <span class="scrolly-meta-tag">Cálculo: Shadow maps</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- PINNED VISUAL COLUMN (RIGHT) -->
+      <div class="scrolly-pinned-col">
+        <div class="scrolly-stage">
+          <div class="stage-header">
+            <h3 id="stageTitle">Navegación 3D</h3>
+            <span id="stageStatus">CAMERA_ACTIVE</span>
+          </div>
+          
+          <div class="stage-viewport" id="stageViewport">
+            <!-- Animations are injected here dynamically via JS -->
+          </div>
+          
+          <div class="stage-controls" id="stageControls">
+            <!-- Custom interactive widget widgets are injected here -->
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Reusable Javascript effects and GSAP binder -->
+    <script src="shared_effects.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- 1. SET UP SCROLLTRIGGER FOR STEPS ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        const steps = gsap.utils.toArray(".scrolly-step");
+        
+        steps.forEach((step, i) => {
+          ScrollTrigger.create({
+            trigger: step,
+            start: "top 55%",
+            end: "bottom 45%",
+            onEnter: () => activateStep(i),
+            onEnterBack: () => activateStep(i)
+          });
+        });
+
+        let activeIndex = -1;
+
+        // --- 2. DEFINE THE 15 STEP VIEWPORT CONFIGURATIONS ---
+        const tutorialSteps = [
+          // 01. Navegación
+          {
+            title: "Navegación 3D",
+            status: "ORBIT_ZOOM_PAN",
+            html: `
+              <svg viewBox="0 0 100 60" id="tutSvg">
+                <grid stroke="var(--border-primary)" stroke-width="0.5" />
+                <path d="M10,50 L90,50 M50,10 L50,50" stroke="var(--border-primary)" stroke-width="0.5" />
+                <g id="tutCube" transform="translate(50, 30)">
+                  <polygon points="-12,-12 12,-12 12,12 -12,12" fill="none" stroke="var(--text-muted)" stroke-width="1" />
+                  <polygon points="-6,-6 18,-6 18,18 -6,18" fill="none" stroke="var(--text-muted)" stroke-width="1" />
+                  <line x1="-12" y1="-12" x2="-6" y2="-6" stroke="var(--text-muted)" stroke-width="1" />
+                  <line x1="12" y1="-12" x2="18" y2="-6" stroke="var(--text-muted)" stroke-width="1" />
+                  <line x1="12" y1="12" x2="18" y2="18" stroke="var(--text-muted)" stroke-width="1" />
+                  <line x1="-12" y1="12" x2="-6" y2="18" stroke="var(--text-muted)" stroke-width="1" />
+                </g>
+                <circle id="tutCursor" cx="20" cy="45" r="3" fill="var(--accent-color)" />
+                <circle id="tutRing" cx="20" cy="45" r="1" fill="none" stroke="var(--accent-color)" opacity="0" />
+              </svg>
+            `,
+            setup: (container) => {
+              const cursor = container.querySelector("#tutCursor");
+              const ring = container.querySelector("#tutRing");
+              const cube = container.querySelector("#tutCube");
+
+              gsap.timeline({ repeat: -1 })
+                .set([cursor, ring], { opacity: 0 })
+                .set(cursor, { cx: 20, cy: 45 })
+                .to(cursor, { opacity: 0.8, duration: 0.3 })
+                .to(ring, { opacity: 1, r: 10, duration: 0.3 })
+                .to(ring, { opacity: 0, r: 18, duration: 0.2 }, "-=0.1")
+                .to(cursor, { cx: 80, cy: 15, duration: 1.5, ease: "power2.inOut" })
+                .to(cube, { rotation: 180, scale: 1.2, duration: 1.5, ease: "power2.inOut" }, "<")
+                .to(cursor, { opacity: 0, duration: 0.3 })
+                .to(cube, { rotation: 0, scale: 1, duration: 0.6, delay: 0.5 });
+            }
+          },
+          // 02. Selección
+          {
+            title: "Selección Jerárquica",
+            status: "OUTLINE_HIERARCHY",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <g transform="translate(20, 30)">
+                  <rect id="n1" x="-10" y="-12" width="20" height="24" rx="4" fill="none" stroke="var(--text-muted)" stroke-width="1.5"/>
+                  <text x="0" y="4" font-size="7" fill="var(--text-muted)" text-anchor="middle" font-family="Space Grotesk">CORP</text>
+                </g>
+                <line x1="30" y1="30" x2="50" y2="30" stroke="var(--border-primary)" stroke-dasharray="2 2" />
+                <g transform="translate(60, 30)">
+                  <rect id="n2" x="-12" y="-12" width="24" height="24" rx="4" fill="none" stroke="var(--text-muted)" stroke-width="1.5"/>
+                  <circle cx="0" cy="0" r="5" fill="none" stroke="var(--text-muted)" stroke-width="1.2" />
+                  <text x="0" y="10" font-size="4" fill="var(--text-muted)" text-anchor="middle" font-family="Space Grotesk">ROTOR</text>
+                </g>
+                <circle id="tutCursor" cx="20" cy="45" r="3" fill="var(--accent-color)" />
+                <circle id="tutRing" cx="20" cy="45" r="1" fill="none" stroke="var(--accent-color)" opacity="0" />
+              </svg>
+            `,
+            setup: (container) => {
+              const cursor = container.querySelector("#tutCursor");
+              const ring = container.querySelector("#tutRing");
+              const n1 = container.querySelector("#n1");
+              const n2 = container.querySelector("#n2");
+
+              gsap.timeline({ repeat: -1 })
+                .set(cursor, { cx: 10, cy: 50, opacity: 0 })
+                .to(cursor, { opacity: 0.8, cx: 20, cy: 30, duration: 0.6 })
+                .to(ring, { cx: 20, cy: 30, opacity: 1, r: 8, duration: 0.2 })
+                .to(ring, { opacity: 0, r: 14, duration: 0.2 }, "-=0.1")
+                .to(n1, { stroke: "var(--accent-color)", fill: "var(--accent-glow)", duration: 0.2 })
+                .to(cursor, { cx: 60, cy: 30, duration: 0.8, delay: 0.4 })
+                .to(ring, { cx: 60, cy: 30, opacity: 1, r: 8, duration: 0.2 })
+                .to(ring, { opacity: 0, r: 14, duration: 0.2 }, "-=0.1")
+                .to(n1, { stroke: "var(--text-muted)", fill: "none", duration: 0.2 })
+                .to(n2, { stroke: "var(--accent-color)", fill: "var(--accent-glow)", duration: 0.2 })
+                .to(cursor, { opacity: 0, duration: 0.3, delay: 0.8 })
+                .to(n2, { stroke: "var(--text-muted)", fill: "none", duration: 0.4 });
+            }
+          },
+          // 03. Ficha Técnica
+          {
+            title: "Ficha Técnica",
+            status: "PANEL_PEEK_METRIC",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <circle cx="50" cy="20" r="10" fill="none" stroke="var(--accent-color)" stroke-width="1.5"/>
+                <g id="tutSheet" transform="translate(10, 60)">
+                  <rect x="0" y="0" width="80" height="30" rx="6" fill="var(--bg-panel-solid)" stroke="var(--border-primary)" stroke-width="1"/>
+                  <line x1="32" y1="4" x2="48" y2="4" stroke="var(--border-hover)" stroke-width="1.5" stroke-linecap="round"/>
+                  <text x="8" y="14" font-size="4.5" fill="var(--text-main)" font-family="Space Grotesk">HOLYBRO_X500_V2</text>
+                  <text x="8" y="22" font-size="3.5" fill="var(--text-muted)" font-family="JetBrains Mono">ID: 0x51A2 // CARBON_FIBER</text>
+                </g>
+                <circle id="tutCursor" cx="50" cy="55" r="3" fill="var(--accent-color)" />
+              </svg>
+            `,
+            setup: (container) => {
+              const cursor = container.querySelector("#tutCursor");
+              const sheet = container.querySelector("#tutSheet");
+
+              gsap.timeline({ repeat: -1 })
+                .set(cursor, { cy: 55, opacity: 0 })
+                .set(sheet, { y: 60 })
+                .to(cursor, { opacity: 0.8, cy: 45, duration: 0.5 })
+                .to(sheet, { y: 26, duration: 0.6, ease: "power3.out" })
+                .to(cursor, { cy: 30, duration: 0.4 })
+                .to(cursor, { opacity: 0, duration: 0.3, delay: 1.2 })
+                .to(sheet, { y: 60, duration: 0.5, ease: "power2.in" });
+            }
+          },
+          // 04. Menú Inspeccionar
+          {
+            title: "Menú Inspeccionar",
+            status: "RADIAL_MENU_OPEN",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <circle id="menuBtn" cx="50" cy="30" r="10" fill="var(--bg-panel-solid)" stroke="var(--border-primary)" stroke-width="1.5" />
+                <text cx="50" cy="30" x="50" y="32.5" font-size="8" fill="var(--text-main)" text-anchor="middle" font-family="Space Grotesk">I</text>
+                
+                <g id="nodeGroup">
+                  <circle cx="25" cy="15" r="6" fill="var(--bg-panel-solid)" stroke="var(--accent-color)" stroke-width="1"/>
+                  <circle cx="50" cy="10" r="6" fill="var(--bg-panel-solid)" stroke="var(--accent-color)" stroke-width="1"/>
+                  <circle cx="75" cy="15" r="6" fill="var(--bg-panel-solid)" stroke="var(--accent-color)" stroke-width="1"/>
+                </g>
+                <circle id="tutCursor" cx="50" cy="50" r="3" fill="var(--accent-color)" />
+              </svg>
+            `,
+            setup: (container) => {
+              const cursor = container.querySelector("#tutCursor");
+              const nodes = container.querySelectorAll("#nodeGroup circle");
+              const menu = container.querySelector("#menuBtn");
+
+              gsap.timeline({ repeat: -1 })
+                .set(cursor, { cx: 50, cy: 50, opacity: 0 })
+                .set(nodes, { scale: 0, transformOrigin: "50% 30%", opacity: 0 })
+                .to(cursor, { opacity: 0.8, cy: 32, duration: 0.5 })
+                .to(menu, { scale: 0.9, duration: 0.1, yoyo: true, repeat: 1 })
+                .to(nodes, { scale: 1, opacity: 1, duration: 0.5, stagger: 0.1, ease: "back.out(1.5)" })
+                .to(cursor, { opacity: 0, duration: 0.3, delay: 1.2 })
+                .to(nodes, { scale: 0, opacity: 0, duration: 0.4 });
+            }
+          },
+          // 05. Pins
+          {
+            title: "Puntos de Interés (Pins)",
+            status: "DIAGNOSTIC_HOTSPOTS",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <path d="M20,40 L50,15 L80,40 Z" fill="none" stroke="var(--border-primary)" stroke-width="1.5"/>
+                <g transform="translate(50, 15)" id="hotspot">
+                  <circle class="hotspot-pulse" cx="0" cy="0" r="6" fill="none" stroke="var(--accent-color)" stroke-width="1.2"/>
+                  <circle cx="0" cy="0" r="3.5" fill="var(--accent-color)" />
+                </g>
+                <!-- Tooltip card -->
+                <g id="tooltip" transform="translate(35, -20)" opacity="0">
+                  <rect x="0" y="0" width="30" height="15" rx="3" fill="var(--bg-panel-solid)" stroke="var(--accent-color)" stroke-width="0.8"/>
+                  <text x="4" y="9" font-size="3" fill="var(--text-main)" font-family="JetBrains Mono">ESC_DRV: 28C</text>
+                </g>
+                <circle id="tutCursor" cx="20" cy="45" r="3" fill="var(--accent-color)" />
+              </svg>
+            `,
+            setup: (container) => {
+              const cursor = container.querySelector("#tutCursor");
+              const tooltip = container.querySelector("#tooltip");
+
+              gsap.timeline({ repeat: -1 })
+                .set(cursor, { cx: 20, cy: 45, opacity: 0 })
+                .set(tooltip, { opacity: 0, y: -20 })
+                .to(cursor, { opacity: 0.8, cx: 50, cy: 15, duration: 0.6 })
+                .to(tooltip, { opacity: 1, y: 22, duration: 0.4, ease: "back.out(1.2)" })
+                .to(cursor, { opacity: 0, duration: 0.3, delay: 1.2 })
+                .to(tooltip, { opacity: 0, y: -20, duration: 0.4 });
+            }
+          },
+          // 06. Aislamiento Visual
+          {
+            title: "Aislamiento Visual",
+            status: "FOCUS_SUBCOMPONENTS",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <!-- 3 components -->
+                <rect id="comp1" x="15" y="20" width="16" height="20" rx="3" fill="none" stroke="var(--text-muted)" stroke-width="1.5"/>
+                <rect id="comp2" x="42" y="20" width="16" height="20" rx="3" fill="none" stroke="var(--text-muted)" stroke-width="1.5"/>
+                <rect id="comp3" x="69" y="20" width="16" height="20" rx="3" fill="none" stroke="var(--text-muted)" stroke-width="1.5"/>
+                <circle id="tutCursor" cx="50" cy="50" r="3" fill="var(--accent-color)" />
+              </svg>
+            `,
+            setup: (container) => {
+              const cursor = container.querySelector("#tutCursor");
+              const c1 = container.querySelector("#comp1");
+              const c2 = container.querySelector("#comp2");
+              const c3 = container.querySelector("#comp3");
+
+              gsap.timeline({ repeat: -1 })
+                .set(cursor, { cx: 10, cy: 50, opacity: 0 })
+                .set([c1, c2, c3], { stroke: "var(--text-muted)", opacity: 1 })
+                .to(cursor, { opacity: 0.8, cx: 50, cy: 30, duration: 0.6 })
+                .to(c2, { stroke: "var(--accent-color)", duration: 0.2 })
+                .to([c1, c3], { opacity: 0.1, duration: 0.4 })
+                .to(c2, { scale: 1.15, transformOrigin: "center", duration: 0.4, ease: "power2.out" })
+                .to(cursor, { opacity: 0, duration: 0.3, delay: 1.2 })
+                .to(c2, { scale: 1, stroke: "var(--text-muted)", duration: 0.3 })
+                .to([c1, c3], { opacity: 1, duration: 0.3 });
+            }
+          },
+          // 07. Encendido del Drone (Power)
+          {
+            title: "Encendido del Drone (Power)",
+            status: "ROTOR_VELOCITY_ON",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <line x1="20" y1="30" x2="80" y2="30" stroke="var(--border-primary)" stroke-width="2" />
+                <!-- Motors with props -->
+                <g id="motor1" transform="translate(30, 30)">
+                  <circle cx="0" cy="0" r="4" fill="var(--text-muted)" />
+                  <ellipse class="propeller" cx="0" cy="0" rx="14" ry="1.5" fill="none" stroke="var(--text-muted)" stroke-width="1.2"/>
+                </g>
+                <g id="motor2" transform="translate(70, 30)">
+                  <circle cx="0" cy="0" r="4" fill="var(--text-muted)" />
+                  <ellipse class="propeller" cx="0" cy="0" rx="14" ry="1.5" fill="none" stroke="var(--text-muted)" stroke-width="1.2"/>
+                </g>
+                <circle id="tutCursor" cx="50" cy="50" r="3" fill="var(--accent-color)" />
+              </svg>
+            `,
+            setup: (container) => {
+              const cursor = container.querySelector("#tutCursor");
+              const props = container.querySelectorAll(".propeller");
+              const motors = container.querySelectorAll("#motor1, #motor2");
+
+              gsap.timeline({ repeat: -1 })
+                .set(cursor, { cx: 50, cy: 50, opacity: 0 })
+                .set(props, { opacity: 0.5, scaleY: 1 })
+                .to(cursor, { opacity: 0.8, cx: 50, cy: 30, duration: 0.6 })
+                .to(props, {
+                  rotation: 360,
+                  transformOrigin: "center",
+                  scaleY: 0.2,
+                  opacity: 1,
+                  duration: 0.2,
+                  repeat: 12,
+                  ease: "none"
+                })
+                .to(motors, { stroke: "var(--accent-color)", fill: "var(--accent-glow)", duration: 0.2 }, "<")
+                .to(cursor, { opacity: 0, duration: 0.3, delay: 0.5 })
+                .to(props, { rotation: 0, scaleY: 1, opacity: 0.5, duration: 0.6 });
+            }
+          },
+          // 08. Menú Analizar
+          {
+            title: "Menú Analizar",
+            status: "ANALYSIS_TOOLS_ACTIVE",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <circle id="analBtn" cx="50" cy="30" r="10" fill="var(--bg-panel-solid)" stroke="var(--border-primary)" stroke-width="1.5" />
+                <text x="50" y="32.5" font-size="8" fill="var(--text-main)" text-anchor="middle" font-family="Space Grotesk">A</text>
+                
+                <g id="toolBar" transform="translate(10, 60)" opacity="0">
+                  <rect x="0" y="0" width="80" height="12" rx="4" fill="var(--bg-panel-solid)" stroke="var(--border-primary)"/>
+                  <text x="15" y="8" font-size="4" fill="var(--text-muted)" font-family="Space Grotesk">CORTE</text>
+                  <text x="40" y="8" font-size="4" fill="var(--text-muted)" font-family="Space Grotesk">DESPIECE</text>
+                  <text x="65" y="8" font-size="4" fill="var(--text-muted)" font-family="Space Grotesk">FILTRO</text>
+                </g>
+                <circle id="tutCursor" cx="50" cy="50" r="3" fill="var(--accent-color)" />
+              </svg>
+            `,
+            setup: (container) => {
+              const cursor = container.querySelector("#tutCursor");
+              const toolBar = container.querySelector("#toolBar");
+              const menu = container.querySelector("#analBtn");
+
+              gsap.timeline({ repeat: -1 })
+                .set(cursor, { cx: 50, cy: 50, opacity: 0 })
+                .set(toolBar, { y: 60, opacity: 0 })
+                .to(cursor, { opacity: 0.8, cy: 32, duration: 0.5 })
+                .to(menu, { scale: 0.9, duration: 0.1, yoyo: true, repeat: 1 })
+                .to(toolBar, { y: 44, opacity: 1, duration: 0.5, ease: "back.out(1.5)" })
+                .to(cursor, { opacity: 0, duration: 0.3, delay: 1.2 })
+                .to(toolBar, { y: 60, opacity: 0, duration: 0.4 });
+            }
+          },
+          // 09. Plano de Corte
+          {
+            title: "Plano de Corte",
+            status: "CROSS_SECTION_MESH",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <rect x="35" y="15" width="30" height="30" fill="none" stroke="var(--text-muted)" stroke-width="1.5"/>
+                <line x1="35" y1="30" x2="65" y2="30" stroke="var(--text-muted)" stroke-width="1.5" />
+                <g id="cutPlane" transform="translate(0, 0)">
+                  <line x1="25" y1="15" x2="75" y2="15" stroke="var(--accent-color)" stroke-width="1.5" />
+                  <rect x="25" y="15" width="50" height="1.5" fill="var(--accent-glow)"/>
+                </g>
+                <rect id="cutFace" x="35" y="15" width="30" height="0" fill="var(--accent-glow)" opacity="0"/>
+              </svg>
+            `,
+            setup: (container) => {
+              const plane = container.querySelector("#cutPlane");
+              const face = container.querySelector("#cutFace");
+
+              gsap.timeline({ repeat: -1 })
+                .set(plane, { y: 0 })
+                .set(face, { height: 0, opacity: 0 })
+                .to(plane, { y: 30, duration: 1.2, ease: "power1.inOut" })
+                .to(face, { height: 30, opacity: 0.8, duration: 1.2, ease: "power1.inOut" }, "<")
+                .to([plane, face], { opacity: 0, duration: 0.3, delay: 0.6 })
+                .set(plane, { y: 0 })
+                .set(face, { height: 0, opacity: 0 })
+                .to([plane, face], { opacity: 1, duration: 0.2 });
+            }
+          },
+          // 10. Vista Explosiva
+          {
+            title: "Vista Explosiva",
+            status: "AXIAL_DISASSEMBLY",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <!-- Assembly pieces vertically stacked -->
+                <g id="piece1" transform="translate(50, 30)">
+                  <rect x="-15" y="-12" width="30" height="4" fill="none" stroke="var(--text-muted)" stroke-width="1.2"/>
+                </g>
+                <g id="piece2" transform="translate(50, 30)">
+                  <rect x="-15" y="-2" width="30" height="4" fill="none" stroke="var(--accent-color)" stroke-width="1.2"/>
+                </g>
+                <g id="piece3" transform="translate(50, 30)">
+                  <rect x="-15" y="8" width="30" height="4" fill="none" stroke="var(--text-muted)" stroke-width="1.2"/>
+                </g>
+                <line id="guide" x1="50" y1="10" x2="50" y2="50" stroke="var(--border-primary)" stroke-dasharray="2 2" opacity="0"/>
+              </svg>
+            `,
+            setup: (container) => {
+              const p1 = container.querySelector("#piece1");
+              const p3 = container.querySelector("#piece3");
+              const guide = container.querySelector("#guide");
+
+              gsap.timeline({ repeat: -1 })
+                .set([p1, p3], { y: 0 })
+                .set(guide, { opacity: 0 })
+                .to(guide, { opacity: 0.5, duration: 0.2 })
+                .to(p1, { y: -15, duration: 1.0, ease: "power2.out" })
+                .to(p3, { y: 15, duration: 1.0, ease: "power2.out" }, "<")
+                .to([p1, p3], { opacity: 0.5, duration: 0.3, delay: 1.0 })
+                .to([p1, p3], { y: 0, opacity: 1, duration: 0.5 })
+                .to(guide, { opacity: 0, duration: 0.3 }, "<");
+            }
+          },
+          // 11. Filtro de Categoría
+          {
+            title: "Filtro de Categoría",
+            status: "SELECTIVE_LAYERS",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <!-- Structure, Control, Motors -->
+                <circle id="fStruc" cx="30" cy="30" r="8" fill="none" stroke="#22c55e" stroke-width="1.5"/>
+                <circle id="fCtrl" cx="50" cy="30" r="8" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+                <circle id="fMtr" cx="70" cy="30" r="8" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+                <circle id="tutCursor" cx="50" cy="50" r="3" fill="var(--accent-color)" />
+              </svg>
+            `,
+            setup: (container) => {
+              const cursor = container.querySelector("#tutCursor");
+              const struc = container.querySelector("#fStruc");
+              const ctrl = container.querySelector("#fCtrl");
+              const mtr = container.querySelector("#fMtr");
+
+              gsap.timeline({ repeat: -1 })
+                .set(cursor, { cx: 50, cy: 50, opacity: 0 })
+                .set([struc, ctrl, mtr], { opacity: 1 })
+                .to(cursor, { opacity: 0.8, cx: 30, cy: 30, duration: 0.6 })
+                .to(struc, { fill: "rgba(34, 197, 94, 0.2)", scale: 1.1, transformOrigin: "center", duration: 0.2 })
+                .to([ctrl, mtr], { opacity: 0.1, duration: 0.4 })
+                .to(cursor, { opacity: 0, duration: 0.3, delay: 1.2 })
+                .to(struc, { fill: "none", scale: 1, duration: 0.3 })
+                .to([ctrl, mtr], { opacity: 1, duration: 0.3 });
+            }
+          },
+          // 12. Menú Estudio
+          {
+            title: "Menú Estudio",
+            status: "STUDIO_GIZMO_EXPAND",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <circle id="studBtn" cx="50" cy="30" r="10" fill="var(--bg-panel-solid)" stroke="var(--border-primary)" stroke-width="1.5" />
+                <text x="50" y="32.5" font-size="8" fill="var(--text-main)" text-anchor="middle" font-family="Space Grotesk">S</text>
+                
+                <g id="studMenu" transform="translate(10, 60)" opacity="0">
+                  <rect x="0" y="0" width="80" height="12" rx="4" fill="var(--bg-panel-solid)" stroke="var(--border-primary)"/>
+                  <text x="12" y="8" font-size="3.5" fill="var(--text-muted)" font-family="Space Grotesk">RENDER</text>
+                  <text x="38" y="8" font-size="3.5" fill="var(--text-muted)" font-family="Space Grotesk">SKYBOX</text>
+                  <text x="64" y="8" font-size="3.5" fill="var(--text-muted)" font-family="Space Grotesk">LIGHT</text>
+                </g>
+                <circle id="tutCursor" cx="50" cy="50" r="3" fill="var(--accent-color)" />
+              </svg>
+            `,
+            setup: (container) => {
+              const cursor = container.querySelector("#tutCursor");
+              const menuGroup = container.querySelector("#studMenu");
+              const btn = container.querySelector("#studBtn");
+
+              gsap.timeline({ repeat: -1 })
+                .set(cursor, { cx: 50, cy: 50, opacity: 0 })
+                .set(menuGroup, { y: 60, opacity: 0 })
+                .to(cursor, { opacity: 0.8, cy: 32, duration: 0.5 })
+                .to(btn, { scale: 0.9, duration: 0.1, yoyo: true, repeat: 1 })
+                .to(menuGroup, { y: 44, opacity: 1, duration: 0.5, ease: "back.out(1.5)" })
+                .to(cursor, { opacity: 0, duration: 0.3, delay: 1.2 })
+                .to(menuGroup, { y: 60, opacity: 0, duration: 0.4 });
+            }
+          },
+          // 13. Modos de Renderizado
+          {
+            title: "Modos de Renderizado",
+            status: "RENDER_PIPELINE_SWITCH",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <circle id="renderShape" cx="50" cy="30" r="12" fill="var(--text-muted)" stroke="none" />
+                <text id="renderLabel" x="50" y="52" font-size="5" fill="var(--text-muted)" text-anchor="middle" font-family="Space Grotesk">SOLID MODE</text>
+              </svg>
+            `,
+            setup: (container) => {
+              const shape = container.querySelector("#renderShape");
+              const label = container.querySelector("#renderLabel");
+
+              gsap.timeline({ repeat: -1 })
+                .set(shape, { fill: "var(--text-muted)", stroke: "none" })
+                .set(label, { textContent: "MODO: SÓLIDO" })
+                .to(shape, { fill: "none", stroke: "var(--accent-color)", strokeWidth: 1.5, duration: 0.4, delay: 0.8 })
+                .set(label, { textContent: "MODO: WIREFRAME" })
+                .to(shape, { fill: "url(#gradThermal)", stroke: "none", duration: 0.4, delay: 0.8 })
+                .set(label, { textContent: "MODO: TÉRMICO" })
+                .to(shape, { fill: "var(--text-muted)", stroke: "none", duration: 0.4, delay: 0.8 });
+                
+              // Inject gradient helper if missing
+              if (!container.querySelector("#gradThermal")) {
+                const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+                defs.innerHTML = `
+                  <radialGradient id="gradThermal" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#ef4444"/>
+                    <stop offset="50%" stop-color="#eab308"/>
+                    <stop offset="100%" stop-color="#2563eb"/>
+                  </radialGradient>
+                `;
+                container.querySelector("svg").prepend(defs);
+              }
+            }
+          },
+          // 14. Entorno y Cielo
+          {
+            title: "Entorno y Cielo",
+            status: "ENVIRONMENT_MATCAP",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <rect id="skyBg" x="5" y="5" width="90" height="50" rx="8" fill="#111827" stroke="var(--border-primary)"/>
+                <circle cx="50" cy="30" r="10" fill="none" stroke="var(--text-main)" stroke-width="1" />
+                <path d="M40,30 L60,30 M50,20 L50,40" stroke="var(--text-main)" stroke-width="0.8" />
+              </svg>
+            `,
+            setup: (container) => {
+              const bg = container.querySelector("#skyBg");
+
+              gsap.timeline({ repeat: -1 })
+                .set(bg, { fill: "#111827" }) // Studio Dark
+                .to(bg, { fill: "linear-gradient(to bottom, #3b82f6, #93c5fd)", duration: 1.0, delay: 0.8 }) // Day
+                .to(bg, { fill: "linear-gradient(to bottom, #fdba74, #f97316, #4c1d95)", duration: 1.0, delay: 0.8 }) // Sunset
+                .to(bg, { fill: "#030712", duration: 1.0, delay: 0.8 }); // Night
+            }
+          },
+          // 15. Iluminación Direccional
+          {
+            title: "Iluminación Direccional",
+            status: "LIGHT_DIRECTION_VECTOR",
+            html: `
+              <svg viewBox="0 0 100 60">
+                <!-- Shaded sphere -->
+                <circle cx="50" cy="30" r="15" fill="url(#gradLight)" />
+                <line id="lightLine" x1="50" y1="30" x2="20" y2="10" stroke="var(--accent-color)" stroke-width="1.5" stroke-dasharray="2 2"/>
+                <circle id="lightSource" cx="20" cy="10" r="4" fill="var(--accent-color)" />
+              </svg>
+            `,
+            setup: (container) => {
+              const source = container.querySelector("#lightSource");
+              const line = container.querySelector("#lightLine");
+              const svg = container.querySelector("svg");
+              
+              // Dynamic light source movement
+              const tl = gsap.timeline({ repeat: -1 });
+              
+              // Injects light gradient
+              let grad = svg.querySelector("#gradLight");
+              if (!grad) {
+                const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+                defs.innerHTML = `
+                  <radialGradient id="gradLight" cx="30%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="#ffffff"/>
+                    <stop offset="60%" stop-color="#4b5563"/>
+                    <stop offset="100%" stop-color="#111827"/>
+                  </radialGradient>
+                `;
+                svg.prepend(defs);
+                grad = svg.querySelector("#gradLight");
+              }
+
+              tl.to([source, line], {
+                x: 60,
+                duration: 1.5,
+                ease: "sine.inOut",
+                onUpdate: () => {
+                  const cx = parseFloat(source.getAttribute("cx")) + gsap.getProperty(source, "x");
+                  grad.setAttribute("cx", `${(cx / 100) * 100}%`);
+                  line.setAttribute("x2", cx);
+                }
+              })
+              .to([source, line], {
+                x: 0,
+                duration: 1.5,
+                ease: "sine.inOut",
+                onUpdate: () => {
+                  const cx = parseFloat(source.getAttribute("cx")) + gsap.getProperty(source, "x");
+                  grad.setAttribute("cx", `${(cx / 100) * 100}%`);
+                  line.setAttribute("x2", cx);
+                }
+              });
+            }
+          }
+        ];
+
+        // --- 3. ACTIVATE SLIDE FUNCTION ---
+        function activateStep(index) {
+          if (index === activeIndex) return;
+          activeIndex = index;
+
+          // Update scrolling steps classes
+          steps.forEach((step, idx) => {
+            if (idx === index) step.classList.add("active");
+            else step.classList.remove("active");
+          });
+
+          // Fetch step data
+          const stepData = tutorialSteps[index];
+          if (!stepData) return;
+
+          // Update stage UI
+          document.getElementById("stageTitle").innerText = stepData.title;
+          document.getElementById("stageStatus").innerText = stepData.status;
+
+          const viewport = document.getElementById("stageViewport");
+          viewport.innerHTML = stepData.html;
+          
+          // Execute initialization logic
+          stepData.setup(viewport);
+        }
+
+        // Init step 0
+        activateStep(0);
+      });
+    </script>
+  </body>
+</html>

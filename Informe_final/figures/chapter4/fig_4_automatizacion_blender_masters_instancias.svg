@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560">
+  <rect width="100%" height="100%" fill="#fff"/>
+  <text x="500" y="42" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="25" font-weight="700">Tooling propio en Blender para activos repetidos</text>
+  <text x="500" y="68" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="13" fill="#444">De geometr?a CAD duplicada a masters, instancias, proxies y manifest trazable para Unity</text>
+  <!-- Fuente editable: el PDF final se genera con reportlab para evitar solapes de cajas. -->
+</svg>

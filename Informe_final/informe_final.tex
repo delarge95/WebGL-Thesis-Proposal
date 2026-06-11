@@ -1,0 +1,302 @@
+﻿\documentclass[12pt,letterpaper]{article}
+
+% --- PACKAGES ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{times}
+\usepackage[margin=2.54cm]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\usepackage{ragged2e}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{enumitem}
+\usepackage{etoolbox}
+
+% --- APA 7 List Configuration ---
+\setlist[itemize]{
+    leftmargin=1.9cm,
+    itemindent=0pt,
+    labelsep=0.63cm,
+    label=\textbullet,
+    itemsep=0pt,
+    parsep=0pt,
+    topsep=0pt
+}
+
+\setlist[enumerate]{
+    leftmargin=1.9cm,
+    itemindent=0pt,
+    labelsep=0.63cm,
+    itemsep=0pt,
+    parsep=0pt,
+    topsep=0pt
+}
+
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+\addto\captionsspanish{\renewcommand{\figurename}{Figura}}
+\addto\captionsspanish{\renewcommand{\contentsname}{Tabla de Contenido}}
+\addto\captionsspanish{\renewcommand{\listtablename}{Lista de Tablas}}
+\addto\captionsspanish{\renewcommand{\listfigurename}{Lista de Figuras}}
+
+\setstretch{2}
+\setlength{\parindent}{1.27cm}
+\setlength{\emergencystretch}{3em}
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{4}
+\hypersetup{
+    bookmarksopen=true,
+    bookmarksopenlevel=1,
+    bookmarksdepth=3
+}
+
+% Hyperref needs explicit anchors when section numbers are suppressed.
+% Otherwise PDF bookmarks can inherit the previous figure, item, or front-matter anchor.
+\pretocmd{\section}{\phantomsection}{}{}
+\pretocmd{\subsection}{\phantomsection}{}{}
+\pretocmd{\subsubsection}{\phantomsection}{}{}
+\pretocmd{\paragraph}{\phantomsection}{}{}
+\pretocmd{\subparagraph}{\phantomsection}{}{}
+\makeatletter
+\providecommand{\ttl@finishall}{}
+\providecommand{\contentsfinish}{}
+\makeatother
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\setlength{\headheight}{14.5pt}
+\fancyhead[R]{\thepage}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancyhead[R]{\thepage}%
+}
+
+\renewcommand{\cftsecpresnum}{\relax}
+\renewcommand{\cftsecnumwidth}{0pt}
+\renewcommand{\cftsubsecpresnum}{\relax}
+\renewcommand{\cftsubsecnumwidth}{0pt}
+\renewcommand{\cftsubsubsecpresnum}{\relax}
+\renewcommand{\cftsubsubsecnumwidth}{0pt}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftdotsep}}
+
+\RaggedRight
+
+\setlength{\cftbeforetoctitleskip}{0\baselineskip}
+\setlength{\cftaftertoctitleskip}{0\baselineskip}
+\renewcommand{\cfttoctitlefont}{\hfill\normalfont\bfseries\normalsize}
+\renewcommand{\cftaftertoctitle}{\null\hfill}
+
+\setlength{\cftbeforelottitleskip}{0\baselineskip}
+\setlength{\cftafterlottitleskip}{0\baselineskip}
+\renewcommand{\cftlottitlefont}{\hfill\normalfont\bfseries\normalsize}
+\renewcommand{\cftafterlottitle}{\null\hfill}
+
+\setlength{\cftbeforeloftitleskip}{0\baselineskip}
+\setlength{\cftafterloftitleskip}{0\baselineskip}
+\renewcommand{\cftloftitlefont}{\hfill\normalfont\bfseries\normalsize}
+\renewcommand{\cftafterloftitle}{\null\hfill}
+
+\renewcommand{\cftsecfont}{\normalfont}
+\renewcommand{\cftsecpagefont}{\normalfont}
+\renewcommand{\cftsubsecfont}{\normalfont}
+\renewcommand{\cftsubsecpagefont}{\normalfont}
+\renewcommand{\cftsubsubsecfont}{\normalfont}
+\renewcommand{\cftsubsubsecpagefont}{\normalfont}
+
+\setlength{\cftsecindent}{0em}
+\setlength{\cftsubsecindent}{1.5em}
+\setlength{\cftsubsubsecindent}{3em}
+
+\newlength{\mytocskip}
+\setlength{\mytocskip}{0\baselineskip}
+\setlength{\cftbeforesecskip}{\mytocskip}
+\setlength{\cftbeforesubsecskip}{\mytocskip}
+\setlength{\cftbeforesubsubsecskip}{\mytocskip}
+
+\renewcommand{\cfttabpresnum}{\tablename~}
+\renewcommand{\cfttabfont}{\normalfont\itshape}
+\renewcommand{\cfttabpagefont}{\normalfont}
+\renewcommand{\cfttableader}{\cftdotfill{\cftdotsep}}
+\setlength{\cfttabnumwidth}{5.7em}
+\setlength{\cftbeforetabskip}{0.15\baselineskip}
+\renewcommand{\cftfigpresnum}{\figurename~}
+\renewcommand{\cftfigfont}{\normalfont\itshape}
+\renewcommand{\cftfigpagefont}{\normalfont}
+\renewcommand{\cftfigleader}{\cftdotfill{\cftdotsep}}
+\setlength{\cftfignumwidth}{5.7em}
+\setlength{\cftbeforefigskip}{0.15\baselineskip}
+
+\titleformat{\section}{\normalfont\bfseries\centering}{}{0em}{}
+\titlespacing*{\section}{0pt}{0\baselineskip}{0\baselineskip}
+
+\titleformat{\subsection}{\normalfont\bfseries}{}{0em}{}
+\titlespacing*{\subsection}{0pt}{0\baselineskip}{0\baselineskip}
+
+\titleformat{\subsubsection}{\normalfont\bfseries\itshape}{}{0em}{}
+\titlespacing*{\subsubsection}{0pt}{0\baselineskip}{0\baselineskip}
+
+\titleformat{\paragraph}[runin]{\normalfont\bfseries}{}{0em}{}[.]
+\titlespacing*{\paragraph}{1.27cm}{0\baselineskip}{1em}
+
+\titleformat{\subparagraph}[runin]{\normalfont\bfseries\itshape}{}{0em}{}[.]
+\titlespacing*{\subparagraph}{1.27cm}{0\baselineskip}{1em}
+
+\DeclareCaptionLabelFormat{table_num_bold_left}{\textbf{#1~#2}}
+\DeclareCaptionLabelSeparator{mediumspace}{\par\vspace{0.5\baselineskip}}
+\captionsetup[table]{
+    labelformat=table_num_bold_left,
+    labelsep=mediumspace,
+    textfont=it,
+    justification=raggedright,
+    singlelinecheck=false,
+    skip=\baselineskip,
+    position=top
+}
+
+\captionsetup[figure]{
+    labelformat=table_num_bold_left,
+    labelsep=mediumspace,
+    textfont=it,
+    justification=raggedright,
+    singlelinecheck=false,
+    skip=\baselineskip,
+    position=top
+}
+
+\newcommand{\apanote}[1]{%
+    \par\vspace{0.5\baselineskip}%
+    \begingroup%
+    \RaggedRight%
+    \footnotesize%
+    \noindent\textit{Nota}. #1\par%
+    \endgroup%
+}
+
+\begin{document}
+
+\begin{titlepage}
+    \thispagestyle{plain}
+    \centering
+    {\normalfont\bfseries TwinSight X500: prototipo web 3D para visualización técnica de hardware complejo\par}
+
+    \vspace{2\baselineskip}
+    \vspace{2\baselineskip}
+
+    {\normalfont Estudiante\par}
+    {\normalfont Alexander Woodcock Salomón\par}
+
+    \vspace{2\baselineskip}
+    \vspace{2\baselineskip}
+
+    {\normalfont Asesor\par}
+    {\normalfont Gustavo Enrique Vejarano Matiz\par}
+
+    \vfill
+
+    {\normalfont Universidad Nacional Abierta y a Distancia - UNAD\par
+     Escuela de Ciencias Básicas, Tecnología e Ingeniería\par
+     Ingeniería Multimedia\par}
+
+    \vspace{1\baselineskip}
+    {Pasto, Colombia\par}
+    {2026\par}
+\end{titlepage}
+\setcounter{page}{2}
+
+\pagestyle{fancy}
+
+\section*{Resumen}
+\addcontentsline{toc}{section}{Resumen}
+\setlength{\parindent}{0pt}
+La documentación de hardware técnico complejo, como drones y sistemas electromecánicos multicomponente, presenta limitaciones de comunicación espacial cuando depende de imágenes 2D, manuales PDF y fuentes técnicas fragmentadas. Este informe desarrolla TwinSight X500, un prototipo web 3D interactivo orientado a la visualización técnica, inspección y análisis visual del dron Holybro X500~V2. El trabajo se enmarca en Design Science Research, prototipado iterativo, Teoría de la Carga Cognitiva, interacción 3D y renderizado físicamente basado. La build integra selección jerárquica de piezas, ficha técnica inferior, modos \textit{Inspect}, \textit{Analyze} y \textit{Studio}, corte transversal, vista explosionada, filtros y visualización térmica heurística. El pipeline redujo el modelo desde rutas CAD superiores a 6,5 millones de triángulos hasta 95\,617 triángulos optimizados. La validación combinó profiler WebGL, desempeño en tareas cronometradas, SUS, NASA-TLX Raw y \textit{Think-Aloud} con 12 participantes: SUS promedio de 91,88, NASA-TLX Raw de 8,69 para el visor 3D frente a 19,89 para el soporte 2D, menor tiempo medio en las tres tareas cronometradas y 96 registros tarea-condición completados. El prototipo alcanzó rendimiento estable en escritorio, comportamiento funcional en móviles reales y alcance defendible como \textit{visual product twin}, no como gemelo digital operacional.
+
+\hspace{1.27cm}\textit{\textbf{Palabras clave:}} WebGL, Unity, WebAssembly, visualización técnica 3D, hardware complejo, visual product twin, carga de trabajo percibida.
+
+\newpage
+
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+\setlength{\parindent}{0pt}
+Complex hardware documentation, including drones and multicomponent electromechanical systems, presents spatial communication limits when it depends on 2D images, PDF manuals, and fragmented technical sources. This report develops TwinSight X500, an interactive 3D web prototype for technical visualization, inspection, and visual analysis of the Holybro X500~V2. The work is framed through Design Science Research, iterative prototyping, cognitive load theory, 3D interaction, and physically based rendering. The build includes hierarchical part selection, a bottom technical sheet, \textit{Inspect}, \textit{Analyze}, and \textit{Studio} modes, cross-section, exploded view, category filters, and component-based heuristic thermal visualization. The pipeline reduced the model from CAD routes above 6.5 million triangles to 95,617 optimized triangles. Validation combined WebGL profiling, timed task performance, SUS, NASA-TLX Raw, and Think-Aloud with 12 participants: mean SUS was 91.88, NASA-TLX Raw was 8.69 for the 3D viewer versus 19.89 for the 2D reference, lower mean time in the three timed tasks for the 3D condition, and 96 completed task-condition records. The prototype achieved stable desktop performance, functional behavior on real mobile devices, and a defensible scope as a visual product twin, not as an operational digital twin.
+
+\hspace{1.27cm}\textit{\textbf{Keywords:}} WebGL, Unity, WebAssembly, technical 3D visualization, complex hardware, visual product twin, perceived workload.
+
+\newpage
+
+\setlength{\parindent}{1.27cm}
+
+\newpage
+\tableofcontents
+\newpage
+
+\newpage
+\renewcommand{\listtablename}{Lista de Tablas}
+\listoftables
+\newpage
+
+\newpage
+\renewcommand{\listfigurename}{Lista de Figuras}
+\listoffigures
+\newpage
+
+\newpage
+\section*{Información General del Trabajo de Grado}
+\addcontentsline{toc}{section}{Información General del Trabajo de Grado}
+
+\subsection*{Integrantes del Proyecto}
+\addcontentsline{toc}{subsection}{Integrantes del Proyecto}
+
+\textit{Nombre del estudiante:} Alexander Woodcock Salomón
+
+\textit{Programa Académico:} Ingeniería Multimedia
+
+\textit{\% de créditos aprobados:} 100
+
+\textit{Municipio / Departamento:} Pasto / Nariño
+
+\textit{Datos de contacto e identificación:} omitidos en esta copia pública por privacidad.
+
+\subsection*{Datos Específicos del Proyecto}
+\addcontentsline{toc}{subsection}{Datos Específicos del Proyecto}
+
+\textit{Duración del proyecto:} Un (1) año
+
+\textit{Línea de Investigación:} Ingeniería Multimedia, Visualización Técnica 3D Web
+
+\textit{Escuela:} Escuela de Ciencias Básicas, Tecnología e Ingeniería (ECBTI)
+
+\textit{Descriptores palabras clave:} WebGL, Unity, WebAssembly, visualización técnica 3D, optimización, carga de trabajo percibida, HCI, Technical Art, hardware complejo, visual product twin, digital shadow.
+
+\newpage
+
+% === CAPÍTULOS DEL INFORME FINAL ===
+% Cada capítulo está en un archivo independiente bajo chapters/
+
+\input{chapters/01_introduccion}
+\input{chapters/02_marco_referencia}
+\input{chapters/03_marco_metodologico}
+\input{chapters/04_desarrollo}
+\input{chapters/05_resultados}
+\input{chapters/06_conclusiones}
+\input{chapters/07_referencias}
+\input{chapters/08_apendices}
+
+\end{document}

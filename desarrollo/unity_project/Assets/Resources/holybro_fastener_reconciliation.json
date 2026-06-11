@@ -1,0 +1,181 @@
+{
+    "sourceScene": "Assets/Scenes/MainScene_Final.unity",
+    "sourceDataset": "x500v2_blender_synced_parts.json",
+    "generatedAtUtc": "2026-05-14T01:31:17.1002983Z",
+    "aliases": [
+        {
+            "sceneTypeKey": "cap_screw_M25x10",
+            "sourceId": "x500v2_blend_gb70_m25_10",
+            "blenderName": "GB70-M25-10",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "cap_screw_M25x12",
+            "sourceId": "x500v2_blend_gb70_m25_12",
+            "blenderName": "GB70-M25-12",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "cap_screw_M25x6",
+            "sourceId": "x500v2_blend_gb70_m25_6",
+            "blenderName": "GB70-M25-6",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "cap_screw_M3x21",
+            "sourceId": "x500v2_blend_gb70_m3_21_ding",
+            "blenderName": "GB70-M3-21-DING",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "cap_screw_M3x25",
+            "sourceId": "x500v2_blend_gb70_m3_25_ding",
+            "blenderName": "GB70-M3-25-DING",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "cap_screw_M3x38",
+            "sourceId": "x500v2_blend_gb70_m3_38",
+            "blenderName": "GB70-M3-38",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "cap_screw_M3x6",
+            "sourceId": "x500v2_blend_gb70_m3_6",
+            "blenderName": "GB70-M3-6",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "cap_screw_M3x8",
+            "sourceId": "x500v2_blend_gb70_m3_8_ding",
+            "blenderName": "GB70-M3-8-DING",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "countersunk_M25x6",
+            "sourceId": "x500v2_blend_m25_6_chen_liu",
+            "blenderName": "M25-6-CHEN-LIU",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "countersunk_M3x16",
+            "sourceId": "x500v2_blend_m3_16_chen_liu",
+            "blenderName": "M3-16-CHEN-LIU",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "flange_nut_M3",
+            "sourceId": "x500v2_blend_zslm_m3_falan",
+            "blenderName": "ZSLM-M3-FALAN",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "lock_nut_M3",
+            "sourceId": "x500v2_blend_lm_m3_ding",
+            "blenderName": "LM-M3-DING",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "nylon_lock_nut_M3",
+            "sourceId": "x500v2_blend_lm_m3_nilong",
+            "blenderName": "LM-M3-NILONG",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "nylon_standoff_M25x5",
+            "sourceId": "x500v2_blend_nilongzhu_m25_5",
+            "blenderName": "NILONGZHU-M25-5",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "nylon_standoff_M3x5",
+            "sourceId": "x500v2_blend_nilongzhu_m3_5",
+            "blenderName": "NILONGZHU-M3-5",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "pan_head_M3x10",
+            "sourceId": "x500v2_blend_m3_10_pan_ding",
+            "blenderName": "M3-10-PAN-DING",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "pan_head_M3x14",
+            "sourceId": "x500v2_blend_m3_14_pan",
+            "blenderName": "M3-14-PAN",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        },
+        {
+            "sceneTypeKey": "self_lock_nut_M25",
+            "sourceId": "x500v2_blend_zslm_m25",
+            "blenderName": "ZSLM-M25",
+            "rationale": "Explicit Unity scene type to Holybro synced source mapping."
+        }
+    ],
+    "issues": [
+        {
+            "severity": "info",
+            "scope": "SceneState",
+            "sceneTypeKey": "",
+            "sourceId": "",
+            "instanceId": "",
+            "message": "The active Unity fastener meshes are temporary proxy geometry. Family and instance identifiers are kept stable so final Blender assets can replace the visible detail later without changing the runtime contract."
+        },
+        {
+            "severity": "warning",
+            "scope": "QuantityMismatch",
+            "sceneTypeKey": "cap_screw_M25x12",
+            "sourceId": "x500v2_blend_gb70_m25_12",
+            "instanceId": "",
+            "message": "Scene contains 13 instances while synced source expects 12."
+        },
+        {
+            "severity": "info",
+            "scope": "SemanticOverride",
+            "sceneTypeKey": "lock_nut_M3",
+            "sourceId": "x500v2_blend_lm_m3_ding",
+            "instanceId": "",
+            "message": "Unity scene naming overrides the generic synced part label so the modular family better matches the runtime placeholder behavior."
+        },
+        {
+            "severity": "warning",
+            "scope": "QuantityMismatch",
+            "sceneTypeKey": "lock_nut_M3",
+            "sourceId": "x500v2_blend_lm_m3_ding",
+            "instanceId": "",
+            "message": "Scene contains 16 instances while synced source expects 8."
+        },
+        {
+            "severity": "info",
+            "scope": "SemanticOverride",
+            "sceneTypeKey": "nylon_standoff_M25x5",
+            "sourceId": "x500v2_blend_nilongzhu_m25_5",
+            "instanceId": "",
+            "message": "Unity scene naming overrides the generic synced part label so the modular family better matches the runtime placeholder behavior."
+        },
+        {
+            "severity": "info",
+            "scope": "SemanticOverride",
+            "sceneTypeKey": "nylon_standoff_M3x5",
+            "sourceId": "x500v2_blend_nilongzhu_m3_5",
+            "instanceId": "",
+            "message": "Unity scene naming overrides the generic synced part label so the modular family better matches the runtime placeholder behavior."
+        },
+        {
+            "severity": "info",
+            "scope": "SemanticOverride",
+            "sceneTypeKey": "self_lock_nut_M25",
+            "sourceId": "x500v2_blend_zslm_m25",
+            "instanceId": "",
+            "message": "Unity scene naming overrides the generic synced part label so the modular family better matches the runtime placeholder behavior."
+        },
+        {
+            "severity": "info",
+            "scope": "SourceOnly",
+            "sceneTypeKey": "",
+            "sourceId": "x500v2_blend_zslm_m3_ding",
+            "instanceId": "",
+            "message": "Source fastener 'ZSLM-M3-DING' does not have a direct Unity scene family match in the current temporary proxy scene."
+        }
+    ]
+}

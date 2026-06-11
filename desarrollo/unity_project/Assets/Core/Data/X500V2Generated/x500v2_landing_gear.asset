@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c73690adaf8894f87851a149e0fb6a, type: 3}
+  m_Name: x500v2_landing_gear
+  m_EditorClassIdentifier: 
+  partName: Landing Gear
+  id: x500v2_landing_gear
+  partType: Landing
+  description: "Landing gear assembly with carbon fiber tubes, reinforced plastic joints and EVA foam pads. Provides ground clearance and impact damping."
+  weightKg: 0.08
+  dimensions: "Altura: 215 mm, tubos \u230016 mm y \u230010 mm"
+  function: "Ground support, clearance and landing impact damping"
+  materialType: "Carbon fiber tubes with reinforced plastic connectors"
+  materialProperties: "Resistente a impactos, ligero, amortiguaci\xF3n por espuma"
+  manufacturer: Holybro
+  partNumber: '#510192'
+  powerConsumption: 0
+  maxLoad: 2500
+  operatingTemp: 80
+  operatingTempMin: -20
+  operatingTempMax: 80
+  thermalPeak: 25
+  thermalHover: 22
+  thermalWarmupSeconds: 0
+  thermalExposure: 0.95
+  thermalConductionScale: 1
+  thermalSourceWeight: 0.2
+  isThermallyCritical: 0
+  icon: {fileID: 0}
+  highlightColor: {r: 0.35, g: 0.35, b: 0.35, a: 1}
+  thumbnail: {fileID: 0}
+  isHotspotTarget: 0
+  hotspotLabel: 
+  explosionDirection: {x: 0, y: -1, z: 0}
+  explosionDistance: 1.2
+  explosionPriority: 3
+  isModular: 0
+  compatibleSlots: []
+  alternativeParts: []
+  requiredTools:
+  - M3 hex key
+  safetyWarnings:
+  - "Verify both skids are symmetrical before tightening"
+  installationTips: "Assembles to the bottom plate with M3 screws. Verify leveling."
+  installationTimeMinutes: 5
+  difficultyLevel: 2
+  torqueSpec: 
+  assemblyOrder: 3
+  prerequisites:
+  - x500v2_bottom_plate
+  connectionTypes:
+  - Screw
+  - Snap
+  screwCount: 4
+  screwSize: M3
+  subComponentNames:
+  - CARBON-FIBER-TUBE
+  - GUAN-CHENG
+  - JIAO-EVA
+  - JIAO-LIANJIE
+  - JIA-LIANJIE
+  - MAO-JIAO
+  - 'Fasteners: holybro_cap_screw_m3x21 x2'
+  - 'Fasteners: Socket Cap Screw M3 x 25 mm x2'
+  - 'Fasteners: Socket Cap Screw M3 x 8 mm x12'
+  - 'Fasteners: CapNut M3 x8'
+  - 'Fasteners: NylocNut M3 x1'
+  fastenerMetadata:
+    instanceId: 
+    familyId: 
+    sourceId: 
+    sceneObjectName: 
+    hierarchyPath: 
+    parentCanonicalPartId: 
+    blenderName: 
+    sceneTypeKey: 
+    subtype: 
+    metric: 
+    nominalDiameterMm: 0
+    lengthMm: 0
+    headProfile: 
+    driveType: 
+    threadPitchMm: 0
+    turnCount: 0
+    material: 
+    finish: 
+    quantityExpected: 0
+    isInspectable: 0
+    fallbackReason: 
+    notes: 
+    recipeKey: 
+    builderType: 
+    orientationMode: 
+  category: 4
