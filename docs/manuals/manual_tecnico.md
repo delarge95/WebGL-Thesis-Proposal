@@ -255,7 +255,7 @@ La implementacion Unity incorpora una capa especifica para tornilleria y piezas 
 
     * `holybro\_fastener\_families.json`: define familias modulares con metrica, longitud, material, receta procedural y referencia CAD/Holybro.
     * `holybro\_fastener\_instances.json`: registra instancias presentes en `MainScene\_Final` con `instanceId`, pose local y anchor canonico inferido.
-    * `holybro\_fastener\_reconciliation.json`: documenta aliases, overrides semanticos y discrepancias entre escena y dataset synced.
+    * `holybro\_fastener\_reconciliation.json`: documenta aliases, overrides semanticos y discrepancias entre escena y catálogos públicos de runtime.
     * `holybro\_parent\_subpieces.json`: fija la relacion pieza madre $\rightarrow$ subpiezas documentadas $\rightarrow$ fasteners configurados y se replica en `subComponentNames` dentro de los assets generados.
 
 En el estado documentado de cierre, estos catalogos registran **20 familias**, **168 instancias** y **9 entradas de reconciliacion**. La geometria visible combina mallas conservadas, proxies ligeros y reconstruccion modular aplicada a tornillos; el contrato `familyId` / `instanceId` queda estable para actualizar mallas o variantes de detalle sin alterar la logica runtime.

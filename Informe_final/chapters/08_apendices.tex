@@ -12,7 +12,7 @@ Repositorio principal del proyecto:
 \url{https://github.com/delarge95/WebGL-Thesis-Proposal}
 \end{center}
 
-\noindent Este repositorio, junto con el \textit{snapshot} local del proyecto y los anexos versionados, funciona como referencia técnica principal para escena, scripts, herramientas de editor y documentación de desarrollo. El cierre final documentado en este informe se asocia al commit \texttt{4bdc153}. El commit \texttt{5eebc81} se conserva como referencia intermedia de vinculación documental, pero no sustituye el identificador último de la entrega.
+\noindent Este repositorio, junto con el \textit{snapshot} local del proyecto y los anexos versionados, funciona como referencia técnica principal para escena, scripts, herramientas de editor y documentación de desarrollo. La copia pública de cierre se consolida en la rama \texttt{master}; por tanto, la trazabilidad pública debe verificarse contra el \texttt{HEAD} vigente de esa rama, la URL de demo publicada y los artefactos activos listados en este capítulo.
 
 \noindent Si el repositorio público no expone todos los artefactos internos por razones de limpieza, peso o información sensible, la evaluación académica debe apoyarse en la URL de demo publicada, los anexos activos del informe, la documentación técnica interna versionada y el \textit{snapshot} local disponible para revisión.
 
@@ -60,10 +60,10 @@ La matriz maestra de desconexiones entre app y documentación se encuentra en:
 
 La taxonomía semántica del proyecto se fija a partir de:
 \begin{center}
-\texttt{desarrollo/docs/investigacion/Holybro/x500v2\_parts\_data.json}
+\small\path{desarrollo/unity_project/Assets/Resources/x500v2_info_panel_bilingual_catalog.json}
 \end{center}
 
-\noindent Esta fuente define 28 piezas canónicas. La escena final opera adicionalmente con 30 \textit{anchors} y 257 \textit{renderers}/\textit{colliders} auditados.
+\noindent Esta fuente pública integra los identificadores canónicos, las fichas bilingües de información y las claves de trazabilidad utilizadas por el panel de la app. La taxonomía académica conserva 28 piezas canónicas; la escena final opera adicionalmente con 30 \textit{anchors} y 257 \textit{renderers}/\textit{colliders} auditados.
 
 \subsection*{Apéndice G: Validación funcional de la escena final}
 \addcontentsline{toc}{subsection}{Apéndice G: Validación funcional de la escena final}
@@ -127,7 +127,7 @@ Los instrumentos metodológicos activos del cierre son:
     \centering
     \includegraphics[width=0.92\textwidth,height=0.58\textheight,keepaspectratio]{figures/screenshots_contextual/fig_profiler_internal_evidence.png}
     \par\vspace{0.5\baselineskip}
-    \apanote{La figura documenta una captura puntual del profiler interno conservada en \path{desarrollo/Screenshots/profiler.png}. Su función es respaldar visualmente el proceso de recolección técnica; los valores oficiales de FPS, memoria, renderers, mallas y triángulos reportados en las tablas técnicas provienen de las exportaciones JSON/CSV del profiler interno, no de lectura manual de esta imagen. Elaboración propia.}
+    \apanote{La figura documenta una captura puntual del profiler interno integrada como evidencia visual en \path{Informe_final/figures/screenshots_contextual/fig_profiler_internal_evidence.png}. Su función es respaldar visualmente el proceso de recolección técnica; los valores oficiales de FPS, memoria, renderers, mallas y triángulos reportados en las tablas técnicas provienen de las exportaciones JSON/CSV del profiler interno, no de lectura manual de esta imagen. Elaboración propia.}
 \end{figure}
 
 \subsection*{Apéndice I: Estado del pipeline de activos}
@@ -192,12 +192,12 @@ La auditoría activa de coherencia entre fórmulas documentadas, lógica de cód
 \small\path{Informe_final/Desarrollo_App/AUDITORIA_MATEMATICA_Y_ARQUITECTURA_2026-04-12.md}
 \end{center}
 
-\noindent Como soporte técnico adicional, el registro histórico de verificaciones del subsistema térmico mediante el \textit{workflow} local basado en WolframAlpha se conserva en:
+\noindent Como soporte técnico adicional, el subsistema térmico se documenta en el anexo técnico público:
 \begin{center}
-\texttt{desarrollo/docs/sistema\_termico/wolfram\_verificaciones.md}
+\small\path{Informe_final/Desarrollo_App/Documentacion_Tecnica/08_Sistema_Termico_Hibrido.md}
 \end{center}
 
-\noindent Ambos documentos respaldan la interpretación correcta del modo \textit{Thermal} como simulación híbrida heurística y no como FEA en tiempo real.
+\noindent Ambos documentos respaldan la interpretación correcta del modo \textit{Thermal} como simulación híbrida heurística y no como FEA en tiempo real. Los registros históricos usados durante el desarrollo permanecen como evidencia interna cuando no forman parte de la superficie pública del repositorio.
 
 \subsection*{Apéndice M: Correlación entre la propuesta y el informe final}
 \addcontentsline{toc}{subsection}{Apéndice M: Correlación entre la propuesta y el informe final}

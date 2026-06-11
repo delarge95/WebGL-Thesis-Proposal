@@ -6,17 +6,14 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 using WebGL.Core.Content;
+using WebGL.Core.Data;
 
 public static class ImportedDroneCoverageAudit
 {
     private const string RootName = "x500v2_Drone";
-    private const string CanonicalJsonFile = "x500v2_parts_data.json";
-    private const string SyncedJsonFile = "x500v2_blender_synced_parts.json";
+    private const string GeneratedDataFolder = "Assets/Core/Data/X500V2Generated";
+    private const string GeneratedDataSource = GeneratedDataFolder + "/*.asset";
     private const string ReportRelativePath = "Assets/../Reports/imported_drone_coverage_report.md";
-
-    private static string HolybroDocsDir => Path.GetFullPath(Path.Combine(Application.dataPath, "..", "..", "docs", "investigacion", "Holybro"));
-    private static string CanonicalJsonPath => Path.Combine(HolybroDocsDir, CanonicalJsonFile);
-    private static string SyncedJsonPath => Path.Combine(HolybroDocsDir, SyncedJsonFile);
 
     [Serializable]
     private class CanonicalPart
@@ -87,7 +84,7 @@ public static class ImportedDroneCoverageAudit
         List<string> extraAnchors = partById.Keys.Where(id => !expectedIds.Contains(id)).OrderBy(id => id).ToList();
 
         HashSet<string> canonicalIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        if (TryLoadCanonical(out HashSet<string> canonicalLoaded))
+        if (TryLoadGeneratedPartIds(out HashSet<string> canonicalLoaded))
         {
             canonicalIds = canonicalLoaded;
         }
@@ -348,38 +345,11 @@ public static class ImportedDroneCoverageAudit
         matches = 0;
         HashSet<string> anchors = new HashSet<string>(anchorIds ?? Array.Empty<string>(), StringComparer.OrdinalIgnoreCase);
 
-        bool hasSynced = TryLoadSynced(out HashSet<string> syncedIds);
-        bool hasCanonical = TryLoadCanonical(out HashSet<string> canonicalIds);
-
-        int syncedMatches = hasSynced ? CountOverlap(anchors, syncedIds) : -1;
-        int canonicalMatches = hasCanonical ? CountOverlap(anchors, canonicalIds) : -1;
-
-        if (hasSynced && hasCanonical)
+        if (TryLoadGeneratedPartIds(out HashSet<string> generatedIds))
         {
-            if (syncedMatches >= canonicalMatches)
-            {
-                source = SyncedJsonFile;
-                matches = syncedMatches;
-                return syncedIds;
-            }
-
-            source = CanonicalJsonFile;
-            matches = canonicalMatches;
-            return canonicalIds;
-        }
-
-        if (hasSynced)
-        {
-            source = SyncedJsonFile;
-            matches = syncedMatches;
-            return syncedIds;
-        }
-
-        if (hasCanonical)
-        {
-            source = CanonicalJsonFile;
-            matches = canonicalMatches;
-            return canonicalIds;
+            source = GeneratedDataSource;
+            matches = CountOverlap(anchors, generatedIds);
+            return generatedIds;
         }
 
         source = "N/A";
@@ -405,53 +375,25 @@ public static class ImportedDroneCoverageAudit
         return count;
     }
 
-    private static bool TryLoadSynced(out HashSet<string> ids)
+    private static bool TryLoadGeneratedPartIds(out HashSet<string> ids)
     {
         ids = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        if (!File.Exists(SyncedJsonPath))
+        string[] guids = AssetDatabase.FindAssets("t:DronePartData", new[] { GeneratedDataFolder });
+        if (guids == null || guids.Length == 0)
         {
             return false;
         }
 
-        string raw = File.ReadAllText(SyncedJsonPath);
-        SyncedWrapper wrapper = JsonUtility.FromJson<SyncedWrapper>("{\"items\":" + raw + "}");
-        if (wrapper?.items == null || wrapper.items.Length == 0)
+        foreach (string guid in guids)
         {
-            return false;
-        }
-
-        foreach (SyncedPart item in wrapper.items)
-        {
-            if (item != null && !string.IsNullOrWhiteSpace(item.id))
+            string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+            DronePartData data = AssetDatabase.LoadAssetAtPath<DronePartData>(assetPath);
+            if (data == null || string.IsNullOrWhiteSpace(data.id))
             {
-                ids.Add(item.id);
+                continue;
             }
-        }
 
-        return ids.Count > 0;
-    }
-
-    private static bool TryLoadCanonical(out HashSet<string> ids)
-    {
-        ids = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        if (!File.Exists(CanonicalJsonPath))
-        {
-            return false;
-        }
-
-        string raw = File.ReadAllText(CanonicalJsonPath);
-        CanonicalWrapper wrapper = JsonUtility.FromJson<CanonicalWrapper>("{\"items\":" + raw + "}");
-        if (wrapper?.items == null || wrapper.items.Length == 0)
-        {
-            return false;
-        }
-
-        foreach (CanonicalPart item in wrapper.items)
-        {
-            if (item != null && !string.IsNullOrWhiteSpace(item.id))
-            {
-                ids.Add(item.id);
-            }
+            ids.Add(data.id);
         }
 
         return ids.Count > 0;

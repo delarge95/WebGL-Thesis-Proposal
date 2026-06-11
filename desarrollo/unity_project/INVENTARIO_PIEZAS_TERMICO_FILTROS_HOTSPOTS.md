@@ -323,18 +323,18 @@ Cobertura de hotspots:
 
 ## 8) Inclusión de TODAS las piezas (fuente Holybro)
 
-Se revisaron las fuentes en `desarrollo/docs/investigacion/Holybro` para responder al requerimiento de incluir todas las piezas, incluyendo tornillería/fasteners.
+Se revisaron los artefactos públicos del runtime y los assets generados para responder al requerimiento de incluir todas las piezas, incluyendo tornillería/fasteners.
 
 Fuentes relevantes detectadas:
 
-- `x500v2_parts_data.json` (dataset canónico simplificado): 28 entradas
-- `x500v2_blender_synced_parts.json` (dataset granular sincronizado desde Blender): 55 entradas únicas
-- `x500v2_blender_inventory.md` (inventario físico con cantidades): 247 instancias de malla
+- `Assets/Core/Data/X500V2Generated` (assets `DronePartData` generados): taxonomía canónica final
+- `x500v2_info_panel_bilingual_catalog.json` (catálogo bilingüe runtime): fichas técnicas, relaciones y claves de trazabilidad
+- `holybro_fastener_families.json` e `holybro_fastener_instances.json`: familias e instancias de tornillería publicadas
 
 Conclusión operativa:
 
-- Para cubrir TODAS las piezas, el dataset base debe ser `x500v2_blender_synced_parts.json` + cantidades de `x500v2_blender_inventory.md`.
-- El dataset de 28 (`x500v2_parts_data.json`) no incluye la granularidad de fasteners/subcomponentes.
+- Para cubrir TODAS las piezas en la superficie pública, la build se apoya en los assets `DronePartData`, la jerarquía de selección y los catálogos de fasteners.
+- La taxonomía académica conserva piezas canónicas; la granularidad de fasteners/subcomponentes se documenta mediante recursos runtime publicados.
 
 ## 9) Conteos consolidados (all pieces)
 
@@ -348,7 +348,7 @@ Nota:
 
 ## 10) Fasteners incluidos (piezas únicas detectadas)
 
-Fasteners/elementos de fijación identificados en `x500v2_blender_synced_parts.json` (20 IDs únicos):
+Fasteners/elementos de fijación identificados en los catálogos públicos de runtime (20 familias):
 
 - x500v2_blend_gb70_m25_10 (Socket Head Cap Screw)
 - x500v2_blend_gb70_m25_12 (Socket Head Cap Screw)
@@ -430,11 +430,11 @@ Esta sección complementa el inventario previo sin reemplazarlo.
 
 Se actualizó el pipeline de preparación en `SetupImportedDroneThermalTest` para priorizar:
 
-- `x500v2_blender_synced_parts.json` (dataset granular, 55 piezas únicas)
+- `Assets/Core/Data/X500V2Generated` y `holybro_selection_hierarchy.json` como fuentes públicas activas
 
 y usar fallback automático a:
 
-- `x500v2_parts_data.json` (dataset canónico de 28)
+- `x500v2_info_panel_bilingual_catalog.json` como catálogo público bilingüe de fichas y trazabilidad
 
 Además, cuando el ID canónico no coincide directamente con nodos de escena, el setup ahora intenta match por `blenderName`.
 
@@ -559,7 +559,7 @@ Se agregó una auditoría de cobertura ejecutable desde Editor:
 
 Qué valida en una sola ejecución:
 
-- IDs esperados desde `x500v2_blender_synced_parts.json` (fallback a `x500v2_parts_data.json`)
+- IDs esperados desde `Assets/Core/Data/X500V2Generated` y la jerarquía pública de selección
 - Anchors reales con `ExplodablePart` en `x500v2_Drone`
 - IDs faltantes y anchors extra
 - Renderers con/sin collider

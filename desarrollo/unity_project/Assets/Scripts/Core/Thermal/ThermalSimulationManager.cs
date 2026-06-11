@@ -1031,7 +1031,7 @@ namespace WebGL.Core.Thermal
         // Compression prevents metallic parts from reaching equilibrium in 1 frame while
         // insulating parts show imperceptible gradients. Prioritizes visual credibility over
         // numerical accuracy, consistent with the V1 scope.
-        // See: desarrollo/docs/sistema_termico/wolfram_verificaciones.md#V002
+        // See: Informe_final/Desarrollo_App/Documentacion_Tecnica/08_Sistema_Termico_Hibrido.md
         private static float EstimateMaterialConductivityScale(string materialType)
         {
             if (string.IsNullOrWhiteSpace(materialType))

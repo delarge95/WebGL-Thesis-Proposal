@@ -12,7 +12,7 @@ Validacion funcional posterior al saneamiento de jerarquia importada para:
 ## Evidencia de Entrada
 
 - Setup reportado por ejecucion:
-  - Fuente usada: `x500v2_parts_data.json (matches: 28/28)`
+  - Fuente usada: catálogo canónico integrado en `Assets/Core/Data/X500V2Generated` y `x500v2_info_panel_bilingual_catalog.json`
   - Preparadas: `28`
   - Warnings: `0`
 - Auditoria de cobertura:
@@ -56,7 +56,7 @@ Estado: OK (runtime disponible)
 
 ## Riesgos Abiertos
 
-1. El reporte puede seguir mostrando IDs synced faltantes cuando la escena operativa sea canónica; no implica falla funcional en esta escena.
+1. El reporte histórico podía mostrar IDs granulares faltantes cuando la escena operativa era canónica; en el cierre público se priorizan los assets `DronePartData` generados y la jerarquía pública de selección. Esa diferencia no implica falla funcional en esta escena.
 2. Los anchors de grupo sintetico pueden quedar en posicion del root por diseño; esto no afecta seleccion/filtros si la jerarquia de hijos queda correcta.
 
 ## Criterio de Aceptacion de Esta Iteracion

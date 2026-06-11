@@ -70,29 +70,29 @@
       "url": "https://docs.holybro.com/radio/sik-telemetry-radio-v3",
       "scope": "Telemetry radio overview, MAVLink/serial function, frequency variants, dimensions, weight and electrical data."
     },
-    "internal_parts_data": {
-      "title": "Internal - x500v2_parts_data.json",
-      "path": "desarrollo/docs/investigacion/Holybro/x500v2_parts_data.json",
-      "scope": "Current app mother-part metadata and UI field values."
+    "runtime_parts_data": {
+      "title": "Public runtime catalog - x500v2_info_panel_bilingual_catalog.json",
+      "path": "desarrollo/unity_project/Assets/Resources/x500v2_info_panel_bilingual_catalog.json",
+      "scope": "Current app mother-part metadata, canonical identifiers and UI field values integrated into the public runtime catalog."
     },
-    "internal_blender_synced_parts": {
-      "title": "Internal - x500v2_blender_synced_parts.json",
-      "path": "desarrollo/docs/investigacion/Holybro/x500v2_blender_synced_parts.json",
-      "scope": "Subpiece IDs, CAD/Blender keys, source descriptions, material hints, weights and dimensions."
+    "runtime_generated_parts": {
+      "title": "Generated Unity part assets",
+      "path": "desarrollo/unity_project/Assets/Core/Data/X500V2Generated/",
+      "scope": "Generated Unity part assets derived from the CAD/Blender-to-Unity pipeline and used for runtime binding."
     },
-    "internal_selection_hierarchy": {
-      "title": "Internal - holybro_selection_hierarchy.json",
-      "path": "desarrollo/docs/investigacion/Holybro/holybro_selection_hierarchy.json",
+    "runtime_selection_hierarchy": {
+      "title": "Public runtime selection hierarchy",
+      "path": "desarrollo/unity_project/Assets/Resources/holybro_selection_hierarchy.json",
       "scope": "Canonical group and hotspot membership."
     },
-    "internal_parent_subpieces": {
-      "title": "Internal - holybro_parent_subpieces.json",
-      "path": "desarrollo/docs/investigacion/Holybro/holybro_parent_subpieces.json",
-      "scope": "Configured parent/subpiece and fastener associations used by runtime selection/isolation."
+    "runtime_parent_subpieces": {
+      "title": "Runtime parent/subpiece associations",
+      "path": "desarrollo/unity_project/Assets/Resources/holybro_selection_hierarchy.json",
+      "scope": "Configured parent/subpiece and fastener associations represented through runtime selection and hierarchy data."
     },
-    "internal_fastener_families": {
-      "title": "Internal - holybro_fastener_families.json",
-      "path": "desarrollo/docs/investigacion/Holybro/holybro_fastener_families.json",
+    "runtime_fastener_families": {
+      "title": "Public runtime fastener families",
+      "path": "desarrollo/unity_project/Assets/Resources/holybro_fastener_families.json",
       "scope": "Fastener family geometry, metric size, material, head profile, drive type and expected quantity."
     }
   },
@@ -120,8 +120,8 @@
       ],
       "sourceConfidence": "derived_from_runtime_hierarchy",
       "sourceRefs": [
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -263,8 +263,8 @@
       ],
       "sourceConfidence": "derived_from_runtime_hierarchy",
       "sourceRefs": [
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -406,8 +406,8 @@
       ],
       "sourceConfidence": "derived_from_runtime_hierarchy",
       "sourceRefs": [
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -549,8 +549,8 @@
       ],
       "sourceConfidence": "derived_from_runtime_hierarchy",
       "sourceRefs": [
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -699,8 +699,8 @@
       ],
       "sourceConfidence": "derived_from_runtime_hierarchy",
       "sourceRefs": [
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -869,8 +869,8 @@
       "sourceRefs": [
         "holybro_x500v2_docs",
         "holybro_x500v2_downloads",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -1026,11 +1026,11 @@
       "aliases": [
         "Arm Tube Back-Left"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs",
         "holybro_x500v2_downloads"
       ],
@@ -1236,11 +1236,11 @@
       "aliases": [
         "Arm Tube Back-Right"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs",
         "holybro_x500v2_downloads"
       ],
@@ -1446,11 +1446,11 @@
       "aliases": [
         "Arm Tube Front-Left"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs",
         "holybro_x500v2_downloads"
       ],
@@ -1658,11 +1658,11 @@
       "aliases": [
         "Arm Tube Front-Right"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs",
         "holybro_x500v2_downloads"
       ],
@@ -1870,11 +1870,11 @@
       "aliases": [
         "LiPo Battery 4S 5000mAh"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -2057,11 +2057,11 @@
       "aliases": [
         "Carbon Fiber Bottom Plate"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -2263,8 +2263,8 @@
       "sourceConfidence": "derived_from_runtime_hierarchy",
       "sourceRefs": [
         "holybro_x500v2_docs",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -2410,11 +2410,11 @@
       "aliases": [
         "ESC BLHeli-S 20A BL"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -2601,11 +2601,11 @@
       "aliases": [
         "ESC BLHeli-S 20A BR"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -2792,11 +2792,11 @@
       "aliases": [
         "ESC BLHeli-S 20A FL"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -2995,11 +2995,11 @@
       "aliases": [
         "ESC BLHeli-S 20A FR"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -3188,11 +3188,11 @@
       "aliases": [
         "Holybro M10 GPS Module"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_m10_docs"
       ],
       "sectionOrder": [
@@ -3314,7 +3314,7 @@
           },
           {
             "label": "Trace note",
-            "value": "Some X500 V2 documentation revisions list M8N; the current project asset and internal sheets use M10."
+            "value": "Some X500 V2 documentation revisions list M8N; the current project asset and runtime metadata use M10."
           }
         ]
       },
@@ -3425,7 +3425,7 @@
           },
           {
             "label": "Nota de trazabilidad",
-            "value": "Algunas revisiones de documentación X500 V2 listan M8N; el asset actual del proyecto y las hojas internas usan M10."
+            "value": "Algunas revisiones de documentación X500 V2 listan M8N; el asset actual del proyecto y las metadatos runtime usan M10."
           }
         ]
       },
@@ -3443,11 +3443,11 @@
       "aliases": [
         "Landing Gear"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -3660,9 +3660,9 @@
       ],
       "sourceConfidence": "derived_from_runtime_hierarchy",
       "sourceRefs": [
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
-        "internal_blender_synced_parts"
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
+        "runtime_generated_parts"
       ],
       "sectionOrder": [
         "title",
@@ -3825,7 +3825,7 @@
       "sourceRefs": [
         "holybro_x500v2_docs",
         "holybro_x500v2_downloads",
-        "internal_selection_hierarchy"
+        "runtime_selection_hierarchy"
       ],
       "sectionOrder": [
         "title",
@@ -3981,11 +3981,11 @@
       "aliases": [
         "Motor 2216 KV920 BL"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs",
         "holybro_x500v2_downloads"
       ],
@@ -4169,11 +4169,11 @@
       "aliases": [
         "Motor 2216 KV920 BR"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs",
         "holybro_x500v2_downloads"
       ],
@@ -4357,11 +4357,11 @@
       "aliases": [
         "Motor 2216 KV920 FL"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs",
         "holybro_x500v2_downloads"
       ],
@@ -4555,11 +4555,11 @@
       "aliases": [
         "Motor 2216 KV920 FR"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs",
         "holybro_x500v2_downloads"
       ],
@@ -4753,11 +4753,11 @@
       "aliases": [
         "Power Distribution Board"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -4940,11 +4940,11 @@
       "aliases": [
         "Pixhawk 6C Autopilot"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_pixhawk6c_px4"
       ],
       "sectionOrder": [
@@ -5173,11 +5173,11 @@
       "aliases": [
         "Platform Board"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -5350,11 +5350,11 @@
       "aliases": [
         "Power Module PM02 V3"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_pm02_px4"
       ],
       "sectionOrder": [
@@ -5600,7 +5600,7 @@
       "sourceConfidence": "derived_from_runtime_hierarchy",
       "sourceRefs": [
         "holybro_x500v2_docs",
-        "internal_selection_hierarchy"
+        "runtime_selection_hierarchy"
       ],
       "sectionOrder": [
         "title",
@@ -5746,11 +5746,11 @@
       "aliases": [
         "Propeller 1045 BL"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -5937,11 +5937,11 @@
       "aliases": [
         "Propeller 1045 BR"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -6128,11 +6128,11 @@
       "aliases": [
         "Propeller 1045 FL"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -6323,11 +6323,11 @@
       "aliases": [
         "Propeller 1045 FR"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -6516,11 +6516,11 @@
       "aliases": [
         "Rail System & Battery Mount"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -6737,9 +6737,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -6905,11 +6905,11 @@
       "aliases": [
         "SiK Telemetry Radio V3"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_sik_radio_docs"
       ],
       "sectionOrder": [
@@ -7126,11 +7126,11 @@
       "aliases": [
         "Carbon Fiber Top Plate"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_parts_data",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_parts_data",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -7319,9 +7319,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -7491,9 +7491,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -7655,9 +7655,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -7819,9 +7819,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -7983,9 +7983,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -8147,9 +8147,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -8311,9 +8311,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -8475,9 +8475,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -8641,11 +8641,11 @@
         "Holybro 2216 KV880 Motor",
         "DJ-2216-KV880"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_x500v2_docs"
       ],
       "sectionOrder": [
@@ -8816,9 +8816,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -8980,9 +8980,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -9144,9 +9144,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -9308,9 +9308,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -9472,9 +9472,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -9636,9 +9636,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -9800,9 +9800,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -9968,9 +9968,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -10144,9 +10144,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -10320,9 +10320,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -10496,9 +10496,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -10668,9 +10668,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -10832,9 +10832,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -10996,9 +10996,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -11160,9 +11160,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -11324,9 +11324,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -11488,9 +11488,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -11652,9 +11652,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -11816,9 +11816,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -11980,9 +11980,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -12142,11 +12142,11 @@
         "Power Module PM02/PM06 Board",
         "PCB-PM06"
       ],
-      "sourceConfidence": "official_source_plus_internal_model_data",
+      "sourceConfidence": "official_source_plus_runtime_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces",
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces",
         "holybro_pm02_px4"
       ],
       "sectionOrder": [
@@ -12309,9 +12309,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -12473,9 +12473,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -12637,9 +12637,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -12801,9 +12801,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -12965,9 +12965,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -13129,9 +13129,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -13291,9 +13291,9 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_blender_synced_parts",
-        "internal_selection_hierarchy",
-        "internal_parent_subpieces"
+        "runtime_generated_parts",
+        "runtime_selection_hierarchy",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -13461,8 +13461,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -13661,8 +13661,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -13863,8 +13863,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -14061,8 +14061,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -14251,8 +14251,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -14446,8 +14446,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -14649,8 +14649,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -14846,8 +14846,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -15038,8 +15038,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -15228,8 +15228,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -15422,8 +15422,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -15622,8 +15622,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -15817,8 +15817,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -16009,8 +16009,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -16200,8 +16200,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -16392,8 +16392,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -16583,8 +16583,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",
@@ -16775,8 +16775,8 @@
       ],
       "sourceConfidence": "internal_model_data",
       "sourceRefs": [
-        "internal_fastener_families",
-        "internal_parent_subpieces"
+        "runtime_fastener_families",
+        "runtime_parent_subpieces"
       ],
       "sectionOrder": [
         "title",

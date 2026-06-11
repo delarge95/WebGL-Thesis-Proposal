@@ -24,7 +24,8 @@ Verificar que las fórmulas, la lógica operativa y la arquitectura descritas en
 - `desarrollo/unity_project/Assets/Shaders/XRay.shader`
 - `desarrollo/unity_project/Assets/Shaders/Blueprint.shader`
 - `desarrollo/unity_project/Assets/Shaders/Thermal.shader`
-- `desarrollo/docs/sistema_termico/wolfram_verificaciones.md`
+- `Informe_final/Desarrollo_App/Documentacion_Tecnica/08_Sistema_Termico_Hibrido.md`
+- registros históricos internos de verificación térmica, no publicados en la superficie pública del repositorio
 
 ## Workflow de verificación con Wolfram
 Se reutilizó el verificador local del proyecto:

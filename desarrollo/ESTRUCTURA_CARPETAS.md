@@ -144,13 +144,13 @@ Resultados de pruebas y validación.
 - `usability/` - Resultados de pruebas SUS y NASA-TLX
 - `performance/` - Métricas de rendimiento
 
-### `/desarrollo/docs/`
-Documentación técnica del desarrollo.
+### `/Informe_final/Desarrollo_App/Documentacion_Tecnica/`
+Documentación técnica seleccionada para el cierre académico público.
 
 **Subcarpetas:**
-- `architecture/` - Diagramas de arquitectura
-- `pipeline/` - Documentación del pipeline de optimización
-- `api/` - Documentación de scripts C#
+- `01_Arquitectura_del_Sistema.md` - Arquitectura final documentada
+- `04_Guia_Despliegue.md` - Ruta de despliegue y publicación
+- `05_Configuracion_WebGL.md` - Configuración WebGL y mediciones
 
 ## 🔧 Configuración de Git
 

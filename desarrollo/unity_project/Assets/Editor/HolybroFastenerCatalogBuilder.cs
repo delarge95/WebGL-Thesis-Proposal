@@ -19,7 +19,8 @@ internal sealed class HolybroFastenerCatalogBuildResult
 internal static class HolybroFastenerCatalogBuilder
 {
     private const string FastenerGroupId = "x500v2_fastener_group";
-    private const string SyncedJsonFile = "x500v2_blender_synced_parts.json";
+    private const string PublicSourceDataset = "public_runtime_fastener_catalogs";
+    private const string OptionalSourceJsonFile = "holybro_fastener_source_supplement.json";
     private const string FamiliesJsonFile = "holybro_fastener_families.json";
     private const string InstancesJsonFile = "holybro_fastener_instances.json";
     private const string ReconciliationJsonFile = "holybro_fastener_reconciliation.json";
@@ -97,9 +98,8 @@ internal static class HolybroFastenerCatalogBuilder
     {
     };
 
-    private static string HolybroDocsDir => Path.GetFullPath(Path.Combine(Application.dataPath, "..", "..", "docs", "investigacion", "Holybro"));
-    private static string SyncedJsonPath => Path.Combine(HolybroDocsDir, SyncedJsonFile);
     private static string ResourcesDir => Path.Combine(Application.dataPath, "Resources");
+    private static string OptionalSourceJsonPath => Path.Combine(ResourcesDir, OptionalSourceJsonFile);
 
     public static HolybroFastenerCatalogBuildResult BuildAndWrite(Transform droneRoot)
     {
@@ -149,7 +149,7 @@ internal static class HolybroFastenerCatalogBuilder
                     sceneTypeKey = sceneTypeKey,
                     sourceId = source.id,
                     blenderName = source.blenderName,
-                    rationale = "Explicit Unity scene type to Holybro synced source mapping."
+                    rationale = "Explicit Unity scene type to public runtime source mapping."
                 });
             }
             else
@@ -175,7 +175,7 @@ internal static class HolybroFastenerCatalogBuilder
                     severity = "warning",
                     scope = "SceneFamily",
                     sceneTypeKey = sceneTypeKey,
-                    message = "No Holybro synced source entry matched this Unity fastener family. JSON falls back to scene-derived metadata only."
+                    message = "No public runtime source entry matched this Unity fastener family. JSON falls back to scene-derived metadata only."
                 });
             }
 
@@ -190,7 +190,7 @@ internal static class HolybroFastenerCatalogBuilder
                     scope = "QuantityMismatch",
                     sceneTypeKey = sceneTypeKey,
                     sourceId = source.id,
-                    message = $"Scene contains {grouped.Count()} instances while synced source expects {source.quantityInScene}."
+                    message = $"Scene contains {grouped.Count()} instances while the public runtime source expects {source.quantityInScene}."
                 });
             }
         }
@@ -216,20 +216,20 @@ internal static class HolybroFastenerCatalogBuilder
             FamiliesCatalog = new FastenerFamilyCatalogJson
             {
                 sourceScene = "Assets/Scenes/MainScene_Final.unity",
-                sourceDataset = SyncedJsonFile,
+                sourceDataset = PublicSourceDataset,
                 generatedAtUtc = DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture),
                 items = families.ToArray()
             },
             InstancesCatalog = new FastenerInstanceCatalogJson
             {
                 sourceScene = "Assets/Scenes/MainScene_Final.unity",
-                sourceDataset = SyncedJsonFile,
+                sourceDataset = PublicSourceDataset,
                 generatedAtUtc = DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture)
             },
             ReconciliationCatalog = new FastenerReconciliationJson
             {
                 sourceScene = "Assets/Scenes/MainScene_Final.unity",
-                sourceDataset = SyncedJsonFile,
+                sourceDataset = PublicSourceDataset,
                 generatedAtUtc = DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture)
             }
         };
@@ -753,12 +753,12 @@ internal static class HolybroFastenerCatalogBuilder
 
     private static SourcePart[] LoadFastenerSources()
     {
-        if (!File.Exists(SyncedJsonPath))
+        if (!File.Exists(OptionalSourceJsonPath))
         {
             return Array.Empty<SourcePart>();
         }
 
-        string raw = File.ReadAllText(SyncedJsonPath);
+        string raw = File.ReadAllText(OptionalSourceJsonPath);
         SourcePartWrapper wrapper = JsonUtility.FromJson<SourcePartWrapper>("{\"items\":" + raw + "}");
         if (wrapper?.items == null)
         {
@@ -883,7 +883,7 @@ internal static class HolybroFastenerCatalogBuilder
                 scope = "SemanticOverride",
                 sceneTypeKey = sceneTypeKey,
                 sourceId = source.id,
-                message = "Unity scene naming overrides the generic synced part label so the modular family better matches the runtime placeholder behavior."
+                message = "Unity scene naming overrides the generic runtime part label so the modular family better matches the runtime placeholder behavior."
             });
         }
 

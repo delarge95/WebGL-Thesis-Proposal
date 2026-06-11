@@ -12,15 +12,13 @@ public static class SetupImportedDroneThermalTest
 {
     private const string RootName = "x500v2_Drone";
     private const string GeneratedDataFolder = "Assets/Core/Data/X500V2Generated";
-    private const string CanonicalJsonFile = "x500v2_parts_data.json";
-    private const string SyncedJsonFile = "x500v2_blender_synced_parts.json";
-    private const string ParentSubpiecesJsonFile = "holybro_parent_subpieces.json";
+    private const string GeneratedDataSource = GeneratedDataFolder + "/*.asset";
+    private const string SelectionHierarchyJsonFile = "holybro_selection_hierarchy.json";
     private const string FastenerGroupId = "x500v2_fastener_group";
     private const string MiscGroupId = "x500v2_misc_group";
 
-    private static string HolybroDocsDir => Path.GetFullPath(Path.Combine(Application.dataPath, "..", "..", "docs", "investigacion", "Holybro"));
-    private static string CanonicalJsonPath => Path.Combine(HolybroDocsDir, CanonicalJsonFile);
-    private static string SyncedJsonPath => Path.Combine(HolybroDocsDir, SyncedJsonFile);
+    private static string ResourcesDir => Path.Combine(Application.dataPath, "Resources");
+    private static string SelectionHierarchyJsonPath => Path.Combine(ResourcesDir, SelectionHierarchyJsonFile);
 
     [Serializable]
     private class DronePartJsonWrapper
@@ -333,54 +331,80 @@ public static class SetupImportedDroneThermalTest
         selectedSource = "N/A";
         matchedPartIds = 0;
 
-        bool hasSynced = TryLoadParts(SyncedJsonPath, out DronePartJson[] syncedParts, useSyncedSchema: true);
-        bool hasCanonical = TryLoadParts(CanonicalJsonPath, out DronePartJson[] canonicalParts, useSyncedSchema: false);
-
-        int syncedMatches = hasSynced ? EstimateMatchedParts(root, syncedParts) : -1;
-        int canonicalMatches = hasCanonical ? EstimateMatchedParts(root, canonicalParts) : -1;
-
-        if (hasCanonical && canonicalMatches > 0)
+        DronePartJson[] generatedParts = LoadGeneratedPartAssets();
+        if (generatedParts.Length > 0)
         {
-            selectedSource = CanonicalJsonFile;
-            matchedPartIds = canonicalMatches;
-            Debug.Log($"[SetupImportedDroneThermalTest] Fuente de interaccion: {CanonicalJsonFile} ({canonicalParts.Length} entradas, matches={canonicalMatches}). El dataset granular queda como metadata/subpiezas, no como anchors seleccionables.");
-            return canonicalParts;
+            selectedSource = GeneratedDataSource;
+            matchedPartIds = EstimateMatchedParts(root, generatedParts);
+            Debug.Log($"[SetupImportedDroneThermalTest] Fuente publica de piezas: {GeneratedDataSource} ({generatedParts.Length} assets, matches={matchedPartIds}).");
+            return generatedParts;
         }
 
-        if (hasSynced && hasCanonical)
+        Debug.LogError($"[SetupImportedDroneThermalTest] No se pudieron cargar assets DronePartData en {GeneratedDataFolder}.");
+        return null;
+    }
+
+    private static DronePartJson[] LoadGeneratedPartAssets()
+    {
+        string[] guids = AssetDatabase.FindAssets("t:DronePartData", new[] { GeneratedDataFolder });
+        if (guids == null || guids.Length == 0)
         {
-            if (syncedMatches >= canonicalMatches)
+            return Array.Empty<DronePartJson>();
+        }
+
+        List<DronePartJson> parts = new List<DronePartJson>(guids.Length);
+        foreach (string guid in guids.OrderBy(g => g, StringComparer.OrdinalIgnoreCase))
+        {
+            string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+            DronePartData data = AssetDatabase.LoadAssetAtPath<DronePartData>(assetPath);
+            if (data == null || string.IsNullOrWhiteSpace(data.id))
             {
-                selectedSource = SyncedJsonFile;
-                matchedPartIds = syncedMatches;
-                Debug.Log($"[SetupImportedDroneThermalTest] Fuente de piezas: {SyncedJsonFile} ({syncedParts.Length} entradas, matches={syncedMatches})");
-                return syncedParts;
+                continue;
             }
 
-            selectedSource = CanonicalJsonFile;
-            matchedPartIds = canonicalMatches;
-            Debug.LogWarning($"[SetupImportedDroneThermalTest] Seleccion automatica de fuente: {CanonicalJsonFile} ({canonicalParts.Length} entradas, matches={canonicalMatches}) por mayor cobertura de escena frente a {SyncedJsonFile} (matches={syncedMatches}).");
-            return canonicalParts;
+            parts.Add(new DronePartJson
+            {
+                partName = data.partName,
+                id = data.id,
+                partType = data.partType,
+                category = data.category.ToString(),
+                description = data.description,
+                function = data.function,
+                weightKg = data.weightKg,
+                dimensions = data.dimensions,
+                materialType = data.materialType,
+                materialProperties = data.materialProperties,
+                manufacturer = data.manufacturer,
+                partNumber = data.partNumber,
+                powerConsumption = data.powerConsumption,
+                maxLoad = data.maxLoad,
+                operatingTemp = data.operatingTemp,
+                operatingTempMin = data.operatingTempMin,
+                operatingTempMax = data.operatingTempMax,
+                thermalHover = data.thermalHover,
+                thermalPeak = data.thermalPeak,
+                thermalWarmupSeconds = data.thermalWarmupSeconds,
+                difficultyLevel = data.difficultyLevel,
+                requiredTools = data.requiredTools ?? Array.Empty<string>(),
+                safetyWarnings = data.safetyWarnings ?? Array.Empty<string>(),
+                installationTips = data.installationTips,
+                installationTimeMinutes = data.installationTimeMinutes,
+                torqueSpec = data.torqueSpec,
+                assemblyOrder = data.assemblyOrder,
+                prerequisites = data.prerequisites ?? Array.Empty<string>(),
+                connectionTypes = data.connectionTypes ?? Array.Empty<string>(),
+                screwCount = data.screwCount,
+                screwSize = data.screwSize,
+                explosionDirection = new[] { data.explosionDirection.x, data.explosionDirection.y, data.explosionDirection.z },
+                explosionDistance = data.explosionDistance,
+                explosionPriority = data.explosionPriority,
+                highlightColor = new[] { data.highlightColor.r, data.highlightColor.g, data.highlightColor.b, data.highlightColor.a },
+                isHotspotTarget = data.isHotspotTarget,
+                hotspotLabel = data.hotspotLabel
+            });
         }
 
-        if (hasSynced)
-        {
-            selectedSource = SyncedJsonFile;
-            matchedPartIds = syncedMatches;
-            Debug.Log($"[SetupImportedDroneThermalTest] Fuente de piezas: {SyncedJsonFile} ({syncedParts.Length} entradas, matches={syncedMatches})");
-            return syncedParts;
-        }
-
-        if (hasCanonical)
-        {
-            selectedSource = CanonicalJsonFile;
-            matchedPartIds = canonicalMatches;
-            Debug.LogWarning($"[SetupImportedDroneThermalTest] Fallback a {CanonicalJsonFile} ({canonicalParts.Length} entradas, matches={canonicalMatches})");
-            return canonicalParts;
-        }
-
-        Debug.LogError($"[SetupImportedDroneThermalTest] No se pudo cargar ni {SyncedJsonFile} ni {CanonicalJsonFile} en {HolybroDocsDir}");
-        return null;
+        return parts.ToArray();
     }
 
     private static int EstimateMatchedParts(Transform root, IReadOnlyList<DronePartJson> parts)
@@ -520,32 +544,32 @@ public static class SetupImportedDroneThermalTest
             return;
         }
 
-        string path = Path.Combine(HolybroDocsDir, ParentSubpiecesJsonFile);
+        string path = SelectionHierarchyJsonPath;
         if (!File.Exists(path))
         {
             return;
         }
 
         string raw = File.ReadAllText(path);
-        ParentSubpieceCatalogJson catalog = JsonUtility.FromJson<ParentSubpieceCatalogJson>(raw);
-        if (catalog?.items == null)
+        SelectionHierarchyCatalog catalog = JsonUtility.FromJson<SelectionHierarchyCatalog>(raw);
+        if (catalog?.canonicalGroups == null)
         {
             return;
         }
 
-        foreach (ParentSubpieceEntry entry in catalog.items)
+        foreach (CanonicalSelectionGroupDefinition entry in catalog.canonicalGroups)
         {
-            if (entry == null || string.IsNullOrWhiteSpace(entry.parentCanonicalPartId))
+            if (entry == null || string.IsNullOrWhiteSpace(entry.canonicalPartId))
             {
                 continue;
             }
 
-            if (!assetsById.TryGetValue(entry.parentCanonicalPartId, out DronePartData asset) || asset == null)
+            if (!assetsById.TryGetValue(entry.canonicalPartId, out DronePartData asset) || asset == null)
             {
                 continue;
             }
 
-            asset.subComponentNames = entry.configuredSubpieces ?? Array.Empty<string>();
+            asset.subComponentNames = entry.subpieceNames ?? Array.Empty<string>();
             EditorUtility.SetDirty(asset);
         }
     }
