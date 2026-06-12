@@ -2,7 +2,7 @@
 ## TwinSight X500 - Thesis Defense Deck
 
 Estado: prompt auxiliar para generar o revisar un borrador visual.
-Fecha: 2026-06-11.
+Fecha: 2026-06-12.
 Canon: usar siempre los archivos maestros de `Informe_final/presentation/`.
 
 > Este prompt no reemplaza el informe ni el guion. Sirve para pedir a un generador de presentaciones un deck visual coherente, sin inventar cifras ni recuperar claims antiguos.
@@ -15,7 +15,11 @@ MANDATORY SOURCE FILES
 Use these files as the only content authority:
 - Informe_final/presentation/PRESENTATION_OUTLINE.md
 - Informe_final/presentation/PRESENTATION_SCRIPT.md
+- Informe_final/presentation/SPEAKER_CARDS.md
+- Informe_final/presentation/DEFENSE_STUDY_GUIDE.md
+- Informe_final/presentation/BIBLIOGRAPHY_EVIDENCE_ATLAS.md
 - Informe_final/presentation/DEFENSE_EVIDENCE_MAP.md
+- Informe_final/presentation/DEFENSE_PACKAGE_AUDIT_2026-06-12.md
 - Informe_final/presentation/JURY_QA_BANK.md
 - Informe_final/presentation/DEMO_SCRIPT.md
 - Informe_final/presentation/ASSETS_REQUIREMENTS.md

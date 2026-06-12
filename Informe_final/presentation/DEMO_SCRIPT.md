@@ -109,7 +109,7 @@ Este documento se ensaya junto con `PRESENTATION_SCRIPT.md`. La evidencia por sl
 
 **Accion:** Cambiar entorno o preset si aplica.
 
-> "Blueprint se maneja como preset/lectura de entorno cuando esta disponible, no como una promesa de siete modos visibles al usuario."
+> "Los presets de entorno visibles se muestran solo si aparecen en la build evaluada; Blueprint no se promete como tarjeta directa si no esta publicado."
 
 **Accion:** Mostrar Thermal solo como lectura heuristica.
 
@@ -141,7 +141,7 @@ Este documento se ensaya junto con `PRESENTATION_SCRIPT.md`. La evidencia por sl
 ## Frases seguras
 
 - "La app distingue entre pieza madre, subpieza, hotspot y fastener."
-- "Blueprint y modos ocultos se tratan como capacidades implementadas o presets, no como alcance visible si no estan publicados."
+- "Los presets visibles se muestran solo si estan publicados; Blueprint, Wireframe y Ghosted no se prometen como alcance visible si no aparecen en la build evaluada."
 - "Thermal es heuristico, no FEA."
 - "Los fasteners se muestran solo cuando su asignacion visible esta trazada; si hay ambiguedad, se reporta como limite o revision."
 - "Las metricas se citan solo si estan en el capitulo 5, anexos de validacion o profiler actual."

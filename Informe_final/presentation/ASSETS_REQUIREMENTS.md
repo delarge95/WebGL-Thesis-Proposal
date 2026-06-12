@@ -2,14 +2,18 @@
 ## TwinSight X500 - Capturas, videos, diagramas y respaldos
 
 Estado: plan de medios para construir el deck.
-Fecha de actualizacion: 2026-06-11.
+Fecha de actualizacion: 2026-06-12.
 Este documento no es guion oral y no genera diapositivas por si solo.
 
 Archivos relacionados:
 
 - `PRESENTATION_OUTLINE.md`: estructura de slides.
 - `PRESENTATION_SCRIPT.md`: guion oral y transiciones.
+- `SPEAKER_CARDS.md`: tarjetas orales cortas para ensayo cronometrado.
+- `DEFENSE_STUDY_GUIDE.md`: explicaciones simples/tecnicas, evidencia y preguntas por bloque.
+- `BIBLIOGRAPHY_EVIDENCE_ATLAS.md`: citas breves verificadas y limites bibliograficos.
 - `DEFENSE_EVIDENCE_MAP.md`: trazabilidad de cada slide.
+- `DEFENSE_PACKAGE_AUDIT_2026-06-12.md`: auditoria interna y riesgos residuales.
 - `JURY_QA_BANK.md`: preguntas probables del jurado.
 - `DEMO_SCRIPT.md`: recorrido de demo.
 

@@ -2,7 +2,7 @@
 ## TwinSight X500 - Defensa academica de 30 minutos
 
 Estado: estructura maestra enlazada al guion oral canonico.
-Fecha de actualizacion: 2026-06-11.
+Fecha de actualizacion: 2026-06-12.
 Fuente academica autoritativa: `Informe_final/informe_final.pdf`.
 Fuentes de apoyo revisadas: carpeta `Informe_final/presentation/` y documento local de storytelling indicado por el autor.
 
@@ -12,7 +12,11 @@ Fuentes de apoyo revisadas: carpeta `Informe_final/presentation/` y documento lo
 |---|---|
 | `PRESENTATION_OUTLINE.md` | Estructura principal de 24 slides y backups. |
 | `PRESENTATION_SCRIPT.md` | Guion oral maestro con tiempos, transiciones, riesgos y frases seguras. |
+| `SPEAKER_CARDS.md` | Tarjetas orales cortas para ensayo cronometrado de 28:30. |
+| `DEFENSE_STUDY_GUIDE.md` | Guia robusta por bloques con explicacion simple, tecnica, evidencia y preguntas rebuscadas. |
+| `BIBLIOGRAPHY_EVIDENCE_ATLAS.md` | Atlas de fuentes con citas breves verificadas localmente y limites de uso. |
 | `DEFENSE_EVIDENCE_MAP.md` | Mapa de trazabilidad entre slides, informe, anexos, app, README, manuales y bibliografia. |
+| `DEFENSE_PACKAGE_AUDIT_2026-06-12.md` | Auditoria interna del paquete de defensa y riesgos residuales. |
 | `JURY_QA_BANK.md` | Banco de preguntas de jurado con respuestas cortas, ampliadas, evidencia y alertas. |
 | `DEMO_SCRIPT.md` | Recorrido de demo coherente con la UI publica real. |
 | `ASSETS_REQUIREMENTS.md` | Lista de capturas, videos, GIFs, diagramas y prioridades visuales. |
@@ -174,6 +178,15 @@ Si la defensa se atrasa, cortar en este orden:
 - No comparar directamente 95 617 y 229 054 triangulos.
 - No inventar FPS, tiempos, pesos de build ni reducciones no trazadas.
 
-## 12. Entregable siguiente
+## 12. Ruta de estudio antes de generar slides
+
+1. Ensayar la ruta oral corta con `SPEAKER_CARDS.md`.
+2. Estudiar cada bloque con `DEFENSE_STUDY_GUIDE.md`.
+3. Verificar fuentes y citas breves con `BIBLIOGRAPHY_EVIDENCE_ATLAS.md`.
+4. Comprobar cada afirmacion en `DEFENSE_EVIDENCE_MAP.md`.
+5. Revisar riesgos residuales en `DEFENSE_PACKAGE_AUDIT_2026-06-12.md`.
+6. Practicar objeciones con `JURY_QA_BANK.md`.
+
+## 13. Entregable siguiente
 
 El guion oral maestro ya esta definido en `PRESENTATION_SCRIPT.md`. El siguiente paso operativo es producir o seleccionar los medios visuales indicados en `ASSETS_REQUIREMENTS.md`, construir el deck con los titulos-sentencia de esta estructura, y verificar cada slide contra `DEFENSE_EVIDENCE_MAP.md` antes de ensayar con `JURY_QA_BANK.md`.

@@ -57,14 +57,14 @@ Regla para defensa:
 | 7 | La evaluacion triangula tecnicos, tareas, SUS, NASA y Think-Aloud. | `03_marco_metodologico.tex`, instrumentos y triangulacion. | Diagrama de triangulacion. | Evita mal uso de SUS/NASA. |
 | 8 | El pipeline traduce CAD a WebGL viable. | `04_desarrollo.tex`, pipeline 3D. | High/low mesh, bake, Blender/Unity. | Evita parecer importacion directa. |
 | 9 | 95 617 y 229 054 triangulos no son equivalentes. | `05_resultados.tex`; `07_TABLAS_RENDIMIENTO_WEBGL_MEDICIONES.tex`. | Tarjeta de cifras. | Evita contradiccion geometrica. |
-| 10 | La app separa UI, datos, escena, shaders y profiler. | `04_desarrollo.tex`; `Manual_tecnico`. | Diagrama de arquitectura. | Evita lectura de "viewer simple". |
+| 10 | La app separa UI, datos, escena, shaders y profiler. | `04_desarrollo.tex`; `Informe_final/Manual_tecnico/manual_tecnico.pdf`. | Diagrama de arquitectura. | Evita lectura de "viewer simple". |
 | 11 | La taxonomia 28/30/257 estructura seleccion y escena. | `04_desarrollo.tex`, reconciliacion de conteos. | Jerarquia de piezas/anchors/renderers. | Evita confusion de conteos. |
-| 12 | El flujo publico real es Hero -> Explore -> bottom sheet -> Inspect/Analyze/Studio. | `README.md`; `Manual_de_usuario`; `DEMO_SCRIPT.md`. | Capturas de UI. | Evita vender modulos no visibles. |
+| 12 | El flujo publico real es Hero -> Explore -> bottom sheet -> Inspect/Analyze/Studio. | `README.md`; `Informe_final/Manual_de_usuario/manual_usuario.pdf`; `DEMO_SCRIPT.md`. | Capturas de UI. | Evita vender modulos no visibles. |
 | 13 | Inspect/Analyze reducen ruido visual para leer relaciones. | `05_resultados.tex`, cierre funcional y Think-Aloud. | Isolate, explode, cut, filtros. | Evita feature-list sin proposito. |
 | 14 | Studio/shaders son lecturas visuales complementarias. | `04_desarrollo.tex`; figuras de modos. | Grid Realistic/X-Ray/Solid/Thermal. | Evita presentar efectos como decoracion. |
 | 15 | Thermal es heuristico, no FEA ni telemetria. | `01_introduccion.tex`; `06_conclusiones.tex`. | Captura Thermal con etiqueta. | Riesgo tecnico alto si se sobrevende. |
 | 16 | La demo prueba tres capacidades concretas. | `DEMO_SCRIPT.md`; `ASSETS_REQUIREMENTS.md`. | Slide "explorar, inspeccionar, analizar". | Evita demo improvisada. |
-| 17 | La build realiza el flujo prometido. | `docs/Build/`; `Manual_usuario`; `DEMO_SCRIPT.md`. | Video o demo vivo. | Evita depender de red o azar. |
+| 17 | La build realiza el flujo prometido. | `docs/Build/`; `Informe_final/Manual_de_usuario/manual_usuario.pdf`; `DEMO_SCRIPT.md`. | Video o demo vivo. | Evita depender de red o azar. |
 | 18 | El profiler hace trazable rendimiento por escenario. | `06_GUIA_MEDICIONES_TECNICAS_WEBGL.md`; tablas de rendimiento. | Profiler screenshot/export. | Evita FPS sin contexto. |
 | 19 | Rendimiento viable con limites por dispositivo. | `05_resultados.tex`; `07_TABLAS_RENDIMIENTO_WEBGL_MEDICIONES.tex`. | Matriz de dispositivos. | Evita promesa universal movil. |
 | 20 | SUS muestra recepcion favorable del prototipo 3D. | `05_resultados.tex`, resultados SUS. | Grafico SUS. | Evita comparar SUS 3D vs 2D. |
@@ -231,7 +231,7 @@ Ruta formal:
 | B4 Rendimiento completo | `07_TABLAS_RENDIMIENTO_WEBGL_MEDICIONES.tex` | FPS, frame time, memoria, escenarios. |
 | B5 Profiler | `06_GUIA_MEDICIONES_TECNICAS_WEBGL.md` | Como se obtuvo JSON/CSV y que registra. |
 | B6 Geometria | `05_resultados.tex`; `04_desarrollo.tex` | 95 617 vs 229 054, 28/30/257. |
-| B7 Arquitectura | `Manual_tecnico`; `04_desarrollo.tex` | Managers, eventos, datos, shaders. |
+| B7 Arquitectura | `Informe_final/Manual_tecnico/manual_tecnico.pdf`; `04_desarrollo.tex` | Managers, eventos, datos, shaders. |
 | B8 Thermal | `01_introduccion.tex`; `06_conclusiones.tex` | Heuristico, no FEA, trabajo futuro. |
 | B9 Limitaciones | `05_resultados.tex`; `06_conclusiones.tex` | Muestra, efecto techo, no inferencia, movil. |
 | B10 Futuro | `06_conclusiones.tex` | Telemetria, twin manifest, mayor muestra, dispositivos. |

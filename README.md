@@ -2,7 +2,7 @@
 tipo: sistema
 estado: mantenido
 canon: github_public
-actualizado: 2026-06-11
+actualizado: 2026-06-12
 ---
 
 # TwinSight X500
@@ -132,7 +132,11 @@ The defense package is maintained in [`Informe_final/presentation/`](Informe_fin
 
 - [`PRESENTATION_OUTLINE.md`](Informe_final/presentation/PRESENTATION_OUTLINE.md)
 - [`PRESENTATION_SCRIPT.md`](Informe_final/presentation/PRESENTATION_SCRIPT.md)
+- [`SPEAKER_CARDS.md`](Informe_final/presentation/SPEAKER_CARDS.md)
+- [`DEFENSE_STUDY_GUIDE.md`](Informe_final/presentation/DEFENSE_STUDY_GUIDE.md)
+- [`BIBLIOGRAPHY_EVIDENCE_ATLAS.md`](Informe_final/presentation/BIBLIOGRAPHY_EVIDENCE_ATLAS.md)
 - [`DEFENSE_EVIDENCE_MAP.md`](Informe_final/presentation/DEFENSE_EVIDENCE_MAP.md)
+- [`DEFENSE_PACKAGE_AUDIT_2026-06-12.md`](Informe_final/presentation/DEFENSE_PACKAGE_AUDIT_2026-06-12.md)
 - [`JURY_QA_BANK.md`](Informe_final/presentation/JURY_QA_BANK.md)
 - [`DEMO_SCRIPT.md`](Informe_final/presentation/DEMO_SCRIPT.md)
 - [`ASSETS_REQUIREMENTS.md`](Informe_final/presentation/ASSETS_REQUIREMENTS.md)

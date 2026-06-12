@@ -1,10 +1,11 @@
 # Guion maestro de sustentacion - TwinSight X500
 
 Estado: canonico para defensa academica.
-Fecha de actualizacion: 2026-06-11.
+Fecha de actualizacion: 2026-06-12.
 Duracion objetivo: 28:30 de exposicion real + 1:30 de margen.
 Fuente autoritativa: `Informe_final/informe_final.pdf`.
 Carpeta de apoyo: `Informe_final/presentation/`.
+Uso complementario: ensayar tiempo con `SPEAKER_CARDS.md`, profundizar con `DEFENSE_STUDY_GUIDE.md`, verificar fuentes con `BIBLIOGRAPHY_EVIDENCE_ATLAS.md` y comprobar claims con `DEFENSE_EVIDENCE_MAP.md`.
 
 ## 1. Regla de uso
 
@@ -763,7 +764,7 @@ No decir:
 
 ### Slide 23 - La contribucion es tecnica, metodologica y comunicativa
 
-Tiempo: 27:45-28:45.
+Tiempo: 27:15-28:00.
 
 Objetivo: sintetizar aporte.
 
@@ -798,7 +799,7 @@ No decir:
 
 ### Slide 24 - Hacer legible el hardware complejo desde la web es el aporte defendible
 
-Tiempo: 28:45-29:30 maximo. Si se va en tiempo, cerrar en 45 segundos.
+Tiempo: 28:00-28:30 maximo. Si se va en tiempo, cerrar en 30 segundos.
 
 Objetivo: cerrar con una frase clara y preparar preguntas.
 
@@ -806,13 +807,13 @@ Visual: dron final, tres takeaways.
 
 Guion oral:
 
-> El punto de partida fue una dificultad concreta: la documentacion tecnica y el CAD pesado no siempre permiten comprender rapidamente relaciones espaciales de un hardware complejo.
+> El problema fue convertir informacion tecnica fragmentada en comprension espacial rapida de un hardware complejo.
 >
-> TwinSight X500 responde con una capa web 3D inspeccionable: no un gemelo digital operacional, sino un visual product twin que organiza piezas, datos, modos visuales y medicion tecnica.
+> TwinSight X500 responde con un visual product twin WebGL: no telemetria real, sino inspeccion, contexto de piezas, modos visuales y medicion tecnica.
 >
-> La evidencia muestra una build funcional, rendimiento viable con limites, usabilidad percibida favorable, menor workload en la muestra y hallazgos cualitativos coherentes con comprension espacial.
+> La evidencia muestra build funcional, rendimiento viable con limites, SUS favorable, menor NASA-TLX Raw en la muestra y verbalizaciones coherentes con comprension espacial.
 >
-> La contribucion final no es mostrar mas piezas. Es hacer legibles sus relaciones. Muchas gracias. Quedo atento a sus preguntas.
+> La contribucion no es mostrar mas piezas; es hacer legibles sus relaciones desde la web. Muchas gracias. Quedo atento a sus preguntas.
 
 Clicks/movimiento: no animar el cierre despues de "Muchas gracias".
 
