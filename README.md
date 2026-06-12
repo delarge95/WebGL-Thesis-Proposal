@@ -131,9 +131,13 @@ Metrics must only be reported when they match the frozen build and the validatio
 The defense package is maintained in [`Informe_final/presentation/`](Informe_final/presentation/):
 
 - [`PRESENTATION_OUTLINE.md`](Informe_final/presentation/PRESENTATION_OUTLINE.md)
+- [`PRESENTATION_SCRIPT.md`](Informe_final/presentation/PRESENTATION_SCRIPT.md)
+- [`DEFENSE_EVIDENCE_MAP.md`](Informe_final/presentation/DEFENSE_EVIDENCE_MAP.md)
+- [`JURY_QA_BANK.md`](Informe_final/presentation/JURY_QA_BANK.md)
 - [`DEMO_SCRIPT.md`](Informe_final/presentation/DEMO_SCRIPT.md)
 - [`ASSETS_REQUIREMENTS.md`](Informe_final/presentation/ASSETS_REQUIREMENTS.md)
 - [`DESIGN_SYSTEM.md`](Informe_final/presentation/DESIGN_SYSTEM.md)
+- [`KIMI_PROMPT.md`](Informe_final/presentation/KIMI_PROMPT.md)
 
 The demo must show only the verified public flow. Do not present hidden managers, legacy panels, experimental tooling or unsupported metrics as final visible features.
 

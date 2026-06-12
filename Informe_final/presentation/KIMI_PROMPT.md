@@ -1,177 +1,122 @@
 # Kimi Presentation Generation Prompt
-## TwinSight X500 - Thesis Defense
+## TwinSight X500 - Thesis Defense Deck
 
-> Prompt aligned with the current Unity app, final Blender pipeline and academic documentation. It avoids outdated claims about non-visible tools or unmeasured metrics.
+Estado: prompt auxiliar para generar o revisar un borrador visual.
+Fecha: 2026-06-11.
+Canon: usar siempre los archivos maestros de `Informe_final/presentation/`.
 
----
-
-## Master Prompt
+> Este prompt no reemplaza el informe ni el guion. Sirve para pedir a un generador de presentaciones un deck visual coherente, sin inventar cifras ni recuperar claims antiguos.
 
 ```text
-You are a senior presentation designer creating a thesis defense deck.
-Generate a 20-slide presentation in Spanish following these specifications.
+You are a senior academic presentation designer creating a thesis defense deck in Spanish.
+Generate a 24-slide defense deck for TwinSight X500.
+
+MANDATORY SOURCE FILES
+Use these files as the only content authority:
+- Informe_final/presentation/PRESENTATION_OUTLINE.md
+- Informe_final/presentation/PRESENTATION_SCRIPT.md
+- Informe_final/presentation/DEFENSE_EVIDENCE_MAP.md
+- Informe_final/presentation/JURY_QA_BANK.md
+- Informe_final/presentation/DEMO_SCRIPT.md
+- Informe_final/presentation/ASSETS_REQUIREMENTS.md
+- README.md
+- Informe_final/informe_final.pdf
 
 PROJECT CONTEXT
-- Title: "Prototipo WebGL de Visualizacion 3D Interactiva para Hardware de Drones"
-- Author: Alexander Woodcock Salomon
-- Program: Ingenieria Multimedia - UNAD
-- Case study: Holybro X500 V2 drone
-- Theme: Interactive technical visualization using Unity, WebGL, WebAssembly, Blender and optimized CAD-to-runtime assets.
+- Project: TwinSight X500.
+- Program: Ingenieria Multimedia.
+- Thesis artifact: Unity WebGL prototype for technical visualization and inspection of the Holybro X500 V2 drone.
+- Correct scope: visual product twin / visual-semantic product layer.
+- Not correct: operational digital twin, live telemetry platform, FEA simulator, predictive maintenance system.
+
+CORE THESIS
+TwinSight X500 transforms static documentation and heavy CAD-derived assets of a complex drone assembly into a browser-based 3D experience for technical inspection. Its contribution is not claiming an operational digital twin, but making parts, relations and visual analysis modes legible through WebGL with technical and formative user evidence.
 
 STRICT FACTUAL RULES
-- Do not claim that all 7 view modes are public UI features.
-- Public visual flow: Realistic base, X-Ray, Solid Color, Thermal and environment presets.
-- Blueprint may be shown as a technical environment/preset or implemented-but-hidden reading mode, not as a guaranteed public mode card unless verified in the current build.
-- Wireframe and Ghosted are implemented/hidden or legacy capabilities, not demo features.
-- Do not include Measurement, BOM, connection points, annotations or assembly checklist as final user tools unless explicitly marked as future/non-integrated work.
-- Thermal is heuristic visual analysis by components, not FEA and not calibrated physical measurement.
-- Fastener modular meshes are temporary Unity placeholders until Blender final modules replace them through recipes/assets.
-- Do not report FPS, load time, asset-size reduction, SUS or NASA-TLX values unless they match Chapter 5, validation annexes or current profiler evidence.
+- Do not claim operational digital twin.
+- Do not claim live telemetry, predictive maintenance, physical synchronization, PLM/CMMS/SCADA/IoT integration or calibrated FEA.
+- Thermal must be labeled as heuristic visualization, not physical simulation.
+- Do not show Measurement, BOM, annotations, connection tools or legacy panels as final public UI.
+- Public visible flow: Hero -> Explore -> part selection -> bottom sheet -> Inspect / Analyze / Studio.
+- Visible tools: orbit/zoom/pan, selection, bottom sheet, hotspots, isolate, explode, cross-section, category filters, Realistic, X-Ray, Solid Color, Thermal and environment presets when verified.
+- SUS applies only to the 3D prototype.
+- NASA-TLX Raw compares perceived workload by condition 3D vs 2D.
+- T1, T2 and T3 are timed. T4 is exploratory guided and not timed.
+- 95 617 triangles = optimized base exported asset.
+- 229 054 triangles estimated = runtime profiler scene. These numbers are not equivalent.
+- Compatibility is device-specific, not universal.
+- Results are descriptive and formative, not population-level inferential claims.
 
-DESIGN SYSTEM
-- Aspect ratio: 16:9, 1920x1080.
-- Background: #0A0E17.
-- Card background: #1E293B.
-- Primary accent: #3B82F6.
-- Secondary accent: #10B981.
-- Text primary: #F8FAFC.
-- Text secondary: #94A3B8.
-- Borders: #334155.
-- Headlines: Space Grotesk Bold.
-- Body: Inter Regular.
-- Code/labels: JetBrains Mono.
-- Maximum 50 words per content slide.
-- Use diagrams and screenshots more than text.
-- Keep the visual style technical, clean and academic.
+DESIGN DIRECTION
+- Aspect ratio: 16:9.
+- Visual style: academic, technical, precise, not commercial.
+- One claim per slide.
+- Use title-sentences, not generic section titles.
+- Maximum 40 visible words in conceptual slides.
+- Use screenshots, diagrams, tables and short video/GIF evidence instead of paragraphs.
+- Use progressive reveal for complex diagrams.
+- Avoid decorative animation. Use animation only for pipeline, architecture, demo steps or result emphasis.
+- Do not use stock photos.
+- Do not invent screenshots, FPS, build sizes, load times, reductions or citations.
 
-SLIDES
+SLIDE ROUTE
+Use exactly this 24-slide route:
 
-1. TITLE
-- Title, author, program, university and date 2026.
-- Background: ghosted drone silhouette or viewport.
+1. TwinSight X500 convierte un ensamblaje complejo en una experiencia WebGL inspeccionable.
+2. El reto central es comprender relaciones, no solo ver piezas.
+3. La brecha esta entre fidelidad tecnica, legibilidad y ejecucion web.
+4. La tesis responde con un visual product twin, no con un digital twin operacional.
+5. Los objetivos conectan pipeline 3D, interaccion, rendimiento y evaluacion formativa.
+6. La metodologia usa desarrollo iterativo y validacion descriptiva.
+7. La evaluacion combina datos tecnicos, tareas, SUS, NASA-TLX Raw y Think-Aloud.
+8. El pipeline convierte activos tecnicos pesados en geometria legible para WebGL.
+9. La reduccion geometrica se lee como presupuesto de activo, no como conteo runtime.
+10. La arquitectura separa UI, seleccion, datos runtime, shaders y medicion.
+11. La taxonomia permite seleccionar piezas madre, subpiezas, hotspots y fasteners.
+12. El flujo publico se concentra en Explore, seleccion, bottom sheet, Inspect, Analyze y Studio.
+13. Inspect y Analyze reducen ruido visual para leer relaciones de ensamblaje.
+14. Studio y los shaders convierten el modelo en lecturas visuales complementarias.
+15. Thermal es una visualizacion heuristica, no una simulacion FEA calibrada.
+16. La demo debe probar tres capacidades, no navegar improvisadamente.
+17. Demo: de dron completo a pieza, relacion y modo visual.
+18. El profiler interno vuelve trazable el rendimiento por escenario y dispositivo.
+19. El rendimiento es viable, pero no universal en todo movil.
+20. La validacion de usuarios muestra recepcion favorable del prototipo 3D.
+21. La condicion 3D redujo carga percibida frente al soporte 2D en la muestra.
+22. La discusion acota el resultado: efecto techo, muestra pequena y compatibilidad limitada.
+23. La contribucion es tecnica, metodologica y comunicativa.
+24. Cierre: hacer legible el hardware complejo desde la web es el aporte defendible.
 
-2. PROBLEM
-- 2D documentation requires mental reconstruction of depth, hidden parts and assembly relations.
-- Visual: manual vs interactive 3D.
+BACKUP SLIDES
+Add optional backup slides after the main deck:
+- B1 SUS formula and interpretation.
+- B2 NASA-TLX Raw formula and inverted performance dimension.
+- B3 Control variables and AB/BA order.
+- B4 Full WebGL performance table.
+- B5 Profiler JSON/CSV traceability.
+- B6 95 617 vs 229 054 triangles.
+- B7 Expanded architecture.
+- B8 Heuristic Thermal system.
+- B9 Methodological limitations.
+- B10 Future work by phases.
 
-3. OBJECTIVES
-- General objective: develop and evaluate a WebGL 3D prototype for technical inspection of drone hardware.
-- Specific objectives: research, CAD-to-runtime pipeline, Unity architecture/UI, evaluation.
+REQUIRED MEDIA
+Use or reserve placeholders for:
+- vid_01_demo_compilado.mp4, 75-90 seconds.
+- gif_01_selection_bottom_sheet.mp4.
+- gif_02_explode_cut_filters.mp4.
+- gif_03_modes_thermal.mp4.
+- gif_04_mobile_microinteractions.mp4.
+- vid_backup_full_demo.mp4.
 
-4. THEORETICAL FRAMEWORK
-- Mind map: cognitive load, 3D HCI, PBR rendering, WebGL/WebAssembly.
+OUTPUT REQUIREMENTS
+For each slide, provide:
+- title-sentence;
+- visual composition;
+- maximum 3 visible bullets or labels;
+- animation/reveal note;
+- speaker note summary;
+- evidence source path.
 
-5. METHODOLOGY
-- Design Science Research.
-- Build artifact + evaluate technical and user experience dimensions.
-
-6. TECHNOLOGY STACK
-- Unity, C#, URP, UI Toolkit, WebGL/WebAssembly, Blender.
-
-7. ARCHITECTURE
-- Layers: UI, application managers, data/assets, scene/runtime, editor tooling.
-- Mention event-driven coordination and `DronePartData`.
-
-8. VISUAL READING MODES
-- Show visible modes: Realistic, X-Ray, Solid Color, Thermal.
-- Show environments/presets separately: Day, Sunset, Night, Studio/Blueprint if available.
-- Add note: some modes exist as hidden/technical capacity.
-
-9. CORE INTERACTION FLOW
-- Hero -> Explore -> selection -> bottom sheet -> Inspect / Analyze / Studio.
-- Visual: flow diagram.
-
-10. INSPECT / ANALYZE / STUDIO
-- Inspect: selection, hotspots, isolate, power/load.
-- Analyze: explode, cross-section, category filters.
-- Studio: visual modes, environments and lighting.
-
-11. FASTENER SYSTEM
-- Modular metadata: family, instance, parent part, recipe.
-- Lightweight proxy in rest state.
-- Modular detail only under selection/isolate/context.
-- Blender final modules replace placeholders without changing IDs.
-
-12. SHADERS AND THERMAL
-- Cross-section plane, X-Ray, Solid, Thermal.
-- Thermal is heuristic and visual, not FEA.
-
-13. 3D PIPELINE
-- CAD/MoI3D/Blender -> retopology -> UV atlas -> bake -> external textures -> FBX -> Unity.
-- Runtime must include masters and instances: BAKE_MASTERS_LOW, ASSEMBLY_INSTANCES_LOW, PRIMITIVE_FASTENER_MASTERS, PRIMITIVE_FASTENER_INSTANCES.
-- Mask: R=AO, G=Roughness, B=Curvature, A=Metallic.
-
-14. UI SCREENSHOT
-- Real app screenshot.
-- Callouts: bottom sheet, tabs, viewport, category filters.
-
-15. LIVE DEMO
-- Minimal slide: "Demostracion en vivo".
-- Mention backup screenshots/video.
-
-16. VALIDATION PLAN
-- Technical: Unity Profiler, browser tools, build metrics.
-- User: SUS for 3D prototype, NASA-TLX Raw for perceived workload, Think-Aloud for qualitative evidence.
-
-17. RESULTS AND LIMITS
-- Use Chapter 5 values when included: SUS mean 91,88; NASA-TLX Raw 3D mean 8,69; NASA-TLX Raw 2D mean 19,89; paired difference 11,19.
-- Show technical performance as device-specific evidence, not universal compatibility.
-- Do not invent values. Use pending/future labels for anything not measured.
-
-18. CONTRIBUTIONS
-- CAD-to-WebGL documented pipeline.
-- Interactive inspection architecture.
-- Modular fastener data and runtime detail.
-- Evaluation plan with clear limits.
-
-19. LIMITATIONS AND FUTURE WORK
-- More devices and participants.
-- Calibrated thermal model.
-- Blender final fastener modules.
-- CAD pipeline automation.
-- Multi-language support.
-
-20. THANK YOU
-- "Gracias" / "Preguntas".
-- Contact and repository QR placeholder.
-
-CRITICAL OUTPUT RULES
-- No stock photos.
-- No fake code metrics.
-- No unverified performance numbers.
-- No features that are not part of the final UI.
-- If a capability is hidden or future, label it clearly.
+Do not output unsupported claims. If evidence is missing, mark the slide element as "requires asset" or "requires verification".
 ```
-
----
-
-## Slide Content Reference
-
-Use these exact content anchors when generating or reviewing the deck:
-
-- Core message: "Ver piezas no basta; hay que comprender relaciones espaciales."
-- App modules: Inspect, Analyze, Studio.
-- Selection levels: pieza madre, subpieza, grupo de hotspot, fastener.
-- Fastener principle: proxy ligero en reposo, detalle modular bajo demanda.
-- Blender principle: masters + instances both form the real drone and must be exported/imported together.
-- Texture principle: BaseColor, Normal and packed Mask are external assets; 4K is tested compressed before downscaling to 2K.
-- Validation principle: empirical claims must be traced to Chapter 5, validation annexes or current profiler evidence.
-
----
-
-## Asset Checklist
-
-- [ ] Real screenshot of Hero/Explore.
-- [ ] Real screenshot of selected part with bottom sheet.
-- [ ] Real screenshot of isolated fastener or fastener detail.
-- [ ] Real screenshot of Analyze filters/explode/cross-section.
-- [ ] Real screenshot of Studio visual modes.
-- [ ] Diagram of Blender-to-Unity pipeline.
-- [ ] Diagram of fastener metadata flow.
-- [ ] Evidence dashboard with Chapter 5 values and pending labels only where data is absent.
-
----
-
-*Prompt Version: 2.1*
-*Compatible with: Kimi or equivalent presentation generator*
-*Last Updated: 2026-06-10*

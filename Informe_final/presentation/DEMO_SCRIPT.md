@@ -5,9 +5,11 @@
 
 ## Estado del guion
 
-Este guion reemplaza versiones anteriores que mencionaban herramientas no publicadas en la UI final, como medicion, BOM, conexiones o catalogo legacy. La demo debe mostrar solo el flujo real: Hero, Explore, seleccion, bottom sheet, Inspect, Analyze, Studio, fasteners e import final Blender cuando ya este validado.
+Este guion reemplaza versiones anteriores que mencionaban herramientas no publicadas en la UI final, como medicion, BOM, conexiones o catalogo legacy. La demo debe mostrar solo el flujo real validado: Hero, Explore, seleccion, bottom sheet, Inspect, Analyze, Studio y fasteners cuando esten visibles y trazados en la build.
 
 Solo se deben afirmar metricas que coincidan con el capitulo 5, las tablas de validacion o el profiler actual. Cualquier reduccion de peso, tiempo de carga o dato no trazable queda como pendiente/futuro.
+
+Este documento se ensaya junto con `PRESENTATION_SCRIPT.md`. La evidencia por slide y las respuestas ante preguntas de jurado se controlan desde `DEFENSE_EVIDENCE_MAP.md` y `JURY_QA_BANK.md`.
 
 ---
 
@@ -83,12 +85,6 @@ Solo se deben afirmar metricas que coincidan con el capitulo 5, las tablas de va
 
 > "Un fastener tambien puede aislarse como unidad completa. Cuando se requiere detalle, el sistema reemplaza el proxy por una representacion modular bajo demanda, sin convertir toda la tornilleria de la escena."
 
-**Nota oral opcional:** Si la escena usa todavia piezas modulares temporales de Unity:
-
-> "La geometria modular visible en esta etapa es temporal; la logica de datos, seleccion e inspeccion ya esta lista para recibir los modulos finales hechos en Blender."
-
----
-
 ### [2:40-3:35] Analyze
 
 **Accion:** Activar vista explosionada y mover el slider.
@@ -147,7 +143,7 @@ Solo se deben afirmar metricas que coincidan con el capitulo 5, las tablas de va
 - "La app distingue entre pieza madre, subpieza, hotspot y fastener."
 - "Blueprint y modos ocultos se tratan como capacidades implementadas o presets, no como alcance visible si no estan publicados."
 - "Thermal es heuristico, no FEA."
-- "Los placeholders de fasteners validan el sistema modular; las mallas finales Blender reemplazan assets sin cambiar la logica."
+- "Los fasteners se muestran solo cuando su asignacion visible esta trazada; si hay ambiguedad, se reporta como limite o revision."
 - "Las metricas se citan solo si estan en el capitulo 5, anexos de validacion o profiler actual."
 
 ---

@@ -1,10 +1,23 @@
 # Estructura base de sustentacion
 ## TwinSight X500 - Defensa academica de 30 minutos
 
-Estado: estructura maestra, no guion oral.
+Estado: estructura maestra enlazada al guion oral canonico.
 Fecha de actualizacion: 2026-06-11.
 Fuente academica autoritativa: `Informe_final/informe_final.pdf`.
 Fuentes de apoyo revisadas: carpeta `Informe_final/presentation/` y documento local de storytelling indicado por el autor.
+
+## 0. Archivos maestros del paquete de defensa
+
+| Archivo | Funcion |
+|---|---|
+| `PRESENTATION_OUTLINE.md` | Estructura principal de 24 slides y backups. |
+| `PRESENTATION_SCRIPT.md` | Guion oral maestro con tiempos, transiciones, riesgos y frases seguras. |
+| `DEFENSE_EVIDENCE_MAP.md` | Mapa de trazabilidad entre slides, informe, anexos, app, README, manuales y bibliografia. |
+| `JURY_QA_BANK.md` | Banco de preguntas de jurado con respuestas cortas, ampliadas, evidencia y alertas. |
+| `DEMO_SCRIPT.md` | Recorrido de demo coherente con la UI publica real. |
+| `ASSETS_REQUIREMENTS.md` | Lista de capturas, videos, GIFs, diagramas y prioridades visuales. |
+| `DESIGN_SYSTEM.md` | Guia visual base para construir deck final. |
+| `KIMI_PROMPT.md` | Prompt actualizado para generar un borrador visual sin inventar claims. |
 
 ## 1. Criterio rector
 
@@ -163,4 +176,4 @@ Si la defensa se atrasa, cortar en este orden:
 
 ## 12. Entregable siguiente
 
-El siguiente paso no es escribir el guion completo. Primero se deben producir o seleccionar los medios visuales indicados en `ASSETS_REQUIREMENTS.md`; luego se construye el deck con titulos-sentencia y, solo despues, se redactan tarjetas orales por slide.
+El guion oral maestro ya esta definido en `PRESENTATION_SCRIPT.md`. El siguiente paso operativo es producir o seleccionar los medios visuales indicados en `ASSETS_REQUIREMENTS.md`, construir el deck con los titulos-sentencia de esta estructura, y verificar cada slide contra `DEFENSE_EVIDENCE_MAP.md` antes de ensayar con `JURY_QA_BANK.md`.

@@ -5,6 +5,14 @@ Estado: plan de medios para construir el deck.
 Fecha de actualizacion: 2026-06-11.
 Este documento no es guion oral y no genera diapositivas por si solo.
 
+Archivos relacionados:
+
+- `PRESENTATION_OUTLINE.md`: estructura de slides.
+- `PRESENTATION_SCRIPT.md`: guion oral y transiciones.
+- `DEFENSE_EVIDENCE_MAP.md`: trazabilidad de cada slide.
+- `JURY_QA_BANK.md`: preguntas probables del jurado.
+- `DEMO_SCRIPT.md`: recorrido de demo.
+
 ## 1. Politica de evidencia visual
 
 Todo asset usado en la defensa debe cumplir cuatro reglas:
