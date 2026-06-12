@@ -57,7 +57,7 @@ Visible and defendable in the final UI:
 | `visible_ui` | Available in the final public flow and safe to show in the defense demo. | Selection, bottom sheet, Inspect, Analyze, Studio, explode, cut, filters, Thermal heuristic view. |
 | `implementado_oculto` | Exists in code or tooling but is not part of the public UI promise. | Additional view modes, internal managers, editor utilities and support systems. |
 | `legacy` | Historical or non-integrated code/documentation kept for traceability. | Old panel flows, older report variants and pre-APA drafts. |
-| `futuro` | Possible continuation after the thesis delivery. | Calibrated thermal model, broader device profiling, BOM-related tooling or measurement/annotation exposure if re-integrated and validated in the public UI. |
+| `futuro` | Possible continuation after the thesis delivery. | Calibrated thermal model, broader device profiling and additional inspection workflows only if they are re-integrated, exposed and validated in a later public build. |
 | `requiere_evidencia` | Must not be claimed until backed by the frozen build, profiling or validation files. | FPS, load time, polygon reduction, SUS/NASA-TLX values and final import QA claims. |
 
 ## Canonical Structure
@@ -135,7 +135,7 @@ The defense package is maintained in [`Informe_final/presentation/`](Informe_fin
 - [`ASSETS_REQUIREMENTS.md`](Informe_final/presentation/ASSETS_REQUIREMENTS.md)
 - [`DESIGN_SYSTEM.md`](Informe_final/presentation/DESIGN_SYSTEM.md)
 
-The demo must show only the verified public flow. Do not present hidden managers, legacy panels, measurement/BOM tools or unsupported metrics as final visible features.
+The demo must show only the verified public flow. Do not present hidden managers, legacy panels, experimental tooling or unsupported metrics as final visible features.
 
 ## Public Repository Boundary
 

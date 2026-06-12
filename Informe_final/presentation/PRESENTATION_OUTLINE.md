@@ -1,140 +1,166 @@
-# Presentation Package Index
-## TwinSight X500 - Thesis Defense
+# Estructura base de sustentacion
+## TwinSight X500 - Defensa academica de 30 minutos
 
-> Master index for presentation documents aligned with the current Unity app and Blender pipeline.
+Estado: estructura maestra, no guion oral.
+Fecha de actualizacion: 2026-06-11.
+Fuente academica autoritativa: `Informe_final/informe_final.pdf`.
+Fuentes de apoyo revisadas: carpeta `Informe_final/presentation/` y documento local de storytelling indicado por el autor.
 
----
+## 1. Criterio rector
 
-## Documentation Structure
+La defensa debe demostrar comprension, criterio tecnico, validez metodologica y honestidad de alcance. La estructura no sera cronologica ni promocional. Sera evaluativa:
 
 ```text
-presentation/
-|-- PRESENTATION_OUTLINE.md  <- index
-|-- DESIGN_SYSTEM.md         <- visual identity and specs
-|-- KIMI_PROMPT.md           <- generation prompt
-|-- ASSETS_REQUIREMENTS.md   <- screenshots, diagrams, exports
-|-- DEMO_SCRIPT.md           <- live demo script
+problema -> brecha -> propuesta -> decisiones tecnicas -> implementacion -> evidencia -> limites -> contribucion
 ```
 
----
+Cada diapositiva debe tener una sola afirmacion defendible. El visual debe actuar como evidencia de esa afirmacion, no como decoracion. Los detalles finos que no caben en 30 minutos se reservan para preguntas o diapositivas de respaldo.
 
-## Quick Start
+## 2. Tesis oral central
 
-### Step 1: Review Design System
+TwinSight X500 transforma documentacion tecnica y activos 3D pesados de un dron Holybro X500 V2 en un prototipo WebGL inspeccionable, desplegado como visual product twin. El aporte no es afirmar un gemelo digital operacional, sino hacer legibles piezas, relaciones y modos de analisis visual desde navegador, con evidencia tecnica y evaluacion formativa de usuarios.
 
-Read [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) for palette, typography, spacing and component language.
+## 3. Tres mensajes que deben recordarse
 
-### Step 2: Generate or update slides
+1. El problema no era falta de informacion, sino dificultad para reconstruir mentalmente relaciones espaciales y funcionales desde documentacion plana o CAD pesado.
+2. La solucion combina pipeline 3D, optimizacion WebGL, taxonomia semantica, UI de inspeccion y modos visuales para convertir un ensamblaje complejo en una experiencia tecnica explorable.
+3. La evidencia es favorable pero acotada: SUS alto, NASA-TLX Raw menor frente al soporte 2D, tareas completadas, rendimiento viable por dispositivo y limites claros de alcance, muestra y compatibilidad.
 
-Use [KIMI_PROMPT.md](./KIMI_PROMPT.md) as the current prompt. It intentionally avoids outdated claims such as public "7 view modes", measurement tools, BOM, connection points or unsupported performance results.
+## 4. Duracion objetivo
 
-### Step 3: Add project assets
+La exposicion debe apuntar a 27-28 minutos reales y dejar 2-3 minutos de margen para carga, transiciones, latencia o una interrupcion menor. La ronda de preguntas se prepara aparte.
 
-Use [ASSETS_REQUIREMENTS.md](./ASSETS_REQUIREMENTS.md) to capture screenshots from the real app:
+| Bloque | Slides | Tiempo | Funcion |
+|---|---:|---:|---|
+| Apertura y problema | 1-4 | 4:00 | Crear necesidad y ubicar la pregunta |
+| Enfoque metodologico | 5-7 | 4:00 | Mostrar que el proyecto fue evaluable |
+| Implementacion tecnica | 8-15 | 10:00 | Demostrar criterio de ingenieria multimedia |
+| Demo y evidencia visual | 16-17 | 3:00 | Probar el sistema con una secuencia controlada |
+| Resultados y discusion | 18-22 | 5:30 | Interpretar datos, no solo mostrarlos |
+| Cierre | 23-24 | 2:00 | Contribucion, limites y continuidad |
+| **Total** | **24** | **28:30** | Margen restante: 1:30 |
 
-- Hero / Explore state.
-- Bottom sheet after selecting a piece.
-- Fastener isolate and modular detail.
-- Analyze: explode, cross-section and category filters.
-- Studio: Realistic, X-Ray, Solid Color, Thermal and environment presets.
-- Blender-to-Unity pipeline diagram.
+## 5. Ruta principal de diapositivas
 
-### Step 4: Final Review
+| # | Titulo-sentencia | Tiempo | Claim que defiende | Evidencia / contenido | Visual requerido |
+|---:|---|---:|---|---|---|
+| 1 | TwinSight X500 convierte un ensamblaje complejo en una experiencia WebGL inspeccionable | 0:30 | Presentar identidad y alcance final | Nombre, programa, autor, director, URL publica | Hero limpio de la app con dron visible |
+| 2 | El reto central es comprender relaciones, no solo ver piezas | 1:00 | La documentacion plana exige reconstruccion mental costosa | Manual 2D, CAD pesado, necesidad de inspeccion espacial | Comparacion 2D/CAD/app en tres paneles |
+| 3 | La brecha esta entre fidelidad tecnica, legibilidad y ejecucion web | 1:00 | Las soluciones parciales no resuelven simultaneamente los tres criterios | Triangulo fidelidad-legibilidad-rendimiento | Diagrama simple de trade-off |
+| 4 | La tesis responde con un visual product twin, no con un digital twin operacional | 1:30 | Acotar evita sobrepromesa | Visual product twin, sin telemetria, sin FEA, sin mantenimiento predictivo | Frontera de alcance: incluido / excluido |
+| 5 | Los objetivos conectan pipeline 3D, interaccion, rendimiento y evaluacion formativa | 1:20 | Los objetivos cubren construccion y validacion | Objetivo general y OE1-OE4 resumidos | Mapa 2x2 de objetivos |
+| 6 | La metodologia usa desarrollo iterativo y validacion descriptiva | 1:20 | El metodo es apropiado para un prototipo formativo | DSR / ciclo construir-evaluar, muestra no probabilistica | Timeline metodologico |
+| 7 | La evaluacion combina datos tecnicos, tareas, SUS, NASA-TLX Raw y Think-Aloud | 1:20 | La evidencia se triangula desde capas distintas | 12 participantes, tareas 3D/2D, instrumentos | Diagrama de triangulacion |
+| 8 | El pipeline convierte activos tecnicos pesados en geometria legible para WebGL | 1:30 | La preparacion 3D es aporte tecnico principal | CAD / Blender / bake / FBX / Unity / WebGL | Pipeline animado por etapas |
+| 9 | La reduccion geometrica se lee como presupuesto de activo, no como conteo runtime | 1:10 | Evitar confusion 95 617 vs 229 054 | 95 617 triangulos base, 229 054 runtime profiler | Tarjeta comparativa con nota de no equivalencia |
+| 10 | La arquitectura separa UI, seleccion, datos runtime, shaders y medicion | 1:30 | La app no es una escena suelta, es un sistema | UI Toolkit, managers, DronePartData, profiler | Diagrama de capas |
+| 11 | La taxonomia permite seleccionar piezas madre, subpiezas, hotspots y fasteners | 1:10 | La interaccion depende de estructura semantica | 28 piezas canonicas, 30 anchors, 257 renderers/colliders | Grafo o matriz de jerarquia |
+| 12 | El flujo publico se concentra en Explore, seleccion, bottom sheet, Inspect, Analyze y Studio | 1:15 | El alcance visible esta cerrado y no sobrevende modulos ocultos | Flujo Hero -> Explore -> modos | Capturas secuenciales con flechas |
+| 13 | Inspect y Analyze reducen ruido visual para leer relaciones de ensamblaje | 1:20 | Aislar, explotar, cortar y filtrar son decisiones de comprension | Isolate, explode, cut, filtros | GIF corto o secuencia de 4 capturas |
+| 14 | Studio y los shaders convierten el modelo en lecturas visuales complementarias | 1:20 | Los modos no son decorativos, guian interpretacion | Realistic, X-Ray, Solid, Thermal, presets | Grid de modos reales |
+| 15 | Thermal es una visualizacion heuristica, no una simulacion FEA calibrada | 1:00 | El modo termico aporta lectura relativa dentro de limites | Modelo reducido por componentes, leyenda termica | Captura Thermal + etiqueta "heuristico" |
+| 16 | La demo debe probar tres capacidades, no navegar improvisadamente | 0:30 | El demo es evidencia comprimida | Explorar, inspeccionar, analizar | Slide de instrucciones de observacion |
+| 17 | Demo: de dron completo a pieza, relacion y modo visual | 2:30 | La app realiza lo que el argumento promete | Video local principal o demo vivo corto | Video 90 s + microdemo opcional |
+| 18 | El profiler interno vuelve trazable el rendimiento por escenario y dispositivo | 1:10 | Las metricas tecnicas estan ancladas a datos exportados | FPS, frame time, memoria, dispositivo, escenario | Tabla simplificada + captura profiler |
+| 19 | El rendimiento es viable, pero no universal en todo movil | 1:10 | La lectura tecnica es honesta por gama de dispositivo | 17,6 FPS limite inferior; 30,0 FPS media-alta; 58,7 FPS iOS | Barras por dispositivo con limite 30 FPS |
+| 20 | La validacion de usuarios muestra recepcion favorable del prototipo 3D | 1:10 | SUS aporta lectura global de usabilidad | SUS promedio 91,88; mediana 95,00 | Grafico SUS simple |
+| 21 | La condicion 3D redujo carga percibida frente al soporte 2D en la muestra | 1:20 | NASA-TLX Raw favorece al visor 3D descriptivamente | 3D 8,69; 2D 19,89; diferencia 11,19 | Comparativa 3D vs 2D |
+| 22 | La discusion acota el resultado: efecto techo, muestra pequena y compatibilidad limitada | 1:40 | La tesis sabe que demuestra y que no demuestra | Tareas completadas, T4 exploratoria, Think-Aloud, limites | Matriz "demuestra / no demuestra" |
+| 23 | La contribucion es tecnica, metodologica y comunicativa | 1:00 | El aporte integra artefacto, evidencia y documentacion | Pipeline, visor, validacion, anexos reproducibles | Tres columnas de contribucion |
+| 24 | Cierre: hacer legible el hardware complejo desde la web es el aporte defendible | 1:00 | Volver al problema inicial y abrir preguntas | Conclusiones y trabajo futuro por fases | Dron final + tres takeaways |
 
-- Keep each slide below 50 words when possible.
-- Distinguish visible UI, implemented-but-hidden features and future work.
-- Report only metrics that match Chapter 5, validation tables or current profiler evidence. Leave every other metric as pending/future.
-- Verify that demo, manuals, report chapters and Obsidian study notes tell the same story.
+## 6. Animaciones y microinteracciones recomendadas
 
----
+Las animaciones deben controlar la carga cognitiva, no adornar. Usarlas solo para revelar complejidad por capas:
 
-## Slide Overview (20 slides)
+| Uso | Donde aplica | Forma recomendada |
+|---|---|---|
+| Construccion progresiva | Pipeline, arquitectura, metodologia | Aparecer etapa por etapa |
+| Antes / despues | Problema, reduccion geometrica, UI | Comparacion con wipe o fade breve |
+| Foco visual | Resultados, tablas, triangulacion | Resaltar una cifra o celda por vez |
+| Microdemo | Seleccion, bottom sheet, explode, cut, thermal | GIF/MP4 corto sin audio, 6-12 s |
+| Transicion narrativa | Cambio de bloque | Slide separador con una pregunta guia |
 
-| # | Title | Layout | Key Visual |
-|---|-------|--------|------------|
-| 1 | Title | Centered | Drone silhouette or final viewport |
-| 2 | Problem | 50/50 split | 2D manual vs interactive 3D |
-| 3 | Objectives | 2x2 cards | General + specific objectives |
-| 4 | Theory | Mind map | Cognitive load, HCI, PBR, WebGL |
-| 5 | Methodology | Timeline | DSR phases and evaluation |
-| 6 | Tech Stack | Icon grid | Unity, WebGL, C#, URP, UI Toolkit, Blender |
-| 7 | Architecture | Layers | Runtime managers and data flow |
-| 8 | Visual Reading | Comparison grid | Realistic, X-Ray, Solid, Thermal, environments |
-| 9 | Core Flow | 4 cards | Select, bottom sheet, isolate, hotspots |
-| 10 | Analyze / Inspect / Studio | 2x3 grid | Actual published workflows |
-| 11 | Technical State | Dashboard | Validated metrics and stated limits |
-| 12 | Shaders | Split | Cross-section, X-Ray, Thermal |
-| 13 | 3D Pipeline | Flow | CAD, Blender, bake, manifest, Unity |
-| 14 | UI | Full bleed | Real screenshot with callouts |
-| 15 | Demo | Minimal | "Demo en vivo" |
-| 16 | Validation | Split | SUS, NASA-TLX, Think-Aloud, profiler |
-| 17 | Results and Limits | Checklist | Chapter 5 evidence and pending limits |
-| 18 | Conclusions | 3 cards | Defensible contributions |
-| 19 | Future Work | Roadmap | Calibrated thermal, more devices, automation |
-| 20 | Thank You | Centered | QR/contact |
+Evitar animaciones largas, decorativas o que dependan de sincronizacion exacta con un texto oral memorizado.
 
----
+## 7. Videos y GIFs necesarios
 
-## Time Management
+| ID | Duracion | Uso | Contenido minimo | Prioridad |
+|---|---:|---|---|---|
+| `vid_01_demo_compilado.mp4` | 75-90 s | Slide 17 | Hero/Explore, seleccion, bottom sheet, isolate, explode, cut, Studio/Thermal | Alta |
+| `gif_01_selection_bottom_sheet.mp4` | 8-12 s | Slides 11-12 | Seleccionar pieza y apertura de ficha inferior | Alta |
+| `gif_02_explode_cut_filters.mp4` | 10-15 s | Slide 13 | Explode, corte transversal y filtros por categoria | Alta |
+| `gif_03_modes_thermal.mp4` | 10-15 s | Slides 14-15 | Realistic, X-Ray, Solid, Thermal con leyenda | Alta |
+| `gif_04_mobile_microinteractions.mp4` | 8-12 s | Slide 22 o respaldo | Tutorial, bottom sheet, gesto tactil o correccion formativa | Media |
+| `vid_backup_full_demo.mp4` | 3-5 min | Respaldo | Recorrido completo sin cortes para contingencia | Alta |
 
-| Section | Slides | Duration |
-|---------|--------|----------|
-| Introduction | 1-2 | 2 min |
-| Objectives and theory | 3-4 | 3 min |
-| Methodology | 5-6 | 2 min |
-| Implementation | 7-14 | 10 min |
-| Demo | 15 | 5 min |
-| Validation and results | 16-17 | 3 min |
-| Conclusions and future work | 18-19 | 3 min |
-| Closing | 20 | 2 min |
-| **Total** | 20 | **~30 min** |
+El video principal debe ser transparente: si se usa video, se dice que es respaldo grabado de la build real. La microdemo en vivo solo se ejecuta si el equipo, navegador y red estan estables.
 
----
+## 8. Imagenes y diagramas base
 
-## Coherence Rules
+Reutilizables desde `Informe_final/figures/screenshots_contextual/`:
 
-- Treat `Realistic`, `X-Ray`, `Solid Color` and `Thermal` as visible visual modes in the current UI.
-- Treat `Blueprint` primarily as an environment/preset or implemented reading mode depending on the current build state, not as one of seven public mode cards unless it is actually visible.
-- Treat `Wireframe` and `Ghosted` as implemented/hidden or legacy capabilities unless explicitly re-enabled.
-- Treat measurement, BOM, annotations and connection tools as non-integrated or future work, not demo features.
-- Treat fastener modular meshes in Unity as temporary placeholders until Blender modules replace them through recipe/assets.
-- Treat the final Blender FBX import as prepared/pending QA until the Unity scene import report confirms hierarchy, instancing, propeller axes and group behavior.
-- Treat Chapter 5 values as the only closed empirical baseline for defense: SUS mean 91.88, NASA-TLX Raw mean 8.69 for the 3D prototype and 19.89 for the 2D reference, plus the device-specific FPS table in the validation annexes.
+- `fig_ui_hero_mobile_pc.png`
+- `fig_ui_explore_mobile_pc.png`
+- `fig_ui_info_panel.png`
+- `fig_explore_isolate_sequence.png`
+- `fig_analyze_tool_outputs.png`
+- `fig_modes_direct_xray_solid_thermal.png`
+- `fig_modes_studio_presets.png`
+- `fig_thermal_single.png`
+- `fig_profiler_internal_evidence.png`
+- `fig_render_optimized_drone_stack.png`
+- `fig_cad_bake_low_pair.png`
+- `fig_cad_bake_high_pair.png`
+- `fig_device_matrix_clean.png`
 
----
+Diagramas que conviene rehacer para pantalla, aunque existan en el informe:
 
-## Pre-Presentation Checklist
+- Problema: documentacion plana -> reconstruccion mental -> inspeccion interactiva.
+- Frontera de alcance: visual product twin vs digital twin operacional.
+- Metodologia: DSR aplicada, build, medicion tecnica, usuarios.
+- Arquitectura runtime: UI Toolkit, managers, datos, escena, shaders, profiler.
+- Pipeline 3D: CAD / Blender / bake / FBX / Unity / WebGL.
+- Triangulacion de evidencia: tecnicos, tareas, SUS, NASA-TLX Raw, Think-Aloud.
 
-### Preparation
+## 9. Slides de respaldo para preguntas
 
-- [ ] Screenshots captured from the actual app, not old mockups.
-- [ ] Demo path rehearsed using [DEMO_SCRIPT.md](./DEMO_SCRIPT.md).
-- [ ] Build or Play Mode tested.
-- [ ] Backup screenshots/video ready.
-- [ ] Metrics cross-checked against Chapter 5, validation annexes or current profiler evidence.
+No entran en la ruta principal, pero deben existir al final del deck:
 
-### Content Review
+| Backup | Tema | Para responder |
+|---:|---|---|
+| B1 | Formula SUS y lectura de 68 | Por que SUS no compara 3D vs 2D |
+| B2 | Formula NASA-TLX Raw | Por que se usa Raw TLX sin ponderacion pareada |
+| B3 | Variables de control | Dispositivo, navegador, resolucion, cache, orden AB/BA |
+| B4 | Tabla tecnica completa de rendimiento | FPS, frame time, memoria por dispositivo |
+| B5 | Profiler interno y export JSON/CSV | Trazabilidad de mediciones tecnicas |
+| B6 | 95 617 vs 229 054 triangulos | Diferencia entre activo base y escena runtime |
+| B7 | Arquitectura ampliada | Managers, eventos, datos y shaders |
+| B8 | Sistema termico heuristico | Por que no es FEA ni telemetria |
+| B9 | Limitaciones metodologicas | Muestra, efecto techo, no inferencia estadistica |
+| B10 | Trabajo futuro por fases | Telemetria historica, calibracion, pruebas ampliadas |
 
-- [ ] No "7 visible modes" claim unless UI truly exposes all seven.
-- [ ] No measurement/BOM/catalog demo unless the final UI exposes them.
-- [ ] Thermal described as heuristic, not FEA.
-- [ ] Fastener placeholders described honestly.
-- [ ] Blender final import status matches the current Unity QA state.
+## 10. Corte si falta tiempo
 
----
+Si la defensa se atrasa, cortar en este orden:
 
-## Related Files
+1. Reducir slide 8 y 9 a una sola explicacion del pipeline.
+2. Reducir slide 13 y 14 a una sola captura compuesta.
+3. Usar solo video, sin microdemo en vivo.
+4. Mover detalles de profiler y geometria a backup.
+5. Mantener siempre problema, alcance, metodologia, resultados, limites y contribucion.
 
-| File | Description |
-|------|-------------|
-| [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) | Visual identity guide |
-| [KIMI_PROMPT.md](./KIMI_PROMPT.md) | Current presentation generation prompt |
-| [ASSETS_REQUIREMENTS.md](./ASSETS_REQUIREMENTS.md) | Screenshot and diagram requirements |
-| [DEMO_SCRIPT.md](./DEMO_SCRIPT.md) | Current live demo script |
-| [../VARIANTE_ESTUDIO_OBSIDIAN.md](../VARIANTE_ESTUDIO_OBSIDIAN.md) | Study map linked to Obsidian |
+## 11. Control de coherencia antes de generar slides
 
----
+- No decir que es digital twin operacional.
+- No prometer telemetria real, FEA, mantenimiento predictivo ni compatibilidad universal.
+- No vender herramientas ocultas o no integradas como UI final.
+- No presentar T4 como tarea cronometrada.
+- No usar SUS como comparacion 3D vs 2D.
+- No interpretar NASA-TLX como medicion directa de carga intrinseca, extrinseca y germana.
+- No comparar directamente 95 617 y 229 054 triangulos.
+- No inventar FPS, tiempos, pesos de build ni reducciones no trazadas.
 
-*Package Version: 3.1*
-*Updated: 2026-06-10*
-*Project: TwinSight X500 Thesis*
+## 12. Entregable siguiente
+
+El siguiente paso no es escribir el guion completo. Primero se deben producir o seleccionar los medios visuales indicados en `ASSETS_REQUIREMENTS.md`; luego se construye el deck con titulos-sentencia y, solo despues, se redactan tarjetas orales por slide.
